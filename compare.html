@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Sheet Metal Brakes — All Metal Brake</title>
+  <meta name="description" content="Compare sheet metal brakes side by side. Filter by gauge capacity, working width, type, and budget." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .filter-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 20px; }
+    .filter-bar-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .filter-group { display: flex; flex-direction: column; gap: 4px; }
+    .filter-group label { font-size: 0.75rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: 0.05em; }
+    .filter-group select {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: var(--navy);
+      background: var(--white);
+      cursor: pointer;
+      outline: none;
+      min-width: 140px;
+    }
+    .filter-group select:focus { border-color: var(--orange); }
+    .filter-reset { background: transparent; border: 1px solid var(--border); color: var(--gray); padding: 8px 16px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; margin-top: 20px; transition: all 0.2s; }
+    .filter-reset:hover { border-color: var(--orange); color: var(--orange); }
+    .compare-table-wrap { overflow-x: auto; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .compare-table thead th { background: var(--navy); color: var(--white); padding: 14px 18px; text-align: left; font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+    .compare-table thead th:first-child { min-width: 200px; }
+    .compare-table tbody td { padding: 14px 18px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .compare-table tbody tr:last-child td { border-bottom: none; }
+    .compare-table tbody tr:hover td { background: rgba(233,79,27,0.03); }
+    .compare-table tbody tr.top td:first-child { border-left: 3px solid var(--gold); }
+    .compare-table tbody tr.pick td:first-child { border-left: 3px solid var(--orange); }
+    .model-cell strong { display: block; color: var(--navy); margin-bottom: 2px; }
+    .model-cell span { font-size: 0.78rem; color: var(--gray); }
+    .score-pill { background: var(--orange); color: var(--white); padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; display: inline-block; }
+    .score-pill.gold { background: var(--gold); color: var(--navy); }
+    .score-pill.green { background: #22c55e; }
+    .check { color: #22c55e; font-weight: 700; }
+    .cross { color: #ef4444; }
+    .partial { color: var(--gold); }
+    .compare-note { font-size: 0.78rem; color: var(--gray); margin-top: 16px; }
+    .page-hero { background: linear-gradient(135deg, var(--navy), #0f3460); color: var(--white); padding: 50px 20px; text-align: center; }
+    .page-hero h1 { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 800; margin-bottom: 10px; }
+    .page-hero p { color: #a8b4c8; max-width: 560px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+
+  <div class="topbar"><span>COMPARE TOOL:</span> 14 models compared — filter by type, gauge, and width to find your match</div>
+
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🔩</div>
+        <div class="logo-text"><strong>All Metal Brake</strong><span>Expert Reviews & Guides</span></div>
+      </a>
+      <nav>
+        <a href="index.html#categories">Categories</a>
+        <a href="best-lists.html">Best Lists</a>
+        <a href="guides.html">Buying Guides</a>
+        <a href="compare.html" class="active">Compare</a>
+        <a href="index.html#how-we-test">How We Test</a>
+        <a href="best-lists.html" class="nav-cta">Top Picks 2026</a>
+      </nav>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+    <div class="mobile-nav">
+      <a href="index.html#categories">Categories</a>
+      <a href="best-lists.html">Best Lists</a>
+      <a href="guides.html">Buying Guides</a>
+      <a href="compare.html">Compare</a>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>Compare Sheet Metal Brakes</h1>
+    <p>Filter by type, gauge capacity, and price to narrow down the right brake for your shop. All data from our hands-on testing.</p>
+  </div>
+
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="index.html">Home</a><span>/</span><span>Compare</span>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <div class="filter-group">
+        <label>Brake Type</label>
+        <select id="filter-type">
+          <option value="">All Types</option>
+          <option value="cornice">Cornice Brake</option>
+          <option value="box-pan">Box & Pan Brake</option>
+          <option value="hand">Hand Brake</option>
+          <option value="press">Press Brake</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Max Gauge Needed</label>
+        <select id="filter-gauge">
+          <option value="">Any Gauge</option>
+          <option value="22">22 gauge (light)</option>
+          <option value="18">18 gauge</option>
+          <option value="16">16 gauge</option>
+          <option value="14">14 gauge (heavy)</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Min Width Needed</label>
+        <select id="filter-width">
+          <option value="">Any Width</option>
+          <option value="30">30"+</option>
+          <option value="36">36"+</option>
+          <option value="48">48"+</option>
+          <option value="52">52"+</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Price Range</label>
+        <select id="filter-price">
+          <option value="">Any Budget</option>
+          <option value="budget">$ — Under $500</option>
+          <option value="mid">$$ — $500–$1,500</option>
+          <option value="pro">$$$ — $1,500+</option>
+        </select>
+      </div>
+      <button class="filter-reset" onclick="resetFilters()">Reset Filters</button>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="compare-table-wrap">
+        <table class="compare-table" id="compare-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Type</th>
+              <th>Width</th>
+              <th>Max Gauge</th>
+              <th>Max Angle</th>
+              <th>Weight</th>
+              <th>16 ga. ✓</th>
+              <th>14 ga. ✓</th>
+              <th>Score</th>
+              <th>Price</th>
+              <th>Review</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="top" data-type="cornice" data-gauge="16" data-width="52" data-price="mid">
+              <td class="model-cell">
+                <strong>Grizzly G0542</strong>
+                <span>🏆 Best Overall 2026</span>
+              </td>
+              <td>Cornice</td>
+              <td>52"</td>
+              <td>16 ga.</td>
+              <td>135°</td>
+              <td>187 lbs</td>
+              <td class="check">✓</td>
+              <td class="partial">~</td>
+              <td><span class="score-pill gold">4.8</span></td>
+              <td>~$1,249</td>
+              <td><a href="reviews/grizzly-g0542-review.html" style="color:var(--orange);font-weight:600">Read →</a></td>
+            </tr>
+            <tr class="pick" data-type="box-pan" data-gauge="16" data-width="16" data-price="mid">
+              <td class="model-cell">
+                <strong>JET 756600</strong>
+                <span>Editor's Pick — Box & Pan</span>
+              </td>
+              <td>Box & Pan</td>
+              <td>16"</td>
+              <td>16 ga.</td>
+              <td>135°</td>
+              <td>98 lbs</td>
+              <td class="check">✓</td>
+              <td class="cross">✗</td>
+              <td><span class="score-pill">4.6</span></td>
+              <td>~$1,099</td>
+              <td><a href="reviews/jet-756600-review.html" style="color:var(--orange);font-weight:600">Read →</a></td>
+            </tr>
+            <tr data-type="cornice" data-gauge="14" data-width="48" data-price="pro">
+              <td class="model-cell">
+                <strong>Baileigh BB-4816M</strong>
+                <span>Best for Heavy Production</span>
+              </td>
+              <td>Cornice</td>
+              <td>48"</td>
+              <td>14 ga.</td>
+              <td>145°</td>
+              <td>312 lbs</td>
+              <td class="check">✓</td>
+              <td class="check">✓</td>
+              <td><span class="score-pill">4.5</span></td>
+              <td>~$2,450</td>
+              <td><a href="reviews/baileigh-bb-4816m-review.html" style="color:var(--orange);font-weight:600">Read →</a></td>
+            </tr>
+            <tr data-type="hand" data-gauge="18" data-width="48" data-price="mid">
+              <td class="model-cell">
+                <strong>Tennsmith HB48</strong>
+                <span>American-Made Quality</span>
+              </td>
+              <td>Hand Brake</td>
+              <td>48"</td>
+              <td>18 ga.</td>
+              <td>135°</td>
+              <td>145 lbs</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td><span class="score-pill">4.4</span></td>
+              <td>~$1,380</td>
+              <td><a href="reviews/tennsmith-48-hand-brake.html" style="color:var(--orange);font-weight:600">Read →</a></td>
+            </tr>
+            <tr data-type="cornice" data-gauge="18" data-width="36" data-price="mid">
+              <td class="model-cell">
+                <strong>Roper Whitney 36</strong>
+                <span>Best Mid-Size Value</span>
+              </td>
+              <td>Cornice</td>
+              <td>36"</td>
+              <td>18 ga.</td>
+              <td>130°</td>
+              <td>96 lbs</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td><span class="score-pill">4.3</span></td>
+              <td>~$895</td>
+              <td><a href="reviews/roper-whitney-36.html" style="color:var(--orange);font-weight:600">Read →</a></td>
+            </tr>
+            <tr data-type="box-pan" data-gauge="18" data-width="24" data-price="mid">
+              <td class="model-cell">
+                <strong>Baileigh BB-2416F</strong>
+                <span>Budget Box & Pan</span>
+              </td>
+              <td>Box & Pan</td>
+              <td>24"</td>
+              <td>18 ga.</td>
+              <td>120°</td>
+              <td>67 lbs</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td><span class="score-pill">4.1</span></td>
+              <td>~$749</td>
+              <td><a href="reviews/baileigh-bb-2416f.html" style="color:var(--orange);font-weight:600">Read →</a></td>
+            </tr>
+            <tr data-type="hand" data-gauge="22" data-width="30" data-price="budget">
+              <td class="model-cell">
+                <strong>Harbor Freight 30"</strong>
+                <span>Budget / Light Use Only</span>
+              </td>
+              <td>Hand Brake</td>
+              <td>30"</td>
+              <td>22 ga.</td>
+              <td>120°</td>
+              <td>34 lbs</td>
+              <td class="cross">✗</td>
+              <td class="cross">✗</td>
+              <td><span class="score-pill" style="background:#6b7280">3.6</span></td>
+              <td>~$149</td>
+              <td><a href="reviews/harbor-freight-sheet-metal-brake.html" style="color:var(--orange);font-weight:600">Read →</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="compare-note">~ = marginal capability, not recommended for regular use. All prices are approximate retail and may vary. Scores are based on our hands-on testing methodology.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="disclosure">
+        <strong>Affiliate Disclosure:</strong> All Metal Brake earns commissions on qualifying purchases. Rankings reflect test scores only.
+        <a href="affiliate-disclosure.html" style="color:var(--orange)">Learn more →</a>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 All Metal Brake. All rights reserved.</span>
+        <div style="display:flex;gap:16px;">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="affiliate-disclosure.html">Disclosures</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function resetFilters() {
+      document.getElementById('filter-type').value = '';
+      document.getElementById('filter-gauge').value = '';
+      document.getElementById('filter-width').value = '';
+      document.getElementById('filter-price').value = '';
+      filterTable();
+    }
+
+    function filterTable() {
+      const type = document.getElementById('filter-type').value;
+      const gauge = document.getElementById('filter-gauge').value;
+      const width = document.getElementById('filter-width').value;
+      const price = document.getElementById('filter-price').value;
+      const rows = document.querySelectorAll('#compare-table tbody tr');
+
+      rows.forEach(row => {
+        let show = true;
+        if (type && row.dataset.type !== type) show = false;
+        if (gauge) {
+          const gMap = { '22': 22, '18': 18, '16': 16, '14': 14 };
+          const rowGauge = parseInt(row.dataset.gauge);
+          if (rowGauge > gMap[gauge]) show = false;
+        }
+        if (width) {
+          const rowWidth = parseInt(row.dataset.width);
+          if (rowWidth < parseInt(width)) show = false;
+        }
+        if (price && row.dataset.price !== price) show = false;
+        row.style.display = show ? '' : 'none';
+      });
+    }
+
+    ['filter-type','filter-gauge','filter-width','filter-price'].forEach(id => {
+      document.getElementById(id).addEventListener('change', filterTable);
+    });
+  </script>
+</body>
+</html>
