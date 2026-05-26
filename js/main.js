@@ -8,10 +8,13 @@ if (hamburger && mobileNav) {
   });
 }
 
-// Smooth scroll for anchor links
+// Smooth scroll for anchor links (guard against bare "#" and missing targets)
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
-    const target = document.querySelector(link.getAttribute('href'));
+    const href = link.getAttribute('href');
+    if (!href || href === '#' || href.length < 2) return;
+    let target;
+    try { target = document.querySelector(href); } catch (_) { return; }
     if (target) {
       e.preventDefault();
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -19,24 +22,41 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   });
 });
 
-// Newsletter form
-const newsletterForm = document.querySelector('.newsletter-form');
-if (newsletterForm) {
-  newsletterForm.addEventListener('submit', e => {
+// Newsletter forms — wire up ALL on page (footer, sidebar, hero, etc.)
+document.querySelectorAll('.newsletter-form').forEach(form => {
+  const handle = e => {
     e.preventDefault();
-    const input = newsletterForm.querySelector('input');
-    const btn = newsletterForm.querySelector('button');
+    const input = form.querySelector('input');
+    const btn = form.querySelector('button, .btn');
+    if (!input || !btn) return;
     if (input.value) {
+      const originalText = btn.textContent;
+      const originalBg = btn.style.background;
       btn.textContent = 'Subscribed! ✓';
       btn.style.background = '#22c55e';
       input.value = '';
       setTimeout(() => {
-        btn.textContent = 'Subscribe';
-        btn.style.background = '';
+        btn.textContent = originalText;
+        btn.style.background = originalBg;
       }, 3000);
     }
+  };
+  // Form element submits; non-form containers respond to button click
+  if (form.tagName === 'FORM') {
+    form.addEventListener('submit', handle);
+  } else {
+    const btn = form.querySelector('button, .btn');
+    if (btn) btn.addEventListener('click', handle);
+  }
+});
+
+// FAQ accordion — toggle .open on .faq-item when question is clicked
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.closest('.faq-item');
+    if (item) item.classList.toggle('open');
   });
-}
+});
 
 // Animate elements on scroll
 const observer = new IntersectionObserver((entries) => {
@@ -58,12 +78,14 @@ document.querySelectorAll('.category-card, .review-card, .process-step, .tip-car
 // Active nav link based on scroll position
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('nav a[href^="#"]');
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => {
-    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+if (sections.length && navLinks.length) {
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+    });
   });
-  navLinks.forEach(link => {
-    link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
-  });
-});
+}
