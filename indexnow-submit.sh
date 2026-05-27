@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-HOST="www.homefixreviews.com"
+HOST="www.allmetalbrake.com"
 KEY="189ca4591f684071860aa602c09ab321"
 KEY_LOCATION="https://${HOST}/${KEY}.txt"
 SITEMAP="$(dirname "$0")/sitemap.xml"
