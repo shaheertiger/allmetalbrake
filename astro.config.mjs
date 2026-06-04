@@ -41,6 +41,7 @@ const SITEMAP_META = {
   '/best-water-based-paver-sealer-reviews/': { changefreq: 'monthly', priority: 0.8 },
   '/how-to-use-polymeric-sand/': { changefreq: 'monthly', priority: 0.7 },
   '/ryobi-tools-review/': { changefreq: 'monthly', priority: 0.8 },
+  '/tekton-tools-review/': { changefreq: 'monthly', priority: 0.8 },
   '/milwaukee-vs-dewalt/': { changefreq: 'monthly', priority: 0.8 },
   '/reviews/grizzly-g0542-review/': { changefreq: 'monthly', priority: 0.8 },
 };
