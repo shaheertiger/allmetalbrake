@@ -23,7 +23,9 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 });
 
 // Newsletter forms — wire up ALL on page (footer, sidebar, hero, etc.)
+// Forms with a real `action` (e.g. FormSubmit) submit natively — skip them.
 document.querySelectorAll('.newsletter-form').forEach(form => {
+  if (form.tagName === 'FORM' && form.getAttribute('action')) return;
   const handle = e => {
     e.preventDefault();
     const input = form.querySelector('input');
