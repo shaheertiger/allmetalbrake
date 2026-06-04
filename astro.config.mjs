@@ -84,6 +84,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      filter: (page) => !/\/search\/?$/.test(new URL(page).pathname),
       serialize(item) {
         const url = new URL(item.url);
         const meta = SITEMAP_META[url.pathname];

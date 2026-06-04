@@ -15,6 +15,8 @@ export interface Props {
   articleBody?: string;
   /** Override the social-share image (absolute or root-relative path). */
   image?: string;
+  /** Set true to keep the page out of search indexes (e.g. the search page). */
+  noindex?: boolean;
 }
 
 const SITE = 'https://www.allmetalbrake.com';
@@ -27,7 +29,8 @@ const {
   description = '',
   articleCss = false,
   articleBody = '',
-  image = '/og-image.svg',
+  image = '/og-image.png',
+  noindex = false,
 } = Astro.props;
 
 const pathname = Astro.url.pathname.endsWith('/') || Astro.url.pathname.includes('.')
@@ -75,6 +78,30 @@ if (articleBody) {
   }
 }
 
+// --- Product extraction (ranked review cards) ------------------------------
+type Prod = { name: string; brand: string; desc: string; rating?: number; count?: number };
+const products: Prod[] = [];
+if (articleBody) {
+  const cards = articleBody.split(/<div class="product-card"/).slice(1);
+  for (const card of cards) {
+    const nameM = card.match(/<div class="product-name">([\s\S]*?)<\/div>/);
+    if (!nameM) continue;
+    const name = stripTags(nameM[1]);
+    if (!name) continue;
+    const ratingM = card.match(/<div class="rating-number">\s*([\d.]+)\s*<\/div>/);
+    const countM = card.match(/<div class="rating-count">[^\d]*([\d,]+)/);
+    const descM = card.match(/<div class="product-card-body">[\s\S]*?<p>([\s\S]*?)<\/p>/);
+    const brand = name.split(/\s+/)[0].replace(/[^A-Za-z0-9-]/g, '');
+    products.push({
+      name,
+      brand,
+      desc: descM ? stripTags(descM[1]) : '',
+      rating: ratingM ? parseFloat(ratingM[1]) : undefined,
+      count: countM ? parseInt(countM[1].replace(/,/g, ''), 10) : undefined,
+    });
+  }
+}
+
 // --- JSON-LD ---------------------------------------------------------------
 const organization = {
   '@context': 'https://schema.org',
@@ -94,6 +121,14 @@ const website = {
   url: `${SITE}/`,
   description:
     'Expert-tested reviews and buying guides for driveway sealers, deck stains, garage floor epoxy, power tools, and more.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${SITE}/search/?q={search_term_string}`,
+    },
+    'query-input': 'required name=search_term_string',
+  },
 };
 
 const graph: any[] = [];
@@ -132,6 +167,22 @@ if (isArticle) {
       })),
     });
   }
+  for (const p of products) {
+    const node: any = {
+      '@type': 'Product',
+      name: p.name,
+      description: p.desc,
+      brand: { '@type': 'Brand', name: p.brand },
+    };
+    if (p.rating != null) {
+      node.aggregateRating = {
+        '@type': 'AggregateRating',
+        ratingValue: p.rating,
+        reviewCount: p.count ?? 1,
+      };
+    }
+    graph.push(node);
+  }
 }
 const articleGraph = graph.length
   ? { '@context': 'https://schema.org', '@graph': graph }
@@ -146,7 +197,7 @@ const articleGraph = graph.length
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
 
     <!-- Open Graph -->
     <meta property="og:type" content={isArticle ? 'article' : 'website'} />
