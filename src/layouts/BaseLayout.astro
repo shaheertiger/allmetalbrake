@@ -1,17 +1,141 @@
 ---
 /**
- * Shared site shell. Renders the standardized <head> (fonts + global CSS)
- * and loads the shared client script. Page-specific markup (top bar, header,
- * content, footer) is provided through the default <slot/>.
+ * Shared site shell. Renders the standardized <head> with full SEO metadata
+ * (canonical, Open Graph, and JSON-LD structured data) plus the global CSS and
+ * shared client script. Page-specific markup is provided through <slot/>.
  */
 export interface Props {
   title: string;
   description?: string;
   /** Set true for long-form article/review pages that need article.css */
   articleCss?: boolean;
+  /** Emit Article/Breadcrumb/FAQ schema. Defaults to articleCss when omitted. */
+  isArticle?: boolean;
+  /** Raw article HTML, used to auto-extract FAQ schema. */
+  articleBody?: string;
+  /** Override the social-share image (absolute or root-relative path). */
+  image?: string;
 }
 
-const { title, description = "", articleCss = false } = Astro.props;
+const SITE = 'https://www.allmetalbrake.com';
+const SITE_NAME = 'Home Fix Reviews';
+const DATE_MODIFIED = '2026-06-04';
+const DATE_PUBLISHED = '2026-01-15';
+
+const {
+  title,
+  description = '',
+  articleCss = false,
+  articleBody = '',
+  image = '/og-image.svg',
+} = Astro.props;
+
+const pathname = Astro.url.pathname.endsWith('/') || Astro.url.pathname.includes('.')
+  ? Astro.url.pathname
+  : Astro.url.pathname + '/';
+const canonical = new URL(pathname, SITE).href;
+const ogImage = new URL(image, SITE).href;
+const isArticle = Astro.props.isArticle ?? articleCss;
+
+// Short, human-readable page name derived from the SEO <title>.
+const leafName = title.split(/\s+[—|]\s+|:\s/)[0].trim();
+
+// --- Breadcrumbs -----------------------------------------------------------
+const slug = pathname.replace(/^\/|\/$/g, '');
+const breadcrumbItems = [{ name: 'Home', item: `${SITE}/` }];
+if (slug) {
+  if (slug.startsWith('best-') || slug.startsWith('reviews/')) {
+    breadcrumbItems.push({ name: 'Best Lists', item: `${SITE}/best-lists/` });
+  } else if (/^(how-|when-)/.test(slug)) {
+    breadcrumbItems.push({ name: 'Buying Guides', item: `${SITE}/guides/` });
+  }
+  breadcrumbItems.push({ name: leafName, item: canonical });
+}
+
+// --- FAQ extraction --------------------------------------------------------
+function stripTags(html: string): string {
+  return html
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&#39;|&rsquo;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+const faqItems: { q: string; a: string }[] = [];
+if (articleBody) {
+  const itemRe = /<div class="faq-item[^"]*">[\s\S]*?<div class="faq-question">([\s\S]*?)<\/div>[\s\S]*?<div class="faq-answer">([\s\S]*?)<\/div>\s*<\/div>/g;
+  let m: RegExpExecArray | null;
+  while ((m = itemRe.exec(articleBody)) !== null) {
+    const q = stripTags(m[1]);
+    const a = stripTags(m[2]);
+    if (q && a) faqItems.push({ q, a });
+  }
+}
+
+// --- JSON-LD ---------------------------------------------------------------
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: `${SITE}/`,
+  logo: `${SITE}/favicon.svg`,
+  description:
+    'Independent, hands-on home improvement product reviews and buying guides. We buy and test every product we recommend.',
+  sameAs: [],
+};
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: `${SITE}/`,
+  description:
+    'Expert-tested reviews and buying guides for driveway sealers, deck stains, garage floor epoxy, power tools, and more.',
+};
+
+const graph: any[] = [];
+if (isArticle) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.name,
+      item: c.item,
+    })),
+  });
+  graph.push({
+    '@type': 'Article',
+    headline: leafName,
+    description,
+    image: ogImage,
+    author: { '@type': 'Organization', name: SITE_NAME, url: `${SITE}/` },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      logo: { '@type': 'ImageObject', url: `${SITE}/favicon.svg` },
+    },
+    datePublished: DATE_PUBLISHED,
+    dateModified: DATE_MODIFIED,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+  });
+  if (faqItems.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: faqItems.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    });
+  }
+}
+const articleGraph = graph.length
+  ? { '@context': 'https://schema.org', '@graph': graph }
+  : null;
 ---
 
 <!doctype html>
@@ -21,6 +145,28 @@ const { title, description = "", articleCss = false } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={isArticle ? 'article' : 'website'} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#1a1f36" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -32,6 +178,13 @@ const { title, description = "", articleCss = false } = Astro.props;
     <style is:global>
       body { font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif; }
     </style>
+
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(organization)} />
+    <script type="application/ld+json" set:html={JSON.stringify(website)} />
+    {articleGraph && (
+      <script type="application/ld+json" set:html={JSON.stringify(articleGraph)} />
+    )}
   </head>
   <body>
     <slot />

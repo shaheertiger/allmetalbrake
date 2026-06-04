@@ -5,52 +5,79 @@ import sitemap from '@astrojs/sitemap';
 const SITE = 'https://www.allmetalbrake.com';
 const LASTMOD = '2026-06-04';
 
-// Per-page sitemap priorities / change frequencies, keyed by URL pathname.
-// Mirrors the hand-maintained sitemap that shipped with the static site.
+// Per-page sitemap priorities / change frequencies, keyed by URL pathname
+// (trailing-slash directory URLs).
 const SITEMAP_META = {
   '/': { changefreq: 'weekly', priority: 1.0 },
-  '/best-lists.html': { changefreq: 'weekly', priority: 0.9 },
-  '/guides.html': { changefreq: 'weekly', priority: 0.9 },
-  '/compare.html': { changefreq: 'monthly', priority: 0.8 },
-  '/about.html': { changefreq: 'monthly', priority: 0.5 },
-  '/contact.html': { changefreq: 'yearly', priority: 0.4 },
-  '/affiliate-disclosure.html': { changefreq: 'yearly', priority: 0.3 },
-  '/privacy.html': { changefreq: 'yearly', priority: 0.3 },
-  '/terms.html': { changefreq: 'yearly', priority: 0.3 },
-  '/best-asphalt-driveway-sealer-reviews.html': { changefreq: 'monthly', priority: 0.9 },
-  '/best-driveway-sealer.html': { changefreq: 'monthly', priority: 0.9 },
-  '/when-should-you-seal-a-new-asphalt-driveway.html': { changefreq: 'monthly', priority: 0.8 },
-  '/how-much-does-it-cost-to-seal-a-driveway.html': { changefreq: 'monthly', priority: 0.8 },
-  '/how-to-remove-moss-from-asphalt-driveway.html': { changefreq: 'monthly', priority: 0.7 },
-  '/how-to-seal-a-concrete-driveway.html': { changefreq: 'monthly', priority: 0.8 },
-  '/how-to-remove-oil-stains-from-driveway.html': { changefreq: 'monthly', priority: 0.7 },
-  '/how-long-for-driveway-sealer-to-dry.html': { changefreq: 'monthly', priority: 0.7 },
-  '/latex-ite-driveway-sealer-review.html': { changefreq: 'monthly', priority: 0.8 },
-  '/best-stamped-concrete-sealer.html': { changefreq: 'monthly', priority: 0.8 },
-  '/how-to-stain-concrete-patio-to-look-like-stone.html': { changefreq: 'monthly', priority: 0.7 },
-  '/best-deck-stain-reviews.html': { changefreq: 'monthly', priority: 0.9 },
-  '/best-deck-stain-for-pressure-treated-wood.html': { changefreq: 'monthly', priority: 0.8 },
-  '/best-redwood-sealer.html': { changefreq: 'monthly', priority: 0.8 },
-  '/best-garage-floor-epoxy.html': { changefreq: 'monthly', priority: 0.9 },
-  '/best-garage-floor-coating.html': { changefreq: 'monthly', priority: 0.8 },
-  '/best-basement-wall-sealer.html': { changefreq: 'monthly', priority: 0.8 },
-  '/best-cinder-block-sealer-reviews.html': { changefreq: 'monthly', priority: 0.8 },
-  '/best-granite-sealer.html': { changefreq: 'monthly', priority: 0.8 },
-  '/best-marble-sealer.html': { changefreq: 'monthly', priority: 0.8 },
-  '/best-polymeric-sand-for-pavers.html': { changefreq: 'monthly', priority: 0.8 },
-  '/best-water-based-paver-sealer-reviews.html': { changefreq: 'monthly', priority: 0.8 },
-  '/how-to-use-polymeric-sand.html': { changefreq: 'monthly', priority: 0.7 },
-  '/ryobi-tools-review.html': { changefreq: 'monthly', priority: 0.8 },
-  '/milwaukee-vs-dewalt.html': { changefreq: 'monthly', priority: 0.8 },
+  '/best-lists/': { changefreq: 'weekly', priority: 0.9 },
+  '/guides/': { changefreq: 'weekly', priority: 0.9 },
+  '/compare/': { changefreq: 'monthly', priority: 0.8 },
+  '/about/': { changefreq: 'monthly', priority: 0.5 },
+  '/contact/': { changefreq: 'yearly', priority: 0.4 },
+  '/affiliate-disclosure/': { changefreq: 'yearly', priority: 0.3 },
+  '/privacy/': { changefreq: 'yearly', priority: 0.3 },
+  '/terms/': { changefreq: 'yearly', priority: 0.3 },
+  '/best-asphalt-driveway-sealer-reviews/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-driveway-sealer/': { changefreq: 'monthly', priority: 0.9 },
+  '/when-should-you-seal-a-new-asphalt-driveway/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-much-does-it-cost-to-seal-a-driveway/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-to-remove-moss-from-asphalt-driveway/': { changefreq: 'monthly', priority: 0.7 },
+  '/how-to-seal-a-concrete-driveway/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-to-remove-oil-stains-from-driveway/': { changefreq: 'monthly', priority: 0.7 },
+  '/how-long-for-driveway-sealer-to-dry/': { changefreq: 'monthly', priority: 0.7 },
+  '/latex-ite-driveway-sealer-review/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-stamped-concrete-sealer/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-to-stain-concrete-patio-to-look-like-stone/': { changefreq: 'monthly', priority: 0.7 },
+  '/best-deck-stain-reviews/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-deck-stain-for-pressure-treated-wood/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-redwood-sealer/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-garage-floor-epoxy/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-garage-floor-coating/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-basement-wall-sealer/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-cinder-block-sealer-reviews/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-granite-sealer/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-marble-sealer/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-polymeric-sand-for-pavers/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-water-based-paver-sealer-reviews/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-to-use-polymeric-sand/': { changefreq: 'monthly', priority: 0.7 },
+  '/ryobi-tools-review/': { changefreq: 'monthly', priority: 0.8 },
+  '/milwaukee-vs-dewalt/': { changefreq: 'monthly', priority: 0.8 },
+  '/reviews/grizzly-g0542-review/': { changefreq: 'monthly', priority: 0.8 },
 };
+
+// Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
+// preserving link equity for already-indexed pages.
+const REDIRECT_SLUGS = [
+  'about', 'affiliate-disclosure', 'best-asphalt-driveway-sealer-reviews',
+  'best-basement-wall-sealer', 'best-cinder-block-sealer-reviews',
+  'best-deck-stain-for-pressure-treated-wood', 'best-deck-stain-reviews',
+  'best-driveway-sealer', 'best-garage-floor-coating', 'best-garage-floor-epoxy',
+  'best-granite-sealer', 'best-lists', 'best-marble-sealer', 'best-mens-back-shavers',
+  'best-polymeric-sand-for-pavers', 'best-redwood-sealer', 'best-stamped-concrete-sealer',
+  'best-water-based-paver-sealer-reviews', 'compare', 'contact', 'guides',
+  'how-long-for-driveway-sealer-to-dry', 'how-much-does-it-cost-to-seal-a-driveway',
+  'how-to-remove-moss-from-asphalt-driveway', 'how-to-remove-oil-stains-from-driveway',
+  'how-to-seal-a-concrete-driveway', 'how-to-stain-concrete-patio-to-look-like-stone',
+  'how-to-use-polymeric-sand', 'latex-ite-driveway-sealer-review', 'milwaukee-vs-dewalt',
+  'privacy', 'reviews/grizzly-g0542-review', 'ryobi-tools-review', 'terms',
+  'when-should-you-seal-a-new-asphalt-driveway',
+];
+
+// Note: legacy `/index.html` already maps to the generated homepage file, so
+// it needs no redirect.
+const redirects = {};
+for (const slug of REDIRECT_SLUGS) {
+  redirects[`/${slug}.html`] = `/${slug}/`;
+}
 
 export default defineConfig({
   site: SITE,
+  trailingSlash: 'always',
   build: {
-    // Emit `about.html` instead of `about/index.html` so the original
-    // `*.html` internal links continue to resolve.
-    format: 'file',
+    // Emit `about/index.html` so canonical URLs are trailing-slash directories.
+    format: 'directory',
   },
+  redirects,
   server: {
     port: 3000,
     host: true,
@@ -59,15 +86,7 @@ export default defineConfig({
     sitemap({
       serialize(item) {
         const url = new URL(item.url);
-        // The static build emits `*.html` files, so normalize the canonical
-        // sitemap URLs to match (the homepage stays `/`).
-        let pathname = url.pathname.replace(/\/$/, '') || '/';
-        if (pathname !== '/' && !pathname.endsWith('.html')) {
-          pathname += '.html';
-          url.pathname = pathname;
-          item.url = url.toString();
-        }
-        const meta = SITEMAP_META[pathname];
+        const meta = SITEMAP_META[url.pathname];
         if (meta) {
           item.changefreq = meta.changefreq;
           item.priority = meta.priority;
