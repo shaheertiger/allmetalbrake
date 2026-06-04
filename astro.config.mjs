@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 const SITE = 'https://www.allmetalbrake.com';
-const LASTMOD = '2026-05-26';
+const LASTMOD = '2026-06-04';
 
 // Per-page sitemap priorities / change frequencies, keyed by URL pathname.
 // Mirrors the hand-maintained sitemap that shipped with the static site.
