@@ -65,6 +65,10 @@ const SITEMAP_META = {
   '/best-hookaroon-reviews/': { changefreq: 'monthly', priority: 0.8 },
   '/rockwell-tools-review/': { changefreq: 'monthly', priority: 0.7 },
   '/rust-converter-vs-rust-remover/': { changefreq: 'monthly', priority: 0.6 },
+  '/how-to-waterproof-basement-walls/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-exterior-wood-sealer/': { changefreq: 'monthly', priority: 0.9 },
+  '/flex-seal-review/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-asphalt-crack-filler/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -94,6 +98,8 @@ const REDIRECT_SLUGS = [
   'best-brush-for-water-based-polyurethane', 'spackle-vs-putty',
   'barn-door-vs-french-door', 'best-hookaroon-reviews', 'rockwell-tools-review',
   'rust-converter-vs-rust-remover',
+  'how-to-waterproof-basement-walls', 'best-exterior-wood-sealer',
+  'flex-seal-review', 'best-asphalt-crack-filler',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
