@@ -2,7 +2,7 @@
 set -euo pipefail
 
 HOST="www.allmetalbrake.com"
-KEY="189ca4591f684071860aa602c09ab321"
+KEY="89d4e5cb30474b899db12e9e3fcbb29a"
 KEY_LOCATION="https://${HOST}/${KEY}.txt"
 SITEMAP="$(dirname "$0")/sitemap.xml"
 ENDPOINT="https://api.indexnow.org/IndexNow"
