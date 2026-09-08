@@ -69,6 +69,7 @@ const SITEMAP_META = {
   '/best-exterior-wood-sealer/': { changefreq: 'monthly', priority: 0.9 },
   '/flex-seal-review/': { changefreq: 'monthly', priority: 0.8 },
   '/best-asphalt-crack-filler/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-deck-sealant/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -100,6 +101,7 @@ const REDIRECT_SLUGS = [
   'rust-converter-vs-rust-remover',
   'how-to-waterproof-basement-walls', 'best-exterior-wood-sealer',
   'flex-seal-review', 'best-asphalt-crack-filler',
+  'best-deck-sealant',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
