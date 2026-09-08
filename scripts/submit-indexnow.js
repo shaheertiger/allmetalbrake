@@ -10,7 +10,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HOST = 'www.allmetalbrake.com';
-const KEY = '189ca4591f684071860aa602c09ab321';
+const KEY = '89d4e5cb30474b899db12e9e3fcbb29a';
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 const ENDPOINT = 'https://api.indexnow.org/IndexNow';
 
