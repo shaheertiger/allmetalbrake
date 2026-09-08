@@ -1,0 +1,23 @@
+name: Build
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Validate site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Hard gate: every article must carry at least 2700 words of body copy.
+      # A thin page fails the build; it does not merely warn.
+      - name: Run build checks
+        run: npm run words
