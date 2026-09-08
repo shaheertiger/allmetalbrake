@@ -70,6 +70,9 @@ const SITEMAP_META = {
   '/flex-seal-review/': { changefreq: 'monthly', priority: 0.8 },
   '/best-asphalt-crack-filler/': { changefreq: 'monthly', priority: 0.8 },
   '/best-deck-sealant/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-exterior-caulk/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-deck-paint/': { changefreq: 'monthly', priority: 0.9 },
+  '/sealing-asphalt-driveway-pros-and-cons/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -102,6 +105,8 @@ const REDIRECT_SLUGS = [
   'how-to-waterproof-basement-walls', 'best-exterior-wood-sealer',
   'flex-seal-review', 'best-asphalt-crack-filler',
   'best-deck-sealant',
+  'best-exterior-caulk', 'best-deck-paint',
+  'sealing-asphalt-driveway-pros-and-cons',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
