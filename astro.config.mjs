@@ -73,6 +73,12 @@ const SITEMAP_META = {
   '/best-exterior-caulk/': { changefreq: 'monthly', priority: 0.9 },
   '/best-deck-paint/': { changefreq: 'monthly', priority: 0.9 },
   '/sealing-asphalt-driveway-pros-and-cons/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-home-generator-for-power-outages/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-self-propelled-lawn-mower/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-concrete-floor-paint/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-gutter-guards/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-driveway-cleaner/': { changefreq: 'monthly', priority: 0.9 },
+  '/epoxy-garage-floor-cost/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -107,6 +113,9 @@ const REDIRECT_SLUGS = [
   'best-deck-sealant',
   'best-exterior-caulk', 'best-deck-paint',
   'sealing-asphalt-driveway-pros-and-cons',
+  'best-home-generator-for-power-outages', 'best-self-propelled-lawn-mower',
+  'best-concrete-floor-paint', 'best-gutter-guards', 'best-driveway-cleaner',
+  'epoxy-garage-floor-cost',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
