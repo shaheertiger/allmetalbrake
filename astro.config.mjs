@@ -91,6 +91,7 @@ const SITEMAP_META = {
   '/how-often-to-seal-a-driveway/': { changefreq: 'monthly', priority: 0.9 },
   '/best-garage-floor-tiles/': { changefreq: 'monthly', priority: 0.9 },
   '/best-paint-for-ceilings/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-shop-vac-for-garage/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -140,6 +141,7 @@ const REDIRECT_SLUGS = [
   'how-often-to-seal-a-driveway',
   'best-garage-floor-tiles',
   'best-paint-for-ceilings',
+  'best-shop-vac-for-garage',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
