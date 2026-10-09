@@ -87,6 +87,8 @@ const SITEMAP_META = {
   '/best-luxury-vinyl-plank-flooring/': { changefreq: 'monthly', priority: 0.9 },
   '/best-stain-for-cedar-deck/': { changefreq: 'monthly', priority: 0.9 },
   '/best-lawn-weed-killer/': { changefreq: 'monthly', priority: 0.9 },
+  '/how-to-seal-an-asphalt-driveway/': { changefreq: 'monthly', priority: 0.9 },
+  '/how-often-to-seal-a-driveway/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -132,6 +134,8 @@ const REDIRECT_SLUGS = [
   'best-luxury-vinyl-plank-flooring',
   'best-stain-for-cedar-deck',
   'best-lawn-weed-killer',
+  'how-to-seal-an-asphalt-driveway',
+  'how-often-to-seal-a-driveway',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
