@@ -72,11 +72,13 @@ a build fix. If an article is short, write more of it.
    appears in on-site search.
 5. Link it from `src/bodies/best-lists.html`, `guides.html` or `compare.html`
    so it is not orphaned.
-6. If the article has `product-card` blocks, run
-   `node scripts/add-affiliate-links.mjs` to give each one a tagged
-   "Check Price on Amazon" button (`--check` reports any card without one).
-   It is idempotent. Never put a rating element in a card, and never claim
-   hands-on testing that did not happen.
+6. If the article has `product-card` blocks, add each product's ASIN to
+   `src/data/amazon-asins.json` (keyed by the exact `product-name` text,
+   verified against the Amazon listing title — same brand and model, not a
+   part or accessory), then run `node scripts/add-affiliate-links.mjs`. Cards
+   with an ASIN get a direct `/dp/` link; the rest fall back to a tagged
+   search. `--check` reports any card without a button. Never put a rating
+   element in a card, and never claim hands-on testing that did not happen.
 
 ### Conventions
 
