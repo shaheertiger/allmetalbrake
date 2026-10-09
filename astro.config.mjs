@@ -79,6 +79,9 @@ const SITEMAP_META = {
   '/best-gutter-guards/': { changefreq: 'monthly', priority: 0.9 },
   '/best-driveway-cleaner/': { changefreq: 'monthly', priority: 0.9 },
   '/epoxy-garage-floor-cost/': { changefreq: 'monthly', priority: 0.8 },
+  '/oil-based-vs-water-based-driveway-sealer/': { changefreq: 'monthly', priority: 0.9 },
+  '/rain-after-sealing-driveway/': { changefreq: 'monthly', priority: 0.8 },
+  '/what-temperature-to-seal-driveway/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -116,6 +119,9 @@ const REDIRECT_SLUGS = [
   'best-home-generator-for-power-outages', 'best-self-propelled-lawn-mower',
   'best-concrete-floor-paint', 'best-gutter-guards', 'best-driveway-cleaner',
   'epoxy-garage-floor-cost',
+  'oil-based-vs-water-based-driveway-sealer',
+  'rain-after-sealing-driveway',
+  'what-temperature-to-seal-driveway',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
