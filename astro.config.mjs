@@ -152,6 +152,7 @@ const SITEMAP_META = {
   '/hydrostatic-pressure-in-basement/': { changefreq: 'monthly', priority: 0.8 },
   '/how-many-coats-of-driveway-sealer/': { changefreq: 'monthly', priority: 0.8 },
   '/garage-floor-coating-cost/': { changefreq: 'monthly', priority: 0.9 },
+  '/deck-paint-vs-deck-stain/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -262,6 +263,7 @@ const REDIRECT_SLUGS = [
   'hydrostatic-pressure-in-basement',
   'how-many-coats-of-driveway-sealer',
   'garage-floor-coating-cost',
+  'deck-paint-vs-deck-stain',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
