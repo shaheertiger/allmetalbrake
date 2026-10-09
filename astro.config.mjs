@@ -153,6 +153,8 @@ const SITEMAP_META = {
   '/how-many-coats-of-driveway-sealer/': { changefreq: 'monthly', priority: 0.8 },
   '/garage-floor-coating-cost/': { changefreq: 'monthly', priority: 0.9 },
   '/deck-paint-vs-deck-stain/': { changefreq: 'monthly', priority: 0.8 },
+  '/can-you-stain-pressure-treated-wood/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-much-deck-stain-do-i-need/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -264,6 +266,8 @@ const REDIRECT_SLUGS = [
   'how-many-coats-of-driveway-sealer',
   'garage-floor-coating-cost',
   'deck-paint-vs-deck-stain',
+  'can-you-stain-pressure-treated-wood',
+  'how-much-deck-stain-do-i-need',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
