@@ -72,6 +72,11 @@ a build fix. If an article is short, write more of it.
    appears in on-site search.
 5. Link it from `src/bodies/best-lists.html`, `guides.html` or `compare.html`
    so it is not orphaned.
+6. If the article has `product-card` blocks, run
+   `node scripts/add-affiliate-links.mjs` to give each one a tagged
+   "Check Price on Amazon" button (`--check` reports any card without one).
+   It is idempotent. Never put a rating element in a card, and never claim
+   hands-on testing that did not happen.
 
 ### Conventions
 

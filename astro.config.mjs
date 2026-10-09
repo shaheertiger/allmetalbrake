@@ -92,6 +92,7 @@ const SITEMAP_META = {
   '/best-garage-floor-tiles/': { changefreq: 'monthly', priority: 0.9 },
   '/best-paint-for-ceilings/': { changefreq: 'monthly', priority: 0.9 },
   '/best-shop-vac-for-garage/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-zero-turn-mower-for-homeowners/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -142,6 +143,7 @@ const REDIRECT_SLUGS = [
   'best-garage-floor-tiles',
   'best-paint-for-ceilings',
   'best-shop-vac-for-garage',
+  'best-zero-turn-mower-for-homeowners',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
