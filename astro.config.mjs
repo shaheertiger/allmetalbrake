@@ -94,6 +94,7 @@ const SITEMAP_META = {
   '/best-shop-vac-for-garage/': { changefreq: 'monthly', priority: 0.9 },
   '/best-zero-turn-mower-for-homeowners/': { changefreq: 'monthly', priority: 0.9 },
   '/polymeric-sand-pros-and-cons/': { changefreq: 'monthly', priority: 0.8 },
+  '/coal-tar-vs-asphalt-emulsion-sealer/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -146,6 +147,7 @@ const REDIRECT_SLUGS = [
   'best-shop-vac-for-garage',
   'best-zero-turn-mower-for-homeowners',
   'polymeric-sand-pros-and-cons',
+  'coal-tar-vs-asphalt-emulsion-sealer',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
