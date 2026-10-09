@@ -89,6 +89,7 @@ const SITEMAP_META = {
   '/best-lawn-weed-killer/': { changefreq: 'monthly', priority: 0.9 },
   '/how-to-seal-an-asphalt-driveway/': { changefreq: 'monthly', priority: 0.9 },
   '/how-often-to-seal-a-driveway/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-garage-floor-tiles/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -136,6 +137,7 @@ const REDIRECT_SLUGS = [
   'best-lawn-weed-killer',
   'how-to-seal-an-asphalt-driveway',
   'how-often-to-seal-a-driveway',
+  'best-garage-floor-tiles',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
