@@ -147,6 +147,16 @@ const SITEMAP_META = {
   '/how-to-get-rid-of-mold-in-basement/': { changefreq: 'monthly', priority: 0.9 },
   '/efflorescence-on-basement-walls/': { changefreq: 'monthly', priority: 0.8 },
   '/interior-vs-exterior-basement-waterproofing/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-to-remove-polymeric-sand-haze-from-pavers/': { changefreq: 'monthly', priority: 0.9 },
+  '/what-temperature-to-seal-pavers/': { changefreq: 'monthly', priority: 0.8 },
+  '/hydrostatic-pressure-in-basement/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-many-coats-of-driveway-sealer/': { changefreq: 'monthly', priority: 0.8 },
+  '/garage-floor-coating-cost/': { changefreq: 'monthly', priority: 0.9 },
+  '/deck-paint-vs-deck-stain/': { changefreq: 'monthly', priority: 0.8 },
+  '/can-you-stain-pressure-treated-wood/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-much-deck-stain-do-i-need/': { changefreq: 'monthly', priority: 0.8 },
+  '/caulk-vs-sealant/': { changefreq: 'monthly', priority: 0.8 },
+  '/silicone-vs-latex-caulk/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -252,6 +262,16 @@ const REDIRECT_SLUGS = [
   'how-to-get-rid-of-mold-in-basement',
   'efflorescence-on-basement-walls',
   'interior-vs-exterior-basement-waterproofing',
+  'how-to-remove-polymeric-sand-haze-from-pavers',
+  'what-temperature-to-seal-pavers',
+  'hydrostatic-pressure-in-basement',
+  'how-many-coats-of-driveway-sealer',
+  'garage-floor-coating-cost',
+  'deck-paint-vs-deck-stain',
+  'can-you-stain-pressure-treated-wood',
+  'how-much-deck-stain-do-i-need',
+  'caulk-vs-sealant',
+  'silicone-vs-latex-caulk',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
