@@ -127,6 +127,8 @@ const SITEMAP_META = {
   '/best-basement-floor-paint/': { changefreq: 'monthly', priority: 0.9 },
   '/best-paint-for-cinder-block/': { changefreq: 'monthly', priority: 0.9 },
   '/best-chimney-sealer/': { changefreq: 'monthly', priority: 0.9 },
+  '/epoxy-vs-polyaspartic-garage-floor/': { changefreq: 'monthly', priority: 0.8 },
+  '/epoxy-garage-floor-peeling/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -212,6 +214,8 @@ const REDIRECT_SLUGS = [
   'best-basement-floor-paint',
   'best-paint-for-cinder-block',
   'best-chimney-sealer',
+  'epoxy-vs-polyaspartic-garage-floor',
+  'epoxy-garage-floor-peeling',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
