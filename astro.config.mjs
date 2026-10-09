@@ -155,6 +155,8 @@ const SITEMAP_META = {
   '/deck-paint-vs-deck-stain/': { changefreq: 'monthly', priority: 0.8 },
   '/can-you-stain-pressure-treated-wood/': { changefreq: 'monthly', priority: 0.8 },
   '/how-much-deck-stain-do-i-need/': { changefreq: 'monthly', priority: 0.8 },
+  '/caulk-vs-sealant/': { changefreq: 'monthly', priority: 0.8 },
+  '/silicone-vs-latex-caulk/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -268,6 +270,8 @@ const REDIRECT_SLUGS = [
   'deck-paint-vs-deck-stain',
   'can-you-stain-pressure-treated-wood',
   'how-much-deck-stain-do-i-need',
+  'caulk-vs-sealant',
+  'silicone-vs-latex-caulk',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
