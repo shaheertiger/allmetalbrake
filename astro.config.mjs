@@ -84,6 +84,9 @@ const SITEMAP_META = {
   '/what-temperature-to-seal-driveway/': { changefreq: 'monthly', priority: 0.8 },
   '/best-dehumidifier-for-basement/': { changefreq: 'monthly', priority: 0.9 },
   '/best-pressure-washer-surface-cleaner/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-luxury-vinyl-plank-flooring/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-stain-for-cedar-deck/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-lawn-weed-killer/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -126,6 +129,9 @@ const REDIRECT_SLUGS = [
   'what-temperature-to-seal-driveway',
   'best-dehumidifier-for-basement',
   'best-pressure-washer-surface-cleaner',
+  'best-luxury-vinyl-plank-flooring',
+  'best-stain-for-cedar-deck',
+  'best-lawn-weed-killer',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
