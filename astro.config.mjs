@@ -107,6 +107,7 @@ const SITEMAP_META = {
   '/best-stud-finder/': { changefreq: 'monthly', priority: 0.9 },
   '/best-torque-wrench/': { changefreq: 'monthly', priority: 0.9 },
   '/best-string-trimmer/': { changefreq: 'monthly', priority: 0.9 },
+  '/asphalt-driveway-resurfacing-cost/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -172,6 +173,7 @@ const REDIRECT_SLUGS = [
   'best-stud-finder',
   'best-torque-wrench',
   'best-string-trimmer',
+  'asphalt-driveway-resurfacing-cost',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
