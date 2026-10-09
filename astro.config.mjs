@@ -96,6 +96,7 @@ const SITEMAP_META = {
   '/polymeric-sand-pros-and-cons/': { changefreq: 'monthly', priority: 0.8 },
   '/coal-tar-vs-asphalt-emulsion-sealer/': { changefreq: 'monthly', priority: 0.8 },
   '/generac-generator-cost/': { changefreq: 'monthly', priority: 0.9 },
+  '/how-to-caulk-exterior-windows/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -150,6 +151,7 @@ const REDIRECT_SLUGS = [
   'polymeric-sand-pros-and-cons',
   'coal-tar-vs-asphalt-emulsion-sealer',
   'generac-generator-cost',
+  'how-to-caulk-exterior-windows',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
