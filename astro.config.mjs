@@ -129,6 +129,7 @@ const SITEMAP_META = {
   '/best-chimney-sealer/': { changefreq: 'monthly', priority: 0.9 },
   '/epoxy-vs-polyaspartic-garage-floor/': { changefreq: 'monthly', priority: 0.8 },
   '/epoxy-garage-floor-peeling/': { changefreq: 'monthly', priority: 0.8 },
+  '/driveway-sealer-peeling/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -216,6 +217,7 @@ const REDIRECT_SLUGS = [
   'best-chimney-sealer',
   'epoxy-vs-polyaspartic-garage-floor',
   'epoxy-garage-floor-peeling',
+  'driveway-sealer-peeling',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
