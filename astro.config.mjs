@@ -82,6 +82,7 @@ const SITEMAP_META = {
   '/oil-based-vs-water-based-driveway-sealer/': { changefreq: 'monthly', priority: 0.9 },
   '/rain-after-sealing-driveway/': { changefreq: 'monthly', priority: 0.8 },
   '/what-temperature-to-seal-driveway/': { changefreq: 'monthly', priority: 0.8 },
+  '/best-dehumidifier-for-basement/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -122,6 +123,7 @@ const REDIRECT_SLUGS = [
   'oil-based-vs-water-based-driveway-sealer',
   'rain-after-sealing-driveway',
   'what-temperature-to-seal-driveway',
+  'best-dehumidifier-for-basement',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
