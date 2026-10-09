@@ -147,6 +147,8 @@ const SITEMAP_META = {
   '/how-to-get-rid-of-mold-in-basement/': { changefreq: 'monthly', priority: 0.9 },
   '/efflorescence-on-basement-walls/': { changefreq: 'monthly', priority: 0.8 },
   '/interior-vs-exterior-basement-waterproofing/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-to-remove-polymeric-sand-haze-from-pavers/': { changefreq: 'monthly', priority: 0.9 },
+  '/what-temperature-to-seal-pavers/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -252,6 +254,8 @@ const REDIRECT_SLUGS = [
   'how-to-get-rid-of-mold-in-basement',
   'efflorescence-on-basement-walls',
   'interior-vs-exterior-basement-waterproofing',
+  'how-to-remove-polymeric-sand-haze-from-pavers',
+  'what-temperature-to-seal-pavers',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
