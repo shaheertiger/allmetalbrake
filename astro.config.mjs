@@ -124,6 +124,9 @@ const SITEMAP_META = {
   '/best-sump-pump/': { changefreq: 'monthly', priority: 0.9 },
   '/best-drain-snake/': { changefreq: 'monthly', priority: 0.9 },
   '/best-paint-sprayer/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-basement-floor-paint/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-paint-for-cinder-block/': { changefreq: 'monthly', priority: 0.9 },
+  '/best-chimney-sealer/': { changefreq: 'monthly', priority: 0.9 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -206,6 +209,9 @@ const REDIRECT_SLUGS = [
   'best-sump-pump',
   'best-drain-snake',
   'best-paint-sprayer',
+  'best-basement-floor-paint',
+  'best-paint-for-cinder-block',
+  'best-chimney-sealer',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
