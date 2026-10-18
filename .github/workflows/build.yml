@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Validate site
+    name: Build and check content
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,8 +16,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: npm
 
-      # Hard gate: every article must carry at least 2700 words of body copy.
-      # A thin page fails the build; it does not merely warn.
-      - name: Run build checks
+      - run: npm ci
+
+      # `npm run build` is `astro build` followed by the content gate, so a
+      # page under 2700 words fails here exactly as it fails the Vercel deploy.
+      - name: Build site and enforce the 2700-word minimum
+        run: npm run build
+
+      - name: Word count report
+        if: always()
         run: npm run words

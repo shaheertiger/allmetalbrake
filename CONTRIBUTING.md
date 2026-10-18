@@ -5,124 +5,92 @@
 **Every article page must contain at least 2,700 words of body copy. The build
 fails otherwise — this is a hard gate, not a warning.**
 
-Run it locally before you push:
-
 ```bash
-npm run build     # validate; exits 1 on any error
-npm run words     # same, plus a word count for every article
+npm run build          # astro build, then the content gate; exits 1 on failure
+npm run words          # word count for every built article
+npm run check:content  # gate only, against an existing dist/
 ```
 
-The same check runs in CI on every push and pull request
-(`.github/workflows/build.yml`), so a thin page cannot reach `main`.
+Because `npm run build` is what both CI and Vercel run, a thin page cannot
+reach production: it fails the pull request and it fails the deploy.
 
 ### What counts as a word
 
-`tools/build.js` reads the innerHTML of each page's
-`<div class="article-content">` block — including nested callouts, comparison
-tables, and FAQ blocks — strips scripts, styles, comments, and tags, decodes
-HTML entities, and counts whitespace-delimited tokens that contain at least one
-letter or digit. Navigation, the hero, the sidebar, and the footer are **not**
-counted; only the article body is. Stray punctuation and bullet glyphs are not
-counted either, so the number reflects what a reader actually reads.
+`tools/check-word-count.js` runs against `dist/`, not `src/`, so it measures
+what a reader actually receives with the layout applied. For each built page it
+takes the innerHTML of the `<div class="article-content">` block — walking
+`div` nesting so callouts, comparison tables and FAQ blocks are included rather
+than truncating at the first `</div>` — strips scripts, styles, comments and
+tags, decodes HTML entities, and counts whitespace-delimited tokens containing
+at least one letter or digit. The header, hero, sidebar and footer are **not**
+counted. Neither is stray punctuation.
 
-### What gets checked
+### What is exempt
 
-| Check | Rule |
-| --- | --- |
-| Word count | `article-content` body ≥ 2,700 words |
-| Structure | Page has a `<div class="article-content">` block and an `<h1>` |
-| Title | Non-empty `<title>` |
-| Description | `<meta name="description">` of 50+ characters |
-| Sitemap | Article is listed in `sitemap.xml` |
-| Links | Every relative `href`/`src` resolves to a file on disk |
-| Search metadata | Canonical URL, Open Graph tags and valid JSON-LD from `npm run seo` |
-| Title / description length | Warns past 65 / 160 characters (Bing cuts them off) |
+Two things are skipped:
 
-### Adding a page that is not an article
-
-Hub pages, legal pages, and the homepage are exempt. Add the filename to
-`nonArticles` in `build.config.json`. Keep that list short and deliberate — it
-is the only way to bypass the word gate, so anything added to it should
-genuinely not be an article.
+- **Routes listed in `nonArticles`** in `build.config.json` — the homepage, hub
+  pages, legal pages, search and thank-you. Keep this list short and
+  deliberate; it is the only way to bypass the gate.
+- **Redirect stubs.** `astro.config.mjs` maps every legacy `/slug.html` URL to
+  `/slug/`, and Astro emits a meta-refresh page for each. The gate skips any
+  page carrying `<meta http-equiv="refresh">`, so those are excluded by shape
+  rather than by listing dozens of routes.
 
 ### Changing the threshold
 
-`minWords` lives in `build.config.json`. Lowering it is a content-policy
-decision, not a build fix. If an article is short, write more of it.
+`minWords` lives in `build.config.json`. Lowering it is a content decision, not
+a build fix. If an article is short, write more of it.
 
-## Writing articles
+## Adding an article
 
-New pages follow the review layout of the existing articles (see
-`best-marble-sealer.html` as the reference). Copy the promo bar, header and
-footer from it unchanged.
+1. `src/bodies/<slug>.html` — the body markup. No `<head>`, no `<link>`, no
+   `<script>`, no `<style>`: `BaseLayout.astro` supplies all of those,
+   including `/js/main.js`, which drives the FAQ accordion.
+2. `src/pages/<slug>.astro` — a thin wrapper:
 
-- `promo-bar` → `header.site-header` → `article-hero` (breadcrumb, `<h1>`,
-  `subtitle`, `byline`) → `picks-band` → `article-wrap` (`article-main` +
-  `article-sidebar`) → `article-cta` → `footer.site-footer`
-- `article-main` opens with the `affiliate-note`, then the `toc` (anchors
-  must match the `id`s on the `<h2>` headings)
-- Body copy inside `<div class="article-content">`
-- Each `product-card` (with an `id`) holds a `product-box` (`product-label`
-  such as "Best Overall", the `product-media` and `product-cta` regions, and
-  an `<h3 class="product-name">`), then `product-details` ("What We Like",
-  "What We Don't Like", "Product Specs"), then `product-card-body` with the
-  review text and `bottom-line`
-- Roundups place `<!-- top-picks:start --><!-- top-picks:end -->` before the
-  first `<h2>` and `<!-- picks-band:start --><!-- picks-band:end -->` after
-  the hero
-- An `faq-section` with `faq-item` / `faq-question` / `faq-answer` blocks
-- A `related-guides` block linking to three genuinely related articles
-- An `author-box` ("Meet the Tester") and `trust-box` straight after
-  `article-content`
-- `css/style.css`, `css/article.css`, and `js/main.js` on every page
+   ```astro
+   ---
+   import BaseLayout from '../layouts/BaseLayout.astro';
+   import body from '../bodies/<slug>.html?raw';
 
-## Product images and retailer links
+   const title = "… | Home Fix Reviews";
+   const description = "…";
+   ---
 
-Run `npm run products` after adding or renaming a product card. It adds the
-card to `data/products.json` and fills in the generated regions: the product
-photo, the "See It" button, the "Our Top Picks" list and the pick cards under
-the headline.
+   <BaseLayout title={title} description={description} articleCss={true} articleBody={body}>
+     <Fragment set:html={body} />
+   </BaseLayout>
+   ```
 
-For each product in `data/products.json` you can set:
+   Pass `articleBody={body}` — the layout parses it to emit FAQ structured data
+   from the `faq-item` blocks.
+3. `astro.config.mjs` — add the route to `SITEMAP_META` for changefreq and
+   priority, and add the slug to `REDIRECT_SLUGS` so the legacy `.html` URL
+   redirects to it.
+4. `public/search-index.json` — add a title/url/description entry so the page
+   appears in on-site search.
+5. Link it from `src/bodies/best-lists.html`, `guides.html` or `compare.html`
+   so it is not orphaned.
+6. If the article has `product-card` blocks, add each product's ASIN to
+   `src/data/amazon-asins.json` (keyed by the exact `product-name` text,
+   verified against the Amazon listing title — same brand and model, not a
+   part or accessory), then run `node scripts/add-affiliate-links.mjs`. Cards
+   with an ASIN get a direct `/dp/` link; the rest fall back to a tagged
+   search. `--check` reports any card without a button. Never put a rating
+   element in a card, and never claim hands-on testing that did not happen.
 
-- `asin`: the Amazon product ID; the button links to that product page
-- `url`: any other retailer link (overrides `asin`)
-- `image`: the product photo URL. For Amazon products use the image URL that
-  Amazon provides (Product Advertising API or SiteStripe). Associates rules
-  don't allow downloading the photo and hosting it ourselves.
+### Conventions
 
-Without `asin` or `url` the button opens an Amazon search for the product
-name. Put your Associates store ID in `affiliate.amazonTag` in
-`build.config.json` and rerun `npm run products` to tag every Amazon link.
+Internal links are trailing-slash directory URLs (`/best-marble-sealer/`, not
+`best-marble-sealer.html`). Articles follow the shared structure: topbar,
+header, breadcrumb, `article-hero`, `article-wrap` (`article-main` +
+`article-sidebar`), `article-cta`, footer, with the body inside
+`<div class="article-content">`, a `toc` whose anchors match the `<h2>` ids, an
+`faq-section`, and a `related-guides` block.
 
-Add the new URL to `sitemap.xml` in the same commit — the build checks for it.
+## Submitting to IndexNow
 
-## Search metadata (Bing / DuckDuckGo)
-
-DuckDuckGo's web results come mostly from Bing, so the site is tuned for Bing.
-After adding or editing a page:
-
-```bash
-npm run seo                       # regenerate head metadata for every page
-node tools/seo.js --touch my.html # same, and mark my.html as updated today
-```
-
-`tools/seo.js` writes everything between `<!-- seo:start -->` and
-`<!-- seo:end -->` in each `<head>`: canonical URL, robots directives,
-favicons, Open Graph and Twitter cards, and JSON-LD (Organization, WebSite,
-Article, BreadcrumbList, and FAQPage built from the `faq-item` blocks). Don't
-edit that block by hand. It also syncs `<lastmod>` in `sitemap.xml`.
-
-What you still write by hand:
-
-- `<title>`: 60 characters or fewer, main keyword first. Leave off the brand
-  suffix if it pushes past the limit; the brand is in the metadata already.
-- `<meta name="description">`: 110 to 160 characters, says what the reader gets.
-- Link to the homepage as `./` (or `../` from `reviews/`), not `index.html`.
-
-Pages that should stay out of search results go in `noindex` in
-`build.config.json` and must not be in the sitemap.
-
-On every push to the default branch, `.github/workflows/indexnow.yml` sends
-the changed URLs to IndexNow, which Bing (and so DuckDuckGo) uses to recrawl
-quickly. Run it by hand from the Actions tab to resubmit the whole sitemap.
+After a deploy, `npm run indexnow` submits every URL in the built sitemap, or
+pass specific URLs as arguments. The key file lives at `public/<key>.txt` and
+must match the `KEY` constant in `scripts/submit-indexnow.js`.
