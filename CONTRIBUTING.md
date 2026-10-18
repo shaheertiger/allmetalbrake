@@ -52,15 +52,27 @@ decision, not a build fix. If an article is short, write more of it.
 
 ## Writing articles
 
-New pages follow the structure of the existing articles (see
-`best-marble-sealer.html` as the reference):
+New pages follow the editorial layout of the existing articles (see
+`best-marble-sealer.html` as the reference). Copy the header and footer from it
+unchanged.
 
-- `topbar` → `header` → `breadcrumb` → `article-hero` → `article-wrap`
-  (`article-main` + `article-sidebar`) → `article-cta` → `footer`
+- `header.site-header` → `breadcrumb` → `article-hero` → `article-wrap`
+  (`article-main` + `article-sidebar`) → `article-cta` → `footer.site-footer`
+- The hero holds the category tag, `<h1>`, a one-sentence `subtitle`, the
+  `byline` (author initials, `author-name`, `author-role`, updated date, read
+  time) and the `affiliate-note`. No badges or social-proof counters.
 - A `toc` block whose anchors match the `id` attributes on the `<h2>` headings
 - Body copy inside `<div class="article-content">`
+- Roundups get an "Our Top Picks" `top-picks` box before the first `<h2>`,
+  listing each `product-position` label and linking to the `product-card` id
+- Each `product-card` has a `product-position` label (plain text, e.g.
+  "Best Overall"), `product-name`, `product-type-tag`, body copy, a
+  `pros-cons-grid` and a `bottom-line`
 - An `faq-section` with `faq-item` / `faq-question` / `faq-answer` blocks
+  (answers are always visible; there is no accordion)
 - A `related-guides` block linking to three genuinely related articles
+- A `trust-box` ("Why Trust Home Fix Reviews") straight after
+  `article-content`, naming the author
 - `css/style.css`, `css/article.css`, and `js/main.js` on every page
 
 Add the new URL to `sitemap.xml` in the same commit — the build checks for it.
