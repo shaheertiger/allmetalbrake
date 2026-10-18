@@ -5,6 +5,8 @@
  * shared client script. Page-specific markup is provided through <slot/>.
  */
 import Analytics from '@vercel/analytics/astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 export interface Props {
   title: string;
   description?: string;
@@ -85,7 +87,7 @@ const products: Prod[] = [];
 if (articleBody) {
   const cards = articleBody.split(/<div class="product-card"/).slice(1);
   for (const card of cards) {
-    const nameM = card.match(/<div class="product-name">([\s\S]*?)<\/div>/);
+    const nameM = card.match(/class="product-name">([\s\S]*?)<\/(?:div|h3)>/);
     if (!nameM) continue;
     const name = stripTags(nameM[1]);
     if (!name) continue;
@@ -191,7 +193,7 @@ const articleGraph = graph.length
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -199,7 +201,10 @@ const articleGraph = graph.length
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'}
+    />
 
     <!-- Open Graph -->
     <meta property="og:type" content={isArticle ? 'article' : 'website'} />
@@ -216,14 +221,16 @@ const articleGraph = graph.length
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={ogImage} />
 
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#1a1f36" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/css/style.css" />
@@ -240,7 +247,9 @@ const articleGraph = graph.length
     )}
   </head>
   <body>
+    <SiteHeader />
     <slot />
+    <SiteFooter />
     <script is:inline src="/js/main.js"></script>
     <Analytics />
   </body>
