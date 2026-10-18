@@ -45,8 +45,10 @@ a build fix. If an article is short, write more of it.
 ## Adding an article
 
 1. `src/bodies/<slug>.html` — the body markup. No `<head>`, no `<link>`, no
-   `<script>`, no `<style>`: `BaseLayout.astro` supplies all of those,
-   including `/js/main.js`, which drives the FAQ accordion.
+   `<script>`, no `<style>`, and no site header or footer: `BaseLayout.astro`
+   supplies all of those (`src/components/SiteHeader.astro` and
+   `SiteFooter.astro`), including `/js/main.js`, which drives the FAQ
+   accordion.
 2. `src/pages/<slug>.astro` — a thin wrapper:
 
    ```astro
@@ -76,18 +78,33 @@ a build fix. If an article is short, write more of it.
    `src/data/amazon-asins.json` (keyed by the exact `product-name` text,
    verified against the Amazon listing title — same brand and model, not a
    part or accessory), then run `node scripts/add-affiliate-links.mjs`. Cards
-   with an ASIN get a direct `/dp/` link; the rest fall back to a tagged
-   search. `--check` reports any card without a button. Never put a rating
+   with an ASIN get a direct `/dp/` link and Amazon's product photo (a
+   SiteStripe image link, served by Amazon); the rest fall back to a tagged
+   search and no photo. The script also rebuilds the "Our Top Picks" list and
+   the pick cards under the headline from each card's `product-label`. `--check` reports any card without a button. Never put a rating
    element in a card, and never claim hands-on testing that did not happen.
 
 ### Conventions
 
 Internal links are trailing-slash directory URLs (`/best-marble-sealer/`, not
-`best-marble-sealer.html`). Articles follow the shared structure: topbar,
-header, breadcrumb, `article-hero`, `article-wrap` (`article-main` +
-`article-sidebar`), `article-cta`, footer, with the body inside
-`<div class="article-content">`, a `toc` whose anchors match the `<h2>` ids, an
-`faq-section`, and a `related-guides` block.
+`best-marble-sealer.html`). Articles follow the shared review layout (see
+`src/bodies/best-marble-sealer.html`):
+
+- `article-hero`: a `hero-crumbs` breadcrumb, the `<h1>`, a one-sentence
+  `subtitle` and the `byline` (`author-name`, updated date, read time)
+- `<!-- picks-band:start --><!-- picks-band:end -->` straight after the hero
+- `article-wrap` (`article-main` + `article-sidebar`), then `article-cta`
+- `article-main` opens with the `affiliate-note`, then the `toc` (anchors
+  match the `<h2>` ids), then `<div class="article-content">`
+- roundups put `<!-- top-picks:start --><!-- top-picks:end -->` before the
+  first `<h2>` of the content
+- each `product-card` (with an `id`) holds a `product-box` (`product-label`
+  such as "Best Overall", the `product-media` and `product-cta` regions,
+  `<h3 class="product-name">`), then `product-details` ("What We Like",
+  "What We Don't Like", "Product Specs"), then `product-card-body` with the
+  review text and `bottom-line`
+- an `faq-section`, a `related-guides` block, and after the content an
+  `author-box` and the `trust-box`
 
 ## Submitting to IndexNow
 
