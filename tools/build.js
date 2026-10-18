@@ -188,6 +188,29 @@ for (const rel of allPages) {
   if (noindex.has(rel) && sitemapUrls.has(rel)) errors.push(`${rel}: marked noindex but listed in ${CONFIG.sitemap}.`);
 }
 
+/* Product blocks from tools/products.js — every review card needs its button,
+ * and product images must be https URLs (Amazon's, for Amazon products). */
+const productsPath = path.join(ROOT, 'data', 'products.json');
+let products = {};
+try {
+  products = fs.existsSync(productsPath) ? JSON.parse(fs.readFileSync(productsPath, 'utf8')) : {};
+} catch (e) {
+  errors.push(`data/products.json: invalid JSON (${e.message}).`);
+}
+for (const [key, p] of Object.entries(products)) {
+  if (p.image && !/^https:\/\//.test(p.image)) errors.push(`data/products.json: ${key} image must be an https URL.`);
+  if (p.url && !/^https:\/\//.test(p.url)) errors.push(`data/products.json: ${key} url must be an https URL.`);
+}
+for (const rel of articles) {
+  const html = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+  for (const m of html.matchAll(/<div class="product-card" id="([^"]+)">/g)) {
+    if (!products[`${rel}#${m[1]}`]) errors.push(`${rel}: product card #${m[1]} missing from data/products.json. Run \`npm run products\`.`);
+  }
+  const cards = (html.match(/<div class="product-card"/g) || []).length;
+  const ctas = (html.match(/class="see-it"/g) || []).length;
+  if (cards && ctas < cards) errors.push(`${rel}: ${cards - ctas} product card(s) without a See It button. Run \`npm run products\`.`);
+}
+
 /* ------------------------------------------------------------------ *
  * Report
  * ------------------------------------------------------------------ */

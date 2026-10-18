@@ -51,6 +51,26 @@ document.querySelectorAll('.newsletter-form').forEach(form => {
   }
 });
 
+// FAQ accordion. Answers stay in the HTML (search engines read them);
+// they are only hidden visually until the question is opened.
+document.querySelectorAll('.faq-item').forEach((item, i) => {
+  const q = item.querySelector('.faq-question');
+  const a = item.querySelector('.faq-answer');
+  if (!q || !a) return;
+  a.id = a.id || `faq-answer-${i}`;
+  q.setAttribute('role', 'button');
+  q.setAttribute('tabindex', '0');
+  q.setAttribute('aria-controls', a.id);
+  const sync = () => q.setAttribute('aria-expanded', String(item.classList.contains('open')));
+  const toggle = () => { item.classList.toggle('open'); sync(); };
+  q.addEventListener('click', toggle);
+  q.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  });
+  sync();
+});
+document.documentElement.classList.add('js');
+
 // Active nav link based on scroll position
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('nav a[href^="#"]');

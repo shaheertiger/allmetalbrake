@@ -52,28 +52,48 @@ decision, not a build fix. If an article is short, write more of it.
 
 ## Writing articles
 
-New pages follow the editorial layout of the existing articles (see
-`best-marble-sealer.html` as the reference). Copy the header and footer from it
-unchanged.
+New pages follow the review layout of the existing articles (see
+`best-marble-sealer.html` as the reference). Copy the promo bar, header and
+footer from it unchanged.
 
-- `header.site-header` → `breadcrumb` → `article-hero` → `article-wrap`
-  (`article-main` + `article-sidebar`) → `article-cta` → `footer.site-footer`
-- The hero holds the category tag, `<h1>`, a one-sentence `subtitle`, the
-  `byline` (author initials, `author-name`, `author-role`, updated date, read
-  time) and the `affiliate-note`. No badges or social-proof counters.
-- A `toc` block whose anchors match the `id` attributes on the `<h2>` headings
+- `promo-bar` → `header.site-header` → `article-hero` (breadcrumb, `<h1>`,
+  `subtitle`, `byline`) → `picks-band` → `article-wrap` (`article-main` +
+  `article-sidebar`) → `article-cta` → `footer.site-footer`
+- `article-main` opens with the `affiliate-note`, then the `toc` (anchors
+  must match the `id`s on the `<h2>` headings)
 - Body copy inside `<div class="article-content">`
-- Roundups get an "Our Top Picks" `top-picks` box before the first `<h2>`,
-  listing each `product-position` label and linking to the `product-card` id
-- Each `product-card` has a `product-position` label (plain text, e.g.
-  "Best Overall"), `product-name`, `product-type-tag`, body copy, a
-  `pros-cons-grid` and a `bottom-line`
+- Each `product-card` (with an `id`) holds a `product-box` (`product-label`
+  such as "Best Overall", the `product-media` and `product-cta` regions, and
+  an `<h3 class="product-name">`), then `product-details` ("What We Like",
+  "What We Don't Like", "Product Specs"), then `product-card-body` with the
+  review text and `bottom-line`
+- Roundups place `<!-- top-picks:start --><!-- top-picks:end -->` before the
+  first `<h2>` and `<!-- picks-band:start --><!-- picks-band:end -->` after
+  the hero
 - An `faq-section` with `faq-item` / `faq-question` / `faq-answer` blocks
-  (answers are always visible; there is no accordion)
 - A `related-guides` block linking to three genuinely related articles
-- A `trust-box` ("Why Trust Home Fix Reviews") straight after
-  `article-content`, naming the author
+- An `author-box` ("Meet the Tester") and `trust-box` straight after
+  `article-content`
 - `css/style.css`, `css/article.css`, and `js/main.js` on every page
+
+## Product images and retailer links
+
+Run `npm run products` after adding or renaming a product card. It adds the
+card to `data/products.json` and fills in the generated regions: the product
+photo, the "See It" button, the "Our Top Picks" list and the pick cards under
+the headline.
+
+For each product in `data/products.json` you can set:
+
+- `asin`: the Amazon product ID; the button links to that product page
+- `url`: any other retailer link (overrides `asin`)
+- `image`: the product photo URL. For Amazon products use the image URL that
+  Amazon provides (Product Advertising API or SiteStripe). Associates rules
+  don't allow downloading the photo and hosting it ourselves.
+
+Without `asin` or `url` the button opens an Amazon search for the product
+name. Put your Associates store ID in `affiliate.amazonTag` in
+`build.config.json` and rerun `npm run products` to tag every Amazon link.
 
 Add the new URL to `sitemap.xml` in the same commit — the build checks for it.
 
