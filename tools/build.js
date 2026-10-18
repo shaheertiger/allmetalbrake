@@ -25,18 +25,7 @@ const warnings = [];
  * Word counting
  * ------------------------------------------------------------------ */
 
-const ENTITIES = {
-  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
-  mdash: '—', ndash: '–', hellip: '…', rsquo: '’', lsquo: '‘',
-  ldquo: '“', rdquo: '”', deg: '°', times: '×', frac12: '½',
-};
-
-function decodeEntities(s) {
-  return s
-    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(parseInt(d, 10)))
-    .replace(/&([a-z][a-z0-9]*);/gi, (m, name) => ENTITIES[name] !== undefined ? ENTITIES[name] : m);
-}
+const { decodeEntities } = require('./html-utils');
 
 /**
  * Pull the innerHTML of `<div class="article-content">` by walking div tags so
@@ -154,7 +143,7 @@ for (const rel of articles) {
 const onDisk = new Set(
   fs.readdirSync(ROOT).filter((n) => fs.statSync(path.join(ROOT, n)).isFile())
 );
-for (const sub of ['reviews', 'css', 'js']) {
+for (const sub of ['reviews', 'css', 'js', 'img']) {
   if (fs.existsSync(path.join(ROOT, sub))) {
     for (const n of fs.readdirSync(path.join(ROOT, sub))) onDisk.add(`${sub}/${n}`);
   }
@@ -165,9 +154,38 @@ for (const rel of allPages) {
   for (const m of html.matchAll(/(?:href|src)\s*=\s*["']([^"'#?]+)(?:[#?][^"']*)?["']/g)) {
     const href = decodeEntities(m[1]);
     if (/^(https?:|mailto:|tel:|data:|\/\/)/i.test(href) || href === '') continue;
-    const target = path.posix.normalize(base ? `${base}/${href}` : href);
+    let target = path.posix.normalize(base ? `${base}/${href}` : href);
+    if (target === '.' || target === './' || target.endsWith('/')) target = path.posix.join(target, 'index.html');
     if (!onDisk.has(target)) errors.push(`${rel}: broken internal link -> ${href}`);
   }
+}
+
+/* Search metadata from tools/seo.js — canonical, robots, Open Graph, JSON-LD.
+ * Bing (and through it DuckDuckGo) leans on these, so a page without them fails. */
+const noindex = new Set(CONFIG.noindex || []);
+for (const rel of allPages) {
+  const html = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+  const fix = 'Run `npm run seo` and commit the result.';
+  const url = rel === 'index.html' ? `${CONFIG.siteOrigin}/` : `${CONFIG.siteOrigin}/${rel}`;
+
+  const canonical = /<link\s+rel="canonical"\s+href="([^"]+)"/i.exec(html);
+  if (!canonical) errors.push(`${rel}: no canonical link. ${fix}`);
+  else if (canonical[1] !== url) errors.push(`${rel}: canonical is ${canonical[1]}, expected ${url}. ${fix}`);
+
+  if (!/<meta\s+property="og:title"/i.test(html)) errors.push(`${rel}: no Open Graph tags. ${fix}`);
+
+  const ld = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/i.exec(html);
+  if (!ld) errors.push(`${rel}: no JSON-LD structured data. ${fix}`);
+  else {
+    try { JSON.parse(ld[1]); } catch (e) { errors.push(`${rel}: invalid JSON-LD (${e.message}).`); }
+  }
+
+  const title = decodeEntities((/<title>([\s\S]*?)<\/title>/i.exec(html) || [])[1] || '').trim();
+  const desc = decodeEntities((/<meta\s+name=["']description["']\s+content="([^"]*)"/i.exec(html) || [])[1] || '').trim();
+  if (title.length > 65) warnings.push(`${rel}: title is ${title.length} chars; Bing truncates past ~65.`);
+  if (desc.length > 160) warnings.push(`${rel}: description is ${desc.length} chars; Bing truncates past 160.`);
+
+  if (noindex.has(rel) && sitemapUrls.has(rel)) errors.push(`${rel}: marked noindex but listed in ${CONFIG.sitemap}.`);
 }
 
 /* ------------------------------------------------------------------ *

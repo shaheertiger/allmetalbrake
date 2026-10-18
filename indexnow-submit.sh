@@ -26,7 +26,7 @@ payload=$(cat <<EOF
 EOF
 )
 
-curl -sS -w "\nHTTP %{http_code}\n" \
+curl -sS --fail-with-body -w "\nHTTP %{http_code}\n" \
   -X POST "${ENDPOINT}" \
   -H "Content-Type: application/json; charset=utf-8" \
   -H "Host: api.indexnow.org" \
