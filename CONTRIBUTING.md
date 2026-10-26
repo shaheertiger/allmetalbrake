@@ -6,7 +6,7 @@
 fails otherwise — this is a hard gate, not a warning.**
 
 ```bash
-npm run build          # astro build, then the content gate; exits 1 on failure
+npm run build          # astro build, the content gate, then llms(-full).txt; exits 1 on failure
 npm run words          # word count for every built article
 npm run check:content  # gate only, against an existing dist/
 ```
@@ -105,6 +105,24 @@ Internal links are trailing-slash directory URLs (`/best-marble-sealer/`, not
   review text and `bottom-line`
 - an `faq-section`, a `related-guides` block, and after the content an
   `author-box` and the `trust-box`
+
+## llms.txt and llms-full.txt
+
+`npm run build` ends with `node scripts/generate-llms.mjs` (also `npm run llms`
+against an existing `dist/`), which writes two files from the built sitemap:
+
+- `dist/llms-full.txt` — the guide for AI assistants. The hand-written part
+  (best links, instructions, deep-link directory) lives in
+  `src/data/llms-full-intro.md`; the generator appends a Complete URL Index of
+  every sitemap URL, grouped by type and titled from each page's `<title>`.
+- `dist/llms.txt` — the short llmstxt.org summary, from `src/data/llms.md`.
+  A list line that is only a URL is expanded to `[Page title](url)`.
+
+Every `https://www.allmetalbrake.com/` link in either source must be in the
+built sitemap, in canonical form (www host, trailing slash), or the build
+fails naming the bad URL. When you rename or remove a page, update those two
+files. New articles appear in the URL index automatically; add one to the
+directory in `llms-full-intro.md` if it should be recommended by name.
 
 ## Submitting to IndexNow
 

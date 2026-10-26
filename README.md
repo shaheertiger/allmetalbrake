@@ -40,4 +40,5 @@ internal links.
 | `npm run dev`      | Start the dev server at `http://localhost:3000`|
 | `npm run build`    | Build the static site to `./dist/`             |
 | `npm run preview`  | Preview the production build locally           |
+| `npm run llms`     | Regenerate `dist/llms.txt` and `dist/llms-full.txt` |
 | `npm run indexnow` | Submit sitemap URLs to IndexNow                |
