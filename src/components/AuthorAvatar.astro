@@ -1,0 +1,15 @@
+---
+import { AUTHORS, DEFAULT_AUTHOR, authorForPath } from "../data/authors";
+
+interface Props { author?: string; size?: number; }
+// Without an explicit author, the page topic decides (see authorForPath).
+const { author = authorForPath(Astro.url.pathname), size = 48 } = Astro.props;
+const a = AUTHORS[author] ?? AUTHORS[DEFAULT_AUTHOR];
+---
+
+<span
+  class="inline-flex items-center justify-center rounded-full bg-[#1E90FF]/10 text-[#1E90FF] font-black shrink-0 border border-[#1E90FF]/20"
+  style={`width:${size}px;height:${size}px;font-size:${Math.round(size * 0.36)}px;letter-spacing:0.02em;`}
+  aria-hidden="true"
+>{a.initials}</span>
+<span class="sr-only">{a.name}</span>

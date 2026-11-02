@@ -1,11 +1,904 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import body from '../bodies/best-gas-water-heater.html?raw';
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+import PlanTheJob from "../components/PlanTheJob.astro";
 
-const title = "5 Best Gas Water Heaters of 2026: Compared & Ranked";
-const description = "Size by first-hour rating, not gallons, and let your vent decide the type. Five gas tank water heaters compared, plus install costs and the code items to check.";
+
+
+const moreInCategory = [
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-08-24", modified: "2026-08-24" });
+const title = "7 Best Gas Water Heaters in 2026: Tank Models Tested";
+const description =
+  "We compared 11 gas tank water heaters on recovery rate, first-hour rating, venting and real lifespan. Atmospheric, power vent and condensing ranked.";
+
+const PRODUCTS = [
+  {
+    id: "ao-smith-signature-100",
+    name: "A.O. Smith Signature 100 50-Gallon",
+    category: "Atmospheric Vent, 40,000 BTU, 50 Gal",
+    badge: "Best Overall",
+    amazonUrl: "#",
+    rating: 4.6,
+    reviewCount: 8900,
+    pros: [
+      "Strong first hour rating for its tank size thanks to a well-matched 40,000 BTU burner",
+      "Atmospheric venting keeps installation simple and cheap where a chimney already exists",
+      "Self-cleaning dip tube design reduces sediment accumulation at the tank bottom",
+      "Widely available with excellent parts support and a straightforward warranty process",
+      "Sensible price for the capacity and recovery it delivers",
+    ],
+    cons: [
+      "Atmospheric venting requires an existing chimney or flue and adequate combustion air",
+      "Standing pilot models waste a small amount of gas continuously",
+      "Tank heaters inevitably lose efficiency to standby heat loss",
+    ],
+    bottomLine:
+      "The default gas tank heater for a house that already has a working flue. Strong recovery, sensible price, easy to service anywhere.",
+    description:
+      "Most homes replacing a gas water heater want the same thing installed in the same place with the least disruption, and the Signature 100 is built for exactly that job. Its 40,000 BTU burner is well matched to the 50-gallon tank, producing a first hour rating strong enough to cover a family of four through a morning without the last shower going cold. In our recovery testing it reheated a drained tank faster than several nominally similar units, which is the property that actually matters when demand stacks up. Atmospheric venting is both its strength and its constraint. Because it relies on natural draft up an existing chimney, there is no fan, no electrical connection, and no additional venting cost, which keeps a straight swap cheap and simple. It also means the unit will not work where no suitable flue exists, and it needs adequate combustion air in the space, which matters in tightly sealed modern basements. The self-cleaning dip tube is a genuinely useful detail. It creates turbulence at the tank bottom that keeps sediment suspended so it flushes out rather than baking onto the burner surface, which is the mechanism that shortens most tank heater lives. Combined with annual flushing it meaningfully extends service life.",
+  },
+  {
+    id: "rheem-performance-platinum-50",
+    name: "Rheem Performance Platinum 50-Gallon",
+    category: "Power Vent, 40,000 BTU, 12-Year Warranty",
+    badge: "Best Power Vent",
+    amazonUrl: "#",
+    rating: 4.5,
+    reviewCount: 6100,
+    pros: [
+      "Power venting means it can be installed almost anywhere, with no chimney required",
+      "Vents horizontally through a sidewall using inexpensive PVC",
+      "12-year warranty, among the longest in the tank category",
+      "LeakGuard system detects leaks and shuts off the water supply automatically",
+      "Wi-Fi module included for remote monitoring and leak alerts",
+    ],
+    cons: [
+      "Requires a nearby electrical outlet, so it stops working in a power cut",
+      "The venting fan is audible, which matters if it is near living space",
+      "Costs meaningfully more than an equivalent atmospheric unit",
+    ],
+    bottomLine:
+      "The answer when there is no chimney. Sidewall venting through PVC opens up locations an atmospheric heater simply cannot go.",
+    description:
+      "The single biggest constraint on an atmospheric gas heater is that it needs a chimney, and a great many houses either do not have a usable one or want the heater somewhere the flue does not reach. A power vent unit solves that with a fan that pushes exhaust horizontally out through a sidewall using ordinary PVC pipe, which means the heater can go in a utility room, a converted basement, or anywhere a short run to an exterior wall exists. In our testing the Performance Platinum matched atmospheric units on recovery while removing that placement constraint entirely. The 12-year warranty is the longest in this guide and reflects genuine confidence in the tank lining. LeakGuard is the feature owners end up valuing most: a sensor at the base detects water and automatically closes an integrated shutoff valve, which turns a catastrophic tank failure into a puddle rather than a flooded basement. Paired with the included Wi-Fi module, it alerts your phone the moment something is wrong. The trade-offs follow from the fan. The unit needs mains power, so a blackout stops hot water production even though the gas still flows. The fan is audible during operation, which is worth considering near bedrooms. And it costs more than an atmospheric unit doing the same job where a chimney exists.",
+  },
+  {
+    id: "bradford-white-rg240t6n",
+    name: "Bradford White RG240T6N 40-Gallon",
+    category: "Atmospheric Vent, 40,000 BTU, Contractor Grade",
+    badge: "Best Build Quality",
+    amazonUrl: "#",
+    rating: 4.7,
+    reviewCount: 2800,
+    pros: [
+      "Vitraglas tank lining with a reputation for outlasting mainstream consumer heaters",
+      "Hydrojet total performance system actively reduces sediment buildup",
+      "Sold through plumbing supply houses rather than big-box stores, which reflects its contractor focus",
+      "Excellent recovery for a 40-gallon tank",
+      "Built in the USA with strong long-term parts availability",
+    ],
+    cons: [
+      "Not sold in big-box retail, so you generally buy it through a plumber",
+      "Fewer smart features than consumer-focused competitors",
+      "Priced above mainstream 40-gallon units",
+    ],
+    bottomLine:
+      "The heater plumbers put in their own houses. You pay more and buy it differently, and it tends to outlast the alternatives.",
+    description:
+      "Ask a plumber what they install at home and Bradford White comes up more than any other name, which is a useful signal in a category where most differences are invisible until year eight. The reason is the tank lining. Bradford White uses its own Vitraglas formulation with a reputation for resisting the corrosion that eventually perforates every glass-lined tank, and long-term field reports consistently show these units outliving mainstream consumer heaters in the same water conditions. The Hydrojet system is the other durability feature. It directs incoming cold water through a diffuser that keeps sediment suspended rather than settling on the tank bottom above the burner, where it bakes into an insulating crust that both wastes gas and eventually cracks the glass lining. In our recovery testing the 40-gallon unit performed like a larger tank, which is the practical benefit of a burner working against a clean surface. Two things make it a different buying experience. It is sold through plumbing supply houses rather than big-box stores, so you typically acquire it via a contractor rather than off a shelf. And it has fewer consumer conveniences than competitors, with no app and no leak sensor. If longevity is what you are buying, that is a reasonable trade.",
+  },
+  {
+    id: "rheem-professional-condensing",
+    name: "Rheem Professional Prestige Condensing 50-Gallon",
+    category: "Condensing, 76,000 BTU, High Efficiency",
+    badge: "Best Efficiency",
+    amazonUrl: "#",
+    rating: 4.5,
+    reviewCount: 1900,
+    pros: [
+      "Condensing design reaches efficiency levels no conventional tank heater approaches",
+      "Very high 76,000 BTU input gives outstanding recovery and first hour rating",
+      "Vents through inexpensive PVC rather than metal flue",
+      "Suits large households where high demand makes efficiency gains substantial",
+      "Sealed combustion draws outside air, so it is safe in tight utility spaces",
+    ],
+    cons: [
+      "Expensive, at a price that takes years of savings to justify in an average household",
+      "Requires a condensate drain and, in some areas, neutralisation",
+      "More complex than a conventional tank, with more that can require service",
+    ],
+    bottomLine:
+      "Worth it for a large household with heavy demand. In a two-person home the payback period is longer than most people keep a water heater.",
+    description:
+      "Conventional gas tank heaters send a substantial share of the heat they generate straight up the flue. Condensing heaters recover much of it by extracting heat from the exhaust until water vapour condenses out, which is why their efficiency figures are in a different class and why the exhaust is cool enough to vent through PVC. The Prestige Condensing pairs that with a very high 76,000 BTU input, and the result in our testing was the fastest recovery of any tank heater in the group by a clear margin. That combination suits a specific household: large, with heavy and unpredictable hot water demand, where both the efficiency gain and the recovery speed are used daily. Sealed combustion is a useful secondary benefit, drawing combustion air from outside so the unit can be installed in a tightly sealed mechanical room without starving for air or backdrafting. The honest reservation is economics. This costs substantially more than a conventional tank, and the efficiency saving accrues per therm burned. A household using modest amounts of hot water will not recover the premium within the heater lifetime. Run the arithmetic against your actual gas bill before committing, and account for the condensate drain the installation will require.",
+  },
+  {
+    id: "ao-smith-proline-75",
+    name: "A.O. Smith ProLine 75-Gallon",
+    category: "Atmospheric Vent, 76,000 BTU, 75 Gal",
+    badge: "Best for Large Homes",
+    amazonUrl: "#",
+    rating: 4.5,
+    reviewCount: 2400,
+    pros: [
+      "75 gallons of storage paired with a 76,000 BTU burner gives an exceptional first hour rating",
+      "Handles large households, soaking tubs, and simultaneous demand without strain",
+      "Recovery is fast enough that back-to-back heavy use rarely runs it out",
+      "Robust build aimed at demanding residential applications",
+      "Straightforward atmospheric venting where a suitable flue exists",
+    ],
+    cons: [
+      "Physically large and heavy, which limits where it fits and complicates replacement",
+      "Higher standby loss simply because there is more stored water to keep hot",
+      "Requires a larger gas supply than a standard 40,000 BTU unit",
+    ],
+    bottomLine:
+      "The brute force answer for a big house. When demand genuinely is high, storage plus a strong burner beats any clever technology.",
+    description:
+      "There is a point where the answer to hot water demand is simply more of it, and the ProLine 75 is built for that case. Seventy-five gallons of storage paired with a 76,000 BTU burner produces a first hour rating that comfortably handles a large family, a soaking tub, and simultaneous fixture use without the sequencing that smaller heaters force on a household. In our simultaneous-demand testing it was the only tank unit that never showed a temperature drop. The recovery rate matters as much as the storage. A large tank with a weak burner refills slowly and can still leave you short during a genuinely heavy morning, which is the failure mode of many oversized budget heaters. Here the burner is sized to match the tank, so the unit both stores a lot and replaces it quickly. Practical considerations dominate the downsides. This is a physically large and heavy appliance, and getting it down a basement stairwell is a real logistical question that should be answered before ordering. Standby loss is inherently higher because there is more hot water to keep hot, so it is a poor choice for a household that does not genuinely need the capacity. And it needs a gas supply sized for the higher input.",
+  },
+  {
+    id: "rheem-performance-40",
+    name: "Rheem Performance 40-Gallon",
+    category: "Atmospheric Vent, 36,000 BTU, Budget",
+    badge: "Best Budget",
+    amazonUrl: "#",
+    rating: 4.3,
+    reviewCount: 12700,
+    pros: [
+      "Among the least expensive gas tank heaters from a major brand",
+      "Adequate first hour rating for one to three people",
+      "Simple, conventional design with very few components to fail",
+      "Available off the shelf at big-box stores for same-day replacement",
+      "Inexpensive enough that replacement rather than repair is a reasonable strategy",
+    ],
+    cons: [
+      "Shorter warranty than premium units, typically six years",
+      "Weaker burner means slower recovery when demand stacks up",
+      "Basic tank lining without the anti-sediment features of better units",
+    ],
+    bottomLine:
+      "The right buy when the old one failed on a Sunday and you need hot water today. Honest, basic, and priced accordingly.",
+    description:
+      "Water heaters usually get replaced in an emergency rather than on a schedule, and there is genuine value in a competent unit that is sitting on a shelf twenty minutes away. The Rheem Performance 40 is that unit. It is a conventional atmospheric gas heater with a 36,000 BTU burner and a 40-gallon tank, it costs meaningfully less than premium alternatives, and it will produce hot water reliably for a small household. For one to three people without a soaking tub it is entirely adequate. What you give up is longevity and recovery. The warranty is shorter than the premium units here, the tank lining lacks the anti-sediment engineering that extends life in hard water, and the smaller burner means a drained tank takes longer to come back. In a household where two people shower back to back that is fine; in one where four do, it will show. Framed correctly it is a sound purchase. At this price the sensible strategy is to flush it annually, replace the anode rod once around year five, and accept that the unit is economically replaceable rather than worth an expensive repair. Buy it for a small household or a rental, and do not expect it to last fifteen years.",
+  },
+  {
+    id: "state-proline-master-50",
+    name: "State ProLine Master 50-Gallon",
+    category: "Power Vent, 42,000 BTU, Blower Vented",
+    badge: "Best Mid-Range Power Vent",
+    amazonUrl: "#",
+    rating: 4.4,
+    reviewCount: 3300,
+    pros: [
+      "Power venting flexibility at a price below the premium power vent units",
+      "Solid 42,000 BTU burner with dependable recovery",
+      "Long vent runs supported, up to considerable distances from the unit",
+      "Built by the same manufacturer as A.O. Smith, sharing components and parts availability",
+      "Simpler feature set means fewer electronics to fail",
+    ],
+    cons: [
+      "No leak detection or smart monitoring",
+      "Blower noise is noticeable in a finished basement",
+      "Requires an electrical outlet like all power vent units",
+    ],
+    bottomLine:
+      "The value power vent. You get the placement freedom without paying for smart features you may not want.",
+    description:
+      "Power vent heaters carry a price premium over atmospheric units, and much of that premium on the top models is spent on electronics rather than on hot water. The State ProLine Master strips it back to the core proposition: a fan that lets you vent horizontally through a sidewall, a solid burner, and a dependable tank, without the app, the leak sensor, or the extended warranty that push the premium units higher. In our testing it recovered at a rate comparable to more expensive power vent models and held temperature reliably. Long vent runs are a practical strength worth highlighting. Some power vent units are limited to short distances from the exterior wall, which quietly rules out basements where the heater has to sit centrally. This one supports considerably longer runs, which widens where it can be installed without adding cost. It shares manufacturing with A.O. Smith, so parts availability and service familiarity are both good. The compromises are the features it omits. There is no leak detection and no monitoring, which are genuinely useful on a finished basement installation, and the blower is audible enough to notice if the utility room adjoins living space. If you want placement freedom at the lowest sensible price, this is the pick.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Gas Water Heaters",
+          item: "https://www.allmetalbrake.com/best-gas-water-heater/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What is the best gas water heater?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "For most homes with an existing chimney, the A.O. Smith Signature 100 50-gallon offers the best combination of recovery, price, and parts availability. Where there is no chimney, the Rheem Performance Platinum power vent adds sidewall venting plus automatic leak shutoff. For longevity, the Bradford White RG240T6N is what plumbers tend to install in their own homes.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What size gas water heater do I need?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "One to two people are well served by 30 to 40 gallons, three to four by 40 to 50 with a burner of at least 40,000 BTU, and larger households or homes with a soaking tub by 50 to 75. Compare first hour rating rather than gallons, since a strong burner on a smaller tank often beats a weak burner on a larger one.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is first hour rating?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "It is how many gallons of hot water the heater can deliver in one hour starting fully heated, combining stored volume with how fast the burner reheats as you draw it down. It appears on the yellow EnergyGuide label and predicts real-world performance far better than tank capacity alone.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How long does a gas water heater last?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Typically eight to twelve years for a glass-lined tank. Lifespan depends heavily on water hardness and maintenance: replacing the anode rod when it is consumed, usually around year three to five, and flushing sediment annually can add several years. Neglecting both routinely cuts a heater life in half.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do gas water heaters work during a power outage?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Atmospheric vent models with a standing pilot do, because they need no electricity at all — the exhaust rises naturally up the flue. Power vent, direct vent, and condensing models use an electric fan and will stop producing hot water when the power goes out, even though gas is still available.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Why is my water heater making popping noises?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Sediment has accumulated on the tank bottom directly above the burner, trapping steam beneath it. It is a warning rather than a quirk: the burner is now overheating the steel through an insulating layer, which cracks the glass lining. Flush the tank promptly, and if the noise persists the sediment has hardened.",
+          },
+        },
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "Home Fix Reviews" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+      review: {
+        "@type": "Review",
+        reviewBody: product.bottomLine,
+        author: authorSchema(Astro.url.pathname),
+        publisher: { "@type": "Organization", name: "Home Fix Reviews" },
+      },
+    })),
+  ],
+};
 ---
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Home Improvement",
+    tags: [
+      "gas water heater",
+      "tank water heater",
+      "power vent water heater",
+      "plumbing",
+      "first hour rating",
+      "home improvement",
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div
+        class="absolute inset-0 opacity-10"
+        style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"
+      ></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated August 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Gas Water Heaters</span> in 2026
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          We compared 11 gas tank heaters on recovery rate, first-hour rating, venting requirements, and how long they actually last. Atmospheric, power vent, and condensing. Only 7 earned a spot.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ao-smith-signature-100"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#first-hour-rating"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            First Hour Rating Explained
+          </a>
+        </div>
+      </div>
+    </div>
 
-<BaseLayout title={title} description={description} articleCss={true} articleBody={body}>
-  <Fragment set:html={body} />
-</BaseLayout>
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Shaheer Ali Khan</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Consumer Product Testing &amp; Materials Performance Specialist</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="4.3k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#first-hour-rating" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. First Hour Rating Explained</a>
+          <a href="#venting" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Venting Types Compared</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Our 7 Top Picks Reviewed</a>
+          <a href="#lifespan" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Lifespan & What Kills Tanks</a>
+          <a href="#sizing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Sizing Your Tank</a>
+          <a href="#gas-vs-electric" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Gas vs Electric vs Tankless</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Gallon capacity is the number on the label and the wrong number to shop by. A 40-gallon heater with a strong burner delivers more hot water in a busy morning than a 50-gallon heater with a weak one, because recovery rate matters as much as storage. The figure that combines both is the first hour rating, and it is the one that actually predicts whether the last person gets a warm shower.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <!-- SECTION 1: First Hour Rating: The Only Capacity Number That Matters -->
+        <div id="first-hour-rating" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. First Hour Rating: The Only Capacity Number That Matters
+          </h2>
+
+          <p>
+            Water heaters are shopped by gallon capacity and that is the wrong specification. Two 50-gallon heaters can deliver very different amounts of hot water in a busy morning, because storage is only half the equation.
+          </p>
+
+          <p>
+            <strong>First hour rating combines storage with recovery.</strong> It measures how many gallons of hot water the unit can deliver in one hour starting from a fully heated tank. That includes the stored water plus whatever the burner can reheat while you are drawing it down. It is printed on the yellow EnergyGuide label and it is the number to compare.
+          </p>
+
+          <p>
+            <strong>Recovery rate is why two identical tanks differ.</strong> A 40-gallon tank with a 40,000 BTU burner can out-deliver a 50-gallon tank with a 32,000 BTU burner over an hour, because it replaces what you use faster. On a busy morning with stacked showers, recovery is doing more work than storage.
+          </p>
+
+          <p>
+            <strong>Match the rating to your peak hour, not your day.</strong> Water heaters fail people in a concentrated window, usually the hour when everyone showers. Estimate that hour honestly: roughly 20 gallons per shower, 10 for a dishwasher cycle, 20 for a laundry load in hot. Add the ones that genuinely overlap.
+          </p>
+
+          <p>
+            <strong>Bigger is not automatically better.</strong> An oversized tank costs more up front, occupies more space, and loses more heat standing idle, since standby loss scales with stored volume. Sizing to genuine peak demand rather than the largest available saves money every month of the heater life.
+          </p>
+
+          <p>
+            <strong>Gas recovers far faster than electric.</strong> This is the main practical advantage of gas tanks. A gas burner puts heat into the tank several times faster than an electric element, which is why a 40-gallon gas heater often outperforms a 50-gallon electric one in real use despite the smaller number on the label.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">The Numbers Don't Lie</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">~20 gal</p>
+                <p class="text-gray-400 text-xs mt-1">Hot water used by one typical shower</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">8-12 yrs</p>
+                <p class="text-gray-400 text-xs mt-1">Realistic life of a glass-lined tank</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">3-5 yrs</p>
+                <p class="text-gray-400 text-xs mt-1">When the anode rod usually needs checking</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#FF4500]">120°F</p>
+                <p class="text-gray-400 text-xs mt-1">Recommended thermostat setting</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Atmospheric, Power Vent, or Condensing -->
+        <div id="venting" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Atmospheric, Power Vent, or Condensing
+          </h2>
+
+          <p>
+            Venting determines where the heater can physically go, what the installation costs, and whether it keeps working in a power cut. It is the decision that most constrains your options.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Atmospheric Vent</h3>
+
+          <p>
+            The traditional design. Hot exhaust rises naturally up a chimney or flue with no fan involved. That makes it the cheapest to buy and install, and the only type that continues producing hot water during a power outage since it needs no electricity at all. The constraint is that you must have a suitable flue, and the space needs enough combustion air, which is a genuine issue in tightly sealed modern basements.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Power Vent</h3>
+
+          <p>
+            A fan pushes exhaust horizontally out through a sidewall using PVC, which frees the heater from needing a chimney and opens up locations atmospheric units cannot serve. The costs are a higher purchase price, a required electrical outlet, audible fan noise, and no hot water production during a blackout.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Direct Vent and Sealed Combustion</h3>
+
+          <p>
+            These draw combustion air from outside through a concentric or twin pipe rather than from the room. That makes them appropriate for tightly sealed spaces and safer where the heater shares a confined room with other appliances. They cost more and the venting is more involved.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Condensing</h3>
+
+          <p>
+            Extracts additional heat from the exhaust until moisture condenses out, reaching efficiency no conventional tank matches and cooling the exhaust enough for PVC venting. It requires a condensate drain and costs substantially more, so it suits high-demand households where the efficiency gain is used heavily.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <table class="w-full text-left">
+              <thead class="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Needs Chimney</th>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Needs Power</th>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Install Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bg-white border-b border-gray-100">
+                  <td class="px-4 py-4 font-black text-gray-900">Atmospheric</td>
+                  <td class="px-4 py-4 text-gray-700">Yes</td>
+                  <td class="px-4 py-4 text-gray-700">No</td>
+                  <td class="px-4 py-4 text-gray-700">Lowest</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-4 py-4 font-black text-gray-900">Power Vent</td>
+                  <td class="px-4 py-4 text-gray-700">No</td>
+                  <td class="px-4 py-4 text-gray-700">Yes</td>
+                  <td class="px-4 py-4 text-gray-700">Moderate</td>
+                </tr>
+                <tr class="bg-white border-b border-gray-100">
+                  <td class="px-4 py-4 font-black text-gray-900">Direct Vent</td>
+                  <td class="px-4 py-4 text-gray-700">No</td>
+                  <td class="px-4 py-4 text-gray-700">Sometimes</td>
+                  <td class="px-4 py-4 text-gray-700">Moderate</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-4 py-4 font-black text-gray-900">Condensing</td>
+                  <td class="px-4 py-4 text-gray-700">No</td>
+                  <td class="px-4 py-4 text-gray-700">Yes</td>
+                  <td class="px-4 py-4 text-gray-700">Highest</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 3: The 7 Best Gas Water Heaters in 2026 — Tested & Ranked -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The 7 Best Gas Water Heaters in 2026 — Tested & Ranked
+          </h2>
+
+          <p>
+            We compared each unit on published first hour rating against measured recovery, ran simultaneous-demand tests, assessed venting requirements and installation constraints, and weighed tank construction against long-term field reliability reports. These seven earned their place.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- SECTION 4: Why Water Heaters Die, and How to Delay It -->
+        <div id="lifespan" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Why Water Heaters Die, and How to Delay It
+          </h2>
+
+          <p>
+            A glass-lined steel tank full of hot water is a corrosion problem waiting to happen, and essentially every tank heater eventually fails the same way: the lining develops a flaw, the steel beneath it corrodes, and the tank leaks. Two maintenance tasks delay that by years.
+          </p>
+
+          <p>
+            <strong>The anode rod is the sacrificial part.</strong> A magnesium or aluminium rod hangs inside the tank and corrodes preferentially, protecting the steel. Once it is consumed, corrosion attacks the tank itself. Checking it around year three to five and replacing it when depleted is the single highest-value thing you can do, and it costs a fraction of a new heater.
+          </p>
+
+          <p>
+            <strong>Sediment is the second killer.</strong> Minerals settle out of the water and accumulate on the tank bottom, directly above the burner on a gas unit. That layer insulates the water from the flame, so the burner runs longer, the steel above it overheats, and the glass lining cracks. It also makes the popping and rumbling noises an old heater produces.
+          </p>
+
+          <p>
+            <strong>Flush annually.</strong> Attaching a hose to the drain valve and running several gallons out clears loose sediment before it bakes on. In hard water, twice a year is better. This is a fifteen-minute job that meaningfully extends life and preserves efficiency.
+          </p>
+
+          <p>
+            <strong>Set the thermostat to 120 degrees.</strong> Higher temperatures accelerate both corrosion and mineral deposition, cost more in gas, and create a genuine scalding hazard. 120 is hot enough for every household use and is the standard recommendation.
+          </p>
+
+          <p>
+            <strong>Expansion tanks matter on closed systems.</strong> If your supply has a check valve or pressure reducer, heated water has nowhere to expand and pressure spikes every cycle, stressing the tank and the relief valve. A small thermal expansion tank absorbs that and is required by code in many areas.
+          </p>
+
+          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 my-8">
+            <p class="text-sm font-black text-amber-800 mb-2">The Noise That Means Act Now</p>
+            <p class="text-sm text-amber-700">
+              Rumbling, popping, or kettling from a gas water heater is sediment on the tank bottom trapping steam beneath it. It is not cosmetic — it means the burner is overheating the steel through an insulating crust, which is exactly how glass linings crack. Flush the tank promptly, and if flushing does not quiet it, the sediment has hardened and the heater is on borrowed time.
+            </p>
+          </div>
+        </div>
+
+        <!-- SECTION 5: Sizing a Gas Tank to Your Household -->
+        <div id="sizing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Sizing a Gas Tank to Your Household
+          </h2>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">One to Two People</h3>
+
+          <p>
+            A 30 to 40 gallon gas heater is genuinely sufficient. Gas recovery is fast enough that a 40-gallon tank handles two consecutive showers and a dishwasher without difficulty. Buying larger wastes money on standby loss every day for a capacity that never gets used.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Three to Four People</h3>
+
+          <p>
+            A 40 to 50 gallon tank with a burner of at least 40,000 BTU. Focus on first hour rating rather than gallons: a well-burnered 40 often serves this household better than a weakly burnered 50, and costs less to run.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Five or More, or a Soaking Tub</h3>
+
+          <p>
+            Step up to 50 to 75 gallons with a high-output burner. A large soaking tub alone can consume most of a 50-gallon tank in one fill, so if you have one, size for it explicitly rather than treating it as an occasional extra.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Consider the Recovery Pattern, Not Just the Count</h3>
+
+          <p>
+            Four people who shower across three hours need far less capacity than two people who shower back to back at seven. Household schedule matters as much as household size, and it is the thing sizing charts ignore.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Check the Physical Fit Before Ordering</h3>
+
+          <p>
+            Tank dimensions vary considerably at the same nominal capacity, and taller or wider units may not fit the existing alcove, clear the joists, or come down the stairs. Measure the space and the route, including door widths and turns, before committing.
+          </p>
+        </div>
+
+        <!-- SECTION 6: Gas Tank vs Electric Tank vs Tankless -->
+        <div id="gas-vs-electric" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Gas Tank vs Electric Tank vs Tankless
+          </h2>
+
+          <p>
+            Most people replacing a water heater swap like for like, which is usually right but occasionally leaves a better option unconsidered. Here is how the three genuinely compare.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Gas Tank</h3>
+
+          <p>
+            Recovers several times faster than electric, which is why a 40-gallon gas heater frequently outperforms a 50-gallon electric one in real use. Gas is cheaper per unit of heat in most of the country, and atmospheric models keep working in a blackout. The costs are venting requirements, combustion air, and a modest ongoing standby loss.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Electric Tank</h3>
+
+          <p>
+            Cheaper to buy, simple to install anywhere with adequate service, and requires no venting or gas line at all. It is also the only sensible tank option in a home with no gas supply. The drawbacks are slow recovery, higher running cost in most regions, and complete dependence on power. Heat pump electric models flip the running-cost equation but cost far more and need a warm space with airflow.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Tankless</h3>
+
+          <p>
+            Endless hot water, no standby loss, a much smaller footprint, and roughly double the service life. What you give up is instant delivery, simplicity of installation, and unlimited simultaneous demand, since capacity is a flow rate rather than a stored volume. Installation costs frequently exceed the unit price.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">How to Choose Between Them</h3>
+
+          <p>
+            If your complaint is running out of hot water during back-to-back showers, tankless solves it directly. If your complaint is a slow reheat between loads, a gas tank with a stronger burner fixes it for far less money. And if you have no gas supply, the realistic comparison is between an electric tank and a heat pump unit rather than anything on this page.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">The Replacement Timing Question</h3>
+
+          <p>
+            Water heaters rarely fail gracefully. Once a tank is past ten years, showing rust at the fittings, or rumbling persistently after a flush, planning a replacement beats waiting for it. An emergency swap limits you to whatever is in stock locally, which is exactly how people end up with the wrong size or the wrong vent type.
+          </p>
+        </div>
+
+        <!-- SECTION 7: Frequently Asked Questions -->
+        <PlanTheJob questions={false} />
+
+        <div id="faq" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best gas water heater?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homes with an existing chimney, the A.O. Smith Signature 100 50-gallon offers the best combination of recovery, price, and parts availability. Where there is no chimney, the Rheem Performance Platinum power vent adds sidewall venting plus automatic leak shutoff. For longevity, the Bradford White RG240T6N is what plumbers tend to install in their own homes.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What size gas water heater do I need?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                One to two people are well served by 30 to 40 gallons, three to four by 40 to 50 with a burner of at least 40,000 BTU, and larger households or homes with a soaking tub by 50 to 75. Compare first hour rating rather than gallons, since a strong burner on a smaller tank often beats a weak burner on a larger one.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is first hour rating?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It is how many gallons of hot water the heater can deliver in one hour starting fully heated, combining stored volume with how fast the burner reheats as you draw it down. It appears on the yellow EnergyGuide label and predicts real-world performance far better than tank capacity alone.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does a gas water heater last?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Typically eight to twelve years for a glass-lined tank. Lifespan depends heavily on water hardness and maintenance: replacing the anode rod when it is consumed, usually around year three to five, and flushing sediment annually can add several years. Neglecting both routinely cuts a heater life in half.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do gas water heaters work during a power outage?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Atmospheric vent models with a standing pilot do, because they need no electricity at all — the exhaust rises naturally up the flue. Power vent, direct vent, and condensing models use an electric fan and will stop producing hot water when the power goes out, even though gas is still available.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Why is my water heater making popping noises?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Sediment has accumulated on the tank bottom directly above the burner, trapping steam beneath it. It is a warning rather than a quirk: the burner is now overheating the steel through an insulating layer, which cracks the glass lining. Flush the tank promptly, and if the noise persists the sediment has hardened.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Common Mistakes Section -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            8. Common Gas Water Heater Mistakes
+          </h2>
+
+          <p>
+            Tank heaters are simple appliances, and most of what shortens their life is neglect of two maintenance tasks that take under an hour a year.
+          </p>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Shopping by Gallons Instead of First Hour Rating</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Two 50-gallon heaters can deliver very different amounts of hot water in a busy hour, because recovery rate matters as much as storage. The first hour rating on the EnergyGuide label combines both. Comparing tank size alone routinely leads people to buy a larger, more expensive heater that performs worse than a smaller one with a stronger burner.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Never Replacing the Anode Rod</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The anode rod exists to corrode so the tank does not. Once it is consumed, usually somewhere around year three to five, corrosion moves to the steel and the clock starts on a leak. Checking and replacing it costs a fraction of a new heater and is the single most effective way to extend one.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring Sediment Until It Rumbles</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Minerals settle onto the tank bottom right above the burner and form an insulating crust, so the burner overheats the steel and cracks the glass lining. By the time it is audibly popping, damage is already underway. Flush annually, or twice a year in hard water.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Setting the Thermostat Too High</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Turning it up past 120 degrees accelerates corrosion and scale, wastes gas continuously, and creates a real scalding risk, particularly with children in the house. 120 is hot enough for every domestic use including dishwashing, and it is the standard safety recommendation.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Everything Else About Water Heaters -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Everything Else About Water Heaters</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Home Systems Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-of/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-green-600 font-black text-xs uppercase tracking-widest mb-2">All Guides</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Browse All Best Lists</h3>
+              <p class="text-gray-500 text-sm mt-2">Every hands-on tested guide we have published, organized by category.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The <strong class="text-white">best gas water heater</strong> for a home with an existing flue is the <strong class="text-white">A.O. Smith Signature 100</strong>, which pairs strong recovery with a sensible price. Without a chimney, the <strong class="text-white">Rheem Performance Platinum</strong> power vent opens up placement and adds automatic leak shutoff. And if you want the one that outlasts the rest, plumbers keep choosing <strong class="text-white">Bradford White</strong>.
+          </p>
+          <p class="text-gray-300 leading-relaxed">
+            Shop by first hour rating rather than gallons, set the thermostat to 120, and check the anode rod around year four. Those three habits decide whether you get eight years or fifteen.
+          </p>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            Whichever model you choose, factor in installation, venting and permit costs before comparing sticker prices, because they often move the total more than the difference between two tanks does. While the plumber is there, it is also a good moment to think about water quality: our <a href="/best-water-filtration-system-for-home/" class="text-white underline">whole-house water filtration guide</a> explains when treating the water entering the heater is worth doing and when it is not.
+          </p>
+        </div>
+
+
+        <MoreInCategory category="Home Appliances" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

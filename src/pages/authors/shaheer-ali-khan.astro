@@ -1,0 +1,107 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import AuthorAvatar from "../../components/AuthorAvatar.astro";
+import { AUTHORS, SITE_URL, authorSchema } from "../../data/authors";
+
+const author = AUTHORS["shaheer-ali-khan"];
+const title = `${author.name} — Consumer Product Testing Specialist`;
+const description = `${author.name} leads testing of household appliances, vacuums, cleaning products, and caulks, adhesives and sealants at Home Fix Reviews.`;
+
+const GUIDES = [
+  { title: "Best Exterior Caulk", url: "/best-exterior-caulk/" },
+  { title: "Best Shop Vacs", url: "/best-shop-vac/" },
+  { title: "Best Dehumidifiers for Basements", url: "/best-dehumidifier-for-basement/" },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Authors", item: `${SITE_URL}/authors/${author.slug}/` },
+        { "@type": "ListItem", position: 3, name: author.name, item: `${SITE_URL}/authors/${author.slug}/` },
+      ],
+    },
+    {
+      "@type": "ProfilePage",
+      name: title,
+      description,
+      url: `${SITE_URL}/authors/${author.slug}/`,
+      mainEntity: authorSchema(author.slug),
+    },
+  ],
+};
+---
+
+<Layout title={title} description={description} jsonLd={schema}>
+  <article class="max-w-3xl mx-auto px-4 py-16 lg:py-24">
+    <div class="flex items-center gap-5 mb-8">
+      <AuthorAvatar author={author.slug} size={80} />
+      <div>
+        <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-2">Author</p>
+        <h1 class="text-3xl lg:text-4xl font-black text-gray-900 leading-tight m-0">{author.name}</h1>
+        <p class="text-gray-500 font-bold uppercase tracking-widest text-xs mt-2 m-0">{author.role}</p>
+      </div>
+    </div>
+
+    <div class="space-y-4 mb-12">
+      {author.bio.map((p) => <p class="text-gray-700 leading-relaxed text-lg m-0">{p}</p>)}
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-6 mb-12">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+        <h2 class="text-lg font-black text-gray-900 mb-4">Education</h2>
+        <ul class="list-none p-0 m-0 space-y-3">
+          {author.education?.map((e) => (
+            <li>
+              <p class="font-bold text-gray-900 m-0">{e.degree}</p>
+              <p class="text-sm text-gray-600 m-0">{e.school}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+        <h2 class="text-lg font-black text-gray-900 mb-4">Certifications</h2>
+        <ul class="list-none p-0 m-0 space-y-3">
+          {author.certifications?.map((c) => (
+            <li>
+              <p class="font-bold text-gray-900 m-0">{c.name}</p>
+              <p class="text-sm text-gray-600 m-0">{c.issuer}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-black text-gray-900 mb-4">Areas covered</h2>
+    <div class="flex flex-wrap gap-2 mb-12">
+      {author.beat.map((b) => (
+        <span class="bg-gray-50 border border-gray-200 rounded-full px-4 py-2 text-sm font-bold text-gray-700">{b}</span>
+      ))}
+    </div>
+
+    <h2 class="text-2xl font-black text-gray-900 mb-4">Selected guides</h2>
+    <div class="grid sm:grid-cols-2 gap-3 mb-12">
+      {GUIDES.map((g) => (
+        <a href={g.url} class="bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 no-underline hover:shadow-md transition-shadow group">
+          <span class="text-gray-900 font-bold group-hover:text-[#1E90FF] transition-colors">{g.title}</span>
+        </a>
+      ))}
+    </div>
+
+    {author.sameAs?.length && (
+      <p class="mb-12">
+        <a href={author.sameAs[0]} rel="me noopener" target="_blank" class="text-[#1E90FF] font-bold no-underline hover:underline">{author.name} on LinkedIn &rarr;</a>
+      </p>
+    )}
+
+    <div class="bg-gray-900 text-white rounded-2xl p-8">
+      <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">Editorial independence</p>
+      <p class="text-gray-300 leading-relaxed m-0">
+        {author.name.split(" ")[0]} does not accept payment for coverage, and no manufacturer sees a guide before it is published. Our full testing process and funding model are set out on <a href="/how-we-test/" class="text-[#38BDF8] font-bold no-underline hover:underline">How We Test</a>.
+      </p>
+    </div>
+  </article>
+</Layout>

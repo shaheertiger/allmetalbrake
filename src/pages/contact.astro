@@ -1,11 +1,93 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import body from '../bodies/contact.html?raw';
+import Layout from "../layouts/Layout.astro";
+import { SITE_URL } from "../data/authors";
+import { CONTACT_EMAIL } from "../data/site";
 
-const title = "Contact Us — Home Fix Reviews";
-const description = "Get in touch with the Home Fix Reviews team. Questions about a review, partnership inquiries, or just want to share your experience with a product.";
+const title = "Contact Us";
+const description =
+  "How to reach Home Fix Reviews — corrections, product suggestions, press enquiries and reader questions.";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Contact", item: `${SITE_URL}/contact/` },
+      ],
+    },
+    {
+      "@type": "ContactPage",
+      name: title,
+      description,
+      url: `${SITE_URL}/contact/`,
+      mainEntity: {
+        "@type": "Organization",
+        name: "Home Fix Reviews",
+        url: SITE_URL,
+        email: CONTACT_EMAIL,
+        contactPoint: [
+          { "@type": "ContactPoint", contactType: "editorial", email: CONTACT_EMAIL, availableLanguage: "English" },
+        ],
+      },
+    },
+  ],
+};
+
+const REASONS = [
+  {
+    title: "A correction",
+    body: "Specifications change and we miss things. Tell us what is wrong and where, and we will check it, fix it, and note the change on the page.",
+  },
+  {
+    title: "A product we should test",
+    body: "Especially if it is something you own and have opinions about. Reader suggestions are where a good share of our shortlists start.",
+  },
+  {
+    title: "A question about a guide",
+    body: "Sizing, compatibility, whether the cheaper option will do — ask. The answers often end up in the guide's FAQ, which helps the next reader too.",
+  },
+  {
+    title: "Press and manufacturers",
+    body: "We accept review samples on the condition that coverage is never promised and the product can be returned. We do not accept payment for coverage of any kind.",
+  },
+];
 ---
 
-<BaseLayout title={title} description={description} articleCss={false} articleBody={body}>
-  <Fragment set:html={body} />
-</BaseLayout>
+<Layout title={title} description={description} jsonLd={schema}>
+  <article class="max-w-3xl mx-auto px-4 py-16 lg:py-24">
+    <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-4">Get In Touch</p>
+    <h1 class="text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-6">Contact Us</h1>
+    <p class="text-xl text-gray-600 leading-relaxed mb-10">
+      One inbox, read by the people who write the guides. No contact form that goes nowhere.
+    </p>
+
+    <div class="bg-gray-900 text-white rounded-2xl p-8 mb-12">
+      <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">Email</p>
+      <p class="text-2xl lg:text-3xl font-black text-white m-0 break-all">
+        <a href={`mailto:${CONTACT_EMAIL}`} class="text-white no-underline hover:text-[#38BDF8]">{CONTACT_EMAIL}</a>
+      </p>
+      <p class="text-gray-400 text-sm mt-4 m-0">We aim to reply within two working days. Corrections get looked at the same day.</p>
+    </div>
+
+    <h2 class="text-2xl font-black text-gray-900 mb-6">What to write about</h2>
+    <div class="space-y-4 mb-12">
+      {REASONS.map((r) => (
+        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+          <p class="font-black text-gray-900 mb-2">{r.title}</p>
+          <p class="text-sm text-gray-700 leading-relaxed m-0">{r.body}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="border-t border-gray-200 pt-8 space-y-3">
+      <p class="text-gray-700 leading-relaxed m-0">
+        Before you write: our testing process and our funding are set out in full on <a href="/how-we-test/" class="text-[#1E90FF] font-bold no-underline hover:underline">How We Test</a>, and who we are is on <a href="/about/" class="text-[#1E90FF] font-bold no-underline hover:underline">About</a>.
+      </p>
+      <p class="text-gray-500 text-sm leading-relaxed m-0">
+        We do not publish guest posts, we do not sell links, and we do not respond to link insertion requests.
+      </p>
+    </div>
+  </article>
+</Layout>

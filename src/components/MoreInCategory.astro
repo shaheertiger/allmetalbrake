@@ -1,0 +1,62 @@
+---
+// "More in …" block at the foot of every article. The links come from
+// src/data/interlinks.json (scripts/build-interlinks.mjs): the article's buyer's
+// guide first, then its closest pages by topic, keeping the page's own hand-picked
+// links that fit. On a guide, a second list reaches every supporting article in its
+// cluster that the page does not already link to. The `links` prop is the fallback
+// for a page the plan does not cover yet.
+import PLAN from "../data/interlinks.json";
+import GUIDE_LINKS from "../data/guide-links.json";
+
+interface Link {
+  title: string;
+  url: string;
+}
+interface Props {
+  category: string;
+  links: Link[];
+}
+const { category, links: handLinks } = Astro.props;
+
+const slug = Astro.url.pathname.replace(/^\/|\/$/g, "");
+const links = (PLAN.more as Record<string, Link[]>)[slug] ?? handLinks;
+// PlanTheJob already lists a guide's first six questions; do not repeat them.
+const planTheJob = new Set(
+  PLAN.planQuestions.includes(slug)
+    ? ((GUIDE_LINKS.questions as Record<string, { slug: string }[]>)[slug] ?? []).slice(0, 6).map((q) => `/${q.slug}/`)
+    : [],
+);
+const shown = new Set(links.map((l) => l.url));
+const cluster = ((PLAN.cluster as Record<string, Link[]>)[slug] ?? []).filter(
+  (l) => !shown.has(l.url) && !planTheJob.has(l.url),
+);
+---
+
+{links.length > 0 && (
+  <div class="mt-16 not-prose">
+    <h2 class="text-2xl font-black text-gray-900 mb-2">More in {category}</h2>
+    <p class="text-sm text-gray-500 mb-6">Guides in this category that pair with what you just read.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      {links.map((link) => (
+        <a
+          href={link.url}
+          class="bg-white border border-gray-200 rounded-2xl px-5 py-4 no-underline hover:shadow-md transition-shadow group"
+        >
+          <span class="text-gray-900 font-bold text-sm group-hover:text-[#1E90FF] transition-colors">{link.title}</span>
+        </a>
+      ))}
+    </div>
+    {cluster.length > 0 && (
+      <div class="mt-8">
+        <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-3">More Questions This Guide Answers</p>
+        <ul class="list-none p-0 m-0 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+          {cluster.map((link) => (
+            <li>
+              <a href={link.url} class="text-[#1E90FF] font-bold text-sm no-underline hover:underline">{link.title}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+)}

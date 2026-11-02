@@ -1,0 +1,116 @@
+---
+import { amazonLink } from "../data/affiliate";
+import AdUnit from "./AdUnit.astro";
+
+interface Product {
+  id: string;
+  name: string;
+  badge?: string;
+  category?: string;
+  bottomLine?: string;
+  amazonUrl?: string;
+}
+interface Props {
+  products: Product[];
+  heading?: string;
+}
+const { products, heading = "Our Picks at a Glance" } = Astro.props;
+const top = products[0];
+---
+
+<div id="quick-picks" class="bg-gray-50 border border-gray-200 rounded-2xl p-5 lg:p-8 my-8 not-prose">
+  <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-4">{heading}</p>
+  {top?.bottomLine && (
+    <div class="mb-4 pb-4 border-b border-gray-200">
+      <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Short Answer</p>
+      <p class="text-sm text-gray-800 leading-relaxed m-0">
+        <strong class="text-gray-900">{top.name}</strong>{top.badge ? ` (${top.badge})` : ""}. {top.bottomLine}
+      </p>
+    </div>
+  )}
+  <ul class="list-none p-0 m-0 divide-y divide-gray-200">
+    {products.map((product) => (
+      <li class="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
+        <div class="min-w-0 flex-1 text-sm text-gray-700">
+          {product.badge && <span class="block text-xs font-black uppercase tracking-wide text-gray-900">{product.badge}</span>}
+          <a href={`#${product.id}`} class="text-[#1E90FF] font-bold no-underline hover:underline">{product.name}</a>
+          {product.category && <span class="text-gray-500"> — {product.category}</span>}
+        </div>
+        <a
+          href={amazonLink(product.amazonUrl, product.name, product.id)}
+          target="_blank"
+          rel="sponsored nofollow noopener"
+          class="shrink-0 bg-[#FF4500] hover:bg-[#E63E00] text-white text-xs font-black uppercase tracking-wide px-4 py-3 rounded-lg no-underline whitespace-nowrap"
+        >
+          Check Price
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="text-xs text-gray-500 mt-4 mb-0">
+    We may earn a commission when you buy through these links, at no extra cost to you.
+    <a href="/how-we-test/" class="text-gray-600 font-bold underline">How we test</a>
+  </p>
+</div>
+
+<!-- On phones the layout's top ad sat above the headline and pushed the picks
+     several screens down. Pages with a picks box hide it below md and show the
+     same unit here instead; display:none units are not requested by AdSense. -->
+<div class="qp-ad md:hidden my-8">
+  <AdUnit variant="top" />
+</div>
+
+<style is:global>
+  @media (max-width: 767px) {
+    body:has(#quick-picks) .top-ad {
+      display: none;
+    }
+  }
+</style>
+
+{top && (
+  <div
+    data-qp-sticky
+    hidden
+    class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]"
+  >
+    <div class="flex items-center gap-3">
+      <div class="min-w-0 flex-1">
+        <p class="text-[10px] font-black uppercase tracking-widest text-[#FF4500] m-0">{top.badge ?? "Our Top Pick"}</p>
+        <p class="text-sm font-bold text-gray-900 m-0 truncate">{top.name}</p>
+      </div>
+      <a
+        href={amazonLink(top.amazonUrl, top.name, top.id)}
+        target="_blank"
+        rel="sponsored nofollow noopener"
+        class="shrink-0 bg-[#FF4500] hover:bg-[#E63E00] text-white text-sm font-black px-5 py-3 rounded-xl no-underline whitespace-nowrap"
+      >
+        Check Price
+      </a>
+    </div>
+  </div>
+)}
+
+<script is:inline>
+  // The layout renders its own sticky CTA after the page body, so wait for the
+  // whole document before deciding which bar to keep.
+  document.addEventListener("DOMContentLoaded", function () {
+    var bar = document.querySelector("[data-qp-sticky]");
+    var box = document.getElementById("quick-picks");
+    if (!bar || !box) return;
+    // A page-level sticky CTA that already sends readers to a retailer wins;
+    // one that only jumps down the page gives way to the direct #1-pick bar.
+    var layout = document.querySelector("[data-layout-sticky]");
+    if (layout) {
+      var href = layout.querySelector("a") && layout.querySelector("a").getAttribute("href");
+      if (href && /^https?:/.test(href)) { bar.remove(); return; }
+      layout.remove();
+    }
+    // Show the bar once the picks box has scrolled out of view above.
+    if (!("IntersectionObserver" in window)) { bar.hidden = false; return; }
+    new IntersectionObserver(function (entries) {
+      var e = entries[0];
+      bar.hidden = e.isIntersecting || e.boundingClientRect.top > 0;
+    }).observe(box);
+  });
+</script>

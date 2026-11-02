@@ -1,0 +1,58 @@
+---
+// "Before You Buy" block placed above every buyer's guide's FAQ. It does what the
+// best-performing guide (home generators for power outages) does in its body:
+// sends the reader to the sizing, cost and comparison questions that decide the
+// purchase, and to the other gear the same job needs. Data comes from
+// scripts/build-top-picks.mjs (questions, titles) and src/data/related-guides.json
+// (hand-checked companion guides). Renders nothing when there is nothing to show.
+import LINKS from "../data/guide-links.json";
+import RELATED from "../data/related-guides.json";
+
+interface Props {
+  // Guides that already list their supporting articles in an "Everything Else
+  // About" grid pass false so the same links are not shown twice.
+  questions?: boolean;
+}
+const { questions: showQuestions = true } = Astro.props;
+
+const slug = Astro.url.pathname.replace(/^\/|\/$/g, "");
+const titles = LINKS.titles as Record<string, string | undefined>;
+const questionList = showQuestions
+  ? ((LINKS.questions as Record<string, { slug: string; title: string }[]>)[slug] ?? []).slice(0, 6)
+  : [];
+const related = ((RELATED as Record<string, string[]>)[slug] ?? [])
+  .filter((s) => titles[s])
+  .map((s) => ({ slug: s, title: titles[s] as string }));
+---
+
+{(questionList.length > 0 || related.length > 0) && (
+  <section id="before-you-buy" class="not-prose my-12 scroll-mt-24 border border-gray-200 rounded-2xl p-6 lg:p-8 bg-white">
+    <h2 class="text-2xl font-black text-gray-900 mb-6">Before You Buy</h2>
+    <div class={`grid gap-8 ${questionList.length && related.length ? "md:grid-cols-2" : ""}`}>
+      {questionList.length > 0 && (
+        <div>
+          <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-3">Questions to Settle First</p>
+          <ul class="list-none p-0 m-0 space-y-2">
+            {questionList.map((q) => (
+              <li>
+                <a href={`/${q.slug}/`} class="text-[#1E90FF] font-bold no-underline hover:underline">{q.title}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {related.length > 0 && (
+        <div>
+          <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-3">Also Needed for This Job</p>
+          <ul class="list-none p-0 m-0 space-y-2">
+            {related.map((r) => (
+              <li>
+                <a href={`/${r.slug}/`} class="text-[#1E90FF] font-bold no-underline hover:underline">{r.title}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+)}

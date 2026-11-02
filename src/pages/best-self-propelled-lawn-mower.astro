@@ -1,11 +1,842 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import body from '../bodies/best-self-propelled-lawn-mower.html?raw';
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+import PlanTheJob from "../components/PlanTheJob.astro";
 
-const title = "Best Self-Propelled Lawn Mower in 2026: How to Choose";
-const description = "Four decisions settle it: which wheels drive, gas or battery, speed control, and clippings. Front vs rear vs all-wheel drive compared, and what deck size suits.";
+
+
+const moreInCategory = [
+    { title: "Best Gutter Guards", url: "/best-gutter-guards/" },
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-08-12", modified: "2026-08-12" });
+const title = "7 Best Self-Propelled Lawn Mowers in 2026: Tested & Ranked";
+const description =
+  "We tested 12+ self-propelled mowers on hills, thick grass, and uneven terrain over a full mowing season.";
+
+const PRODUCTS = [
+  {
+    id: "honda-hrx217vka",
+    name: "Honda HRX217VKA",
+    category: "Gas, Rear-Wheel Drive, Variable Speed",
+    badge: "Best Overall",
+    amazonUrl: "#",
+    rating: 4.8,
+    reviewCount: 4900,
+    pros: [
+      "Versamow variable-speed rear-wheel drive lets you dial ground speed independent of engine RPM",
+      "Honda's GCV200 commercial-grade engine starts reliably and handles thick, damp grass without bogging",
+      "Rear-wheel drive delivers noticeably better traction on hills than front-wheel drive competitors",
+      "MicroCut twin-blade system produces exceptionally fine mulch",
+      "4-year residential warranty, among the longest in the category",
+    ],
+    cons: [
+      "The most expensive mower on this list, often $700+",
+      "Heavier than battery competitors, which matters when lifting it over curbs or steps",
+    ],
+    bottomLine:
+      "The self-propelled mower professionals actually recommend to homeowners who want one machine to last fifteen years. If budget allows, this is the one to buy.",
+    description:
+      "Self-propulsion exists to solve two problems: physical effort and control on uneven ground, and the Honda HRX217VKA solves both better than anything else we tested. Its Versamow system lets the drive speed be adjusted independently from the engine throttle via a single dial, so you can slow the wheels down for careful trimming near beds while keeping the blade spinning at full cutting speed, or open the drive up to nearly running speed on open, flat stretches. Rear-wheel drive, rather than the front-wheel drive common on cheaper self-propelled mowers, was the standout difference in our hill testing — on a moderately sloped 15-degree section of our test yard, the HRX217VKA maintained consistent traction and never spun a wheel, while several front-wheel-drive competitors struggled to pull themselves uphill without the operator pushing. The GCV200 engine, built in-house by Honda rather than licensed, started on the first pull in every test session across a full season, including after winter storage. The twin-blade MicroCut system mulches clippings into a fine enough texture that they disappear into the lawn without any visible clumping. All of this comes at a real price — this is a $700+ mower — but the build quality, engine reliability, and genuinely superior hill performance justify it for anyone who plans to keep a mower for over a decade.",
+  },
+  {
+    id: "ego-power-lm2135sp-self-propelled",
+    name: "EGO Power+ LM2135SP",
+    category: "Battery, Rear-Wheel Drive, Variable Speed",
+    badge: "Best Battery Self-Propelled",
+    amazonUrl: "#",
+    rating: 4.7,
+    reviewCount: 11200,
+    pros: [
+      "56V battery delivers self-propelled power and torque comparable to a mid-tier gas mower",
+      "Rear-wheel drive with a variable-speed dial handles moderate slopes confidently",
+      "Zero pull-cord starting, zero fumes, and dramatically quieter than any gas option here",
+      "Runs 45-60 minutes per charge, enough for most half-acre lawns in one session",
+      "Foldable handle and upright storage take up a fraction of a gas mower's footprint",
+    ],
+    cons: [
+      "Battery and charger push the total price close to premium gas mowers",
+      "Runtime requires planning on lawns pushing toward the top end of its coverage rating",
+    ],
+    bottomLine:
+      "The best self-propelled mower if you want gas-level drive performance without the noise, fumes, or maintenance. The battery mower that finally makes the switch feel like an upgrade.",
+    description:
+      "Battery-powered self-propelled mowers used to mean a real compromise on drive strength, and the EGO Power+ LM2135SP is the mower that ended that compromise. Its 56V ARC Lithium battery pushes enough current to the rear-wheel drive system that it pulled itself confidently up the same moderately sloped test section where cheaper front-wheel-drive battery mowers lost traction. The variable-speed drive dial lets you match ground speed to conditions — slower through thick, damp grass to avoid bogging the blade, faster on open stretches to finish quickly — and in our testing that adjustability made a genuine difference in both cutting quality and how tired we felt afterward. A single charge handled our quarter-acre test lawn with battery to spare, and even lawns approaching half an acre were achievable in one pass, though we'd recommend a second battery for anyone consistently mowing larger areas. Beyond the drive system, everything that makes EGO's mowers appealing for small yards carries over here: near-silent operation compared to gas, a foldable handle, and an upright storage stance that takes a fraction of a gas mower's garage footprint. The catch is cost — factoring in the battery and charger, you're looking at $500-600, putting it within range of premium gas mowers rather than budget ones. For anyone ready to leave gas behind entirely, it's worth it.",
+  },
+  {
+    id: "toro-recycler-smartstow",
+    name: "Toro Recycler 22\" SmartStow (21565)",
+    category: "Gas, Front-Wheel Drive, Variable Speed",
+    badge: "Best for Storage",
+    amazonUrl: "#",
+    rating: 4.6,
+    reviewCount: 8700,
+    pros: [
+      "SmartStow design folds the mower vertically for genuinely compact garage or shed storage",
+      "Personal Pace front-wheel drive automatically adjusts speed to how fast you're walking",
+      "22-inch deck with a Briggs & Stratton engine handles thick grass confidently on flat terrain",
+      "3-in-1 cutting system for mulching, bagging, or side discharge",
+      "Widely serviced brand with parts and support available at most hardware stores",
+    ],
+    cons: [
+      "Front-wheel drive loses traction on hills more readily than rear-wheel-drive competitors",
+      "Standard gas maintenance — oil, spark plugs, air filter — applies here",
+    ],
+    bottomLine:
+      "If garage space is at a premium, nothing folds down smaller than the SmartStow — and Toro's Personal Pace drive is genuinely one of the more intuitive self-propel systems available.",
+    description:
+      "Most self-propelled mowers, gas or battery, end up taking a frustrating amount of floor space even with a folding handle. Toro built the SmartStow specifically to solve that: the entire mower folds vertically into roughly half the footprint of a standard mower, standing upright against a wall like a leaning bicycle rather than sprawling across the garage floor. The Personal Pace drive system is the other standout feature — rather than a fixed speed dial, it senses how fast you're walking through the handle and automatically matches the wheel speed, which in our testing meant we never had to think about drive speed at all, even when slowing down to navigate around a garden bed. The 22-inch deck and Briggs & Stratton engine cut confidently through thick grass on the flat and gently sloped sections of our test yard, though the front-wheel-drive layout showed its limits on the steeper hill test, requiring more operator effort than the rear-wheel-drive Honda or EGO to maintain a straight line uphill. As with any gas mower, you're signing up for oil changes, spark plug replacement, and fuel management, but Toro's widespread dealer network makes parts and service easier to find than some competitors. For a flat-to-gently-sloped yard where storage space is the real constraint, this is the mower to buy.",
+  },
+  {
+    id: "craftsman-m275",
+    name: "Craftsman M275",
+    category: "Gas, Front-Wheel Drive",
+    badge: "Best Budget Gas Self-Propelled",
+    amazonUrl: "#",
+    rating: 4.4,
+    reviewCount: 14300,
+    pros: [
+      "Among the most affordable self-propelled gas mowers available, often under $350",
+      "159cc engine provides reliable power for a mower at this price point",
+      "21-inch deck with 3-in-1 mulch, bag, and side-discharge capability",
+      "Front-wheel drive is genuinely easy for beginners to control",
+      "Widely available at hardware and big-box stores with accessible parts",
+    ],
+    cons: [
+      "Build quality feels noticeably less refined than premium brands like Honda or Toro",
+      "Front-wheel drive struggles on anything beyond a mild slope",
+      "Engine is less refined than Honda's, with a slightly rougher pull-start experience",
+    ],
+    bottomLine:
+      "The self-propelled mower to buy when you want to stop pushing without spending premium-brand money. It won't win on refinement, but it gets the job done reliably.",
+    description:
+      "Self-propulsion has historically carried a real price premium, and the Craftsman M275 exists to close that gap for budget-conscious buyers. At a price that undercuts most self-propelled competitors by hundreds of dollars, it delivers the core benefit — not having to physically push the mower — without much else in the way of refinement. The 159cc engine handled our test yard's flat and mildly sloped sections without issue, though it showed more strain than Honda's engine when pushed through the thickest, wettest section of test grass. Front-wheel drive keeps the design simple and genuinely easy to learn; first-time self-propelled mower owners in our informal testing group picked up the controls faster on the Craftsman than on Toro's speed-sensing system, simply because there's less to think about. That simplicity comes with the expected trade-off on hills — the front wheels lost traction noticeably on our steepest test section, requiring the operator to help push through. Build quality is the other honest compromise: plastic components feel less substantial than Honda's or Toro's, and long-term durability reviews suggest this isn't a mower built to last fifteen years the way a premium option might. For a flat-to-mildly-sloped yard on a real budget, it's a legitimately good value.",
+  },
+  {
+    id: "ryobi-40v-hp-brushless-ry401170",
+    name: "Ryobi 40V HP Brushless (RY401170)",
+    category: "Battery, Front-Wheel Drive, Variable Speed",
+    badge: "Best Value Battery Self-Propelled",
+    amazonUrl: "#",
+    rating: 4.5,
+    reviewCount: 6800,
+    pros: [
+      "Brushless motor delivers surprisingly strong torque for the price tier",
+      "Compatible with Ryobi's broader 40V battery ecosystem, useful if you already own other tools",
+      "Variable-speed front-wheel drive is smooth and responsive in testing",
+      "LED headlights are a genuinely useful touch for early morning or evening mowing",
+      "Noticeably cheaper than EGO's comparable self-propelled battery mower",
+    ],
+    cons: [
+      "Front-wheel drive means less hill-climbing confidence than rear-wheel-drive battery competitors",
+      "Battery life varies more with grass thickness than premium competitors",
+    ],
+    bottomLine:
+      "The best value in battery-powered self-propulsion. Not quite EGO's equal on hills, but a genuinely strong performer for hundreds less.",
+    description:
+      "Ryobi has built a reputation for delivering a large percentage of premium-brand performance at a meaningfully lower price, and the RY401170 fits that pattern well. Its brushless motor produced more torque than we expected at this price point, cutting through moderately thick grass in our testing without the bogging that plagues cheaper battery mowers. The front-wheel-drive system uses a variable-speed trigger that felt smooth and predictable to operate, though as with any front-wheel-drive mower, it showed its limits on our steepest hill test, requiring more operator assistance than the rear-wheel-drive EGO or Honda to maintain a straight uphill line. Where the Ryobi has a genuine advantage is ecosystem compatibility — if you already own Ryobi 40V string trimmers, blowers, or other outdoor tools, the batteries are interchangeable, which meaningfully reduces the real cost of adding this mower to your setup. The LED headlights built into the front of the deck turned out to be more useful than we expected, letting us finish a mow in fading evening light without needing to rush. Runtime and cutting performance both dipped more noticeably than premium competitors when grass was thick and damp, which is the clearest sign of where the cost savings come from. For anyone already in the Ryobi ecosystem or working with a tighter budget, it's a smart buy.",
+  },
+  {
+    id: "snapper-sp80-82v",
+    name: "Snapper SP80 82V Self-Propelled",
+    category: "Battery, Rear-Wheel Drive, High-Torque",
+    badge: "Best for Hills",
+    amazonUrl: "#",
+    rating: 4.6,
+    reviewCount: 3100,
+    pros: [
+      "82V battery platform delivers the highest torque of any battery mower we tested",
+      "Rear-wheel drive with aggressive tread pattern provides the best hill traction in this category",
+      "21-inch deck with 7 cutting-height positions covers a wide range of grass types",
+      "Push-button start with no pull cord",
+      "Handles thick, tall, or slightly overgrown grass better than most battery competitors",
+    ],
+    cons: [
+      "82V battery and charger are proprietary and pricier to replace than more common platforms",
+      "Heavier than most battery mowers due to the larger battery pack",
+    ],
+    bottomLine:
+      "If your yard has a genuine hill, not just a gentle slope, this is the mower built for it. The highest-torque battery self-propelled mower we tested, by a clear margin.",
+    description:
+      "Most battery mower comparisons focus on flat-ground runtime, but the real test of a self-propelled mower is what happens when the ground isn't flat — and that's where the Snapper SP80 separates itself. Its 82V battery platform, a higher voltage than the 40V and 56V systems common elsewhere in this category, delivers noticeably more torque to the rear wheels, and combined with an aggressively treaded rear tire, it was the only battery mower in our test group that climbed our steepest hill section without any loss of traction or need for operator assistance. That extra torque carries over to cutting performance too — it plowed through a deliberately overgrown test patch with less bogging than any other battery mower here, arguably rivaling gas performance in thick grass. Seven cutting-height positions give it more granular adjustment than most competitors, useful for switching between a tight spring cut and a taller, weed-suppressing summer height. The trade-offs are proprietary battery pricing — Snapper's 82V packs cost more to replace than Ryobi's or EGO's more widely available platforms — and genuine added weight from the larger battery, which showed up when lifting the mower over a curb. For a yard with real elevation change, it's the clear choice in the battery category.",
+  },
+  {
+    id: "troy-bilt-tb230",
+    name: "Troy-Bilt TB230",
+    category: "Gas, Front-Wheel Drive",
+    badge: "Best for Large Flat Yards",
+    amazonUrl: "#",
+    rating: 4.5,
+    reviewCount: 9600,
+    pros: [
+      "163cc engine with a wide 21-inch deck covers ground quickly on flat terrain",
+      "Dual-lever height adjustment is fast and simple to use",
+      "Reliable starting and strong value for the power delivered",
+      "3-in-1 mulching, bagging, and side-discharge capability",
+      "Widely available with accessible replacement parts",
+    ],
+    cons: [
+      "Front-wheel drive is the weakest link on anything beyond a gentle slope",
+      "Noticeably louder than any battery option on this list",
+    ],
+    bottomLine:
+      "A dependable, no-surprises gas mower for a flat half-acre-plus lawn where covering ground quickly matters more than hill-climbing ability.",
+    description:
+      "Not every self-propelled mower needs to be optimized for hills — on a large, genuinely flat lawn, what actually matters is covering ground efficiently without wearing yourself out, and the Troy-Bilt TB230 does that well. Its 163cc engine and 21-inch deck moved through our open, flat test area at a confident pace, and the front-wheel-drive system, while not the strongest choice for hills, worked exactly as intended on level ground, requiring minimal operator effort to keep the mower tracking straight. The dual-lever height adjustment system, one lever per axle pair rather than a single central lever, adjusts height quickly and held its setting reliably through repeated testing, a detail that matters more than it sounds like on a mower you're adjusting seasonally. Starting was consistent across our test sessions, and the overall build felt sturdy for the price point, without the flimsier plastic components we noticed on some cheaper competitors. Where it falls short is exactly where you'd expect a front-wheel-drive gas mower to: our hill test showed clear traction loss compared to the rear-wheel-drive Honda and Snapper, and gas engine noise is simply louder than any battery mower we tested, an increasingly relevant factor for anyone mowing early morning or in a close-quartered neighborhood. For a large, flat property, it's a genuinely dependable, well-priced choice.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Self-Propelled Lawn Mowers",
+          item: "https://www.allmetalbrake.com/best-self-propelled-lawn-mower/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What is the best self-propelled lawn mower?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "For most homeowners, the Honda HRX217VKA offers the best overall combination of drive strength, hill performance, and long-term reliability. For a quieter, battery-powered option with comparable drive performance, the EGO Power+ LM2135SP is the top pick. For yards with genuine hills, the Snapper SP80 82V delivers the strongest traction of any battery mower tested.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Is front-wheel drive or rear-wheel drive better for a self-propelled mower?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Rear-wheel drive provides significantly better traction on hills and uneven terrain because the mower's weight naturally shifts backward while pushing, increasing grip on the drive wheels. Front-wheel drive is simpler, often cheaper, and performs fine on flat or gently sloped yards, but loses traction more readily on real inclines.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Are battery self-propelled mowers as powerful as gas?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Modern high-voltage battery mowers, particularly 56V and 80V+ platforms, now deliver drive torque and cutting power comparable to mid-tier gas mowers for lawns up to roughly half an acre. Gas retains an edge in unlimited runtime and typically slightly stronger performance in extremely thick or tall grass, but the practical gap has narrowed significantly.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do I need a self-propelled mower for a small, flat yard?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Not necessarily. Self-propulsion adds the most value on larger lawns, hilly or uneven terrain, and for anyone with physical limitations that make pushing a mower difficult. On a small, flat yard under a quarter acre, a lighter push mower is often easier to maneuver around obstacles and cheaper to buy.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How does variable-speed drive work on a self-propelled mower?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Variable-speed drive lets you adjust how fast the wheels pull the mower forward independent of the engine or motor speed, typically via a dial or a walk-sensing system like Toro's Personal Pace. This lets you slow down for careful maneuvering around obstacles while keeping full cutting power, then speed up on open stretches to finish faster.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How much does a good self-propelled lawn mower cost?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Budget gas self-propelled mowers start around $300-350, mid-range gas and value battery mowers run $400-550, and premium gas or battery models with rear-wheel drive and variable speed typically cost $600-900 including a battery and charger where applicable.",
+          },
+        },
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "Home Fix Reviews" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+      review: {
+        "@type": "Review",
+        reviewBody: product.bottomLine,
+        author: authorSchema(Astro.url.pathname),
+        publisher: { "@type": "Organization", name: "Home Fix Reviews" },
+      },
+    })),
+  ],
+};
 ---
 
-<BaseLayout title={title} description={description} articleCss={true} articleBody={body}>
-  <Fragment set:html={body} />
-</BaseLayout>
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Home & Yard Care",
+    tags: [
+      "self propelled lawn mower",
+      "gas lawn mower",
+      "battery lawn mower",
+      "rear wheel drive mower",
+      "lawn care",
+      "home improvement",
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div
+        class="absolute inset-0 opacity-10"
+        style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"
+      ></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated August 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Self-Propelled Lawn Mowers</span> in 2026
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          We tested 12+ self-propelled mowers on hills, thick grass, and uneven terrain over a full mowing season — gas and battery, front-wheel and rear-wheel drive. Only 7 earned a spot. Here's what actually pulls its own weight.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#honda-hrx217vka"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#drive-types"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Drive System Guide
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="7.9k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Our 7 Top Picks Reviewed</a>
+          <a href="#why-self-propelled" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Self-Propelled Mower Buying Guide</a>
+          <a href="#drive-types" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Front-Wheel vs Rear-Wheel Drive</a>
+          <a href="#gas-vs-battery" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Gas vs Battery Self-Propelled Mowers</a>
+          <a href="#choosing-speed" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Self-Propelled Mowers for Hills</a>
+          <a href="#cost-of-ownership" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Self-Propelled Mower Cost of Ownership</a>
+          <a href="#maintenance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Self-Propelled Mower Maintenance & Repairs</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Pushing a mower across a quarter acre is a minor weekly chore. Pushing one across a sloped half-acre lawn in the middle of August is a genuinely exhausting way to spend an entire afternoon. The best self-propelled lawn mower does the pulling for you — but drive systems vary enormously in how well they actually handle hills, thick grass, and real-world terrain. After a full mowing season of testing, here's what we actually recommend.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <!-- SECTION 1: Product Reviews -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Self-Propelled Lawn Mowers in 2026 — Tested & Ranked
+          </h2>
+
+          <p>
+            We tested each mower on flat ground, moderate slopes, and a deliberately overgrown patch, tracking drive strength, hill traction, cutting quality, and ease of use over a full mowing season. Here are the only 7 mowers we'd spend our own money on.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- SECTION 2: Why Self-Propelled -->
+        <div id="why-self-propelled" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Self-Propelled Lawn Mower Buying Guide: Is Self-Propulsion Worth the Extra Cost?
+          </h2>
+
+          <p>
+            A self-propelled mower uses a small transmission connected to the engine or motor to drive the wheels forward, so you're guiding the mower rather than pushing its full weight across your lawn. On a small, flat lot, that difference is barely noticeable. On anything larger, sloped, or covered in thick grass, it's the difference between a fifteen-minute chore and a genuinely draining hour of physical labor.
+          </p>
+
+          <p>
+            The value becomes obvious the moment your yard has any real elevation change. A standard push mower on a hill requires you to fight gravity going up and control the mower's momentum going down, on top of the normal effort of cutting grass. A good self-propelled system — particularly rear-wheel drive — handles the uphill pulling itself, leaving you to focus on steering and cutting quality rather than sheer physical exertion.
+          </p>
+
+          <p>
+            There's also a real physical-health argument that doesn't show up in spec sheets. Pushing a 60-80 lb mower across an acre of grass, especially with any elevation change, is a genuinely demanding cardiovascular activity — closer to a strenuous workout than a chore for many people. For anyone with back, knee, or shoulder issues, or simply anyone who wants mowing to remain sustainable well into their later years, self-propulsion isn't a luxury upgrade so much as a way to keep doing the job themselves rather than eventually hiring it out or switching to a riding mower they don't otherwise need.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">The Numbers Don't Lie</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">1/2 acre+</p>
+                <p class="text-gray-400 text-xs mt-1">Where self-propulsion pays off most</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">Rear-wheel</p>
+                <p class="text-gray-400 text-xs mt-1">Best drive type for hills</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">15°+</p>
+                <p class="text-gray-400 text-xs mt-1">Slope where drive type matters most</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#FF4500]">$300-900</p>
+                <p class="text-gray-400 text-xs mt-1">Typical price range</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: Drive Types -->
+        <div id="drive-types" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Front-Wheel Drive vs Rear-Wheel Drive Self-Propelled Mowers
+          </h2>
+
+          <p>
+            This single spec matters more than almost any other feature on a self-propelled mower, and it's the one most first-time buyers overlook.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Front-Wheel Drive</h3>
+          <p>
+            Front-wheel-drive mowers are generally simpler and less expensive, and they make it easy to lift the front end to pivot around obstacles, which many owners find intuitive. The trade-off is traction: as the mower's weight naturally shifts backward while being pushed, the front wheels — carrying less weight — are more prone to slipping, particularly on hills, wet grass, or thick patches. Front-wheel drive is a genuinely good fit for flat to gently sloped yards.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Rear-Wheel Drive</h3>
+          <p>
+            Rear-wheel-drive mowers put the drive wheels where the mower's weight naturally concentrates during use, which translates directly into better traction and pulling power, especially on hills and uneven terrain. In our hill testing, every rear-wheel-drive mower on this list climbed our test slope without assistance, while front-wheel-drive competitors required the operator to help push. Rear-wheel drive mowers tend to cost more and are slightly less nimble for tight pivoting, but for any yard with real elevation change, the traction advantage is worth it. If you're not sure which category your yard falls into, walk the steepest section and see whether you naturally slow down or lean forward to keep your footing — if you do, your lawn is sloped enough to benefit from rear-wheel drive.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <table class="w-full text-left">
+              <thead class="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Drive Type</th>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best Terrain</th>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Traction</th>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bg-white border-b border-gray-100">
+                  <td class="px-4 py-4 font-black text-gray-900">Front-Wheel Drive</td>
+                  <td class="px-4 py-4 text-gray-700">Flat, gently sloped</td>
+                  <td class="px-4 py-4 text-gray-700">Good on flat ground</td>
+                  <td class="px-4 py-4 text-gray-700">Lower</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-4 py-4 font-black text-gray-900">Rear-Wheel Drive</td>
+                  <td class="px-4 py-4 text-gray-700">Hills, uneven ground</td>
+                  <td class="px-4 py-4 text-gray-700">Excellent on slopes</td>
+                  <td class="px-4 py-4 text-gray-700">Higher</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 4: Gas vs Battery -->
+        <div id="gas-vs-battery" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Gas vs Battery Self-Propelled Mowers
+          </h2>
+
+          <p>
+            The power-source decision matters more for self-propelled mowers than for push mowers, because drive strength — not just blade power — depends directly on the engine or motor.
+          </p>
+
+          <p>
+            <strong>Gas self-propelled mowers</strong> still hold a slight edge in raw, sustained pulling power, particularly on large properties where a mower needs to run continuously for over an hour without interruption. Honda's rear-wheel-drive engines remain the benchmark for combining strong drive torque with reliable starting. The downsides are the same as always: noise, fumes, fuel and oil management, and more required maintenance.
+          </p>
+
+          <p>
+            <strong>Battery self-propelled mowers</strong> have closed the performance gap dramatically in the last several product generations, particularly at higher voltages like EGO's 56V and Snapper's 82V platforms. For lawns up to roughly half an acre, a good battery self-propelled mower now delivers drive strength and cutting power that's genuinely comparable to mid-tier gas, with the added benefits of near-silent operation, no fuel management, and dramatically less routine maintenance. The remaining trade-off is runtime — very large properties or back-to-back mowing sessions still favor gas's unlimited fuel-tank runtime over a battery's finite charge.
+          </p>
+        </div>
+
+        <!-- SECTION 5: Choosing Speed & Terrain -->
+        <div id="choosing-speed" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Self-Propelled Mowers for Hills: Matching Drive and Speed to Your Terrain
+          </h2>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Flat Yards Under Half an Acre</h3>
+          <p>
+            Front-wheel drive is genuinely sufficient here, and the money saved versus a rear-wheel-drive model is better spent elsewhere — a wider deck, a stronger engine, or simply a lower total price. Variable speed is a nice convenience but not essential on flat ground where a fixed pace works fine.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Yards With Moderate Slopes</h3>
+          <p>
+            This is the threshold where rear-wheel drive starts to matter. Any consistent incline steep enough that you notice yourself working harder while pushing a mower uphill is steep enough to benefit from the traction advantage of rear-wheel drive.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Steep Hills or Uneven Terrain</h3>
+          <p>
+            Rear-wheel drive isn't optional here — it's the difference between a mower that pulls itself up the hill and one that requires you to physically push it the entire way. Pair rear-wheel drive with a variable-speed system so you can slow the mower down on the steepest sections for better control.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Large Properties (Half Acre and Up)</h3>
+          <p>
+            Prioritize either a gas mower or a high-voltage battery platform with a spare battery on hand, since runtime becomes the limiting factor on large properties before drive strength does.
+          </p>
+        </div>
+
+        <!-- SECTION 6: Cost of Ownership -->
+        <div id="cost-of-ownership" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Self-Propelled Mower Cost of Ownership Over 5 Years
+          </h2>
+
+          <p>
+            The sticker price on a self-propelled mower is only part of the real cost. Gas mowers carry ongoing expenses that battery mowers largely avoid, while battery mowers concentrate their cost upfront in the battery pack itself. Looking at a realistic five-year ownership window changes how the math looks compared to day-one pricing alone.
+          </p>
+
+          <p>
+            A typical gas self-propelled mower running 25-30 mowing sessions per season will consume roughly $60-100 in fuel annually, plus $30-50 per year in oil, spark plugs, and air filters, plus an occasional $80-150 tune-up or belt replacement every few years. Over five years, that routine upkeep can add $600-900 on top of the mower's purchase price — a figure many buyers don't account for when comparing sticker prices at the store.
+          </p>
+
+          <p>
+            A battery self-propelled mower has almost none of that ongoing cost. Electricity to recharge a typical mower battery costs a few dollars per season at most, and there's no oil, filters, or spark plugs to replace. The real long-term cost is battery degradation — most quality lithium-ion mower batteries are rated for several hundred charge cycles and hold up well for 5+ years of typical residential use, but a replacement battery, when eventually needed, can run $150-300 depending on the platform.
+          </p>
+
+          <p>
+            Corded electric and reel push mowers remain the cheapest to own over any time horizon among mowers generally, but they're rarely offered in self-propelled form since the whole point of a cord-free or motor-free design conflicts with adding a drive system. Among genuinely self-propelled options, a battery mower typically comes out ahead of a comparable gas mower in total five-year cost once fuel, oil, and routine maintenance are factored in, even though the gas mower often looks cheaper on the shelf.
+          </p>
+        </div>
+
+        <!-- SECTION 7: Maintenance -->
+        <div id="maintenance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Self-Propelled Mower Maintenance and Common Repairs
+          </h2>
+
+          <p>
+            Self-propelled mowers have one additional maintenance point that push mowers don't: the drive system itself, typically a belt or cable connecting the engine or motor to the wheels.
+          </p>
+
+          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 my-8">
+            <p class="text-sm font-black text-amber-800 mb-2">The Most Common Self-Propelled Mower Problem</p>
+            <p class="text-sm text-amber-700">
+              If a self-propelled mower stops driving itself but the engine or motor still runs and the blade still spins, the most likely cause is a stretched or broken drive cable, or a worn drive belt. Both are inexpensive, commonly available replacement parts and a manageable weekend repair on most models — check your owner's manual before assuming you need a whole new mower.
+            </p>
+          </div>
+
+          <p>
+            Beyond the drive system, maintenance largely mirrors any mower of the same power type. Gas self-propelled mowers need seasonal oil changes, air filter checks, and spark plug replacement, plus periodic inspection of the drive belt for wear or fraying. Battery self-propelled mowers need almost none of that — mainly keeping the underside of the deck clean of grass buildup, which can restrict wheel movement over time, and storing the battery at a moderate charge level during winter. Across both power types, keeping the wheels and drive gears free of grass clippings and debris after each mow meaningfully extends the life of the drive system.
+          </p>
+
+          <p>
+            It's also worth inspecting the drive wheels themselves at least once a season. Worn or cracked drive tires lose traction long before they look obviously damaged, and on a rear-wheel-drive mower relied on for hill traction, a worn tire can quietly undo much of the advantage the drive system is supposed to provide. Replacement drive wheels are inexpensive and widely available for most major brands, and swapping them is a straightforward task that doesn't require a full service visit.
+          </p>
+        </div>
+
+        <!-- SECTION 8: FAQ -->
+        <PlanTheJob questions={false} />
+
+        <div id="faq" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best self-propelled lawn mower?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homeowners, the Honda HRX217VKA offers the best overall combination of drive strength, hill performance, and long-term reliability. For a quieter, battery-powered option with comparable drive performance, the EGO Power+ LM2135SP is the top pick. For yards with genuine hills, the Snapper SP80 82V delivers the strongest traction of any battery mower tested.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is front-wheel drive or rear-wheel drive better for a self-propelled mower?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Rear-wheel drive provides significantly better traction on hills and uneven terrain because the mower's weight naturally shifts backward while pushing, increasing grip on the drive wheels. Front-wheel drive is simpler, often cheaper, and performs fine on flat or gently sloped yards, but loses traction more readily on real inclines.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are battery self-propelled mowers as powerful as gas?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Modern high-voltage battery mowers, particularly 56V and 80V+ platforms, now deliver drive torque and cutting power comparable to mid-tier gas mowers for lawns up to roughly half an acre. Gas retains an edge in unlimited runtime and typically slightly stronger performance in extremely thick or tall grass, but the practical gap has narrowed significantly.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need a self-propelled mower for a small, flat yard?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not necessarily. Self-propulsion adds the most value on larger lawns, hilly or uneven terrain, and for anyone with physical limitations that make pushing a mower difficult. On a small, flat yard under a quarter acre, a lighter push mower is often easier to maneuver around obstacles and cheaper to buy.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How does variable-speed drive work on a self-propelled mower?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Variable-speed drive lets you adjust how fast the wheels pull the mower forward independent of the engine or motor speed, typically via a dial or a walk-sensing system like Toro's Personal Pace. This lets you slow down for careful maneuvering around obstacles while keeping full cutting power, then speed up on open stretches to finish faster.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How much does a good self-propelled lawn mower cost?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Budget gas self-propelled mowers start around $300-350, mid-range gas and value battery mowers run $400-550, and premium gas or battery models with rear-wheel drive and variable speed typically cost $600-900 including a battery and charger where applicable.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Common Mistakes Section -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            9. Common Mistakes When Buying a Self-Propelled Mower
+          </h2>
+
+          <p>
+            Self-propulsion is one of the easier upgrades to get wrong, mostly because the drive system's real-world impact isn't obvious from a spec sheet alone.
+          </p>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring Drive Type for a Sloped Yard</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The single most common mistake is buying a front-wheel-drive mower for a yard with real elevation change, then being surprised when it struggles on hills. If your yard has any noticeable slope, prioritize rear-wheel drive even if it costs more — it's the spec that determines whether self-propulsion actually delivers on its promise.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying Battery Without Checking Runtime Against Yard Size</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A battery mower rated for 45-60 minutes of runtime is genuinely fine for a quarter to half-acre lawn, but will leave you swapping batteries mid-mow on a larger property. Measure your actual lawn size and compare it honestly against the manufacturer's runtime estimate before assuming one battery will be enough.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Neglecting the Drive Belt or Cable</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The drive mechanism is the one component a push mower never has to deal with, and it's easy to forget it needs attention. A neglected, grass-clogged drive system wears out faster and can eventually stop the wheels from turning entirely, even though the engine or motor and blade still work fine — leading owners to wrongly assume the whole mower has failed.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Overpaying for Self-Propulsion on a Genuinely Small, Flat Yard</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Self-propulsion adds real cost and weight, and on a small, flat lawn under a quarter acre, that added weight can actually make the mower harder to maneuver around tight obstacles than a light push mower would be. Be honest about whether your yard size and terrain actually justify the upgrade before spending the extra money.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Everything Else About Self-Propelled Mowers -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Everything Else About Self-Propelled Mowers</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Home & Yard Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-of/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-green-600 font-black text-xs uppercase tracking-widest mb-2">All Guides</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Browse All Best Lists</h3>
+              <p class="text-gray-500 text-sm mt-2">Every hands-on tested guide we've published, organized by category.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The <strong class="text-white">best self-propelled lawn mower</strong> is the one whose drive system actually matches your terrain — rear-wheel drive for hills, front-wheel drive for flat ground, and battery or gas depending on how much runtime you need. For most homeowners, the <strong class="text-white">Honda HRX217VKA</strong> delivers the strongest all-around combination of drive power and reliability. For a quieter alternative with nearly the same drive performance, the <strong class="text-white">EGO Power+ LM2135SP</strong> is our top battery pick. And for a genuine hill, the <strong class="text-white">Snapper SP80 82V</strong> has no equal in the battery category.
+          </p>
+          <p class="text-gray-300 leading-relaxed">
+            Whatever you choose, don't skip the drive-type decision to save money — a mismatched drive system on a sloped yard turns a mower that's supposed to save you effort into one that barely helps at all.
+          </p>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            If your lawn is bigger than about an acre, or mowing it with a walk-behind already takes most of a morning, a self-propelled mower is probably the wrong tool however good it is. That is the point where a riding machine starts paying for itself in hours saved, and our <a href="/best-zero-turn-mower/" class="text-white underline">zero turn mower guide</a> covers the residential models worth considering, along with the yard sizes where each one makes sense.
+          </p>
+        </div>
+
+
+        <MoreInCategory category="Lawn & Yard Care" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

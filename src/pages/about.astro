@@ -1,11 +1,112 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import body from '../bodies/about.html?raw';
+import Layout from "../layouts/Layout.astro";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import { AUTHORS, SITE_URL } from "../data/authors";
+import { CONTACT_EMAIL, FOUNDED } from "../data/site";
 
-const title = "About Us — Home Fix Reviews";
-const description = "Learn about the Home Fix Reviews team — experienced homeowners, contractors, and DIYers who test every product we review in real conditions.";
+const title = "About Home Fix Reviews";
+const description =
+  "Who writes these guides, how the site is funded, and the editorial rules we hold ourselves to.";
+
+const author = AUTHORS["alex-rivers"];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "About", item: `${SITE_URL}/about/` },
+      ],
+    },
+    {
+      "@type": "AboutPage",
+      name: title,
+      description,
+      url: `${SITE_URL}/about/`,
+      mainEntity: {
+        "@type": "Organization",
+        name: "Home Fix Reviews",
+        url: SITE_URL,
+        email: CONTACT_EMAIL,
+        foundingDate: FOUNDED,
+        description,
+        employee: [
+          {
+            "@type": "Person",
+            name: author.name,
+            jobTitle: author.role,
+            url: `${SITE_URL}/authors/${author.slug}/`,
+          },
+        ],
+      },
+    },
+  ],
+};
 ---
 
-<BaseLayout title={title} description={description} articleCss={false} articleBody={body}>
-  <Fragment set:html={body} />
-</BaseLayout>
+<Layout title={title} description={description} jsonLd={schema}>
+  <article class="max-w-3xl mx-auto px-4 py-16 lg:py-24">
+    <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-4">About Us</p>
+    <h1 class="text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-6">
+      We buy the tools, use them badly, and tell you what broke
+    </h1>
+    <p class="text-xl text-gray-600 leading-relaxed mb-10">
+      Home Fix Reviews publishes buying guides for the things people fix, seal, coat, cut and power around a house. Every guide is written by someone who has done the job the product is for.
+    </p>
+
+    <h2 class="text-2xl font-black text-gray-900 mb-4">Why the site exists</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Search for almost any home improvement product and you will find the same three paragraphs of manufacturer copy reworded across a dozen sites, ranked by whoever spent most on links. None of it tells you the thing you actually need — that the cheap pressure washer uses a motor rated for a few seasons, that the sealer needs two thin coats rather than one thick one, that the power station's headline capacity is not the capacity you get at the outlet.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-10">
+      We started {FOUNDED === "2024" ? "in 2024" : `in ${FOUNDED}`} to write the guide we wanted to read before spending our own money: the specification that predicts failure, the trade-off nobody mentions, and a straight answer about which one to buy.
+    </p>
+
+    <h2 class="text-2xl font-black text-gray-900 mb-4">What we promise</h2>
+    <div class="grid sm:grid-cols-2 gap-4 mb-12">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+        <p class="font-black text-gray-900 mb-2">Every product gets a cons list</p>
+        <p class="text-sm text-gray-600 m-0">Including the one we rank first. A guide with no criticism in it is an advert.</p>
+      </div>
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+        <p class="font-black text-gray-900 mb-2">Nobody can buy a ranking</p>
+        <p class="text-sm text-gray-600 m-0">No sponsored placements, no paid reviews, no pre-publication approval for manufacturers.</p>
+      </div>
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+        <p class="font-black text-gray-900 mb-2">We say when a product is wrong for you</p>
+        <p class="text-sm text-gray-600 m-0">Half our advice is talking readers out of the expensive option they do not need.</p>
+      </div>
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6">
+        <p class="font-black text-gray-900 mb-2">We show our working</p>
+        <p class="text-sm text-gray-600 m-0">Each guide states what was tested, on what, and how — see <a href="/how-we-test/" class="text-[#1E90FF] font-bold no-underline hover:underline">How We Test</a>.</p>
+      </div>
+    </div>
+
+    <h2 class="text-2xl font-black text-gray-900 mb-4">How we are funded</h2>
+    <p class="text-gray-700 leading-relaxed mb-10">
+      Affiliate commission and advertising, and nothing else. When you buy through a link here we may earn a share of the sale at no extra cost to you. Commission does not vary between the products inside a guide, so it cannot decide a ranking. The full detail is on <a href="/how-we-test/" class="text-[#1E90FF] font-bold no-underline hover:underline">How We Test</a>.
+    </p>
+
+    <h2 class="text-2xl font-black text-gray-900 mb-6">The team</h2>
+    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8 mb-10">
+      <div class="flex items-start gap-4">
+        <AuthorAvatar author={author.slug} size={56} />
+        <div>
+          <p class="text-lg font-black text-gray-900 mb-1">
+            <a href={`/authors/${author.slug}/`} class="text-gray-900 no-underline hover:text-[#1E90FF]">{author.name}</a>
+          </p>
+          <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-3">{author.role}</p>
+          <p class="text-sm text-gray-700 leading-relaxed m-0">{author.short}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-200 pt-8">
+      <p class="text-gray-700 leading-relaxed m-0">
+        Questions, corrections, or a product you think we have got wrong — <a href="/contact/" class="text-[#1E90FF] font-bold no-underline hover:underline">get in touch</a>. We read everything.
+      </p>
+    </div>
+  </article>
+</Layout>

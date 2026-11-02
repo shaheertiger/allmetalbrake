@@ -1,0 +1,291 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { NAV_GROUPS } from '../data/nav';
+
+const allCategories = [
+  {
+    name: 'Driveway & Concrete Sealers',
+    id: 'sealers',
+    guides: [
+      { title: 'Best Asphalt Driveway Sealer', description: 'Coal-tar vs asphalt-based sealers — real driveway tests over 12 months.', badge: 'Top Pick', url: '/best-asphalt-driveway-sealer-reviews/' },
+      { title: 'Best Concrete Driveway Sealer', description: 'Penetrating vs film-forming sealers ranked by durability, finish, and value.', badge: 'Top Pick', url: '/best-concrete-driveway-sealer-reviews/' },
+      { title: 'Best Garage Floor Epoxy', description: 'Top epoxy coating kits for garage floors — durability, finish, and ease of DIY tested.', badge: 'Top Pick', url: '/best-garage-floor-epoxy/' },
+      { title: 'Best Garage Floor Tiles', description: 'Interlocking PVC, rubber, and peel-and-stick tile systems tested for impact, chemicals, and cold cracking.', badge: 'Top Pick', url: '/best-garage-floor-tiles/' },
+      { title: 'How to Get Oil Out of Concrete', description: 'Absorbents, poultices, and microbial cleaners — what actually works on fresh spills versus years-old stains.', badge: 'How-To', url: '/how-to-get-oil-out-of-concrete/' },
+      { title: 'How Much Does It Cost to Seal a Driveway? (2026 Price Guide)', description: 'Exact driveway sealing costs for DIY and professional jobs — broken down by surface type, driveway size, sealer.', badge: 'How-To', url: '/how-much-does-it-cost-to-seal-a-driveway/' },
+      { title: 'How to Remove Oil Stains from a Driveway: 7 Methods That Actually Work', description: 'Fresh or old oil stains on concrete or asphalt driveways — we tested 7 removal methods so you don\'t waste a.', badge: 'How-To', url: '/how-to-remove-oil-stains-from-driveway/' },
+      { title: 'When to Seal a New Asphalt Driveway', description: 'Most contractors push early sealing — but sealing a new asphalt driveway too soon can actually damage it.', badge: 'Guide', url: '/when-should-you-seal-a-new-asphalt-driveway/' },
+      { title: 'Best Concrete Floor Paint', description: 'The best concrete floor paint for garages, basements, and patios — tested for durability, coverage, and ease of.', badge: 'Top Pick', url: '/best-concrete-floor-paint/' },
+      { title: 'Epoxy Garage Floor Cost: How Much Should You Actually Pay?', description: 'Real epoxy garage floor cost data — DIY kits vs. professional installation, one-car vs. two-car garages, and what.', badge: 'Cost Guide', url: '/epoxy-garage-floor-cost/' },
+    ],
+  },
+  {
+    name: 'Paver & Masonry Sealers',
+    id: 'pavers',
+    guides: [
+      { title: 'Best Basement Wall Sealer', description: 'Stop moisture, mold, and water intrusion with the right basement sealer.', badge: 'Review', url: '/best-basement-wall-sealer/' },
+    ],
+  },
+  {
+    name: 'Stone & Wood Sealers',
+    id: 'stone-wood',
+    guides: [
+      { title: 'Best Deck Stains', description: 'We applied 12 deck stains to real wood decks and left them through a full year of weather. Only 7 earned our.', badge: 'Review', url: '/best-deck-stain-reviews/' },
+    ],
+  },
+  {
+    name: 'Basement Waterproofing',
+    id: 'basement-waterproofing',
+    guides: [
+      { title: 'Best Mold Removers', description: 'Sprays and concentrates matched to surface, from shower grout to framing lumber.', badge: 'Buyer\'s Guide', url: '/best-mold-remover/' },
+      { title: 'Best Basement Dehumidifiers', description: 'Tested in a genuinely damp basement for pint output, drainage, and cold-temperature performance.', badge: 'Top Pick', url: '/best-dehumidifier-for-basement/' },
+      { title: 'Best Basement Wall Sealer', description: 'Stop moisture, mold, and water intrusion with the right basement sealer.', badge: 'Review', url: '/best-basement-wall-sealer/' },
+    ],
+  },
+  {
+    name: 'Polymeric Sand & Pavers',
+    id: 'polymeric-sand',
+    guides: [
+    ],
+  },
+  {
+    name: 'Lawn & Yard Care',
+    id: 'lawn',
+    guides: [
+      { title: 'Best Zero Turn Mowers', description: '40+ acres cut across seven machines. Transaxles and deck construction decide how a mower ages, not horsepower.', badge: 'Top Pick', url: '/best-zero-turn-mower/' },
+      { title: 'Best Compact Tractors', description: 'Sub-compact to compact compared on operating weight, hitch category and equipped price — not horsepower.', badge: 'Buyer\'s Guide', url: '/best-compact-tractor/' },
+      { title: 'Best Self-Propelled Lawn Mowers', description: 'We tested 12+ self-propelled mowers on hills, thick grass, and uneven terrain over a full mowing season.', badge: 'Top Pick', url: '/best-self-propelled-lawn-mower/' },
+      { title: 'Best Gutter Guards', description: 'We installed 11+ gutter guard systems on real homes and ran them through simulated leaf, pine needle, and heavy.', badge: 'Top Pick', url: '/best-gutter-guards/' },
+    ],
+  },
+  {
+    name: 'Tools & Equipment',
+    id: 'tools',
+    guides: [
+      { title: 'Best Shop Vacs', description: 'Wet/dry vacuums tested on drywall dust, sawdust, and wet spills — hose diameter matters most.', badge: 'Top Pick', url: '/best-shop-vac/' },
+      { title: 'Best Stud Finders', description: 'Multi-sensor, magnetic, and radar scanners tested on drywall, plaster, and walls with live wiring.', badge: 'Top Pick', url: '/best-stud-finder/' },
+      { title: 'Best Portable Power Stations', description: 'Load-tested with real appliances, with watt-hours versus watts and battery chemistry explained.', badge: 'Top Pick', url: '/best-portable-power-station/' },
+      { title: 'Milwaukee vs DeWalt: Which Tool Brand Is Actually Better?', description: 'Milwaukee vs DeWalt, the two dominant pro tool brands. We compare batteries, durability, lineup breadth, and value.', badge: 'Comparison', url: '/milwaukee-vs-dewalt/' },
+    ],
+  },
+  {
+    name: 'Home Appliances',
+    id: 'appliances',
+    guides: [
+      { title: 'Best Water Filtration Systems for Home', description: 'Whole-house, under-sink RO, and well-water filtration systems tested and ranked.', badge: 'Top Pick', url: '/best-water-filtration-system-for-home/' },
+      { title: 'Best Water Filter Pitchers', description: 'NSF-certified, fast-flow, and budget pitcher filters compared by cost per gallon.', badge: 'Top Pick', url: '/best-water-filter-pitcher/' },
+      { title: 'Best Gas Water Heaters', description: 'Recovery rate, first-hour rating and venting type compared across atmospheric, power vent and condensing.', badge: 'Top Pick', url: '/best-gas-water-heater/' },
+    ],
+  },
+  {
+    name: 'Home Improvement',
+    id: 'home',
+    guides: [
+      { title: 'Best Exterior Caulk', description: 'Exterior caulks tested against sun, rain, and joint movement for siding, trim, and masonry.', badge: 'Top Pick', url: '/best-exterior-caulk/' },
+      { title: 'Best Vinyl Plank Flooring', description: 'SPC versus WPC cores, wear layer thickness in mils, and which brands survive a real house.', badge: 'Top Pick', url: '/best-vinyl-plank-flooring/' },
+    ],
+  },
+  {
+    name: 'Generators & Backup Power',
+    id: 'generators',
+    guides: [
+      { title: 'Best Home Generator for Power Outages', description: 'Standby, portable, inverter and battery backup tested through simulated multi-day outages.', badge: '#1 Guide', url: '/best-home-generator-for-power-outages/' },
+      { title: 'Best Gas Generators', description: 'Gasoline machines tested for home backup, plus the fuel logistics that decide whether one works on day three.', badge: 'Buyer\'s Guide', url: '/best-gas-generator/' },
+      { title: 'Best Small Generators for Home', description: 'What 1,800 to 4,500 watts genuinely runs, which are quiet enough for a close street, and when small is the wrong call.', badge: 'Buyer\'s Guide', url: '/best-small-generator-for-home/' },
+    ],
+  },
+  {
+    name: 'Gift Guides',
+    id: 'gifts',
+    guides: [
+    ],
+  },
+  {
+    name: 'Outdoor Living, Pool & Spa',
+    id: 'outdoor-living',
+    guides: [
+    ],
+  },
+  {
+    name: 'Fitness & Outdoor Gear',
+    id: 'fitness',
+    guides: [
+    ],
+  },
+  {
+    name: 'Men\'s Grooming',
+    id: 'grooming',
+    guides: [
+    ],
+  },
+];
+
+// Regroup the guide cards under the site's navigation categories.
+const cards = new Map(allCategories.flatMap((c) => c.guides).map((g) => [g.url, g]));
+const categories = NAV_GROUPS.map((group) => ({
+  name: group.label,
+  id: group.label.toLowerCase().replace(/[^a-z]+/g, '-'),
+  guides: group.links.map((l) => cards.get(l.url) ?? { title: l.title, description: l.blurb, badge: 'Guide', url: l.url }),
+}));
+const allGuides = categories.flatMap(c => c.guides);
+
+const bestOfSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://www.allmetalbrake.com/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Best Lists',
+          item: 'https://www.allmetalbrake.com/best-of/',
+        },
+      ],
+    },
+    {
+      '@type': 'CollectionPage',
+      name: 'Best Guides of 2026 | Home Fix Reviews',
+      description: "Expert-tested guides for driveways, garage floors, basements, backup power, lawn equipment and tools. Real data, honest verdicts.",
+      url: 'https://www.allmetalbrake.com/best-of/',
+    },
+    {
+      '@type': 'ItemList',
+      name: 'Best Guides of 2026 | Home Fix Reviews',
+      description: "Expert-tested guides for driveways, garage floors, basements, backup power, lawn equipment and tools. Real data, honest verdicts.",
+      itemListElement: allGuides.map((guide, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        item: {
+          '@type': 'Article',
+          name: guide.title,
+          description: guide.description,
+          url: `https://www.allmetalbrake.com${guide.url}`,
+        },
+      })),
+    },
+  ],
+};
+---
+<Layout
+  title="Best Guides of 2026"
+  description="Expert-tested guides for driveway sealers, garage floors, basements, generators, lawn equipment and tools. Real data, honest verdicts, zero sponsorships."
+  jsonLd={bestOfSchema}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
+    <header class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-sm font-black uppercase tracking-widest border border-yellow-200 mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path></svg>
+        Updated for 2026
+      </div>
+      <h1 class="text-4xl lg:text-7xl font-black text-[#333333] mb-6 tracking-tight">
+        All <span class="text-[#1E90FF]">Expert-Tested</span> Guides
+      </h1>
+      <p class="text-xl text-gray-500 max-w-2xl mx-auto mb-8">
+        {allGuides.length} in-depth guides covering driveways and concrete, garage floors, basements and water, backup power, and yard and tools. Real data, honest verdicts, zero sponsored picks.
+      </p>
+
+      <!-- Quick Navigation -->
+      <div class="flex flex-wrap justify-center gap-2 mb-8">
+        {categories.map(cat => (
+          <a href={`#${cat.id}`} class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-bold text-gray-700 hover:bg-[#1E90FF] hover:text-white hover:border-[#1E90FF] transition-colors no-underline">
+            {cat.name}
+          </a>
+        ))}
+      </div>
+
+      <!-- Testing Methodology -->
+      <div class="max-w-3xl mx-auto bg-gray-50 border border-gray-200 rounded-2xl p-6 text-left">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 bg-[#1E90FF]/10 rounded-xl flex items-center justify-center shrink-0 mt-0.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path></svg>
+          </div>
+          <div>
+            <p class="font-bold text-gray-900 text-sm mb-1">Our Testing Process</p>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              Every product on this site was purchased with our own money, tested in-house for a minimum of 30 days, and verified against thousands of real user reviews on Reddit and Amazon. We accept zero free samples or sponsorships.
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Categorized Guides -->
+    {categories.map(category => (
+      <section id={category.id} class="mb-16">
+        <h2 class="text-2xl lg:text-3xl font-black text-[#333333] mb-8 pb-4 border-b-2 border-gray-200">
+          {category.name}
+          <span class="text-base font-normal text-gray-400 ml-3">{category.guides.length} guides</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {category.guides.map(guide => (
+            <a
+              href={guide.url}
+              class="block bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#1E90FF]/30 transition-all group no-underline"
+            >
+              <div class="flex items-center gap-2 mb-3">
+                <span class="bg-[#FF4500]/10 text-[#FF4500] px-2.5 py-0.5 rounded-full text-xs font-black uppercase">
+                  {guide.badge}
+                </span>
+              </div>
+              <h3 class="text-lg font-black text-gray-900 group-hover:text-[#1E90FF] transition-colors mb-2">
+                {guide.title}
+              </h3>
+              <p class="text-gray-500 text-sm mb-4 leading-relaxed">{guide.description}</p>
+              <div class="flex items-center gap-1 text-[#1E90FF] text-sm font-bold">
+                Read Guide
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <!-- ========== WHY TRUST OUR PICKS ========== -->
+    <section class="mt-8 mb-8">
+      <div class="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl overflow-hidden">
+        <div class="p-10 lg:p-14">
+          <h2 class="text-3xl font-black text-white mb-6">Why Trust Our Guides?</h2>
+          <p class="text-gray-400 leading-relaxed mb-6">
+            We evaluate every product using a rigorous scoring system across five dimensions:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div class="bg-white/5 rounded-xl p-4">
+              <span class="bg-[#FF4500] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black mb-2">1</span>
+              <p class="font-bold text-white text-sm">Performance (30%)</p>
+              <p class="text-gray-400 text-xs">Real-world effectiveness, durability, and consistency over time.</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-4">
+              <span class="bg-[#FF4500] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black mb-2">2</span>
+              <p class="font-bold text-white text-sm">Build Quality (20%)</p>
+              <p class="text-gray-400 text-xs">Materials, construction, and long-term durability.</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-4">
+              <span class="bg-[#FF4500] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black mb-2">3</span>
+              <p class="font-bold text-white text-sm">Value for Money (20%)</p>
+              <p class="text-gray-400 text-xs">Price relative to performance at every price point.</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-4">
+              <span class="bg-[#FF4500] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black mb-2">4</span>
+              <p class="font-bold text-white text-sm">Ease of Use (20%)</p>
+              <p class="text-gray-400 text-xs">Application difficulty, ergonomics, and learning curve.</p>
+            </div>
+            <div class="bg-white/5 rounded-xl p-4">
+              <span class="bg-[#FF4500] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black mb-2">5</span>
+              <p class="font-bold text-white text-sm">Community (10%)</p>
+              <p class="text-gray-400 text-xs">Reddit, forums, and verified reviews to validate findings.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</Layout>

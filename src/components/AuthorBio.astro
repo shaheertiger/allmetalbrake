@@ -1,0 +1,27 @@
+---
+import { AUTHORS, DEFAULT_AUTHOR, authorForPath } from "../data/authors";
+import AuthorAvatar from "./AuthorAvatar.astro";
+
+interface Props { author?: string; }
+// Without an explicit author, the page topic decides (see authorForPath).
+const { author = authorForPath(Astro.url.pathname) } = Astro.props;
+const a = AUTHORS[author] ?? AUTHORS[DEFAULT_AUTHOR];
+---
+
+<div class="mt-16 bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8 not-prose">
+  <div class="flex items-start gap-4">
+    <AuthorAvatar author={a.slug} size={56} />
+    <div>
+      <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">About the Author</p>
+      <p class="text-lg font-black text-gray-900 mb-2">
+        <a href={`/authors/${a.slug}/`} class="text-gray-900 no-underline hover:text-[#1E90FF]">{a.name}</a>, {a.role}
+      </p>
+      <p class="text-sm text-gray-700 leading-relaxed m-0">{a.short}</p>
+      <p class="text-sm text-gray-500 leading-relaxed mt-3 m-0">
+        <a href={`/authors/${a.slug}/`} class="text-[#1E90FF] font-bold no-underline hover:underline">Full profile</a>
+        <span class="mx-2 text-gray-300">|</span>
+        <a href="/how-we-test/" class="text-[#1E90FF] font-bold no-underline hover:underline">How we test</a>
+      </p>
+    </div>
+  </div>
+</div>

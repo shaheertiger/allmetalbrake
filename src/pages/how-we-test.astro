@@ -1,0 +1,120 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import { AUTHORS, SITE_URL } from "../data/authors";
+
+const title = "How We Test";
+const description =
+  "Our testing process, how products are chosen, how we handle samples and affiliate links, and what our ratings actually mean.";
+
+const testers = [AUTHORS["shaheer-ali-khan"], AUTHORS["alex-rivers"]];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "How We Test", item: `${SITE_URL}/how-we-test/` },
+      ],
+    },
+    {
+      "@type": "WebPage",
+      name: title,
+      description,
+      url: `${SITE_URL}/how-we-test/`,
+      publisher: { "@type": "Organization", name: "Home Fix Reviews", url: SITE_URL },
+    },
+  ],
+};
+
+const STEPS = [
+  {
+    n: "01",
+    title: "We start from the job, not the catalogue",
+    body: "Every guide begins with the task a reader is actually trying to finish — sealing a driveway before the first frost, keeping a fridge running through an outage, stripping algae off siding. The shortlist comes from what that job demands, not from what is selling well on Amazon this week.",
+  },
+  {
+    n: "02",
+    title: "We shortlist on specifications that predict failure",
+    body: "For each category we identify the specification that actually decides longevity — motor type on a pressure washer, battery chemistry on a power station, solids content on a sealer — and use it to cut the field. Products that fail that test do not make the shortlist regardless of price or reviews.",
+  },
+  {
+    n: "03",
+    title: "We test on real surfaces and real loads",
+    body: "Testing happens on actual driveways, decks, sidings, panels and circuits, not on a bench. Where a product's whole value is longevity, we say so and revisit rather than pretending a week of use settles it. Every guide states exactly what was tested and on what.",
+  },
+  {
+    n: "04",
+    title: "We run each product long enough to find the flaw",
+    body: "Short sessions flatter almost everything. We run machines to the point where heat, fatigue, or a fiddly design starts to matter, because that is where the differences between two similar-looking products appear.",
+  },
+  {
+    n: "05",
+    title: "We publish the trade-offs",
+    body: "Every product in every guide gets a cons list, and it is never padded with fake weaknesses. If we cannot find a real drawback we say the product has none we found, and if a product is unsuitable for the reader most likely to buy it, that goes in the verdict.",
+  },
+];
+---
+
+<Layout title={title} description={description} jsonLd={schema}>
+  <article class="max-w-3xl mx-auto px-4 py-16 lg:py-24">
+    <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-4">Editorial Standards</p>
+    <h1 class="text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-6">How We Test</h1>
+    <p class="text-xl text-gray-600 leading-relaxed mb-10">
+      Anyone can rank the top ten sellers on a retail site and call it a review. Here is what we do instead, what we will not do, and how we make money — so you can judge our recommendations for yourself.
+    </p>
+
+    <div class="space-y-8 mb-14">
+      {STEPS.map((step) => (
+        <div class="flex gap-5">
+          <span class="text-sm font-black text-[#1E90FF] pt-1 shrink-0 tabular-nums">{step.n}</span>
+          <div>
+            <h2 class="text-xl font-black text-gray-900 mb-2">{step.title}</h2>
+            <p class="text-gray-700 leading-relaxed m-0">{step.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <h2 class="text-2xl font-black text-gray-900 mb-4">How we handle money</h2>
+    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8 space-y-4 mb-14">
+      <p class="text-gray-700 leading-relaxed m-0">
+        <strong class="text-gray-900">We earn commission on some links.</strong> When you buy through a link in one of our guides we may receive a share of the sale at no additional cost to you, as a participant in the Amazon Services LLC Associates Program. That commission is identical across the products in a guide, so it cannot influence which product we rank first.
+      </p>
+      <p class="text-gray-700 leading-relaxed m-0">
+        <strong class="text-gray-900">We do not sell coverage.</strong> No manufacturer can pay to appear in a guide, to move up a ranking, or to have a criticism removed. We do not run sponsored reviews, and no brand sees a guide before it is published.
+      </p>
+      <p class="text-gray-700 leading-relaxed m-0">
+        <strong class="text-gray-900">Star ratings and review counts belong to the retailer.</strong> Where we show a star rating and a number of reviews, those are the figures from the retailer's own listing, shown to give a sense of how the wider market has received a product. They are not our score. Our verdict is the written one.
+      </p>
+    </div>
+
+    <h2 class="text-2xl font-black text-gray-900 mb-4">When we get it wrong</h2>
+    <p class="text-gray-700 leading-relaxed mb-4">
+      Products change, specifications get revised mid-generation, and sometimes we simply miss something. If a guide is wrong, tell us and we will correct it and note the change. Guides are revisited when a product is discontinued or replaced, when a new model changes the ranking, or when readers report a failure pattern we did not see.
+    </p>
+    <p class="text-gray-700 leading-relaxed mb-14">
+      Corrections and questions go to <a href="/contact/" class="text-[#1E90FF] font-bold no-underline hover:underline">our contact page</a>.
+    </p>
+
+    <div class="bg-gray-900 text-white rounded-2xl p-8">
+      <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-6">Who does the testing</p>
+      <div class="space-y-8">
+        {testers.map((author) => (
+          <div class="flex items-start gap-4">
+            <AuthorAvatar author={author.slug} size={56} />
+            <div>
+              <p class="text-lg font-black text-white mb-2">{author.name}, {author.role}</p>
+              <p class="text-gray-300 text-sm leading-relaxed m-0">{author.short}</p>
+              <p class="mt-3 m-0">
+                <a href={`/authors/${author.slug}/`} class="text-[#38BDF8] font-bold text-sm no-underline hover:underline">Read {author.name.split(" ")[0]}'s full profile &rarr;</a>
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </article>
+</Layout>

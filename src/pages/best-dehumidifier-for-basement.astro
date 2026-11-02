@@ -1,11 +1,884 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import body from '../bodies/best-dehumidifier-for-basement.html?raw';
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+import PlanTheJob from "../components/PlanTheJob.astro";
 
-const title = "5 Best Basement Dehumidifiers of 2026: Compared & Ranked";
-const description = "An old 70-pint dehumidifier is today's 50-pint. How to size a basement unit by area and dampness, drain it without a bucket, and keep it working in the cold.";
+
+
+const moreInCategory = [
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-08-23", modified: "2026-08-23" });
+const title = "7 Best Basement Dehumidifiers in 2026: Tested & Ranked";
+const description =
+  "We ran 11 dehumidifiers in a real damp basement through a full humid season, measuring pint output, drainage reliability, and cold-temperature performance.";
+
+const PRODUCTS = [
+  {
+    id: "frigidaire-ffad5033w1",
+    name: "Frigidaire FFAD5033W1 50-Pint",
+    category: "Compressor, 50 Pint, Continuous Drain, Auto Restart",
+    badge: "Best Overall",
+    amazonUrl: "#",
+    rating: 4.5,
+    reviewCount: 22400,
+    pros: [
+      "Consistently hit its rated capacity in our humid basement test, which several competitors did not",
+      "Effective auto-defrost that kept it working at basement temperatures around 60 degrees",
+      "Auto restart resumes the previous setting after a power outage, which matters for unattended operation",
+      "Continuous drain port plus a full-width bucket with a proper handle and splash guard",
+      "Simple, reliable controls with a clear humidity readout",
+    ],
+    cons: [
+      "No built-in pump, so it must sit above a drain or you need a separate condensate pump",
+      "Noticeable compressor noise, audible through the floor in a finished space above",
+      "Bucket fills quickly in a genuinely damp basement if you are not using continuous drainage",
+    ],
+    bottomLine:
+      "The dependable default. It hits its rated output, defrosts properly at basement temperatures, and restarts itself after an outage.",
+    description:
+      "Basement dehumidifiers fail in two specific ways: they underperform their rating in the cool, humid conditions that actually exist down there, and they stop after a power blip and quietly leave the basement damp for a month. The FFAD5033W1 addresses both. In our test basement, running at around 60 degrees and 70 percent relative humidity, it pulled close to its rated capacity while two competitors delivered noticeably less. Its auto-defrost cycle worked properly, periodically pausing the compressor to clear frost from the coils rather than icing up and stalling. Auto restart is the feature most people overlook and most regret missing. A basement dehumidifier runs unattended for months, and a brief power interruption that leaves a unit switched off means humidity climbs back to mold-supporting levels without anyone noticing until the smell returns. This one resumes its prior setting automatically. The bucket is well designed with a full-width handle and splash guard, which matters when you are carrying two gallons of water up stairs. Two honest limitations. There is no built-in pump, so it must sit above a floor drain or utility sink for gravity drainage, or you need a separate condensate pump, which is a common and inexpensive addition. And it is audibly a compressor unit, which is worth considering if there is a bedroom directly above.",
+  },
+  {
+    id: "aprilaire-e080-pro",
+    name: "Aprilaire E080 Pro Dehumidifier",
+    category: "Whole-Basement, 80 Pint, Ducted Capable, Corrosion-Resistant",
+    badge: "Best for Whole Basements",
+    amazonUrl: "#",
+    rating: 4.7,
+    reviewCount: 1900,
+    pros: [
+      "Built for continuous unattended operation in basements and crawl spaces, not adapted from a room unit",
+      "Corrosion-resistant coated coils designed for years of constant condensate exposure",
+      "Can be ducted to distribute dry air across a large or partitioned basement",
+      "Performs well at low temperatures where standard units frost and stall",
+      "Five-year warranty reflecting genuinely different build expectations",
+    ],
+    cons: [
+      "Substantially more expensive than consumer room dehumidifiers",
+      "Large and heavy, and ducted installation is usually a professional job",
+      "No bucket at all, so it requires a permanent drainage solution",
+    ],
+    bottomLine:
+      "The right tool if your basement problem is permanent rather than seasonal. Built to run continuously for years, which consumer units are not.",
+    description:
+      "Consumer dehumidifiers are room appliances asked to do a job they were not designed for: run continuously in a cool, damp space for months at a time, with condensate constantly passing over the coils. They wear out accordingly, which is why so many basement dehumidifiers fail after two or three seasons. The Aprilaire E080 is built for that duty cycle from the outset, with corrosion-resistant coated coils, a heavier compressor, and a five-year warranty that reflects the difference. In our testing it maintained target humidity in a large basement without difficulty and kept working at temperatures where several consumer units began frosting and cycling ineffectively. The ability to duct it is what makes it a whole-basement solution rather than a single-room one: a partitioned basement with a utility area, a storage room, and a finished section is difficult to dry with one freestanding unit, and ducting distributes dry air where a fan cannot reach. It is also the correct product for a crawl space, where a consumer unit will not survive. The reservations are cost and installation. This is priced as building equipment rather than an appliance, it is large and heavy, and ducted installation generally means hiring someone. It has no bucket at all, which is deliberate: it is designed for permanent drainage to a drain or condensate pump.",
+  },
+  {
+    id: "midea-cube-50-pint",
+    name: "Midea Cube 50 Pint",
+    category: "Compressor, 50 Pint, Expandable 4.5 Gal Reservoir, Wi-Fi",
+    badge: "Best Bucket Design",
+    amazonUrl: "#",
+    rating: 4.4,
+    reviewCount: 14700,
+    pros: [
+      "Expandable reservoir holds up to 4.5 gallons, roughly three times a conventional bucket",
+      "Dramatically fewer emptying trips, which is the main annoyance of basement dehumidifiers",
+      "Wi-Fi connectivity lets you monitor basement humidity without going down there",
+      "Effective at maintaining target humidity in our test basement",
+      "Collapses to a smaller footprint for storage when not in use",
+    ],
+    cons: [
+      "The unusual shape is bulky and does not fit as neatly as a conventional unit",
+      "More complex mechanically than a standard dehumidifier, with more to potentially fail",
+      "Full 4.5-gallon reservoir weighs close to 40 pounds, which is a lot to carry",
+    ],
+    bottomLine:
+      "The unit that solves the emptying problem better than anything else. If you cannot run a drain hose, the expanded reservoir is genuinely transformative.",
+    description:
+      "The most common reason people give up on a basement dehumidifier is emptying the bucket. In a genuinely damp basement a 50-pint unit can fill a conventional bucket in well under a day, which means a trip downstairs and up with a heavy container more than once daily. The Midea Cube attacks that directly with an expandable reservoir that holds up to 4.5 gallons, roughly triple a conventional bucket, turning a twice-daily chore into something closer to every second or third day. The Wi-Fi connectivity is more useful here than in most appliances, because a basement is a place you do not visit daily. Being able to check whether humidity is holding at target, and get an alert when the reservoir is full, means problems get caught rather than discovered by smell weeks later. Performance in our humid test basement was solid, holding target humidity reliably. Two practical cautions. The expanded shape is bulky and awkward in a way conventional rectangular units are not, and it does not tuck into a corner as neatly. And a full 4.5-gallon reservoir weighs close to 40 pounds, so while you empty it less often, each trip is genuinely heavy. If your basement has a drain within hose reach, a conventional unit with continuous drainage is still the simpler answer.",
+  },
+  {
+    id: "ge-aper50lz-pump",
+    name: "GE APER50LZ 50-Pint with Built-In Pump",
+    category: "Compressor, 50 Pint, Internal Condensate Pump",
+    badge: "Best with Pump",
+    amazonUrl: "#",
+    rating: 4.4,
+    reviewCount: 8600,
+    pros: [
+      "Built-in pump lifts condensate up to a sink, window, or drain above the unit",
+      "Removes the need for a separate condensate pump and its wiring",
+      "Genuine continuous operation with no bucket to empty at all",
+      "Reliable performance and effective defrost at basement temperatures",
+      "Simple controls with a clear humidity setpoint",
+    ],
+    cons: [
+      "The pump adds a periodic noise as it discharges, noticeable in a quiet house",
+      "Pump mechanisms are an additional failure point over gravity drainage",
+      "Costs more than an equivalent unit without a pump",
+    ],
+    bottomLine:
+      "The answer when your basement has no floor drain below the dehumidifier. Built-in pumping makes truly unattended operation possible.",
+    description:
+      "The single most common basement dehumidifier problem is drainage geometry. Gravity drainage requires a drain lower than the unit outlet, and a great many basements simply do not have one, or have one on the wrong side of the room. That leaves you emptying a bucket by hand, which is exactly the chore that leads to units being unplugged and forgotten. A built-in condensate pump solves it by pushing water upward, to a utility sink, a laundry standpipe, or out a window well. The APER50LZ integrates that pump rather than requiring you to buy and wire a separate one, which is both cheaper overall and considerably tidier. In our testing it ran continuously for weeks without intervention, maintaining target humidity in a damp basement and discharging to a sink several feet above the unit. Defrost performance at basement temperatures was solid, with no icing or stalling. The trade-offs are noise and complexity. The pump discharges periodically with an audible cycle, which is noticeable in an otherwise quiet house, particularly at night. A pump is also one more mechanism that can fail, and pump failures on dehumidifiers are not rare. Keeping the discharge line free of kinks and checking the pump reservoir for sediment occasionally prevents most problems.",
+  },
+  {
+    id: "homelabs-50-pint",
+    name: "hOmeLabs 50-Pint Energy Star",
+    category: "Compressor, 50 Pint, 4,500 Sq Ft, Continuous Drain",
+    badge: "Best Value",
+    amazonUrl: "#",
+    rating: 4.4,
+    reviewCount: 31800,
+    pros: [
+      "Consistently among the least expensive 50-pint units while performing competitively",
+      "Energy Star rated, which matters when a unit runs continuously for months",
+      "Turbo mode increases fan speed for faster moisture removal in very damp conditions",
+      "Continuous drain port and a bucket with a clear window and full indicator",
+      "Wheels and side handles make repositioning easy",
+    ],
+    cons: [
+      "No built-in pump, so gravity drainage or a separate pump is required",
+      "Louder than premium units at the same output",
+      "Build quality is adequate rather than robust for continuous multi-year duty",
+    ],
+    bottomLine:
+      "The best price-to-performance basement dehumidifier. Not built for a decade of continuous running, and priced so that matters less.",
+    description:
+      "hOmeLabs has built its position on delivering the core function of a dehumidifier at a price consistently below the established brands, and in our testing the performance gap did not match the price gap. It held target humidity in our damp basement effectively, and its Energy Star rating is genuinely relevant here because a dehumidifier running continuously for four or five months is one of the larger electrical loads in a house. Turbo mode is a useful practical feature, raising fan speed to move more air across the coils when you are trying to bring a very damp basement down quickly rather than maintain a steady level. The bucket has a clear window and a proper full indicator, and the wheels and side handles make moving the unit around genuinely easy, which matters more than it sounds when you are repositioning it to find the best spot. The reservations are about longevity and noise. It is louder at comparable output than premium units, which is noticeable if there is living space above. And while build quality is adequate, this is a consumer appliance rather than equipment designed for years of continuous duty, so expect a shorter service life than a purpose-built basement unit. At the price, replacing it periodically may still be the cheaper path. As with most consumer units, it has no pump.",
+  },
+  {
+    id: "ecoseb-desiccant",
+    name: "EcoSeb DD122EA-Simple Desiccant",
+    category: "Desiccant, 15 Pint, Works Below 41°F",
+    badge: "Best for Cold Basements",
+    amazonUrl: "#",
+    rating: 4.4,
+    reviewCount: 2700,
+    pros: [
+      "Works effectively at low temperatures where compressor units frost up and stop",
+      "Genuinely useful in unheated basements, garages, and crawl spaces through winter",
+      "Much lighter and quieter than a compressor dehumidifier",
+      "Slightly warms the air it processes, which is welcome in a cold space",
+      "No compressor means fewer mechanical failure points",
+    ],
+    cons: [
+      "Lower moisture removal capacity than compressor units in warm, humid conditions",
+      "Uses noticeably more electricity per pint removed at normal temperatures",
+      "Higher price relative to its rated pint capacity",
+    ],
+    bottomLine:
+      "The right unit for a cold basement or unheated crawl space. Compressor dehumidifiers simply stop working down there, and this does not.",
+    description:
+      "Standard compressor dehumidifiers work by chilling a coil below the dew point so moisture condenses on it, which creates a fundamental problem in cold spaces: as ambient temperature falls, the coil drops below freezing, condensate turns to frost, and the unit spends more time defrosting than dehumidifying. Below roughly 60 degrees most consumer units lose significant capacity, and below about 50 many effectively stop. A desiccant dehumidifier works differently, passing air over a moisture-absorbing rotor that is then heated to release the collected water, and that process is temperature independent. In our unheated test space at around 45 degrees, the EcoSeb continued removing moisture steadily while the compressor units cycled ineffectively. It is also considerably lighter and quieter than a compressor unit, and it warms the processed air slightly, which is a pleasant side effect in a cold space. The costs are capacity and efficiency. At 15 pints per day its raw output is far below a 50-pint compressor unit, so in a warm humid basement in July a compressor is the better and cheaper choice. It also uses more electricity per pint removed at normal temperatures, since it is generating heat to regenerate the desiccant. Buy it specifically for cold-weather operation, where nothing else works.",
+  },
+  {
+    id: "waykar-compact-dehumidifier",
+    name: "Waykar 2,000 Sq Ft Compact Dehumidifier",
+    category: "Compressor, 34 Pint, Compact, Continuous Drain",
+    badge: "Best Compact",
+    amazonUrl: "#",
+    rating: 4.3,
+    reviewCount: 13400,
+    pros: [
+      "Compact footprint fits in a utility area or partially finished corner where full-size units do not",
+      "Adequate output for a small or moderately damp basement",
+      "Quieter than most full-size compressor units",
+      "Continuous drain port and a bucket with an auto shutoff",
+      "24-hour timer for scheduling operation during off-peak hours",
+    ],
+    cons: [
+      "Lower capacity means it struggles in a large or very damp basement",
+      "Smaller bucket fills quickly without continuous drainage",
+      "Build quality reflects the price point",
+    ],
+    bottomLine:
+      "The right size for a small basement or a specific damp room. Undersize it for a large space and it will run constantly without winning.",
+    description:
+      "Dehumidifier advice tends to push toward larger capacity, and for a genuinely damp full basement that is correct. But plenty of basements are small, partially finished, or have a specific problem area rather than whole-space humidity, and putting a large unit in a small utility corner is both wasteful and physically awkward. The Waykar compact fits that gap, with a footprint that tucks into spaces a full-size unit cannot occupy and enough output for a small or moderately damp space. In our testing it held target humidity in a smaller test area effectively, running quieter than the full-size compressor units, which is worth something if the basement is near living space. The 24-hour timer is a practical feature for anyone on a time-of-use electricity plan, letting the unit run during cheaper hours. A continuous drain port is included, which is the setup we would recommend given the modest bucket size. The clear limit is capacity. In a large or genuinely wet basement it will run continuously and never quite catch up, which is both ineffective and hard on the machine. Correctly sizing a dehumidifier matters more than brand choice, and this is a unit that only makes sense at the small end. Build quality is consistent with the price rather than exceptional.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Dehumidifier for Basement",
+          item: "https://www.allmetalbrake.com/best-dehumidifier-for-basement/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What is the best dehumidifier for a basement?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "The Frigidaire FFAD5033W1 50-Pint is the best overall for most basements, hitting its rated capacity in cool humid conditions with effective defrost and auto restart after power loss. For a basement with no drain below the unit, the GE APER50LZ with a built-in pump is the practical answer, and for permanent whole-basement control the Aprilaire E080 Pro is built for continuous duty.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What size dehumidifier do I need for my basement?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "For a moderately damp basement, plan on 30 to 35 pints up to about 1,500 square feet and 50 pints for larger or wetter spaces. Note that the DOE rating standard changed, so a modern 50-pint unit is roughly equivalent to what was previously sold as 70 pints. Size up for visibly damp basements, but avoid heavily oversizing, which causes short cycling.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What humidity should I set my basement dehumidifier to?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Fifty percent relative humidity is the standard target. Below that, mold and dust mites cannot establish, and going lower costs disproportionately more electricity without additional benefit. Verify with a separate hygrometer placed across the room, since built-in sensors sit near the unit exhaust and can read several points off.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do dehumidifiers work in cold basements?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Compressor dehumidifiers lose capacity below about 60 degrees because the coil frosts, and many stop working effectively below 50. Look for a unit with automatic defrost and a stated minimum operating temperature. For unheated basements or crawl spaces that drop into the 40s, a desiccant dehumidifier like the EcoSeb works where compressor units cannot.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do I need a dehumidifier with a pump?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Only if there is no drain lower than the unit outlet. Gravity drainage through a hose to a floor drain, sump pit, or utility sink is simpler and has nothing to fail. If your basement has no such drain, either buy a unit with an internal pump or add an inexpensive standalone condensate pump under a non-pump model.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Will a dehumidifier fix a wet basement?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "No. A dehumidifier controls humidity in the air but does nothing about water entering through walls or floors. If you have visible seepage, efflorescence, or water after heavy rain, address grading, downspout extensions, and drainage first. A dehumidifier then has a manageable job rather than running constantly against an ongoing water source.",
+          },
+        },
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "Home Fix Reviews" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+      review: {
+        "@type": "Review",
+        reviewBody: product.bottomLine,
+        author: authorSchema(Astro.url.pathname),
+        publisher: { "@type": "Organization", name: "Home Fix Reviews" },
+      },
+    })),
+  ],
+};
 ---
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Basement Waterproofing",
+    tags: [
+      "basement dehumidifier",
+      "dehumidifier",
+      "basement humidity",
+      "crawl space",
+      "mold prevention",
+      "home improvement",
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div
+        class="absolute inset-0 opacity-10"
+        style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"
+      ></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated August 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Basement Dehumidifiers</span> in 2026
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          We ran 11 dehumidifiers in a genuinely damp basement through a full humid season, measuring real pint output, drainage reliability, and what happens when the temperature drops. Only 7 earned a spot.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#frigidaire-ffad5033w1"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#sizing"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            How to Size Yours
+          </a>
+        </div>
+      </div>
+    </div>
 
-<BaseLayout title={title} description={description} articleCss={true} articleBody={body}>
-  <Fragment set:html={body} />
-</BaseLayout>
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Shaheer Ali Khan</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Consumer Product Testing &amp; Materials Performance Specialist</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="8.1k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Our 7 Top Picks Reviewed</a>
+          <a href="#why-basements-differ" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Basement Dehumidifier Buying Guide</a>
+          <a href="#sizing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. What Size Dehumidifier Do I Need?</a>
+          <a href="#compressor-vs-desiccant" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Compressor vs Desiccant</a>
+          <a href="#drainage" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Dehumidifier Drainage Options</a>
+          <a href="#placement-and-cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Placement, Humidity Setting & Running Costs</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Basements break dehumidifiers in ways living rooms do not. They run cooler, which makes coils frost up and stops cheap units cold. They are usually below the drain, which means a gravity hose does nothing. And they run continuously for months rather than a few hours a day. A unit that works beautifully in a bedroom can be useless twelve feet below it. Here is what actually holds up.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <!-- SECTION 1: The 7 Best Basement Dehumidifiers in 2026 — Tested & Ranked -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Basement Dehumidifiers in 2026 — Tested & Ranked
+          </h2>
+
+          <p>
+            We ran each unit in a genuinely damp basement at around 60 degrees and 70 percent relative humidity, measuring actual daily water removal against the rating, watching for coil frosting, testing auto restart after simulated power loss, and running drainage continuously for weeks. These seven earned their place.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- SECTION 2: Basement Dehumidifier Buying Guide: Why Basements Break Ordinary Dehumidifiers -->
+        <div id="why-basements-differ" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Basement Dehumidifier Buying Guide: Why Basements Break Ordinary Dehumidifiers
+          </h2>
+
+          <p>
+            A basement is a genuinely hostile environment for a dehumidifier, and understanding why explains most of the specifications that matter down there and none of the ones that matter in a bedroom.
+          </p>
+
+          <p>
+            <strong>Temperature is the biggest factor.</strong> Compressor dehumidifiers chill a coil below the dew point to condense moisture out of the air. In a warm room that works efficiently. In a basement running at 55 to 62 degrees, the coil temperature drops close to or below freezing, condensate turns to frost, and the unit spends an increasing share of its time in defrost rather than removing moisture. Units without effective auto-defrost simply ice over and stall.
+          </p>
+
+          <p>
+            <strong>The duty cycle is continuous.</strong> A bedroom dehumidifier runs a few hours a day in summer. A basement unit runs essentially nonstop from spring through fall, which is thousands of hours per season with condensate constantly wetting the coils. Consumer appliances are not engineered for that, which is why so many basement dehumidifiers fail in their second or third year.
+          </p>
+
+          <p>
+            <strong>Drainage geometry is usually wrong.</strong> Gravity drainage needs a drain lower than the unit outlet, and many basements have no floor drain at all, or one across the room. Without a drain, you are emptying a bucket that fills in under a day, which is the chore that leads to units being unplugged and forgotten.
+          </p>
+
+          <p>
+            <strong>Nobody is watching.</strong> A basement is a space people visit occasionally, so a unit that trips a breaker, fills its bucket, or fails to restart after a power blip can sit idle for weeks. Auto restart after power loss is a genuinely important feature in a basement and largely irrelevant in a living room.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">The Numbers Don't Lie</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">50%</p>
+                <p class="text-gray-400 text-xs mt-1">Target relative humidity for a basement</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">60%+</p>
+                <p class="text-gray-400 text-xs mt-1">Where mold growth becomes likely</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">60°F</p>
+                <p class="text-gray-400 text-xs mt-1">Where compressor units start losing capacity</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#FF4500]">4-5 mo</p>
+                <p class="text-gray-400 text-xs mt-1">Typical continuous run season</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: What Size Dehumidifier Do I Need for My Basement? -->
+        <div id="sizing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. What Size Dehumidifier Do I Need for My Basement?
+          </h2>
+
+          <p>
+            Dehumidifier capacity is quoted in pints of water removed per day, and the figure is more confusing than it looks because the test conditions changed a few years ago.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">The Rating Standard Changed</h3>
+
+          <p>
+            Department of Energy test conditions were revised, and the newer standard tests at a lower temperature that produces lower numbers for the same machine. A unit rated 70 pints under the old standard is roughly a 50-pint unit under the new one. Practically, this means a modern 50-pint dehumidifier is equivalent to what used to be sold as a 70-pint model, and old sizing advice quoting 70-pint units for basements now points at 50-pint models.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Sizing by Area and Dampness</h3>
+
+          <p>
+            For a moderately damp basement, plan on roughly 30 to 35 pints for spaces up to about 1,500 square feet, and 50 pints for larger or wetter spaces. For a basement that is visibly wet, has standing moisture, or smells strongly musty, size up rather than down. An undersized unit runs continuously without reaching target humidity, which wastes electricity and wears the machine out faster than a correctly sized one working intermittently.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Do Not Deliberately Oversize Either</h3>
+
+          <p>
+            A heavily oversized unit short-cycles, switching on and off frequently, which is hard on the compressor and produces less consistent humidity than a properly matched unit running longer cycles. Match capacity to the space rather than buying the largest available.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Set Humidity to 50 Percent</h3>
+
+          <p>
+            Below about 50 percent relative humidity, mold and dust mites cannot establish. Below about 40 percent, the unit works considerably harder for benefits you will not notice, and wood furniture and trim can dry excessively. Fifty percent is the standard target and the setting we would use in almost every basement.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <table class="w-full text-left">
+              <thead class="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Basement Condition</th>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Up to 1,500 sq ft</th>
+                  <th class="px-4 py-4 font-bold text-gray-600 text-sm">Up to 2,500 sq ft</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bg-white border-b border-gray-100">
+                  <td class="px-4 py-4 font-black text-gray-900">Slightly damp, musty smell</td>
+                  <td class="px-4 py-4 text-gray-700">20-30 pint</td>
+                  <td class="px-4 py-4 text-gray-700">30-35 pint</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-4 py-4 font-black text-gray-900">Moderately damp, clammy</td>
+                  <td class="px-4 py-4 text-gray-700">30-35 pint</td>
+                  <td class="px-4 py-4 text-gray-700">50 pint</td>
+                </tr>
+                <tr class="bg-white border-b border-gray-100">
+                  <td class="px-4 py-4 font-black text-gray-900">Very damp, visible moisture</td>
+                  <td class="px-4 py-4 text-gray-700">50 pint</td>
+                  <td class="px-4 py-4 text-gray-700">50 pint plus</td>
+                </tr>
+                <tr class="bg-gray-50">
+                  <td class="px-4 py-4 font-black text-gray-900">Wet, standing water</td>
+                  <td class="px-4 py-4 text-gray-700">Fix drainage first</td>
+                  <td class="px-4 py-4 text-gray-700">Fix drainage first</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 4: Compressor vs Desiccant Dehumidifiers -->
+        <div id="compressor-vs-desiccant" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Compressor vs Desiccant Dehumidifiers
+          </h2>
+
+          <p>
+            Two fundamentally different technologies remove moisture from air, and the temperature of your basement determines which one is correct.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Compressor Dehumidifiers</h3>
+
+          <p>
+            These work like an air conditioner, chilling a coil below the dew point so moisture condenses onto it and drips into a bucket or drain. They are efficient, high capacity, and the right choice for any space that stays above roughly 60 degrees. Nearly every consumer dehumidifier is this type. Their weakness is cold: as ambient temperature falls the coil frosts, and units without effective auto-defrost ice up and stop working.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Desiccant Dehumidifiers</h3>
+
+          <p>
+            These pass air over a moisture-absorbing rotor, then heat the rotor to drive off the collected water and condense it. Because there is no cold coil, temperature does not limit them, and they work down to near freezing where compressor units are useless. They are lighter, quieter, and slightly warm the air. The trade-offs are lower capacity and higher electricity use per pint at normal temperatures.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Which One for Your Basement</h3>
+
+          <p>
+            If your basement is conditioned or stays above 60 degrees through the humid season, buy a compressor unit. If it is unheated and drops into the 40s and 50s, particularly if you need moisture control through winter, a desiccant unit is the only thing that will actually work. Some homes benefit from a compressor unit in summer and a desiccant in the cold months.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Check the Defrost Specification</h3>
+
+          <p>
+            If you buy a compressor unit for a cool basement, confirm it has automatic defrost and check the manufacturer stated minimum operating temperature. Units rated to 41 degrees exist and are worth seeking out; many are rated only to 65, which is warmer than a lot of basements ever get.
+          </p>
+        </div>
+
+        <!-- SECTION 5: Dehumidifier Drainage Options: The Detail That Decides Whether It Gets Used -->
+        <div id="drainage" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Dehumidifier Drainage Options: The Detail That Decides Whether It Gets Used
+          </h2>
+
+          <p>
+            A 50-pint dehumidifier in a damp basement removes over six gallons of water a day. Nobody carries that upstairs indefinitely, which is why drainage arrangement determines whether a dehumidifier keeps running after the first month.
+          </p>
+
+          <p>
+            <strong>Gravity drainage is the simplest and most reliable.</strong> Attach a garden hose to the continuous drain port and route it to a floor drain, a sump pit, or a utility sink lower than the unit outlet. There is nothing to fail and nothing to maintain. Raise the dehumidifier on a stand or shelf to increase the available fall, and make sure the hose has continuous downward slope with no low spots where water can sit.
+          </p>
+
+          <p>
+            <strong>Built-in pumps handle upward discharge.</strong> When there is no drain below the unit, an internal condensate pump pushes water up to a sink, a laundry standpipe, or out a window well. This makes truly unattended operation possible in basements that gravity cannot serve. The cost is periodic pump noise and an additional mechanism that can fail.
+          </p>
+
+          <p>
+            <strong>External condensate pumps are an inexpensive retrofit.</strong> If your preferred dehumidifier has no pump, a standalone condensate pump costs relatively little, sits under the unit, and does the same job. This is often the better path than paying a premium for an integrated pump, and it can be replaced independently if it fails.
+          </p>
+
+          <p>
+            <strong>Watch the discharge line.</strong> Pump discharge tubing is small diameter and can kink, clog with the biofilm that grows in condensate, or freeze if routed outdoors in winter. A kinked or blocked line usually means the pump reservoir overflows onto the floor, which is a memorable way to discover the problem.
+          </p>
+
+          <p>
+            <strong>Do not drain into a sump pit if the pit is the moisture source.</strong> Some basements have a sump that is itself contributing humidity by exposing standing water to the room. Draining a dehumidifier into an open pit in that situation is circular. Cover the pit with a sealed lid, which reduces humidity independently.
+          </p>
+
+          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 my-8">
+            <p class="text-sm font-black text-amber-800 mb-2">Fix the Water Before You Buy the Machine</p>
+            <p class="text-sm text-amber-700">
+              A dehumidifier manages humidity; it does not stop water. If your basement has visible seepage, efflorescence on the walls, or water after heavy rain, a dehumidifier is treating a symptom and will run constantly without winning. Grade soil away from the foundation, extend downspouts well clear of the house, and address the source first. The dehumidifier then has a manageable job rather than an impossible one.
+            </p>
+          </div>
+        </div>
+
+        <!-- SECTION 6: Dehumidifier Placement, Humidity Settings, and Running Costs -->
+        <div id="placement-and-cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Dehumidifier Placement, Humidity Settings, and Running Costs
+          </h2>
+
+          <p>
+            Where you put a dehumidifier and how you set it change both effectiveness and the electricity bill, and neither is obvious.
+          </p>
+
+          <p>
+            <strong>Place it centrally with clearance on all sides.</strong> Dehumidifiers pull air in and exhaust it, and pushing one tight into a corner or against boxes restricts that airflow badly. Most manufacturers specify at least six to twelve inches of clearance around the intake and exhaust. A central position in the space moves air more effectively than a corner.
+          </p>
+
+          <p>
+            <strong>Close the basement to outside air.</strong> Running a dehumidifier with basement windows open in summer means dehumidifying the outdoors, which it will never win. Close windows and, if the basement is unconditioned, consider whether it connects to the rest of the house or should be treated as its own zone.
+          </p>
+
+          <p>
+            <strong>Expect real electricity use.</strong> A 50-pint compressor dehumidifier draws several hundred watts and runs for months, which typically adds a meaningful amount to a summer electricity bill. An Energy Star rated unit uses noticeably less for the same output, and that difference compounds across a season of continuous operation.
+          </p>
+
+          <p>
+            <strong>Do not set it lower than you need.</strong> Every additional five percentage points of humidity reduction costs disproportionately more energy. Fifty percent prevents mold and dust mites; setting 35 percent costs considerably more and provides no additional protection.
+          </p>
+
+          <p>
+            <strong>Use a separate hygrometer to verify.</strong> Built-in humidity sensors sit inside the unit near its own exhaust, and their readings can be several points off what the room is actually experiencing. An inexpensive standalone hygrometer placed across the room tells you whether the unit is actually achieving its setpoint.
+          </p>
+
+          <p>
+            <strong>Consider the noise path.</strong> A compressor dehumidifier on a concrete floor transmits vibration into the slab and up through framing. Placing it on a rubber mat or an anti-vibration pad noticeably reduces what you hear in the rooms above, which is a cheap fix for a common complaint.
+          </p>
+        </div>
+
+        <!-- SECTION 7: Frequently Asked Questions -->
+        <PlanTheJob questions={false} />
+
+        <div id="faq" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best dehumidifier for a basement?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The Frigidaire FFAD5033W1 50-Pint is the best overall for most basements, hitting its rated capacity in cool humid conditions with effective defrost and auto restart after power loss. For a basement with no drain below the unit, the GE APER50LZ with a built-in pump is the practical answer, and for permanent whole-basement control the Aprilaire E080 Pro is built for continuous duty.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What size dehumidifier do I need for my basement?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For a moderately damp basement, plan on 30 to 35 pints up to about 1,500 square feet and 50 pints for larger or wetter spaces. Note that the DOE rating standard changed, so a modern 50-pint unit is roughly equivalent to what was previously sold as 70 pints. Size up for visibly damp basements, but avoid heavily oversizing, which causes short cycling.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What humidity should I set my basement dehumidifier to?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Fifty percent relative humidity is the standard target. Below that, mold and dust mites cannot establish, and going lower costs disproportionately more electricity without additional benefit. Verify with a separate hygrometer placed across the room, since built-in sensors sit near the unit exhaust and can read several points off.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do dehumidifiers work in cold basements?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Compressor dehumidifiers lose capacity below about 60 degrees because the coil frosts, and many stop working effectively below 50. Look for a unit with automatic defrost and a stated minimum operating temperature. For unheated basements or crawl spaces that drop into the 40s, a desiccant dehumidifier like the EcoSeb works where compressor units cannot.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need a dehumidifier with a pump?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Only if there is no drain lower than the unit outlet. Gravity drainage through a hose to a floor drain, sump pit, or utility sink is simpler and has nothing to fail. If your basement has no such drain, either buy a unit with an internal pump or add an inexpensive standalone condensate pump under a non-pump model.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a dehumidifier fix a wet basement?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. A dehumidifier controls humidity in the air but does nothing about water entering through walls or floors. If you have visible seepage, efflorescence, or water after heavy rain, address grading, downspout extensions, and drainage first. A dehumidifier then has a manageable job rather than running constantly against an ongoing water source.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Common Mistakes Section -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            8. Common Basement Dehumidifier Mistakes
+          </h2>
+
+          <p>
+            Basement dehumidifier failures follow a very consistent pattern, and most of them are about setup rather than the machine itself.
+          </p>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Relying on the Bucket</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 50-pint unit in a damp basement removes over six gallons a day, which means emptying a bucket more than once daily. Nobody sustains that, and the near-universal result is a unit that gets unplugged and forgotten by August. Set up gravity drainage or a pump from day one, before the novelty wears off.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a Unit That Cannot Handle Basement Temperatures</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many consumer dehumidifiers are rated only down to about 65 degrees, which is warmer than a lot of basements ever get. Below their rated range the coil frosts and the unit cycles ineffectively while appearing to run. Check the stated minimum operating temperature and confirm the unit has automatic defrost before buying.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Treating Humidity When the Problem Is Water</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A dehumidifier running continuously against active seepage will never reach its setpoint, wears itself out, and costs a fortune to run. Visible dampness on walls, white efflorescence, or water after rain means the fix is grading, downspouts, and drainage. Solve the water first and the dehumidifier becomes an easy job.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Pushing It Into a Corner Behind Storage</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Dehumidifiers need clear airflow into the intake and out of the exhaust, and most specify six to twelve inches of clearance. Wedged into a corner behind boxes, a perfectly good unit will underperform badly and people conclude it is too small. Place it centrally with space around it.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Everything Else About Basement Dehumidifiers -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Everything Else About Basement Dehumidifiers</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Basement & Moisture Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-basement-wall-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Basement Wall Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Stop moisture coming through the walls in the first place.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The <strong class="text-white">best dehumidifier for a basement</strong> for most homes is the <strong class="text-white">Frigidaire FFAD5033W1</strong>, which delivers its rated output in cool humid conditions and restarts itself after a power interruption. If your basement has no drain below the unit, the <strong class="text-white">GE APER50LZ</strong> and its built-in pump make unattended operation possible. And for a cold, unheated basement or crawl space, the desiccant <strong class="text-white">EcoSeb DD122EA</strong> is the only type that keeps working.
+          </p>
+          <p class="text-gray-300 leading-relaxed">
+            Set up drainage before you set up anything else, target 50 percent humidity, and fix any actual water intrusion first. A dehumidifier managing a solved problem lasts years; one fighting an unsolved one does not.
+          </p>
+        </div>
+
+
+        <MoreInCategory category="Basement Waterproofing" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

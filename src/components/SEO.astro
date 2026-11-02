@@ -1,0 +1,252 @@
+---
+import { CONTACT_EMAIL, FOUNDED } from '../data/site';
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  article?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    section?: string;
+    tags?: string[];
+  };
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  ogType = 'website',
+  article,
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = (Astro.site?.toString() ?? 'https://www.allmetalbrake.com').replace(/\/$/, '');
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
+
+// ---------------------------------------------------------------------------
+// Titles. Search results truncate past roughly 60 characters. The brand suffix
+// is appended only when the finished title still fits in 60; Google adds the
+// site name itself when it is left off. A title longer than 65 characters is
+// shortened: first at its earliest natural break (after a question mark, before
+// a colon, dash or pipe) when what comes before reads as a title on its own,
+// otherwise at the last whole word that fits. Pages keep their full headline in
+// the H1 and in their Article schema; only the <title> and social titles change.
+// ---------------------------------------------------------------------------
+const BRAND_SUFFIX = ' | Home Fix Reviews';
+const BRAND_MAX = 60;
+const TITLE_MAX = 65;
+const DANGLING = /\s+(and|or|the|a|an|of|for|to|with|in|on|by|vs\.?|from|that|is)$/i;
+
+function shortenTitle(t: string): string {
+  t = t.replace(/\s+/g, ' ').trim();
+  if (t.length <= TITLE_MAX) return t;
+  for (const m of t.matchAll(/\?\s|:\s|\s[—–-]\s|\s\|\s|\s\(/g)) {
+    const head = t.slice(0, m.index! + (m[0].startsWith('?') ? 1 : 0)).trim();
+    if (head.length > TITLE_MAX) break;
+    if (head.length >= 25) return head;
+  }
+  // Next best: the last comma that leaves a complete-looking phrase.
+  const commas = [...t.slice(0, TITLE_MAX + 1).matchAll(/, /g)].map((m) => m.index!).filter((i) => i >= 25);
+  if (commas.length) return t.slice(0, commas[0]).replace(DANGLING, '');
+  // Then: end before the last connecting word, so a qualifying phrase is dropped
+  // whole ("7 Best Dethatchers for Lawns With More Than…" -> "…for Lawns").
+  const window = t.slice(0, TITLE_MAX + 1);
+  // "and", "in", "on" and "by" are left out: they usually join a noun phrase
+  // ("for Sealed and Encapsulated Crawl Spaces"), and cutting there strands it.
+  const joins = [...window.matchAll(/\s(?:with|for|that|from|without|when|which|where|you)\s/gi)]
+    .map((m) => m.index!)
+    .filter((i) => i >= 18);
+  if (joins.length) return t.slice(0, joins[joins.length - 1]).replace(DANGLING, '');
+  let cut = t.slice(0, TITLE_MAX + 1);
+  cut = cut.slice(0, cut.lastIndexOf(' '));
+  return cut.replace(/[\s,;:(–—-]+$/, '').replace(DANGLING, '').replace(/[\s,;:(–—-]+$/, '');
+}
+
+const shortTitle = shortenTitle(title);
+const pageTitle =
+  shortTitle.length + BRAND_SUFFIX.length <= BRAND_MAX ? `${shortTitle}${BRAND_SUFFIX}` : shortTitle;
+
+// ---------------------------------------------------------------------------
+// Descriptions are cut to 160 characters at the last full sentence that fits,
+// else the last clause, else the last whole word, with an ellipsis when the cut
+// falls mid-sentence.
+// ---------------------------------------------------------------------------
+const DESC_MAX = 160;
+
+function trimDescription(d: string): string {
+  d = d.replace(/\s+/g, ' ').trim();
+  if (d.length <= DESC_MAX) return d;
+  const window = d.slice(0, DESC_MAX + 1);
+  const sentence = Math.max(...['. ', '? ', '! '].map((p) => window.lastIndexOf(p)));
+  if (sentence >= 100) return d.slice(0, sentence + 1);
+  const room = d.slice(0, DESC_MAX - 1);
+  const clause = Math.max(...[', ', '; ', ' — ', ' – ', ': '].map((p) => room.lastIndexOf(p)));
+  if (clause >= 110) return `${room.slice(0, clause).trimEnd()}…`;
+  const word = room.slice(0, room.lastIndexOf(' ')).replace(/[\s,;:(–—-]+$/, '').replace(DANGLING, '');
+  return `${word}…`;
+}
+
+const metaDescription = trimDescription(description);
+
+// ---------------------------------------------------------------------------
+// Social image. Placeholder services are replaced by the branded default.
+// ---------------------------------------------------------------------------
+const DEFAULT_OG = `${siteUrl}/og-default.png`;
+const shareImage = !ogImage || /picsum\.photos|placehold\.co/.test(ogImage) ? DEFAULT_OG : ogImage;
+
+// ---------------------------------------------------------------------------
+// Structured data. Site-wide Organization and WebSite, then the page's own
+// schema, cleaned so nothing invalid reaches Google:
+//   - Product nodes need offers (with a price), a review (with a rating) or an
+//     aggregateRating to be valid. Offers without a price and reviews without a
+//     reviewRating are removed, and a Product left with none of the three is
+//     dropped; the page's ItemList still lists every product.
+//   - Article/BlogPosting without an image get the branded default.
+//   - A second FAQPage on a page is merged into the first.
+//   - The site-wide Organization/WebSite are skipped when the page supplies its
+//     own, so the home page no longer repeats them.
+// ---------------------------------------------------------------------------
+type Node = Record<string, any>;
+
+const organizationSchema: Node = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Home Fix Reviews',
+  url: `${siteUrl}/`,
+  logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.png`, width: 512, height: 512 },
+  description: 'Unbiased, expert-led product reviews to help you make the best buying decisions.',
+  foundingDate: FOUNDED,
+  email: CONTACT_EMAIL,
+  contactPoint: { '@type': 'ContactPoint', contactType: 'editorial', email: CONTACT_EMAIL, url: `${siteUrl}/contact/` },
+};
+
+const websiteSchema: Node = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Home Fix Reviews',
+  url: `${siteUrl}/`,
+};
+
+const typeOf = (n: Node) => (Array.isArray(n?.['@type']) ? n['@type'] : [n?.['@type']]);
+const hasPrice = (o: Node) => o && (o.price != null || o.lowPrice != null || o.priceSpecification != null);
+const validRating = (r: Node) => r && r.ratingValue != null;
+
+function cleanProduct(n: Node): Node | null {
+  const p = { ...n };
+  if (p.offers) {
+    const offers = (Array.isArray(p.offers) ? p.offers : [p.offers]).filter(hasPrice);
+    if (offers.length) p.offers = offers.length === 1 ? offers[0] : offers;
+    else delete p.offers;
+  }
+  if (p.review) {
+    const reviews = (Array.isArray(p.review) ? p.review : [p.review]).filter((r: Node) => validRating(r?.reviewRating));
+    if (reviews.length) p.review = reviews.length === 1 ? reviews[0] : reviews;
+    else delete p.review;
+  }
+  if (p.aggregateRating && !(validRating(p.aggregateRating) && (p.aggregateRating.reviewCount || p.aggregateRating.ratingCount))) {
+    delete p.aggregateRating;
+  }
+  return p.offers || p.review || p.aggregateRating ? p : null;
+}
+
+function cleanNode(n: Node): Node | null {
+  if (!n || typeof n !== 'object') return n;
+  const types = typeOf(n);
+  if (types.includes('Product')) return cleanProduct(n);
+  const out: Node = { ...n };
+  if ((types.includes('Article') || types.includes('BlogPosting')) && !out.image) out.image = DEFAULT_OG;
+  if (types.includes('ItemList') && Array.isArray(out.itemListElement)) {
+    out.itemListElement = out.itemListElement.map((li: Node) => {
+      if (li?.item && typeOf(li.item).includes('Product') && !cleanProduct(li.item)) {
+        const { item, ...rest } = li;
+        return { ...rest, name: rest.name ?? item.name, ...(item.url || rest.url ? { url: rest.url ?? item.url } : {}) };
+      }
+      return li;
+    });
+  }
+  return out;
+}
+
+// One FAQPage per page: the first one found (in a @graph or at top level) keeps
+// its questions plus any new ones from later FAQPage nodes, which are removed.
+let firstFaq: Node | null = null;
+function cleanList(nodes: Node[]): Node[] {
+  const kept: Node[] = [];
+  for (const raw of nodes) {
+    const n = cleanNode(raw);
+    if (!n) continue;
+    if (typeOf(n).includes('FAQPage')) {
+      if (firstFaq) {
+        const seen = new Set((firstFaq.mainEntity ?? []).map((q: Node) => q?.name));
+        firstFaq.mainEntity = [...(firstFaq.mainEntity ?? []), ...(n.mainEntity ?? []).filter((q: Node) => !seen.has(q?.name))];
+        continue;
+      }
+      firstFaq = n;
+    }
+    kept.push(n);
+  }
+  return kept;
+}
+
+const pageNodes: Node[] = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const pageTypes = new Set(
+  pageNodes.flatMap((n) => (Array.isArray(n?.['@graph']) ? n['@graph'] : [n])).flatMap((n) => typeOf(n)),
+);
+
+// Graph blocks are cleaned inside; top-level nodes are cleaned as one list so a
+// FAQPage repeated across two blocks is merged too.
+const cleanedPage: Node[] = [];
+const topLevel: Node[] = [];
+for (const n of pageNodes) {
+  if (Array.isArray(n?.['@graph'])) cleanedPage.push({ ...n, '@graph': cleanList(n['@graph']) });
+  else topLevel.push(n);
+}
+cleanedPage.push(...cleanList(topLevel));
+
+const schemas: Node[] = [
+  ...(pageTypes.has('Organization') ? [] : [organizationSchema]),
+  ...(pageTypes.has('WebSite') ? [] : [websiteSchema]),
+  ...cleanedPage,
+];
+---
+<!-- Primary Meta Tags -->
+<title>{pageTitle}</title>
+<meta name="title" content={pageTitle} />
+<meta name="description" content={metaDescription} />
+<link rel="canonical" href={canonicalUrl} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={metaDescription} />
+<meta property="og:image" content={shareImage} />
+<meta property="og:site_name" content="Home Fix Reviews" />
+<meta property="og:locale" content="en_US" />
+
+{article?.publishedTime && <meta property="article:published_time" content={article.publishedTime} />}
+{article?.modifiedTime && <meta property="article:modified_time" content={article.modifiedTime} />}
+{article?.author && <meta property="article:author" content={article.author} />}
+{article?.section && <meta property="article:section" content={article.section} />}
+{article?.tags?.map(tag => <meta property="article:tag" content={tag} />)}
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalUrl} />
+<meta property="twitter:title" content={pageTitle} />
+<meta property="twitter:description" content={metaDescription} />
+<meta property="twitter:image" content={shareImage} />
+
+<!-- JSON-LD Structured Data -->
+{schemas.map(schema => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

@@ -1,43 +1,26 @@
-# All Metal Brake
+# Home Fix Reviews — allmetalbrake.com
 
-Expert-tested home improvement reviews and buying guides, built with [Astro](https://astro.build/).
+Home-improvement buying guides, built with [Astro](https://astro.build/) and deployed on Vercel.
 
-## Tech stack
-
-- **Astro 5** — static site generation
-- **@astrojs/sitemap** — generates `sitemap-index.xml` with per-page priorities
-- Plain global CSS (`public/css/style.css`, `public/css/article.css`) and a small
-  vanilla-JS enhancement script (`public/js/main.js`)
-
-## Project structure
-
-```
-public/                 Static assets served from the site root
-  css/                  Global + article styles
-  js/main.js            Mobile nav, smooth scroll, FAQ accordions, etc.
-  sitemap.xml           Hand-maintained sitemap (kept for the footer link)
-  189c…txt              IndexNow verification key
-src/
-  layouts/BaseLayout.astro   Shared <head> (fonts, CSS) + body shell + main.js
-  pages/*.astro              One page per route (emitted as <name>.html)
-  pages/reviews/*.astro      Nested review pages
-  bodies/*.html              Page body markup injected via <Fragment set:html>
-scripts/
-  convert-to-astro.mjs       One-shot converter used to migrate the legacy site
-  submit-indexnow.js         Ping IndexNow with the sitemap URLs
-astro.config.mjs             site, build.format:'file', sitemap config
-```
-
-Pages are built with `build.format: 'file'`, so each route is emitted as a flat
-`*.html` file (e.g. `/about.html`). This preserves the original site's URLs and
-internal links.
+The site carries the 30 best-performing articles from The Honest Reviewers, all using its
+article template (hero, quick picks, product cards, buying guide, mistakes, FAQ, related
+guides, bottom line, author bio). Old allmetalbrake.com URLs that no longer exist are
+301-redirected to the closest guide in `vercel.json`.
 
 ## Commands
 
-| Command            | Action                                         |
-| ------------------ | ---------------------------------------------- |
-| `npm install`      | Install dependencies                           |
-| `npm run dev`      | Start the dev server at `http://localhost:3000`|
-| `npm run build`    | Build the static site to `./dist/`             |
-| `npm run preview`  | Preview the production build locally           |
-| `npm run indexnow` | Submit sitemap URLs to IndexNow                |
+| Command                  | Action                                                        |
+| ------------------------ | ------------------------------------------------------------- |
+| `npm install`            | Install dependencies                                          |
+| `npm run dev`            | Dev server                                                    |
+| `npm run build`          | Content gates + `astro build` + Markdown copies to `dist/`    |
+| `npm run validate:all`   | Word count (2,500 min), internal links, format, new-page gate |
+| `npm run indexnow`       | Submit sitemap URLs to IndexNow                               |
+
+## Where things live
+
+- `src/pages/` — one `.astro` file per page
+- `src/layouts/Layout.astro` — header, footer, ads, sticky CTA
+- `src/data/nav.ts` — header, mobile menu, footer, home and best-of categories
+- `src/data/site.ts` — site name, URL and contact email
+- `scripts/` — build gates, interlink and top-pick generators, IndexNow

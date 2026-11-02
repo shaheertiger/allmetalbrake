@@ -1,0 +1,322 @@
+---
+import SEO from "../components/SEO.astro";
+import MobileNav from "../components/MobileNav";
+import Analytics from "@vercel/analytics/astro";
+import AdUnit from "../components/AdUnit.astro";
+import { amazonLink } from "../data/affiliate";
+import TOP_PICKS from "../data/top-picks.json";
+import { NAV_GROUPS } from "../data/nav";
+
+interface Props {
+  title?: string;
+  description?: string;
+  stickyCta?: { text: string; link: string };
+  ogImage?: string;
+  ogType?: "website" | "article";
+  article?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    section?: string;
+    tags?: string[];
+  };
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+  /** 1-2 factual sentences for AI agents (meta ai-summary); defaults to the description. */
+  aiSummary?: string;
+}
+
+const {
+  title = "Home Fix Reviews | Expert Product Guides & Comparisons",
+  description = "Unbiased, expert-led product reviews to help you make the best buying decisions. We test so you don't have to.",
+  stickyCta,
+  ogImage,
+  ogType,
+  article,
+  jsonLd,
+  noindex,
+  aiSummary,
+} = Astro.props;
+
+// Markdown copy of this page, written by scripts/build-markdown.mjs after the build.
+// Noindex and error pages get no copy, so they get no link.
+const markdownPath = Astro.url.pathname.replace(/\/+$/, "");
+const markdownHref =
+  noindex || /^\/(404|500)$/.test(markdownPath)
+    ? undefined
+    : new URL(`${markdownPath || "/index"}.md`, Astro.site).toString();
+
+// On a supporting article, the mobile sticky bar offers its guide's #1 pick
+// directly instead of only linking to the guide (see scripts/build-top-picks.mjs).
+const pageSlug = Astro.url.pathname.replace(/^\/|\/$/g, "");
+const pickPillar = (TOP_PICKS.spokes as Record<string, string>)[pageSlug];
+const spokePick = pickPillar
+  ? (TOP_PICKS.pillars as Record<string, { id: string; name: string; badge?: string; amazonUrl?: string }>)[pickPillar]
+  : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {markdownHref && <link rel="alternate" type="text/markdown" href={markdownHref} />}
+    {!noindex && <meta name="ai-summary" content={aiSummary ?? description} />}
+    <meta name="google-adsense-account" content="ca-pub-2963693328827195">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2963693328827195"
+     crossorigin="anonymous"></script>
+    <Analytics />
+    <SEO
+      title={title}
+      description={description}
+      ogImage={ogImage}
+      ogType={ogType}
+      article={article}
+      jsonLd={jsonLd}
+      noindex={noindex}
+    />
+  </head>
+  <body
+    class="bg-white text-[#333333] selection:bg-[#FF4500] selection:text-white font-sans"
+  >
+    <div class="min-h-screen flex flex-col bg-white">
+      <!-- Header -->
+      <header
+        class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <a
+              href="/"
+              class="flex items-center gap-2 cursor-pointer no-underline"
+            >
+              <span class="text-2xl font-black tracking-tighter text-[#1E90FF]"
+                >HOME FIX</span
+              >
+              <span class="text-2xl font-black tracking-tighter text-[#333333]"
+                >REVIEWS</span
+              >
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-5 lg:space-x-8 items-center text-sm lg:text-base">
+              <a
+                href="/"
+                class="text-gray-600 hover:text-[#1E90FF] font-medium no-underline"
+                >Home</a
+              >
+              <a
+                href="/best-of/"
+                class="text-gray-600 hover:text-[#1E90FF] font-medium no-underline"
+                >Best Lists</a
+              >
+              {NAV_GROUPS.map((group) => (
+                <div class="relative group">
+                  <button
+                    class="flex items-center gap-1 text-gray-600 hover:text-[#1E90FF] font-medium cursor-pointer bg-transparent border-0 p-0"
+                  >
+                    {group.label.split(" & ")[0]}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:rotate-180"><path d="M6 9l6 6 6-6"></path></svg>
+                  </button>
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-72 bg-white border border-gray-100 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div class="p-2">
+                      {group.links.map((link) => (
+                        <a href={link.url} class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 no-underline group/item transition-colors">
+                          <span class="text-xl shrink-0 mt-0.5">{group.icon}</span>
+                          <div>
+                            <p class="text-sm font-bold text-gray-900 group-hover/item:text-[#1E90FF]">{link.title}</p>
+                            <p class="text-xs text-gray-400 mt-0.5">{link.blurb}</p>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+            </nav>
+
+            <!-- Mobile menu (React island) -->
+            <MobileNav client:load groups={NAV_GROUPS} />
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="flex-grow">
+        <div class="top-ad max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6">
+          <AdUnit variant="top" />
+        </div>
+        <slot />
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
+          <AdUnit variant="display" />
+        </div>
+      </main>
+
+      <!-- Mobile Sticky CTA -->
+      {
+        spokePick && (
+          <div
+            data-pick-sticky
+            hidden
+            class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]"
+          >
+            <div class="flex items-center gap-3">
+              <a href={`/${pickPillar}/`} class="min-w-0 flex-1 no-underline">
+                <p class="text-[10px] font-black uppercase tracking-widest text-[#FF4500] m-0">Our #1 Pick</p>
+                <p class="text-sm font-bold text-gray-900 m-0 truncate">{spokePick.name}</p>
+              </a>
+              <a
+                href={amazonLink(spokePick.amazonUrl, spokePick.name, spokePick.id)}
+                target="_blank"
+                rel="sponsored nofollow noopener"
+                class="shrink-0 bg-[#FF4500] hover:bg-[#E63E00] text-white text-sm font-black px-5 py-3 rounded-xl no-underline whitespace-nowrap"
+              >
+                Check Price
+              </a>
+            </div>
+          </div>
+        )
+      }
+      {
+        spokePick && (
+          <script is:inline>
+            (function () {
+              var bar = document.querySelector("[data-pick-sticky]");
+              if (!bar) return;
+              // Keep the headline clear: show the bar once the reader has started reading.
+              function update() { bar.hidden = window.scrollY < 500; }
+              update();
+              window.addEventListener("scroll", update, { passive: true });
+            })();
+          </script>
+        )
+      }
+      {
+        stickyCta && !spokePick && (
+          <div data-layout-sticky class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+            <a
+              href={stickyCta.link}
+              target={/^https?:/.test(stickyCta.link ?? "") ? "_blank" : undefined}
+              rel={/^https?:/.test(stickyCta.link ?? "") ? "sponsored nofollow noopener" : undefined}
+              class="w-full bg-[#FF4500] hover:bg-[#E63E00] text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg no-underline"
+            >
+              {stickyCta.text}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </a>
+          </div>
+        )
+      }
+
+      <!-- Ad Unit -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
+        <AdUnit />
+      </div>
+
+      <!-- Footer -->
+      <footer
+        class="bg-gray-50 border-t border-gray-200 pt-16 pb-24 md:pb-16 mt-20"
+      >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-2">
+              <h2 class="text-xl font-bold mb-4">Home Fix Reviews</h2>
+              <p class="text-gray-600 max-w-sm mb-6 leading-relaxed">
+                Our mission is to cut through the marketing noise and provide
+                genuine, expert-led reviews that help you save time and money.
+              </p>
+              <div
+                class="bg-[#1E90FF]/10 p-4 rounded-lg border border-[#1E90FF]/20"
+              >
+                <p
+                  class="text-xs text-[#1E90FF] font-bold uppercase tracking-wider mb-1"
+                >
+                  Affiliate Disclosure
+                </p>
+                <p class="text-xs text-gray-500 leading-tight">
+                  We are a participant in the Amazon Services LLC Associates
+                  Program, an affiliate advertising program designed to provide
+                  a means for us to earn fees by linking to Amazon.com and
+                  affiliated sites.
+                </p>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-bold mb-4">Categories</h3>
+              <ul class="space-y-2 text-gray-600 list-none p-0">
+                {NAV_GROUPS.map((group) => (
+                  <li>
+                    <a href={group.links[0].url} class="hover:text-[#1E90FF] no-underline text-gray-600">{group.label}</a>
+                  </li>
+                ))}
+                <li>
+                  <a href="/best-of/" class="hover:text-[#1E90FF] no-underline text-gray-600">Best Of 2026</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-bold mb-4">Company</h3>
+              <ul class="space-y-2 text-gray-600 list-none p-0">
+                <li>
+                  <a
+                    href="/how-we-test/"
+                    class="hover:text-[#1E90FF] no-underline text-gray-600"
+                    >How We Test</a>
+                </li>
+                <li>
+                  <a
+                    href="/about/"
+                    class="hover:text-[#1E90FF] no-underline text-gray-600"
+                    >About Our Team</a>
+                </li>
+                <li>
+                  <a
+                    href="/contact/"
+                    class="hover:text-[#1E90FF] no-underline text-gray-600"
+                    >Contact Us</a>
+                </li>
+                <li>
+                  <a
+                    href="/privacy-policy/"
+                    class="hover:text-[#1E90FF] no-underline text-gray-600"
+                    >Privacy Policy</a>
+                </li>
+                <li>
+                  <a
+                    href="/terms/"
+                    class="hover:text-[#1E90FF] no-underline text-gray-600"
+                    >Terms of Service</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="mt-12 pt-8 border-t border-gray-200 text-center text-gray-400 text-sm"
+          >
+            &copy; {new Date().getFullYear()} Home Fix Reviews. All rights reserved.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

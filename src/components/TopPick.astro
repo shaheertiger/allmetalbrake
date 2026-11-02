@@ -1,0 +1,63 @@
+---
+// The #1 pick from this article's buyer's guide, placed after the lede. Supporting
+// articles answer a question; most readers who act on the answer still need the
+// product, and without this they had to load the guide first. The mapping comes
+// from scripts/build-top-picks.mjs; on a page with no confident match it renders
+// nothing.
+import { amazonLink } from "../data/affiliate";
+import TOP_PICKS from "../data/top-picks.json";
+import AdUnit from "./AdUnit.astro";
+
+const slug = Astro.url.pathname.replace(/^\/|\/$/g, "");
+const pillar = (TOP_PICKS.spokes as Record<string, string>)[slug];
+const pick = pillar
+  ? (TOP_PICKS.pillars as Record<string, { id: string; name: string; badge?: string; amazonUrl?: string; guide?: string }>)[pillar]
+  : undefined;
+---
+
+{pick && (
+  <>
+    <aside id="top-pick-card" class="not-prose my-8 border border-gray-200 bg-gray-50 rounded-2xl p-5 lg:p-6">
+      <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-2">
+        Our #1 Pick{pick.badge && pick.badge !== "Best Overall" ? ` · ${pick.badge}` : ""}
+      </p>
+      <p class="text-lg font-black text-gray-900 leading-snug mb-1">{pick.name}</p>
+      <p class="text-sm text-gray-600 mb-4">
+        From our guide: <a href={`/${pillar}/`} class="text-[#1E90FF] font-bold no-underline hover:underline">{pick.guide ?? "see the full guide"}</a>
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a
+          href={amazonLink(pick.amazonUrl, pick.name, pick.id)}
+          target="_blank"
+          rel="sponsored nofollow noopener"
+          class="flex-1 bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-3 px-5 rounded-xl font-black no-underline uppercase tracking-wide text-sm"
+        >
+          Check Price on Amazon
+        </a>
+        <a
+          href={`/${pillar}/`}
+          class="flex-1 bg-white border border-gray-300 hover:border-gray-400 text-gray-900 text-center py-3 px-5 rounded-xl font-bold no-underline text-sm"
+        >
+          Compare All Picks
+        </a>
+      </div>
+      <p class="text-xs text-gray-500 mt-3 mb-0">
+        We may earn a commission when you buy through these links, at no extra cost to you.
+      </p>
+    </aside>
+
+    <!-- Same placement rule as QuickPicks: on phones the layout's top ad moves
+         below this card instead of sitting above the headline. -->
+    <div class="qp-ad md:hidden my-8">
+      <AdUnit variant="top" />
+    </div>
+  </>
+)}
+
+<style is:global>
+  @media (max-width: 767px) {
+    body:has(#top-pick-card) .top-ad {
+      display: none;
+    }
+  }
+</style>
