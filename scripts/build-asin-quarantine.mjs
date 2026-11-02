@@ -22,6 +22,14 @@ const THRESHOLD = 0.5;
 // Low-scoring but verified correct: the seller trades under a different name, or
 // the title is terse. Checked by hand against the product page.
 const KEEP = new Set([
+  // November 2026 site-wide verification: terse titles, same product.
+  'super-seal-25',               // Clemons SuperSeal 25, same sealer
+  'twp-1500',                    // TWP 1500-series listing (1501 Cedartone)
+  'twp-1500-series',
+  'twp-1500-cedartone',          // TWP 1516, a 1500-series color
+  'leviton-51120-1',             // Leviton Type 1 panel protector, 51120-1
+  'greenworks-40v-16-25322',     // same 40V 16in mower
+  'ridgid-r4331',                // RIDGID 13in 15A thickness planer
   'radius-360-hand-sander',      // Full Circle manufactures the Radius 360
   'ge-thqlsurge',                // "General Electric" vs "GE", exact model THQLSURGE
   'compare-n-save-concentrate',  // same brand, same herbicide
