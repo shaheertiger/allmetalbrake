@@ -22,7 +22,7 @@ export const AUTHORS: Record<string, Author> = {
     short:
       'Alex has spent over a decade working on residential and light commercial property maintenance, and now tests every tool, coating and machine that appears in these guides personally.',
     bio: [
-      'Alex Rivers is the Home Improvement Editor at Home Fix Reviews, where he runs the testing programme for outdoor power equipment, driveway and masonry coatings, garage flooring, and household tools.',
+      'Alex Rivers is the Home Improvement Editor at All Metal Brake, where he runs the testing programme for outdoor power equipment, driveway and masonry coatings, garage flooring, and household tools.',
       'Before joining the site he spent more than a decade maintaining residential and light commercial properties — sealing driveways, coating garage floors, running pressure washers hard enough to kill several of them, and learning which products fail in the second season rather than the first. Most of the strong opinions in these guides come from that period rather than from a spec sheet.',
       'He tests products on real surfaces and real jobs, keeps machines long enough to see how they age, and returns or buys what he tests. He does not accept payment for coverage, and manufacturers do not see a guide before it is published.',
     ],
@@ -97,7 +97,7 @@ export function authorSchema(slugOrPath: string = DEFAULT_AUTHOR) {
     name: a.name,
     url: `${SITE_URL}/authors/${a.slug}/`,
     jobTitle: a.role,
-    worksFor: { '@type': 'Organization', name: 'Home Fix Reviews', url: SITE_URL },
+    worksFor: { '@type': 'Organization', name: 'All Metal Brake', url: SITE_URL },
     knowsAbout: a.beat,
     ...(a.education?.length
       ? { alumniOf: [...new Set(a.education.map((e) => e.school))].map((name) => ({ '@type': 'CollegeOrUniversity', name })) }

@@ -1,4 +1,4 @@
-# Home Fix Reviews — allmetalbrake.com
+# All Metal Brake — allmetalbrake.com
 
 Home-improvement buying guides, built with [Astro](https://astro.build/) and deployed on Vercel.
 
