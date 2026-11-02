@@ -1,0 +1,911 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Electric Pressure Washer",
+    "url": "/best-electric-pressure-washer/"
+  },
+  {
+    "title": "Best Driveway Cleaner",
+    "url": "/best-driveway-cleaner/"
+  },
+  {
+    "title": "Best Oil Stain Remover for Concrete",
+    "url": "/best-oil-stain-remover-for-concrete/"
+  },
+  {
+    "title": "Driveway Oil Stains on Asphalt and Concrete",
+    "url": "/how-to-remove-oil-stains-from-driveway/"
+  },
+  {
+    "title": "How to Seal a Concrete Driveway",
+    "url": "/how-to-seal-a-concrete-driveway/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "Pressure Washer Surface Cleaners: The 7 Best Attachments by PSI";
+const description =
+  "Surface cleaner attachments matched to your pressure washer's PSI, flow and connector, plus sizing, technique and fixes for streaks on driveways and patios.";
+
+const PRODUCTS = [
+  {
+    "id": "simpson-cleaning-surface-cleaner",
+    "name": "Simpson 80165 15-Inch Surface Cleaner",
+    "category": "15-inch, gas pressure washers",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Sized for the most common homeowner gas machines",
+      "Standard 1/4-inch quick-connect plug",
+      "Steel deck with replaceable nozzles",
+      "Handle and wheels make driveway passes easy"
+    ],
+    "cons": [
+      "Too large for most electric units",
+      "Steel deck is heavier than plastic designs",
+      "Needs swivel maintenance over time"
+    ],
+    "bottomLine": "The default pick for a homeowner with a typical gas pressure washer and a concrete driveway.",
+    "description": "Simpson's 15-inch surface cleaner is built for the gas pressure washers most homeowners own, the class running roughly 2,800 to 3,600 PSI at around 2.3 to 2.8 GPM. It uses a standard quarter-inch quick-connect plug, so it fits most gas wands with the common coupler, not just Simpson machines. The steel deck holds a spinning bar with two nozzles that are replaceable, which matters because worn nozzles are the most common cause of uneven cleaning as an attachment ages. At 15 inches, a typical two-car driveway goes much faster than with a wand while still being small enough to maneuver along sidewalks and steps. Owners commonly praise how evenly it cleans concrete and how much spray it keeps off the siding and the car. The trade-offs are weight and maintenance: a steel deck is heavier than plastic, and the swivel needs occasional lubrication. Confirm the current pressure rating against your machine. Expect roughly $70 to $120 at the time of writing."
+  },
+  {
+    "id": "ryobi-universal-surface-cleaner",
+    "name": "Ryobi 15-Inch Surface Cleaner",
+    "category": "15-inch, gas and higher-output washers",
+    "badge": "Best Value",
+    "amazonUrl": "",
+    "pros": [
+      "Widely available at Home Depot",
+      "Quarter-inch quick connect fits most gas wands",
+      "Caster wheels make it easy to push",
+      "Priced below many steel-deck competitors"
+    ],
+    "cons": [
+      "Lighter construction than premium decks",
+      "Not suited to small electric machines",
+      "Spin can slow at the low end of its pressure range"
+    ],
+    "bottomLine": "A good-value 15-inch attachment for mainstream gas machines.",
+    "description": "Ryobi's 15-inch surface cleaner targets the same gas pressure washer class as the Simpson, and its wide availability at Home Depot makes it an easy pickup. It connects with a standard quarter-inch quick-connect plug, so it fits most gas wands regardless of brand. Caster wheels let it glide rather than drag, which owners commonly appreciate on long driveway runs. Construction is lighter than steel-deck competitors, and that keeps the price down; for homeowner use a few times a year, it is usually plenty. Where it struggles is at the bottom of its rated pressure range, where spin slows and cleaning becomes less even, so pair it with a machine near the middle of the range on the listing. It is not the right choice for a small electric washer. Check the current pressure and flow ratings before buying, as Ryobi's accessory listings are updated over time. Expect roughly $60 to $100 at the time of writing, which makes it one of the cheaper ways into a 15-inch cleaner."
+  },
+  {
+    "id": "karcher-t-racer-t400",
+    "name": "T-Racer Surface Cleaner by Karcher, for K-Series Washers",
+    "category": "Electric, Karcher K-series",
+    "badge": "Best for Electric Washers",
+    "amazonUrl": "",
+    "pros": [
+      "Designed for Karcher electric pressure washers",
+      "Light enough to use on walls and steps",
+      "Splash guard keeps spray contained",
+      "Matches the lower flow of electric machines"
+    ],
+    "cons": [
+      "Fits Karcher's own connection, not universal",
+      "Smaller cleaning path than gas attachments",
+      "Not built for heavy commercial use"
+    ],
+    "bottomLine": "The cleanest way to get surface-cleaner results from a Karcher electric washer.",
+    "description": "Karcher's T-Racer line is designed specifically for the company's K-series electric pressure washers, which run lower pressure and much lower flow than gas machines. That matching matters: a 15-inch gas-class cleaner on a 1.3 GPM electric spins slowly and cleans poorly, while the T-Racer's smaller deck and nozzle arrangement are sized to what the K-series pumps deliver. The result is even cleaning on patios, walkways and moderate driveways without stripes. Its lighter weight and handle design also let it work on vertical surfaces such as walls and garage doors, which heavier gas attachments cannot do comfortably. The obvious limitation is compatibility: it uses Karcher's own connection system, so it is only a sensible buy if you own a compatible Karcher. The cleaning path is narrower than a 15-inch deck, so large driveways take longer. Check which K-series models the current listing names, because Karcher updates its model names. Expect roughly $60 to $110 at the time of writing."
+  },
+  {
+    "id": "sun-joe-spx-pca10",
+    "name": "Sun Joe SPX-PCA10 10-Inch Pressure Washer Patio Cleaner",
+    "category": "Electric, Sun Joe SPX series",
+    "badge": "Best Budget Electric",
+    "amazonUrl": "",
+    "pros": [
+      "Inexpensive add-on for Sun Joe electric washers",
+      "Light and easy to handle",
+      "Contains overspray on patios and walkways",
+      "Sized for low-flow electric pumps"
+    ],
+    "cons": [
+      "10-inch path is slow on full driveways",
+      "Compatibility limited to specific Sun Joe models",
+      "Light construction"
+    ],
+    "bottomLine": "A low-cost way to stop striping patios with a Sun Joe electric.",
+    "description": "The Sun Joe SPX-PCA10 is a 10-inch patio cleaner built for the brand's popular SPX electric pressure washers. Electric machines in this class deliver modest flow, and a small deck with a matching nozzle setup is what lets them spin a cleaner at a useful speed. For patios, walkways, pool decks and small driveways, it removes the stripes and splash that come with a narrow wand tip, and owners commonly note how much drier they and the house walls stay. It is light, which makes it easy to steer but also means it is not built for heavy, frequent use. On a full two-car driveway, the 10-inch path means many passes; a gas machine with a 15-inch cleaner is a better tool for big jobs. Compatibility is limited to the Sun Joe models listed by the manufacturer, so check your model number before buying. Expect roughly $30 to $50 at the time of writing, which is cheap enough that most Sun Joe owners will find it worth adding."
+  },
+  {
+    "id": "generac-surface-cleaner",
+    "name": "Generac 15-Inch Pressure Washer Surface Cleaner",
+    "category": "15-inch, gas pressure washers",
+    "badge": "Best for Generac Owners",
+    "amazonUrl": "",
+    "pros": [
+      "Designed alongside Generac's gas washers",
+      "Quarter-inch quick connect for broad compatibility",
+      "Durable deck for regular homeowner use",
+      "Even cleaning on driveways and patios"
+    ],
+    "cons": [
+      "Not for low-flow electrics",
+      "Heavier than plastic-deck models",
+      "Availability varies by retailer"
+    ],
+    "bottomLine": "A solid 15-inch option, especially for Generac pressure washer owners.",
+    "description": "Generac's 15-inch surface cleaner is built for the brand's residential gas pressure washers and uses a standard quarter-inch quick-connect plug, so it also fits many other gas wands. It covers the same homeowner gas class as the Simpson and Ryobi, roughly 2,700 to 3,300 PSI at mainstream flows, and it delivers the same core benefit: a consistent standoff height and spinning nozzles that clean concrete evenly without the stripes a wand leaves. Owners commonly describe it as sturdy and straightforward to use on driveways and patios. Its main appeal is for people who already own a Generac machine and want an accessory the manufacturer designed for that pressure and flow. For other brands, compare its ratings with the Simpson and Ryobi and choose based on price and availability. It is not suited to low-flow electric pressure washers. Check the current listing for the rated pressure range and nozzle sizes. Expect roughly $70 to $120 at the time of writing, depending on retailer."
+  },
+  {
+    "id": "briggs-stratton-surface-cleaner",
+    "name": "Briggs and Stratton 15-Inch Surface Cleaner",
+    "category": "15-inch, gas pressure washers",
+    "badge": "Solid Alternative",
+    "amazonUrl": "",
+    "pros": [
+      "Quarter-inch quick-connect plug",
+      "Matched to mainstream homeowner gas machines",
+      "Simple, low-maintenance design",
+      "Often bundled or discounted with Briggs machines"
+    ],
+    "cons": [
+      "Fewer replacement parts available than Simpson",
+      "Not suited to electric washers",
+      "Plastic components on some versions"
+    ],
+    "bottomLine": "A reasonable 15-inch choice when it is priced below the Simpson.",
+    "description": "Briggs and Stratton sells a 15-inch surface cleaner for its residential gas pressure washers, with a quarter-inch quick-connect plug that fits most gas wands. Functionally, it does what the other 15-inch attachments here do: a spinning bar under a round deck holds the nozzles at a fixed height, so a driveway gets even cleaning in far less time than a wand requires. It suits the mainstream homeowner gas class, and owners commonly report good results on concrete driveways and patios. It earns its place as an alternative rather than a top pick because replacement nozzles and swivel parts can be harder to find than for Simpson, which matters over years of use. If you find it bundled with a Briggs machine or discounted below the Simpson and Generac, it is a sensible buy. Check the rated pressure range on the current listing against your machine before ordering. Expect roughly $60 to $110 at the time of writing."
+  },
+  {
+    "id": "mi-t-m-surface-cleaner",
+    "name": "Commercial 21-Inch Surface Cleaner by Mi-T-M",
+    "category": "Large, high-flow commercial units",
+    "badge": "Best for Large Areas",
+    "amazonUrl": "",
+    "pros": [
+      "Large deck covers big areas quickly",
+      "Commercial-grade construction",
+      "Built for frequent, heavy use",
+      "Good for long driveways and parking pads"
+    ],
+    "cons": [
+      "Needs a high-flow machine, typically 3.5 GPM or more",
+      "Expensive for occasional homeowner use",
+      "Heavy and awkward on small patios"
+    ],
+    "bottomLine": "Worth it only if you own a high-flow machine and clean large areas often.",
+    "description": "Mi-T-M builds commercial pressure washers and accessories, and its larger surface cleaners are designed for the high-flow machines used by contractors and property managers. A 21-inch deck covers ground fast, but it needs a lot of water to spin properly; manufacturers of this class commonly specify machines in the range of about 3.5 to 4 GPM or more. On a typical homeowner gas unit at 2.5 GPM, a deck this size spins slowly and leaves swirl marks, which is the most common mistake people make when they buy bigger thinking it will be faster. If you do own a high-flow machine and have a long driveway, a parking pad, a large pool deck, or you clean for others, a commercial cleaner like this is durable and efficient. For everyone else, a 15-inch homeowner attachment is the better tool. Check flow, pressure and connector requirements on the current listing carefully. Expect roughly $250 to $500 or more depending on configuration at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Surface Cleaner Attachments",
+          item: "https://www.allmetalbrake.com/best-surface-cleaner-for-pressure-washer/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which diameter fits a typical gas washer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homeowner gas machines running roughly 2,700 to 3,600 PSI at around 2.3 to 2.8 GPM, a 15-inch cleaner is the standard match. Larger decks need more flow to spin properly. For small electrics, choose a 10 to 11 inch attachment designed for your brand. Always check the attachment's listed pressure and flow range."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a gas surface cleaner work on an electric pressure washer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually not well. Gas-class attachments need more flow than electrics supply, so they spin slowly and leave swirl marks. Most electric pressure washers also use proprietary fittings. Choose an attachment designed for your brand and model, such as the Karcher T-Racer for K-series or the Sun Joe SPX-PCA10 for SPX models."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a surface cleaner hard on concrete?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On sound concrete at homeowner pressures, damage is uncommon, and a surface cleaner is gentler than a narrow wand tip because pressure is spread evenly. Old, weak or poorly finished concrete can lose surface sand if you linger. Keep moving, stay within the attachment's rated pressure, and avoid turbo nozzles on fragile surfaces."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I still need a cleaner or detergent?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For lightly dirty concrete, plain water with a surface cleaner often looks good. For oil, mildew, algae, rust or heavy grime, apply a driveway cleaner or degreaser first and let it dwell. The surface cleaner then lifts and rinses the loosened dirt. Chemistry and the attachment work best together."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my surface cleaner leave circles?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Circles or swirl marks almost always mean the bar is spinning too slowly for your walking speed. Slow down, check that the nozzles are clear, confirm the swivel turns freely, and verify your machine's flow matches the attachment. Stopping with the trigger held also leaves bright circles."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is asphalt safe to clean with a surface cleaner?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, with care. Use the lower end of the pressure range, keep the deck moving, and avoid repeated passes over one spot, especially on older blacktop with loose aggregate. A surface cleaner is generally gentler on asphalt than a narrow wand tip, but soft or damaged asphalt may be better cleaned with a hose and brush."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often should I replace surface cleaner nozzles?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on use, water quality and pressure, so there is no fixed interval. Replace them when you notice weaker cleaning, uneven lanes or slower rotation that clearing the nozzles does not fix. Homeowners using the attachment a few times a year may go several seasons; frequent users should check them each season."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Driveway Cleaning & Stains",
+    tags: [
+      "best surface cleaner for pressure washer",
+      "pressure washer surface cleaner attachment",
+      "driveway surface cleaner",
+      "15 inch surface cleaner",
+      "electric pressure washer patio cleaner",
+      "surface cleaner streaks"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Surface Cleaners</span> for Your Pressure Washer
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A surface cleaner turns driveway washing from a striped, two-hour wand job into an even, fast pass. The catch is fit: it has to match your machine's pressure, flow and connector.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#simpson-cleaning-surface-cleaner"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="12.1k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#how-it-works" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. How They Work</a>
+          <a href="#sizing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Sizing by PSI and GPM</a>
+          <a href="#fitment" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Connectors and Fit</a>
+          <a href="#design" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Design Details</a>
+          <a href="#technique" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Technique</a>
+          <a href="#streaks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Fixing Streaks</a>
+          <a href="#surfaces" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Which Surfaces</a>
+          <a href="#maintenance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Maintenance</a>
+          <a href="#worth-it" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Is It Worth It</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          A surface cleaner is a round deck with a spinning bar underneath that holds two or more nozzles. Instead of one narrow stripe of water, it sweeps a full circle a foot or more across, at a fixed height, so every square inch gets the same treatment. That is what eliminates the zebra stripes a hand wand leaves on concrete. The wrong attachment, though, spins too slowly on a small electric machine or chokes a large gas unit. The picks below are grouped by the machines they suit, followed by the sizing, technique and maintenance details that decide how well any of them works.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Seven Surface Cleaner Attachments, Ranked by Fit
+          </h2>
+
+          <p>
+            We ranked these on manufacturer specifications such as diameter, pressure and flow ratings and connector type, on how well each matches common pressure washer classes, and on recurring themes in owner feedback. We did not run our own test plots. Prices are approximate ranges at the time of writing; always confirm ratings on the current listing.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="how-it-works" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. How a Surface Cleaner Actually Cleans
+          </h2>
+
+          <p>
+            Under the round deck sits a horizontal bar, sometimes called a spray bar, mounted on a swivel. The bar has a nozzle at each end, angled slightly so the water jets push the bar around, the same way a lawn sprinkler spins. As it rotates, the nozzles sweep a full circle at a constant distance from the ground. You push the deck along, and the circular sweeps overlap into an even, clean path.
+          </p>
+
+          <p>
+            Two things make this better than a wand. First, standoff distance stays constant. With a wand, small changes in height and angle create the light and dark stripes everyone recognizes on freshly washed concrete. Second, the nozzle hits each spot from many directions as it passes, which cleans texture more thoroughly than a single straight-on stripe. The deck also contains spray, so far less water and grime bounce back onto you, the house and the car.
+          </p>
+
+          <p>
+            Speed of rotation is the key performance factor. A bar that spins fast lays down overlapping sweeps closely, and you can walk at a steady pace without leaving swirl marks. A bar that spins slowly leaves arcs and requires you to crawl. Rotation depends on water flow through the nozzles, which is why matching the attachment to your machine's flow rate matters more than its maximum pressure.
+          </p>
+
+          <p>
+            Surface cleaners are rinse tools as much as cleaning tools. They pair best with a chemical pre-treatment: apply a driveway cleaner or degreaser, let it dwell, then run the surface cleaner over the slab to lift and flush it. Our roundup of the <a href="/best-driveway-cleaner/">best driveway cleaners</a> covers which chemistry suits which stains, and for oil specifically, see the <a href="/best-oil-stain-remover-for-concrete/">best oil stain removers for concrete</a>.
+          </p>
+        </div>
+
+        <div id="sizing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Sizing: Match the Deck to Your PSI and GPM
+          </h2>
+
+          <p>
+            Diameter should follow your machine's flow, not your driveway's size. A larger deck has a longer bar and needs more water to spin it at useful speed. Put too large a cleaner on a low-flow machine and it rotates sluggishly, leaving swirl marks and forcing you to move slowly. Put too small a cleaner on a high-flow machine and you waste capacity, though it will still clean well.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Machine class</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Suggested deck</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Example picks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Small electric</td>
+                    <td class="px-4 py-4 text-gray-700">1,500-2,000 PSI, 1.1-1.4 GPM</td>
+                    <td class="px-4 py-4 text-gray-700">10-11 inch, brand-matched</td>
+                    <td class="px-4 py-4 text-gray-700">Sun Joe SPX-PCA10, Karcher T-Racer</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Larger electric</td>
+                    <td class="px-4 py-4 text-gray-700">2,000-2,300 PSI, 1.2-1.8 GPM</td>
+                    <td class="px-4 py-4 text-gray-700">11-13 inch</td>
+                    <td class="px-4 py-4 text-gray-700">Brand-matched electric attachments</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Homeowner gas</td>
+                    <td class="px-4 py-4 text-gray-700">2,700-3,600 PSI, 2.3-2.8 GPM</td>
+                    <td class="px-4 py-4 text-gray-700">15 inch</td>
+                    <td class="px-4 py-4 text-gray-700">Simpson, Ryobi, Generac, Briggs</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Large gas</td>
+                    <td class="px-4 py-4 text-gray-700">3,600-4,200 PSI, 3.0-3.5 GPM</td>
+                    <td class="px-4 py-4 text-gray-700">16-20 inch</td>
+                    <td class="px-4 py-4 text-gray-700">Upper-range residential cleaners</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Commercial</td>
+                    <td class="px-4 py-4 text-gray-700">4,000+ PSI, 3.5-5+ GPM</td>
+                    <td class="px-4 py-4 text-gray-700">20-24 inch</td>
+                    <td class="px-4 py-4 text-gray-700">Mi-T-M commercial decks</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            These are typical ranges based on common manufacturer specifications; each attachment's listing gives its own minimum and maximum pressure and flow, and those numbers take precedence. Exceeding the maximum pressure can damage the swivel and void warranties. Falling below the minimum flow is the more common problem for homeowners, and it shows up as slow spin and uneven cleaning.
+          </p>
+
+          <p>
+            Square footage does matter for time, though. A 15-inch cleaner on a 2.5 GPM gas machine typically handles a two-car concrete driveway in well under an hour of actual cleaning, while a 10-inch electric patio cleaner may take two or three times as long for the same area. If you have a large driveway and an electric washer, consider whether the job justifies upgrading the machine itself; our guides to the <a href="/best-pressure-washer/">best pressure washers</a> and the <a href="/best-electric-pressure-washer/">best electric pressure washers</a> compare output by class.
+          </p>
+        </div>
+
+        <div id="fitment" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Connectors and Compatibility
+          </h2>
+
+          <p>
+            Most gas pressure washers use a quarter-inch quick-connect at the end of the wand, the same fitting that holds the colored nozzle tips. Most 15-inch homeowner surface cleaners have a matching quarter-inch plug, which is why Simpson, Ryobi, Generac and Briggs attachments can usually be swapped between brands. Some attachments instead connect directly to the gun, replacing the wand, with an M22 thread or a quick-connect at the gun end.
+          </p>
+
+          <p>
+            Electric pressure washers are less standardized. Karcher, Sun Joe, Greenworks, Ryobi electric and others often use proprietary wand fittings, so attachments are typically brand-specific. Before buying, check your model number against the attachment's compatibility list, not just the brand. Adapters exist for some combinations, but they add leak points and do not fix a flow mismatch.
+          </p>
+
+          <p>
+            Pay attention to whether the attachment connects at the wand tip or replaces the wand. Tip-mounted cleaners keep your wand length and are more common on homeowner units. Gun-mounted cleaners include their own handle and often feel more stable to push. Either works; just confirm you have the right fitting and that O-rings are present and in good shape.
+          </p>
+
+          <p>
+            Hose and plumbing matter too. A long, narrow replacement hose or a leaky coupler drops pressure before water reaches the deck, and the attachment will spin as if the machine were smaller than it is. If a new cleaner underperforms on a machine that should match it, check for leaks at every fitting and try the stock hose before blaming the attachment.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">QUICK CHECK</p>
+            <p class="text-xl font-bold text-white mb-3">Read three numbers before you buy.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Your machine's PSI, its GPM, and its connector type. Then compare them with the attachment's minimum and maximum pressure, recommended flow and fitting. If all three line up, it will spin properly and connect without adapters.</p>
+          </div>
+        </div>
+
+        <div id="design" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Design Details That Change Results
+          </h2>
+
+          <p>
+            <strong>Nozzle count.</strong> Most homeowner cleaners use a two-nozzle bar. Some larger and commercial units use three or four nozzles, which lays down more passes per rotation and can produce a more even finish at a given walking speed. More nozzles also split the flow further, so they need higher-output machines to work well.
+          </p>
+
+          <p>
+            <strong>Deck material.</strong> Steel and stainless decks are heavier and more durable; plastic and composite decks are lighter, cheaper and easier to carry but can crack if dropped or run into curbs. For occasional homeowner use, either is fine. For frequent use, a metal deck with replaceable parts lasts longer.
+          </p>
+
+          <p>
+            <strong>Wheels versus hover.</strong> Many homeowner units ride on caster wheels, which make pushing easy on smooth concrete but can catch on expansion joints and rough surfaces. Some designs float on the water cushion with a brush skirt around the edge, which glides over texture and contains spray. Skirted designs work especially well on pavers and stamped concrete.
+          </p>
+
+          <p>
+            <strong>Replaceable nozzles and swivel.</strong> Nozzles wear as water erodes their orifice, gradually lowering pressure and changing the spray pattern. The swivel bearing wears too. Attachments with readily available replacement nozzles and swivel kits are worth a small price premium, because they can be restored rather than replaced. Simpson is particularly strong here among homeowner options.
+          </p>
+        </div>
+
+        <div id="technique" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Technique for an Even, Stripe-Free Finish
+          </h2>
+
+          <p>
+            Start by sweeping the driveway and pre-treating stains. Apply your cleaner and let it dwell for the time on the label, keeping it from drying. Connect the surface cleaner, start the machine, and squeeze the trigger with the deck flat on the ground before you start moving. Listen for the bar spinning up to speed; it should sound steady, not stuttering.
+          </p>
+
+          <p>
+            Work in straight, parallel lanes, overlapping each pass by about a third of the deck width. Move at a steady walking pace slow enough that you do not see arcs on the surface behind you. On a slope, work from top to bottom so dirty water runs onto areas you have not cleaned yet. Keep the deck flat; tilting it lifts one side and creates uneven bands.
+          </p>
+
+          <p>
+            Do edges, corners and the lines along walls with the wand afterward, using a 25-degree or 40-degree tip at a consistent distance. Then do a final flush with a wide fan tip to push residue and loosened grit off the slab, again working downhill. This final rinse prevents the faint haze some cleaners leave when residue dries in place.
+          </p>
+
+          <p>
+            Plan for a full day of drying before you judge the result or apply sealer. Concrete dries unevenly, and patches that look like streaks while damp often disappear once dry. If you are sealing next, see our guide on <a href="/how-to-seal-a-concrete-driveway/">how to seal a concrete driveway</a> for timing and prep.
+          </p>
+        </div>
+
+        <div id="streaks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Why You Are Getting Streaks and Swirls
+          </h2>
+
+          <p>
+            <strong>Swirl marks</strong> mean the bar is spinning too slowly for your walking speed. Slow down first. If that does not fix it, the attachment may be too large for your machine's flow, the nozzles may be partially clogged, or the swivel may be binding. Remove the nozzles and clear them with a nozzle cleaning pin, and check the swivel spins freely by hand.
+          </p>
+
+          <p>
+            <strong>Light and dark lanes</strong> mean inconsistent overlap. Overlap each pass by a third, keep the lanes straight, and avoid stopping mid-pass with the trigger held, which creates a bright circle. If lanes persist, one nozzle may be worn or the wrong size, producing uneven output from each end of the bar. Replace nozzles as a pair.
+          </p>
+
+          <p>
+            <strong>A dirty outer ring</strong> around each pass usually points to a worn or damaged skirt or a deck that is tilting. Check that the wheels are all at the same height and the skirt is intact. <strong>Haze after drying</strong> is usually cleaner residue; rinse more thoroughly or use less concentrate.
+          </p>
+
+          <p>
+            Sometimes the streaks are not from the cleaner at all. Concrete that was previously spot-cleaned, sealed in sections, or has areas of different age will dry to different shades. A full wash with a general cleaner, followed by an even surface cleaner rinse, gives the best chance of a uniform color. Our guide on <a href="/how-to-remove-oil-stains-from-driveway/">removing driveway oil stains</a> explains why spot-cleaned patches stand out and how to blend them.
+          </p>
+        </div>
+
+        <div id="surfaces" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Which Surfaces Suit a Surface Cleaner
+          </h2>
+
+          <p>
+            Concrete driveways, sidewalks, garage aprons and pool decks are where surface cleaners excel. Sound concrete tolerates homeowner-class pressure without harm, and the even finish is the main reason to own one. Older, worn concrete with exposed aggregate is fine at normal settings but can lose loose surface sand if you linger.
+          </p>
+
+          <p>
+            Pavers clean well with a surface cleaner, ideally a skirted design that glides over the joints. Keep moving to avoid blowing sand out of the joints, and plan to refill them with polymeric or regular sand after a deep clean. Stamped concrete benefits from the even pressure, but a skirt helps the deck ride over the texture.
+          </p>
+
+          <p>
+            Asphalt can be cleaned with a surface cleaner at moderate pressure, and it is gentler than a narrow wand tip, which can strip aggregate from aging blacktop. Keep the pressure toward the lower end of the attachment's range and avoid going over the same spot repeatedly. On soft or damaged asphalt, a garden hose and brush may be safer.
+          </p>
+
+          <p>
+            Wood decks are a judgment call. A surface cleaner at reduced pressure can clean a deck more evenly than a wand, but high pressure raises grain and gouges softwoods. Many manufacturers advise lower pressure for wood and testing on a hidden board first. Composite decking often has its own manufacturer cleaning guidance, which should take priority.
+          </p>
+        </div>
+
+        <div id="maintenance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Keeping a Surface Cleaner Working
+          </h2>
+
+          <p>
+            After each use, flush the attachment with clean water for a minute, especially if you used a chemical cleaner. Turn it over, clear grit from around the spray bar and wheels, and let it dry upside down. Grit left on the swivel and casters is what makes them stiff over a season.
+          </p>
+
+          <p>
+            Check nozzles periodically. A partially clogged nozzle unbalances the bar and causes uneven cleaning; a worn one sprays a weaker, wider pattern. Clear clogs with a nozzle cleaning pin and replace worn nozzles in pairs with the size the manufacturer specifies. Many attachments list nozzle sizes in the manual.
+          </p>
+
+          <p>
+            The swivel is the heart of the cleaner. If the bar becomes hard to spin by hand or the attachment leaks at the center, the swivel needs lubrication or a rebuild kit. Some manufacturers specify a waterproof grease; follow their instructions. Inspect the quick-connect O-ring each season and replace it if it is flattened or cracked, since a leak there reduces pressure at the nozzles.
+          </p>
+
+          <p>
+            Store the attachment indoors over winter in cold climates, after draining it fully. Trapped water can freeze and crack fittings, the same way it damages pressure washer pumps.
+          </p>
+        </div>
+
+        <div id="worth-it" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Is a Surface Cleaner Worth Buying?
+          </h2>
+
+          <p>
+            If you pressure wash a concrete driveway, patio or sidewalk even once a year, yes. A homeowner 15-inch attachment costs roughly $60 to $120 at the time of writing, and it typically cuts flatwork cleaning time substantially while producing a much more even finish. It also keeps you, the car and the siding drier. For most owners of a gas pressure washer, it is the most useful accessory they can buy.
+          </p>
+
+          <p>
+            For small patios cleaned with an electric washer, the case is weaker but still reasonable, especially for brand-matched attachments at roughly $30 to $60. They fix the striping problem even if they are not much faster than a wand on a small area.
+          </p>
+
+          <p>
+            A turbo or rotating nozzle is a cheaper alternative for spot cleaning stubborn areas. It spins a zero-degree jet in a cone, cleaning aggressively in a small area. It does not produce an even finish over a large surface and can etch concrete if held too close, so it complements a surface cleaner rather than replacing one.
+          </p>
+
+          <p>
+            Where a surface cleaner is not worth it: if you only clean vertical surfaces like siding and fences, or if your machine's flow is too low for any available attachment. In those cases, put the money toward a better machine or cleaning chemistry instead. If oil stains are your main problem, start with our guide on <a href="/how-to-get-oil-out-of-concrete/">getting old oil out of concrete</a>, because no amount of pressure removes deep oil on its own.
+          </p>
+
+          <p>
+            Renting is a middle path. Many equipment rental shops rent pressure washers with surface cleaners included, often a larger commercial pairing than a homeowner would buy. If you only clean the driveway every couple of years before sealing, a one-day rental can make more sense than owning either piece, and it lets you try the setup before deciding to buy.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a deck too big for your machine</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A larger cleaner looks faster, but if your pressure washer cannot supply enough flow, the bar spins slowly and leaves swirls. You end up walking slower and cleaning less evenly. Match the deck to your GPM: roughly 10 to 11 inches for small electrics and 15 inches for typical gas machines.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Stopping with the trigger held</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Pausing in one spot while the bar keeps spinning cleans that circle much more than the area around it, leaving a bright ring that shows once the concrete dries. Release the trigger when you stop, and keep a steady walking pace whenever the water is on.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping the chemical pre-treatment</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A surface cleaner is a rinse and agitation tool. On oily, mildewed or very dirty concrete, plain water leaves much of the stain behind. Apply a suitable driveway cleaner or degreaser first, let it dwell, then use the surface cleaner to lift and flush it away.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring worn nozzles</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Nozzles erode slowly, and the decline in cleaning is gradual enough that owners often blame the machine. Uneven lanes, weaker cleaning and slower spin are typical signs. Replacement nozzles are inexpensive; swap them as a matched pair at the size the manufacturer specifies.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Lingering on pavers and asphalt</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Holding the cleaner over one spot or going over it repeatedly can blow sand out of paver joints and strip fine aggregate from aging asphalt. Keep moving, use the lower end of the pressure range, and refill joint sand after cleaning pavers.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which diameter fits a typical gas washer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homeowner gas machines running roughly 2,700 to 3,600 PSI at around 2.3 to 2.8 GPM, a 15-inch cleaner is the standard match. Larger decks need more flow to spin properly. For small electrics, choose a 10 to 11 inch attachment designed for your brand. Always check the attachment's listed pressure and flow range.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a gas surface cleaner work on an electric pressure washer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Usually not well. Gas-class attachments need more flow than electrics supply, so they spin slowly and leave swirl marks. Most electric pressure washers also use proprietary fittings. Choose an attachment designed for your brand and model, such as the Karcher T-Racer for K-series or the Sun Joe SPX-PCA10 for SPX models.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a surface cleaner hard on concrete?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                On sound concrete at homeowner pressures, damage is uncommon, and a surface cleaner is gentler than a narrow wand tip because pressure is spread evenly. Old, weak or poorly finished concrete can lose surface sand if you linger. Keep moving, stay within the attachment's rated pressure, and avoid turbo nozzles on fragile surfaces.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I still need a cleaner or detergent?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For lightly dirty concrete, plain water with a surface cleaner often looks good. For oil, mildew, algae, rust or heavy grime, apply a driveway cleaner or degreaser first and let it dwell. The surface cleaner then lifts and rinses the loosened dirt. Chemistry and the attachment work best together.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Why does my surface cleaner leave circles?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Circles or swirl marks almost always mean the bar is spinning too slowly for your walking speed. Slow down, check that the nozzles are clear, confirm the swivel turns freely, and verify your machine's flow matches the attachment. Stopping with the trigger held also leaves bright circles.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is asphalt safe to clean with a surface cleaner?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, with care. Use the lower end of the pressure range, keep the deck moving, and avoid repeated passes over one spot, especially on older blacktop with loose aggregate. A surface cleaner is generally gentler on asphalt than a narrow wand tip, but soft or damaged asphalt may be better cleaned with a hose and brush.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How often should I replace surface cleaner nozzles?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on use, water quality and pressure, so there is no fixed interval. Replace them when you notice weaker cleaning, uneven lanes or slower rotation that clearing the nozzles does not fix. Homeowners using the attachment a few times a year may go several seasons; frequent users should check them each season.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Cleaning and Equipment Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-pressure-washer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Equipment</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Pressure Washers</h3>
+              <p class="text-gray-500 text-sm mt-2">Machines compared by PSI and GPM, so your attachment spins the way it should.</p>
+            </a>
+            <a href="/best-driveway-cleaner/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Chemistry</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Driveway Cleaners</h3>
+              <p class="text-gray-500 text-sm mt-2">Pre-treatments for oil, rust and mildew that a surface cleaner then rinses away.</p>
+            </a>
+            <a href="/best-oil-stain-remover-for-concrete/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Oil Stains</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Oil Stain Removers for Concrete</h3>
+              <p class="text-gray-500 text-sm mt-2">The products to use before pressure washing, matched to stain age.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Choose by fit first. For a typical homeowner gas pressure washer, the Simpson 80165 is the default pick, with the Ryobi as the value alternative and the Generac and Briggs and Stratton as sound options when priced well. For electric machines, buy the attachment made for your brand, such as the Karcher T-Racer or the Sun Joe SPX-PCA10. Reserve big commercial decks like Mi-T-M's for high-flow machines.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Then use it well: pre-treat stains, overlap passes by a third, keep moving, finish edges with a wide wand tip, and let the slab dry before judging or sealing. Keep the nozzles clear and the swivel turning, and the attachment will deliver even results for years.
+          </p>
+        </div>
+
+        <MoreInCategory category="Driveway Cleaning & Stains" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

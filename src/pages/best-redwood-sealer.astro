@@ -1,0 +1,974 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Deck Stains",
+    "url": "/best-deck-stain-reviews/"
+  },
+  {
+    "title": "Best Deck Sealant",
+    "url": "/best-deck-sealant/"
+  },
+  {
+    "title": "Best Exterior Wood Sealer",
+    "url": "/best-exterior-wood-sealer/"
+  },
+  {
+    "title": "Best Fence Stain",
+    "url": "/best-fence-stain/"
+  },
+  {
+    "title": "Deck Stain Colors Guide",
+    "url": "/deck-stain-colors-guide/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Redwood Sealers: Keeping the Red in Redwood";
+const description =
+  "Seven redwood sealers compared on how well they hold redwood's color, handle tannins and sapwood, and recoat without stripping, plus how to revive gray boards.";
+
+const PRODUCTS = [
+  {
+    "id": "penofin-original",
+    "badge": "Best Overall",
+    "category": "Oil-based penetrating finish",
+    "name": "Penofin Blue Label Penetrating Oil Finish",
+    "amazonUrl": "",
+    "bottomLine": "The redwood finish professionals reach for most often, with tones that keep redwood looking like redwood.",
+    "pros": [
+      "Long-standing contractor favorite on redwood and cedar",
+      "Penetrates without forming a film to peel",
+      "Transparent tones suited to redwood",
+      "Recoats with cleaning only",
+      "Works on decks, siding and fences"
+    ],
+    "cons": [
+      "Oil-based, with mineral spirits cleanup",
+      "Some formulas restricted in low-VOC areas",
+      "Needs careful wiping of excess"
+    ],
+    "description": "Penofin has deep roots on the West Coast, where redwood decks and siding are common, and its Blue Label penetrating oil is the product many contractors use on redwood. It is an oil-based finish built around Brazilian rosewood oil, according to the company, and it soaks into redwood rather than sitting on top. That means it does not peel; when it wears, the wood looks drier and lighter, and a cleaning and fresh coat restores it. The line includes clear and several transparent tones, and choosing a redwood-friendly tone is what keeps the boards from fading toward tan. It works on decks, siding, fences and furniture, so one product can cover a whole property. Apply thin coats, back-brush and wipe off anything not absorbed. Owners often mention how natural it looks compared with heavier stains. The cautions are standard for oils: longer dry times, solvent cleanup and availability limits in some low-VOC areas. Prices were roughly 45 to 70 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "ready-seal-520",
+    "badge": "Easiest to Apply",
+    "category": "Oil-based, redwood tone",
+    "name": "Ready Seal 520 Redwood Exterior Stain and Sealer",
+    "amazonUrl": "",
+    "bottomLine": "A forgiving, sprayable redwood-toned finish that is hard to apply badly.",
+    "pros": [
+      "Redwood tone made for this species",
+      "Marketed as no back-brushing and no lap marks",
+      "Spray, roll or brush",
+      "Fades gradually instead of peeling",
+      "Widely available in five-gallon pails"
+    ],
+    "cons": [
+      "Color develops over about two weeks",
+      "Longer dry time than water-based products",
+      "Can look strong on pale sapwood"
+    ],
+    "description": "Ready Seal 520 Redwood is the brand's redwood tone, and it suits owners who want the job to be easy. Ready Seal markets its formula as needing no back-brushing and leaving no lap marks, and owner feedback largely supports that: people who struggled with streaky finishes often say Ready Seal looked even on the first try. It can be sprayed, rolled or brushed, which helps on long fences and big decks. The redwood tint adds back color and blocks UV, and it evens out sapwood and heartwood better than a clear. Like other Ready Seal colors, it looks lighter when wet and deepens over roughly two weeks as it cures, so judge the color after that window. On very pale sapwood it can look stronger than on red heartwood; test a board first. It is oil-based, so cleanup takes mineral spirits and it needs dry weather to cure. Maintenance is simple: clean and add another coat when water stops beading. Prices were roughly 40 to 55 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "twp-1500-series",
+    "badge": "Most Durable Oil",
+    "category": "Oil-based preservative stain",
+    "name": "TWP 1500 Series Wood Preservative",
+    "amazonUrl": "",
+    "bottomLine": "A durable penetrating preservative with redwood-friendly tones for decks that see heavy sun.",
+    "pros": [
+      "Marketed as a wood preservative with mildew resistance",
+      "Redwood and cedar tones available",
+      "Penetrates deeply into weathered wood",
+      "Recoats without stripping",
+      "Contractor favorite for restoration work"
+    ],
+    "cons": [
+      "Restricted in some low-VOC states",
+      "Often ordered online",
+      "Longer cure time"
+    ],
+    "description": "TWP 1500 Series is a penetrating oil-based finish that the company positions as a wood preservative, with mildew resistance noted on the label. It is popular with deck restoration contractors because it soaks into weathered wood and fades rather than peeling, which makes recoats a matter of cleaning and reapplying. The line includes redwood and cedar tones, and those tints add the pigment that keeps redwood from fading quickly. On sunny redwood decks, owners often report that it holds color longer than clear products, though the traffic lanes still need attention every year or two. It also handles rough and weathered boards well, filling the texture instead of sitting on it. The tradeoffs are availability and patience. VOC rules restrict which TWP formulas are sold in some states, many buyers order it online, and it needs warm, dry weather to cure properly. Test the tone on a board first, since redwood heartwood and sapwood take color differently. Prices ran roughly 45 to 60 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "cabot-australian-timber-oil",
+    "badge": "Richest Color",
+    "category": "Oil-based translucent finish",
+    "name": "Cabot Australian Timber Oil",
+    "amazonUrl": "",
+    "bottomLine": "A warm, rich translucent oil for owners who want redwood to look deep and saturated.",
+    "pros": [
+      "Rich, translucent color enhances grain",
+      "Penetrates hardwoods and softwoods",
+      "Widely available at major retailers",
+      "No film to peel",
+      "Several warm tones suited to redwood"
+    ],
+    "cons": [
+      "Some tones read orange on pale wood",
+      "Longer dry times",
+      "Excess must be wiped carefully"
+    ],
+    "description": "Cabot Australian Timber Oil is a translucent oil-based finish known for rich color. It was designed with dense hardwoods in mind but works on redwood and cedar too, and many redwood owners choose it for the depth it adds to the grain. Its warm tones suit redwood well, giving boards a saturated, almost furniture-like look when first applied. Because it penetrates rather than forming a film, it fades gradually and can be refreshed after cleaning. It is widely stocked at major retailers, which makes touch-ups easy. The main caution is color. Some tones read orange or very dark on pale sapwood, so test on a scrap or hidden board and judge it in sunlight. Apply thin coats and wipe off what the wood does not absorb, since excess can stay tacky. Dry times are longer than water-based products, and cleanup requires mineral spirits. For owners who want redwood to look richer than its natural color, it is the strongest choice here. Prices were roughly 45 to 65 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "sikkens-proluxe-cetol-srd",
+    "badge": "Best Semi-Transparent",
+    "category": "Semi-transparent alkyd stain",
+    "name": "Sikkens ProLuxe Cetol SRD",
+    "amazonUrl": "",
+    "bottomLine": "A semi-transparent stain with strong UV protection for redwood decks and siding in harsh sun.",
+    "pros": [
+      "One-coat semi-transparent stain per the maker",
+      "Transparent iron oxide pigments for UV protection",
+      "Long reputation on cedar and redwood",
+      "Works on decks, siding and fences",
+      "Rich natural tones"
+    ],
+    "cons": [
+      "Mostly sold at paint stores and online",
+      "Higher price per gallon",
+      "Darker look than penetrating oils"
+    ],
+    "description": "Sikkens ProLuxe Cetol SRD is a semi-transparent stain with a long reputation on cedar and redwood, particularly in sunny regions. The manufacturer describes it as a one-coat, penetrating, semi-transparent product, and it relies on transparent iron oxide pigments to block UV while letting grain show. That gives it more sun protection than the lighter penetrating oils above, at the cost of a slightly darker, more stain-like look. It is a good fit for redwood decks and siding that face south or west, or for older redwood that needs more color to look uniform. Owners commonly describe it as holding color well on vertical surfaces, with horizontal traffic areas needing touch-ups over time. It is sold mainly through paint stores and online, and it costs more per gallon than most big-box finishes. Follow the label's prep and coverage guidance closely, and test the tone on a sample board, since redwood heartwood and sapwood absorb it differently. Prices were roughly 55 to 75 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "defy-extreme-wood-stain",
+    "badge": "Best Water-Based",
+    "category": "Water-based semi-transparent stain",
+    "name": "DEFY Extreme Semi-Transparent Wood Stain",
+    "amazonUrl": "",
+    "bottomLine": "The water-based option for redwood owners in low-VOC states or with short weather windows.",
+    "pros": [
+      "Soap-and-water cleanup and low odor",
+      "Zinc oxide particles for UV resistance",
+      "Redwood-friendly tones available",
+      "Fast drying",
+      "Sold where many oil finishes are restricted"
+    ],
+    "cons": [
+      "Needs warm, dry conditions to cure",
+      "Can look flatter than an oil",
+      "Shorter life on very sunny decks"
+    ],
+    "description": "DEFY Extreme Semi-Transparent Wood Stain is a water-based finish that uses zinc oxide nanoparticles and pigment to resist UV. For redwood owners, its main advantages are practical: soap-and-water cleanup, low odor, fast drying and legal sale in states with strict VOC limits, where some oil-based finishes are unavailable. The line includes tones that suit redwood, and the semi-transparent pigment helps keep the red from fading. It penetrates rather than forming a heavy film, so wear shows as fading instead of peeling. The cautions are typical for water-based products. It wants warm, dry weather and no dew while it dries, and owners note it can look a little flatter than an oil on redwood, without the wet, warm glow oil gives the grain. Expect yearly or every-other-year recoats on sunny decks and longer intervals on siding. If you prefer oil finishes, the picks above suit redwood better; if you need a water-based product, this is the one to start with. Prices ran roughly 40 to 55 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "olympic-maximum-stain-sealant",
+    "badge": "Best Big-Box Pick",
+    "category": "Stain and sealant in one",
+    "name": "Olympic Maximum Stain + Sealant in One, Semi-Transparent",
+    "amazonUrl": "",
+    "bottomLine": "An easy-to-find, mid-priced stain and sealant for redwood owners shopping at Lowe's.",
+    "pros": [
+      "Widely available at Lowe's with tinting",
+      "Stain and sealant in one product",
+      "Mildew-resistant finish per the label",
+      "Range of redwood-friendly colors",
+      "Moderate price"
+    ],
+    "cons": [
+      "Can build up with repeated coats",
+      "Less natural look than penetrating oils",
+      "Shorter life on horizontal surfaces in full sun"
+    ],
+    "description": "Olympic Maximum Stain + Sealant in One is Lowe's mainstream semi-transparent finish, and it makes sense for redwood owners who want to buy locally and have the color tinted in store. The label promises water repellency and mildew resistance on the finish, and the semi-transparent pigment helps redwood hold color better than a clear. The convenience is real: the same line includes clear, transparent, semi-transparent and solid versions, so you can change the look later without switching brands. Owners commonly report good results on fences and siding and more frequent touch-ups on sunny decks. Because it behaves somewhat more like a coating than a pure penetrating oil, repeated heavy coats can build up, so apply thin coats and only recoat when water soaks in. It also tends to look a little less natural on redwood than the penetrating oils at the top of this list. For a mid-priced, easy-to-find option, it does the job. Prices were roughly 35 to 50 dollars per gallon at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Redwood Sealers",
+          item: "https://www.allmetalbrake.com/best-redwood-sealer/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Is sealing redwood actually necessary?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Redwood heartwood resists decay naturally, so it can survive unsealed, but it will turn gray and check over time. Sealing slows water absorption, cracking and mildew, and a toned finish keeps the red color. Sapwood boards and decks in wet climates benefit even more. If you want redwood to look like redwood, a finish is necessary."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What color sealer should I use on redwood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most redwood, choose a transparent redwood tone. It adds back color, blocks more UV than a clear and evens out sapwood and heartwood. Lighter cedar or natural tones suit owners who want a golden look, and darker semi-transparent stains help on weathered or mismatched boards. Test on a sample board and judge it in sunlight."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How soon can I seal a new redwood deck?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Redwood is usually kiln-dried or air-dried before sale, so it can often be finished soon after installation once it is clean and dry. Do a water drop test: if water soaks in within a minute or two, the wood is ready. If it beads, there may be mill glaze or moisture; wait a few weeks or lightly sand."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get the red color back on gray redwood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Clean the deck with an oxygen-based cleaner, rinse at low pressure and then use an oxalic acid brightener. The brightener restores much of the red and removes iron stains. Once the wood is dry, apply a redwood-toned penetrating finish. The color will not match brand-new lumber exactly but can come close."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use Thompson's WaterSeal on redwood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can, but it is not ideal if you want to keep the red. Clear water repellents keep redwood dry but offer little UV protection, so the color still fades. If you only want to slow water damage and do not mind graying, a clear repellent is fine. For color retention, choose a toned finish."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Oil or water base: which suits redwood better?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many professionals prefer oil-based penetrating finishes on redwood because they soak in well, enrich the color and fade gradually. Water-based finishes dry faster, have less odor, clean up with soap and water and are legal in low-VOC states. Both can work if they carry enough pigment and are applied to clean, dry wood."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often should a redwood deck be resealed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most redwood decks need a fresh coat every one to three years, depending on sun, climate, foot traffic and the finish. Clear finishes often need yearly attention, while toned or semi-transparent finishes last longer. Siding and fences can go longer. Use the water drop test and recoat when water soaks in quickly."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Deck & Wood Finishes",
+    tags: [
+      "best redwood sealer",
+      "redwood deck finish",
+      "redwood stain",
+      "sealing redwood",
+      "redwood tannin bleed",
+      "restore gray redwood"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Redwood Sealers</span> for Color That Lasts
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Bare redwood turns from red to tan to silver within a season or two of sun. A clear sealer slows the water damage but not the color loss. These seven finishes are chosen for how well they keep redwood looking red.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#penofin-original"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="6.4k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#why-redwood-fades" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Why Redwood Fades</a>
+          <a href="#heart-and-sap" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Heartwood and Sapwood</a>
+          <a href="#tone-choice" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Clear vs Toned</a>
+          <a href="#prep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Cleaning and Brightening</a>
+          <a href="#restoring" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Restoring Gray Redwood</a>
+          <a href="#application" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Application</a>
+          <a href="#by-project" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Decks, Siding, Furniture</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Coverage and Cost</a>
+          <a href="#upkeep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Upkeep Schedule</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Redwood is bought for its color, and its color is the first thing it loses. The rich red of fresh heartwood comes from extractives near the surface that sunlight breaks down quickly, which is why a new redwood deck can look noticeably paler by its first fall. Water then leaches the faded extractives and leaves dark tannin streaks, and eventually the surface turns a uniform gray. Keeping redwood red is mostly a question of pigment: a finish needs some red or brown tint to block UV at the surface and to replace the color that sun takes away. The products below are chosen for that job, with clear finishes only where the owner has a specific reason to want one.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Redwood Sealers, Ranked
+          </h2>
+
+          <p>
+            Picks are ranked from manufacturer data sheets and labels, available redwood-friendly tones, stated recoat guidance and recurring owner feedback on how each product ages on redwood. We did not run our own weathering trials. Products that can be maintained without stripping were favored, since redwood is soft and loses wood every time it is sanded hard.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="why-redwood-fades" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Why Redwood Loses Its Color So Fast
+          </h2>
+
+          <p>
+            Redwood heartwood gets its color and much of its natural decay resistance from extractives, a group of compounds that includes tannins. They are concentrated near the surface of a freshly milled board. Ultraviolet light breaks them down within weeks of exposure, and the board shifts from red toward a lighter tan. That first change is the fastest, which is why owners who wait a year to seal a new redwood deck are often disappointed.
+          </p>
+
+          <p>
+            Rain does the second part. Water carries the broken-down extractives out of the surface, sometimes leaving dark brown streaks where it runs off or pools. On boards near the ground or under drips from a roof edge, those streaks can be quite dark. Over the next year or two the surface fibers themselves weather, and the board settles into the silver gray that all untreated wood eventually reaches.
+          </p>
+
+          <p>
+            A clear sealer slows the water side of this process. It keeps rain from soaking in and leaching extractives, and it reduces checking and cupping. It does very little about UV, so the color still fades. That is why clear redwood finishes often disappoint: they keep the wood dry and sound but rarely keep it red.
+          </p>
+
+          <p>
+            Pigment is what changes the outcome. A finish with transparent red or brown iron oxide pigment blocks a share of UV at the surface and adds back some of the color the sun takes. The finish itself then fades over time rather than the wood beneath it, and a maintenance coat restores both protection and color. That is the logic behind every top pick on this list.
+          </p>
+
+          <p>
+            Climate sets the pace. In coastal fog belts, redwood fades slowly and mildew is the bigger threat. At altitude or in desert sun, a new deck can lose most of its red in a single summer. South and west facing boards, stair treads and the strip of deck in front of a sliding door fade first, so those are the areas to watch when judging whether a finish is still doing its job.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE CORE IDEA</p>
+            <p class="text-xl font-bold text-white mb-3">To keep redwood red, use a finish that is a little red.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Clear finishes keep redwood dry but not colorful. A transparent redwood-toned finish blocks more UV and replaces color as it fades, so the boards still read as redwood after a few seasons.</p>
+          </div>
+        </div>
+
+        <div id="heart-and-sap" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Heartwood, Sapwood and Why Boards Look Mismatched
+          </h2>
+
+          <p>
+            Redwood boards come from two parts of the tree. Heartwood, from the center, is the red, decay-resistant material most people picture. Sapwood, from the outer rings, is cream to pale yellow and has far less natural resistance to rot. Lumber grades that include sapwood are cheaper, and many decks mix the two, which produces striped or blotchy boards.
+          </p>
+
+          <p>
+            The better heartwood-only grades are commonly sold under names such as clear all heart or construction heart, while grades with sapwood are often labeled construction common or with a B prefix. The exact names vary by mill and region. If you are buying redwood for decking, ask the yard which grade you are getting, because it affects both appearance and how the wood needs to be finished.
+          </p>
+
+          <p>
+            A toned finish is the easiest way to even out heartwood and sapwood. A redwood or cedar tint darkens the pale sapwood more than the already-red heartwood, which narrows the contrast. A pure clear does the opposite, highlighting the difference. If you want the boards to look consistent, test the tone on a sapwood board before committing.
+          </p>
+
+          <p>
+            Sapwood is also less durable. On a deck with sapwood boards, pay extra attention to finish coverage and drainage, and treat cut ends with an end-cut preservative during construction. Sapwood boards near the ground or in constant shade are the first to show decay.
+          </p>
+
+          <p>
+            Many redwood decks also use pressure-treated framing under redwood decking. The framing needs its own care, including hardware rated for treated lumber, and if you build with treated boards anywhere visible, our guide on whether <a href="/can-you-stain-pressure-treated-wood/">you can stain pressure-treated wood</a> covers when those boards are ready to finish.
+          </p>
+        </div>
+
+        <div id="tone-choice" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Clear, Redwood-Toned or Darker: Picking the Look
+          </h2>
+
+          <p>
+            <strong>Clear.</strong> Choose a clear only if you like redwood's natural shift to a tan or gray color and want to keep the wood dry while it happens. Clear finishes are also useful on covered porches and furniture that see little direct sun. On open decks, plan on a yearly recoat at least, and accept that the red will fade.
+          </p>
+
+          <p>
+            <strong>Redwood tone.</strong> This is the default choice for most redwood owners. A transparent redwood tint adds back the warm color, blocks more UV than a clear and evens out sapwood. Expect the boards to look a little more saturated than bare new redwood when freshly coated, then to soften toward a natural redwood color as the finish weathers.
+          </p>
+
+          <p>
+            <strong>Cedar or natural tones.</strong> These lighter tints suit owners who want a more golden, less red look, or redwood that has already faded and that they do not want to push back toward red. They still add UV protection, just with less color change.
+          </p>
+
+          <p>
+            <strong>Darker browns and semi-transparent stains.</strong> Deeper tones hide weathering, mismatched boards and old stains, and they last longer in heavy sun. They also cover more of redwood's character. If a deck has been badly weathered and partly replaced, a darker semi-transparent stain may be the realistic way to make it look uniform; our <a href="/best-deck-stain-reviews/">deck stain rankings</a> cover that territory.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Finish look</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">UV protection</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical recoat</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Clear</td>
+                    <td class="px-4 py-4 text-gray-700">Low</td>
+                    <td class="px-4 py-4 text-gray-700">Covered areas, furniture</td>
+                    <td class="px-4 py-4 text-gray-700">About yearly</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Redwood toned</td>
+                    <td class="px-4 py-4 text-gray-700">Moderate</td>
+                    <td class="px-4 py-4 text-gray-700">Most redwood decks and siding</td>
+                    <td class="px-4 py-4 text-gray-700">1 to 3 years</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Cedar or natural toned</td>
+                    <td class="px-4 py-4 text-gray-700">Moderate</td>
+                    <td class="px-4 py-4 text-gray-700">Faded redwood, lighter look</td>
+                    <td class="px-4 py-4 text-gray-700">1 to 3 years</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Darker semi-transparent</td>
+                    <td class="px-4 py-4 text-gray-700">Higher</td>
+                    <td class="px-4 py-4 text-gray-700">Weathered or mixed boards</td>
+                    <td class="px-4 py-4 text-gray-700">2 to 4 years</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="prep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Cleaning and Brightening Redwood Before Sealing
+          </h2>
+
+          <p>
+            Redwood rewards gentle prep. Start with an oxygen-based deck cleaner, which uses sodium percarbonate to lift dirt and mildew without the fiber damage chlorine bleach causes. Wet the wood, apply the cleaner, let it work for the time on the label and scrub with a stiff synthetic brush along the grain.
+          </p>
+
+          <p>
+            Rinse with a garden hose or a pressure washer set to low pressure with a wide fan tip. Redwood is soft, and a narrow, high-pressure stream raises fuzz and carves the earlywood, leaving a washboard surface that absorbs finish unevenly. If fuzz appears after washing, a light sanding once the wood is dry knocks it down.
+          </p>
+
+          <p>
+            Follow with an oxalic acid brightener. Cleaners are alkaline and darken redwood; the brightener lowers the pH and restores much of the red. It also removes the dark blue-black stains that form when iron from steel fasteners or tools reacts with redwood's tannins. Those iron stains do not come out with cleaner alone.
+          </p>
+
+          <p>
+            Prevent iron stains from coming back by using stainless steel fasteners on redwood. Hot-dip galvanized fasteners are acceptable in many places, but stainless is the safer choice for visible fasteners on redwood. Avoid steel wool and plain steel brushes, which leave tiny particles that turn into black spots after the first rain.
+          </p>
+
+          <p>
+            Let the wood dry fully before sealing, typically 24 to 48 hours of dry weather. A water drop that soaks in within a minute or two shows the surface is open and ready. Our picks for the <a href="/best-surface-cleaner-for-pressure-washer/">best surface cleaners for pressure washers</a> include attachments that make low-pressure rinsing more even across a whole deck.
+          </p>
+        </div>
+
+        <div id="restoring" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Restoring Gray or Neglected Redwood
+          </h2>
+
+          <p>
+            Gray redwood is usually salvageable. The gray is only a thin layer of weathered fibers, and the red heartwood beneath is still there. A deck cleaner followed by a brightener removes much of the gray, and a redwood-toned finish brings back the color. It will not look exactly like new lumber, but it can look close.
+          </p>
+
+          <p>
+            If an old film-forming finish is peeling, it must come off first. Use a deck stain stripper rated for the finish type, then a brightener to neutralize it. On redwood, avoid aggressive sanding with coarse grits, which removes the very layer that holds color. If you sand, use about 80 grit and keep the sander moving.
+          </p>
+
+          <p>
+            Black streaks that remain after cleaning are often iron stains from fasteners. A second pass of oxalic acid targeted at those areas usually removes them. Mildew spots that return quickly point to shade and poor airflow; trim plants and clear gaps between boards so the deck can dry.
+          </p>
+
+          <p>
+            Check the structure while the deck is bare. Push a screwdriver into boards near the house, around posts and on the stairs. Soft spots mean decay, more common in sapwood boards. Replace those boards with heartwood if possible, and expect the new ones to look brighter until they weather a little.
+          </p>
+
+          <p>
+            New and old boards side by side are a common problem after repairs. A toned finish evens out the difference better than a clear. Some owners let new boards weather for a few weeks before finishing so the color difference is smaller.
+          </p>
+
+          <p>
+            Set expectations before you start. Restored redwood usually comes back a little lighter and more even than when it was new, and the first coat of a toned finish often looks brighter than the coats that follow. After one or two maintenance cycles, the color settles into a stable shade that is easy to keep up with a light coat every year or two.
+          </p>
+        </div>
+
+        <div id="application" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Applying a Redwood Finish
+          </h2>
+
+          <p>
+            Pick a mild, dry day with no direct midday sun on the boards. Most penetrating finishes list a range of roughly 50 to 90 degrees and need a rain-free window afterward. Early morning after the dew dries or late afternoon in shade are ideal.
+          </p>
+
+          <p>
+            Coat two or three boards at a time along their full length, using a pump sprayer, roller or pad, and back-brush each section to work finish into the grain. Redwood absorbs evenly when prepped well, but end grain and sapwood will drink more. Give them an extra pass.
+          </p>
+
+          <p>
+            Do not flood. Anything the wood cannot absorb in the label's wait time should be wiped up with a rag or worked into drier areas. Excess oil on redwood stays tacky and darkens unevenly. If the label calls for a second coat, many oil finishes want it applied wet on wet, before the first has dried.
+          </p>
+
+          <p>
+            Finish railings and vertical parts first, then the floor, working toward an exit. Keep pets and people off for the label's dry time, and allow longer before replacing furniture and planters.
+          </p>
+
+          <p>
+            Handle oily rags safely. Rags soaked with drying oils can heat as they cure and ignite. Lay them flat outdoors to dry, or seal them in a metal container filled with water before disposal.
+          </p>
+
+          <p>
+            Keep a wet edge at all times and plan breaks at natural stopping points, such as the end of a board run or a stair landing. Stopping in the middle of a board leaves a darker overlap line that remains visible for the life of the coat, and redwood's even grain makes those lines especially noticeable.
+          </p>
+        </div>
+
+        <div id="by-project" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Redwood Decks, Siding, Fences and Furniture
+          </h2>
+
+          <p>
+            <strong>Decks.</strong> Horizontal redwood takes the most sun and foot traffic, so it needs the most pigment and the most frequent maintenance. A redwood-toned penetrating oil, recoated every year or two, is the standard approach. Avoid solid stains and paint unless the deck is badly weathered or mismatched, because film over soft redwood tends to peel.
+          </p>
+
+          <p>
+            <strong>Siding.</strong> Redwood siding lasts longest of any redwood use because it sheds water and gets angled sun. A toned penetrating oil can go several years between coats on shaded walls. Recoat sunny elevations more often. Our <a href="/best-exterior-wood-sealer/">exterior wood sealer guide</a> covers products that suit whole-house siding.
+          </p>
+
+          <p>
+            <strong>Fences.</strong> Redwood fences are mostly vertical, so a toned finish lasts well. Large fences are easiest to spray; choose a product that tolerates spraying without lap marks. Our <a href="/best-fence-stain/">fence stain guide</a> ranks products for long runs.
+          </p>
+
+          <p>
+            <strong>Furniture and planters.</strong> Redwood furniture is softer than teak and accepts standard penetrating finishes. Apply thin coats and wipe off excess. For planters, finish only the outside, line the inside or use a liner, and check the label before using any finish where soil and edible plants will contact the wood.
+          </p>
+
+          <p>
+            <strong>Hot tubs and wet areas.</strong> Redwood surrounds near hot tubs and pools stay wet often. Clean them more frequently, recoat when water stops beading and consider a water-based penetrating product near water.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Coverage and Cost
+          </h2>
+
+          <p>
+            Most penetrating redwood finishes list roughly 150 to 300 square feet per gallon per coat on smooth wood, and less on rough or weathered boards. A first application after restoration takes more product than a maintenance coat. Measure decking, railings and stairs separately; railings with balusters add a lot of surface area.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Planning figures</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">150-300</p>
+                <p class="text-gray-400 text-xs mt-1">Sq ft per gallon, typical</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">$40-$70</p>
+                <p class="text-gray-400 text-xs mt-1">Per gallon at the time of writing</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">1-3 yrs</p>
+                <p class="text-gray-400 text-xs mt-1">Typical recoat on redwood decks</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">24-48 hrs</p>
+                <p class="text-gray-400 text-xs mt-1">Dry time before sealing</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Prices for the finishes on this list ranged roughly from 40 to 70 dollars per gallon at the time of writing, with five-gallon pails cheaper per gallon. Add 30 to 60 dollars for cleaner and brightener. A typical 300 square foot redwood deck with railings uses two to three gallons per coat.
+          </p>
+
+          <p>
+            Redwood itself is expensive, especially outside the West Coast. A gallon or two of finish every couple of years is small compared with the cost of replacing weathered, checked boards. Spending on a quality toned finish and gentle prep protects that investment.
+          </p>
+
+          <p>
+            If you hire out, ask for the brand and tone in writing, and confirm the contractor uses low pressure and a brightener on redwood. Aggressive washing is the most common way contractors damage redwood decks.
+          </p>
+
+          <p>
+            Buy all the finish at once and mix cans together in a clean bucket before starting, a step painters call boxing. Tinted finishes can vary slightly from batch to batch, and boxing keeps the color consistent across the whole deck instead of shifting where one can ended and the next began.
+          </p>
+        </div>
+
+        <div id="upkeep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Upkeep: Keeping Redwood Red Year to Year
+          </h2>
+
+          <p>
+            Sweep regularly and keep leaves and debris off the boards. Wet leaves leach tannins and leave dark marks, and debris in board gaps holds moisture. A quick rinse in spring removes pollen and dirt that would otherwise grind into the finish.
+          </p>
+
+          <p>
+            Do the water drop test each spring and fall. When water soaks in on the sunniest boards, clean, brighten and recoat. With penetrating finishes you can recoat only the areas that need it, such as stairs and the path to the door, because the new coat blends with the old.
+          </p>
+
+          <p>
+            Do not stack coats on wood that still beads water. The new finish cannot penetrate and sits on top, turning sticky and dark. This is the most common complaint about redwood finishes and is almost always a timing issue.
+          </p>
+
+          <p>
+            Keep the same product and tone on recoats. Switching brands or bases can change color and cause adhesion problems. Write down the product, tone and date for future reference.
+          </p>
+
+          <p>
+            If redwood is part of a larger deck project, our <a href="/best-deck-sealant/">deck sealant guide</a> covers clear finishes, and our <a href="/best-deck-stain-reviews/">deck stain rankings</a> cover longer-lasting pigmented options.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Waiting a year to seal new redwood</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Redwood loses much of its red color in the first months of sun. Waiting a full season means sealing wood that has already faded. Unless the boards are wet or have mill glaze, clean and finish new redwood once it is dry and absorbs water, often within a few weeks of installation.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using steel wool or steel fasteners</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Iron reacts with redwood's tannins and leaves blue-black stains, especially after rain. Steel wool fibers and plain steel nails are common culprits. Use stainless steel fasteners, synthetic scrub pads and brushes, and remove existing iron stains with an oxalic acid brightener before sealing. A single forgotten steel brush can spot an entire deck.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Pressure washing redwood at high pressure</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Redwood is soft, and a narrow, high-pressure stream raises fuzz and gouges the earlywood. The damaged surface absorbs finish unevenly and looks blotchy. Use a cleaner to do the work, keep the pressure low, use a wide fan tip and hold the wand well back from the boards. Fuzz can be sanded off once dry, but gouges stay.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Choosing a clear finish to keep the red</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Clear finishes keep redwood dry but do little against UV, so the red still fades toward tan and gray. If color is the goal, choose a redwood-toned or semi-transparent finish with transparent pigment, and refresh it when water stops beading. The lightest redwood tone is usually enough to make a visible difference.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping the brightener after cleaning</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Deck cleaners are alkaline and leave redwood darker and duller. Skipping the oxalic acid brightener means sealing in that dull color and any iron stains. A brightener restores much of the natural red and neutralizes the cleaner, so the finish looks right and bonds well. Rinse it off thoroughly before sealing.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is sealing redwood actually necessary?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Redwood heartwood resists decay naturally, so it can survive unsealed, but it will turn gray and check over time. Sealing slows water absorption, cracking and mildew, and a toned finish keeps the red color. Sapwood boards and decks in wet climates benefit even more. If you want redwood to look like redwood, a finish is necessary.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What color sealer should I use on redwood?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most redwood, choose a transparent redwood tone. It adds back color, blocks more UV than a clear and evens out sapwood and heartwood. Lighter cedar or natural tones suit owners who want a golden look, and darker semi-transparent stains help on weathered or mismatched boards. Test on a sample board and judge it in sunlight.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How soon can I seal a new redwood deck?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Redwood is usually kiln-dried or air-dried before sale, so it can often be finished soon after installation once it is clean and dry. Do a water drop test: if water soaks in within a minute or two, the wood is ready. If it beads, there may be mill glaze or moisture; wait a few weeks or lightly sand.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I get the red color back on gray redwood?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Clean the deck with an oxygen-based cleaner, rinse at low pressure and then use an oxalic acid brightener. The brightener restores much of the red and removes iron stains. Once the wood is dry, apply a redwood-toned penetrating finish. The color will not match brand-new lumber exactly but can come close.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I use Thompson's WaterSeal on redwood?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                You can, but it is not ideal if you want to keep the red. Clear water repellents keep redwood dry but offer little UV protection, so the color still fades. If you only want to slow water damage and do not mind graying, a clear repellent is fine. For color retention, choose a toned finish.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Oil or water base: which suits redwood better?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Many professionals prefer oil-based penetrating finishes on redwood because they soak in well, enrich the color and fade gradually. Water-based finishes dry faster, have less odor, clean up with soap and water and are legal in low-VOC states. Both can work if they carry enough pigment and are applied to clean, dry wood.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How often should a redwood deck be resealed?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most redwood decks need a fresh coat every one to three years, depending on sun, climate, foot traffic and the finish. Clear finishes often need yearly attention, while toned or semi-transparent finishes last longer. Siding and fences can go longer. Use the water drop test and recoat when water soaks in quickly.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Wood Finish Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-deck-stain-reviews/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Deck Stains</h3>
+              <p class="text-gray-500 text-sm mt-2">Pigmented finishes ranked for decks in every kind of sun.</p>
+            </a>
+            <a href="/best-exterior-wood-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Exterior Wood Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Sealers for siding, fences, furniture and log walls.</p>
+            </a>
+            <a href="/best-deck-stain-for-cedar/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Deck Stain for Cedar</h3>
+              <p class="text-gray-500 text-sm mt-2">Finishes for redwood's closest cousin on the lumber rack.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Penofin Blue Label is the redwood finish to start with, and Ready Seal 520 Redwood is the easiest to apply well. TWP 1500 and Sikkens Cetol SRD give more protection in harsh sun, Cabot Australian Timber Oil gives the richest color, DEFY Extreme is the water-based choice, and Olympic Maximum is the convenient big-box option.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whichever you choose, the method matters as much as the can: clean gently, brighten, keep iron away from the wood, use a toned finish rather than a clear, and recoat when water stops beading. For more finish options across the whole deck, see our <a href="/best-deck-stain-reviews/">deck stain rankings</a>.
+          </p>
+        </div>
+
+        <MoreInCategory category="Deck & Wood Finishes" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

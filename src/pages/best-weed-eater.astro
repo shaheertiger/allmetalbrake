@@ -1,0 +1,938 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Weed Killer Picks",
+    "url": "/best-weed-killer/"
+  },
+  {
+    "title": "Chainsaw Picks",
+    "url": "/best-chainsaw/"
+  },
+  {
+    "title": "Best Self-Propelled Lawn Mowers",
+    "url": "/best-self-propelled-lawn-mower/"
+  },
+  {
+    "title": "Best Lawn Mowers for Small Yards",
+    "url": "/best-lawn-mower-for-small-yard/"
+  },
+  {
+    "title": "Best Cordless Leaf Blowers",
+    "url": "/best-cordless-leaf-blower/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Weed Eaters: Battery and Gas Trimmers Ranked";
+const description =
+  "Seven string trimmers ranked by yard size and power source, with clear advice on swath width, line feed, battery runtime, safety gear and what to skip.";
+
+const PRODUCTS = [
+  {
+    "badge": "Best Overall",
+    "category": "56V Battery, 15-Inch Swath",
+    "name": "EGO Power+ ST1521S Powerload",
+    "description": "EGO's ST1521S is the battery trimmer that convinced a lot of gas owners to switch. It runs on EGO's 56-volt platform with a brushless motor, cuts a 15-inch swath, and uses 0.095-inch line, which is thick enough for overgrown edges and tall grass along a fence. Its signature feature is Powerload: press a button and the head winds new line onto the spool itself, so you feed a length of line through the head rather than hand-winding a spool on the driveway. Owners commonly report that this alone justifies the price. A variable-speed trigger and high and low settings let you trade power for runtime. The shaft is long enough for taller users and the tool balances well with the battery at the rear. The trade-off is weight with a larger battery attached, and the EGO platform locks you into its batteries and chargers. If you already own an EGO mower or blower, it is an easy choice.",
+    "pros": [
+      "Powerload winds the line onto the spool at the push of a button",
+      "15-inch swath and 0.095-inch line handle overgrown edges",
+      "Brushless motor with variable speed",
+      "Shares batteries with a large EGO lawn lineup"
+    ],
+    "cons": [
+      "Heavier than compact 20V trimmers with a big battery installed",
+      "Powerload head costs more to replace than a basic bump head",
+      "Commits you to the EGO battery platform"
+    ],
+    "bottomLine": "The trimmer to buy if you want gas-like reach with none of the fuel and starting hassle.",
+    "amazonUrl": "",
+    "id": "ego-st1521s-weed-eater"
+  },
+  {
+    "badge": "Best Value",
+    "category": "18V Battery, Adjustable Swath",
+    "name": "Ryobi ONE+ HP 18V Brushless",
+    "description": "Ryobi's ONE+ HP brushless trimmer runs on the same 18-volt batteries as hundreds of Ryobi drills, saws and yard tools, which is the main reason it sells so well. If you already own a couple of ONE+ batteries, the bare tool is inexpensive. The brushless motor is a real step up from Ryobi's older brushed trimmers, and the adjustable cutting width lets you run a narrower path for longer runtime or a wider one for faster work. It uses a standard bump-feed head with common 0.080-inch line, so replacement line is cheap and easy to find. It is a good fit for small and mid-size suburban lots where the trimmer edges a driveway and cleans up along beds and fences. On thick weeds or a long run of overgrown fence line, an 18-volt tool runs out of punch before a 56-volt or gas machine does, and a larger 4Ah or higher battery makes a noticeable difference in runtime.",
+    "pros": [
+      "Shares 18V batteries with a huge range of Ryobi tools",
+      "Brushless motor with adjustable cutting width",
+      "Uses inexpensive, widely sold line",
+      "Light enough for long edging sessions"
+    ],
+    "cons": [
+      "Less power than 40V-and-up trimmers in heavy growth",
+      "Runtime depends heavily on battery size",
+      "Bump head needs manual rewinding"
+    ],
+    "bottomLine": "The best-value pick for anyone already invested in Ryobi ONE+ batteries.",
+    "amazonUrl": "",
+    "id": "ryobi-one-hp-weed-eater"
+  },
+  {
+    "badge": "Best Gas",
+    "category": "Gas, 27.2cc Two-Stroke",
+    "name": "Stihl FS 56 RC-E",
+    "description": "The FS 56 RC-E is a dealer-sold Stihl that does what gas trimmers do best: runs as long as you have fuel, with steady power in thick, wet or woody growth. Its 27.2cc two-stroke engine runs on a 50 to 1 fuel and oil mix, and Stihl's Easy2Start system reduces the pull force needed to start it, which matters on a tool you might start ten times a weekend. The straight shaft keeps the head well out in front for reaching under shrubs and decks. Stihl's dealer network is a genuine advantage; you get the tool assembled, fueled and explained, and repairs are local. The downsides are the ones every gas trimmer shares: noise at a level that calls for hearing protection, exhaust, fuel storage, and periodic maintenance such as air filter cleaning and spark plug changes. Use ethanol-free premixed fuel or fresh fuel with stabilizer to keep the carburetor clean between seasons.",
+    "pros": [
+      "Unlimited runtime with a can of fuel",
+      "Easy2Start reduces starting effort",
+      "Straight shaft for reach under shrubs and fences",
+      "Local dealer setup and service"
+    ],
+    "cons": [
+      "Loud enough to require hearing protection",
+      "Needs mixed fuel and seasonal maintenance",
+      "Heavier and more vibration than battery trimmers"
+    ],
+    "bottomLine": "The gas trimmer to buy if you have a large property and a Stihl dealer nearby.",
+    "amazonUrl": "",
+    "id": "stihl-fs-56-weed-eater"
+  },
+  {
+    "badge": "Best for Big Yards",
+    "category": "80V Battery, 16-Inch Swath",
+    "name": "Greenworks Pro 80V 16-Inch Trimmer",
+    "description": "Greenworks' 80-volt platform is built around high-output yard tools, and its 16-inch trimmer is among the widest-cutting battery trimmers sold to homeowners. The brushless motor and wide swath let it clear long fence lines and roadside ditches faster than a narrower 18 or 20-volt model, and owners with half-acre to one-acre properties are its natural audience. It uses a bump-feed head with heavier line than entry-level trimmers. Greenworks sells the same 80V battery across mowers, blowers, chainsaws and even riding equipment, so a property owner can run nearly every tool on one battery family. Expect more weight than a compact trimmer, especially with a higher-capacity battery, and a larger upfront cost if you are starting the platform from scratch. Some versions are sold with an attachment-capable shaft, so check the exact model if you want to add an edger or other attachment later.",
+    "pros": [
+      "Wide 16-inch cutting swath for big properties",
+      "Brushless motor on a high-voltage platform",
+      "80V battery runs a broad lineup of Greenworks tools",
+      "Strong in tall grass along fences and ditches"
+    ],
+    "cons": [
+      "Heavy compared with 20V trimmers",
+      "Starter kits are a significant upfront cost",
+      "Fewer service locations than gas dealers"
+    ],
+    "bottomLine": "A strong battery choice for owners of larger lots who want to leave gas behind.",
+    "amazonUrl": "",
+    "id": "greenworks-80v-weed-eater"
+  },
+  {
+    "badge": "Best Lightweight",
+    "category": "20V Battery, 12-Inch Swath",
+    "name": "Worx WG163 GT 3.0 20V",
+    "description": "Worx's WG163 is aimed squarely at small yards and people who dislike heavy tools. It cuts a 12-inch path, weighs little enough to hold at arm's length for a full session, and converts from trimmer to wheeled edger by rotating the head and folding down a small guide wheel. Its Command Feed button advances line on demand, so you do not have to bump the head on the ground. The kit typically ships with two 20-volt batteries, which is a sensible arrangement for a tool with modest runtime per battery. For a townhouse lot or a small suburban yard with a short driveway, it handles routine edging and trimming without complaint. It is not built for neglected fence lines, thick weeds or anything woody, and the 0.065-inch line wears quickly against concrete. Think of it as a tidy-up tool for a well-kept yard, not a clearing tool for an overgrown one.",
+    "pros": [
+      "Very light and easy to handle",
+      "Converts to a wheeled edger in seconds",
+      "Command Feed advances line with a button",
+      "Kits usually include two batteries"
+    ],
+    "cons": [
+      "Thin line struggles in thick weeds",
+      "12-inch swath is slow on bigger yards",
+      "Not suited to brush or woody growth"
+    ],
+    "bottomLine": "A smart, light choice for small, well-kept yards where edging matters more than raw power.",
+    "amazonUrl": "",
+    "id": "worx-wg163-weed-eater"
+  },
+  {
+    "badge": "Best Multi-Tool",
+    "category": "Gas, 28cc Detachable Shaft",
+    "name": "Husqvarna 128LD",
+    "description": "The 128LD is a gas trimmer with a split shaft that accepts Husqvarna's attachments, so one engine can run a trimmer head, an edger, a pole saw or a cultivator. It uses a 28cc two-stroke engine and a straight shaft, and Husqvarna includes features designed to make starting easier, such as a primer bulb and a reduced-effort starting system. For owners who want a gas trimmer and an occasional edger or pole saw without buying separate engines, the value is real. As a pure trimmer it is competent rather than exceptional; vibration and noise are typical of a consumer gas trimmer, and the split shaft adds a coupling that should be kept clean and tight. Fuel is a 50 to 1 mix. It suits mid-size and larger properties where battery runtime would be a limitation, and where you do enough edging and pruning to make use of the attachments.",
+    "pros": [
+      "Detachable shaft runs edger, pole saw and other attachments",
+      "28cc engine has steady power in thick growth",
+      "Straight shaft for reach",
+      "Widely available parts and service"
+    ],
+    "cons": [
+      "Typical gas noise and vibration",
+      "Mixed fuel and seasonal maintenance",
+      "Attachments add cost beyond the base tool"
+    ],
+    "bottomLine": "A practical gas pick if you want one engine to run several yard attachments.",
+    "amazonUrl": "",
+    "id": "husqvarna-128ld-weed-eater"
+  },
+  {
+    "badge": "Best Budget",
+    "category": "20V Battery, 12-Inch Swath",
+    "name": "BLACK+DECKER LSTE525 20V MAX",
+    "description": "The LSTE525 is one of the least expensive ways to get a cordless trimmer that also edges. It runs on BLACK+DECKER's 20V MAX batteries, cuts a 12-inch swath, and rotates into an edger with a wheel guide. Its automatic feed system advances line without bumping, and a two-speed setting lets you choose between more power and longer runtime. For a small yard with a short driveway, it is enough tool, and it is light enough for occasional users who do not want to fight a heavy machine. The limits show up quickly on anything beyond routine maintenance. The thin line and modest motor bog down in thick or wet weeds, runtime on the included battery is short, and the auto-feed spool can tangle if the line is wound loosely. If your yard is a quarter acre or less and you mainly trim around beds and a walkway, it is a reasonable buy at its price.",
+    "pros": [
+      "Low price for a cordless trimmer-edger",
+      "Two-speed control for power or runtime",
+      "Automatic line feed",
+      "Light and easy for occasional users"
+    ],
+    "cons": [
+      "Short runtime on the included battery",
+      "Struggles in thick weeds",
+      "Auto-feed spool can tangle if wound loosely"
+    ],
+    "bottomLine": "A budget trimmer that fits small, tidy yards and little else.",
+    "amazonUrl": "",
+    "id": "black-decker-lste525"
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Weed Eater Picks",
+          item: "https://www.allmetalbrake.com/best-weed-eater/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Are weed eaters and string trimmers the same thing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Weed Eater was originally a trademark, and the name stuck as the everyday word for a string trimmer, the same way people say weed whacker. All three describe a tool that spins nylon line to cut grass and weeds where a mower cannot reach. Brush cutters are a related category with metal blades, heavier construction and handlebars for clearing woody growth."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is battery or gas better for a weed eater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For yards up to about half an acre, a quality battery trimmer is the better choice for most people: it starts instantly, is quieter, and needs little maintenance. Gas makes more sense for large or rural properties, regular brush clearing, and anyone who needs to run for hours. A second battery closes much of the runtime gap for mid-size yards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my trimmer line keep breaking?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Common causes are old, dried-out line, the wrong diameter for the head, hitting concrete, posts or fences with the line, and running at full speed into hard edges. Replace old line, use the size listed for your head, approach hard surfaces at an angle, and let the tip of the line do the cutting rather than burying the head in growth."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many minutes does a cordless trimmer last per charge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on the voltage, battery capacity, speed setting and how thick the growth is. A mid-size battery on a brushless trimmer typically handles a suburban trim and edge on one charge, while thick, wet grass on high speed can cut runtime sharply. Box claims assume light conditions, so a second battery is the practical solution for larger yards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I edge with a string trimmer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Rotate the trimmer so the head spins vertically, line it up with the edge of the driveway or walk, and walk slowly. Many models have a wheel guide or a rotating head made for edging. Expect heavy line wear against concrete. For long driveways edged weekly, a dedicated edger is faster and cleaner."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What size string trimmer do I need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A 12-inch swath suits small, well-kept yards. Thirteen to 15 inches suits most suburban properties. Sixteen inches or more and a higher-voltage battery or gas engine suits large lots and long fence lines. Match swath to power; a wide swath on a weak motor drains batteries and bogs down in heavy growth."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a string trimmer cut brush?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only light brush and weeds. Nylon line is not designed for woody stems, saplings or thick vines. For that work you need a brush cutter or a trimmer the manufacturer rates for a metal blade, used with the specified guard, handle and harness. Using a blade on a trimmer not built for it is dangerous because of kickback and thrown debris."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Yard & Outdoor Tools",
+    tags: [
+      "best weed eater",
+      "best string trimmer",
+      "battery string trimmer",
+      "gas weed eater",
+      "cordless weed whacker",
+      "string trimmer buying guide"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Weed Eaters</span> for Every Size of Yard
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A trimmer should match your yard, not the biggest number on the box. These picks cover a quarter-acre suburban lot up to a rural property with ditches and fence rows, on battery and on gas.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ego-st1521s-weed-eater"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="14.6k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#power-source" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Battery, Gas or Corded</a>
+          <a href="#swath-and-line" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Swath and Line</a>
+          <a href="#features" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Features That Matter</a>
+          <a href="#batteries" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Batteries and Runtime</a>
+          <a href="#technique" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Trimming Technique</a>
+          <a href="#maintenance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Line and Maintenance</a>
+          <a href="#safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Safety Gear</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. What to Spend</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          For most homeowners the trimmer question was settled a few years ago: a good battery model now does everything a small gas trimmer did, starts every time, and does not need a fuel can in the garage. Gas still earns its place on big properties and in thick brush. The real decisions are swath width, line system, and which battery platform you are willing to commit to.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Weed Eaters, Ranked
+          </h2>
+
+          <p>
+            Picks are drawn from manufacturer specifications, including cutting swath, line diameter, voltage, engine size and warranty, along with the attachments each platform supports and recurring themes in owner feedback. We weighted how well each trimmer fits a realistic yard size and budget. No rankings are based on lab measurements we did not take.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="power-source" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Battery, Gas or Corded: Pick the Power First
+          </h2>
+
+          <p>
+            The single biggest decision is the power source, and it should follow your property and how you work rather than habit. A battery trimmer starts instantly, runs quietly enough that you can trim at eight in the morning without annoying the street, and needs almost no maintenance beyond line. A gas trimmer runs as long as you have fuel and has the torque to chew through heavy growth all afternoon. A corded electric trimmer is cheap and light but tethers you to a 100-foot extension cord.
+          </p>
+
+          <p>
+            For yards up to about half an acre, battery is the right default for most people. The better 40 to 80-volt models cut wide swaths with thick line, and a single charged battery covers a typical suburban trim and edge. Past half an acre, or anywhere with long fence lines, ditches and brushy edges, battery still works if you buy a second battery, but a gas trimmer becomes the simpler choice. Gas also wins if you need to clear thick, woody weeds on a regular basis.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Power</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Strength</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Drawback</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Battery 18-24V</td>
+                    <td class="px-4 py-4 text-gray-700">Small lots, edging</td>
+                    <td class="px-4 py-4 text-gray-700">Light, cheap if you own the platform</td>
+                    <td class="px-4 py-4 text-gray-700">Limited power and runtime</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Battery 40-80V</td>
+                    <td class="px-4 py-4 text-gray-700">Most suburban yards</td>
+                    <td class="px-4 py-4 text-gray-700">Near-gas power, quiet, instant start</td>
+                    <td class="px-4 py-4 text-gray-700">Higher kit cost, battery weight</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Gas two-stroke</td>
+                    <td class="px-4 py-4 text-gray-700">Large and rural properties</td>
+                    <td class="px-4 py-4 text-gray-700">Unlimited runtime, torque in brush</td>
+                    <td class="px-4 py-4 text-gray-700">Noise, fumes, fuel and maintenance</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Corded electric</td>
+                    <td class="px-4 py-4 text-gray-700">Tiny yards near an outlet</td>
+                    <td class="px-4 py-4 text-gray-700">Lowest cost, no batteries</td>
+                    <td class="px-4 py-4 text-gray-700">Cord management, limited reach</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Think about the rest of your tools too. A trimmer is often the second or third tool on a battery platform after a mower or a blower, and shared batteries make the second and third tools far cheaper. If you already own an EGO mower or a Ryobi drill kit, that should weigh heavily in the decision. If you are also shopping for a blower, see our <a href="/best-cordless-leaf-blower/">cordless leaf blower picks</a>, most of which run on the same platforms as the trimmers above.
+          </p>
+
+          <p>
+            Corded trimmers deserve a short note: they are the least expensive option and never run out of charge, but dragging a cord around trees, beds and a fence is frustrating, and the cord is easy to cut with the line. They make sense only for a very small yard with an outdoor outlet close by, and only with an outdoor-rated extension cord plugged into a GFCI-protected outlet.
+          </p>
+        </div>
+
+        <div id="swath-and-line" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Cutting Swath and Line Diameter
+          </h2>
+
+          <p>
+            The cutting swath is the diameter of the circle the spinning line makes. Small trimmers cut about 10 to 12 inches, mid-range battery and gas trimmers cut 13 to 15 inches, and large models reach 16 to 17 inches. A wider swath clears ground faster along fence lines and open edges, but it also draws more power, so a wide swath on a weak motor drains batteries quickly and bogs down in thick grass. Match the swath to the power behind it.
+          </p>
+
+          <p>
+            Line diameter matters as much as swath. Thin 0.065-inch line is light and fine for trimming soft grass around beds, but it breaks constantly against concrete and stalls in thick weeds. Line around 0.080 inches is the common middle ground for homeowner trimmers. Heavier 0.095-inch line cuts tall grass and tough weeds without shredding, and it lasts longer against curbs and fence posts. Always use the diameter your trimmer's head is designed for; oversized line overloads the motor and jams the spool.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Swath and Line by Yard Size</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">12 in</p>
+                <p class="text-gray-400 text-xs mt-1">Swath for small, tidy lots</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">15 in</p>
+                <p class="text-gray-400 text-xs mt-1">Swath for most suburban yards</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">0.080 in</p>
+                <p class="text-gray-400 text-xs mt-1">Common homeowner line size</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">0.095 in</p>
+                <p class="text-gray-400 text-xs mt-1">Line for overgrown edges</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Line shape is worth a look once you know the diameter. Round line is cheapest and most durable. Twisted and star-shaped lines cut more cleanly and quietly, and many owners prefer them for grass, though they can wear faster against hard edges. Square and serrated profiles slice through tougher weeds. None of them turn a 20-volt trimmer into a brush cutter, but a quality line in the right size cuts down on stops to re-feed.
+          </p>
+
+          <p>
+            If you regularly face saplings, thick blackberry or woody brush, a string trimmer is the wrong tool. Look for a gas trimmer or a high-voltage battery power head that accepts a metal brush blade, and use the handlebar, harness and blade guard the manufacturer specifies for blade use. A blade on a tool not designed for it is a serious kickback and thrown-object hazard.
+          </p>
+        </div>
+
+        <div id="features" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Features That Actually Make a Difference
+          </h2>
+
+          <p>
+            The line feed system is the feature you notice every time you use the trimmer. Bump feed releases line when you tap the head on the ground; it is simple, cheap and reliable once you get the rhythm. Automatic feed advances line on its own as it wears, which is convenient but can waste line or tangle. Push-button systems, such as Worx's Command Feed, feed line on demand. Auto-winding heads such as EGO's Powerload remove the most annoying job of all, rewinding a spool by hand.
+          </p>
+
+          <p>
+            Shaft shape affects reach and comfort. Straight shafts reach farther under decks, shrubs and fences and usually suit taller users. Curved shafts are shorter and lighter and can feel more natural for shorter users on a small lot, but they put the head closer to your feet. Many current battery models use straight shafts by default. Check whether the handle adjusts and whether there is an optional shoulder strap if you will trim for more than half an hour.
+          </p>
+
+          <p>
+            Attachment-capable or split-shaft trimmers let one power head run an edger, pole saw, cultivator, hedge trimmer or blower. They are worth it if you would otherwise buy several separate tools, and less so if you only ever trim. Variable-speed triggers and two-speed switches help batteries last and give finer control near flower beds. A wheeled edging guide is helpful if you edge a long driveway or walk.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">SKIP THIS</p>
+            <p class="text-xl font-bold text-white mb-3">Do not pay extra for features you will not use.</p>
+            <p class="text-gray-300 leading-relaxed m-0">A homeowner with a small yard does not need a 17-inch swath or a multi-tool system. The money is better spent on a second battery or a quality line, both of which make every session shorter.</p>
+          </div>
+
+          <p>
+            Finally, look at weight with the battery installed, not the bare tool weight on the box. A high-capacity battery can add two to four pounds to a battery trimmer, and that weight sits at the far end from the head, changing the balance. If possible, pick up the trimmer with the battery you will actually use before buying.
+          </p>
+        </div>
+
+        <div id="batteries" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Batteries, Voltage and Runtime
+          </h2>
+
+          <p>
+            Voltage indicates the power class of a battery trimmer, and amp-hours indicate how long a battery lasts. A higher-voltage platform such as 56 or 80 volts can drive a wider swath with thicker line. A higher amp-hour battery on the same platform runs longer and is heavier. Brushless motors are more efficient and get more work from the same battery, which is why nearly every serious battery trimmer now uses one.
+          </p>
+
+          <p>
+            Runtime claims on boxes depend on conditions: light grass, low speed setting, and a full-size battery. Real sessions in thick growth on high speed drain batteries faster. For planning purposes, a mid-size battery on a quality trimmer covers a typical suburban trim and edge, and a property with long fence lines usually needs a second battery or a larger one. Having two batteries and swapping halfway through is the most practical solution.
+          </p>
+
+          <p>
+            Battery care extends the life of the most expensive part of the kit. Store batteries indoors at moderate temperatures, not in a freezing shed or a hot garage, and store them partially charged over the winter rather than empty. Let a hot battery cool before charging it. Use only the manufacturer's charger. Most platforms carry multi-year warranties on batteries, so register the tool and keep the receipt.
+          </p>
+
+          <p>
+            Platform choice is a long-term commitment. Batteries are not interchangeable between brands without adapters that void warranties, so choose a platform that offers the other tools you expect to buy, including a <a href="/best-chainsaw/">chainsaw</a> or blower. EGO, Greenworks, Ryobi, DeWalt and Milwaukee all sell broad outdoor lines, and each has strengths. A trimmer is rarely the last battery tool a homeowner buys.
+          </p>
+        </div>
+
+        <div id="technique" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. How to Trim and Edge Cleanly
+          </h2>
+
+          <p>
+            Hold the trimmer so the head is a few inches above the ground and tilted slightly, and let the tip of the line do the cutting. The tip moves fastest and cuts best; pushing the head into grass so the whole length of line is buried only slows it down and wears the line. Walk at a steady pace and swing the head in an even arc, cutting the top of tall grass first and then working down rather than plowing in at ground level.
+          </p>
+
+          <p>
+            Know which way your head spins, because it decides where debris goes. Most trimmers spin counterclockwise when viewed from above, which throws clippings to the right side of the head. Work so the clippings land on the area you have already cut or on the lawn, not onto a freshly cleaned driveway or into a flower bed. When trimming along a fence or wall, approach so the line spins away from the surface to avoid wearing line against it.
+          </p>
+
+          <p>
+            To edge, rotate the trimmer so the head spins vertically, line up the line with the edge of the driveway or walk, and walk slowly along it. A guide wheel helps keep the cut straight. The first edge of the season is the hardest; regular edging every couple of weeks keeps a crisp line with very little effort. Wear on the line is heavy when edging against concrete, so expect to feed line often.
+          </p>
+
+          <p>
+            Around trees, keep the line well away from the trunk. A spinning line strips bark, and repeated injuries at the base of a young tree, sometimes called string trimmer blight, can girdle and kill it. A ring of mulch around each tree eliminates the need to trim there at all. After trimming, a quick pass with a blower clears the clippings off hard surfaces; see our <a href="/best-cordless-leaf-blower/">leaf blower guide</a> for models that share trimmer batteries.
+          </p>
+        </div>
+
+        <div id="maintenance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Line, Spool and Engine Maintenance
+          </h2>
+
+          <p>
+            Most trimmer frustration comes from the head. Line that keeps breaking is often old and dry; nylon trimmer line becomes brittle as it loses moisture, and some owners soak a spool in water overnight before winding it. Line that will not feed usually means it was wound loosely or crossed over itself, or that it is the wrong diameter. Wind tightly and evenly in the direction of the arrow on the spool, and keep the two ends from overlapping.
+          </p>
+
+          <p>
+            Keep the head clean. Grass and dirt pack around the spool and the eyelets, preventing line from feeding and adding vibration. Pop the cover off every few sessions and brush it out. Check the cutting blade on the guard, which trims line to length, and replace the guard if it is cracked. On battery trimmers, wipe the motor vents clear of clippings so the motor can cool.
+          </p>
+
+          <p>
+            Gas trimmers need more. Use the fuel and oil ratio printed on the tool, usually 50 to 1 for modern two-strokes, with oil designed for air-cooled two-stroke engines. Fuel that sits for more than about a month can varnish the carburetor, so use stabilizer or ethanol-free premixed canned fuel. Clean or replace the air filter regularly, check the spark plug each season, and run the tool dry or drain the tank before winter storage.
+          </p>
+
+          <p>
+            End-of-season care is short for battery tools: clean the head, store the trimmer indoors, and store the battery partly charged. For gas, empty or stabilize the fuel, clean the air filter and store the tool hanging, not lying on the head. A trimmer maintained this way should last many seasons.
+          </p>
+        </div>
+
+        <div id="safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Safety Gear and Safe Working Habits
+          </h2>
+
+          <p>
+            String trimmers throw debris hard. A trimmer head spinning at several thousand rpm launches small stones, glass and twigs with enough force to injure eyes and break windows. Wear safety glasses or goggles that meet the ANSI Z87.1 impact standard every time, even for a two-minute touch-up. A face shield over safety glasses adds protection when trimming near gravel or along rocky edges.
+          </p>
+
+          <p>
+            Wear long pants and sturdy closed shoes or boots, not shorts and sandals. Gas trimmers are loud enough that hearing protection is a sensible default; many consumer gas trimmers produce sound levels at the operator's ear in the range where prolonged exposure damages hearing. Gloves reduce vibration fatigue and protect your hands when clearing the head.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">KEEP CLEAR</p>
+            <p class="text-xl font-bold text-white mb-3">Keep people and pets well back while you trim.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Many trimmer manuals specify a hazard zone of about 50 feet around the operator for bystanders and animals. Stop the trimmer if anyone approaches, and never trim near parked cars or windows without shielding them.</p>
+          </div>
+
+          <p>
+            Before starting, walk the area and remove stones, wire, toys and dog bones that the line could pick up and throw. Keep the guard installed; it deflects debris and holds the line-cutting blade. Stop the motor or engine before clearing a jam or touching the head, and on battery tools remove the battery. On a gas trimmer, refuel with the engine cool and well away from where you will start it.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. What a Good Trimmer Costs
+          </h2>
+
+          <p>
+            Budget 20-volt trimmers with a battery and charger typically sell for roughly $70 to $130 at the time of writing. Mid-range 40-volt kits run roughly $150 to $250, and premium 56 to 80-volt kits with a large battery run roughly $200 to $350. Bare tools, without battery or charger, cost much less if you already own the platform. Consumer gas trimmers range from about $150 to $350, with dealer-sold models at the higher end.
+          </p>
+
+          <p>
+            The lifetime cost includes line, batteries or fuel. A spool of quality line runs roughly $10 to $30 and lasts a season or more for most homeowners. A replacement battery can cost a third or more of the original kit price, which is why platform choice matters. Gas trimmers need fuel, two-stroke oil, filters and plugs every year, and ethanol-free premixed fuel is convenient but expensive per gallon.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Yard</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Sensible choice</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Roughly what to spend</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Under a quarter acre</td>
+                    <td class="px-4 py-4 text-gray-700">20V trimmer-edger</td>
+                    <td class="px-4 py-4 text-gray-700">$70-$150</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Quarter to half acre</td>
+                    <td class="px-4 py-4 text-gray-700">40-56V brushless trimmer</td>
+                    <td class="px-4 py-4 text-gray-700">$150-$300</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Half acre to one acre</td>
+                    <td class="px-4 py-4 text-gray-700">56-80V trimmer with spare battery</td>
+                    <td class="px-4 py-4 text-gray-700">$250-$400</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Rural, brush and ditches</td>
+                    <td class="px-4 py-4 text-gray-700">Gas trimmer or brush cutter</td>
+                    <td class="px-4 py-4 text-gray-700">$200-$450</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Spend on power and platform, not gimmicks. An entry-level trimmer that bogs down in your growth will feel like a waste even if it was cheap. If weeds along fences and walls keep coming back faster than you can trim them, a targeted herbicide can reduce the workload; our <a href="/best-weed-killer/">weed killer guide</a> explains which products are safe near lawns and which to keep for gravel and fence lines.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying Too Small a Trimmer for the Yard</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A light 20-volt trimmer is great on a townhouse lot and miserable on a half-acre with fence lines. If you finish every session with a dead battery and half the job left, the tool is undersized. Match swath width and voltage to the property, or plan on a second battery from the start.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using the Wrong Line Diameter</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Forcing thick line into a head built for thinner line overloads the motor and jams the spool, while line that is too thin breaks constantly. The correct diameter is printed on the head or in the manual. Stick to it, and replace old brittle line rather than fighting it.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trimming Without Eye Protection</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A spinning line throws stones and debris at high speed, and eye injuries from trimmers are common. Wear impact-rated safety glasses or goggles every time, no matter how small the job. Add hearing protection with a gas trimmer and long pants for leg protection. Ordinary prescription glasses are not a substitute.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Scalping Trees and Fence Posts</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Running the line against a tree trunk strips bark and can kill young trees over time. Hitting posts and siding shreds line and leaves marks. Mulch rings around trees and slow, careful passes near structures save the tree, the line and your time. Trim slowly near anything you do not want damaged.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Storing Gas Trimmers With Old Fuel</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Fuel left in a carburetor over winter turns to varnish and blocks the jets, and that is the top reason gas trimmers will not start in spring. Use stabilizer or ethanol-free canned fuel, or run the tank dry before storage. A carburetor cleaning at a shop often costs as much as a new budget trimmer.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are weed eaters and string trimmers the same thing?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. Weed Eater was originally a trademark, and the name stuck as the everyday word for a string trimmer, the same way people say weed whacker. All three describe a tool that spins nylon line to cut grass and weeds where a mower cannot reach. Brush cutters are a related category with metal blades, heavier construction and handlebars for clearing woody growth.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is battery or gas better for a weed eater?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For yards up to about half an acre, a quality battery trimmer is the better choice for most people: it starts instantly, is quieter, and needs little maintenance. Gas makes more sense for large or rural properties, regular brush clearing, and anyone who needs to run for hours. A second battery closes much of the runtime gap for mid-size yards.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Why does my trimmer line keep breaking?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Common causes are old, dried-out line, the wrong diameter for the head, hitting concrete, posts or fences with the line, and running at full speed into hard edges. Replace old line, use the size listed for your head, approach hard surfaces at an angle, and let the tip of the line do the cutting rather than burying the head in growth.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many minutes does a cordless trimmer last per charge?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on the voltage, battery capacity, speed setting and how thick the growth is. A mid-size battery on a brushless trimmer typically handles a suburban trim and edge on one charge, while thick, wet grass on high speed can cut runtime sharply. Box claims assume light conditions, so a second battery is the practical solution for larger yards.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I edge with a string trimmer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. Rotate the trimmer so the head spins vertically, line it up with the edge of the driveway or walk, and walk slowly. Many models have a wheel guide or a rotating head made for edging. Expect heavy line wear against concrete. For long driveways edged weekly, a dedicated edger is faster and cleaner.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What size string trimmer do I need?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A 12-inch swath suits small, well-kept yards. Thirteen to 15 inches suits most suburban properties. Sixteen inches or more and a higher-voltage battery or gas engine suits large lots and long fence lines. Match swath to power; a wide swath on a weak motor drains batteries and bogs down in heavy growth.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a string trimmer cut brush?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Only light brush and weeds. Nylon line is not designed for woody stems, saplings or thick vines. For that work you need a brush cutter or a trimmer the manufacturer rates for a metal blade, used with the specified guard, handle and harness. Using a blade on a trimmer not built for it is dangerous because of kickback and thrown debris.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Yard and Outdoor Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-cordless-leaf-blower/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Cordless Leaf Blowers</h3>
+              <p class="text-gray-500 text-sm mt-2">Clear clippings fast, often on the same battery as your trimmer.</p>
+            </a>
+            <a href="/best-weed-killer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Weed Killers</h3>
+              <p class="text-gray-500 text-sm mt-2">Cut down on trimming along fences and gravel with the right herbicide.</p>
+            </a>
+            <a href="/best-self-propelled-lawn-mower/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Self-Propelled Mowers</h3>
+              <p class="text-gray-500 text-sm mt-2">Pair your trimmer with a mower that runs on the same platform.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most yards, a 40 to 56-volt brushless battery trimmer with a 13 to 15-inch swath is the right tool, and the EGO ST1521S is the easiest to live with thanks to its auto-winding head. Already own Ryobi batteries? The ONE+ HP brushless model is the value play. Big property or regular brush? Buy gas, with the Stihl FS 56 RC-E as our first choice.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whatever you pick, use the line size the head was designed for, keep a second battery or fresh fuel on hand, and wear eye protection every single time. A trimmer that matches your yard turns a dreaded chore into a fifteen-minute job.
+          </p>
+        </div>
+
+        <MoreInCategory category="Yard & Outdoor Tools" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

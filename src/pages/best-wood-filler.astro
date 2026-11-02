@@ -1,0 +1,1009 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Exterior Caulk",
+    "url": "/best-exterior-caulk/"
+  },
+  {
+    "title": "Caulking Exterior Windows, Step by Step",
+    "url": "/how-to-caulk-exterior-windows/"
+  },
+  {
+    "title": "How Long Does Caulk Take to Dry",
+    "url": "/how-long-does-caulk-take-to-dry/"
+  },
+  {
+    "title": "Best Gutter Guards",
+    "url": "/best-gutter-guards/"
+  },
+  {
+    "title": "Best Deck Stain",
+    "url": "/best-deck-stain-reviews/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 8 Best Wood Fillers: From Nail Holes to Rotted Sills";
+const description =
+  "Eight wood fillers ranked by job, from stainable latex for furniture to two-part epoxy for rotted exterior trim, plus how to choose, apply and finish each type.";
+
+const PRODUCTS = [
+  {
+    "id": "dap-plastic-wood-x-7079800540",
+    "badge": "Best Overall",
+    "category": "Latex, Interior and Exterior",
+    "name": "DAP Plastic Wood-X Wood Filler with DryDex",
+    "amazonUrl": "",
+    "description": "Plastic Wood-X earns the top spot because it does the most common job, filling small to medium holes in trim, doors and furniture, with almost no fuss. It goes on pink and turns its natural wood tone as it dries, a DryDex feature that takes the guesswork out of when to sand. The knife-grade consistency spreads smoothly, stays put on vertical surfaces and sands to a fine, crisp edge without gumming the paper. DAP rates it for interior and exterior use and lists it as paintable and stainable, and it cleans up with water. For painted work it is as close to foolproof as filler gets. Like every one-part latex filler, it is not structural and it is not meant for very deep voids in one pass; fill in layers on anything deeper than a quarter inch, and switch to a two-part product for rot or broken edges. Owners commonly report it holding up well on exterior trim once it is primed and painted.",
+    "pros": [
+      "Color change shows when it is ready to sand",
+      "Smooth, non-sag texture",
+      "Sands cleanly without clogging paper",
+      "Interior and exterior rated",
+      "Water cleanup"
+    ],
+    "cons": [
+      "Fill deep holes in layers",
+      "Not for structural or rotted wood repairs"
+    ],
+    "bottomLine": "The default tub for nail holes, dings and trim repairs that will be painted."
+  },
+  {
+    "id": "minwax-stainable-wood-filler-42853",
+    "badge": "Best for Stained Projects",
+    "category": "Stainable, Interior and Exterior",
+    "name": "Minwax Stainable Wood Filler",
+    "amazonUrl": "",
+    "description": "Most fillers claim to be stainable. Few take stain anywhere near the surrounding wood. Minwax built this one specifically to accept oil-based and water-based stain more like real wood fibers do, and owners commonly report it blending better than typical latex fillers on stained furniture, cabinets and floors. It is sold in several wood tones so you can start close to your final color, which matters more than the stain itself. Expect to experiment: apply a test patch on scrap, stain it alongside the surrounding wood, and adjust before committing. Minwax lists it for indoor and outdoor work; it sands well, and holds an edge on small breaks and gouges. It is not the right product for large voids or rotted wood, and like every stainable filler it will still read a little different from the wood grain under close inspection. For a near-invisible stained repair it is the best starting point among the widely available options.",
+    "pros": [
+      "Formulated to accept stain more evenly than typical fillers",
+      "Several wood-tone colors",
+      "Interior and exterior rated",
+      "Sands to a smooth edge"
+    ],
+    "cons": [
+      "Still not a perfect match without testing",
+      "Not for deep or structural repairs"
+    ],
+    "bottomLine": "The best widely sold choice when the repair will be stained rather than painted."
+  },
+  {
+    "id": "abatron-woodepox-weab6or",
+    "badge": "Best for Rotted Wood",
+    "category": "Two-Part Epoxy Paste",
+    "name": "Abatron WoodEpox Epoxy Wood Replacement Compound",
+    "amazonUrl": "",
+    "description": "WoodEpox is what restoration carpenters use to rebuild rotted window sills, door jambs, columns and trim that would otherwise be replaced. It is a two-part epoxy paste mixed in equal parts that cures into a hard, wood-like mass with essentially no shrinkage, and once cured it can be sawn, planed, drilled, nailed, sanded and carved like wood. Abatron designs it to work with its LiquidWood consolidant, which soaks into softened fibers and hardens them before the paste goes on; together they form a durable, waterproof repair bonded to sound wood. The tradeoffs are cost, a working time that requires you to mix only what you can apply, and a technique learning curve. You also must accept that it is a paint-grade repair; it will not take stain like wood. For exterior rot where the alternative is a carpenter and a new sill, it is the most capable product here by a wide margin.",
+    "pros": [
+      "Rebuilds missing and rotted sections",
+      "No meaningful shrinkage",
+      "Can be sawn, planed, drilled and nailed when cured",
+      "Waterproof and suited to exterior use",
+      "Pairs with LiquidWood consolidant"
+    ],
+    "cons": [
+      "Expensive compared with one-part fillers",
+      "Mixing and working time take practice",
+      "Paint-grade only"
+    ],
+    "bottomLine": "The serious choice for rot repair, worth the price when the alternative is replacing the wood."
+  },
+  {
+    "id": "minwax-high-performance-wood-filler-41600",
+    "badge": "Best Fast Exterior Repair",
+    "category": "Two-Part, Paint-Grade",
+    "name": "Minwax High Performance Wood Filler",
+    "amazonUrl": "",
+    "description": "Minwax High Performance is a two-part filler: a can of filler and a tube of hardener you mix in small batches. The chemistry hardens quickly, so you can sand and paint far sooner than with a deep layer of latex filler, and it does not shrink as it sets. That makes it a strong fit for exterior trim, broken corners, deep gouges and other repairs on wood that will be painted and that needs to stand up to weather. Minwax pairs it with its Wood Hardener for softened wood, a lighter version of the consolidant-plus-filler approach the Abatron system uses. The fast set is also its main drawback: mix only what you can apply in a few minutes, and work in a ventilated space because the odor is strong. It is paint-grade, so do not plan on staining it. For quick, durable exterior repairs on a budget, it is the practical middle ground between latex and epoxy.",
+    "pros": [
+      "Sets fast and sands soon after",
+      "No shrinkage on deep fills",
+      "Strong, weather-resistant repair",
+      "Can pair with Minwax Wood Hardener"
+    ],
+    "cons": [
+      "Short working time once mixed",
+      "Strong odor",
+      "Not stainable"
+    ],
+    "bottomLine": "A fast, durable paint-grade repair for exterior trim when epoxy is more than the job needs."
+  },
+  {
+    "id": "j-b-weld-kwikwood-8258",
+    "badge": "Best Quick Epoxy Fix",
+    "category": "Epoxy Putty Stick",
+    "name": "J-B Weld KwikWood Epoxy Putty Stick",
+    "amazonUrl": "",
+    "description": "KwikWood is a kneadable epoxy stick: cut off a slice, knead it until the two parts are blended to a uniform tan, press it into the damage and shape it. J-B Weld lists a set time in the range of a quarter hour and a cure time of about an hour; once cured, it can be drilled, sanded, painted and stained to some degree. There is nothing to measure and no mixing cup, which is why it shines on small, awkward repairs: a stripped screw hole in a cabinet, a chipped table leg, a broken corner on a door, or a damaged section of exterior trim. It is not economical for large areas, and the tan color means stained repairs will rarely disappear. But for a fast, strong fix that can hold a fastener and survive outdoors, it is hard to beat in a toolbox, and the stick keeps well when sealed between uses.",
+    "pros": [
+      "No measuring, just knead and press",
+      "Sets and cures quickly per the label",
+      "Strong enough to hold screws",
+      "Works on small exterior repairs"
+    ],
+    "cons": [
+      "Expensive per ounce for large repairs",
+      "Tan color shows through stain"
+    ],
+    "bottomLine": "A toolbox essential for small, strong repairs and stripped screw holes."
+  },
+  {
+    "id": "goodfilla-wood-grain-filler-8oz",
+    "badge": "Best for Woodworkers",
+    "category": "Water-Based, Tintable",
+    "name": "Goodfilla Water-Based Wood and Grain Filler",
+    "amazonUrl": "",
+    "description": "Goodfilla is aimed at furniture makers and flooring installers rather than house painters. It is water-based, comes in a long list of species-matched colors, and can be thinned with water to work as a grain filler on open-pored woods like oak and ash before finishing, a job most wood fillers cannot do. It also stays workable in the container: if it dries out, the company says you can add water to bring it back, which cuts waste compared with tubs that harden. Owners commonly praise how well it sands and how close the colors get when chosen carefully, and it accepts both stain and topcoats. The limitation is environment: it is intended for interior use, so it is the wrong pick for exterior trim, decks or anything that will see weather. For indoor projects where appearance matters most, it is one of the best options available, and the grain-filling ability adds real value for anyone building furniture.",
+    "pros": [
+      "Species-matched color range",
+      "Doubles as a grain filler when thinned",
+      "Can be revived with water",
+      "Sands easily",
+      "Accepts stain and topcoats"
+    ],
+    "cons": [
+      "Interior use only",
+      "Smaller containers cost more per ounce"
+    ],
+    "bottomLine": "The furniture maker's choice for indoor repairs and grain filling."
+  },
+  {
+    "id": "gorilla-wood-filler-107104",
+    "badge": "Best Budget All-Purpose",
+    "category": "Acrylic, Interior and Exterior",
+    "name": "Gorilla All Purpose Wood Filler",
+    "amazonUrl": "",
+    "description": "Gorilla's wood filler is an inexpensive, general-purpose acrylic product for the jobs most homeowners face: nail holes, dents, gouges and small cracks inside and outside the house. The company lists it as water resistant, shrink resistant and sandable, and rates it for interior and exterior use, with water cleanup. It spreads easily, holds on vertical surfaces and sands without much effort. Gorilla markets it as paintable and stainable; treat the stainable claim the way you would for any latex-type filler and test on scrap first, since the color will rarely blend perfectly. Like any one-part filler it works best on shallow repairs, so fill deep holes in layers and keep it out of structural or rotted wood. For a garage tub that handles most everyday patching at a lower price than premium brands, it is a sensible buy, and owners commonly report it storing well when the lid is sealed tightly.",
+    "pros": [
+      "Low price for a general-purpose tub",
+      "Interior and exterior rated",
+      "Water resistant once dry",
+      "Easy to spread and sand"
+    ],
+    "cons": [
+      "Stain match is approximate",
+      "Layer deep fills"
+    ],
+    "bottomLine": "A solid low-cost tub for everyday patching inside and out."
+  },
+  {
+    "id": "famowood-latex-wood-filler-40022126",
+    "badge": "Fastest Drying Latex",
+    "category": "Latex, Fast-Drying",
+    "name": "FamoWood Latex Wood Filler",
+    "amazonUrl": "",
+    "description": "FamoWood's latex filler is built for speed. Thin applications dry quickly enough to sand in minutes rather than hours, which makes it popular with trim carpenters and anyone filling dozens of nail holes in a single session. It comes in a range of wood tones, cleans up with water, and is rated for both interior and exterior use. The fast drying is a double-edged sword: the product skins in the tub if the lid is left off, so work from a small amount and close the container between scoops. It also shrinks a little more than some competitors on deeper fills, so a second skim coat is common. On painted trim, cabinets and baseboard, its speed shaves real time off a job. For stained work, the color options help, though as with any filler, test before committing. Keep it for fast production work rather than deep or structural repairs.",
+    "pros": [
+      "Dries and sands quickly in thin layers",
+      "Several wood-tone colors",
+      "Water cleanup",
+      "Interior and exterior rated"
+    ],
+    "cons": [
+      "Skins in the tub if left open",
+      "May need a second coat on deeper holes"
+    ],
+    "bottomLine": "Best when you are filling many small holes and want to sand and paint the same afternoon."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Wood Filler",
+          item: "https://www.allmetalbrake.com/best-wood-filler/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which filler should I use on outdoor trim and siding?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For small holes on painted exterior wood, DAP Plastic Wood-X performs well once primed and painted. For larger damage, broken edges or weathered trim, a two-part product such as Minwax High Performance or Abatron WoodEpox is more durable because it does not shrink and resists moisture. For rot, use a consolidant followed by epoxy."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is wood putty the same as wood filler?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They are different products. Filler hardens and is applied to bare wood, sanded flush and then painted or finished. Wood putty stays soft, is usually oil-based, and fills nail holes once the finish is already on, mainly on stained work. Putty is not sanded and should not be used under paint on bare wood."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I make wood filler match stain?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Choose a filler color close to the final stained color rather than the raw wood. Apply, dry and sand it, then stain a test board with both wood and filler. Adjust the filler tone if the patch is off. Products formulated to accept stain, such as Minwax Stainable or Goodfilla, are easier to tune than general-purpose fillers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long before I can sand wood filler?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Thin latex fills are often sandable in 15 minutes to an hour; deep latex fills can take several hours or more. Two-part polyester fillers typically sand within about half an hour, while epoxy pastes may need several hours to overnight. Temperature and depth change everything, so follow the label and make sure the center is hard, not just the surface."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I fill a big hole or a missing chunk of wood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use a two-part product rather than a one-part latex. Two-part polyester fillers and epoxy pastes cure throughout without shrinking and can be built up thick. For very large voids, glue in a block of wood first to take up most of the space, then fill around it. For rotted areas, remove all soft wood and use a consolidant before filling."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a screw hold in wood filler?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not in one-part latex filler, which crumbles under a screw. Cured two-part epoxy and epoxy putty sticks can hold screws if you drill a pilot hole after cure. For stripped hinge screws and other loaded fasteners, gluing a hardwood dowel or wood slivers into the hole and redrilling is still the most reliable fix."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can wood filler be used on decks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only for small, cosmetic repairs on painted or solid-stained decks, and even then it tends to show. Deck boards move with moisture, take foot traffic and are usually finished with semi-transparent stain that will not hide filler. Badly damaged deck boards are better replaced. Use an epoxy only for small, localized damage on railings or trim."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Caulk & Exterior Repair",
+    tags: [
+      "best wood filler",
+      "stainable wood filler",
+      "epoxy wood filler",
+      "exterior wood filler",
+      "wood rot repair",
+      "two-part wood filler"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 8 Best <span class="text-[#38BDF8]">Wood Fillers</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A nail hole in painted trim and a rotted window sill need completely different products. Here is which filler belongs in which hole.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#dap-plastic-wood-x-7079800540"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="9.1k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#types" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Five Kinds of Filler</a>
+          <a href="#filler-putty-caulk" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Filler vs Putty vs Caulk</a>
+          <a href="#stain" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Stain Matching</a>
+          <a href="#exterior" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Exterior and Rot Repair</a>
+          <a href="#apply" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Applying and Sanding</a>
+          <a href="#drying" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Drying and Recoat Times</a>
+          <a href="#strength" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Screws and Strength</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Cost and Shelf Life</a>
+          <a href="#choose" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Picking by Project</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Wood filler is one of those products where the cheapest tub is often exactly right and sometimes completely wrong. A one-part latex filler is perfect for nail holes and small dings. It is a poor choice for a hole deeper than a quarter inch, a joint that moves, or anything outside that holds water. Match the chemistry to the hole and almost every filler on this list does its job well.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 8 Best Wood Fillers, Ranked
+          </h2>
+
+          <p>
+            Picks are ranked by fit for the job, based on manufacturer specifications and labels (chemistry, rated uses, interior or exterior rating, set and sanding times, stain and paint compatibility) and on recurring patterns in owner feedback. We did not run lab tests; where a manufacturer does not publish a figure, we leave it out rather than guess.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="types" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Five Kinds of Wood Filler
+          </h2>
+
+          <p>
+            The shelf looks crowded, but almost every wood filler fits into one of five groups. Each group has a clear set of jobs it does well and a clear set it should never be asked to do. Figure out which group you need before you compare brands.
+          </p>
+
+          <p>
+            <strong>One-part latex or acrylic fillers</strong> are the familiar tubs. They are ready to use, clean up with water and sand easily. They harden by losing water, so they shrink slightly and work best in shallow holes. <strong>Solvent-based one-part fillers</strong> are older formulas that harden by solvent evaporation. They are tougher than most latex fillers but smell stronger and need solvent cleanup; many have been replaced by water-based products.
+          </p>
+
+          <p>
+            <strong>Two-part polyester fillers</strong> (Minwax High Performance is the common example) mix a filler with a hardener. They set fast, do not shrink and are strong enough for exterior trim. <strong>Two-part epoxy pastes</strong>, such as Abatron WoodEpox, are the heavy-duty option for rot repair and rebuilding missing wood. <strong>Epoxy putty sticks</strong>, such as KwikWood, are a convenient form of the same chemistry for small, strong repairs.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Shrinkage</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Strength</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Stain</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Outdoors</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Latex or acrylic</td>
+                    <td class="px-4 py-4 text-gray-700">Slight</td>
+                    <td class="px-4 py-4 text-gray-700">Low</td>
+                    <td class="px-4 py-4 text-gray-700">Fair</td>
+                    <td class="px-4 py-4 text-gray-700">If primed and painted</td>
+                    <td class="px-4 py-4 text-gray-700">Nail holes, dents, small cracks</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Solvent one-part</td>
+                    <td class="px-4 py-4 text-gray-700">Slight</td>
+                    <td class="px-4 py-4 text-gray-700">Moderate</td>
+                    <td class="px-4 py-4 text-gray-700">Fair</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Harder-wearing small repairs</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Two-part polyester</td>
+                    <td class="px-4 py-4 text-gray-700">None</td>
+                    <td class="px-4 py-4 text-gray-700">High</td>
+                    <td class="px-4 py-4 text-gray-700">Poor</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Exterior trim, broken corners</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Two-part epoxy paste</td>
+                    <td class="px-4 py-4 text-gray-700">None</td>
+                    <td class="px-4 py-4 text-gray-700">Very high</td>
+                    <td class="px-4 py-4 text-gray-700">Poor</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Rot, rebuilding missing wood</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Epoxy putty stick</td>
+                    <td class="px-4 py-4 text-gray-700">None</td>
+                    <td class="px-4 py-4 text-gray-700">High</td>
+                    <td class="px-4 py-4 text-gray-700">Poor</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Small strong fixes, screw holes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            There is also a separate category worth knowing: <strong>grain filler</strong>. It is a thin paste used on open-grained wood such as oak before finishing to give a glass-smooth surface. Some fillers, notably Goodfilla, can be thinned to serve that purpose. Most cannot, and grain filling is not what most homeowners mean when they ask for wood filler.
+          </p>
+        </div>
+
+        <div id="filler-putty-caulk" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Wood Filler, Wood Putty and Caulk Are Different Products
+          </h2>
+
+          <p>
+            These three get used interchangeably and they should not be. Picking the wrong one is behind a large share of failed repairs.
+          </p>
+
+          <p>
+            <strong>Wood filler</strong> hardens. It is applied to bare wood, sanded flush, and then finished. Because it is rigid once dry, it belongs in holes and damage that do not move: nail holes, gouges, dents and chipped edges. <strong>Wood putty</strong> stays soft. It is usually oil-based, comes in wood tones, and goes into nail holes once the final finish is on, typically on stained trim and furniture. It is never sanded and it is not meant for bare wood under paint.
+          </p>
+
+          <p>
+            <strong>Caulk</strong> stays flexible. It belongs in joints between two pieces that move relative to each other, such as trim to wall, trim to siding, or window casing to frame. Using a rigid filler in a moving joint guarantees a crack as soon as the seasons change. Using caulk to fill a nail hole on a flat surface leaves a soft, slightly sunken spot that shows through paint. For exterior joints, see our <a href="/best-exterior-caulk/">best exterior caulk</a> guide.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Product</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Cured state</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Applied to</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Sanded?</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Use for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Wood filler</td>
+                    <td class="px-4 py-4 text-gray-700">Hard</td>
+                    <td class="px-4 py-4 text-gray-700">Bare wood before finish</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Holes and damage that do not move</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Wood putty</td>
+                    <td class="px-4 py-4 text-gray-700">Soft</td>
+                    <td class="px-4 py-4 text-gray-700">Finished wood</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Nail holes in stained work</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Caulk or sealant</td>
+                    <td class="px-4 py-4 text-gray-700">Flexible</td>
+                    <td class="px-4 py-4 text-gray-700">Joints between pieces</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Gaps that open and close</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            A practical example: painting exterior window trim usually involves all three. Fill nail holes and dents in the casing with filler, sand and prime. Rebuild any soft sill sections with epoxy. Then caulk the joints between the casing and siding with an elastomeric sealant, following a process like the one in our <a href="/how-to-caulk-exterior-windows/">exterior window caulking guide</a>. Each product handles the job it is designed for.
+          </p>
+        </div>
+
+        <div id="stain" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. The Truth About Stainable Wood Filler
+          </h2>
+
+          <p>
+            Stainable is the most overused word on wood filler labels. It usually means the filler will absorb some stain and change color. It almost never means the patch will look like the surrounding wood once stained, because real wood has grain, varying density and end-grain absorption that a uniform paste cannot reproduce.
+          </p>
+
+          <p>
+            The best results come from choosing the filler color close to the final stained color, not close to the raw wood. Apply the filler, let it dry, sand it, and then stain a test board that includes both wood and filler. If the patch comes out too light, try a darker filler tone or add a touch of the stain or a compatible tint to the filler before applying. If it comes out too dark, go lighter. Minwax Stainable and Goodfilla are the easiest products to tune this way.
+          </p>
+
+          <p>
+            Another reliable approach on stained work is to skip filler under the stain entirely. Stain and finish the wood first, then fill nail holes with a colored wax or oil-based putty matched to the finished surface. That is how most finish carpenters handle stained trim, and it hides small holes far better than stainable filler.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE FOR STAIN</p>
+            <p class="text-xl font-bold text-white mb-3">Test on scrap, every time.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Stain the scrap board with the same wood, the same filler and the same stain you plan to use, and look at it in the room's light. Ten minutes of testing beats an obvious patch in the middle of a tabletop.</p>
+          </div>
+
+          <p>
+            Two-part fillers and epoxies are paint-grade. They do not absorb stain in any meaningful way, so for stained exterior work such as a cedar fence or a stained door, either accept a visible repair or replace the damaged board. For decks and siding finished with semi-transparent stain, see our <a href="/best-deck-stain-reviews/">deck stain guide</a> for products that can help disguise minor repairs.
+          </p>
+        </div>
+
+        <div id="exterior" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Exterior Repairs and Rotted Wood
+          </h2>
+
+          <p>
+            Outdoors, wood filler has to survive sun, water and seasonal movement. Latex fillers rated for exterior use do well on small holes once they are primed and painted, but they are vulnerable if left bare or used in large patches. For anything bigger than a nail hole on exterior trim, siding or a door, a two-part product is the more durable choice.
+          </p>
+
+          <p>
+            Rot is a different problem altogether. Rotted wood has lost its structure, so filler applied over it has nothing solid to grip. The repair process has four steps. First, remove all wood that is soft enough to dent with a fingernail or probe with an awl, using a chisel, rasp or oscillating tool. Second, let the area dry thoroughly; moisture trapped under epoxy causes failure. Third, saturate the remaining fibers with a consolidant such as Abatron LiquidWood or Minwax Wood Hardener, which soaks in and hardens them.
+          </p>
+
+          <p>
+            Fourth, rebuild with a two-part epoxy or polyester filler, overfilling slightly and shaping it close to the final profile while it is still workable. Once cured, sand or plane it flush, prime and paint. Done properly, this kind of repair can last as long as the surrounding wood. Done over damp or punky wood, it pops off within a year.
+          </p>
+
+          <p>
+            Know when to replace instead. If rot extends through most of a board's thickness, reaches a structural member, or affects more than roughly a third of a piece of trim, replacement is often faster and more durable. Also find and fix the water source. Rot at a window sill usually means water is getting past failed caulk or a missing drip cap; rot at the bottom of a door jamb often means splashback or a missing sweep.
+          </p>
+
+          <p>
+            After the repair, seal the surrounding joints with an exterior sealant and protect the wood with a sound coat of paint or a finish like those in our <a href="/best-exterior-wood-sealer/">exterior wood sealer guide</a>. Filler alone will not keep water out; it only replaces what water already took.
+          </p>
+        </div>
+
+        <div id="apply" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. How to Apply and Sand Wood Filler
+          </h2>
+
+          <p>
+            Clean the hole first. Remove loose fibers, dust and old finish so the filler bonds to sound wood. For small holes, the corner of a putty knife works; for larger damage, square up the edges with a chisel so the filler has crisp sides to grip. Wipe away dust with a slightly damp rag and let it dry.
+          </p>
+
+          <p>
+            Press, do not spread. Use a flexible putty knife to force filler into the hole, then scrape across at a low angle to remove most of the excess. The goal is a slight crown above the surface, because one-part fillers shrink a little as they dry. A crown that is too tall just means more sanding; a fill that is flush or low will need a second coat.
+          </p>
+
+          <p>
+            Fill deep holes in layers. Most one-part latex fillers are happiest at a quarter inch or less per layer. A thick plug dries on the outside but stays soft in the middle, then shrinks and cracks. Apply a layer, let it dry fully, and add another. Two-part fillers and epoxies can go in thicker, but mix only as much as you can use within the working time on the label.
+          </p>
+
+          <p>
+            Sand once fully dry. Start with 120-grit on a sanding block for flat surfaces, which keeps the patch level with the surrounding wood rather than dishing it out. Finish with 180- or 220-grit. On trim with a profile, wrap the paper around a dowel or a profile block. Wipe off dust, check for pinholes and low spots under a raking light, and touch up as needed.
+          </p>
+
+          <p>
+            Prime before painting. Filler absorbs paint differently than wood, and a spot-primed patch prevents flashing, the dull or shiny spot that shows through the topcoat. Use a good bonding primer outdoors, and paint within the time recommended on the filler and primer labels.
+          </p>
+        </div>
+
+        <div id="drying" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Drying and Recoat Times by Type
+          </h2>
+
+          <p>
+            Drying time is one of the biggest practical differences between filler types, and it is often what decides which product people reach for. The ranges below are typical; the specific label always wins.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Typical Times Before Sanding</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">15-60 min</p>
+                <p class="text-gray-400 text-xs mt-1">Thin latex fill</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">2-8 hrs</p>
+                <p class="text-gray-400 text-xs mt-1">Deep latex fill</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">20-30 min</p>
+                <p class="text-gray-400 text-xs mt-1">Two-part polyester</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">Hours to a day</p>
+                <p class="text-gray-400 text-xs mt-1">Two-part epoxy paste</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            One-part latex fillers dry by evaporation, so time depends heavily on depth, temperature and humidity. A thin skim on a nail hole may be sandable in 15 minutes; a quarter-inch fill can take a few hours; a deep fill done in one pass can take far longer and may never cure properly in the middle. Color-change formulas such as DAP Plastic Wood-X take the guesswork out by showing when the filler is dry.
+          </p>
+
+          <p>
+            Two-part products cure by chemical reaction, not evaporation, so they cure throughout the patch at the same time. Polyester fillers tend to be the fastest, often sandable within half an hour. Epoxy pastes are slower, with working times that allow shaping and cure times ranging from several hours to overnight depending on temperature. Cold slows all two-part chemistry considerably.
+          </p>
+
+          <p>
+            If you are painting trim that also needs caulking, plan the sequence so each product has time to set: fill, sand and prime first, then caulk, then paint once the sealant's paint window has passed. Our guide to <a href="/how-long-does-caulk-take-to-dry/">caulk drying times</a> covers that last step in detail.
+          </p>
+        </div>
+
+        <div id="strength" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Can You Screw or Nail Into Wood Filler?
+          </h2>
+
+          <p>
+            It depends on the type. One-part latex and acrylic fillers are not designed to hold fasteners. A screw driven into a latex-filled hole usually crumbles the filler and spins without biting. If a hinge screw has stripped its hole, latex filler is the wrong fix.
+          </p>
+
+          <p>
+            Two-part epoxies and epoxy putty sticks can hold screws well once fully cured. Fill the stripped hole, let it cure, then drill a pilot hole sized for the screw and drive it in. Manufacturers such as J-B Weld and Abatron describe their products as drillable and able to accept fasteners after cure. For heavy loads, such as a door hinge or a railing bracket, the traditional fix is still a solid one: glue a hardwood dowel or a few wooden toothpicks or matchsticks into the hole, trim flush and redrill.
+          </p>
+
+          <p>
+            Nails are a different story. Most fillers will crack if a nail is driven through them, though cured epoxy pastes can generally be nailed if you predrill. If a repair will need to be fastened, plan for it before you fill: use an epoxy, or place a wood block or dowel in the repair as an anchor.
+          </p>
+
+          <p>
+            None of these products restores real structural strength to a framing member, stair tread or load-bearing part. They are surface and trim repairs. Structural damage needs replacement or reinforcement, and anything that holds weight overhead or underfoot deserves a careful look before you reach for filler.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Cost, Container Size and Shelf Life
+          </h2>
+
+          <p>
+            Wood filler is inexpensive compared with the time spent on a repair. At the time of writing, one-part latex and acrylic fillers run roughly $5 to $15 for a small to pint-size container. Two-part polyester kits run roughly $15 to $25. Epoxy putty sticks cost roughly $8 to $15 each, and full two-part epoxy repair systems with consolidant can run $40 to $80 or more.
+          </p>
+
+          <p>
+            Buy the size you will actually use in the next year. One-part fillers harden in the container once air gets in, especially fast-drying formulas. A partly used pint that dries out has cost you more than the small tub you needed. Keep the lid clean so it seals tightly, press plastic wrap onto the surface before closing, and store containers upside down in a temperate space; freezing ruins most water-based fillers.
+          </p>
+
+          <p>
+            Two-part products generally keep longer because the components do not react until mixed, though hardeners can degrade with age and heat. Write the purchase date on the can. Epoxy putty sticks keep well when wrapped tightly between uses. Water-based Goodfilla is unusual in that it can be revived by adding water, which reduces waste for occasional users.
+          </p>
+
+          <p>
+            Where to spend: a cheap latex filler is fine for painted nail holes. For stained furniture, the extra few dollars for a stainable formula and the right color pays back in appearance. For exterior rot, buying a real epoxy system is far cheaper than paying for replacement millwork and a carpenter's time.
+          </p>
+        </div>
+
+        <div id="choose" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Picking the Right Filler by Project
+          </h2>
+
+          <p>
+            If you are filling <strong>nail holes and dents in painted trim</strong>, a one-part latex such as DAP Plastic Wood-X or Gorilla All Purpose is all you need. If you have many holes and want to paint the same day, FamoWood's faster drying helps. Prime before painting.
+          </p>
+
+          <p>
+            For <strong>stained furniture, cabinets and floors</strong>, choose Minwax Stainable or Goodfilla in a color close to your final finish, and test on scrap. For finished trim, consider colored putty after finishing instead of filler before it. For <strong>woodworking projects and open-grain woods</strong>, Goodfilla's ability to double as a grain filler is a real advantage.
+          </p>
+
+          <p>
+            For <strong>exterior trim, doors and siding</strong> with damage beyond a nail hole, use a two-part polyester like Minwax High Performance for fast, paint-grade repairs, or KwikWood for small, strong fixes. For <strong>rotted sills, jambs and columns</strong>, use a consolidant followed by Abatron WoodEpox, and fix the water problem that caused the rot.
+          </p>
+
+          <p>
+            And if the gap is a <strong>joint between two moving pieces</strong>, put the filler down and pick up a tube of exterior sealant instead. Our <a href="/best-exterior-caulk/">exterior caulk rankings</a> cover which sealant suits each kind of joint. Filler fixes holes; caulk seals gaps. Keep that straight and both last.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Believing the word stainable</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Stainable means the filler will take some color, not that it will vanish into the grain. Patches often come out lighter or blotchier than the wood around them. Pick a filler color close to your final stained color, test on a scrap board with the same stain, and consider colored putty after finishing for small holes.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Filling a deep hole in one pass</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A thick plug of one-part latex filler skins on top and stays soft underneath, then shrinks and cracks as the core dries. Fill in layers of about a quarter inch, letting each dry fully, or switch to a two-part product, which hardens all the way through and does not shrink.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using filler in a joint that moves</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Rigid filler between trim and wall, or casing and siding, cracks as soon as the pieces shift with humidity and temperature. Moving joints need a flexible sealant. Use filler only in holes and damage within a single piece of wood, and caulk the joints between pieces.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Patching over rot without removing it</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Filler applied over soft, rotted wood has nothing sound to grip and traps moisture beneath it. The patch pops loose and the rot keeps spreading. Dig out all soft wood, let it dry, harden the remaining fibers with a consolidant, rebuild with epoxy, and fix the water source.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Leaving exterior filler unprimed</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Even exterior-rated latex filler degrades when left bare in sun and rain, and it absorbs paint differently from the wood, causing visible flashing. Spot-prime every patch with a bonding primer, then paint the whole surface. Primed and painted, small exterior fills last far longer. Recheck the patches each spring.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which filler should I use on outdoor trim and siding?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For small holes on painted exterior wood, DAP Plastic Wood-X performs well once primed and painted. For larger damage, broken edges or weathered trim, a two-part product such as Minwax High Performance or Abatron WoodEpox is more durable because it does not shrink and resists moisture. For rot, use a consolidant followed by epoxy.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is wood putty the same as wood filler?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                They are different products. Filler hardens and is applied to bare wood, sanded flush and then painted or finished. Wood putty stays soft, is usually oil-based, and fills nail holes once the finish is already on, mainly on stained work. Putty is not sanded and should not be used under paint on bare wood.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I make wood filler match stain?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Choose a filler color close to the final stained color rather than the raw wood. Apply, dry and sand it, then stain a test board with both wood and filler. Adjust the filler tone if the patch is off. Products formulated to accept stain, such as Minwax Stainable or Goodfilla, are easier to tune than general-purpose fillers.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long before I can sand wood filler?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Thin latex fills are often sandable in 15 minutes to an hour; deep latex fills can take several hours or more. Two-part polyester fillers typically sand within about half an hour, while epoxy pastes may need several hours to overnight. Temperature and depth change everything, so follow the label and make sure the center is hard, not just the surface.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I fill a big hole or a missing chunk of wood?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Use a two-part product rather than a one-part latex. Two-part polyester fillers and epoxy pastes cure throughout without shrinking and can be built up thick. For very large voids, glue in a block of wood first to take up most of the space, then fill around it. For rotted areas, remove all soft wood and use a consolidant before filling.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a screw hold in wood filler?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not in one-part latex filler, which crumbles under a screw. Cured two-part epoxy and epoxy putty sticks can hold screws if you drill a pilot hole after cure. For stripped hinge screws and other loaded fasteners, gluing a hardwood dowel or wood slivers into the hole and redrilling is still the most reliable fix.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can wood filler be used on decks?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Only for small, cosmetic repairs on painted or solid-stained decks, and even then it tends to show. Deck boards move with moisture, take foot traffic and are usually finished with semi-transparent stain that will not hide filler. Badly damaged deck boards are better replaced. Use an epoxy only for small, localized damage on railings or trim.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">More Caulk and Exterior Repair Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-exterior-caulk/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Exterior Caulks</h3>
+              <p class="text-gray-500 text-sm mt-2">The sealants that belong in moving joints, matched to each surface.</p>
+            </a>
+            <a href="/how-to-caulk-exterior-windows/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">How-To</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">How to Caulk Exterior Windows</h3>
+              <p class="text-gray-500 text-sm mt-2">Seal window trim after repairing soft wood, without blocking drainage.</p>
+            </a>
+            <a href="/best-exterior-wood-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Exterior Wood Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Protect repaired wood from the water that caused the damage.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most homes, DAP Plastic Wood-X is the right everyday filler: easy to apply, clear about when it is ready to sand, and good inside and out under paint. Choose Minwax Stainable or Goodfilla when the repair will be stained, Minwax High Performance or KwikWood for fast, strong exterior fixes, and Abatron WoodEpox when rot has taken real wood away.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The product matters less than the match. Use filler for holes, putty for finished stained work, caulk for moving joints, and epoxy for rot. Fill in layers, sand flat, prime every patch, and fix the water that caused the damage, and the repair will outlast the paint over it.
+          </p>
+        </div>
+
+        <MoreInCategory category="Caulk & Exterior Repair" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

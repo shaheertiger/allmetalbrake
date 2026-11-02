@@ -1,0 +1,987 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Shop Vacs",
+    "url": "/best-shop-vac/"
+  },
+  {
+    "title": "Best Pressure Washers",
+    "url": "/best-pressure-washer/"
+  },
+  {
+    "title": "Best Electric Pressure Washers",
+    "url": "/best-electric-pressure-washer/"
+  },
+  {
+    "title": "Best Torque Wrench",
+    "url": "/best-torque-wrench/"
+  },
+  {
+    "title": "Ryobi Tools Review",
+    "url": "/ryobi-tools-review/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Benchtop Planers: Knife and Helical Heads Compared";
+const description =
+  "Seven benchtop thickness planers ranked for home shops, with straight talk on helical vs straight knives, snipe, cut depth, dust and what planers can't fix.";
+
+const PRODUCTS = [
+  {
+    "badge": "Top Pick Overall",
+    "category": "13-Inch Width, Three Knives, Two Feed Speeds",
+    "name": "DEWALT DW735X",
+    "description": "The DW735X is the planer most woodworkers recommend first, and the specifications explain why. It planes boards up to 13 inches wide and 6 inches thick, uses a three-knife cutterhead that DeWalt lists at 10,000 RPM, and offers two feed speeds: a faster setting for dimensioning and a slower setting with more cuts per inch for a cleaner final pass. A fan-assisted chip ejection system blows chips out through the dust port, which helps keep chips from being pressed back into the board. The X kit adds infeed and outfeed tables and a spare set of knives, which is good value since tables reduce snipe. Knives are double-sided and disposable, and swapping them is straightforward. The trade-offs are weight, noise and how forcefully it ejects chips; without a dust collector or a large separator, the shop gets buried. For most home shops, it remains the benchmark.",
+    "pros": [
+      "Two feed speeds for fast stock removal and a clean finish pass",
+      "13-inch width and 6-inch thickness capacity",
+      "Fan-assisted chip ejection",
+      "X kit includes tables and spare knives"
+    ],
+    "cons": [
+      "Heavy to move on and off a bench",
+      "Very loud, hearing protection essential",
+      "Throws chips hard without dust collection"
+    ],
+    "bottomLine": "The benchmark benchtop planer for nearly every home shop.",
+    "amazonUrl": "",
+    "id": "dewalt-dw735x"
+  },
+  {
+    "badge": "Helical Value Pick",
+    "category": "13-Inch Width, Spiral Head with Indexable Inserts",
+    "name": "WEN PL1326 Helical Planer",
+    "description": "WEN's PL1326 brings a helical, or spiral, cutterhead to a price close to straight-knife machines. Instead of long knives, the head carries rows of small square inserts arranged in a spiral. Each insert can be rotated to a fresh edge when it dulls or chips, so a nick from a hidden nail means turning one insert rather than replacing a full set of knives. The shearing action of a spiral head generally leaves less tear-out on figured, curly and interlocked grain and runs quieter than straight knives. It handles boards up to 13 inches wide. Owners commonly report that it represents strong value but that the tables and fit and finish are less refined than premium machines, and that checking table alignment on setup is worthwhile. If you plane a lot of figured hardwood or reclaimed lumber and want helical benefits without a large outlay, this is the machine to look at.",
+    "pros": [
+      "Spiral head reduces tear-out on figured wood",
+      "Inserts rotate to a fresh edge individually",
+      "Quieter than straight-knife designs",
+      "Low price for a helical machine"
+    ],
+    "cons": [
+      "Fit and finish below premium brands",
+      "Tables may need alignment on setup",
+      "Single feed speed"
+    ],
+    "bottomLine": "The most affordable way to get a helical head in a home shop.",
+    "amazonUrl": "",
+    "id": "wen-pl1326"
+  },
+  {
+    "badge": "Quietest Straight-Knife Pick",
+    "category": "12-Inch Width, Two Knives, Interna-Lok Head Clamp",
+    "name": "Makita 2012NB",
+    "description": "Makita's 2012NB is the planer for shops where noise matters, such as a garage under a bedroom or a basement in a shared house. Makita lists its operating noise at about 83 decibels, noticeably below many benchtop planers, though hearing protection is still advisable. It planes boards up to 12 inches wide and roughly 6 inches thick with a two-knife cutterhead, and its Interna-Lok system automatically clamps the cutterhead carriage during cutting to reduce snipe. It is lighter than the DeWalt, which makes it easier to store under a bench and lift into place. The trade-offs are the narrower 12-inch capacity and a single feed rate with fewer cuts per inch than the DeWalt's finishing speed, so a final pass with a scraper or sander may be needed on demanding work. For quiet, reliable dimensioning of typical furniture stock, it is an excellent machine.",
+    "pros": [
+      "Among the quietest benchtop planers by listed noise level",
+      "Automatic head clamping to reduce snipe",
+      "Lighter and easier to store",
+      "Proven, durable design"
+    ],
+    "cons": [
+      "12-inch width capacity",
+      "Single feed speed",
+      "Fewer cuts per inch than DeWalt's finish setting"
+    ],
+    "bottomLine": "The planer to buy when noise and portability matter more than an extra inch of width.",
+    "amazonUrl": "",
+    "id": "makita-2012nb"
+  },
+  {
+    "badge": "Budget DeWalt",
+    "category": "12.5-Inch Width, Three Knives, Single Speed",
+    "name": "DEWALT DW734",
+    "description": "The DW734 is DeWalt's simpler, less expensive planer, and it remains a smart buy for occasional users. It planes boards up to 12-1/2 inches wide and 6 inches thick using a three-knife cutterhead that DeWalt lists at 10,000 RPM, with a single feed rate. A carriage lock helps reduce snipe, and the knives are double-sided and disposable like those on the DW735. It lacks the DW735's second speed and fan-assisted chip ejection, so the finish on difficult grain is not quite as fine and dust collection depends more on your vac or collector. It is lighter and smaller, which helps if the planer lives on a shelf and comes out only for projects. For a hobbyist who mills a few boards a month, it delivers most of what the DW735 does at a lower price and with the same reliable DeWalt parts support.",
+    "pros": [
+      "Lower price than the DW735 with the same parts support",
+      "Three-knife head for a clean cut",
+      "Carriage lock to limit snipe",
+      "Smaller and easier to store"
+    ],
+    "cons": [
+      "Single feed speed",
+      "No fan-assisted chip ejection",
+      "Slightly narrower capacity"
+    ],
+    "bottomLine": "A strong value for hobbyists who plane occasionally.",
+    "amazonUrl": "",
+    "id": "dewalt-dw734"
+  },
+  {
+    "badge": "Compact Spiral Pick",
+    "category": "13-Inch Width, Spiral Cutterhead, Lighter Build",
+    "name": "Cutech 40200H-CT Spiral",
+    "description": "Cutech's 40200H-CT is a lighter spiral-head planer aimed at shops where the planer gets carried to the bench when needed. Its spiral cutterhead uses small indexable inserts, so like other helical machines it tends to leave less tear-out on figured woods and lets you rotate individual inserts after damage. Check the listing for insert material, since Cutech has sold versions with different inserts, and carbide lasts noticeably longer between rotations. It planes boards up to 13 inches wide. Owners commonly praise the cut quality for the price and the lighter weight, while noting that the feed rollers and tables are less robust than heavier machines and that minor snipe needs attention with supports or a sacrificial board. It suits a woodworker who mostly planes hardwoods for furniture, values the helical finish, and has limited space or needs to move the planer often.",
+    "pros": [
+      "Spiral cutterhead for clean cuts on figured wood",
+      "Lighter than most 13-inch machines",
+      "Inserts can be rotated individually",
+      "Good cut quality for the price"
+    ],
+    "cons": [
+      "Lighter build is less robust over time",
+      "Snipe needs managing with supports",
+      "Insert material varies by version"
+    ],
+    "bottomLine": "A portable helical option for small shops that move the planer around.",
+    "amazonUrl": "",
+    "id": "cutech-40200h"
+  },
+  {
+    "badge": "Snipe Control Pick",
+    "category": "13-Inch Width, Four-Post Carriage, Head Lock",
+    "name": "Delta 22-555 Portable Planer",
+    "description": "Delta's 22-555 focuses on stability. Its cutterhead carriage rides on four columns and can be locked in place, a design aimed at keeping the head from rocking as boards enter and exit, which is the main cause of snipe. It planes boards up to 13 inches wide and accepts reversible knives. For woodworkers frustrated by snipe on long boards, the carriage lock and solid frame are meaningful advantages, especially when combined with well-adjusted infeed and outfeed tables. It is a straightforward, utilitarian machine without extras like a second feed speed. Owners commonly mention that setting the depth accurately takes a little practice and that dust collection should be connected for best results. If you primarily plane long boards for tabletops and casework and want a stable straight-knife planer at a moderate price, it is a solid choice.",
+    "pros": [
+      "Four-post carriage for stability",
+      "Cutterhead lock to reduce snipe",
+      "13-inch width capacity",
+      "Moderate price"
+    ],
+    "cons": [
+      "Single feed speed",
+      "Depth setting takes practice",
+      "Basic features compared with the DW735"
+    ],
+    "bottomLine": "A stable straight-knife planer for woodworkers who fight snipe on long boards.",
+    "amazonUrl": "",
+    "id": "delta-22-555"
+  },
+  {
+    "badge": "Solid Mid-Range",
+    "category": "13-Inch Width, Three Knives, Depth Indicator",
+    "name": "RIDGID R4331 Planer",
+    "description": "Ridgid's R4331 is a 13-inch, three-knife planer with a heavy base and a depth indicator that shows how much material the next pass will remove, which makes it easy to avoid overloading the motor. It includes a carriage lock to limit snipe and a dust port for collection. Like many Ridgid tools, it is often sold with Ridgid's lifetime service agreement when registered, so check the current terms at purchase. The design is simple and robust rather than refined, and it lacks the DW735's two-speed gearbox and chip ejection fan. Availability varies by region and over time, so you may find it at a good price one season and scarce the next. When it is available near the DW734's price, it is a capable alternative, particularly for users who value the cut-depth indicator and Ridgid's service terms.",
+    "pros": [
+      "Depth indicator shows material removed per pass",
+      "Carriage lock to limit snipe",
+      "Sturdy base",
+      "Ridgid service terms when registered"
+    ],
+    "cons": [
+      "Availability varies",
+      "Single feed speed",
+      "No fan-assisted chip ejection"
+    ],
+    "bottomLine": "A capable three-knife alternative when you find it at the right price.",
+    "amazonUrl": "",
+    "id": "ridgid-r4331"
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Benchtop Planer Picks",
+          item: "https://www.allmetalbrake.com/best-benchtop-planer/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which benchtop planer should a home woodworker buy first?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most home shops, the DeWalt DW735X is the strongest all-round choice, with two feed speeds, 13-inch capacity and included tables. If noise is a concern, the Makita 2012NB is much quieter. If you work with figured or reclaimed wood and want a helical head on a budget, the WEN PL1326 is the value pick."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a thickness planer fix a cupped or twisted board?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Roller pressure holds the board flat as it passes the cutterhead, and it springs back once released, leaving a thinner board with the same warp. You need a flat reference face first, made on a jointer, with a planer sled, or by hand. Then the planer makes the opposite face parallel and brings the board to thickness."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are helical cutterheads worth the extra cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For figured, curly or interlocked grain, and for reclaimed lumber, yes. Helical heads generally reduce tear-out, run quieter, and let you rotate a single damaged insert instead of replacing a knife set. For straight-grained wood like pine, poplar and oak, a sharp straight-knife head works well and costs less to buy and maintain."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I stop snipe on my planer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Level the infeed and outfeed tables with the bed, support long boards with stands, lift the board ends slightly as they enter and exit, feed boards end to end, and use the carriage lock if your planer has one. The most reliable fix is to leave parts a few inches long and cut the sniped ends off after planing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How deep should each planer pass be?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most woodworkers take passes of about 1/32 to 1/16 inch, especially on wide boards and near final thickness. Manufacturers list maximum depths, often 1/8 inch on narrow boards, but heavy cuts strain the motor and increase tear-out and snipe. Several light passes usually produce a better surface in about the same total time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use a shop vac for planer dust collection?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For occasional use, a shop vac with a 2.5-inch hose and a cyclone separator can keep up with a benchtop planer. Without a separator, the vac filter clogs quickly and the tank fills fast. For regular milling sessions, a dust collector with a 4-inch hose handles the volume of chips much better and keeps the planer from jamming."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a jointer if I own a planer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not strictly. If you buy lumber that is already surfaced and reasonably flat, a planer alone brings it to thickness. For rough lumber, you need a way to create a flat face and straight edge. A jointer is the fastest way, but a planer sled for faces and a table saw jig for edges work well for occasional milling."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Cleaning & Shop Tools",
+    tags: [
+      "best benchtop planer",
+      "thickness planer",
+      "helical cutterhead planer",
+      "planer snipe",
+      "portable planer",
+      "milling rough lumber"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Benchtop Planers</span> for a Home Woodshop
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A thickness planer turns rough or reclaimed boards into stock you can build with and lets you buy lumber for far less. These seven range from a quiet two-knife machine to helical heads that tame figured grain.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#dewalt-dw735x"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="8.9k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#what-it-does" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. What a Planer Does</a>
+          <a href="#cutterheads" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Straight Knives or Helical</a>
+          <a href="#specs" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Specs That Matter</a>
+          <a href="#snipe" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Beating Snipe</a>
+          <a href="#feeding" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Feeding and Grain</a>
+          <a href="#rough-lumber" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Milling Rough Lumber</a>
+          <a href="#dust-noise" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Dust, Noise and Power</a>
+          <a href="#setup" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Setting Up</a>
+          <a href="#knife-care" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Knives and Upkeep</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Cost and Payback</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          A benchtop planer is the tool that changes what a home shop can make. It lets you buy rough-sawn lumber at a fraction of the price of surfaced boards, bring reclaimed wood back to life, and hit an exact thickness instead of settling for whatever the store stocked. It does one thing: it makes the top face of a board parallel to the bottom face at a set thickness. It does not flatten a warped board or straighten an edge on its own, and most disappointment with planers comes from expecting it to. This guide ranks seven machines, then explains cutterheads, snipe, feeding technique, dust and the workflow that makes a planer pay off.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Benchtop Planers, Ranked
+          </h2>
+
+          <p>
+            Picks are based on manufacturer specifications for width and thickness capacity, cutterhead type and speed, cuts per inch, motor rating and snipe-control features, plus warranty, parts availability and recurring patterns in owner feedback. We weighted each planer by how well it suits a home or small professional shop. No hands-on testing is claimed, and no brand paid for placement.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="what-it-does" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. What a Thickness Planer Does, and What It Cannot
+          </h2>
+
+          <p>
+            A thickness planer has a rotating cutterhead above a flat bed. Feed rollers pull the board through, and the cutterhead removes wood from the top face until the board matches the distance between the bed and the knives. The result is a top face parallel to the bottom face and a board of consistent thickness along its length. That is all it does, and it does it very well.
+          </p>
+
+          <p>
+            What a planer cannot do is flatten a board that is cupped, bowed or twisted. The feed rollers press the board flat as it passes under the cutterhead, the knives cut a flat face on top, and once the rollers release it, the wood relaxes into the same curve it had before. You end up with a thinner board that is still warped. To flatten a board, you need a reference face first.
+          </p>
+
+          <p>
+            A planer also does not straighten edges. It works only on faces. Edges are straightened on a jointer, a table saw with a straight-line jig, or with a hand plane. Most woodworkers who mill rough lumber use a jointer to flatten one face and square one edge, then use the planer to make the opposite face parallel and the table saw to rip the second edge.
+          </p>
+
+          <p>
+            Understanding this sequence prevents most disappointment. If you buy surfaced lumber that is reasonably flat and just want to bring it to a specific thickness, a planer alone is enough. If you buy rough lumber, you need a way to create a flat reference face first, covered in the milling section below.
+          </p>
+        </div>
+
+        <div id="cutterheads" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Straight Knives or a Helical Head
+          </h2>
+
+          <p>
+            Straight-knife cutterheads hold two or three long knives that span the full width. They cut cleanly on straight-grained wood, are inexpensive to buy, and are easy to maintain with disposable, double-sided knives on most benchtop machines. Their weakness is tear-out on figured, curly or interlocked grain, where the full-width knife can lift fibers out ahead of the cut. A nick in a knife also leaves a raised line along every board until you replace or shift the knives.
+          </p>
+
+          <p>
+            Helical, or spiral, cutterheads use many small square inserts arranged in a spiral. Each insert takes a shearing cut, which generally reduces tear-out on difficult grain and lowers noise. When an insert is damaged, you rotate it to a fresh edge, so a hidden staple costs you one insert rather than a full knife set. Carbide inserts last much longer than high-speed steel between rotations.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Feature</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Straight Knives</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Helical Head</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Tear-out on figured wood</td>
+                    <td class="px-4 py-4 text-gray-700">More likely</td>
+                    <td class="px-4 py-4 text-gray-700">Less likely</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Noise</td>
+                    <td class="px-4 py-4 text-gray-700">Louder</td>
+                    <td class="px-4 py-4 text-gray-700">Quieter</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Damage from a nail</td>
+                    <td class="px-4 py-4 text-gray-700">Replace or shift knives</td>
+                    <td class="px-4 py-4 text-gray-700">Rotate one insert</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Replacement cost</td>
+                    <td class="px-4 py-4 text-gray-700">Low per set</td>
+                    <td class="px-4 py-4 text-gray-700">Higher per full set, low per insert</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Machine price</td>
+                    <td class="px-4 py-4 text-gray-700">Lower</td>
+                    <td class="px-4 py-4 text-gray-700">Higher, though gap is narrowing</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Helical heads can leave a faint scalloped pattern visible under raking light, which is removed by light sanding or scraping. Straight knives leave a smooth surface on straight grain when sharp, with small ripples called knife marks that depend on cuts per inch. Neither is a finished surface for a fine piece of furniture; plan on light sanding either way.
+          </p>
+
+          <p>
+            Choose straight knives if you work mostly with straight-grained pine, poplar, oak and maple and want the lowest cost. Choose helical if you plane figured maple, cherry with curl, exotic species, or reclaimed lumber that might hide metal. Many woodworkers start with a straight-knife machine like the DW735 and later replace its head with an aftermarket helical head.
+          </p>
+        </div>
+
+        <div id="specs" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Specs That Matter
+          </h2>
+
+          <p>
+            Width capacity determines the widest board you can plane. Most benchtop planers handle 12 to 13 inches, which covers the vast majority of furniture parts. Wider boards for tabletops are normally glued up from narrower boards anyway, and glued panels wider than the planer can be flattened with a hand plane, a router sled or a drum sander. Do not pay much extra for an extra half inch unless you regularly plane wide single boards.
+          </p>
+
+          <p>
+            Cuts per inch, often listed as CPI, describes how many knife strikes occur per inch of board travel. Higher CPI gives a smoother surface with smaller knife marks. Two-speed planers like the DW735 let you choose a faster, lower-CPI feed for dimensioning and a slower, higher-CPI feed for the final pass. Single-speed machines compromise between the two.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Typical Benchtop Planer Specs</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">12-13 in.</p>
+                <p class="text-gray-400 text-xs mt-1">Width capacity</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">6 in.</p>
+                <p class="text-gray-400 text-xs mt-1">Max thickness</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">15 A</p>
+                <p class="text-gray-400 text-xs mt-1">Motor rating</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">1/16-1/8 in.</p>
+                <p class="text-gray-400 text-xs mt-1">Max cut on full width</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Maximum depth of cut is usually listed as 1/8 inch or less on narrow boards, with smaller maximums on full-width boards. Treat the maximum as a limit, not a target. Lighter passes of 1/32 to 1/16 inch reduce tear-out, strain on the motor and snipe, and produce a better surface. Taking several light passes is faster in practice than fighting a bogged-down motor.
+          </p>
+
+          <p>
+            Other features worth considering include a carriage or head lock, which reduces snipe; a depth gauge showing how much the next pass removes; a repeatable thickness stop for hitting common dimensions; infeed and outfeed tables; and a dust port that matches your collection system. Weight matters if the planer will be moved often; most benchtop models weigh 60 to 100 pounds.
+          </p>
+        </div>
+
+        <div id="snipe" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Beating Snipe
+          </h2>
+
+          <p>
+            Snipe is a slightly deeper cut, often a few thousandths of an inch, at the start or end of a board. It happens when only one feed roller is holding the board, letting it tilt up into the cutterhead or allowing the carriage to shift. It is the most common complaint about benchtop planers, and all of them produce it to some degree without good technique.
+          </p>
+
+          <p>
+            Support is the first fix. Set the infeed and outfeed tables level with or very slightly above the bed so the board stays flat as it enters and exits. Support long boards with roller stands. Lift the trailing end of the board slightly as it enters and the leading end as it exits, which counters the tilt that causes snipe.
+          </p>
+
+          <p>
+            Feed boards end to end so the next board pushes the previous one through without a gap. That keeps both rollers engaged until the last board. A sacrificial board of the same thickness fed after the last workpiece serves the same purpose. Use the carriage lock if your planer has one, and keep passes light near final thickness.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">The Simple Fix</p>
+            <p class="text-xl font-bold text-white mb-3">Leave your boards long.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Cut parts a few inches over finished length before planing, then trim the sniped ends off afterward. It costs a little lumber and solves the problem completely.</p>
+          </div>
+
+          <p>
+            If snipe persists after adjusting the tables and technique, check that the bed and tables are clean and waxed, that the feed rollers are not glazed with pitch, and that the cutterhead carriage is not loose. Many manuals include an adjustment procedure for the tables and carriage. Persistent snipe on a new machine is worth raising with the manufacturer.
+          </p>
+        </div>
+
+        <div id="feeding" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Feeding Technique and Grain Direction
+          </h2>
+
+          <p>
+            Feed boards so the knives cut with the grain, which usually means the grain lines on the edge slope down and away from the cutterhead in the direction of feed, like stroking a cat from head to tail. Feeding against the grain lifts fibers and causes tear-out. If you see tear-out, flip the board end for end and try again on the next pass.
+          </p>
+
+          <p>
+            Check the manual for minimum board length, often around 12 to 14 inches, and never feed shorter pieces. Short boards can tip into the cutterhead or be thrown. To plane short parts, glue or tape them to a longer carrier board or plane them before cutting to final length. Do not plane end grain, which shatters, or very thin stock without a sled.
+          </p>
+
+          <p>
+            Inspect every board before it goes in. Remove loose knots, check for embedded metal with a metal detector on reclaimed wood, and brush off grit and dirt, which dulls knives quickly. Avoid planing painted or finished wood unless you strip it first; old paint may contain lead and dulls knives. Reclaimed decking cleaned with a <a href="/best-pressure-washer/">pressure washer</a> needs to dry thoroughly before it goes anywhere near the planer.
+          </p>
+
+          <p>
+            Stand to the side of the infeed rather than directly behind the board, keep hands clear of the opening, and let the rollers do the feeding. Never reach into the machine while it is running. If a board stalls, turn the planer off, wait for the cutterhead to stop, lower the bed or raise the head, and remove the board.
+          </p>
+        </div>
+
+        <div id="rough-lumber" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Milling Rough Lumber Into Square Stock
+          </h2>
+
+          <p>
+            Start with the right moisture content. Lumber for indoor furniture is commonly milled at roughly 6 to 8 percent moisture content in most of the US, though this varies by climate. Lumber that is too wet keeps moving after you mill it. A pin or pinless moisture meter is an inexpensive way to check. Let boards acclimate in your shop for a week or two before milling.
+          </p>
+
+          <p>
+            Rough-cut parts to approximate length and width first, adding an inch or two of length and a quarter inch of width. Shorter, narrower pieces are flatter than long boards, so you remove less wood to get them flat. Then create a flat reference face on the jointer, square an edge to it, plane the opposite face parallel, and rip the second edge on the table saw.
+          </p>
+
+          <p>
+            Without a jointer, use a planer sled: a flat sheet of plywood or MDF on which the board rests, shimmed under its high spots and held with hot glue or wedges so it cannot rock. Feed the sled and board through the planer together to flatten the top face. Then remove the board from the sled, flip it, and plane the second face directly on the bed.
+          </p>
+
+          <p>
+            Remove material equally from both faces to keep the board balanced, and let boards rest overnight before taking them to final thickness. Wood can move as internal stresses are released. Stack milled parts with stickers between them so air circulates. Any small gaps or defects that remain after milling can be filled later; see our <a href="/best-wood-filler/">wood filler guide</a> for options that take stain.
+          </p>
+        </div>
+
+        <div id="dust-noise" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Dust, Noise and Power
+          </h2>
+
+          <p>
+            A planer produces more chips per minute than almost any other tool in a home shop. Without collection, chips pile up in the machine, get pressed back into the board and leave dents, and cover the floor. A dust collector with a 4-inch hose is ideal. A <a href="/best-shop-vac/">shop vac</a> with a 2.5-inch hose can keep up for occasional use, especially with a cyclone separator between the planer and the vac so the filter does not clog.
+          </p>
+
+          <p>
+            Planers are loud. Many benchtop machines produce noise levels at which hearing protection is necessary, and even the quieter models listed here benefit from it. Wear earmuffs or plugs every time, and consider the neighbors and family when planning planing sessions. Helical heads are generally quieter than straight knives.
+          </p>
+
+          <p>
+            Wear eye protection too. Chips can be thrown from the infeed, especially when a board is stalled or a knot breaks loose. A dust mask or respirator is worthwhile for long sessions, particularly with species such as western red cedar and some exotics that are known respiratory irritants.
+          </p>
+
+          <p>
+            Most benchtop planers draw up to 15 amps under load. Run them on a circuit with nothing else drawing power, ideally a 20-amp circuit, and avoid long extension cords. If you also run a shop vac or dust collector, check whether both can share the circuit; a planer and a large vac together can trip a 15-amp breaker. For battery tool platforms and corded tool choices for the rest of the shop, see <a href="/milwaukee-vs-dewalt/">Milwaukee vs DeWalt</a>.
+          </p>
+        </div>
+
+        <div id="setup" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Setting Up a Benchtop Planer
+          </h2>
+
+          <p>
+            Where the planer lives shapes how often you use it. A machine that has to be lifted from under a bench every time gets used less than one parked on a mobile stand at working height. Flip-top carts, which rotate the planer under the cart top when not in use, are popular in small garages. Whatever you choose, the stand must be rigid; a planer rocking on a flimsy base produces snipe no adjustment can cure.
+          </p>
+
+          <p>
+            Allow clear space in front of and behind the machine of at least the length of the longest board you plan to mill, plus room to stand. An 8-foot board needs roughly 16 feet of straight runway in total. In a one-car garage that often means rolling the planer into the doorway or the driveway for long stock, which is another argument for a mobile base with locking casters.
+          </p>
+
+          <p>
+            Before the first board, check the basics out of the box. Confirm the infeed and outfeed tables are level with the bed using a straightedge. Plane a test board and measure its thickness at both edges with calipers; a difference means the head is out of parallel with the bed, which most manuals explain how to correct. Check the depth scale against the calipers and note any offset so you can trust it later.
+          </p>
+
+          <p>
+            Keep a small kit next to the machine: calipers, a pencil for marking reference faces, a metal detector for reclaimed boards, paste wax, a spare knife set and the wrench for changing knives. Mark every board with a pencil scribble across the face before each pass; when the marks disappear, you know the whole face has been cut. It is a small habit that saves wasted passes and keeps you from planing a board thinner than it needs to be.
+          </p>
+        </div>
+
+        <div id="knife-care" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Knives, Inserts and Upkeep
+          </h2>
+
+          <p>
+            Most benchtop planers use double-sided disposable knives. When one edge dulls, flip it; when both are dull, replace the set. Sets typically cost roughly $30 to $70 at the time of writing. Signs of dull knives include fuzzy surfaces, more tear-out, a motor that labors, and boards that feed more slowly. A nick shows as a raised line along every board.
+          </p>
+
+          <p>
+            If a single nick appears, you can often shift one knife slightly sideways in its slot so the nicks no longer line up, which hides the line until you can replace the set. On helical heads, rotate the damaged insert to a fresh edge. Use the manufacturer's procedure and torque recommendations, and keep the insert seats clean, because a speck of debris under an insert causes a visible line.
+          </p>
+
+          <p>
+            Keep the bed and tables clean and waxed with a paste wax that does not contain silicone, so boards slide easily and finishes are not contaminated later. Clean pitch from the feed rollers with a resin remover or mineral spirits on a rag, with the machine unplugged. Glazed rollers slip, which causes uneven feeding and snipe.
+          </p>
+
+          <p>
+            Check the drive belts, chains and gears periodically according to the manual, and keep the column threads clean and lightly lubricated if the manual calls for it. Always unplug the planer before changing knives or reaching into the machine. Store spare knives in their packaging to protect the edges, and keep the knife-changing tools with the machine.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. Cost and Payback
+          </h2>
+
+          <p>
+            At the time of writing, budget straight-knife planers run roughly $350 to $500, the DW735 and similar two-speed machines roughly $600 to $800, and helical-head benchtop machines roughly $550 to $1,000 depending on brand and insert material. Add the cost of tables if not included, spare knives, and dust collection, which can range from a $50 cyclone for a shop vac to several hundred dollars for a collector.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Option</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rough Cost</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Budget straight-knife</td>
+                    <td class="px-4 py-4 text-gray-700">$350-$500</td>
+                    <td class="px-4 py-4 text-gray-700">Occasional hobby use</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Two-speed straight-knife</td>
+                    <td class="px-4 py-4 text-gray-700">$600-$800</td>
+                    <td class="px-4 py-4 text-gray-700">Regular furniture work</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Helical benchtop</td>
+                    <td class="px-4 py-4 text-gray-700">$550-$1,000</td>
+                    <td class="px-4 py-4 text-gray-700">Figured and reclaimed wood</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Aftermarket helical head</td>
+                    <td class="px-4 py-4 text-gray-700">$300-$500</td>
+                    <td class="px-4 py-4 text-gray-700">Upgrading an existing planer</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Buy surfaced lumber instead</td>
+                    <td class="px-4 py-4 text-gray-700">Higher price per board foot</td>
+                    <td class="px-4 py-4 text-gray-700">Rare, small projects</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The payback comes from lumber prices. Rough-sawn hardwood from a local mill or lumberyard is commonly much cheaper per board foot than surfaced boards from a home center, and you get to choose thickness, grain and width. Anyone who builds a few pieces of furniture per year can recover the cost of a planer within a few projects.
+          </p>
+
+          <p>
+            A planer is not worth buying if you build occasional small projects from surfaced pine and plywood. In that case, buy lumber at the thickness you need. If you want to build furniture from hardwood, reuse barn boards or old flooring, or work with figured wood, a planer is one of the most valuable tools in the shop. Pair it with a good vac or collector from our <a href="/best-shop-vac/">shop vac picks</a> before the first board goes through.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting It to Flatten a Warped Board</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A cupped or twisted board gets squashed flat by the rollers while the cutterhead cuts it, and the board springs back as it leaves. The result is a thinner, still-warped board. Create a flat reference face first with a jointer, a planer sled or a hand plane, then use the planer to make the other face parallel.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Taking Heavy Passes</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Removing the maximum listed depth on every pass bogs down the motor, increases tear-out and snipe, and wears knives faster. Light passes of 1/32 to 1/16 inch produce better surfaces and are rarely slower overall. Use the depth gauge if your planer has one and save heavier cuts for narrow boards.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Cutting Parts to Final Length Before Planing</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Snipe concentrates at the ends of boards. If parts are already at final length, the snipe ends up in the finished piece. Leave parts a few inches long, plane them, then trim the ends. It wastes a small amount of lumber and avoids sanding or scraping out every sniped end.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Planing Reclaimed Wood Without Checking for Metal</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Old nails, staples, screws and embedded grit can chip knives, damage helical inserts and throw fragments. Scan reclaimed lumber with a metal detector, remove anything you find, and brush off dirt before planing. Check again after each pass, because buried metal can surface as material comes off.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running Without Dust Collection</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Chips that are not removed get pressed back into the board as dents, clog the chute and spread across the shop. Connect a dust collector or a wide-hose shop vac with a cyclone separator before you start. It improves surface quality, makes cleanup faster and keeps the air cleaner.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which benchtop planer should a home woodworker buy first?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most home shops, the DeWalt DW735X is the strongest all-round choice, with two feed speeds, 13-inch capacity and included tables. If noise is a concern, the Makita 2012NB is much quieter. If you work with figured or reclaimed wood and want a helical head on a budget, the WEN PL1326 is the value pick.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a thickness planer fix a cupped or twisted board?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. Roller pressure holds the board flat as it passes the cutterhead, and it springs back once released, leaving a thinner board with the same warp. You need a flat reference face first, made on a jointer, with a planer sled, or by hand. Then the planer makes the opposite face parallel and brings the board to thickness.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are helical cutterheads worth the extra cost?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For figured, curly or interlocked grain, and for reclaimed lumber, yes. Helical heads generally reduce tear-out, run quieter, and let you rotate a single damaged insert instead of replacing a knife set. For straight-grained wood like pine, poplar and oak, a sharp straight-knife head works well and costs less to buy and maintain.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I stop snipe on my planer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Level the infeed and outfeed tables with the bed, support long boards with stands, lift the board ends slightly as they enter and exit, feed boards end to end, and use the carriage lock if your planer has one. The most reliable fix is to leave parts a few inches long and cut the sniped ends off after planing.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How deep should each planer pass be?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most woodworkers take passes of about 1/32 to 1/16 inch, especially on wide boards and near final thickness. Manufacturers list maximum depths, often 1/8 inch on narrow boards, but heavy cuts strain the motor and increase tear-out and snipe. Several light passes usually produce a better surface in about the same total time.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I use a shop vac for planer dust collection?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For occasional use, a shop vac with a 2.5-inch hose and a cyclone separator can keep up with a benchtop planer. Without a separator, the vac filter clogs quickly and the tank fills fast. For regular milling sessions, a dust collector with a 4-inch hose handles the volume of chips much better and keeps the planer from jamming.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need a jointer if I own a planer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not strictly. If you buy lumber that is already surfaced and reasonably flat, a planer alone brings it to thickness. For rough lumber, you need a way to create a flat face and straight edge. A jointer is the fastest way, but a planer sled for faces and a table saw jig for edges work well for occasional milling.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Cleaning and Shop Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-shop-vac/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Shop Vacs</h3>
+              <p class="text-gray-500 text-sm mt-2">Wide-hose vacs and extractors to keep planer chips under control.</p>
+            </a>
+            <a href="/best-wood-filler/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Wood Fillers</h3>
+              <p class="text-gray-500 text-sm mt-2">For knots, checks and small defects that survive milling.</p>
+            </a>
+            <a href="/milwaukee-vs-dewalt/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Comparison</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Milwaukee vs DeWalt</h3>
+              <p class="text-gray-500 text-sm mt-2">Choosing a tool platform for the rest of the shop.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most home shops, the DeWalt DW735X is the planer to buy: two feed speeds, 13-inch capacity, included tables and strong parts support. Choose the Makita 2012NB if noise matters, the WEN PL1326 or Cutech 40200H-CT if you want a helical head for figured or reclaimed wood, and the DW734 if you plane only occasionally and want to spend less.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whichever you pick, remember what a planer does: it makes faces parallel and boards consistent in thickness. Give it a flat reference face, feed with the grain, take light passes, leave parts long to deal with snipe, and connect dust collection before the first board goes through.
+          </p>
+        </div>
+
+        <MoreInCategory category="Cleaning & Shop Tools" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

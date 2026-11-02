@@ -1,0 +1,980 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Deck Stains",
+    "url": "/best-deck-stain-reviews/"
+  },
+  {
+    "title": "Best Deck Stain for Cedar",
+    "url": "/best-deck-stain-for-cedar/"
+  },
+  {
+    "title": "Best Deck Sealant",
+    "url": "/best-deck-sealant/"
+  },
+  {
+    "title": "How Long Deck Stain Takes to Dry",
+    "url": "/deck-stain-drying-time/"
+  },
+  {
+    "title": "Deck Stain Colors Guide",
+    "url": "/deck-stain-colors-guide/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "Pressure-Treated Deck Stain: 6 Picks That Soak Into PT Pine";
+const description =
+  "The six stains that suit pressure-treated pine best, how to tell when new PT boards are dry enough, and which stain types to avoid on treated decking.";
+
+const PRODUCTS = [
+  {
+    "id": "ready-seal-natural-cedar",
+    "name": "Ready Seal Natural Cedar Exterior Stain and Sealer",
+    "category": "Oil-based penetrating stain",
+    "badge": "Best Overall for PT Pine",
+    "amazonUrl": "",
+    "pros": [
+      "Penetrating oil that suits porous treated pine",
+      "Label says no back-brushing or primer required",
+      "Built to avoid lap marks on long deck boards",
+      "Natural Cedar tone hides the green cast of new PT",
+      "Recoats without stripping"
+    ],
+    "cons": [
+      "Shows a bright orange hue for the first several days",
+      "Lighter pigment means more frequent floor recoats in hot sun",
+      "Solvent odor during application"
+    ],
+    "bottomLine": "The easiest way to get an even, good-looking finish on a treated deck without prior staining experience.",
+    "description": "Treated pine soaks up stain fast and unevenly, which is exactly where Ready Seal earns its spot. The oil-based formula is designed to be sprayed, rolled or brushed without back-brushing, and the manufacturer says it will not leave lap marks if you stop mid-board, which matters on a deck where boards run 16 feet. Natural Cedar is the shade most people choose for treated lumber because its warm orange-brown neutralizes the slight green tint left by copper-based preservatives. Expect the color to look brighter than the sample for the first few days; it settles to its final tone over roughly two weeks as the solvent leaves the wood. The pigment load is moderate, so floors on sunny decks often need a refresh after one to two years, but that refresh is just a cleaning and a fresh coat, with no stripping. For a first treated deck, it is the lowest-risk choice we know of. It also sells in 5-gallon pails, which keeps a large deck to one consistent color batch and usually lowers the cost per gallon."
+  },
+  {
+    "id": "twp-1500",
+    "name": "TWP 1500 Series Wood Protector (Cedartone)",
+    "category": "Oil-based semi-transparent stain",
+    "badge": "Best for Mildew-Prone Decks",
+    "amazonUrl": "",
+    "pros": [
+      "VOC-compliant formula sold in all 50 states",
+      "Contains mildewcides for damp or shaded decks",
+      "Deep penetration on rough and smooth PT lumber",
+      "Long track record with deck restoration pros"
+    ],
+    "cons": [
+      "Two wet-on-wet coats often needed on dry, porous wood",
+      "Strong solvent smell",
+      "Over-application can leave a tacky surface"
+    ],
+    "bottomLine": "The right choice for treated decks under trees or in humid climates where mildew keeps coming back.",
+    "description": "The TWP 1500 Series is the VOC-compliant counterpart to the long-running TWP 100 Series, which means you can buy it anywhere in the country. It is an oil-based semi-transparent stain with mildewcides and fungicides in the formula, which makes it particularly useful on treated decks that stay damp, sit under tree canopy or face north. Pressure-treated pine is usually porous enough that TWP recommends a second coat applied wet-on-wet, meaning the second coat goes on before the first has dried, so both soak in together. Cedartone is the classic color on treated lumber because it covers the green tint well and holds up to sun better than lighter shades. Like any penetrating oil, it should be applied thin with any excess wiped up, because a puddled coat stays sticky. Owners commonly report a two-year maintenance cycle on the floor and longer on railings. If you live in a state where the original 100 Series is legal, the two are close enough that you can pick on price and availability."
+  },
+  {
+    "id": "armstrong-clark-semi-trans",
+    "name": "Armstrong Clark Semi-Transparent Wood Stain",
+    "category": "Oil-based penetrating stain",
+    "badge": "Best Long-Term Value",
+    "amazonUrl": "",
+    "pros": [
+      "Blend of drying and non-drying oils that stays flexible",
+      "Wears by fading rather than peeling",
+      "Semi-solid option for older, blotchy treated boards",
+      "Simple maintenance coats with no stripping"
+    ],
+    "cons": [
+      "Not stocked in most big-box stores",
+      "Higher price per gallon than store brands",
+      "Needs mineral spirits for cleanup"
+    ],
+    "bottomLine": "Worth ordering if you want a treated deck that stays easy to maintain for the next decade.",
+    "description": "Armstrong Clark combines oils that cure in the wood with oils that stay supple, and the goal is a finish that moves with treated pine as it swells and shrinks through the seasons. Treated lumber checks and cracks more than many species as it dries, and a flexible penetrating finish is less likely to split along those cracks than a film-former. The semi-transparent line shows the grain and gives meaningful UV protection; the semi-solid version is a good step up for older treated decks with patched boards or uneven graying. The biggest advantage shows up at year two or three: the stain has faded evenly instead of flaking, so the maintenance coat is a cleaning, a brightener and one thin coat. It costs more than a store-brand gallon and usually has to be ordered online or from a specialty dealer, but on a treated deck that you plan to keep for years, the lower maintenance effort pays it back. It is also one of the few premium stains that many deck contractors will recommend for do-it-yourself owners without hedging."
+  },
+  {
+    "id": "defy-extreme",
+    "name": "DEFY Extreme Wood Stain (Semi-Transparent)",
+    "category": "Water-based penetrating stain",
+    "badge": "Best Water-Based",
+    "amazonUrl": "",
+    "pros": [
+      "Zinc oxide nano-particles for UV resistance",
+      "Low odor and water cleanup",
+      "Low VOC and legal in every state",
+      "Fast dry lets you finish in one day"
+    ],
+    "cons": [
+      "Quick drying can cause lap marks in heat",
+      "Needs thorough cleaning and brightening for adhesion",
+      "Traffic paths may need touch-ups sooner"
+    ],
+    "bottomLine": "The strongest water-based option for treated pine if you want low odor and fast turnaround.",
+    "description": "For homeowners who would rather avoid solvent-based stain, DEFY Extreme is the water-based product that performs most like a penetrating oil on treated pine. Its UV protection comes from zinc oxide nano-particles, which help the pigment hold color in direct sun, and it is formulated to soak into the surface rather than build a thick film. That matters on treated lumber, which keeps moving as it dries and will crack a film-forming coating. DEFY dries quickly, so you can usually clean, stain and walk on the deck within a long weekend, and the low-VOC formula makes it legal everywhere. Because it dries fast, work in the shade, keep a wet edge and do two or three boards at a time from end to end. Clean and brighten the treated wood thoroughly beforehand; water-based stains are less tolerant of dirty or mill-glazed surfaces than oils are. Owners who skip the brightener are the ones who most often report early wear on stair treads and traffic paths."
+  },
+  {
+    "id": "cabot-australian-timber-oil",
+    "name": "Cabot Australian Timber Oil",
+    "category": "Translucent oil finish",
+    "badge": "Best Rich Wood Tone",
+    "amazonUrl": "",
+    "pros": [
+      "Linseed and tung oil blend penetrates deeply",
+      "Translucent finish gives treated pine a richer look",
+      "Easy to find at paint and home stores",
+      "Wide range of warm wood-tone colors"
+    ],
+    "cons": [
+      "Translucent pigment means yearly touch-ups in full sun",
+      "Slow to dry in cool or humid weather",
+      "Heavy coats turn tacky"
+    ],
+    "bottomLine": "Pick it when you want treated pine to look like a more expensive wood and you do not mind more frequent recoats.",
+    "description": "Cabot Australian Timber Oil is marketed largely for hardwoods, but it also gives pressure-treated pine a surprisingly upscale look. Its oil blend, which includes linseed and tung oil, penetrates the open grain of treated pine readily, and the translucent tints such as Honey Teak and Natural warm up the wood while letting the grain pattern show. The result looks more like a furniture finish than a typical cedar-toned deck. That beauty comes with a maintenance cost. Translucent finishes carry less pigment than semi-transparent stains, so they give up color to UV more quickly; plan on a floor refresh roughly every year in full sun. Apply one thin, even coat, wipe up any puddles promptly and avoid application on cool, damp days, when the oil can take a long time to cure. On a shaded or covered treated deck, it is one of the best-looking options available. Store any leftover with the lid tight, because a partly used can of oil can skin over in a season."
+  },
+  {
+    "id": "behr-premium-semi-transparent",
+    "name": "Behr Premium Semi-Transparent Waterproofing Stain & Sealer",
+    "category": "Water-based semi-transparent stain",
+    "badge": "Best Budget",
+    "amazonUrl": "",
+    "pros": [
+      "Low cost per gallon",
+      "Tinted in store in dozens of colors",
+      "Water cleanup and low odor",
+      "Easy to buy in quantity at Home Depot"
+    ],
+    "cons": [
+      "Tends to wear faster on horizontal surfaces than premium oils",
+      "Less forgiving of lap marks in heat",
+      "Needs careful prep to bond well"
+    ],
+    "bottomLine": "A sensible budget stain for a treated deck if you are willing to recoat on a shorter cycle.",
+    "description": "Behr Premium Semi-Transparent Waterproofing Stain and Sealer is the budget-friendly choice for treated decks, and its biggest advantage is accessibility. It is tinted at the store in a long list of colors, it is sold in 1-gallon and 5-gallon sizes, and it cleans up with water. On treated pine it adds visible color, slows graying and repels water. Where it falls short of the premium oils is longevity on the deck floor. Owners commonly report that traffic paths and the sunniest boards need attention after one to two seasons, while railings last considerably longer. That is a reasonable trade if you want to spend less up front and are willing to recoat more often. Get the most out of it by cleaning and brightening the boards, letting them dry fully, applying two thin coats rather than one thick coat, and staining when the boards are out of direct sun. Buy all the gallons you need at once and have them boxed together, since store tinting can vary slightly between batches."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "PT Deck Stain Picks",
+          item: "https://www.allmetalbrake.com/best-deck-stain-for-pressure-treated-wood/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "How soon can a new treated deck be stained?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on how wet the lumber was and your climate. Kiln-dried-after-treatment boards can often be stained within a few weeks. Standard wet treated pine commonly needs one to several months. The reliable check is the sprinkle test: if water soaks into the boards within about ten minutes, they are ready for a penetrating stain."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to clean brand-new treated lumber before staining?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. New boards carry dirt, footprints, sawdust and sometimes a smooth, compressed surface from milling that limits how much stain the wood can absorb. Wash with an oxygen-based deck cleaner, rinse, apply a wood brightener and let the deck dry fully. That simple step helps the stain soak in evenly and last longer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will stain stick to treated wood that still looks green?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The green tint itself does not stop stain from bonding; moisture does. If the boards pass the sprinkle test, stain will penetrate even if a faint green color is still visible. Choose a warm cedar or brown tone to neutralize the tint, or a semi-solid stain if you want a cooler color."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is solid stain a bad idea on a treated deck?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not always, but it is riskier. Solid stain forms a film that can crack along the checks treated pine develops and peel on horizontal boards. It works best on older decks with mismatched or patched boards, on very dry wood, and on railings. For new treated decks, semi-transparent penetrating stains are the safer choice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does stain last on pressure-treated pine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A semi-transparent penetrating stain typically lasts two to three years on a deck floor and longer on railings. Clear or translucent finishes may need yearly attention. Solid stains can last longer on paper but tend to peel when they fail. Sun, shade, foot traffic and prep quality all move those numbers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I use oil or water-based stain on treated wood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Penetrating oil stains are the most forgiving on treated pine because they soak deep into the open grain and fade instead of peeling. Water-based stains work well if you need low odor or live in a strict VOC state, but they need cleaner wood and more careful application. Either works on a properly prepared deck."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to strip the deck before recoating?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not if you used a penetrating stain and it has worn evenly. Clean, brighten and apply one thin coat of the same product. Stripping is needed when the old finish is peeling, when you are switching between oil and water-based products, or when you want to move to a lighter, more transparent color."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Deck & Wood Finishes",
+    tags: [
+      "best deck stain for pressure treated wood",
+      "pressure treated deck stain",
+      "staining pt lumber",
+      "stain for treated pine",
+      "new deck staining",
+      "semi-transparent stain"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best Stain for <span class="text-[#38BDF8]">Pressure-Treated</span> Decks
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Treated pine arrives soaked, slightly green and hungry for oil once it dries. The right stain and the right timing turn it into a deck that looks finished for years.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ready-seal-natural-cedar"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="14.1k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top 6 Picks</a>
+          <a href="#which-pick" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Which Pick Fits</a>
+          <a href="#why-different" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Why PT Is Different</a>
+          <a href="#readiness" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. When It Is Ready</a>
+          <a href="#stain-types" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Stain Types on PT</a>
+          <a href="#green-tint" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Color on Treated Wood</a>
+          <a href="#prep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Prep Steps</a>
+          <a href="#application" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Applying the Stain</a>
+          <a href="#cut-ends" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Cut Ends & Hardware</a>
+          <a href="#railings" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Railings & Stairs</a>
+          <a href="#upkeep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Cost & Upkeep</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Pressure-treated southern yellow pine is the lumber most American decks are built from, and it has two quirks that decide which stain works: it starts out wet from the treatment process, and it is porous enough to drink a penetrating stain once it dries. Wait for the wood, then choose a stain that soaks in rather than one that sits on top.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Stains for Pressure-Treated Wood
+          </h2>
+
+          <p>
+            We ranked these on manufacturer specifications (penetration, resin type, VOC compliance, recoat requirements), on what each label says about treated lumber, and on the patterns that show up repeatedly in owner feedback on treated-pine decks. We did not run our own exposure test, and no brand paid for a spot.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="which-pick" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Which Pick Fits Your Treated Deck
+          </h2>
+
+          <p>
+            The six stains above overlap, so it helps to start from the situation rather than the brand. Most treated decks fall into one of a handful of scenarios, and each one points to a different product. Use the table as a shortcut, then read the full card for the stain that matches.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Your situation</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Start with</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Why</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">First deck, nervous about streaks</td>
+                    <td class="px-4 py-4 text-gray-700">Ready Seal</td>
+                    <td class="px-4 py-4 text-gray-700">Built to avoid lap marks without back-brushing</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Shade, trees, recurring mildew</td>
+                    <td class="px-4 py-4 text-gray-700">TWP 1500</td>
+                    <td class="px-4 py-4 text-gray-700">Mildewcides and deep penetration</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Long-term, low-effort upkeep</td>
+                    <td class="px-4 py-4 text-gray-700">Armstrong Clark</td>
+                    <td class="px-4 py-4 text-gray-700">Flexible oils that fade evenly</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Need low odor or strict VOC state</td>
+                    <td class="px-4 py-4 text-gray-700">DEFY Extreme</td>
+                    <td class="px-4 py-4 text-gray-700">Water-based with mineral UV blockers</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Covered deck, want a rich tone</td>
+                    <td class="px-4 py-4 text-gray-700">Cabot Timber Oil</td>
+                    <td class="px-4 py-4 text-gray-700">Translucent oil that warms the grain</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Tight budget, happy to recoat</td>
+                    <td class="px-4 py-4 text-gray-700">Behr Semi-Transparent</td>
+                    <td class="px-4 py-4 text-gray-700">Cheap, tinted in store, easy to find</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            If two scenarios apply, let sun exposure break the tie. A treated deck that gets six or more hours of direct sun needs the most pigment you are comfortable with, which favors semi-transparent or semi-solid versions over translucent oils. A deck that is shaded most of the day needs mildew resistance more than heavy pigment, which favors TWP or a water-based stain.
+          </p>
+
+          <p>
+            Think about the next five years, not just this weekend. A stain that is cheaper today but needs a floor recoat every year will cost more time than a premium penetrating oil that goes two or three years. If you value your Saturdays, the higher upfront price usually wins. If you rent, or plan to sell soon, the budget option is reasonable.
+          </p>
+
+          <p>
+            Finally, stick with one system once you have chosen it. Recoating with the same product, or at least the same chemistry, is what keeps maintenance simple. Switching brands every cycle invites bonding problems and color mismatches, and it can force a full strip that would otherwise never have been needed.
+          </p>
+        </div>
+
+        <div id="why-different" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Why Treated Pine Needs Its Own Approach
+          </h2>
+
+          <p>
+            Pressure-treated lumber is usually southern yellow pine that has been forced full of a waterborne preservative under pressure. Today that preservative is almost always copper-based, such as micronized copper azole (MCA) or alkaline copper quaternary (ACQ), which is why new boards often have a faint green or brown tint. The treatment protects against rot and insects. It does not protect against sun, water absorption or cracking, which is why the boards still need a finish.
+          </p>
+
+          <p>
+            The treatment process leaves boards saturated. Lumber sold as wet treated wood can feel cool and heavy, and if you drive a screw into it you may see moisture. Stain cannot soak into wood that is already full of water, so anything you put on too early sits on the surface, then peels or wears away quickly as the wood dries beneath it.
+          </p>
+
+          <p>
+            Once it dries, treated pine is the opposite: open-grained and thirsty. It absorbs penetrating stain readily, which is good, but it also absorbs unevenly between the softer earlywood and denser latewood rings. That is why semi-transparent stains with real pigment look better on treated pine than clear finishes or very light toners, which can look blotchy.
+          </p>
+
+          <p>
+            Treated lumber also moves a lot. As it dries it shrinks, checks and sometimes cups or twists. A rigid, film-forming finish has to stretch across all of that movement, and it cracks along the checks. Penetrating stains avoid the problem because there is no surface film to break. Our overview of <a href="/best-deck-stain-reviews/">deck stains for every type of deck</a> explains the wider choice between penetrating and film-forming products.
+          </p>
+
+          <p>
+            There is one more wrinkle: treated lumber from the store is not consistent. Boards in the same stack can come from different mills, have different amounts of heartwood and dry at different rates. On a finished deck that shows up as boards that absorb stain differently, so one board may look darker or lighter than its neighbors. Cleaning and brightening narrows the gap, and a pigmented semi-transparent stain hides most of what is left.
+          </p>
+        </div>
+
+        <div id="readiness" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. How to Tell When New Treated Boards Are Ready
+          </h2>
+
+          <p>
+            The old advice to wait six months before staining treated wood is a rough guide, not a rule. Drying time depends on how wet the boards were at the store, your climate, sun exposure and airflow under the deck. A deck in the dry, sunny Southwest can be ready in a few weeks. The same lumber under shade in a humid Gulf Coast summer can take several months.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE SPRINKLE TEST</p>
+            <p class="text-xl font-bold text-white mb-3">Water that soaks in means go. Water that beads means wait.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Flick a small amount of water onto several boards, including some in the shadiest part of the deck. If the drops absorb within about ten minutes, the wood is generally ready to accept a penetrating stain. If they bead or sit, give it another few weeks and test again.</p>
+          </div>
+
+          <p>
+            A pin-type moisture meter takes the guesswork out. Many stain manufacturers list a maximum moisture content on their labels, commonly somewhere around 12 to 15 percent. Readings vary across a deck, so take several on different boards and in shaded areas, and go by the highest reading rather than the average.
+          </p>
+
+          <p>
+            If you want to stain right away, look for <strong>KDAT</strong> lumber, which stands for kiln dried after treatment. These boards are dried in a kiln after they are treated, so they are ready for stain much sooner, often within a few weeks of installation once they have been cleaned. KDAT costs more and is not stocked everywhere, but it avoids months of waiting and reduces warping. If you are on the fence about whether your boards can take a finish at all, read <a href="/can-you-stain-pressure-treated-wood/">can you stain pressure-treated wood</a>.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Lumber and climate</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical wait before staining</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">What to check</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">KDAT, any climate</td>
+                    <td class="px-4 py-4 text-gray-700">A few weeks</td>
+                    <td class="px-4 py-4 text-gray-700">Sprinkle test after cleaning</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Wet PT, hot and dry</td>
+                    <td class="px-4 py-4 text-gray-700">4-8 weeks</td>
+                    <td class="px-4 py-4 text-gray-700">Meter reading under label limit</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Wet PT, mixed climate</td>
+                    <td class="px-4 py-4 text-gray-700">2-4 months</td>
+                    <td class="px-4 py-4 text-gray-700">Test shaded boards too</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Wet PT, humid or shaded</td>
+                    <td class="px-4 py-4 text-gray-700">3-6 months or more</td>
+                    <td class="px-4 py-4 text-gray-700">Re-test after dry spells</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="stain-types" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Which Stain Types Suit Treated Pine
+          </h2>
+
+          <p>
+            <strong>Oil-based penetrating semi-transparent stains</strong> are the most reliable choice on pressure-treated decks. They soak into the open grain, add enough pigment to block UV and wear by fading rather than peeling. Ready Seal, TWP and Armstrong Clark all fall into this group, and you will find more in our list of the <a href="/best-oil-based-deck-stain/">best oil-based deck stains</a>.
+          </p>
+
+          <p>
+            <strong>Water-based semi-transparent stains</strong> are a solid second choice, especially in strict VOC states or if solvent odor is a problem. The better ones penetrate rather than film, but most need cleaner wood and more careful application than oils. They also tend to need recoating a bit sooner on the floor.
+          </p>
+
+          <p>
+            <strong>Solid stains</strong> can be used on treated pine and sometimes make sense on old, mismatched decks. But because they form a film, they are more likely to crack along checks and peel on horizontal boards. If you choose one, put it on only after the wood is thoroughly dry, and accept that you are committing to solid colors for the life of the deck.
+          </p>
+
+          <p>
+            <strong>Clear water sealers</strong> help treated lumber shed water while it dries and can be a reasonable stopgap on a new deck during its first season. They give little UV protection, so the wood will still turn gray. See our <a href="/best-deck-sealant/">deck sealant</a> guide if that is your plan, and follow it with a pigmented stain once the boards have dried.
+          </p>
+
+          <p>
+            Avoid any product that is not labeled for exterior horizontal wood. Interior wood stains, fence-only formulas and some siding products are not made to handle the abrasion and standing water that a deck floor sees. The label should say deck, and ideally it should list pressure-treated lumber among the approved surfaces. If the can does not mention decks at all, keep shopping.
+          </p>
+        </div>
+
+        <div id="green-tint" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Choosing a Color for Green-Tinted Lumber
+          </h2>
+
+          <p>
+            Fresh treated lumber often carries a green or olive cast from copper in the preservative. Translucent stains in light tones do not cover it well, and the green can read through as a muddy or khaki color. Warm mid-tones such as cedar, redwood, light brown and honey neutralize the green because their orange and red components cancel it out.
+          </p>
+
+          <p>
+            If you prefer gray or weathered-wood tones, choose a semi-solid or solid version. A semi-transparent gray over green-tinted pine can look uneven or slightly greenish, especially in the first year as the treatment chemistry continues to fade. Test before you buy in quantity.
+          </p>
+
+          <p>
+            Remember that treated pine grows lighter and more gray as it weathers, and its color evens out after a season. A sample on a brand-new board will look different from the same stain applied after the deck has dried for a few months. Test on a board that has gone through the same drying and cleaning as the rest of the deck.
+          </p>
+
+          <p>
+            For a fuller look at color families, opacity and how to match decking to siding and trim, see our <a href="/deck-stain-colors-guide/">guide to choosing deck stain colors</a>.
+          </p>
+
+          <p>
+            One more color consideration is heat. Dark solid stains absorb much more sunlight than light ones, and a dark deck floor in full summer sun can become uncomfortable for bare feet. Darker colors also show pollen, dust and scuffs. Mid-tones are the practical compromise: enough pigment for UV protection, light enough to stay cooler and hide everyday dirt. If your deck is mostly a play area for kids or pets, that matters more than the color chip.
+          </p>
+        </div>
+
+        <div id="prep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Prep Steps for New and Weathered Treated Decks
+          </h2>
+
+          <p>
+            New treated boards still need cleaning before stain, even if they look clean. Construction leaves dirt, footprints, sawdust and sometimes a slick surface from the milling process. Apply an oxygen-based deck cleaner, scrub with a stiff brush and rinse thoroughly. Follow with a wood brightener, which opens the grain and evens out the absorption.
+          </p>
+
+          <p>
+            Weathered treated decks need more. Gray, oxidized fibers on the surface prevent stain from reaching sound wood, so they have to be cleaned off. A stronger deck cleaner, a stiff brush and a low-pressure rinse usually do the job. If there is an old coating, use a stripper made for it and then a brightener to neutralize it.
+          </p>
+
+          <p>
+            Pressure washing is helpful but easy to overdo. Treated pine is soft, and a narrow tip or high pressure will carve grooves and raise a fuzzy surface. Use a 25- or 40-degree tip, keep it moving with the grain and stay a foot or more from the boards. A model with adjustable pressure, like those in our <a href="/best-pressure-washer/">pressure washer</a> guide, gives you more control.
+          </p>
+
+          <p>
+            Let the deck dry for at least two days after washing, longer in cool or humid weather, then repeat the sprinkle test. Sand any raised grain lightly with 60 to 80 grit and sweep off all the dust. Staining over a damp or dusty surface is one of the most common reasons treated decks look blotchy.
+          </p>
+
+          <p>
+            Protect the surroundings before you open the stain. Cover shrubs and flower beds with breathable drop cloths, tape plastic over the bottom course of siding next to the deck, and lay cardboard over any patio or concrete below the deck edge where drips could land. Oil stain that soaks into concrete is very hard to remove, and stain on vinyl siding needs to be wiped off immediately with the solvent on the label. Ten minutes of masking saves an afternoon of cleanup.
+          </p>
+        </div>
+
+        <div id="application" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Applying Stain to Pressure-Treated Boards
+          </h2>
+
+          <p>
+            Choose a calm day with temperatures in the label range, usually about 50 to 90 degrees Fahrenheit, and no rain forecast for at least a day. Stain in the morning or evening when the boards are out of direct sun. Treated pine absorbs stain quickly on a hot day, and the surface flash-dries before the stain can soak in evenly.
+          </p>
+
+          <p>
+            Start with the railings, balusters and posts, then do the stairs, then the floor. On the floor, work along two or three boards at a time from one end to the other. Do not stop in the middle of a board. If you must break, stop at a joint or the end of a board.
+          </p>
+
+          <p>
+            A pump sprayer or roller speeds things up, but follow with a brush to push the stain into the grain and catch any drips or puddles. Do not forget the edges and ends of boards, which absorb moisture and benefit most from protection. After the time listed on the label, wipe off any stain that is still sitting on the surface.
+          </p>
+
+          <p>
+            Apply only as much as the wood can absorb. Some products call for a second coat wet-on-wet; others want one coat. A second coat applied after the first has dried rarely penetrates and often leads to a sticky or peeling surface. Our <a href="/deck-stain-drying-time/">deck stain drying time</a> guide explains how long to wait before walking on the deck and putting furniture back.
+          </p>
+        </div>
+
+        <div id="cut-ends" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Cut Ends, Fasteners and Ground Contact
+          </h2>
+
+          <p>
+            The preservative in treated lumber does not always penetrate to the center of the board. When you cut a board during construction, you can expose untreated wood. Industry guidance from the American Wood Protection Association recommends brushing a field-treatment preservative, typically one containing copper naphthenate, onto cut ends, holes and notches. Do this before the board goes in place, especially on posts and joists that will stay damp.
+          </p>
+
+          <p>
+            Stain is not a substitute for that end-cut treatment. It adds a water repellent and UV protection to the surface, but it is not formulated to carry enough preservative to protect exposed heartwood in ground contact or in constant moisture. Treat the cuts first, let them dry, and then stain the visible surfaces.
+          </p>
+
+          <p>
+            Copper-based treatments are corrosive to plain steel. Fasteners and connectors should be hot-dip galvanized or stainless steel, as specified by the lumber supplier and connector manufacturer. That has nothing to do with stain chemistry, but rusting fasteners will streak a fresh finish with dark stains, and corroded connectors are a structural problem.
+          </p>
+
+          <p>
+            Finally, keep the deck floor clear of planters and rugs that trap water. Even the best stain will fail under a pot that keeps the boards wet for weeks, and the dark ring left behind is very hard to remove.
+          </p>
+        </div>
+
+        <div id="railings" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Railings, Stairs and Vertical Surfaces
+          </h2>
+
+          <p>
+            Railings, balusters, posts and skirt boards take far less punishment than the floor. They do not carry foot traffic, they shed water instead of holding it, and they catch the sun at a steeper angle. As a result, the same stain that lasts two years on the floor commonly lasts four or more on the railings. That difference is worth planning around.
+          </p>
+
+          <p>
+            Many owners use the same semi-transparent stain everywhere so the color matches, then recoat only the floor and stair treads on the short cycle. Others choose a semi-solid or solid stain for the railings and a semi-transparent stain on the floor, which gives the railings a crisp, uniform look while keeping the walking surface easy to maintain. If you go that route, test both colors side by side so the combination works.
+          </p>
+
+          <p>
+            Stair treads deserve special attention. They take concentrated foot traffic, collect grit and often sit in the sun. Apply the stain carefully to the front edges and the nosings, which wear first, and check them every spring. A quick touch-up on the treads each year keeps the stairs from looking worn long before the rest of the deck.
+          </p>
+
+          <p>
+            Balusters are tedious to stain with a brush. A pump sprayer with a drop cloth beneath, followed by a quick brush or mitt pass, is the fastest method. A staining mitt, which is a glove with a thick nap, lets you wrap your hand around round or square spindles and coat all four sides in one pass.
+          </p>
+        </div>
+
+        <div id="upkeep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. Cost, Coverage and Long-Term Upkeep
+          </h2>
+
+          <p>
+            Treated pine is absorbent, so plan on the lower end of the coverage range on the label, especially for the first coat. For a typical 12 by 16 foot treated deck with railings, that usually means 3 to 4 gallons of a penetrating oil stain, including a wet-on-wet second coat where the label calls for one.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Rough Budget for a 200 Sq Ft Treated Deck</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">3-4 gal</p>
+                <p class="text-gray-400 text-xs mt-1">Penetrating stain, first job</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">$110-$280</p>
+                <p class="text-gray-400 text-xs mt-1">Stain cost at the time of writing</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">$30-$60</p>
+                <p class="text-gray-400 text-xs mt-1">Cleaner and brightener</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">2-3 yrs</p>
+                <p class="text-gray-400 text-xs mt-1">Typical floor recoat cycle</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Those figures are approximate ranges based on typical gallon prices and label coverage. Premium stains cost more at the start but usually need fewer and simpler recoats, so the cost per year tends to be lower. Budget water-based stains cost less now but often mean a recoat every one or two years on the floor.
+          </p>
+
+          <p>
+            Each spring, sweep and wash the deck with a mild cleaner and check the high-traffic paths. When water stops beading and the color looks faded, clean, brighten and apply one thin maintenance coat of the same stain. Keep a quart from the original batch for touch-ups. If you are also finishing a treated fence, our <a href="/best-fence-stain/">fence stain</a> guide covers products made for large vertical areas.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Staining the Week the Deck Is Built</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Wet treated lumber cannot absorb stain, so the coating sits on top and fails as the boards dry. Unless the lumber is kiln dried after treatment, run the sprinkle test or use a moisture meter and wait until the boards actually pass, even if that means staining next season.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a Clear Finish as the Final Coat</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Clear water sealers keep water out but do almost nothing against UV light, so treated pine turns gray anyway, often unevenly. Use a clear sealer only as a first-season stopgap if you must, then switch to a pigmented semi-transparent stain once the boards have dried properly.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Blasting the Boards With a Narrow Tip</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Treated pine is soft. A 0- or 15-degree tip at close range gouges the surface and raises fibers that soak up stain unevenly and splinter later. Use a wide fan tip on low pressure, keep it moving with the grain, and let a cleaner and brush do most of the work.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Forgetting to Treat Cut Ends</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Cutting treated lumber can expose wood the preservative never reached. Stain alone does not protect it. Brush a copper naphthenate end-cut preservative onto cuts, notches and drilled holes during construction, especially on posts, joists and anything that will stay damp, before any stain goes on.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Picking a Light Gray Over Green Wood</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A light semi-transparent gray over fresh, copper-tinted pine often reads as a muddy green. Warm cedar and brown tones cancel the green out. If you want gray, choose a semi-solid or solid gray and test it on a cleaned, dry board first before buying gallons.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How soon can a new treated deck be stained?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on how wet the lumber was and your climate. Kiln-dried-after-treatment boards can often be stained within a few weeks. Standard wet treated pine commonly needs one to several months. The reliable check is the sprinkle test: if water soaks into the boards within about ten minutes, they are ready for a penetrating stain.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need to clean brand-new treated lumber before staining?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. New boards carry dirt, footprints, sawdust and sometimes a smooth, compressed surface from milling that limits how much stain the wood can absorb. Wash with an oxygen-based deck cleaner, rinse, apply a wood brightener and let the deck dry fully. That simple step helps the stain soak in evenly and last longer.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will stain stick to treated wood that still looks green?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The green tint itself does not stop stain from bonding; moisture does. If the boards pass the sprinkle test, stain will penetrate even if a faint green color is still visible. Choose a warm cedar or brown tone to neutralize the tint, or a semi-solid stain if you want a cooler color.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is solid stain a bad idea on a treated deck?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not always, but it is riskier. Solid stain forms a film that can crack along the checks treated pine develops and peel on horizontal boards. It works best on older decks with mismatched or patched boards, on very dry wood, and on railings. For new treated decks, semi-transparent penetrating stains are the safer choice.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does stain last on pressure-treated pine?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A semi-transparent penetrating stain typically lasts two to three years on a deck floor and longer on railings. Clear or translucent finishes may need yearly attention. Solid stains can last longer on paper but tend to peel when they fail. Sun, shade, foot traffic and prep quality all move those numbers.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I use oil or water-based stain on treated wood?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Penetrating oil stains are the most forgiving on treated pine because they soak deep into the open grain and fade instead of peeling. Water-based stains work well if you need low odor or live in a strict VOC state, but they need cleaner wood and more careful application. Either works on a properly prepared deck.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I have to strip the deck before recoating?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not if you used a penetrating stain and it has worn evenly. Clean, brighten and apply one thin coat of the same product. Stripping is needed when the old finish is peeling, when you are switching between oil and water-based products, or when you want to move to a lighter, more transparent color.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">More Treated Deck Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-deck-stain-reviews/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Pillar Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Deck Stains Overall</h3>
+              <p class="text-gray-500 text-sm mt-2">The full ranking across every wood type, climate and opacity.</p>
+            </a>
+            <a href="/can-you-stain-pressure-treated-wood/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Explainer</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Can You Stain Pressure-Treated Wood?</h3>
+              <p class="text-gray-500 text-sm mt-2">What treated lumber needs before any finish goes on.</p>
+            </a>
+            <a href="/best-oil-based-deck-stain/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Oil-Based Deck Stains</h3>
+              <p class="text-gray-500 text-sm mt-2">Penetrating oils that soak into softwood and fade gracefully.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most pressure-treated decks, Ready Seal Natural Cedar is the simplest route to a good-looking finish, TWP 1500 is the answer for damp or shaded decks, and Armstrong Clark is the long-term value play. DEFY Extreme leads the water-based options, Cabot gives treated pine a richer look, and Behr keeps the budget low if you accept shorter recoat intervals.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The product matters less than the timing. Wait until the boards pass the sprinkle test, clean and brighten them, treat any cut ends, and apply thin coats in the shade. Do that, and treated pine will hold its color for years.
+          </p>
+        </div>
+
+        <MoreInCategory category="Deck & Wood Finishes" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

@@ -5,7 +5,7 @@ import Analytics from "@vercel/analytics/astro";
 import AdUnit from "../components/AdUnit.astro";
 import { amazonLink } from "../data/affiliate";
 import TOP_PICKS from "../data/top-picks.json";
-import { NAV_GROUPS } from "../data/nav";
+import { NAV_GROUPS, HEADER_GROUPS, HEADER_LINKS, groupId } from "../data/nav";
 
 interface Props {
   title?: string;
@@ -118,7 +118,7 @@ const spokePick = pickPillar
                 class="text-gray-600 hover:text-[#1E90FF] font-medium no-underline"
                 >Best Lists</a
               >
-              {NAV_GROUPS.map((group) => (
+              {HEADER_GROUPS.map((group) => (
                 <div class="relative group">
                   <button
                     class="flex items-center gap-1 text-gray-600 hover:text-[#1E90FF] font-medium cursor-pointer bg-transparent border-0 p-0"
@@ -128,7 +128,7 @@ const spokePick = pickPillar
                   </button>
                   <div class="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-72 bg-white border border-gray-100 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <div class="p-2">
-                      {group.links.map((link) => (
+                      {group.links.slice(0, HEADER_LINKS).map((link) => (
                         <a href={link.url} class="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 no-underline group/item transition-colors">
                           <span class="text-xl shrink-0 mt-0.5">{group.icon}</span>
                           <div>
@@ -137,6 +137,11 @@ const spokePick = pickPillar
                           </div>
                         </a>
                       ))}
+                      {group.links.length > HEADER_LINKS && (
+                        <a href={`/best-of/#${groupId(group.label)}`} class="block p-3 text-sm font-bold text-[#1E90FF] no-underline hover:underline">
+                          All {group.links.length} {group.label.toLowerCase()} guides &rarr;
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -1,0 +1,942 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Log Splitter Picks",
+    "url": "/best-log-splitter/"
+  },
+  {
+    "title": "Chainsaw Picks",
+    "url": "/best-chainsaw/"
+  },
+  {
+    "title": "Weed Eater Picks",
+    "url": "/best-weed-eater/"
+  },
+  {
+    "title": "Best Cordless Leaf Blowers",
+    "url": "/best-cordless-leaf-blower/"
+  },
+  {
+    "title": "Best Compact Tractors",
+    "url": "/best-compact-tractor/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 6 Best Hookaroons: Save Your Back at the Woodpile";
+const description =
+  "Six hookaroons and log-handling tools compared on handle length, head design and materials, plus how to use one safely when moving rounds and splits.";
+
+const PRODUCTS = [
+  {
+    "badge": "Best Overall",
+    "category": "Composite Handle, 28-Inch Class",
+    "name": "Fiskars 28-Inch Hookaroon",
+    "description": "Fiskars' 28-inch hookaroon is the easiest recommendation for most homeowners. The length lets you reach rounds on the ground and toss splits onto a pile without bending deeply, while staying short enough to swing in a tight spot next to a splitter. Fiskars pairs a hardened steel head with a composite handle that resists weather and does not need the oiling a wood handle does, and the handle has a textured grip that helps with wet gloves. It is widely available and priced in the middle of the market. Owners commonly praise how easily the point bites into rounds and how the curve helps pull wood toward you. As with any hookaroon, keep the tip sharp and store it so the point cannot injure someone. If you only buy one log-handling tool for a homeowner firewood setup, this is a sensible choice.",
+    "pros": [
+      "Length works for both ground pickup and stacking",
+      "Weather-resistant composite handle",
+      "Hardened steel head bites easily",
+      "Widely available at a fair price"
+    ],
+    "cons": [
+      "Not ideal for very large logs that need a cant hook",
+      "Composite handle cannot be replaced like wood",
+      "Point needs occasional touch-ups"
+    ],
+    "bottomLine": "Our first pick for nearly any home firewood setup.",
+    "amazonUrl": "",
+    "id": "fiskars-hookaroon"
+  },
+  {
+    "badge": "Best Traditional Build",
+    "category": "Hickory Handle, Forged Head",
+    "name": "Council Tool Hookaroon",
+    "description": "Council Tool is an American maker known for forged axes and forestry tools, and its hookaroon follows that tradition with a forged steel head on a hickory handle. Hickory is strong and absorbs shock well, and a damaged wood handle can be replaced rather than tossing the whole tool. The forged head holds a point and takes a sharpening file easily. Wood handles need a little care, such as an occasional coat of boiled linseed oil and storage out of the weather, but many owners prefer the feel and balance of hickory over composites. It is a good fit for owners who process a lot of wood every year and want a tool that can be maintained for decades. Check the exact handle length when buying, since Council Tool has offered different lengths over time.",
+    "pros": [
+      "Forged steel head",
+      "Shock-absorbing hickory handle",
+      "Replaceable handle extends tool life",
+      "American-made forestry heritage"
+    ],
+    "cons": [
+      "Wood handle needs periodic oiling",
+      "Should be stored out of the weather",
+      "Usually costs more than composite models"
+    ],
+    "bottomLine": "A traditional, repairable hookaroon for owners who process wood every year.",
+    "amazonUrl": "",
+    "id": "council-tool-hookaroon"
+  },
+  {
+    "badge": "Best Brand Ecosystem",
+    "category": "Forestry Hookaroon",
+    "name": "Husqvarna Hookaroon",
+    "description": "Husqvarna sells a hookaroon as part of its forestry accessory line, alongside its chainsaws, splitting axes and log tongs. It uses a hardened steel head and a curved point designed to grab rounds and splits, and it is sold through Husqvarna dealers and many retailers that also carry its saws. For owners already shopping for a Husqvarna saw, picking up the hookaroon from the same dealer is convenient. It is a straightforward, durable tool rather than a specialized one. Check the length of the version you are buying, since Husqvarna's forestry line includes both short pickaroon-style tools and longer hookaroons, and the right one depends on whether you work mostly at the splitter or stack from the ground. Like any steel-headed hookaroon, it benefits from an occasional touch-up with a file and a light coat of oil to keep rust off the point.",
+    "pros": [
+      "Hardened steel head with a curved point",
+      "Sold alongside Husqvarna saws and axes",
+      "Durable, straightforward design",
+      "Widely available through dealers"
+    ],
+    "cons": [
+      "Several lengths in the line, so check before buying",
+      "Not specialized for large logs",
+      "Pricing varies by dealer"
+    ],
+    "bottomLine": "A solid, easy-to-find hookaroon for Husqvarna saw owners.",
+    "amazonUrl": "",
+    "id": "husqvarna-hookaroon"
+  },
+  {
+    "badge": "Best Lightweight",
+    "category": "Aluminum Handle",
+    "name": "LogRite Hookaroon",
+    "description": "LogRite is best known for its aluminum-handled cant hooks and peaveys, and its hookaroon uses the same idea: a light, strong aluminum handle with a steel hook. The weight savings add up over a long day of feeding a splitter and stacking, and aluminum does not rot or swell in wet weather. LogRite tools have a strong following among owners who process a lot of wood and value well-made, American-built equipment. The trade-offs are price, which is higher than mass-market hookaroons, and the different feel of aluminum compared with hickory; some users find it transmits more vibration when striking. For heavy users who already appreciate LogRite's cant hooks, it is a natural companion. Its light weight is especially noticeable for anyone spending a full weekend feeding a splitter and stacking, when every ounce at the end of a handle adds up.",
+    "pros": [
+      "Light aluminum handle reduces fatigue",
+      "Does not rot or swell in wet weather",
+      "Strong reputation among heavy users",
+      "Pairs with LogRite cant hooks"
+    ],
+    "cons": [
+      "Priced above mass-market models",
+      "Aluminum feels different from wood",
+      "Less common in big-box stores"
+    ],
+    "bottomLine": "A premium, lightweight hookaroon for people who split a lot of wood.",
+    "amazonUrl": "",
+    "id": "logrite-hookaroon"
+  },
+  {
+    "badge": "Best Dealer Pick",
+    "category": "Forestry Hookaroon",
+    "name": "Stihl Hookaroon",
+    "description": "Stihl offers a hookaroon in its forestry tool lineup, sold through the same dealer network as its chainsaws. The head is designed to grab and pull rounds, and the handle gives enough reach to move and stack wood without bending as much. Buying from a Stihl dealer makes sense if you are already there for a saw, chain or bar oil, and dealers can often advise on the right length for your setup. It is a practical, durable tool without exotic features. As with the Husqvarna, check the exact version and handle length, since dealer stock and lineup can vary by region. Dealers can also show you how to set and free the point safely, which helps first-time users. For a homeowner who already trusts a Stihl dealer for saw service, it is a convenient, sensible add-on that will handle years of firewood work.",
+    "pros": [
+      "Sold through Stihl's dealer network",
+      "Durable head designed for pulling rounds",
+      "Easy to add to a saw purchase",
+      "Practical length for stacking"
+    ],
+    "cons": [
+      "Lineup and length vary by region",
+      "Mostly sold through dealers",
+      "No standout features over rivals"
+    ],
+    "bottomLine": "A practical choice for Stihl owners buying at a dealer.",
+    "amazonUrl": "",
+    "id": "stihl-hookaroon"
+  },
+  {
+    "badge": "Best Multi-Tool",
+    "category": "Cant Hook, Hookaroon and Log Jack",
+    "name": "LogOX 3-in-1 Forestry Multitool",
+    "description": "The LogOX is not a pure hookaroon. It is a modular forestry tool that combines a hookaroon-style tine with a cant hook and a log jack, built on a steel frame with a handle you can reconfigure. That makes it useful for owners who need to roll larger logs for bucking, lift logs off the ground so the saw chain stays out of dirt, and carry rounds with two hands instead of bending. It is heavier and more expensive than a simple hookaroon, and if all you do is feed a splitter and stack, a lighter dedicated hookaroon is faster to use. But for someone cutting their own trees on a property, it can replace two or three separate tools and makes handling bigger logs much safer. Read the instructions for each configuration before use.",
+    "pros": [
+      "Combines hookaroon, cant hook and log jack functions",
+      "Lifts logs to keep the chain out of dirt",
+      "Helps carry and roll large logs",
+      "Can replace several tools"
+    ],
+    "cons": [
+      "Heavier than a dedicated hookaroon",
+      "Higher price",
+      "Slower for simple stacking"
+    ],
+    "bottomLine": "A smart buy for owners who cut and handle their own logs, not just split firewood.",
+    "amazonUrl": "",
+    "id": "logox-3-in-1-forestry-multitool"
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Hookaroon Picks",
+          item: "https://www.allmetalbrake.com/best-hookaroon-reviews/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What do people actually do with a hookaroon?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is used to grab, drag, lift, flip and toss rounds and split firewood without bending over or putting hands near rough bark and splinters. Most owners use it to feed a log splitter, pull split halves off the beam, move rounds from a pile and stack splits. It is a firewood handling tool, not a tool for rolling large logs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a pickaroon different from a hookaroon?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The names are often used interchangeably. Where people distinguish them, a pickaroon usually has a shorter, more axe-like head with a straighter spike, while a hookaroon has a more pronounced curved point for pulling. In practice, manufacturers choose one name or the other, and length and point shape matter more than the label."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What length hookaroon is best?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homeowners, a tool in the upper 20-inch range is the best single choice, since it reaches the ground from a nearly upright stance and still works at the splitter. Shorter tools around 15 to 18 inches are quick at the splitter but need more bending. Taller users benefit most from longer handles."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I still need a cant hook if I own a hookaroon?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, if you buck your own logs. A cant hook has a long handle and hinged hook for rolling logs on the ground while bucking them into rounds. A hookaroon is for moving rounds and splits. They do different jobs, and people who cut their own trees usually own both, or choose a multi-tool such as the LogOX that combines functions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I sharpen a hookaroon point?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use a mill file, following the existing profile and filing toward the tip, keeping the point slim and symmetrical. Avoid overheating the steel on a bench grinder, which can ruin its temper. Clean and lightly oil the head afterward to prevent rust. Touch up the point whenever it starts glancing off wood instead of setting easily."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I choose wood or composite handles?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hickory is strong, absorbs shock and is replaceable, but it needs oiling and storage out of the weather. Composite and fiberglass handles shrug off rain, need no maintenance and resist overstrike damage. Aluminum is lightest. Choose based on how you store tools; if they live near the woodpile, composite or aluminum is the easier choice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does a hookaroon work on frozen or green wood?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, though it behaves differently. Green wood is softer and the point sets easily, but it can grip deeply and need a twist to free. Frozen wood is harder, so the point may glance off; a sharp tip and a deliberate, controlled swing help. Be careful on icy ground, where pulling on a stuck tool can lead to a fall."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Yard & Outdoor Tools",
+    tags: [
+      "best hookaroon reviews",
+      "hookaroon",
+      "pickaroon for firewood",
+      "log handling tools",
+      "firewood hand tools",
+      "hookaroon vs pickaroon"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 6 Best <span class="text-[#38BDF8]">Hookaroons</span> for Moving Firewood Without Bending
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A hookaroon is a cheap tool that pays for itself the first time you process a cord of wood. It keeps your hands away from sharp edges and your back upright while you drag, flip and toss rounds and splits.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#fiskars-hookaroon"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="5.4k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#what-it-does" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. What a Hookaroon Does</a>
+          <a href="#length" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Choosing a Length</a>
+          <a href="#head-design" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Head and Tip Design</a>
+          <a href="#handles" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Handle Materials</a>
+          <a href="#technique" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. How to Use One</a>
+          <a href="#workflow" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. The Firewood Workflow</a>
+          <a href="#safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Safe Handling</a>
+          <a href="#care" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Sharpening and Care</a>
+          <a href="#value" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Who Needs One</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Anyone who has split and stacked a few cords by hand knows the hard part is not the splitting. It is bending over hundreds of times to pick up rounds, feed the splitter and throw splits onto the pile. A hookaroon puts a sharp, curved spike on the end of a handle so you can do most of that standing upright, and it is the cheapest back-saver in the firewood workflow.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Hookaroons, Ranked
+          </h2>
+
+          <p>
+            Picks are based on manufacturer details such as overall length, handle material, head construction and warranty, along with each tool's design for the jobs homeowners do most: pulling rounds, feeding a splitter and stacking. We also weighed patterns in owner feedback. No ranking depends on durability trials we did not run.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="what-it-does" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. What a Hookaroon Does and How It Differs From Its Cousins
+          </h2>
+
+          <p>
+            A hookaroon is a hand tool with a curved, pointed steel spike on the end of a handle, usually somewhere between about 15 and 30 inches long. You swing the point lightly into a round or split, then pull, lift, drag or flip it without bending over or putting your hands near rough bark and splinters. It is used for feeding a log splitter, pulling rounds from a pile, sorting splits and tossing them onto a stack.
+          </p>
+
+          <p>
+            The name overlaps with the <strong>pickaroon</strong>, and the two terms are often used interchangeably. Where people do separate them, a pickaroon tends to have a shorter, more axe-like head with a straighter spike, while a hookaroon has a more pronounced curve for pulling. Many manufacturers simply pick one name. What matters is the length and the shape of the point, not the label.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Tool</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Main job</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">When to choose it</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Hookaroon or pickaroon</td>
+                    <td class="px-4 py-4 text-gray-700">Grab, drag and toss rounds and splits</td>
+                    <td class="px-4 py-4 text-gray-700">Splitting and stacking firewood</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Cant hook</td>
+                    <td class="px-4 py-4 text-gray-700">Roll and turn logs on the ground</td>
+                    <td class="px-4 py-4 text-gray-700">Bucking downed trees into rounds</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Peavey</td>
+                    <td class="px-4 py-4 text-gray-700">Roll logs, with a spiked tip for prying</td>
+                    <td class="px-4 py-4 text-gray-700">Larger logs and log landing work</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Log tongs</td>
+                    <td class="px-4 py-4 text-gray-700">Carry and drag logs with two people or one</td>
+                    <td class="px-4 py-4 text-gray-700">Moving logs to the bucking area</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            A <strong>cant hook</strong> and <strong>peavey</strong> are longer tools with a hinged hook used to roll logs on the ground, mostly while bucking them into rounds with a <a href="/best-chainsaw/">chainsaw</a>. They are not substitutes for a hookaroon, and a hookaroon is not a substitute for them. Most homeowners who cut their own trees eventually own both: a cant hook for the log, a hookaroon for the rounds and splits.
+          </p>
+
+          <p>
+            If your firewood arrives already split and you only need to stack it, a hookaroon is a nice-to-have. If you buck rounds and split them yourself, especially with a <a href="/best-log-splitter/">log splitter</a>, it quickly becomes the tool you reach for most.
+          </p>
+        </div>
+
+        <div id="length" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Choosing the Right Length
+          </h2>
+
+          <p>
+            Length is the main buying decision. Shorter tools, around 15 to 18 inches, are quick and nimble right at the splitter, where you are moving splits from the beam to a pile a few feet away. They are easier to control and can be used one-handed, but they require more bending to reach rounds on the ground.
+          </p>
+
+          <p>
+            Longer tools, around 26 to 30 inches, reach the ground from a near-upright stance, so they are better for pulling rounds from a pile, dragging them to the splitter and stacking low rows. They take a little more room to swing and are slower for fine sorting. For most homeowners with a splitter and a stacking area, a length in the upper 20s is the best compromise.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Length Guide</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">15-18 in</p>
+                <p class="text-gray-400 text-xs mt-1">Quick work at the splitter</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">24-26 in</p>
+                <p class="text-gray-400 text-xs mt-1">Balanced reach and control</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">28-30 in</p>
+                <p class="text-gray-400 text-xs mt-1">Ground pickup and stacking</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">2 tools</p>
+                <p class="text-gray-400 text-xs mt-1">Common setup for heavy users</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Your height matters too. Taller users benefit more from a longer handle, since a short tool forces more bending. If several people in your household will use it, choose the longer option; it is easier to choke up on a long handle than to stretch a short one.
+          </p>
+
+          <p>
+            Heavy users often end up owning two: a short pickaroon for the splitter and a longer hookaroon for the pile and stack. If you only buy one, buy the longer one.
+          </p>
+
+          <p>
+            Weight is the other half of the length decision. A longer handle with a heavy forged head carries more momentum, which helps the point set, but it also tires the arms over a long session. If you plan to work for hours at a time, pick up the tool before buying and make a few practice swings, or choose a lighter handle material to offset the extra length.
+          </p>
+        </div>
+
+        <div id="head-design" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Head and Tip Design
+          </h2>
+
+          <p>
+            The point does almost all the work, so its shape matters. A sharp, slim tip penetrates bark and end grain with a light swing, while a blunt tip glances off and requires more force, which is tiring and less safe. A pronounced curve helps you pull wood toward you and hold it while lifting. A straighter spike is easier to drive and remove but holds less securely when lifting.
+          </p>
+
+          <p>
+            Head material and heat treatment determine how long the point stays sharp and whether it bends. Forged, hardened steel heads hold an edge and resist bending, while soft or poorly treated heads can dull or bend after hitting a knot or stone. The head should be firmly attached; with wood handles, look for a secure wedge or fastening, and with composite or aluminum handles, a bonded or bolted head.
+          </p>
+
+          <p>
+            Some heads have a flat poll or a hammer face on the back, which is useful for tapping a wedge or knocking a split loose. Others add a small blade for hacking. These extras add weight but can be handy around the woodpile.
+          </p>
+
+          <p>
+            Avoid heads with exaggerated, hooked tips that are hard to free from the wood, since yanking on a stuck tool is how people strain backs and lose balance. A good point goes in with a light swing and comes out with a small twist.
+          </p>
+        </div>
+
+        <div id="handles" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Wood, Composite or Aluminum Handles
+          </h2>
+
+          <p>
+            Hickory is the traditional handle material for good reason: it is strong, flexible and absorbs shock, so it feels comfortable over a long day. A damaged wood handle can be replaced. The trade-off is upkeep. Wood handles should be kept out of the rain, wiped down when wet, and oiled occasionally with boiled linseed oil to prevent drying and cracking.
+          </p>
+
+          <p>
+            Composite and fiberglass handles shrug off weather, need no oiling and generally resist breaking from overstrikes. They are a good choice for owners who leave tools near the woodpile. They can feel a little different in the hand and cannot easily be replaced if they fail, but they are usually priced well.
+          </p>
+
+          <p>
+            Aluminum handles are the lightest option, which helps over long sessions, and they do not rot or swell. They are typically found on premium tools. Some users find aluminum transmits more vibration or feels cold in winter, which a good glove addresses.
+          </p>
+
+          <p>
+            Whatever the material, look for a grip that works with gloves, since you should always wear gloves at the woodpile. A textured or rubberized grip helps when the handle is wet.
+          </p>
+        </div>
+
+        <div id="technique" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. How to Use a Hookaroon
+          </h2>
+
+          <p>
+            Use a short, controlled swing to set the point into the wood, not a big overhead strike. Aim for the side or end grain of a round, a few inches from the edge, where the point will hold. Once it is set, pull or lift with your legs and core rather than your lower back, keeping the load close to your body.
+          </p>
+
+          <p>
+            To drag a round, set the point and walk backward slowly, watching where you are stepping. To flip a round onto its end, set the point near the top edge and pull up and toward you. To toss a split, set the point near the center of gravity, lift slightly and release with a smooth motion toward the pile. Do not throw splits toward people or pets.
+          </p>
+
+          <p>
+            At the splitter, use the hookaroon to pull split halves off the beam and to position the next round, which keeps your hands farther from the wedge. Never use the tool, or your hands, to adjust a log while the ram is moving. Wait for the ram to stop or retract before setting the point.
+          </p>
+
+          <p>
+            Free the tool with a small twist rather than a hard yank. If the point is buried deeply, rock it gently in line with the curve. Pulling sideways or prying can bend the point or snap a wooden handle.
+          </p>
+
+          <p>
+            Practice on a few easy splits before tackling a full pile. Within a few minutes most people find the right swing weight and the spot on each piece where the point holds best, usually just inside the bark on a split or a couple of inches into the end grain of a round. Once that rhythm is automatic, the tool becomes faster than picking wood up by hand.
+          </p>
+        </div>
+
+        <div id="workflow" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Building a Back-Friendly Firewood Workflow
+          </h2>
+
+          <p>
+            The hookaroon is one piece of a workflow designed to touch each piece of wood as few times as possible. Buck logs into rounds near where you will split them, using a cant hook or log jack to keep the bar out of the dirt. Then roll or drag rounds to the splitter with a hookaroon rather than carrying them.
+          </p>
+
+          <p>
+            Set up the splitter so split pieces fall into a cradle or onto a pile next to the stacking area. A splitter with vertical operation lets you split heavy rounds without lifting them at all. From there, use the hookaroon to toss splits onto the stack or into a wheelbarrow or cart, ideally positioned at waist height.
+          </p>
+
+          <p>
+            Stack firewood off the ground on pallets or rails, in a spot with sun and wind, with the top covered and the sides open, so it dries. Keep the stack away from the house to reduce insects near the home. Each extra handling step is another chance to strain your back, so plan the layout before you start.
+          </p>
+
+          <p>
+            Keep the area clean as you work. Bark, small splits and debris underfoot are a trip hazard near a running splitter or saw. A rake and a quick pass with a <a href="/best-cordless-leaf-blower/">leaf blower</a> at the end of a session keep the work area safe, and clearing tall grass around the pile with a <a href="/best-weed-eater/">string trimmer</a> discourages rodents.
+          </p>
+        </div>
+
+        <div id="safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Safe Handling and Storage
+          </h2>
+
+          <p>
+            A hookaroon is a sharp spike on a lever, and it can injure you or someone nearby. Keep a clear swing area, and make sure nobody is within reach of your swing or in the path of tossed splits. Never swing toward your feet; plant your feet wide and set the point to the side of your stance.
+          </p>
+
+          <p>
+            Wear sturdy gloves, eye protection and boots with protective toes. Bark and chips can fly when the point strikes, and dropped rounds can crush toes. Avoid working on ice or wet, sloped ground, where a slip while pulling can cause a fall.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">STORAGE</p>
+            <p class="text-xl font-bold text-white mb-3">Store it point-down or covered, out of reach of children.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Hang the tool on a wall with the point facing the wall, or cover the point with a sheath or a piece of hose. A hookaroon left lying in grass or leaning against a stack is easy to step on or knock over.</p>
+          </div>
+
+          <p>
+            Inspect the tool before each use. Replace a cracked handle, tighten a loose head, and do not use a bent point, which can slip out of the wood unexpectedly. A loose head can fly off during a swing.
+          </p>
+        </div>
+
+        <div id="care" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Sharpening and Care
+          </h2>
+
+          <p>
+            A sharp point sets with a light swing; a dull one forces you to swing harder. Touch up the point with a mill file, following the existing profile and filing toward the tip. Keep the point slim and symmetrical. Avoid grinding with a bench grinder unless you can keep the steel cool, since overheating can ruin the temper and soften the point.
+          </p>
+
+          <p>
+            Clean sap and dirt off the head after use, and wipe it with a light coat of oil to prevent rust. Rust weakens the point over time and makes it harder to set. Store the tool dry, under cover.
+          </p>
+
+          <p>
+            For wood handles, wipe off moisture after use and rub in boiled linseed oil a few times a year. Do not leave wood handles lying in wet grass or snow, which swells the wood and loosens the head. Composite and aluminum handles need only a wipe-down.
+          </p>
+
+          <p>
+            With basic care, a quality hookaroon lasts many years. The point may need reshaping occasionally, and a wood handle may need replacing after long use, but the head itself usually outlives several handles.
+          </p>
+        </div>
+
+        <div id="value" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Who Needs a Hookaroon and What to Spend
+          </h2>
+
+          <p>
+            If you split your own firewood, especially with a splitter, a hookaroon is one of the best values in the whole workflow. Prices for mainstream composite and wood-handle hookaroons typically run roughly $30 to $70 at the time of writing, with premium aluminum and forged tools and multi-tools such as the LogOX running higher, often $100 or more.
+          </p>
+
+          <p>
+            If you buy split firewood and only stack it, you can skip it, though many owners still find it handy for loading a wheelbarrow and rearranging stacks. If you cut and buck your own trees, consider pairing it with a cant hook or a multi-tool such as the LogOX.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Owner</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Recommended tool</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rough budget</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Stacks bought firewood</td>
+                    <td class="px-4 py-4 text-gray-700">Optional; any basic hookaroon</td>
+                    <td class="px-4 py-4 text-gray-700">$30-$50</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Splits a few cords a year</td>
+                    <td class="px-4 py-4 text-gray-700">28-inch class hookaroon</td>
+                    <td class="px-4 py-4 text-gray-700">$40-$70</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Heavy user with a splitter</td>
+                    <td class="px-4 py-4 text-gray-700">Short pickaroon plus long hookaroon</td>
+                    <td class="px-4 py-4 text-gray-700">$80-$150</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Cuts own trees</td>
+                    <td class="px-4 py-4 text-gray-700">Hookaroon plus cant hook or multi-tool</td>
+                    <td class="px-4 py-4 text-gray-700">$100-$250</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Spend on a good point, a length suited to your height and setup, and a handle material that fits how you store tools. Those three choices matter far more than brand. Pair a hookaroon with a good splitter and saw, and the whole firewood job becomes easier on your back.
+          </p>
+
+          <p>
+            One last point on value: a hookaroon is not a substitute for good body mechanics or a sensible pace. Take breaks, rotate tasks between splitting, hauling and stacking, and stop when you are tired. Most strains at the woodpile happen late in a long session, when form slips and people start lifting with their backs.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying Too Short a Tool</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Short tools are quick at the splitter but require bending to reach rounds on the ground, which defeats much of the purpose. Unless you work exclusively at waist height, choose a hookaroon in the upper 20-inch range, or own both a short and a long tool for different jobs.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Swinging Too Hard</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A sharp point needs only a light swing to set. Big overhead strikes waste energy, bury the point too deeply, and increase the chance of glancing off and hitting your leg or foot. Use a short, controlled motion and keep the point sharp so it sets easily.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using It While the Splitter Ram Moves</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Reaching in with a hookaroon while the ram is extending is as dangerous as reaching in with your hand, since the tool can be caught and wrenched toward you. Wait until the ram stops or fully retracts before setting the point to clear or position wood.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Prying With the Point</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Using the hookaroon as a pry bar bends points and breaks handles, especially wood ones. To free a stuck point, rock it gently in line with the curve. Use a cant hook or peavey for rolling and prying logs, which is what those tools are designed for.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Leaving It Lying in the Grass</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A hookaroon left point-up in grass or leaves is easy to step on or trip over, and wood handles left in wet grass swell and loosen. Hang it point-to-the-wall or cover the point, and store it under cover and out of reach of children. A wall hook costs a few dollars.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What do people actually do with a hookaroon?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It is used to grab, drag, lift, flip and toss rounds and split firewood without bending over or putting hands near rough bark and splinters. Most owners use it to feed a log splitter, pull split halves off the beam, move rounds from a pile and stack splits. It is a firewood handling tool, not a tool for rolling large logs.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a pickaroon different from a hookaroon?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The names are often used interchangeably. Where people distinguish them, a pickaroon usually has a shorter, more axe-like head with a straighter spike, while a hookaroon has a more pronounced curved point for pulling. In practice, manufacturers choose one name or the other, and length and point shape matter more than the label.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What length hookaroon is best?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homeowners, a tool in the upper 20-inch range is the best single choice, since it reaches the ground from a nearly upright stance and still works at the splitter. Shorter tools around 15 to 18 inches are quick at the splitter but need more bending. Taller users benefit most from longer handles.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I still need a cant hook if I own a hookaroon?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, if you buck your own logs. A cant hook has a long handle and hinged hook for rolling logs on the ground while bucking them into rounds. A hookaroon is for moving rounds and splits. They do different jobs, and people who cut their own trees usually own both, or choose a multi-tool such as the LogOX that combines functions.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I sharpen a hookaroon point?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Use a mill file, following the existing profile and filing toward the tip, keeping the point slim and symmetrical. Avoid overheating the steel on a bench grinder, which can ruin its temper. Clean and lightly oil the head afterward to prevent rust. Touch up the point whenever it starts glancing off wood instead of setting easily.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I choose wood or composite handles?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Hickory is strong, absorbs shock and is replaceable, but it needs oiling and storage out of the weather. Composite and fiberglass handles shrug off rain, need no maintenance and resist overstrike damage. Aluminum is lightest. Choose based on how you store tools; if they live near the woodpile, composite or aluminum is the easier choice.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Does a hookaroon work on frozen or green wood?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, though it behaves differently. Green wood is softer and the point sets easily, but it can grip deeply and need a twist to free. Frozen wood is harder, so the point may glance off; a sharp tip and a deliberate, controlled swing help. Be careful on icy ground, where pulling on a stuck tool can lead to a fall.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Firewood and Yard Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-log-splitter/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Log Splitters</h3>
+              <p class="text-gray-500 text-sm mt-2">Pair a hookaroon with a splitter matched to your woodpile.</p>
+            </a>
+            <a href="/best-chainsaw/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Chainsaws</h3>
+              <p class="text-gray-500 text-sm mt-2">Gas and battery saws for bucking rounds and storm cleanup.</p>
+            </a>
+            <a href="/best-weed-eater/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Weed Eaters</h3>
+              <p class="text-gray-500 text-sm mt-2">Keep grass and brush down around the woodpile.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most firewood setups, the Fiskars 28-Inch Hookaroon is the easiest choice: long enough to work standing up, with a weatherproof handle and a point that sets easily. Owners who prefer a repairable traditional tool should look at Council Tool, heavy users at LogRite, and anyone cutting their own trees at the LogOX multitool.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Choose a length that suits your height, keep the point sharp, use a short controlled swing, and never reach in while the splitter ram is moving. A hookaroon costs little, and over a season of firewood it saves a great deal of bending and a lot of sore backs.
+          </p>
+        </div>
+
+        <MoreInCategory category="Yard & Outdoor Tools" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

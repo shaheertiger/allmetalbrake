@@ -1,0 +1,943 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Deck Stains",
+    "url": "/best-deck-stain-reviews/"
+  },
+  {
+    "title": "Best Deck Paint",
+    "url": "/best-deck-paint/"
+  },
+  {
+    "title": "Best Redwood Sealer",
+    "url": "/best-redwood-sealer/"
+  },
+  {
+    "title": "Best Fence Stain",
+    "url": "/best-fence-stain/"
+  },
+  {
+    "title": "Deck Stain Drying Time",
+    "url": "/deck-stain-drying-time/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "Best Deck Sealants: 6 Clear Finishes That Keep Boards Dry";
+const description =
+  "Six clear and lightly tinted deck sealants compared on penetration, UV defense and recoat interval, plus how to tell when a sealant is the wrong product.";
+
+const PRODUCTS = [
+  {
+    "id": "twp-1500-clear",
+    "badge": "Best Overall",
+    "category": "Oil-based penetrating sealer",
+    "name": "TWP 1500 Series Wood Preservative",
+    "amazonUrl": "",
+    "bottomLine": "The best all-round choice for owners who want a penetrating oil that fades gracefully and recoats without drama.",
+    "pros": [
+      "Penetrating oil formula with no surface film to peel",
+      "Labeled as a wood preservative with mildew resistance",
+      "Clear and lightly toned options from the same line",
+      "Recoats with cleaning only, no stripping",
+      "Long track record with deck restoration contractors"
+    ],
+    "cons": [
+      "Not available in every state because of VOC rules",
+      "Usually ordered online or from specialty dealers",
+      "Longer dry time than water-based options"
+    ],
+    "description": "TWP, short for Total Wood Preservative, is a long-running oil-based line that contractors often reach for on cedar and pressure-treated decks. The 1500 Series soaks in rather than building a coating, so when it wears it simply looks drier and lighter instead of flaking. That behavior is the main reason it ranks first here: maintenance is a cleaning and a fresh coat, with no stripping between cycles. The line includes a clear version and several lightly toned ones, and the toned versions carry more pigment and generally hold up longer in sun. The label describes mildew and water resistance, and the brand positions it as a preservative rather than a cosmetic finish. Expect the wood to warm a shade even in the clearest version. Drawbacks are practical rather than performance related. The formula is restricted in some low-VOC states, it is harder to buy in person than big-box brands, and it needs warm, dry days to cure well. Prices were roughly 45 to 60 dollars per gallon at the time of writing, less in five-gallon pails."
+  },
+  {
+    "id": "ready-seal-natural",
+    "badge": "Easiest to Apply",
+    "category": "Oil-based, lightly tinted",
+    "name": "Ready Seal Exterior Wood Stain and Sealer, Natural Cedar",
+    "amazonUrl": "",
+    "bottomLine": "The easiest product on this list to apply evenly, and a better long-term choice than a pure clear for most decks.",
+    "pros": [
+      "Marketed as no back-brushing and no lap marks",
+      "Can be sprayed, rolled or brushed",
+      "Light tint adds UV protection while keeping grain visible",
+      "Forgiving for first-time DIYers",
+      "Widely sold in one- and five-gallon sizes"
+    ],
+    "cons": [
+      "Color develops over about two weeks, so the first look is misleading",
+      "Oil-based cleanup and longer dry time",
+      "Not a true clear"
+    ],
+    "description": "Ready Seal built its reputation on being hard to mess up. The manufacturer says the formula does not need back-brushing and will not leave lap marks, and owner feedback largely backs up that claim: people who have struggled with streaky finishes often say Ready Seal was the first product that looked even. It is an oil-based penetrating finish that can go on with a pump sprayer, roller or brush, which makes large decks and long railings quicker. The Natural Cedar shade is about as light as the line goes, so it reads as a warm, nearly clear finish rather than a stain. That small dose of pigment is a practical advantage, because it blocks more UV than a true clear and slows graying. Two things trip people up. The color looks light when wet and deepens over roughly two weeks as it cures, so judge the result after that window. It also needs warm, dry weather and mineral spirits for cleanup. Prices ran roughly 40 to 55 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "defy-extreme-clear",
+    "badge": "Best Water-Based",
+    "category": "Water-based penetrating sealer",
+    "name": "DEFY Extreme Clear Wood Sealer",
+    "amazonUrl": "",
+    "bottomLine": "The clear sealer to buy if you want a water-based product that still makes a serious attempt at UV protection.",
+    "pros": [
+      "Soap-and-water cleanup and low odor",
+      "Zinc oxide particles for better UV resistance than typical clears",
+      "Fast dry time suits short weather windows",
+      "Sold in low-VOC states where many oils are not",
+      "Penetrates rather than building a heavy film"
+    ],
+    "cons": [
+      "Needs warm, dry conditions and no dew while drying",
+      "Can look flatter than an oil finish",
+      "Shorter life on sun-baked horizontal surfaces"
+    ],
+    "description": "DEFY Extreme Clear is a water-based penetrating sealer that tries to close the usual gap between clear finishes and real sun protection. Its trick is zinc oxide nanoparticles, which scatter UV without adding the color that pigments would. That does not make it a semi-transparent stain, but it gives the clear version a better chance of holding natural color than older wax-based repellents. Because it is water-based, cleanup is soap and water, odor is mild, and the product can be shipped to states with strict VOC limits. It dries fast, which helps when a forecast only gives you one good afternoon. The tradeoffs are the usual water-based ones. Apply it on a day that stays warm and dry into the evening; dew or a sudden shower before it sets will leave a blotchy finish. Owners also note that it looks a little flatter than an oil, without the warm, wet look oil gives cedar. Expect yearly recoats on a sunny deck and longer intervals in shade. Prices were roughly 40 to 55 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "thompson-water-seal",
+    "badge": "Best Budget",
+    "category": "Clear water repellent",
+    "name": "Thompson's WaterSeal Advanced Natural Wood Protector",
+    "amazonUrl": "",
+    "bottomLine": "A fine, cheap water repellent for owners who accept yearly recoats and do not mind the wood weathering in color.",
+    "pros": [
+      "Sold at nearly every hardware store and home center",
+      "Low price per gallon",
+      "Easy to apply with a pump sprayer or roller",
+      "Strong immediate water beading",
+      "Good for fences, sheds and outbuildings too"
+    ],
+    "cons": [
+      "Very little UV protection; wood still grays",
+      "Plan on recoating roughly every year on decks",
+      "Stacking coats too soon leaves a tacky surface"
+    ],
+    "description": "Thompson's WaterSeal is the clear sealant most people have heard of, and the Advanced Natural Wood Protector is the brand's current mainstream clear. Its strength is accessibility: almost every hardware store stocks it, it costs less than most competitors, and it beads water impressively on the day it goes on. For a fence, shed, playset or a deck you plan to refinish with color later, that is often enough. Where it falls short is longevity on open horizontal surfaces. With no pigment and limited UV defense, the wood underneath continues to gray, and the water beading on high-traffic boards typically fades within a year. Many owners are happy with it on that understanding and simply recoat each spring. The common complaint, a sticky or shiny surface, usually comes from applying a second coat while the first is still repelling water. Do the water drop test before each recoat and apply only when the wood absorbs. Prices were roughly 20 to 35 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "olympic-maximum-sealant",
+    "badge": "Best Big-Box Clear",
+    "category": "Water-based clear sealant",
+    "name": "Olympic Maximum Waterproofing Sealant, Clear",
+    "amazonUrl": "",
+    "bottomLine": "A solid, easy-to-find clear option when you want a step up from basic water repellents without ordering online.",
+    "pros": [
+      "Widely stocked at Lowe's",
+      "Water-based, with easy cleanup",
+      "Mildew-resistant coating per the label",
+      "Also sold in tinted versions in the same line",
+      "Reasonable price per gallon"
+    ],
+    "cons": [
+      "Clear version still lets wood gray over time",
+      "Can build a light film with repeated coats",
+      "Best results need careful prep"
+    ],
+    "description": "Olympic Maximum is Lowe's flagship deck finish family, and the clear waterproofing sealant is the no-color member of it. It is water-based, so it cleans up with soap and water and suits owners who would rather not handle solvent. The label calls out water repellency and resistance to mildew on the coating, and the broader Maximum line includes toned, semi-transparent and solid versions if you decide later that you want more color and UV protection. For a homeowner who shops locally, that range makes it easy to step up without switching systems. Like every clear on this list, it does not stop sun from graying the wood. It also behaves a little more like a coating than a pure penetrating oil, so heavy layering over many years can leave a surface that eventually needs a stripper rather than just a cleaner. Apply thin coats, back-brush, and recoat only when the water test says the wood is absorbing again. Prices were roughly 30 to 45 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "seal-once-marine",
+    "badge": "Best Near Water",
+    "category": "Water-based penetrating sealer",
+    "name": "Seal-Once Marine Premium Wood Sealer",
+    "amazonUrl": "",
+    "bottomLine": "The pick for docks, boardwalks and decks next to ponds or pools, where a lower-solvent penetrating sealer makes sense.",
+    "pros": [
+      "Water-based penetrating polymer formula",
+      "Marketed for docks, boathouses and marine wood",
+      "Low odor and easy cleanup",
+      "Clear and tinted versions available",
+      "Does not form a thick film"
+    ],
+    "cons": [
+      "Harder to find in stores than mass-market brands",
+      "Higher price than basic repellents",
+      "Clear version offers limited UV defense"
+    ],
+    "description": "Seal-Once Marine is a water-based penetrating sealer sold for docks, piers and wood that sits near water, which makes it a sensible choice for decks beside a pond, lake or pool. It soaks into the wood rather than forming a thick film, and the brand emphasizes its lower solvent content compared with traditional oil sealers. That matters when runoff or overspray will reach water or planted areas you care about. Owners generally describe it as easy to spray or roll, with quick drying and soap-and-water cleanup. The clear version shares the limits of all clears: it keeps water out but does little to keep sun from graying the surface, and the line includes tinted options for anyone who wants more UV defense. It costs more than basic repellents and is more often bought online or from marine suppliers than at a big-box store. If your deck sits in open sun far from any water, a toned oil may be a better value; near the shoreline, this is the one to look at first. Prices ran roughly 45 to 65 dollars per gallon at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Deck Sealants",
+          item: "https://www.allmetalbrake.com/best-deck-sealant/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Sealant versus stain: which one does what?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A deck sealant is mainly a water repellent and is usually clear or very lightly tinted, so the wood keeps its natural look. A stain contains pigment, which adds color and blocks UV light much more effectively. Many products are sold as stain and sealer in one and sit between the two. The more pigment a finish carries, the longer it generally lasts in sun."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a clear deck sealant last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On an open, sunny deck most clear sealants keep beading water for about one to two years on the floor boards, and somewhat longer on railings and vertical surfaces. Shade, climate and foot traffic shift that range a lot. Lightly tinted versions of the same products typically last longer. The water drop test is the best way to know when your deck needs another coat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can sealant go on top of an old stain?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can apply a penetrating sealant over an old penetrating stain once it has worn enough that water soaks in, after cleaning the deck. You cannot put a penetrating sealant over solid stain, paint or a peeling film, because it has nothing to soak into. Those finishes need stripping first, or a product designed to go over them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is oil-based or water-based deck sealant better?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Neither wins outright. Oil-based penetrating sealers tend to soak deeper, warm the wood's color and fade gradually, which makes recoating easy. Water-based sealers dry faster, clean up with soap and water, have less odor and are legal in low-VOC states. Choose oil for dense or weathered wood in moderate weather, and water-based for short weather windows or tighter VOC rules."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I seal a deck in the fall or spring?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Either works if the weather fits the label. Most products want air and surface temperatures between roughly 50 and 90 degrees, dry wood, and a rain-free day or two afterward. Fall often offers stable dry weather and cooler sun, which helps penetration. Spring sealing protects the deck before summer heat. Avoid days when dew or frost will settle before the finish dries."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do composite decks need sealant?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Composite and PVC decking are not designed to absorb a wood sealant, and most manufacturers advise against coating the boards. Applying one can leave a slippery or blotchy film and may affect the warranty. Clean composite decks with a cleaner the board maker approves. Any wood framing underneath, such as stair stringers or fascia, can still be treated."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many coats of deck sealant should I apply?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most penetrating sealants call for one coat, and some ask for a second coat applied wet on wet before the first dries. Extra coats beyond what the wood can absorb only sit on the surface and turn tacky. Very dense hardwoods may only take one thin coat, while rough or weathered pine may take more. Always follow the product label."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Deck & Wood Finishes",
+    tags: [
+      "best deck sealant",
+      "clear deck sealer",
+      "deck waterproofing",
+      "water repellent for wood",
+      "deck maintenance",
+      "penetrating wood sealer"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 6 Best <span class="text-[#38BDF8]">Deck Sealants</span> for Clear, Dry Boards
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A clear sealant keeps water out of a deck and leaves the grain alone. It does very little about sun. These six are ranked on what the labels and data sheets promise, how owners say they age, and which deck each one actually suits.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#twp-1500-clear"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="8.7k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#sealant-or-stain" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Sealant or Stain?</a>
+          <a href="#how-sealants-work" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. How Sealants Work</a>
+          <a href="#buying-factors" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. What to Compare</a>
+          <a href="#by-wood" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Matching the Wood</a>
+          <a href="#prep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Prep That Matters</a>
+          <a href="#application" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Applying It Right</a>
+          <a href="#coverage-cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Coverage and Cost</a>
+          <a href="#recoat" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Recoat Schedule</a>
+          <a href="#end-grain" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Cut Ends and Hardware</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Most people who buy a deck sealant want two things at once: a deck that looks like bare wood and a deck that never turns gray. A clear product can deliver the first and only slow down the second. Water repellency is the easy part of the job, and nearly every product on this list does it well for a season or two. Ultraviolet light is what grays, checks and erodes the surface, and clear finishes have almost no pigment to block it. So the honest buying question is not which sealant lasts five years, because none of them do on a sunny deck. It is which one goes on cleanly, beads water longest for your climate, and is easy enough to recoat that you will actually do it every year or two.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Deck Sealants, Ranked
+          </h2>
+
+          <p>
+            Rankings draw on manufacturer data sheets, label coverage and recoat guidance, VOC and availability limits, and recurring patterns in owner feedback. We did not run our own weathering trials. Each pick is matched to the deck and the owner it fits best rather than to a single scoreboard.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="sealant-or-stain" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Sealant or Stain? Decide Before You Shop
+          </h2>
+
+          <p>
+            The words sealant, sealer, water repellent and stain get used interchangeably on store shelves, which is why so many decks get the wrong product. For this guide, a deck sealant is a clear or very lightly tinted finish whose main job is keeping liquid water out of the wood. A stain carries enough pigment to change the color and block a meaningful share of sunlight. Plenty of cans are labeled stain and sealer in one, and those sit on a sliding scale between the two.
+          </p>
+
+          <p>
+            Pick a clear sealant when the wood is new or freshly cleaned, you like its natural color, and you are willing to recoat on a short cycle. Cedar, redwood and tropical hardwoods are the usual candidates because their color is the reason people bought them. A clear coat on those species keeps them from soaking up rain, swelling and cupping, while letting the grain show exactly as it is.
+          </p>
+
+          <p>
+            Pick a tinted or semi-transparent stain instead when the deck sits in full afternoon sun, when gray weathering bothers you, or when you want three years between projects instead of one. Pigment is the only thing in a finish that blocks UV in a lasting way. Our <a href="/best-deck-stain-reviews/">deck stain rankings</a> cover that end of the scale, and they are the better read if your deck faces south or west with no shade.
+          </p>
+
+          <p>
+            Pick neither when the boards are badly weathered, split or covered in old failing film. A clear finish will not hide anything, and penetrating products cannot get through peeling paint or solid stain. Those decks either need stripping back to bare wood or a different approach entirely, which our guide to <a href="/best-deck-paint/">deck paints and resurfacers</a> walks through by condition.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE SHORT VERSION</p>
+            <p class="text-xl font-bold text-white mb-3">Clear sealant protects against water, pigment protects against sun.</p>
+            <p class="text-gray-300 leading-relaxed m-0">If you want grain-perfect color and accept yearly upkeep, buy a sealant. If you want fewer weekends spent on the deck, buy something with color in it. Most disappointment with clear products comes from expecting stain-level life from a product that carries no pigment.</p>
+          </div>
+        </div>
+
+        <div id="how-sealants-work" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. How Deck Sealants Actually Work
+          </h2>
+
+          <p>
+            Clear deck sealants fall into three chemistry families. The oldest is the paraffin wax water repellent: a thin carrier loaded with wax that lodges in the surface pores and makes water bead. It is cheap, fast and effective for a while, but wax sits near the surface and wears off quickly under foot traffic and sun. Many budget clear products still rely on some version of this approach.
+          </p>
+
+          <p>
+            The second family is the penetrating oil. These use drying oils such as linseed or soy alongside paraffinic oils, thinned so they soak into the top fraction of an inch. They harden inside the wood rather than on top, so there is no film to peel. When they wear, they fade and dry out rather than flake, which makes the next coat simple: clean and reapply. Oil finishes tend to darken and warm the wood a shade, even when labeled clear.
+          </p>
+
+          <p>
+            The third is the water-based penetrating sealer, built on acrylic or other polymer resins that are small enough to enter the wood. Modern versions clean up with soap and water, carry far less solvent, and can be shipped to every state. Some add zinc oxide or transparent iron oxide particles to improve UV resistance without adding visible color. They usually dry to the touch in an hour or two, which helps when weather windows are short.
+          </p>
+
+          <p>
+            What none of these families can do in clear form is stop UV from breaking down lignin, the natural glue that holds wood fibers together. Once lignin degrades, the surface fibers loosen, turn gray and wash away a little with every rain. A clear sealant slows the water damage that follows and keeps mildew from taking hold, but the color still drifts. Additives such as UV absorbers buy time; they do not change the basic tradeoff.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical life on a sunny deck</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Cleanup</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Main tradeoff</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Wax-based water repellent</td>
+                    <td class="px-4 py-4 text-gray-700">About 1 year</td>
+                    <td class="px-4 py-4 text-gray-700">Varies by product</td>
+                    <td class="px-4 py-4 text-gray-700">Cheapest, shortest life</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Penetrating oil, clear or toned</td>
+                    <td class="px-4 py-4 text-gray-700">1 to 2 years</td>
+                    <td class="px-4 py-4 text-gray-700">Mineral spirits</td>
+                    <td class="px-4 py-4 text-gray-700">Darkens wood, longer dry time</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Water-based penetrating</td>
+                    <td class="px-4 py-4 text-gray-700">1 to 2 years</td>
+                    <td class="px-4 py-4 text-gray-700">Soap and water</td>
+                    <td class="px-4 py-4 text-gray-700">Can look flatter, needs warm dry weather</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Lightly tinted versions of the above</td>
+                    <td class="px-4 py-4 text-gray-700">2 to 3 years</td>
+                    <td class="px-4 py-4 text-gray-700">Same as base</td>
+                    <td class="px-4 py-4 text-gray-700">Slight color shift</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="buying-factors" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. What to Compare on the Label
+          </h2>
+
+          <p>
+            <strong>Penetration versus film.</strong> For horizontal decking, a penetrating product almost always beats one that builds a surface film. Deck boards flex, expand with moisture and take abrasion from shoes, chairs and grills. A film cracks along those stresses and lets water in behind it, which then lifts more film. A penetrating finish has nothing to crack, so failure looks like gradual fading instead of patchy peeling.
+          </p>
+
+          <p>
+            <strong>Mildewcide.</strong> Shaded decks and humid climates grow mildew on almost any finish, and oil-based products give it food. Look for labels that list a mildewcide or describe the product as a wood preservative. That matters more on a deck under trees in Georgia than on one in open sun in Colorado, but it is rarely a reason to avoid a product that otherwise fits.
+          </p>
+
+          <p>
+            <strong>Application window.</strong> Every label lists a temperature range, usually around 40 or 50 degrees up to the low 90s, and a rain-free period after application. Water-based products generally want warmer, drier conditions and fail if dew settles before they dry. Oil-based products tolerate cooler days but stay tacky longer. Read this before buying; a product you cannot apply in your usual season is the wrong product.
+          </p>
+
+          <p>
+            <strong>VOC limits and availability.</strong> Several states and air districts cap the solvent content of wood coatings. Some oil-based sealants are reformulated, sold in a different version, or not shipped at all to those areas. Check the manufacturer's state list before you plan a project around a specific brand, especially if you live in California, the Northeast or the Mid-Atlantic.
+          </p>
+
+          <p>
+            <strong>Recoat method.</strong> The best sealant for a homeowner is the one that can be recoated without stripping. Most penetrating products only need a cleaning before the next coat. A few water-based clear coats build a light film over several applications and eventually need sanding or stripping. The label or data sheet usually says how to maintain the finish; read it as carefully as the coverage figure.
+          </p>
+        </div>
+
+        <div id="by-wood" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Matching the Sealant to Your Decking
+          </h2>
+
+          <p>
+            <strong>Pressure-treated pine.</strong> This is most American decking, and it is the species that benefits least from a clear finish because its color is not the attraction. Treated pine also arrives wet from the treatment process and will not accept any finish until it dries. If you are building new, read our guide on whether and when <a href="/can-you-stain-pressure-treated-wood/">you can stain pressure-treated wood</a> before you buy anything. Once dry, a lightly tinted penetrating oil or water-based sealer is usually a better value than a true clear.
+          </p>
+
+          <p>
+            <strong>Cedar.</strong> Western red cedar is soft, absorbent and full of natural oils and extractives. Penetrating oils suit it well, and toned clears that add a hint of cedar color hold the look longer than a pure clear. Avoid aggressive pressure washing on cedar before sealing, because its soft earlywood erodes quickly and leaves a fuzzy, uneven surface that absorbs finish unevenly.
+          </p>
+
+          <p>
+            <strong>Redwood.</strong> Redwood behaves like cedar but with more tannin and a stronger natural color that bleaches fast in sun. Clear sealers keep redwood dry but rarely keep it red. If preserving that color is the goal, a redwood-toned penetrating finish is the realistic answer, and our <a href="/best-redwood-sealer/">redwood sealer guide</a> covers the options in detail.
+          </p>
+
+          <p>
+            <strong>Tropical hardwoods.</strong> Ipe, cumaru, garapa and similar species are so dense that many standard sealants sit on the surface and turn sticky. They need finishes formulated for hardwood, applied thinly, with every drop of excess wiped off. Many owners simply let these woods weather to silver and clean them once a year, which is a legitimate choice that costs nothing.
+          </p>
+
+          <p>
+            <strong>Composite and PVC decking.</strong> Do not seal composite or PVC boards with any of the products here. They are not designed to absorb a penetrating finish, and most composite manufacturers advise against coatings except for specific cleaners. If a composite deck looks dull, clean it with a product the board maker approves.
+          </p>
+        </div>
+
+        <div id="prep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Prep: Where Most Sealant Jobs Succeed or Fail
+          </h2>
+
+          <p>
+            A sealant can only soak into wood that is clean, open and dry. Gray surface fibers, mildew, pollen and old finish all block penetration. The simplest preparation on a weathered deck is a two-step process: a sodium percarbonate or other oxygen-based deck cleaner to lift dirt and mildew, followed by an oxalic acid brightener that neutralizes the cleaner and restores the wood's color. Skip chlorine bleach; it kills mildew but damages wood fibers and leaves the surface blotchy.
+          </p>
+
+          <p>
+            A pressure washer speeds cleaning but is the most common way to damage a deck. Keep the pressure low, use a wide fan tip, hold the wand a foot or more from the surface, and move with the grain. The goal is rinsing loosened dirt, not carving the board. A rotary attachment helps keep the spray even across wide areas; our picks for the <a href="/best-surface-cleaner-for-pressure-washer/">best surface cleaners</a> include models that work on wood at reduced pressure.
+          </p>
+
+          <p>
+            After washing, the wood needs to dry. Most sealant labels ask for at least 24 to 48 hours of dry weather, and some want the moisture content below a specific figure. An inexpensive pin moisture meter takes the guesswork out; readings in the low to mid teens are generally ready. Without a meter, sprinkle water on the boards: if it soaks in within a few minutes, the wood will take finish.
+          </p>
+
+          <p>
+            If there is an old film-forming finish on the deck, deal with it now. Clear penetrating sealants cannot bond through peeling paint or solid stain. Use a chemical stripper made for decks, then the brightener, then let it dry. Sanding with a coarse grit also works on small areas, but sand no finer than about 60 to 80 grit on decking, or the surface becomes too closed to absorb finish evenly.
+          </p>
+
+          <p>
+            Finally, protect what you do not want coated. Cover plants with breathable drop cloths, tape off house siding where the deck meets it, and remove furniture. Oil-based sealants on brick or concrete leave dark stains that are hard to remove, so plan where the overspray and drips will land before you open the can.
+          </p>
+        </div>
+
+        <div id="application" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Applying a Sealant Without Lap Marks or Sticky Spots
+          </h2>
+
+          <p>
+            Work in shade or on an overcast day. Direct sun dries the surface too fast, which causes lap marks with water-based products and keeps oil from penetrating before the solvent flashes off. Early morning after the dew has dried, or late afternoon on the shaded side of the house, gives the most working time. Check the forecast for at least a full day without rain.
+          </p>
+
+          <p>
+            Coat two or three boards at a time along their full length. Stopping in the middle of a board leaves a visible line where wet finish meets dried finish. A pump sprayer or roller moves product fast, but follow each section with a brush or pad to push finish into the grain and spread puddles. Back-brushing is the single habit that most improves how a sealant looks and lasts.
+          </p>
+
+          <p>
+            Do not flood the surface. More product is not more protection with a penetrating finish; anything the wood cannot absorb stays on top, dries tacky and collects dirt. On dense or new wood, wipe up what is still pooled after the label's wait time, usually 15 to 30 minutes. Many sealants call for a single coat, while others want a second coat applied wet on wet, before the first dries. Follow the label exactly.
+          </p>
+
+          <p>
+            Do railings and vertical surfaces first, then the deck boards, working toward the exit so you do not trap yourself. Finish the ends of each board and the edges along the house. Stairs come last because they are the path off the deck. Allow at least the label's foot traffic time, and longer for furniture, which can mark a finish that is dry to the touch but not cured.
+          </p>
+
+          <p>
+            Clean up immediately. Oily rags used with linseed and other drying oils can heat as they cure and catch fire. Lay them flat outdoors to dry, or soak them in water in a sealed metal container, before disposal. This is not optional caution; it is a well-documented cause of house fires.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">SAFETY</p>
+            <p class="text-xl font-bold text-white mb-3">Oily rags can ignite on their own.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Rags, pads and paper towels soaked with drying oils generate heat as they cure. Never ball them up in a trash can or leave them in a pile. Spread them flat outside to dry or store them under water in a closed metal can until disposal.</p>
+          </div>
+        </div>
+
+        <div id="coverage-cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Coverage and Cost: How Much to Buy
+          </h2>
+
+          <p>
+            Measure the deck surface, then add railings and stairs separately. Railings are surprisingly large: a standard balustrade with pickets often adds 40 to 60 percent to the square footage of the floor alone because every picket has four faces. Stairs add their treads, risers and stringers. Undercounting railings is the main reason people run short mid-project.
+          </p>
+
+          <p>
+            Coverage figures on labels assume smooth wood. Rough-sawn, weathered or freshly stripped boards absorb far more. A typical penetrating sealant lists 150 to 300 square feet per gallon on smooth surfaces and as little as 100 to 150 on rough or porous ones. Plan on the low end for a first application on an old deck and on the high end for a maintenance coat on a deck that was sealed recently.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Typical numbers</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">150-300</p>
+                <p class="text-gray-400 text-xs mt-1">Sq ft per gallon, smooth wood</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">100-150</p>
+                <p class="text-gray-400 text-xs mt-1">Sq ft per gallon, rough or weathered</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">$25-$60</p>
+                <p class="text-gray-400 text-xs mt-1">Per gallon at the time of writing</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">1-2 yrs</p>
+                <p class="text-gray-400 text-xs mt-1">Usual clear-coat life on open decks</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Prices for the products on this list ranged roughly from 25 to 60 dollars per gallon at the time of writing, with five-gallon pails cutting the unit price noticeably. For a 300 square foot deck with railings and stairs, a homeowner typically needs two to three gallons of sealant for a first coat, plus cleaner and brightener at another 30 to 60 dollars.
+          </p>
+
+          <p>
+            Hiring out adds labor, and that is where the real cost sits. Professional deck cleaning and sealing is commonly priced per square foot and varies widely by region. Because clear sealants need frequent recoating, the lifetime cost of a cheap clear product can exceed that of a tinted finish that lasts three times as long. Compare cost per year of protection, not price per can.
+          </p>
+        </div>
+
+        <div id="recoat" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. How to Know When to Recoat
+          </h2>
+
+          <p>
+            The most reliable test is the water drop. Sprinkle a little water on the boards in the areas that get the most sun and foot traffic. If it beads up and sits there, the sealant is still working. If it darkens the wood and soaks in within a minute or so, it is time to clean and recoat. Check in late spring and again in early fall.
+          </p>
+
+          <p>
+            Expect sunny, high-traffic areas to fail first: the path from the door to the grill, the steps and the boards right in front of a south-facing railing. Shaded sections may still repel water years later. You can recoat only the worn areas with most penetrating oils, because they blend; water-based products are less forgiving and usually look best when the whole surface is redone.
+          </p>
+
+          <p>
+            Do not stack coats on a deck that still beads water. Fresh sealant cannot soak into wood that is still repelling it, so the new coat sits on top and turns sticky. This is the most common complaint owners report about clear products, and it is almost always a timing problem rather than a product defect.
+          </p>
+
+          <p>
+            On each recoat, the preparation is lighter than the first time. A deck cleaner, a rinse, a brightener if the wood has darkened and a day or two of drying is usually enough. If you find yourself needing a stripper every time, switch to a different product type, since a well-chosen penetrating sealant should never need stripping between ordinary maintenance coats.
+          </p>
+
+          <p>
+            A practical rhythm for most clear sealants is a fresh coat every 12 to 24 months on horizontal surfaces and every two to three years on railings and vertical faces. If that pace feels like too much work, move up to a semi-transparent product. Our list of the <a href="/best-exterior-wood-sealer/">best exterior wood sealers</a> includes longer-lived options for siding, fences and outdoor furniture.
+          </p>
+        </div>
+
+        <div id="end-grain" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Cut Ends, Fasteners and the Parts Sealant Misses
+          </h2>
+
+          <p>
+            End grain absorbs water many times faster than the face of a board, and it is where rot and checking usually start. When you build or repair a deck, treat every field cut on pressure-treated lumber with a brush-on end-cut preservative, commonly a copper naphthenate product. Industry treating standards call for field-cut ends to be treated; the factory preservative rarely reaches the core of a thick post or joist.
+          </p>
+
+          <p>
+            Wax emulsion end sealers, such as the products sawmills and woodturners use on green lumber, are designed to slow drying and prevent splits in logs and blanks. They are useful on firewood, turning stock or fresh timbers, but they are not preservatives and should not stand in for an end-cut treatment on structural deck framing.
+          </p>
+
+          <p>
+            Fasteners matter too. Treated lumber is corrosive to plain steel, so framing hardware and screws need to be hot-dip galvanized or stainless to the level the connector maker specifies. A sealant does not protect a corroding joist hanger. If you see rust streaks bleeding from screws, check the fastener type before blaming the finish.
+          </p>
+
+          <p>
+            Look under the deck as well. Ledger boards, joist tops and beams stay wet longest because water runs between boards and pools on framing. Joist tape on new builds keeps water off the tops of joists and out of screw holes. Sealant applied to the visible surface does nothing for framing that never dries, so good ventilation and flashing at the ledger are part of keeping the whole deck sound.
+          </p>
+
+          <p>
+            Finally, keep screw heads and small gaps tidy. Popped nails and split board ends trap water; sink or replace fasteners and fill splits on railings with an exterior-rated product before sealing. Our guide to the <a href="/best-wood-filler/">best wood filler</a> covers which fillers stay put outdoors, though on walking surfaces replacing a badly split board is the safer fix.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sealing new pressure-treated boards right away</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Fresh treated lumber is saturated from the treatment process, and a sealant applied over that moisture cannot soak in. It either sits on top and turns tacky or fails within months. Wait until water dropped on the boards absorbs within a few minutes, which can take weeks or months depending on climate and lumber type.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting a clear finish to stop graying</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Clear sealants are water repellents first. Without pigment they let UV break down the wood surface, so cedar and redwood still drift toward gray. If keeping the original color is the priority, choose a lightly tinted or semi-transparent product and accept a slight color shift in exchange for much better sun protection.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Blasting the deck with high pressure</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A pressure washer held close with a narrow tip gouges soft wood, raises the grain and leaves a fuzzy surface that soaks up finish unevenly. Use a cleaner to do the chemical work, keep pressure low, hold the wand back and follow the grain. On cedar, a garden hose and scrub brush is often enough.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Recoating while the old coat still beads water</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Applying fresh sealant over a finish that still repels water leaves the new coat sitting on the surface, where it dries sticky and collects dirt. Always do a water drop test first. Only recoat boards that absorb water, and wipe off anything the wood does not take in within the label's wait time.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping railings and stairs in the estimate</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Pickets, rails, treads, risers and stringers can add half again to the square footage of a deck floor. Running out partway through forces a stop in the middle of a section, which leaves visible lap lines. Measure every surface, use the rough-wood coverage figure for older boards and buy an extra gallon.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Sealant versus stain: which one does what?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A deck sealant is mainly a water repellent and is usually clear or very lightly tinted, so the wood keeps its natural look. A stain contains pigment, which adds color and blocks UV light much more effectively. Many products are sold as stain and sealer in one and sit between the two. The more pigment a finish carries, the longer it generally lasts in sun.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does a clear deck sealant last?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                On an open, sunny deck most clear sealants keep beading water for about one to two years on the floor boards, and somewhat longer on railings and vertical surfaces. Shade, climate and foot traffic shift that range a lot. Lightly tinted versions of the same products typically last longer. The water drop test is the best way to know when your deck needs another coat.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can sealant go on top of an old stain?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                You can apply a penetrating sealant over an old penetrating stain once it has worn enough that water soaks in, after cleaning the deck. You cannot put a penetrating sealant over solid stain, paint or a peeling film, because it has nothing to soak into. Those finishes need stripping first, or a product designed to go over them.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is oil-based or water-based deck sealant better?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Neither wins outright. Oil-based penetrating sealers tend to soak deeper, warm the wood's color and fade gradually, which makes recoating easy. Water-based sealers dry faster, clean up with soap and water, have less odor and are legal in low-VOC states. Choose oil for dense or weathered wood in moderate weather, and water-based for short weather windows or tighter VOC rules.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I seal a deck in the fall or spring?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Either works if the weather fits the label. Most products want air and surface temperatures between roughly 50 and 90 degrees, dry wood, and a rain-free day or two afterward. Fall often offers stable dry weather and cooler sun, which helps penetration. Spring sealing protects the deck before summer heat. Avoid days when dew or frost will settle before the finish dries.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do composite decks need sealant?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. Composite and PVC decking are not designed to absorb a wood sealant, and most manufacturers advise against coating the boards. Applying one can leave a slippery or blotchy film and may affect the warranty. Clean composite decks with a cleaner the board maker approves. Any wood framing underneath, such as stair stringers or fascia, can still be treated.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many coats of deck sealant should I apply?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most penetrating sealants call for one coat, and some ask for a second coat applied wet on wet before the first dries. Extra coats beyond what the wood can absorb only sit on the surface and turn tacky. Very dense hardwoods may only take one thin coat, while rough or weathered pine may take more. Always follow the product label.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Deck and Wood Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-deck-stain-reviews/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Deck Stains</h3>
+              <p class="text-gray-500 text-sm mt-2">When you want color and longer UV protection than a clear can give.</p>
+            </a>
+            <a href="/best-exterior-wood-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Exterior Wood Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Sealers for siding, fences, logs and outdoor furniture.</p>
+            </a>
+            <a href="/can-you-stain-pressure-treated-wood/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">How-To</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Can You Stain Pressure-Treated Wood?</h3>
+              <p class="text-gray-500 text-sm mt-2">The timing test that decides whether new lumber is ready.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most decks, TWP 1500 or Ready Seal's lightest tint is the sealant to buy: both penetrate, fade evenly and recoat with a cleaning instead of a stripper. DEFY Extreme Clear is the water-based alternative for low-VOC states or short weather windows, and Thompson's is a reasonable budget repellent if yearly recoats do not bother you.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whichever you choose, the deck will look as good as the prep and timing allow. Clean and brighten, let the wood dry, back-brush every section, and recoat when water stops beading rather than on a fixed date. If you want more than a year or two between projects, step up to a tinted finish from our <a href="/best-deck-stain-reviews/">deck stain rankings</a>.
+          </p>
+        </div>
+
+        <MoreInCategory category="Deck & Wood Finishes" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

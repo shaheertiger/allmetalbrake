@@ -1,0 +1,889 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Garage Floor Epoxy",
+    "url": "/best-garage-floor-epoxy/"
+  },
+  {
+    "title": "Epoxy Garage Floor Cost",
+    "url": "/epoxy-garage-floor-cost/"
+  },
+  {
+    "title": "How to Apply Garage Floor Epoxy",
+    "url": "/how-to-apply-garage-floor-epoxy/"
+  },
+  {
+    "title": "Rust-Oleum EpoxyShield Review",
+    "url": "/rust-oleum-epoxyshield-review/"
+  },
+  {
+    "title": "Best Concrete Floor Coating",
+    "url": "/best-concrete-floor-coating/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 5 Best Garage Floor Coatings by Chemistry and Use";
+const description =
+  "Polycuramine, epoxy, polyaspartic, one-part paint and penetrating sealer compared, with five picks matched to how you actually use your garage.";
+
+const PRODUCTS = [
+  {
+    "id": "rust-oleum-rocksolid-polycuramine",
+    "name": "Rust-Oleum RockSolid Polycuramine Garage Floor Kit",
+    "category": "Polycuramine Hybrid",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Hybrid chemistry gives a harder film than water-based epoxy",
+      "Fast return to service compared with standard epoxy kits",
+      "Good resistance to automotive fluids and road salt",
+      "Available off the shelf at home centers, with flakes included"
+    ],
+    "cons": [
+      "Short working time after mixing, so small batches are a must",
+      "More expensive than water-based epoxy per square foot",
+      "Still a film coating that needs real surface prep"
+    ],
+    "bottomLine": "The best balance of toughness, speed and availability for a homeowner who wants something stronger than standard epoxy without hiring a crew.",
+    "description": "If you want most of the benefits of a professional fast-cure system from a box you can pick up on a Saturday morning, RockSolid is the closest match. Rust-Oleum describes its chemistry as polycuramine, a blend that draws on polyurea and urethane technology, and the practical effect is a film that cures faster and harder than a standard water-based epoxy. The company markets it for vehicle traffic far sooner than its EpoxyShield line. The price of that speed is a short pot life: once mixed, the label gives you roughly an hour, and less in warm weather, so plan to mix in parts and work with a partner who cuts in edges while you roll. Like every film coating, it depends entirely on prep, so grind or thoroughly etch the slab. Kits come in one-car and larger sizes and generally run roughly $200-$350 at the time of writing, with decorative flakes and a cleaner in the box."
+  },
+  {
+    "id": "rust-oleum-epoxyshield",
+    "name": "Rust-Oleum EpoxyShield Garage Floor Coating Kit",
+    "category": "Water-Based Epoxy",
+    "badge": "Best Value",
+    "amazonUrl": "",
+    "pros": [
+      "Lowest cost of any true two-part system on this list",
+      "Generous working time that suits first-timers",
+      "Mild odor and water cleanup",
+      "Widely stocked, so extra kits are easy to find"
+    ],
+    "cons": [
+      "Thin dry film wears through sooner in tire lanes",
+      "Not UV-stable without a separate topcoat",
+      "Hot-tire lifting is a common complaint on poorly prepped floors"
+    ],
+    "bottomLine": "The value pick for a sound slab and moderate use, as long as you prep properly and accept a shorter life than thicker systems.",
+    "description": "EpoxyShield is the entry ticket to a real two-part coating. It is water-based epoxy, which makes it relaxed to work with: mild odor, soap-and-water cleanup, and a long enough pot life that you can roll a bay without panic. That same water content is its main limitation. A large share of what you spread evaporates, so the cured film is thin compared with high-solids or hybrid coatings, and a garage with heavy traffic will see it wear in the tire lanes first. On a garage used for one or two cars and some light tinkering, it looks good and cleans easily for several years if the slab was properly prepped. Standard epoxy also tends to yellow in direct sun, so if your door stays open on bright afternoons, plan for a UV-stable clear coat on top. Expect roughly $120-$200 per kit at the time of writing, with each standard kit labeled for about one car bay."
+  },
+  {
+    "id": "armorpoxy-floor-coat",
+    "name": "ArmorPoxy 100% Solids Epoxy Floor Coating Kit",
+    "category": "100% Solids Epoxy",
+    "badge": "Best for Heavy Use",
+    "amazonUrl": "",
+    "pros": [
+      "Very thick film per coat compared with water-based products",
+      "Strong abrasion and impact resistance for workshops",
+      "Self-levels well over a properly ground floor",
+      "Can be paired with a UV-stable topcoat"
+    ],
+    "cons": [
+      "Expensive up front",
+      "Short working time and a steeper learning curve",
+      "Ambers in sunlight without a protective clear"
+    ],
+    "bottomLine": "Choose it for a working shop or heavy garage where film thickness matters more than speed or price.",
+    "description": "High-solids epoxy is what many professional crews still use as the body of a garage floor, and ArmorPoxy sells that class of product directly to homeowners. Because almost nothing evaporates, one coat leaves a thick, hard layer that shrugs off the dropped wrenches, rolling floor jacks and heavy toolboxes that would scar a water-based film. It is the right base for a home shop. It is also the hardest product on this list to install well. Pot life is short, so the usual method is to pour a ribbon of mixed material, pull it out with a notched squeegee, and back-roll before it starts to gel. Every pit and ridge in the slab will show, so grinding and patching are not optional. Like all aromatic epoxies, it can yellow in UV light, which is why the maker offers topcoats. Budget roughly $500-$1,000 or more for a two-car system at the time of writing."
+  },
+  {
+    "id": "behr-1-part-epoxy-floor-paint",
+    "name": "Behr Premium 1-Part Epoxy Concrete and Garage Floor Paint",
+    "category": "1-Part Epoxy-Acrylic Paint",
+    "badge": "Best Budget Refresh",
+    "amazonUrl": "",
+    "pros": [
+      "No mixing, so you can work in sections over days",
+      "Cheap per gallon and tintable",
+      "Easy to touch up later",
+      "Low odor"
+    ],
+    "cons": [
+      "Soft compared with any two-part coating",
+      "Prone to lifting under hot tires",
+      "Needs recoating sooner in traffic areas"
+    ],
+    "bottomLine": "A practical choice for a storage garage or workshop corner, not for where you park every day.",
+    "description": "Sometimes the honest answer is that the floor does not need a high-performance coating, it just needs to look clean and shed dust. Behr Premium 1-Part Epoxy covers that job well. It is an acrylic paint modified with epoxy, so it dries like any water-based paint instead of chemically curing. That means no pot life, no race against the clock, and the freedom to finish a big floor one evening at a time. It is tintable, inexpensive at roughly $40-$60 a gallon at the time of writing, and simple to touch up when a rolling toolbox scrapes it. What it cannot do is resist warm tires the way a two-part system does. Owners commonly report peeling in the spots where cars park daily, especially on slabs that were not etched. Use it in garages where the car stays outside, in basements and laundry areas, or as a short-term refresh before you sell."
+  },
+  {
+    "id": "ghostshield-lithi-tek",
+    "name": "Ghostshield Lithi-Tek 9500 Penetrating Concrete Sealer",
+    "category": "Penetrating Densifier",
+    "badge": "Best Penetrating Sealer",
+    "amazonUrl": "",
+    "pros": [
+      "No surface film, so nothing can peel or lift under tires",
+      "Hardens and dust-proofs older concrete",
+      "Keeps the natural concrete look",
+      "Fast application with a pump sprayer"
+    ],
+    "cons": [
+      "Adds no color or gloss",
+      "Does not hide stains, cracks or patches",
+      "May complicate a future film coating"
+    ],
+    "bottomLine": "The safest choice for a slab with moisture concerns, or for anyone who wants durable, low-maintenance bare concrete.",
+    "description": "A penetrating sealer is the opposite of a film coating. Lithi-Tek 9500 is a lithium silicate that soaks into bare concrete and reacts with compounds already in the slab, hardening the top layer from within. Because there is no film on the surface, there is nothing to delaminate, blister or stick to a warm tire. That makes it the low-risk choice for floors that fail a moisture test, floors in rentals, and owners who simply want the gray dust to stop. You spray it on clean concrete, keep the surface wet for the time the label specifies, and let it work. The look barely changes, and stains already in the slab stay there, so clean thoroughly before you start with a concrete oil stain remover. Note that a densified slab can be harder for a film coating to bond to later. Roughly $100-$200 treats a typical two-car garage at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Garage Floor Coating",
+          item: "https://www.allmetalbrake.com/best-garage-floor-coating/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the most durable garage floor coating?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homes, a professionally installed system with a ground slab, a thick base coat, full flake broadcast and a polyaspartic topcoat is the most durable option. Among DIY products, thick 100% solids epoxy and polycuramine hybrids last longer than water-based epoxy or one-part paints. Prep quality affects durability more than any single product choice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is polyaspartic better than epoxy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is better in some ways: faster cure, UV stability and a wider temperature window. Epoxy is cheaper, builds thickness more economically and gives more working time. Many professional floors combine both, with an epoxy base and a polyaspartic top. For DIY, the working time of polyaspartic is the main obstacle."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I put polyaspartic over my existing epoxy floor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Often yes, if the epoxy is sound and well bonded. The epoxy must be scuff-sanded, cleaned and checked for adhesion. If any part of the old floor is peeling, the new coat will be no stronger than that bond. Check the polyaspartic maker's instructions for recoating over epoxy before starting."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a coating at all?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not necessarily. Bare concrete with a penetrating sealer or densifier resists dust and stains and cannot peel. A coating adds color, gloss and easier cleaning. If your slab has moisture problems, or you will move soon, a sealer is often the smarter choice. If you want a showroom look, a coating is the way."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does each type of coating last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rough ranges: one-part paint, one to three years in tire lanes; water-based epoxy, about three to five years; 100% solids epoxy or polycuramine, often seven years or more; professional polyaspartic systems, often ten to fifteen years or longer. Traffic, climate and prep can push any of these up or down significantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are garage floor coatings slippery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A glossy coating is slippery when wet. Flakes add texture, and an anti-slip additive mixed into the topcoat gives more grip without making cleaning difficult. In snowy climates, use additive and mats near the entry. Satin finishes are slightly less slick than high gloss. Ask any installer what traction options they offer before the topcoat goes down."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the cheapest coating that holds up to parking?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A water-based two-part epoxy kit such as EpoxyShield, applied over a well-ground or etched slab, is the least expensive option that reliably handles daily parking. One-part paints cost less but tend to lift under warm tires. Add a clear topcoat if you want more life from a budget kit. Prep quality matters more than the kit."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Garage Floors",
+    tags: [
+      "best garage floor coating",
+      "polyaspartic garage floor",
+      "polyurea vs epoxy",
+      "garage floor coating types",
+      "garage floor sealer",
+      "rocksolid polycuramine"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 5 Best <span class="text-[#38BDF8]">Garage Floor Coatings</span>, by Chemistry
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Epoxy is only one option. Here is how polyaspartic, polycuramine, one-part paint and penetrating sealers compare, and which one fits your slab, your climate and your patience.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#rust-oleum-rocksolid-polycuramine"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="11.8k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#chemistry-map" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Chemistry Compared</a>
+          <a href="#polyaspartic" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Polyaspartic and Polyurea</a>
+          <a href="#epoxy-role" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Where Epoxy Still Wins</a>
+          <a href="#match-use" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Match Coating to Use</a>
+          <a href="#climate" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Climate and Sunlight</a>
+          <a href="#slab-check" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Read Your Slab</a>
+          <a href="#diy-or-pro" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. DIY Kit or Pro System</a>
+          <a href="#recoat" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Recoating and Layering</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          The best garage floor coating is not one product; it is the chemistry that suits your floor. A sunny, salt-soaked garage in Minnesota and a dim storage bay in Arizona need different answers, and the most expensive system is wasted on a slab that will push it off from below.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 5 Best Garage Floor Coatings, Ranked
+          </h2>
+
+          <p>
+            Each pick represents a different coating chemistry, ranked on published specifications (cure times, solids, temperature limits, coverage), how much room each leaves for installer error, and the problems owners most often report. Prices are approximate ranges at the time of writing, and no ratings or test results are invented here.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="chemistry-map" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Six Coating Chemistries Side by Side
+          </h2>
+
+          <p>
+            Garage floor products are sold by brand and color, but they behave according to chemistry. Once you know which family a product belongs to, its cure time, its tolerance for mistakes and its likely lifespan become predictable. The table below groups the options you will run into, from the cheapest paint to the systems professional crews install.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Chemistry</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Cure to vehicle traffic</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">UV stable?</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">DIY friendliness</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rough material cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">1-part epoxy-acrylic paint</td>
+                    <td class="px-4 py-4 text-gray-700">Several days to a week</td>
+                    <td class="px-4 py-4 text-gray-700">Fair</td>
+                    <td class="px-4 py-4 text-gray-700">Very easy</td>
+                    <td class="px-4 py-4 text-gray-700">Lowest</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Water-based 2-part epoxy</td>
+                    <td class="px-4 py-4 text-gray-700">About 3-7 days</td>
+                    <td class="px-4 py-4 text-gray-700">No, yellows</td>
+                    <td class="px-4 py-4 text-gray-700">Easy</td>
+                    <td class="px-4 py-4 text-gray-700">Low</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">100% solids epoxy</td>
+                    <td class="px-4 py-4 text-gray-700">About 3-7 days</td>
+                    <td class="px-4 py-4 text-gray-700">No, yellows</td>
+                    <td class="px-4 py-4 text-gray-700">Hard</td>
+                    <td class="px-4 py-4 text-gray-700">Medium-high</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Polycuramine hybrid</td>
+                    <td class="px-4 py-4 text-gray-700">About 1-2 days</td>
+                    <td class="px-4 py-4 text-gray-700">Better than epoxy</td>
+                    <td class="px-4 py-4 text-gray-700">Moderate, fast pot life</td>
+                    <td class="px-4 py-4 text-gray-700">Medium</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Polyaspartic / polyurea</td>
+                    <td class="px-4 py-4 text-gray-700">Often 1 day</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Hard, very fast pot life</td>
+                    <td class="px-4 py-4 text-gray-700">High</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Penetrating densifier or sealer</td>
+                    <td class="px-4 py-4 text-gray-700">Hours</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, no film</td>
+                    <td class="px-4 py-4 text-gray-700">Very easy</td>
+                    <td class="px-4 py-4 text-gray-700">Low</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Read the right-hand columns together. The products that cure fastest and resist sunlight best are also the ones that give you the least time to work and cost the most. The easiest products to apply are the softest. There is no free lunch, only a choice about which tradeoff hurts you least.
+          </p>
+
+          <p>
+            Notice too that "epoxy" covers a wide range. A water-based kit and a 100% solids system share a name but differ several-fold in film thickness, which is why one lasts a few years and the other can last a decade. For a closer look at the epoxy kits themselves, including how many boxes a garage needs, see our <a href="/best-garage-floor-epoxy/">ranking of garage floor epoxy kits</a>.
+          </p>
+
+          <p>
+            Cure times in the table are typical ranges at moderate temperatures. A cold slab can double them. Always follow the specific product label, which is the only number that the manufacturer stands behind.
+          </p>
+        </div>
+
+        <div id="polyaspartic" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Polyaspartic and Polyurea: Why Installers Use Them
+          </h2>
+
+          <p>
+            Walk into a garage finished by a coating company in the last decade and the topcoat is very likely polyaspartic, a type of aliphatic polyurea. Installers like it for three reasons. It cures fast enough that a crew can grind, base coat, flake and topcoat in one day, and the owner can often drive in the next. It does not yellow in sunlight. And it tolerates a wider temperature range than epoxy, so jobs can go ahead in cool weather.
+          </p>
+
+          <p>
+            Those same properties make it hard for a homeowner. Some polyaspartic formulas give you only 15 to 30 minutes of working time, and less on a warm day. Pros use spiked shoes, squeegees and a practiced rhythm, with one person mixing while others spread. A first-timer who stops to answer the phone can be left with a gelled edge that never blends in. That is why few home centers stock true polyaspartic kits; most DIY versions are sold online by coating suppliers.
+          </p>
+
+          <p>
+            Pure polyurea is related but cures even faster and is usually applied by trained crews, often as a base coat. In practice you will hear "polyurea" and "polyaspartic" used loosely in sales pitches. Ask any installer exactly which product goes down for each layer, and ask for the data sheet. A reputable company will hand it over without hesitation.
+          </p>
+
+          <p>
+            If you like the idea of a fast-curing, sun-resistant floor but want to do it yourself, a hybrid such as RockSolid Polycuramine gives you some of those benefits with more working time. If you want the real thing, budget for a professional system; our <a href="/epoxy-garage-floor-cost/">garage coating cost guide</a> shows where those quotes usually land.
+          </p>
+        </div>
+
+        <div id="epoxy-role" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Where Epoxy Still Wins
+          </h2>
+
+          <p>
+            Polyaspartic gets the marketing, but epoxy has not gone away, and for good reasons. It is cheaper per gallon. High-solids epoxy builds thickness quickly and self-levels over small surface irregularities, which is why many professional systems use an epoxy base under a polyaspartic top. Its longer pot life also means less wasted material for a small crew or a solo DIYer.
+          </p>
+
+          <p>
+            Epoxy also bonds very well to properly prepared concrete. A good bond is the foundation for everything else. Many installers believe an epoxy primer or base coat gives them more time for the material to penetrate the surface before it sets, which can improve adhesion on difficult slabs.
+          </p>
+
+          <p>
+            Where epoxy loses is sunlight and speed. Standard epoxy yellows when exposed to UV, sometimes within a season if the garage door is open on sunny afternoons. Most also need several days before parking. A clear UV-stable topcoat solves the first problem; only patience solves the second.
+          </p>
+
+          <p>
+            For a garage that faces away from the sun, with an owner who can leave the car in the driveway for most of a week, a well-applied epoxy system is still a very good floor. For a step-by-step guide to doing it yourself, see <a href="/how-to-apply-garage-floor-epoxy/">how to apply garage floor epoxy</a>.
+          </p>
+        </div>
+
+        <div id="match-use" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Match the Coating to How the Garage Is Used
+          </h2>
+
+          <p>
+            The garage you have and the way you use it narrow the choice faster than any brochure. Start with the honest answer to how the space is used on an ordinary week, not on the day you finish the floor.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Daily parking, one or two vehicles</h3>
+
+          <p>
+            This is the most common situation and the most demanding on the tire lanes. A two-part product is the minimum. Polycuramine or a professional polyaspartic system will hold up best against hot-tire lifting and salt. A water-based epoxy kit is acceptable on a well-ground slab if you accept refreshing it after a few years.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Home workshop or car hobby space</h3>
+
+          <p>
+            Rolling jacks, creepers, dropped tools and spilled fluids call for film thickness. A 100% solids epoxy base with a tough topcoat, or a full-flake professional system, is the right class. One-part paint will not survive long here, and a thin water-based kit will show wear where you kneel and roll.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Storage, laundry or gym space</h3>
+
+          <p>
+            Light foot traffic and no tires means almost any coating will last. A one-part epoxy paint or a water-based epoxy kit gives a clean finish cheaply. For a home gym, consider rubber or PVC tiles instead, which add cushioning; see our list of <a href="/best-garage-floor-tiles/">garage floor tiles</a>.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Rental or pre-sale refresh</h3>
+
+          <p>
+            Here the priority is a floor that looks clean and will not peel in a way that creates a problem. A penetrating sealer is the lowest-risk choice. A one-part paint can brighten the space, but if it fails, it will fail visibly.
+          </p>
+        </div>
+
+        <div id="climate" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Climate, Sunlight and Road Salt
+          </h2>
+
+          <p>
+            Where you live changes the ranking. In snowy regions, cars carry slush loaded with chloride salts into the garage for months. That brine attacks bare concrete, causing scaling, and it stresses weak coatings by soaking in at any chip or edge. Thicker, more chemical-resistant coatings with good edge sealing fare best, and a containment mat under each car helps whatever floor you choose.
+          </p>
+
+          <p>
+            Freeze-thaw cycles add stress too. Concrete expands and contracts with temperature, and very rigid coatings over cracked slabs will crack along the same lines. Fill cracks with a flexible or semi-rigid filler recommended by the coating maker, and accept that a moving crack may show through any coating eventually.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Rules of thumb by climate</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">UV</p>
+                <p class="text-gray-400 text-xs mt-1">Sunny garage: choose a UV-stable topcoat</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">Salt</p>
+                <p class="text-gray-400 text-xs mt-1">Snow belt: favor thick, chemical-resistant films</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">50°F+</p>
+                <p class="text-gray-400 text-xs mt-1">Typical minimum slab temperature for epoxy</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">Humid</p>
+                <p class="text-gray-400 text-xs mt-1">Check dew point before every coat</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            In hot, sunny climates, UV stability matters more than freeze-thaw. A west-facing garage with the door open in the afternoon can yellow a standard epoxy within a year or two. Polyaspartic and urethane topcoats hold their color. Heat also shortens pot life, so plan coating work for early morning when the slab is cooler.
+          </p>
+
+          <p>
+            Humid climates bring dew point problems. If the slab surface is close to the dew point, moisture can condense and interfere with curing. Coat when humidity is moderate and the slab is warmer than the air, and keep a dehumidifier running in enclosed garages if moisture is a constant issue; our guide to <a href="/best-dehumidifier-for-basement/">dehumidifiers</a> covers units that suit garages as well as basements.
+          </p>
+        </div>
+
+        <div id="slab-check" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Read Your Slab Before Choosing
+          </h2>
+
+          <p>
+            The slab sets limits that no coating can overcome. Before you compare products, spend an hour checking the concrete. It is the cheapest hour in the whole project, and it may save you from buying the wrong product entirely.
+          </p>
+
+          <p>
+            First, age. New concrete must cure before it takes any film coating. The common guidance is at least 28 days, and many coating makers ask for longer. Fresh slabs also often carry a curing compound that must be removed by grinding. Second, moisture: tape a square of plastic sheeting to the floor for a day and look for condensation or darkening beneath it. If you see either, a film coating is a gamble unless you use a vapor-mitigating primer approved by the coating maker.
+          </p>
+
+          <p>
+            Third, existing coatings. If the floor has been painted or sealed, a new coating will only be as strong as the old one's bond. Test with a strip of duct tape pressed hard and ripped off; if flakes come with it, the old coating has to go. Water beading on the surface also signals a sealer that will block adhesion.
+          </p>
+
+          <p>
+            Fourth, damage. Small cracks and pits can be filled. Wide cracks that change width with the seasons, large spalled areas and heaving slabs need repair or a floating floor such as tiles. Oil stains need thorough degreasing; a pressure washer with a <a href="/best-surface-cleaner-for-pressure-washer/">surface cleaner attachment</a> speeds up the final rinse.
+          </p>
+        </div>
+
+        <div id="diy-or-pro" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. DIY Kit or Professional System
+          </h2>
+
+          <p>
+            A DIY coating saves a great deal of money, but the gap between a DIY kit and a professional floor is mostly prep and thickness, not the product name. Professional crews grind with heavy planetary grinders and dust extraction, repair cracks and pits, apply a thick base coat, broadcast flakes to full coverage, scrape and vacuum the excess, and finish with a clear polyaspartic topcoat. That is three or four layers and often 15 to 30 mils or more of total thickness.
+          </p>
+
+          <p>
+            A water-based DIY kit is commonly a single thin layer with a light sprinkle of flakes. It can look great, but it is a different product class. If you compare a DIY kit with a professional quote, compare it with the right expectations for lifespan, not just the price.
+          </p>
+
+          <p>
+            There is a middle path. You can rent a grinder, use a high-solids epoxy or polycuramine base, broadcast flakes heavily, and add a clear topcoat. Done carefully, that approaches a professional floor at a fraction of the price, though it costs most of two weekends of hard work.
+          </p>
+
+          <p>
+            When getting quotes, ask each installer what thickness they apply, what grinding method they use, what products go in each layer, and what the warranty actually covers. A warranty that excludes hot-tire lifting or moisture-related failures covers very little. Our <a href="/epoxy-garage-floor-cost/">cost breakdown</a> lists typical price ranges for each approach.
+          </p>
+        </div>
+
+        <div id="recoat" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Recoating and Layering Different Coatings
+          </h2>
+
+          <p>
+            Many floors end up with more than one product over their life, and compatibility matters. In general, a harder, more solvent-resistant coating can go over a well-bonded softer one only if the surface is scuff-sanded and cleaned, and only if the new product's maker approves the combination. A softer product over a harder one usually bonds poorly.
+          </p>
+
+          <p>
+            Polyaspartic over existing epoxy is a common upgrade, and many installers do it after a thorough sanding of a sound epoxy floor. The weak link is the original bond: if the epoxy is peeling anywhere, the new layer will fail with it. Spot-test adhesion before committing to a recoat.
+          </p>
+
+          <p>
+            Two-part coatings over one-part paints are a frequent mistake. The new coating may cure well, but it is anchored to a soft paint that is itself barely holding onto the concrete. Grinding off the paint takes time but is the reliable route.
+          </p>
+
+          <p>
+            Penetrating sealers and densifiers can reduce the porosity that film coatings rely on, so if you plan to coat later, choose a sealer that the coating maker says is compatible, or plan to grind before coating. It is easier to make that decision once than to undo it later.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying on color instead of chemistry</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Two products in the same shade of gray can differ several-fold in film thickness and hardness. Read the label or data sheet for solids content, cure time and whether it is a one-part or two-part system. Color is the easiest thing to change later; chemistry decides whether the floor survives the first winter of tire traffic.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trying a pro polyaspartic solo</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Fast-cure polyaspartic can gel in 15 to 30 minutes. Working alone, a first-timer often runs out of time mid-floor and leaves hard, visible lap lines that cannot be fixed without sanding. If you want that chemistry, either hire an installer or work with at least one practiced helper and mix very small batches.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring sunlight on an epoxy floor</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Standard epoxy yellows under UV exposure. If your garage door stays open on sunny afternoons or windows let in direct light, a plain epoxy floor can amber unevenly, darkest near the door. A UV-stable polyaspartic or urethane clear topcoat prevents this and is far cheaper to add during the install than later.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Coating over an untested old finish</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A new coating is only as strong as whatever lies beneath it. If the existing paint or sealer is losing its bond, the new layer will peel off along with it. Run a firm tape test in several places and grind away any coating that lifts before you buy a new product.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Choosing a film over a wet slab</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Vapor coming up through the concrete is the most common reason for blistering and peeling. A simple plastic-sheet test takes a day. If it shows moisture, choose a penetrating sealer, tiles, or a vapor-mitigating primer system rather than gambling a film coating on a slab that will push it off.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the most durable garage floor coating?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homes, a professionally installed system with a ground slab, a thick base coat, full flake broadcast and a polyaspartic topcoat is the most durable option. Among DIY products, thick 100% solids epoxy and polycuramine hybrids last longer than water-based epoxy or one-part paints. Prep quality affects durability more than any single product choice.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is polyaspartic better than epoxy?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It is better in some ways: faster cure, UV stability and a wider temperature window. Epoxy is cheaper, builds thickness more economically and gives more working time. Many professional floors combine both, with an epoxy base and a polyaspartic top. For DIY, the working time of polyaspartic is the main obstacle.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I put polyaspartic over my existing epoxy floor?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Often yes, if the epoxy is sound and well bonded. The epoxy must be scuff-sanded, cleaned and checked for adhesion. If any part of the old floor is peeling, the new coat will be no stronger than that bond. Check the polyaspartic maker's instructions for recoating over epoxy before starting.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need a coating at all?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not necessarily. Bare concrete with a penetrating sealer or densifier resists dust and stains and cannot peel. A coating adds color, gloss and easier cleaning. If your slab has moisture problems, or you will move soon, a sealer is often the smarter choice. If you want a showroom look, a coating is the way.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does each type of coating last?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Rough ranges: one-part paint, one to three years in tire lanes; water-based epoxy, about three to five years; 100% solids epoxy or polycuramine, often seven years or more; professional polyaspartic systems, often ten to fifteen years or longer. Traffic, climate and prep can push any of these up or down significantly.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are garage floor coatings slippery?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A glossy coating is slippery when wet. Flakes add texture, and an anti-slip additive mixed into the topcoat gives more grip without making cleaning difficult. In snowy climates, use additive and mats near the entry. Satin finishes are slightly less slick than high gloss. Ask any installer what traction options they offer before the topcoat goes down.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the cheapest coating that holds up to parking?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A water-based two-part epoxy kit such as EpoxyShield, applied over a well-ground or etched slab, is the least expensive option that reliably handles daily parking. One-part paints cost less but tend to lift under warm tires. Add a clear topcoat if you want more life from a budget kit. Prep quality matters more than the kit.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">More Garage Floor Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-garage-floor-epoxy/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Garage Floor Epoxy Kits</h3>
+              <p class="text-gray-500 text-sm mt-2">Six epoxy and hybrid kits ranked, with kit counts for every garage size.</p>
+            </a>
+            <a href="/epoxy-garage-floor-cost/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Cost Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Epoxy Garage Floor Cost</h3>
+              <p class="text-gray-500 text-sm mt-2">DIY materials, tool rental and professional quotes broken down per square foot.</p>
+            </a>
+            <a href="/best-garage-floor-tiles/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Garage Floor Tiles</h3>
+              <p class="text-gray-500 text-sm mt-2">Interlocking tiles for slabs that cannot take a coating.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For a homeowner coating their own garage, RockSolid Polycuramine is the best all-round choice: tougher and quicker to return to service than standard epoxy, and available off the shelf. EpoxyShield is the value option for sound slabs and moderate use, ArmorPoxy suits heavy workshops, a one-part paint suits storage spaces, and a penetrating sealer is the safe answer for slabs with moisture issues.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            If you want the most durable floor and have the budget, a professional polyaspartic system is still the benchmark. Whatever you choose, check the slab first. Moisture, old coatings and oil stains decide whether any coating bonds, and an hour of testing is worth more than any upgrade on the label.
+          </p>
+        </div>
+
+        <MoreInCategory category="Garage Floors" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

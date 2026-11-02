@@ -1,0 +1,933 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Driveway Oil Stains on Asphalt and Concrete",
+    "url": "/how-to-remove-oil-stains-from-driveway/"
+  },
+  {
+    "title": "Getting Old Oil Out of Concrete",
+    "url": "/how-to-get-oil-out-of-concrete/"
+  },
+  {
+    "title": "Best Oil Stain Remover for Concrete",
+    "url": "/best-oil-stain-remover-for-concrete/"
+  },
+  {
+    "title": "Best Surface Cleaner for Pressure Washer",
+    "url": "/best-surface-cleaner-for-pressure-washer/"
+  },
+  {
+    "title": "Best Concrete Driveway Sealer Reviews",
+    "url": "/best-concrete-driveway-sealer-reviews/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Driveway Cleaners: Picks for Oil, Rust and Mildew";
+const description =
+  "Driveway cleaners matched to the stain: degreasers for oil, oxygen cleaners for grime, rust removers and mildew treatments, plus how to wash the whole slab.";
+
+const PRODUCTS = [
+  {
+    "id": "zep-driveway-cleaner",
+    "name": "Zep Driveway and Concrete Pressure Wash Concentrate",
+    "category": "Pressure washer concentrate",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Made to run through a pressure washer detergent system",
+      "Handles the general mix of dirt, tire marks and light oil",
+      "Large jugs keep cost per square foot low",
+      "Widely stocked at home centers"
+    ],
+    "cons": [
+      "Not aggressive enough for heavy oil stains alone",
+      "Does not treat rust",
+      "Best results need a pressure washer"
+    ],
+    "bottomLine": "The best single product for washing an entire concrete driveway.",
+    "description": "Zep's driveway concentrate is designed for whole-surface cleaning through a pressure washer's detergent tank or downstream injector, though it can also go on with a pump sprayer. It targets the combination most driveways actually have: dirt film, tire marks, organic grime and light oil drips. Follow the label dilution for your machine, apply from the bottom of the driveway up to avoid streaking, let it dwell without drying, then rinse with a high-pressure tip or a surface cleaner attachment. Owners commonly report a visibly brighter, more even slab after a single pass. It is not a specialty stain remover: heavy oil spots need a dedicated degreaser or poultice first, and rust stains need an acid-based rust remover. Think of it as the product you finish with so spot-cleaned areas blend into the rest. It is sold in gallon jugs at most home centers. Expect roughly $10 to $20 a gallon at the time of writing, typically enough for a standard two-car driveway at the recommended dilution."
+  },
+  {
+    "id": "simple-green-oxy-solve-concrete",
+    "name": "Simple Green Oxy Solve Concrete and Driveway Cleaner",
+    "category": "Oxygenated cleaner concentrate",
+    "badge": "Best for Gray Film and Organic Grime",
+    "amazonUrl": "",
+    "pros": [
+      "Oxygenated formula lifts organic staining and dull gray film",
+      "Runs through a pressure washer or pump sprayer",
+      "Gentler on landscaping than chlorine products",
+      "Brightens concrete evenly"
+    ],
+    "cons": [
+      "Limited effect on old oil",
+      "Pressure washer use recommended for best results",
+      "Not a rust remover"
+    ],
+    "bottomLine": "A strong choice when the driveway looks dingy rather than oily.",
+    "description": "Simple Green's Oxy Solve concrete cleaner uses oxygenated cleaning agents along with surfactants, aimed at the dull gray film, leaf tannins, dirt and light organic growth that make concrete look old. It is formulated for pressure washer use and also works through a pump sprayer with scrubbing. Because it does not rely on chlorine bleach, it is easier on lawn edges and plantings when rinsed well, although the label still calls for rinsing nearby plants. On a driveway that looks tired rather than oily, owners commonly report that it brightens the slab evenly in one pass. It is less effective on oil than a dedicated degreaser, and it does nothing for orange rust or fertilizer stains. Use it as the general wash on shaded, leaf-stained driveways and pair it with a degreaser for spots near the garage. Follow the dilution on the label, keep the surface wet during dwell, and rinse thoroughly. Expect roughly $15 to $25 a gallon at the time of writing."
+  },
+  {
+    "id": "krud-kutter-concrete-driveway",
+    "name": "Krud Kutter Concrete and Driveway Cleaner Degreaser",
+    "category": "Degreaser and general cleaner",
+    "badge": "Best Two-in-One",
+    "amazonUrl": "",
+    "pros": [
+      "Degreases and cleans general grime in one product",
+      "Works by brush, sprayer or pressure washer",
+      "Water-based formula",
+      "Good choice for driveways with scattered oil spots"
+    ],
+    "cons": [
+      "Not as strong as a dedicated concentrate on heavy oil",
+      "Ready-to-use sizes get expensive on large slabs",
+      "Check asphalt guidance on the label"
+    ],
+    "bottomLine": "A balanced pick when you have some oil and some general dirt and want one bottle.",
+    "description": "Krud Kutter's concrete and driveway cleaner sits between a pure degreaser and a general pressure washer detergent. It is water-based, designed to break down oil and grease while also lifting ordinary dirt, which makes it practical for a driveway with a few drips near the garage and grime everywhere else. You can scrub it in with a stiff brush on individual spots, spray it over larger areas, or run it through a pressure washer where the label allows. Owners commonly mention that it handles fresh and recent oil well and leaves a fairly uniform finish. Old, deep oil stains still need a poultice or enzyme treatment, because a cleaner like this only reaches what it touches during dwell time. As always on asphalt, read the current label for compatibility and test a small corner first. It is sold in several sizes; the concentrate is the better value for whole-driveway work. Expect roughly $12 to $25 depending on size at the time of writing."
+  },
+  {
+    "id": "oil-eater-original",
+    "name": "Oil Eater Cleaner Degreaser Concentrate (Original)",
+    "category": "Heavy-duty degreaser",
+    "badge": "Best for Oil",
+    "amazonUrl": "",
+    "pros": [
+      "Strong on fresh and recent oil and grease",
+      "Flexible dilution from light to heavy duty",
+      "Non-flammable, water-based",
+      "Low cost per gallon of working solution"
+    ],
+    "cons": [
+      "Will not remove rust or organic stains well",
+      "Deep stains need a poultice or enzyme follow-up",
+      "Alkaline: gloves and eye protection needed"
+    ],
+    "bottomLine": "The oil specialist for the garage end of the driveway.",
+    "description": "Oil Eater Original is a concentrated, water-based alkaline degreaser that has long been a staple for shop floors and driveways. Its strength is oil: diluted heavily, it washes a slab; used strong, it attacks grease drips, tire marks and fresh oil spots. Apply it to pre-wet concrete, scrub with a stiff nylon brush, keep it wet for the dwell time on the label, and rinse with a pressure washer or hose. It can also run through many pressure washer detergent systems. On a driveway with heavy oil near the garage, it is the best first product in this list, often followed by a general wash so the cleaned spot does not look lighter than the surrounding concrete. It is not designed for rust, fertilizer stains or algae, and like every degreaser it cleans shallow oil better than deep, old stains. Treat it with the respect any alkaline cleaner deserves, and keep it off aluminum trim. Expect roughly $15 to $30 a gallon at the time of writing."
+  },
+  {
+    "id": "f9-barc",
+    "name": "F9 BARC Rust and Fertilizer Stain Remover",
+    "category": "Rust and mineral stain remover",
+    "badge": "Best for Rust",
+    "amazonUrl": "",
+    "pros": [
+      "Targets orange rust from sprinklers, fertilizer and metal",
+      "Also used on battery acid and some mineral stains",
+      "Professional-grade product sold to homeowners",
+      "Small amounts treat many spots"
+    ],
+    "cons": [
+      "Acid-based: needs careful handling and rinsing",
+      "Can affect some sealers and colored concrete",
+      "Pricier than general cleaners"
+    ],
+    "bottomLine": "The specialist to buy when the problem is orange, not black.",
+    "description": "F9 BARC comes from Front 9 Restoration, a brand used by professional exterior cleaners, and it is aimed at the stains general cleaners cannot touch: orange rust from well-water sprinklers, fertilizer granules, metal furniture and fasteners, plus related mineral discoloration. Rust is iron oxide, and degreasers and oxygen cleaners do essentially nothing to it; an acid-based rust remover dissolves it. The manufacturer's instructions call for pre-wetting the surface, applying the product to the stain, brushing as needed and rinsing thoroughly. Owners commonly report that fertilizer speckles and sprinkler streaks fade quickly, often in a single application. Because it is acidic, wear gloves and eye protection, protect nearby plants, and test on colored, stamped or sealed concrete first, since acid can affect some finishes. Do not mix it with other cleaners, and especially not with bleach. It is more expensive per bottle than general washes but goes a long way on spot work. Expect roughly $40 to $70 for a gallon at the time of writing."
+  },
+  {
+    "id": "wet-forget-outdoor",
+    "name": "Wet and Forget Outdoor Mold, Mildew and Algae Stain Remover",
+    "category": "No-scrub organic stain treatment",
+    "badge": "Best for Mildew and Algae",
+    "amazonUrl": "",
+    "pros": [
+      "No rinsing or scrubbing: spray and let weather do the work",
+      "Treats green algae, black mildew and lichen",
+      "Bleach-free formula",
+      "Covers large areas cheaply over time"
+    ],
+    "cons": [
+      "Slow: results take weeks to months",
+      "No effect on oil or rust",
+      "Requires dry weather right after application"
+    ],
+    "bottomLine": "The low-effort answer for shaded driveways with green and black growth.",
+    "description": "Wet and Forget Outdoor works differently from everything else on this list. Instead of a scrub-and-rinse cleaner, it is a treatment you spray on a dry surface and leave. Rain and time then gradually wash away the dead mold, mildew, algae and lichen. The label notes results typically take weeks to months, depending on weather and how heavy the growth is. That makes it ideal for shaded driveway sections, north-facing walkways and areas under trees where green or black discoloration keeps coming back. It is bleach-free, and the manufacturer provides instructions for protecting plants during application. It will not touch oil, tire marks or rust, so it complements a degreaser rather than replacing one. The main practical rule is weather: you need a dry surface and a dry window after spraying for it to soak in. If you want instant results for a party next weekend, an oxygenated wash is faster. Expect roughly $25 to $45 for a concentrate that treats a large area at the time of writing."
+  },
+  {
+    "id": "ef2000-concrete-cleaner",
+    "name": "EF2000 Degreaser for Concrete",
+    "category": "Biodegradable degreaser",
+    "badge": "Best Low-Toxicity Option",
+    "amazonUrl": "",
+    "pros": [
+      "Marketed as non-toxic and biodegradable",
+      "Effective on fresh oil and grime",
+      "Gentler to handle than strong alkaline degreasers",
+      "Can be used near landscaping with sensible rinsing"
+    ],
+    "cons": [
+      "Slower on heavy grease than caustic products",
+      "Harder to find in stores",
+      "Old stains still need deeper treatment"
+    ],
+    "bottomLine": "A sensible pick for households that want a gentler degreaser near kids, pets and plants.",
+    "description": "EF2000 is sold as an environmentally friendly, biodegradable cleaner and degreaser for concrete, engines and shop floors. Its appeal is handling: it is marketed as non-toxic and non-caustic, which makes it more comfortable to use than high-pH degreasers when children, pets or vegetable gardens are close to the driveway. It still lifts fresh oil, grease and general grime well when it is scrubbed in and given time to work. On heavy or old stains it is slower than an aggressive alkaline product, so expect more rounds or pair it with a poultice. It works by brush or through a pump sprayer, and the manufacturer provides dilution guidance for different jobs. Availability is mostly online rather than on home center shelves. As with any cleaner, rinse thoroughly and keep runoff out of the storm drain, since even biodegradable products carry the oil they lifted. Expect roughly $20 to $40 a gallon depending on the source at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Driveway Cleaners",
+          item: "https://www.allmetalbrake.com/best-driveway-cleaner/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which driveway cleaner should I buy first?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Start with a general pressure washer concentrate, such as Zep's, if the driveway is mostly dull and dirty. Add a degreaser like Oil Eater if you have oil spots, a rust remover if you see orange stains, and a biocide like Wet and Forget for shaded mildew. Buying by stain type gets better results than one all-purpose bottle."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will dish soap or household detergent clean a driveway?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Dish soap is a mild degreaser and works on fresh oil spots, but it is weak for a whole driveway and can leave residue if not rinsed well. Laundry detergents containing oxygen bleach can brighten organic stains. Purpose-made driveway cleaners are designed for concrete, pressure washer dilution and outdoor rinsing, so they are usually more efficient."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is oxygen bleach better than chlorine bleach for driveways?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homeowners, yes. Oxygen cleaners break down organic stains like tannins and mildew, are gentler on plants and metal, and do not create chlorine fumes. Chlorine bleach kills growth faster but is harsher on landscaping and can never be mixed with ammonia or acids. Neither removes oil or rust."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get rust stains off a concrete driveway?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use an acid-based rust remover formulated for concrete, such as F9 BARC. Wet the area, apply the product, brush it in, and rinse thoroughly. Test on colored or sealed concrete first. Then fix the source, usually sprinkler water with high iron or fertilizer granules left on the slab, or the stains will return."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are driveway cleaners safe on asphalt?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many water-based cleaners are, but not all. Solvent-based degreasers and very strong alkaline products can soften asphalt binder. Look for asphalt on the label, test a small corner, and keep pressure moderate, because a narrow tip can strip aggregate from older blacktop. Biocides and oxygen cleaners are generally asphalt-friendly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often should I clean my driveway?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A general wash once a year keeps most driveways looking good and prevents buildup that needs aggressive treatment. Treat oil spots as they happen, ideally within an hour. Shaded driveways prone to mildew may benefit from a biocide treatment once or twice a year. Clean thoroughly before every sealing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a pressure washer to clean a driveway?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, but it helps. A pump sprayer, stiff push broom and garden hose with a high-flow nozzle can clean a driveway well, especially with oxygen cleaners. A pressure washer with a surface cleaner attachment rinses faster and leaves a more uniform finish, which matters most before sealing."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Driveway Cleaning & Stains",
+    tags: [
+      "best driveway cleaner",
+      "concrete driveway cleaner",
+      "pressure washer detergent",
+      "rust stain remover concrete",
+      "driveway mildew cleaner",
+      "driveway cleaning before sealing"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Driveway Cleaners</span> by Stain
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A gray, blotchy driveway usually has three or four different stains at once. One bottle rarely handles all of them, so here is which cleaner fits which mess.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#zep-driveway-cleaner"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="9.7k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#read-stains" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Read Your Stains</a>
+          <a href="#chemistry" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Cleaner Chemistry</a>
+          <a href="#surfaces" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Concrete, Asphalt, Pavers</a>
+          <a href="#application" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Sprayer or Pressure Washer</a>
+          <a href="#whole-wash" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Whole-Driveway Wash</a>
+          <a href="#specialty" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Rust, Fertilizer, Mildew</a>
+          <a href="#before-sealing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Cleaning Before Sealing</a>
+          <a href="#coverage-cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Coverage and Cost</a>
+          <a href="#safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Plants, Pets and Runoff</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Driveway grime is a mix: tire marks and oil near the garage, green and black organic growth in the shade, orange rust from sprinklers and fertilizer, and a general gray film of dirt everywhere else. A degreaser cuts the oil but does little for algae. An oxygen cleaner brightens the gray film but will not move rust. That is why the best driveway cleaner is really a short kit matched to what is on your slab. The picks below cover each stain type, with notes on asphalt safety, pressure washer compatibility and coverage.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Seven Driveway Cleaners Worth Buying, Ranked
+          </h2>
+
+          <p>
+            Picks are ranked on label claims and directions, product chemistry, surface compatibility, coverage per container, and consistent themes in owner feedback. We did not run our own test plots. Prices are approximate ranges at the time of writing.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="read-stains" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Read the Stains Before You Buy Anything
+          </h2>
+
+          <p>
+            Walk the driveway on a dry day and note the colors. Black, slick spots near the garage or where cars park are oil and tire residue. Dark gray to black patches in shaded areas, sometimes with a green tint, are mildew and algae. Orange or rust-brown speckles and streaks come from iron in sprinkler water, fertilizer granules, metal planters or rebar near the surface. Brown or tan blotches under trees are leaf tannins. And the even gray dullness everywhere else is ordinary dirt and airborne grime.
+          </p>
+
+          <p>
+            Each of those has a different chemistry. Oil needs emulsifying. Organic stains like mildew, algae and tannins respond to oxidizers, which is why oxygen cleaners brighten shaded slabs so dramatically. Rust is a mineral and needs an acid to dissolve. Dirt film responds to almost anything plus pressure. Buy for the stains you actually have, and you will spend less and get better results than with a single all-purpose bottle.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Stain</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">What it looks like</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">What dissolves it</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Pick</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Motor oil, grease</td>
+                    <td class="px-4 py-4 text-gray-700">Black, slick, near garage</td>
+                    <td class="px-4 py-4 text-gray-700">Alkaline degreaser, poultice</td>
+                    <td class="px-4 py-4 text-gray-700">Oil Eater, Krud Kutter</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Mildew, algae</td>
+                    <td class="px-4 py-4 text-gray-700">Gray-black or green, shaded areas</td>
+                    <td class="px-4 py-4 text-gray-700">Oxidizers, biocides</td>
+                    <td class="px-4 py-4 text-gray-700">Wet and Forget, Oxy Solve</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Rust, fertilizer</td>
+                    <td class="px-4 py-4 text-gray-700">Orange speckles and streaks</td>
+                    <td class="px-4 py-4 text-gray-700">Acid-based rust remover</td>
+                    <td class="px-4 py-4 text-gray-700">F9 BARC</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Leaf tannins</td>
+                    <td class="px-4 py-4 text-gray-700">Brown silhouettes under trees</td>
+                    <td class="px-4 py-4 text-gray-700">Oxygen cleaner</td>
+                    <td class="px-4 py-4 text-gray-700">Oxy Solve</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">General dirt film</td>
+                    <td class="px-4 py-4 text-gray-700">Even gray dullness</td>
+                    <td class="px-4 py-4 text-gray-700">Detergent plus pressure</td>
+                    <td class="px-4 py-4 text-gray-700">Zep concentrate</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Oil is the stain people most often underestimate. A degreaser removes fresh drips, but a stain that has been there for months has moved into the concrete, and a cleaner only reaches the top. For those, a poultice or enzyme treatment is the right tool, and our ranking of the <a href="/best-oil-stain-remover-for-concrete/">best oil stain removers for concrete</a> covers them in detail.
+          </p>
+
+          <p>
+            Take a few phone photos before you start, in the same light and from the same spots. Concrete changes color dramatically between wet and dry, and memory is unreliable after an afternoon of scrubbing. Comparing dry photos a day later tells you honestly which stains are gone, which faded, and which need a different product rather than another round of the same one.
+          </p>
+        </div>
+
+        <div id="chemistry" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. How Driveway Cleaner Chemistry Works
+          </h2>
+
+          <p>
+            <strong>Alkaline degreasers</strong> use high pH and surfactants to emulsify oil so it can be rinsed away. They are the strongest option for petroleum stains and tire marks. Strong versions can dull aluminum, irritate skin and haze some acrylic sealers, so handle them carefully and rinse thoroughly.
+          </p>
+
+          <p>
+            <strong>Oxygenated cleaners</strong> release active oxygen, typically from sodium percarbonate or similar compounds, which breaks down organic stains such as leaf tannins, algae and mildew. They are the reason a shaded driveway can go from gray-green to pale in one wash. They are gentler on plants than chlorine bleach and leave no chlorine smell, though they still need rinsing.
+          </p>
+
+          <p>
+            <strong>Acid cleaners</strong> dissolve minerals: rust, efflorescence and hard-water deposits. Dedicated rust removers are formulated to dissolve iron oxide with less risk to the concrete than straight muriatic acid, which etches cement paste aggressively. Acids should never be mixed with bleach or other cleaners, and they need careful rinsing.
+          </p>
+
+          <p>
+            <strong>Biocide treatments</strong> such as Wet and Forget kill organic growth and let weather wash it away over time. They do not clean in the conventional sense, which is why results are slow, but they keep growth from returning as quickly. Chlorine bleach mixtures also kill growth quickly but are harsher on plants, metal and some surfaces, and must never be combined with ammonia or acids.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">NEVER MIX</p>
+            <p class="text-xl font-bold text-white mb-3">Bleach plus acid or ammonia releases toxic gas.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Use one chemical type at a time, rinse thoroughly between them, and store products separately. If you plan to follow a bleach or oxygen treatment with a rust remover, rinse the surface completely and let it dry first.</p>
+          </div>
+        </div>
+
+        <div id="surfaces" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Concrete, Asphalt and Pavers Need Different Care
+          </h2>
+
+          <p>
+            Most driveway cleaners are formulated for concrete, which tolerates high pH, oxidizers and diluted acids well. The main risks on concrete are etching from strong acids, which roughens the surface and exposes sand, and uneven lightening when you clean only some areas. Colored, stamped and sealed concrete are more sensitive, because some cleaners haze or lift acrylic sealers and acids can shift color. Always test on a hidden corner first.
+          </p>
+
+          <p>
+            Asphalt is a petroleum-bound surface, and it reacts badly to solvents and very strong degreasers, which soften the binder. Water-based cleaners at moderate dilution, oxygen cleaners and biocide treatments are generally fine, but read each label for asphalt guidance. Acids are usually unnecessary on blacktop because rust shows less on a dark surface. The biggest asphalt risk is pressure: aging blacktop loses fine aggregate under a narrow tip. Our guide on <a href="/how-to-remove-oil-stains-from-driveway/">removing driveway oil stains from asphalt and concrete</a> covers blacktop in detail.
+          </p>
+
+          <p>
+            Pavers combine concrete or clay units with sand joints. The units take concrete cleaners, but the joints are the weak point: high pressure blows out joint sand, and organic growth often roots in the joints. Use moderate pressure, a surface cleaner rather than a narrow wand tip, and plan to refill joints with sand after a deep clean. If your pavers are sealed, check the sealer's compatibility with the cleaner.
+          </p>
+
+          <p>
+            Brick driveways and aggregate finishes deserve extra caution with acids, which can dissolve mortar and loosen exposed stone. Stick to oxygen cleaners and degreasers on those, and use rust removers only as spot treatments with careful rinsing.
+          </p>
+        </div>
+
+        <div id="application" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Pump Sprayer, Brush or Pressure Washer?
+          </h2>
+
+          <p>
+            A pump sprayer is the most versatile applicator. It lays down cleaner at the strength you mixed, which matters because pressure washer detergent systems dilute heavily. A two-gallon garden sprayer with a fan nozzle covers a driveway quickly. Use a dedicated sprayer for cleaners and do not reuse one that held herbicide.
+          </p>
+
+          <p>
+            Pressure washers apply detergent in two ways. Most consumer units have an onboard tank or a downstream siphon that only draws soap at low pressure, through a black soap nozzle. That dilutes the cleaner substantially, often to a small fraction of its bottle strength, so choose products labeled for pressure washer use and expect less punch than a sprayed application. Some products are sold pre-diluted for this purpose, and using a heavy concentrate in a soap tank can be wasteful.
+          </p>
+
+          <p>
+            Brushes still matter. A stiff nylon push broom or deck brush works cleaner into texture and breaks up oil film far better than spraying alone. For spot stains, brush; for whole-surface washing, spray and let dwell. The rinse is where pressure earns its keep, and a rotating attachment gives far more even results than a wand. Our guide to the <a href="/best-surface-cleaner-for-pressure-washer/">best surface cleaners for pressure washers</a> explains how to match one to your machine.
+          </p>
+
+          <p>
+            If you do not own a pressure washer, a garden hose with a high-flow nozzle and a stiff broom can still produce good results with oxygen cleaners and degreasers; it just takes longer and leaves a slightly less even finish. If you are shopping for a machine, our <a href="/best-pressure-washer/">pressure washer guide</a> covers what PSI and GPM a driveway job needs.
+          </p>
+
+          <p>
+            Whatever the applicator, test your dilution on a small, out-of-the-way section first. Spray, let it dwell for the label time, rinse, and let it dry. If the result is good, keep that mix for the whole job. If it is weak, step up the concentration within the label range before buying a different product; many disappointing results come from cleaner diluted far below what the job needed.
+          </p>
+        </div>
+
+        <div id="whole-wash" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. How to Wash a Whole Driveway, Start to Finish
+          </h2>
+
+          <p>
+            Pick a cool, overcast day or work early in the morning. Cleaners that dry on hot concrete stop working and can leave residue or streaks. Clear the driveway, sweep loose debris, and cover or wet down nearby plants. Block the storm drain or plan to direct rinse water onto lawn or gravel.
+          </p>
+
+          <p>
+            Pre-treat specialty stains first: degreaser and a brush on oil spots, rust remover on orange stains, both rinsed thoroughly before the general wash. Then apply the general cleaner over the whole slab, working from the bottom of the slope up so cleaner running downhill does not create clean streaks on dry concrete. Keep it wet for the dwell time on the label, misting as needed.
+          </p>
+
+          <p>
+            Rinse from the top down with a surface cleaner, overlapping passes by about a third of the deck width, then finish edges and corners with a wand at a wide angle. Rinse the whole driveway again with a wide fan to flush residue. Let it dry fully, which takes most of a day, then look for spots that need a second round. Stains always look better wet.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Whole-Driveway Wash at a Glance</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">2-4 hr</p>
+                <p class="text-gray-400 text-xs mt-1">Typical two-car concrete driveway</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">5-10 min</p>
+                <p class="text-gray-400 text-xs mt-1">Common label dwell for general washes</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">1/3</p>
+                <p class="text-gray-400 text-xs mt-1">Overlap between surface cleaner passes</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">24 hr</p>
+                <p class="text-gray-400 text-xs mt-1">Dry time before judging or sealing</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="specialty" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Rust, Fertilizer and Mildew: The Stubborn Three
+          </h2>
+
+          <p>
+            Rust is the stain that most often makes people think their cleaner failed. It is a mineral, so degreasers and oxygen cleaners slide right over it. Use a dedicated rust remover such as F9 BARC as a spot treatment: wet the area, apply, brush, rinse thoroughly. Sprinkler rust will return unless you fix the source, usually iron-rich well water. Adjusting sprinkler heads so they do not spray the driveway is the permanent fix.
+          </p>
+
+          <p>
+            Fertilizer stains look like small orange or brown dots scattered near lawn edges. Many lawn fertilizers contain iron, which oxidizes on wet concrete. Blow or sweep stray granules off hard surfaces right after spreading, before irrigation or rain. Treat existing spots with the same acid-based rust remover.
+          </p>
+
+          <p>
+            Mildew and algae thrive where concrete stays damp and shaded. An oxygen cleaner washes off current growth quickly, while a biocide such as Wet and Forget kills what remains and slows regrowth. Trimming back branches and improving drainage helps more than any chemical. The same growth on asphalt is handled similarly, and our guide on <a href="/how-to-remove-moss-from-asphalt-driveway/">removing moss from an asphalt driveway</a> covers blacktop-specific steps.
+          </p>
+
+          <p>
+            Tire marks, especially from hot tires turning into the garage, are a mix of rubber and plasticizers that can migrate into sealers. A degreaser and stiff brush usually lifts them from bare concrete. On sealed concrete, some tire marks are actually in the sealer and will not come out without stripping that area, which is a sealer selection issue rather than a cleaning one.
+          </p>
+        </div>
+
+        <div id="before-sealing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Cleaning Before You Seal
+          </h2>
+
+          <p>
+            Every sealer manufacturer requires a clean, dry surface, and cleaning is the single biggest factor in whether a sealer bonds and lasts. Oil, mildew and dirt film all interfere with adhesion. On concrete, residual oil causes sealers to peel or spot; on asphalt, oil spots need an oil spot primer before sealer goes on.
+          </p>
+
+          <p>
+            Plan the timeline backward from your sealing date. Clean at least one or two days ahead so the slab can dry completely, longer for penetrating sealers that need deep pores to be dry. Many labels specify a minimum dry time after washing and a rain-free window after application. Rinse especially thoroughly, because cleaner residue can interfere with sealer bonding as much as dirt.
+          </p>
+
+          <p>
+            Test readiness with a water sprinkle: clean, dry concrete absorbs water evenly and darkens. Beading means a sealer, oil or residue is still there. For guidance on the sealing step itself, see <a href="/how-to-seal-a-concrete-driveway/">how to seal a concrete driveway</a>, and for blacktop, our guide to the <a href="/best-asphalt-driveway-sealer-reviews/">best asphalt driveway sealers</a>.
+          </p>
+
+          <p>
+            If you are cleaning only for appearance, not sealing, you can skip the extended dry time, but the rest of the process is the same. A thorough wash every year or two keeps grime from building to the point where it needs aggressive treatment.
+          </p>
+        </div>
+
+        <div id="coverage-cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Coverage, Dilution and Real Cost
+          </h2>
+
+          <p>
+            Comparing driveway cleaners by bottle price is misleading. A concentrate that dilutes 1 to 10 makes ten times the working solution of a ready-to-use spray at the same price. Read the label for dilution and coverage. Pressure washer concentrates are typically formulated so one gallon handles a standard driveway; spot products like rust removers are measured in stains, not square feet.
+          </p>
+
+          <p>
+            A practical kit for a typical concrete driveway is a gallon of general wash at roughly $10 to $25, a degreaser concentrate at roughly $15 to $30 if you have oil, and a rust remover only if you see orange. That is roughly $25 to $90 at the time of writing, and most of it lasts several cleanings. A biocide for shaded areas adds roughly $25 to $45 but needs reapplying only occasionally.
+          </p>
+
+          <p>
+            Professional driveway cleaning is priced by square footage and region, and many companies bundle oil spot treatment. It makes sense for very large driveways, heavy staining, or if you do not want to buy or rent a pressure washer. For an average driveway that just needs a wash, DIY costs a fraction of a professional visit.
+          </p>
+
+          <p>
+            Do not overspend on products for stains you do not have. If your driveway is simply dull, a general wash and a surface cleaner rinse will deliver most of the visible improvement. Specialty products are worth buying only when you can see the stain they target.
+          </p>
+        </div>
+
+        <div id="safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Plants, Pets and Runoff
+          </h2>
+
+          <p>
+            Wet down lawn edges and plant beds before you start and rinse them again afterward. Water-saturated foliage absorbs less cleaner. Cover delicate plants with plastic during application, removing it promptly so plants do not overheat in sun. Oxygen cleaners and biodegradable degreasers are gentler than chlorine and high-pH products, but none are meant to soak flower beds.
+          </p>
+
+          <p>
+            Keep pets and children off the driveway until it is rinsed and dry. Alkaline and acid cleaners irritate paws and skin, and some biocides need time to dry before contact. Store concentrates out of reach in their original containers.
+          </p>
+
+          <p>
+            Storm drains in most communities send water directly to creeks and lakes, so wash water with oil and cleaner residue should not go into them. Many towns prohibit it. Direct runoff to gravel or lawn where allowed, berm the drain with a towel or sandbag, or collect water with a wet vacuum for disposal. Collected oily water belongs at a household hazardous waste site.
+          </p>
+
+          <p>
+            Finally, protect yourself. Wear chemical-resistant gloves and safety glasses when mixing and spraying, closed shoes when pressure washing, and hearing protection with gas machines. Pressure washer streams can cut skin; never point the wand at people or pets.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying one cleaner for every stain</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Degreasers do not dissolve rust, oxygen cleaners barely touch old oil, and rust removers do nothing for mildew. A driveway with several stain types needs a short kit. Identify what you see, then buy one product per stain family instead of hoping a single bottle covers everything.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Letting cleaner dry on hot concrete</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Most cleaners stop working once they dry, and dried residue can leave streaks and blotches that are harder to remove than the original grime. Work on a cool or overcast day, apply in sections, and mist the surface to keep it wet through the full dwell time on the label.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Spot cleaning without a whole wash</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Cleaning only the oil spots leaves bright patches surrounded by dull, dirty concrete, which often looks worse than before. Treat spots first, then run a general wash over the entire driveway so the color evens out. On asphalt, sealing after spot cleaning achieves the same result.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using muriatic acid as an all-purpose cleaner</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Straight muriatic acid etches concrete, exposes sand, can discolor stamped finishes and releases harsh fumes. It also does nothing for oil. Use a formulated rust remover only on rust and mineral stains, and use degreasers and oxygen cleaners for everything else.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Washing residue into the storm drain</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Runoff from driveway cleaning carries oil, cleaner and debris straight to local waterways in most areas, and many towns restrict it. Block or berm the drain, direct water onto lawn or gravel where permitted, or collect it with a wet vacuum for proper disposal.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which driveway cleaner should I buy first?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Start with a general pressure washer concentrate, such as Zep's, if the driveway is mostly dull and dirty. Add a degreaser like Oil Eater if you have oil spots, a rust remover if you see orange stains, and a biocide like Wet and Forget for shaded mildew. Buying by stain type gets better results than one all-purpose bottle.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will dish soap or household detergent clean a driveway?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Dish soap is a mild degreaser and works on fresh oil spots, but it is weak for a whole driveway and can leave residue if not rinsed well. Laundry detergents containing oxygen bleach can brighten organic stains. Purpose-made driveway cleaners are designed for concrete, pressure washer dilution and outdoor rinsing, so they are usually more efficient.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is oxygen bleach better than chlorine bleach for driveways?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homeowners, yes. Oxygen cleaners break down organic stains like tannins and mildew, are gentler on plants and metal, and do not create chlorine fumes. Chlorine bleach kills growth faster but is harsher on landscaping and can never be mixed with ammonia or acids. Neither removes oil or rust.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I get rust stains off a concrete driveway?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Use an acid-based rust remover formulated for concrete, such as F9 BARC. Wet the area, apply the product, brush it in, and rinse thoroughly. Test on colored or sealed concrete first. Then fix the source, usually sprinkler water with high iron or fertilizer granules left on the slab, or the stains will return.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are driveway cleaners safe on asphalt?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Many water-based cleaners are, but not all. Solvent-based degreasers and very strong alkaline products can soften asphalt binder. Look for asphalt on the label, test a small corner, and keep pressure moderate, because a narrow tip can strip aggregate from older blacktop. Biocides and oxygen cleaners are generally asphalt-friendly.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How often should I clean my driveway?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A general wash once a year keeps most driveways looking good and prevents buildup that needs aggressive treatment. Treat oil spots as they happen, ideally within an hour. Shaded driveways prone to mildew may benefit from a biocide treatment once or twice a year. Clean thoroughly before every sealing.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need a pressure washer to clean a driveway?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No, but it helps. A pump sprayer, stiff push broom and garden hose with a high-flow nozzle can clean a driveway well, especially with oxygen cleaners. A pressure washer with a surface cleaner attachment rinses faster and leaves a more uniform finish, which matters most before sealing.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Driveway Cleaning Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-oil-stain-remover-for-concrete/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Oil Stains</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Oil Stain Removers for Concrete</h3>
+              <p class="text-gray-500 text-sm mt-2">Degreasers, poultices and enzymes for stains a general wash will not move.</p>
+            </a>
+            <a href="/best-surface-cleaner-for-pressure-washer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Equipment</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Pressure Washer Surface Cleaners</h3>
+              <p class="text-gray-500 text-sm mt-2">The attachment that turns a streaky wand job into an even, fast rinse.</p>
+            </a>
+            <a href="/how-to-seal-a-concrete-driveway/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Next Step</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">How to Seal a Concrete Driveway</h3>
+              <p class="text-gray-500 text-sm mt-2">Lock in the clean surface with a sealer that slows future stains.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The best driveway cleaner is the one matched to the stain in front of you. For most concrete driveways, that means a general pressure washer concentrate such as Zep's for the whole slab, Oil Eater or Krud Kutter on the oil spots, F9 BARC only where you see rust, and Wet and Forget for shaded areas that keep turning green.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Pre-treat spots, wash the entire surface so it dries to an even color, rinse with a surface cleaner, and keep runoff out of the storm drain. If you are sealing next, give the slab a full day or more to dry and confirm water soaks in evenly before the first coat.
+          </p>
+        </div>
+
+        <MoreInCategory category="Driveway Cleaning & Stains" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

@@ -1,0 +1,955 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Cordless Leaf Blowers",
+    "url": "/best-cordless-leaf-blower/"
+  },
+  {
+    "title": "Best Self-Propelled Lawn Mowers",
+    "url": "/best-self-propelled-lawn-mower/"
+  },
+  {
+    "title": "Best Lawn Mowers for Small Yards",
+    "url": "/best-lawn-mower-for-small-yard/"
+  },
+  {
+    "title": "How to Remove Moss From an Asphalt Driveway",
+    "url": "/how-to-remove-moss-from-asphalt-driveway/"
+  },
+  {
+    "title": "Top String Trimmers",
+    "url": "/best-weed-eater/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Weed Killer Picks: Matched to the Weed and the Spot";
+const description =
+  "Seven weed killers sorted by job: lawn-safe selectives, driveway residuals, glyphosate concentrates and vinegar, plus label rules for pets and runoff.";
+
+const PRODUCTS = [
+  {
+    "badge": "Best Overall Non-Selective",
+    "category": "Concentrate, Non-Selective",
+    "name": "Roundup Weed & Grass Killer Super Concentrate",
+    "description": "Roundup's Super Concentrate is the bottle most people mean when they say weed killer: a non-selective concentrate you mix in a pump sprayer to clear everything green from a fence line, a bed being reclaimed or a patch of weeds along a foundation. The label gives separate mix rates for routine weeds and tough perennials, and one bottle treats a large area, so the cost per sprayed square foot is low. Be aware that Bayer announced it would replace glyphosate in its US residential lawn and garden products starting in 2023, so the active ingredients on the shelf depend on which version you pick up. Check the ingredient panel and follow that label's rates, not a rate you remember from an older jug. Systemic formulas need several days to a couple of weeks to show full results, and they need actively growing leaves to work at all. Never spray it over a lawn you want to keep.",
+    "pros": [
+      "Concentrate makes many gallons of spray from one bottle",
+      "Kills roots of most grasses and broadleaf weeds it is labeled for",
+      "Widely sold, with clear mixing tables on the label",
+      "Rainfast window is short once the spray dries"
+    ],
+    "cons": [
+      "Kills any green plant it lands on, including lawn grass",
+      "Formulations have changed, so the active ingredient varies by bottle",
+      "Slow to show results compared with contact sprays"
+    ],
+    "bottomLine": "The default pick for clearing a fence line, bed edge or overgrown patch down to the roots, provided you read which formula is in your bottle.",
+    "amazonUrl": "",
+    "id": "roundup-super-concentrate"
+  },
+  {
+    "badge": "Best for Lawns",
+    "category": "Selective Lawn Herbicide",
+    "name": "Tenacity Turf Herbicide",
+    "description": "Tenacity uses mesotrione, a selective herbicide that most cool-season lawn grasses tolerate while many broadleaf weeds, crabgrass and nimblewill do not. Its standout feature is that the label allows use at seeding on many cool-season grasses, so you can kill weeds and grow new turf in the same season instead of waiting weeks between the two. The product is sold in a small, pricey bottle, but the label rate is measured in teaspoons per thousand square feet, so a single bottle stretches a long way. For post-emergent spraying the label calls for a nonionic surfactant to help it stick and penetrate. Expect treated weeds to bleach white within a week or two, which is normal and part of how the chemistry works. Read the turf list carefully: bermudagrass and some bentgrass are injured, and warm-season lawns vary. It is not a fast fix, and it usually takes a follow-up application to finish stubborn weeds.",
+    "pros": [
+      "Kills many broadleaf weeds and some grassy weeds without killing labeled turf",
+      "Can be used at seeding on many cool-season lawns, which most herbicides cannot",
+      "Small bottle treats a large lawn",
+      "Also works as a pre-emergent on some weeds"
+    ],
+    "cons": [
+      "Injures bermudagrass and some other turf types, so check the species list",
+      "Needs a nonionic surfactant added for post-emergent spraying",
+      "Treated weeds turn bright white before they die, which alarms some owners"
+    ],
+    "bottomLine": "The best choice for cleaning weeds out of a cool-season lawn, especially one you are also overseeding.",
+    "amazonUrl": "",
+    "id": "tenacity-turf-herbicide"
+  },
+  {
+    "badge": "Best for Gravel and Driveways",
+    "category": "Residual, Soil-Active",
+    "name": "Ortho GroundClear Year Long Vegetation Killer",
+    "description": "GroundClear Year Long is a total vegetation killer: it knocks down what is growing now and leaves an active ingredient in the top of the soil that keeps new seeds from establishing for up to a year, according to Ortho. That makes it efficient on gravel parking pads, along chain-link fence bases and in the joints of a back-lot path where you never want anything to grow. The same staying power is the risk. Residual herbicides do not stay exactly where they land; rain can carry them downhill, and tree roots routinely extend well past the drip line and under a driveway. Spraying it over the root zone of a maple or along a hedge can injure or kill plants you never sprayed. Read the label's site restrictions, keep it off slopes that drain into lawns or gardens, and never apply it near wells, ponds or streams. For simple driveway cracks, a non-residual product is the safer first choice.",
+    "pros": [
+      "Kills existing growth and keeps new weeds from sprouting for months",
+      "Ready-to-use jug needs no mixing",
+      "Fits gravel drives, fence rows and paver joints where nothing should grow",
+      "Saves repeat spraying through the season"
+    ],
+    "cons": [
+      "Residual chemistry can kill tree and shrub roots that reach under the treated area",
+      "Not for any spot where you might plant later",
+      "Can wash with runoff onto lawns and beds below a slope"
+    ],
+    "bottomLine": "Use it only where you want bare ground for a long time and no tree roots run underneath.",
+    "amazonUrl": "",
+    "id": "ortho-groundclear-year-long"
+  },
+  {
+    "badge": "Best Fast-Acting",
+    "category": "Fast-Acting Non-Selective",
+    "name": "Spectracide Weed & Grass Killer Concentrate",
+    "description": "Spectracide's concentrate is built around speed. Its contact-type chemistry burns down green tissue fast, and owners commonly report wilting on young annual weeds the same day. That suits cleanup jobs: weeds in patio joints before a party, a curb line before sealcoating, or a strip along the house before painting. The trade-off is that contact action does not travel far into roots, so perennial weeds such as dandelion, bindweed and quackgrass often return from the crown within weeks. Spectracide sells several weed and grass killers with nearly identical names and different active ingredients, so check the back panel to see whether you have a pure contact formula or one combined with a systemic ingredient. Mix strictly to the label rate, spray only the target, and keep it off desirable plants and lawn edges. For a weed problem that keeps coming back, pair it with a systemic product rather than spraying it every two weeks.",
+    "pros": [
+      "Visible wilting within hours on many annual weeds",
+      "Concentrate is inexpensive per gallon mixed",
+      "Good for cleanup before an event or a sealing job",
+      "Easy to find at most hardware stores"
+    ],
+    "cons": [
+      "Fast top-kill often leaves perennial roots alive to regrow",
+      "Several similarly named versions exist with different actives",
+      "Non-selective, so overspray browns lawn grass"
+    ],
+    "bottomLine": "Choose it when you want weeds visibly dead quickly, not when you need perennials gone for good.",
+    "amazonUrl": "",
+    "id": "spectracide-weed-grass-killer"
+  },
+  {
+    "badge": "Best Budget Concentrate",
+    "category": "Glyphosate 41%, Concentrate",
+    "name": "Compare-N-Save Concentrate Grass & Weed Killer",
+    "description": "This is plain 41% glyphosate in a large jug, the same active ingredient concentration farm stores have sold for years, at a fraction of the cost of name-brand consumer bottles. Rural owners use it on fence lines, around outbuildings, along ditches that are not water channels, and for clearing ground before a garden or a new lawn. Because glyphosate has no meaningful soil activity at label rates, an area can usually be replanted after the waiting period printed on the label, which is a major advantage over residual vegetation killers. The label gives different mix rates for annual weeds, perennials and woody brush, and it requires eye protection and gloves when handling the concentrate. The large container is the drawback for a small yard; diluted spray loses effectiveness after a day or so, so mix only what you will use. Apply to actively growing weeds on a calm, dry day for the best root kill.",
+    "pros": [
+      "41% glyphosate concentrate at a low price per gallon of mixed spray",
+      "Large jug suits acreage, fence rows and long property lines",
+      "Kills the roots of labeled perennials when applied correctly",
+      "Straightforward glyphosate formula with no added residual"
+    ],
+    "cons": [
+      "No added surfactant beyond what is in the formula, so results vary on waxy weeds",
+      "Big jug is more than a small yard will use before it ages",
+      "Label signal word and PPE requirements call for real care when mixing"
+    ],
+    "bottomLine": "The cheapest way to buy straight glyphosate in volume if you have the space and the patience to mix it correctly.",
+    "amazonUrl": "",
+    "id": "compare-n-save-concentrate"
+  },
+  {
+    "badge": "Best Pre-Emergent",
+    "category": "Granular Pre-Emergent",
+    "name": "Preen Garden Weed Preventer",
+    "description": "Preen is a granular pre-emergent based on trifluralin, which works by stopping germinating seeds from developing roots. It does not kill weeds you can already see, so the order of operations matters: pull or kill current weeds, apply Preen at the label rate, then water it in so it activates in the top layer of soil. Used that way around established perennials, shrubs and many transplanted vegetables, it sharply reduces the flush of seedlings that turns a fresh bed into a chore by midsummer. The label specifies reapplication at intervals through the growing season, and it lists which plants it can be used around, so check it before you scatter granules near seeded rows. The big limitation is that it cannot tell weed seeds from flower seeds; anything you sow directly in a treated area will struggle. Keep granules off driveways and walks, sweep stray ones back into the bed, and store the container away from pets.",
+    "pros": [
+      "Stops many weed seeds from establishing in beds",
+      "Shaker bottle makes it easy to spread around established plants",
+      "Labeled for use around a long list of flowers, shrubs and vegetables",
+      "Cuts down on hand weeding through the season"
+    ],
+    "cons": [
+      "Does nothing to weeds that are already growing",
+      "Will stop desirable seeds you sow too",
+      "Needs repeat applications through the season per the label"
+    ],
+    "bottomLine": "A smart prevention step for mulched beds, but only after the existing weeds are already pulled.",
+    "amazonUrl": "",
+    "id": "preen-garden-weed-preventer"
+  },
+  {
+    "badge": "Best Non-Synthetic Option",
+    "category": "Acetic Acid Contact Spray",
+    "name": "Green Gobbler 20% Horticultural Vinegar",
+    "description": "Sold at 20% acetic acid, this horticultural vinegar is four times the strength of kitchen vinegar, and it is far more dangerous to handle than its natural image suggests. At this concentration the label warns of serious eye damage and skin irritation, so wear goggles and chemical-resistant gloves and keep children and pets away while you spray. Applied undiluted on a sunny, warm day, it desiccates the leaves of young annual weeds within hours, which is useful in sidewalk cracks, gravel edges and paver joints where you want a quick visual result without a synthetic herbicide. The limits are real. It acts only on the tissue it touches, so established perennials usually resprout from their roots, and repeat applications add up in cost. It is also non-selective, so drift browns grass and garden plants. Spray on calm days, keep it off metal and stone you care about, and rinse the sprayer afterward because the acid corrodes fittings.",
+    "pros": [
+      "Burns down young annual weeds quickly in sun and warm weather",
+      "No synthetic herbicide active ingredient",
+      "Breaks down fast in soil with no lasting residue",
+      "Works well on cracks and edges"
+    ],
+    "cons": [
+      "20% acetic acid can cause serious eye injury and skin burns",
+      "Rarely kills perennial roots, so weeds regrow",
+      "Needs repeat spraying and costs more per square foot than synthetics"
+    ],
+    "bottomLine": "A reasonable choice for small cracks and young weeds, as long as you treat it as the hazardous acid it is.",
+    "amazonUrl": "",
+    "id": "green-gobbler-20-vinegar"
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Weed Killer Picks",
+          item: "https://www.allmetalbrake.com/best-weed-killer/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which herbicide should I use on weeds in my grass?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For cool-season lawns, a selective product such as Tenacity or a three-way broadleaf herbicide labeled for your grass is the right tool, because it kills weeds while sparing turf. Check the label's grass list first, since some products injure bermudagrass, St. Augustine or centipede. Never use a non-selective glyphosate product on a lawn you want to keep, because it kills grass as readily as weeds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How soon will I see sprayed weeds die?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Contact sprays and horticultural vinegar show wilting within hours on young weeds in warm sun. Systemic products such as glyphosate take longer, usually showing yellowing in several days and a full kill in one to two weeks, faster in warm weather and slower in cool. Selective lawn products often need two to three weeks and sometimes a second application to finish established perennial weeds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is glyphosate safe to use around my home?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The EPA's position is that glyphosate is not likely to cause cancer when used according to the label, while the World Health Organization's cancer research agency classified it as probably carcinogenic in 2015, and EPA's human health review is being redone after a 2022 court ruling. Practically, follow the label, wear gloves and eye protection, avoid drift, and keep people and pets off sprayed areas until dry."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long should pets stay off a treated lawn?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Follow the label on your specific product. For most liquid herbicides it says to keep people and pets out of the treated area until the spray has dried, which often takes a few hours on a warm, dry day. Granular products frequently need to be watered in first. When in doubt, wait longer, keep pets on a lead away from treated edges, and store containers securely."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will rain wash away weed killer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can if the rain arrives before the product is rainfast. Labels list a rainfast period, often ranging from under an hour to several hours after the spray dries on leaves. Rain before then dilutes the dose on the plant and can carry product off pavement into storm drains. Check the forecast and spray on a dry morning with no rain expected for the rest of the day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What kills weeds permanently?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No product keeps ground weed-free forever. Systemic herbicides kill existing perennials to the roots, and soil-residual vegetation killers prevent new growth for months, but new seeds blow in and germinate eventually. The most durable results come from combining a root kill with prevention: mulch in beds, landscape fabric under gravel, dense healthy turf in lawns, and a pre-emergent where it is labeled."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does vinegar work as a weed killer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Horticultural vinegar at 20% acetic acid burns down the leaves of young annual weeds quickly, especially in sunny, warm conditions. It does not move into roots, so established perennials such as dandelions usually grow back. Treat it with care: at that strength the label warns of serious eye damage, so goggles and gloves are required. Household 5% vinegar is much weaker and works only on tiny seedlings."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Yard & Outdoor Tools",
+    tags: [
+      "best weed killer",
+      "glyphosate weed killer",
+      "selective herbicide for lawns",
+      "pre-emergent weed control",
+      "driveway weed killer",
+      "pet safe weed control"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Weed Killers</span> for Lawns, Beds and Driveways
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          The right herbicide depends on what you are killing and what has to survive next to it. Here is how to match the product to the problem, and how to use it without hurting pets, trees or the creek down the street.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#roundup-super-concentrate"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="11.8k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#choose-by-job" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Choose by Job</a>
+          <a href="#read-the-label" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Reading the Label</a>
+          <a href="#glyphosate" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Glyphosate Facts</a>
+          <a href="#pets-and-kids" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Pets and Kids</a>
+          <a href="#runoff-and-drift" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Runoff and Drift</a>
+          <a href="#timing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Timing</a>
+          <a href="#mixing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Mixing and Spraying</a>
+          <a href="#skip-the-spray" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. When Not to Spray</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Homeowners who end up unhappy with a herbicide usually made one error: they bought the strongest-sounding jug instead of the right chemistry. A product that wipes out a gravel path will also wipe out the lawn beside it, and a lawn-safe selective will barely slow down the grass growing through your patio cracks. Pick by job first, then by price, and read the label before the cap comes off.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Weed Killer Picks, Ranked by Job
+          </h2>
+
+          <p>
+            Picks are based on each product's EPA-registered label: active ingredient and concentration, the weeds and sites it is labeled for, rainfast and re-entry directions, and coverage per container. We also weighed patterns in owner feedback and price per treated square foot at the time of writing. Nothing here is ranked on claims the label does not support.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="choose-by-job" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Choose the Product by the Job, Not the Brand
+          </h2>
+
+          <p>
+            Every weed killer on a store shelf can be sorted with three questions. Does it kill everything or only certain plants? Does it move through the plant to the roots or only burn what it touches? And does it work on weeds already growing or on seeds that have not sprouted yet? The answers are printed on the label in plain language, and they decide whether the product suits your problem far more than the brand name or the size of the bottle.
+          </p>
+
+          <p>
+            <strong>Selective</strong> herbicides are built to spare certain plants, usually lawn grass, while killing broadleaf weeds or specific grassy weeds. <strong>Non-selective</strong> products kill nearly any green plant they wet. Spraying a non-selective product on a lawn to get rid of dandelions is the classic, costly homeowner error, because the brown patches take a full season to repair. When weeds grow mixed into turf worth saving, reach for a selective product labeled for your grass type.
+          </p>
+
+          <p>
+            <strong>Systemic</strong> products are absorbed by leaves and carried down to the roots, so they kill perennials completely but take days to weeks. <strong>Contact</strong> products burn the leaves they touch within hours but often leave perennial roots alive. <strong>Pre-emergents</strong> form a barrier in the soil that stops seeds from establishing and do nothing to existing weeds. <strong>Residual</strong> vegetation killers combine a kill with months of soil activity, and they are the products that most often damage trees and lawns by accident.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Problem</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Product type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Example from this list</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Dandelions, clover in a cool-season lawn</td>
+                    <td class="px-4 py-4 text-gray-700">Selective post-emergent</td>
+                    <td class="px-4 py-4 text-gray-700">Tenacity</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Clearing a bed or fence line to the roots</td>
+                    <td class="px-4 py-4 text-gray-700">Non-selective systemic</td>
+                    <td class="px-4 py-4 text-gray-700">Roundup Super Concentrate, Compare-N-Save</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Quick cleanup of cracks before an event</td>
+                    <td class="px-4 py-4 text-gray-700">Non-selective contact</td>
+                    <td class="px-4 py-4 text-gray-700">Spectracide, horticultural vinegar</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Gravel lot that should stay bare all year</td>
+                    <td class="px-4 py-4 text-gray-700">Soil-residual vegetation killer</td>
+                    <td class="px-4 py-4 text-gray-700">Ortho GroundClear Year Long</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Stopping seedlings in mulched beds</td>
+                    <td class="px-4 py-4 text-gray-700">Pre-emergent granular</td>
+                    <td class="px-4 py-4 text-gray-700">Preen Garden Weed Preventer</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Match the product to the place as well as the weed. A driveway edge that drains into a lawn, a bed under a mature tree, and a fence line next to a vegetable garden all call for different choices even if the weeds look identical. If your bigger project is clearing overgrowth by hand first, a good <a href="/best-weed-eater/">string trimmer</a> knocks the growth down so a follow-up spray reaches the regrowth rather than a thicket of old stems.
+          </p>
+        </div>
+
+        <div id="read-the-label" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. What to Read on the Label Before You Buy
+          </h2>
+
+          <p>
+            In the United States, the label on a registered pesticide is a legal document. Federal law makes it a violation to use the product in a way that is inconsistent with its labeling, which includes using it on sites it is not labeled for, mixing it stronger than directed, or ignoring the protective equipment it lists. Reading it is not a formality. It is the only reliable source for what the product will do, where it can go, and how long people and pets need to stay away.
+          </p>
+
+          <p>
+            Start with the <strong>active ingredient panel</strong>. It lists each active chemical and its percentage, and it is the fastest way to tell whether two similar-looking bottles are actually the same product. Next find the <strong>signal word</strong>: Caution means the product is the least acutely toxic category, Warning means moderately toxic or irritating, and Danger means it can cause severe eye or skin injury or worse. The signal word tells you how much protective gear to wear while mixing.
+          </p>
+
+          <p>
+            Then look for the <strong>use sites and target list</strong>. A product labeled for lawns will name the grass species it is safe on, and a product for driveways will say whether it can be used near trees or ornamental plants. The <strong>directions for use</strong> give the mix rate per gallon, the area one gallon of spray covers, how soon it becomes rainfast, and the waiting period before you can replant, reseed or let people back in.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">The label is the instruction manual and the legal limit.</p>
+            <p class="text-gray-300 leading-relaxed m-0">If the label does not list your site, your weed or your grass type, it is the wrong product. Doubling the rate does not make it work faster; it raises the risk of injuring desirable plants and of runoff, and it is a label violation.</p>
+          </div>
+
+          <p>
+            Finally, check the <strong>environmental hazards</strong> and <strong>storage and disposal</strong> sections. These spell out whether the product is toxic to fish or other aquatic life, whether it can be applied near water, and how to dispose of leftover concentrate and the empty container. Many municipalities run household hazardous waste days for unused pesticide, and pouring leftovers down any drain is never an acceptable disposal method.
+          </p>
+        </div>
+
+        <div id="glyphosate" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Glyphosate: How It Works and Where the Debate Stands
+          </h2>
+
+          <p>
+            Glyphosate is the most widely used herbicide in the world, and it remains the main ingredient in many concentrates sold for home use. It is non-selective and systemic: green leaves absorb it, and it moves to growing points and roots, where it blocks an enzyme pathway plants need to make certain amino acids. Animals do not have that pathway, which is part of why it was historically considered low in acute toxicity. In practice it kills most annual and perennial weeds and grasses when sprayed on actively growing foliage.
+          </p>
+
+          <p>
+            Because it binds tightly to most soils, glyphosate has little effect on seeds or roots it does not touch through foliage, and labels typically allow replanting or reseeding after a short waiting period. That makes it a favorite for clearing ground before a new bed or lawn. It also means it does nothing as a preventer; weeds that germinate after you spray will grow normally. Results are slow by design, with yellowing over several days and full kill in one to two weeks depending on temperature.
+          </p>
+
+          <p>
+            Its safety has been argued in courts and agencies for a decade. The International Agency for Research on Cancer classified glyphosate as probably carcinogenic to humans in 2015. The US EPA has concluded that it is not likely to be carcinogenic to humans when used according to the label, but in 2022 a federal appeals court found the agency's human health analysis inadequate and sent it back, and the EPA withdrew that part of its interim decision while it continues its review. Bayer has also faced large lawsuits over Roundup and shifted its US consumer lawn and garden products away from glyphosate starting in 2023.
+          </p>
+
+          <p>
+            What that means for a homeowner is practical rather than alarming. Use a glyphosate product only where you need a root kill, mix it to the label rate, wear the gloves and eye protection the label lists, avoid spraying on windy days, and wash exposed skin after use. If you would rather avoid it entirely, the alternatives in this guide work, but they usually require more applications or more labor for the same result on perennial weeds.
+          </p>
+        </div>
+
+        <div id="pets-and-kids" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Pets, Kids and Treated Areas
+          </h2>
+
+          <p>
+            Almost every liquid lawn and garden herbicide label carries some version of the same instruction: keep people and pets out of the treated area until the spray has dried. That is the minimum. Dogs walk through wet grass, lick their paws and chew on vegetation, and small children put hands in their mouths after crawling across the lawn. Plan spraying for a time when the yard can stay empty for several hours, such as a dry morning before work, and keep pets inside or on a lead away from the area.
+          </p>
+
+          <p>
+            Granular products have their own directions. Many require watering in before people or pets return, because loose granules on the surface are easy for a dog to eat or track inside. Sweep stray granules off patios and walks, close bags tightly, and store every herbicide in its original container on a high shelf or in a locked cabinet. Most accidental pet poisonings involving lawn products come from chewed containers and spilled concentrate, not from walking on a dried lawn.
+          </p>
+
+          <p>
+            Do not assume a natural product is automatically gentler. Concentrated horticultural vinegar can cause serious eye injury, and some salt-based home remedies leave soil inhospitable for years and are dangerous if a pet drinks runoff. Products marketed as pet safe usually mean safe once dried as directed, not safe to spray while the dog sniffs the sprayer nozzle.
+          </p>
+
+          <p>
+            If a pet or child does get into a concentrate or eats treated plant material, read the label's first aid section and call for help right away. In the US the national Poison Help line is 1-800-222-1222 for people, and the ASPCA Animal Poison Control Center and Pet Poison Helpline both run hotlines for animals, typically for a fee. Have the product container in hand when you call, because the EPA registration number and active ingredient list are the first things a responder will ask for.
+          </p>
+        </div>
+
+        <div id="runoff-and-drift" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Runoff, Drift and Water: Keep It Where You Put It
+          </h2>
+
+          <p>
+            Herbicide that leaves your target does two kinds of damage: it injures plants you did not mean to spray, and it ends up in storm drains, ditches and streams. Driveways and patios are the biggest culprits. Spray that lands on hard pavement is not absorbed, so the next rain carries it straight to the curb and into the storm sewer, which in most towns discharges directly to a creek or river without any treatment. Spray only the weed itself in cracks, not the surrounding concrete or asphalt.
+          </p>
+
+          <p>
+            Check the forecast before you mix. Most labels list a rainfast period, the time the spray must dry on leaves before rain will not wash it off, and some also warn against application when heavy rain is expected within a day or two. Apply in the morning on a dry day with no rain in the near forecast. Do not spray on frozen or saturated ground, and do not spray on a slope that drains toward a lawn, a garden or water.
+          </p>
+
+          <p>
+            Drift is the airborne version of the same problem. Fine droplets float on even a light breeze and can brown a neighbor's hedge or your own tomatoes. Spray when the wind is calm, keep the nozzle close to the target, use a coarse spray setting rather than a mist, and shield desirable plants with a sheet of cardboard if you must work close to them. Avoid spraying in high heat, when some products can volatilize and move after application.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">NEAR WATER</p>
+            <p class="text-xl font-bold text-white mb-3">Most home herbicides are not labeled for use near ponds or streams.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Unless the label specifically permits aquatic or shoreline use, keep application well away from ponds, streams, wells, ditches that carry water and storm drains. Some formulations are toxic to fish and aquatic invertebrates, and residual products can move through soil toward water.</p>
+          </div>
+
+          <p>
+            Residual products deserve extra caution. Tree roots spread well beyond the canopy, often under driveways and walks, and a soil-active vegetation killer applied there can be taken up by those roots months later. If a mature tree stands anywhere near the area you want bare, choose a non-residual product and accept that you will spray again next year.
+          </p>
+        </div>
+
+        <div id="timing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Timing: When Spraying Works and When It Wastes Product
+          </h2>
+
+          <p>
+            Post-emergent herbicides work through living leaves, so they perform best when weeds are actively growing and not stressed. That generally means mild temperatures, adequate soil moisture, and young or mid-size weeds. A dandelion in full spring growth or fall regrowth absorbs and moves herbicide far better than the same plant wilting during a July drought. If the lawn is dormant and brown from heat, most selective lawn products should wait, and many labels warn against spraying turf in high temperatures.
+          </p>
+
+          <p>
+            For perennial broadleaf weeds such as dandelion, clover and ground ivy, early fall is often the most effective window. The plants are moving sugars down into their roots ahead of winter, and systemic herbicide travels along with them. A fall application followed by a spring touch-up usually beats three summer sprays. Annual weeds such as crabgrass are easier to stop before they sprout than to kill afterward, which is where pre-emergents earn their keep.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Timing Guide at a Glance</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">55°F</p>
+                <p class="text-gray-400 text-xs mt-1">Soil temp when crabgrass germination begins</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">Fall</p>
+                <p class="text-gray-400 text-xs mt-1">Best window for perennial broadleaf weeds</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">1-2 wks</p>
+                <p class="text-gray-400 text-xs mt-1">Typical time to full kill for systemic sprays</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">Calm</p>
+                <p class="text-gray-400 text-xs mt-1">Wind condition every label prefers</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Pre-emergent timing is tied to soil temperature, not the calendar. Crabgrass begins germinating when soil at a shallow depth stays around 55 degrees Fahrenheit for several days, which is why many lawn programs aim for early spring, often when forsythia finishes blooming in cooler regions. Apply too late and the seedlings are already up. Apply too early in a warm region and the barrier may thin out before germination peaks. The label gives the effective window and whether a second application is allowed.
+          </p>
+
+          <p>
+            Leave the mower parked on either side of a lawn treatment. Mowing before removes the leaf surface the product needs to land on, and mowing too soon after cuts off treated leaves before the chemistry has moved into the plant. A gap of a couple of days on each side is a common label recommendation. Likewise, wait to pull or dig sprayed perennials until they have browned fully, or the roots will survive.
+          </p>
+        </div>
+
+        <div id="mixing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Mixing and Spraying a Concentrate Correctly
+          </h2>
+
+          <p>
+            Concentrates are the best value on this list, but they demand care. Mix outdoors on a surface where a spill will not reach a drain, wear the gloves and eye protection the label lists, and measure with a dedicated measuring cup that never goes back into the kitchen. Fill the sprayer partway with water first, add the measured concentrate, then top off with water and agitate. This order reduces foaming and splashback from the concentrate.
+          </p>
+
+          <p>
+            Use the mix rate for your target, not the strongest rate on the label. Most non-selective labels list a lower rate for annual weeds and grasses and a higher one for tough perennials and woody vines. More product is not better; at high rates some systemic sprays scorch leaves so fast the chemical never reaches the roots, and you waste money while increasing runoff risk. Mix only what you will use that day, since diluted spray loses effectiveness when it sits.
+          </p>
+
+          <p>
+            Keep one sprayer for non-selective herbicide and label it clearly. Residue left in a tank can damage plants the next time you use the sprayer for fertilizer or insecticide, and rinsing does not always remove all of it. A one or two gallon pump sprayer with an adjustable nozzle is the right size for most yards. Spray each weed until the leaves are wet but not dripping, which is the point where coverage is complete and runoff begins.
+          </p>
+
+          <p>
+            Clean up as carefully as you mixed. Triple rinse empty containers, adding the rinse water to the sprayer and applying it to the labeled target rather than pouring it out. Store leftover concentrate in the original container, tightly capped, above freezing if the label requires it, and out of reach of children and pets. Wash gloves before removing them and wash your hands and any exposed skin afterward, and launder work clothes separately.
+          </p>
+        </div>
+
+        <div id="skip-the-spray" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. When Not to Spray at All
+          </h2>
+
+          <p>
+            Herbicide is one tool, and often not the first one to reach for. A thick, well-fed lawn mowed at the upper end of the recommended height for its grass type shades out most weed seeds before they germinate. Raising the mower deck to three inches or more on cool-season turf, watering deeply but less often, and overseeding thin spots in early fall do more long-term weed control than any jug. A good <a href="/best-self-propelled-lawn-mower/">self-propelled mower</a> with easy height adjustment makes that routine easier to keep up.
+          </p>
+
+          <p>
+            In beds, two to three inches of shredded mulch over weed-free soil blocks most annual weeds, and anything that does sprout pulls easily from loose mulch. Hand pulling after a rain, when the soil is soft, removes most annuals root and all. For a few weeds in pavement cracks, boiling water poured directly on the crown kills young plants without any chemical, though deep-rooted perennials usually return. Avoid salt-based remedies; salt sterilizes soil and damages concrete.
+          </p>
+
+          <p>
+            For overgrown ground you plan to replant, smothering is slow but thorough. Cut the growth low, then cover it with overlapping cardboard and a thick layer of mulch, or with clear or black plastic through the hottest part of summer. Many weeds die off within a couple of months, and the soil is ready for planting without a herbicide waiting period. Cutting the growth down first is much easier with a trimmer or brush cutter; see our guide to <a href="/best-weed-eater/">the best weed eaters</a> for the right machine.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Method</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical cost</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Weakness</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Selective lawn herbicide</td>
+                    <td class="px-4 py-4 text-gray-700">Roughly $20-$90 per season</td>
+                    <td class="px-4 py-4 text-gray-700">Weeds mixed into turf</td>
+                    <td class="px-4 py-4 text-gray-700">Needs correct turf type and timing</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Glyphosate concentrate</td>
+                    <td class="px-4 py-4 text-gray-700">Roughly $25-$60 per jug</td>
+                    <td class="px-4 py-4 text-gray-700">Root kill before replanting</td>
+                    <td class="px-4 py-4 text-gray-700">Kills everything it touches</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Mulch and hand pulling</td>
+                    <td class="px-4 py-4 text-gray-700">Roughly $3-$6 per bag of mulch</td>
+                    <td class="px-4 py-4 text-gray-700">Beds and borders</td>
+                    <td class="px-4 py-4 text-gray-700">Labor and annual top-ups</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Smothering with cardboard</td>
+                    <td class="px-4 py-4 text-gray-700">Near zero</td>
+                    <td class="px-4 py-4 text-gray-700">Converting lawn to beds</td>
+                    <td class="px-4 py-4 text-gray-700">Takes weeks to months</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Weigh the job honestly. A large gravel lot full of mature perennials is a herbicide job, and trying to hand pull it is a recipe for a sore back and the same weeds next year. Ten dandelions in a healthy lawn are a hand-tool job. Using the least product that solves the problem saves money and keeps the yard safer for everyone who walks on it.
+          </p>
+
+          <p>
+            Cleanup matters too. Clippings and pulled weeds left on walks scatter seed back into cracks, so a quick pass with a <a href="/best-cordless-leaf-blower/">cordless leaf blower</a> after weeding or mowing keeps hard surfaces clean and gives new weeds fewer places to start.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Spraying a Non-Selective Product on the Lawn</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A total weed and grass killer cannot tell dandelions from bluegrass. Owners trying to spot treat a lawn with one usually end up with a polka-dot pattern of dead circles that take a full season to fill in. If the weeds are in turf you want to keep, buy a selective lawn product labeled for your grass type and leave the non-selective jug for beds and edges.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Mixing Stronger Than the Label Says</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Doubling the rate feels like insurance, but it is a label violation and it often backfires. Some systemic sprays scorch leaves so quickly at high concentration that the chemical never reaches the roots, so the weed regrows. Extra product also means more runoff when it rains and more risk to nearby plants. Measure carefully and use the rate listed for your specific weed.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Spraying Pavement Instead of Weeds</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Coating an entire driveway or patio to catch a few cracks sends most of the product to the storm drain with the next rain. Hard surfaces do not absorb herbicide, so it sits on top and washes away. Aim the nozzle at the weed itself, use a coarse spray close to the crack, and treat only what is green.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a Residual Killer Near Trees</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Soil-active vegetation killers stay in the ground for months, and tree roots spread far beyond the canopy, often beneath driveways and walks. Applying a residual product along a drive lined with maples or a hedge can cause leaf yellowing and dieback a season later. Use a non-residual product anywhere roots of plants you value might reach.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Letting Pets Back Out Too Soon</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Most labels say to keep people and pets off treated areas until the spray has dried, and granular products often must be watered in first. Letting the dog out to run through wet spray means chemical on paws that get licked clean. Plan applications for a dry morning when pets can stay inside for several hours, and store containers out of reach.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which herbicide should I use on weeds in my grass?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For cool-season lawns, a selective product such as Tenacity or a three-way broadleaf herbicide labeled for your grass is the right tool, because it kills weeds while sparing turf. Check the label's grass list first, since some products injure bermudagrass, St. Augustine or centipede. Never use a non-selective glyphosate product on a lawn you want to keep, because it kills grass as readily as weeds.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How soon will I see sprayed weeds die?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Contact sprays and horticultural vinegar show wilting within hours on young weeds in warm sun. Systemic products such as glyphosate take longer, usually showing yellowing in several days and a full kill in one to two weeks, faster in warm weather and slower in cool. Selective lawn products often need two to three weeks and sometimes a second application to finish established perennial weeds.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is glyphosate safe to use around my home?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The EPA's position is that glyphosate is not likely to cause cancer when used according to the label, while the World Health Organization's cancer research agency classified it as probably carcinogenic in 2015, and EPA's human health review is being redone after a 2022 court ruling. Practically, follow the label, wear gloves and eye protection, avoid drift, and keep people and pets off sprayed areas until dry.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long should pets stay off a treated lawn?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Follow the label on your specific product. For most liquid herbicides it says to keep people and pets out of the treated area until the spray has dried, which often takes a few hours on a warm, dry day. Granular products frequently need to be watered in first. When in doubt, wait longer, keep pets on a lead away from treated edges, and store containers securely.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will rain wash away weed killer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It can if the rain arrives before the product is rainfast. Labels list a rainfast period, often ranging from under an hour to several hours after the spray dries on leaves. Rain before then dilutes the dose on the plant and can carry product off pavement into storm drains. Check the forecast and spray on a dry morning with no rain expected for the rest of the day.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What kills weeds permanently?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No product keeps ground weed-free forever. Systemic herbicides kill existing perennials to the roots, and soil-residual vegetation killers prevent new growth for months, but new seeds blow in and germinate eventually. The most durable results come from combining a root kill with prevention: mulch in beds, landscape fabric under gravel, dense healthy turf in lawns, and a pre-emergent where it is labeled.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Does vinegar work as a weed killer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Horticultural vinegar at 20% acetic acid burns down the leaves of young annual weeds quickly, especially in sunny, warm conditions. It does not move into roots, so established perennials such as dandelions usually grow back. Treat it with care: at that strength the label warns of serious eye damage, so goggles and gloves are required. Household 5% vinegar is much weaker and works only on tiny seedlings.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Yard and Outdoor Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-weed-eater/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Top String Trimmers</h3>
+              <p class="text-gray-500 text-sm mt-2">Cut overgrowth down first so a follow-up spray reaches fresh regrowth.</p>
+            </a>
+            <a href="/best-cordless-leaf-blower/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Cordless Leaf Blowers</h3>
+              <p class="text-gray-500 text-sm mt-2">Clear clippings and debris off beds and walks without the noise of gas.</p>
+            </a>
+            <a href="/best-self-propelled-lawn-mower/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Self-Propelled Mowers</h3>
+              <p class="text-gray-500 text-sm mt-2">Mowing high and often is the cheapest weed control there is.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Buy the chemistry that fits the job. A selective product such as Tenacity for weeds in a lawn, a systemic concentrate for clearing beds and fence lines to the roots, a residual vegetation killer only for ground that should stay bare and has no tree roots beneath it, and a pre-emergent such as Preen once beds are already clean.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Then let the label run the job: the rate, the timing, the rainfast window, the protective gear and how long pets stay off. Spray only the weed, never the pavement around it, and choose a calm, dry morning. Do that and a single bottle goes further, works better and stays out of the storm drain.
+          </p>
+        </div>
+
+        <MoreInCategory category="Yard & Outdoor Tools" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

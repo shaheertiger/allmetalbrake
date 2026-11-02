@@ -1,0 +1,947 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Circuit Breaker Finders",
+    "url": "/best-circuit-breaker-finder/"
+  },
+  {
+    "title": "Best Water Filtration Systems for Home",
+    "url": "/best-water-filtration-system-for-home/"
+  },
+  {
+    "title": "Best Water Filter Pitchers",
+    "url": "/best-water-filter-pitcher/"
+  },
+  {
+    "title": "Best Drain Snakes",
+    "url": "/best-drain-snake/"
+  },
+  {
+    "title": "Best Home Generators for Power Outages",
+    "url": "/best-home-generator-for-power-outages/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 6 Best Whole House Surge Protectors: Panel Picks Ranked";
+const description =
+  "Six panel-mounted surge protective devices compared on type, kA rating, VPR, status lights and panel fit, plus what the NEC requires and what install costs.";
+
+const PRODUCTS = [
+  {
+    "id": "siemens-fs140",
+    "name": "Siemens FirstSurge Pro FS140 Surge Device",
+    "category": "Type 1 or 2, 140 kA, Outdoor-Rated Enclosure",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "140 kA surge current rating per Siemens",
+      "Listed for Type 1 or Type 2 installation",
+      "Enclosure suits indoor or outdoor mounting",
+      "Status LEDs show protection state",
+      "Works with any brand of panel when wired to a breaker"
+    ],
+    "cons": [
+      "Larger housing than compact devices",
+      "Costs more than basic units"
+    ],
+    "bottomLine": "The best all-round choice for most homes, with the headroom to last through years of surges.",
+    "description": "Siemens' FS140 is a high-capacity surge protective device rated by Siemens at 140 kA, listed for Type 1 or Type 2 installation. That flexibility lets an electrician mount it at the meter on the line side or, more commonly, wire it to a double-pole breaker in the panel. The enclosure is rated for indoor and outdoor use, and it is not tied to Siemens panels, so it works with any brand when wired to a breaker. Status LEDs show whether each protection mode is active, and the spec sheet lists protection across all modes for a split-phase service. Check the current spec sheet for its exact voltage protection rating and any surge counter or alarm features, as versions have varied. The housing is bigger than compact units, which can matter on cramped panels, and it costs more than basic devices, typically roughly $120 to $250 at the time of writing. For most homes, the extra capacity means a longer service life and more margin against larger external events."
+  },
+  {
+    "id": "eaton-chsptultra",
+    "name": "Eaton CHSPT2ULTRA Ultra Surge Protective Device",
+    "category": "Type 2, 108 kA, Panel Mounted",
+    "badge": "Best Value",
+    "amazonUrl": "",
+    "pros": [
+      "108 kA surge rating per Eaton",
+      "Compact housing mounts through a panel knockout",
+      "Status LEDs for each protection mode",
+      "Strong value for its capacity",
+      "Connected-equipment warranty, check terms"
+    ],
+    "cons": [
+      "Type 2 only",
+      "Warranty claims require proper install documentation"
+    ],
+    "bottomLine": "A high-capacity Type 2 device at a moderate price, and a common electrician favorite.",
+    "description": "Eaton's CHSPT2ULTRA is a Type 2 surge protective device rated by Eaton at 108 kA, mounted through a panel knockout and wired to a double-pole breaker. It suits most residential load-center installs regardless of brand. Indicator LEDs show the status of each protection mode, and Eaton lists protection across each hot leg to neutral and to ground, plus neutral to ground. Electricians commonly use it as a default whole-house device because its capacity is high for the price, typically roughly $90 to $160 at the time of writing. Eaton also offers a connected-equipment warranty, but read the terms; claims typically depend on proper installation and grounding. The limitation is that it is Type 2 only, so it cannot be installed ahead of the main breaker. For most homes that is not an issue, since load-side installation is the norm. If you want one device that offers strong capacity without paying for the premium tier, this is the one to ask your electrician about."
+  },
+  {
+    "id": "square-d-hepd80",
+    "name": "Square D Home Electronics Protective Device HEPD80",
+    "category": "Compact 80 kA Unit, Knockout or Surface Install",
+    "badge": "Smallest Footprint",
+    "amazonUrl": "",
+    "pros": [
+      "80 kA surge rating per Square D",
+      "Compact housing fits tight spaces",
+      "Mounts through a knockout or on a surface",
+      "LED status indicators",
+      "Works with any panel when wired to a breaker"
+    ],
+    "cons": [
+      "Lower capacity than premium options",
+      "Indicator LEDs are small"
+    ],
+    "bottomLine": "A compact, well-known device that suits most panels at a reasonable price.",
+    "description": "Square D's HEPD80 is a compact surge protective device rated at 80 kA by Square D, designed for residential split-phase services. It mounts through a panel knockout or onto a nearby surface and wires to a double-pole breaker, so it fits nearly any panel, not just Square D's own. The small housing helps where space around the panel is tight, and LED indicators show the protection status. The 80 kA rating is plenty for most homes, though it gives less long-term headroom than 108 kA or 140 kA devices in areas with frequent lightning. Owners and electricians commonly mention that the indicator lights are small and can be hard to see, so mount it where you will check them. Price is typically roughly $70 to $130 at the time of writing. If you want a reputable device without paying for the highest capacity, the HEPD80 is a sound choice."
+  },
+  {
+    "id": "intermatic-ig2240",
+    "name": "Intermatic IG2240-IMSK Surge Protective Device",
+    "category": "Type 1 or 2 Listing, Weather-Resistant Box",
+    "badge": "Best Outdoor Install",
+    "amazonUrl": "",
+    "pros": [
+      "Listed for Type 1 or Type 2 use",
+      "Weather-resistant enclosure suits outdoor mounting",
+      "Status indicators for protection state",
+      "Good fit near meters and outdoor service equipment"
+    ],
+    "cons": [
+      "Mid-range capacity versus premium devices",
+      "Outdoor mounting may need utility approval at the meter"
+    ],
+    "bottomLine": "The right pick when the device needs to live outside next to the meter or service disconnect.",
+    "description": "Intermatic's IG2240-IMSK is a surge protective device listed for Type 1 or Type 2 installation in a weather-resistant enclosure. That makes it a natural choice where the service disconnect is outdoors, which is common in warmer regions and newer homes where the main breaker sits next to the meter. Status indicators show whether protection is active. Intermatic has a long history in outdoor electrical equipment, and the IMSK suffix refers to a mounting kit for flexible installs. Its surge capacity is in the mid-range rather than the top tier, so check the current spec sheet for the exact kA and voltage protection ratings. Installation at or near the meter may require utility approval, and any line-side work must be done by a licensed electrician. Prices are typically roughly $80 to $160 at the time of writing. If your panel is indoors with room for a knockout, the Siemens or Eaton devices offer more capacity for similar money."
+  },
+  {
+    "id": "leviton-51120-1",
+    "name": "Leviton Panel Protector, Model 51120-1",
+    "category": "Type 2, 120/240 V Split Phase, Panel Mount",
+    "badge": "Best Known Brand",
+    "amazonUrl": "",
+    "pros": [
+      "Designed for 120/240 V residential panels",
+      "Compact unit mounts through a knockout",
+      "LED indicators per protection mode",
+      "Leviton offers a range of matching point-of-use protectors"
+    ],
+    "cons": [
+      "Lower capacity than top picks",
+      "Check spec sheet for exact VPR and kA by version"
+    ],
+    "bottomLine": "A solid, widely stocked device from a major brand, best for typical homes with modest surge exposure.",
+    "description": "Leviton's 51120-1 is a Type 2 panel protector designed for 120/240-volt single-phase residential services. It mounts through a panel knockout and connects to a double-pole breaker, and it works with any panel brand. LED indicators show whether each protection mode is working. Leviton is a major wiring device maker, and the 51120-1 is stocked widely, which helps when you need one quickly. It also pairs with Leviton's range of receptacle-style and plug-in surge protectors for a layered system. Its capacity sits below premium devices, so it suits typical suburban homes with modest lightning exposure more than rural homes on long overhead lines. Leviton has released several versions over the years, so check the current spec sheet for the exact kA and voltage protection ratings. Price is typically roughly $90 to $170 at the time of writing. It is a reasonable choice if you prefer the Leviton ecosystem or find it readily at your supplier."
+  },
+  {
+    "id": "ge-thqlsurge",
+    "name": "THQLSURGE Plug-In Surge Breaker from GE",
+    "category": "Plug-In Breaker Format for GE Panels",
+    "badge": "Easiest Install",
+    "amazonUrl": "",
+    "pros": [
+      "Plugs into two breaker spaces like a standard breaker",
+      "No knockout or external housing",
+      "Quick install in compatible GE panels",
+      "Low cost"
+    ],
+    "cons": [
+      "Only fits compatible GE load centers",
+      "Uses two breaker spaces",
+      "Lower capacity than external devices"
+    ],
+    "bottomLine": "The simplest option for homes with a compatible GE panel and spare breaker spaces.",
+    "description": "GE's THQLSURGE packages a surge protector in the shape of a double-pole breaker that plugs into two spaces in compatible GE load centers. There is no knockout, no external housing and no long leads, and the short connection to the bus is good for limiting let-through voltage. A pigtail connects to the neutral bar. For an electrician, it is one of the fastest installs available, and it typically costs roughly $70 to $130 at the time of writing. The constraints are significant. It fits only compatible GE panels, it needs two free breaker spaces, and its surge capacity is lower than external devices like the Siemens FS140 or Eaton CHSPT2ULTRA. Status indication is limited to a small indicator, so check it periodically. Other panel makers sell similar breaker-style devices for their own panels, such as Square D's QO and Homeline versions. If you have a compatible GE panel with room, it is the easiest way to add code-compliant surge protection."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Panel Surge Protector Picks",
+          item: "https://www.allmetalbrake.com/best-whole-house-surge-protector/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which whole house surge protector is best for most homes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homes, a Type 1 or Type 2 device with a high surge current rating, a low voltage protection rating and clear status indicators is the right choice. The Siemens FS140 and Eaton CHSPT2ULTRA are strong options. If you have a compatible GE panel with free spaces, the breaker-style THQLSURGE is the easiest install."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are panel surge protectors worth the money?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homes, yes. The device and install typically cost roughly $200 to $600 in total, while a single replacement control board for an HVAC system, refrigerator or washer can cost several hundred dollars. Panel protection covers hardwired appliances that cannot be plugged into a strip, and the code requires it on new and replaced services."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What separates a Type 1 from a Type 2 device?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Type 1 device can be installed ahead of the main breaker, such as at the meter, and is built for larger external surges. A Type 2 device installs downstream of the main breaker, usually on a breaker in the panel. Many current products are listed for both, giving electricians flexibility."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I still need plug-in surge strips?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, for sensitive electronics. A panel device reduces surges to several hundred volts, which can still harm computers and televisions, and it does not catch surges generated by appliances on the same circuit. A layered approach, with a panel device plus quality UL 1449 listed strips, gives the best protection."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long do whole-house surge protectors last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many manufacturers suggest roughly 5 to 10 years, but life depends on how many and how large the surges are. Each surge wears the internal components slightly. Check the status lights twice a year and after storms, and replace the device when an indicator shows a failed mode. Note the install date on the panel directory."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a homeowner install a panel surge protector?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Installing one means working inside the service panel, where line-side conductors stay energized even with the main breaker off. Many jurisdictions require a permit for panel work. Unless you are qualified and permitted, hire a licensed electrician. A typical install takes under an hour. Expect to pay roughly $150 to $500 for labor."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the electrical code require surge protection?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The 2020 and 2023 National Electrical Code require a Type 1 or Type 2 surge protective device on services supplying dwelling units when the service is new or replaced. Adoption varies by jurisdiction, so check with your local building department. Existing services without planned work are not required to add one."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Water, Plumbing & Electrical",
+    tags: [
+      "best whole house surge protector",
+      "type 2 surge protective device",
+      "panel surge protector",
+      "nec 230.67 surge protection",
+      "voltage protection rating",
+      "surge protector installation cost"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 6 Best <span class="text-[#38BDF8]">Whole House Surge Protectors</span>, Ranked
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A whole-house surge protector clamps spikes at the service panel before they reach every circuit in the house. These six are ranked on type rating, surge capacity, let-through voltage, status indication and how easily they fit common panels.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#siemens-fs140"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="8.9k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#how-surges-happen" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Where Surges Come From</a>
+          <a href="#which-homes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Which Homes Benefit Most</a>
+          <a href="#spd-types" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Type 1, 2 and 3 Devices</a>
+          <a href="#spec-sheet" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Reading the Spec Sheet</a>
+          <a href="#code-requirements" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. What the Code Requires</a>
+          <a href="#installation" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Installation and Safety</a>
+          <a href="#layered-protection" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Layered Protection</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. What It Costs</a>
+          <a href="#lifespan" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Lifespan and Replacement</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Most homeowners think of surges as lightning, but the bigger daily threat comes from inside: air conditioners, well pumps, garage door openers and furnace blowers switching on and off, and utility switching on the grid. A panel-mounted surge protective device is a small box costing roughly $60 to $300 that clamps those spikes before they spread through every circuit. For new and replaced services, the electrical code now requires one.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Whole House Surge Protectors, Ranked
+          </h2>
+
+          <p>
+            Devices are ranked on their UL 1449 listing type, surge current rating, voltage protection rating, status indication, mounting options and warranty terms as published by each manufacturer, plus recurring owner and electrician feedback. No surge testing was done for this list; every number is attributed to the spec sheet.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="how-surges-happen" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Where Household Surges Actually Come From
+          </h2>
+
+          <p>
+            A surge is a short spike in voltage, lasting millionths to thousandths of a second, well above the normal 120 or 240 volts. Lightning produces the dramatic ones, but direct strikes are rare. Far more common are nearby strikes that induce surges into overhead lines, and utility switching events such as capacitor banks coming online or a transformer fault elsewhere on the grid. Those external events can send thousands of volts into a service.
+          </p>
+
+          <p>
+            Inside the home, motors and compressors are the main source. Every time an air conditioner, heat pump, refrigerator, well pump or furnace blower shuts off, the collapsing magnetic field in its motor kicks a small spike back into the wiring. Each one is modest, often a few hundred volts, but they happen many times a day, year after year. Industry estimates commonly put internally generated surges at the majority of all events in a typical home.
+          </p>
+
+          <p>
+            Those small, repeated spikes do not destroy electronics in one blow. They wear down the sensitive components in control boards, power supplies and LED drivers over time, which shows up as appliances failing early with no obvious cause. Modern homes are full of these boards: furnaces, washing machines, ranges, refrigerators, garage door openers, smart thermostats and every LED fixture.
+          </p>
+
+          <p>
+            A whole-house surge protector does not make a home lightning-proof. Nothing at the panel can stop a direct strike from damaging a house. What it does is divert the frequent, moderate surges to ground before they spread through every branch circuit, which protects hardwired appliances that cannot be plugged into a surge strip. That is where the value is.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE HONEST EXPECTATION</p>
+            <p class="text-xl font-bold text-white mb-3">A panel surge protector reduces wear and damage from everyday spikes. It does not stop a direct lightning strike.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Think of it as protection for the HVAC board, the range, the washer and the furnace, things you cannot plug into a power strip. Pair it with point-of-use protection for the most sensitive electronics.</p>
+          </div>
+        </div>
+
+        <div id="which-homes" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Which Homes Benefit Most
+          </h2>
+
+          <p>
+            Every home with modern appliances benefits from panel protection, but some benefit more. Homes served by long overhead lines in rural areas see more induced surges from lightning and utility switching than homes on short underground feeds in a subdivision. Regions with frequent thunderstorms, such as the Southeast and the Gulf Coast, see far more lightning activity than the Pacific Northwest. If you live in one of those situations, choose a device toward the top of the capacity range.
+          </p>
+
+          <p>
+            Homes with well pumps, heat pumps, central air, electric vehicle chargers and solar inverters carry more expensive electronics and more internal surge sources. A variable-speed heat pump or a modern inverter-driven mini-split has a control board that can cost several hundred dollars to replace, and the motors themselves generate spikes. Protecting those circuits at the panel is cheap insurance against early failures.
+          </p>
+
+          <p>
+            Older homes are a special case. If the panel is a brand with known reliability problems, or the wiring has no equipment ground, a surge protector cannot do its job well, because it relies on a solid path to ground. In that situation, fix the grounding and consider a panel upgrade first, then add the surge device as part of the work. An electrician can tell you in one visit whether the panel and grounding are sound.
+          </p>
+
+          <p>
+            Homes that lose power often should think about surges at restoration. When the grid comes back after an outage, voltage can swing as loads return all at once. Some homeowners switch off major appliance breakers during an outage and turn them back on a few minutes after power returns. A panel surge device helps with those swings, and a <a href="/best-portable-power-station/">portable power station</a> or generator plan covers the outage itself.
+          </p>
+        </div>
+
+        <div id="spd-types" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Type 1, Type 2 and Type 3 Devices
+          </h2>
+
+          <p>
+            Surge protective devices are listed under <strong>UL 1449</strong>, and the listing assigns a type based on where the device may be installed. A <strong>Type 1</strong> device can go ahead of the main breaker, including at the meter or in a meter-main combination, and does not rely on an overcurrent device. It is built to handle larger external surges and is often used where the service is exposed to lightning.
+          </p>
+
+          <p>
+            A <strong>Type 2</strong> device goes downstream of the main breaker, typically landing on a double-pole breaker inside the panel. This is the most common whole-house protector, and it is what most homeowners install. Many current products are listed as Type 1 and Type 2, so they can be installed either way, which gives an electrician flexibility.
+          </p>
+
+          <p>
+            <strong>Type 3</strong> devices are point-of-use protectors: plug-in strips and receptacle-style protectors at least 10 meters of wire from the panel. They catch surges generated inside the home and any let-through that passes the panel device. A good protection plan uses a Type 1 or 2 device at the panel and Type 3 devices at the most sensitive electronics.
+          </p>
+
+          <p>
+            There is also a format question. Most panel devices are small boxes mounted to the outside of the panel through a knockout, wired to a double-pole breaker. Some, like breaker-style units from panel makers, snap into two breaker slots inside the panel. These are easier to install but limited to panels from that maker, and they consume breaker spaces that may be scarce in a full panel.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Where it installs</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Main job</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Type 1</td>
+                    <td class="px-4 py-4 text-gray-700">Line side of main, meter, or load side</td>
+                    <td class="px-4 py-4 text-gray-700">Larger external surges, lightning exposure</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Type 2</td>
+                    <td class="px-4 py-4 text-gray-700">Load side of main breaker, in or on the panel</td>
+                    <td class="px-4 py-4 text-gray-700">Most whole-house protection</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Type 1 and 2</td>
+                    <td class="px-4 py-4 text-gray-700">Either location</td>
+                    <td class="px-4 py-4 text-gray-700">Flexible install, common on current products</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Type 3</td>
+                    <td class="px-4 py-4 text-gray-700">At outlets, at least 10 m from panel</td>
+                    <td class="px-4 py-4 text-gray-700">Sensitive electronics, internal surges</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="spec-sheet" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Reading the Spec Sheet
+          </h2>
+
+          <p>
+            The biggest number on the box is the <strong>surge current rating</strong>, given in kiloamps, such as 50 kA, 80 kA or 140 kA. It describes the largest single surge the device can absorb, or in some marketing the total across all modes. Higher ratings mean more headroom and generally a longer life, since each surge degrades the internal components slightly. For most homes, anything from about 50 kA up is adequate; higher ratings add longevity and margin.
+          </p>
+
+          <p>
+            More useful is the <strong>voltage protection rating</strong>, or VPR, which is the let-through voltage measured under a standard test surge. Lower is better: a VPR of 600 or 700 volts lets less energy through to equipment than one of 1,200 volts. Compare VPR for the line-to-neutral mode, which matters most for 120-volt equipment. Some brands bury this on the spec sheet, which is a reason to look.
+          </p>
+
+          <p>
+            Next, check the <strong>nominal discharge current</strong>, or In, which is 10 kA or 20 kA for most residential devices. Type 1 devices are tested at 10 or 20 kA; a 20 kA In rating indicates a more robust device. <strong>MCOV</strong>, the maximum continuous operating voltage, should suit a 120/240-volt split-phase service, which nearly all residential devices do. Also check the <strong>short-circuit current rating</strong> matches or exceeds what the panel is rated for.
+          </p>
+
+          <p>
+            Finally, look at the protection modes and indicators. Good devices protect hot to neutral, hot to ground, neutral to ground and hot to hot. Status LEDs show when protection is still active, and some devices add an audible alarm or a surge counter. Because the internal metal oxide varistors wear out silently, a clear indicator is the only way to know when it is time to replace the unit.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Spec sheet numbers to compare</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">50-140 kA</p>
+                <p class="text-gray-400 text-xs mt-1">Common surge current ratings</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">600-700 V</p>
+                <p class="text-gray-400 text-xs mt-1">Good line-to-neutral VPR</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">20 kA</p>
+                <p class="text-gray-400 text-xs mt-1">Robust nominal discharge</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">UL 1449</p>
+                <p class="text-gray-400 text-xs mt-1">Required listing</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="code-requirements" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. What the Electrical Code Requires
+          </h2>
+
+          <p>
+            The 2020 edition of the National Electrical Code added section <strong>230.67</strong>, which requires a surge protective device on all services supplying dwelling units. The rule applies to new services and to services being replaced. The device must be a Type 1 or Type 2 SPD, installed in or next to the service equipment, and it must be an integral part of the equipment or located immediately adjacent to it.
+          </p>
+
+          <p>
+            Adoption depends on where you live. States and municipalities adopt NEC editions on their own schedules, and some amend sections or delay them. Most US jurisdictions now enforce the 2020 or 2023 code, but a few still run on older editions. If you are upgrading a panel or service, the permit and inspection will almost certainly require an SPD in jurisdictions on the newer codes.
+          </p>
+
+          <p>
+            The 2023 NEC kept the requirement and extended it to other sleeping occupancies, such as dormitory units, guest rooms and nursing home patient sleeping rooms. For an existing home with an older panel and no planned service work, the code does not require you to add a surge protector. It is still a good idea, and the installation must meet the code in force when the work is done.
+          </p>
+
+          <p>
+            Codes also cover how the device is wired. Manufacturers specify the breaker size, usually a double-pole 20 to 50 amp, and conductor gauge. They also stress short lead lengths: every extra foot of wire between the device and the bus adds let-through voltage. Electricians mount the device as close as possible to the breaker it lands on, keep conductors straight and avoid coiling the excess.
+          </p>
+        </div>
+
+        <div id="installation" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Installation and Safety
+          </h2>
+
+          <p>
+            Installing a panel surge protector means working inside the service panel. Even with the main breaker off, the service conductors and the lugs ahead of the main breaker remain energized by the utility, and contact with them can kill. Panel work also requires a permit in most jurisdictions. For those reasons, this guide recommends hiring a licensed electrician unless you are qualified and permitted to do panel work yourself.
+          </p>
+
+          <p>
+            A typical Type 2 install takes an electrician under an hour. The power is shut off at the main breaker, the panel cover removed, a knockout opened close to an available double-pole breaker position, and the device mounted with a short nipple. The line conductors land on the breaker, the neutral on the neutral bar and the ground on the ground bar, all kept as short and straight as possible. The panel is then closed and the device's status lights checked.
+          </p>
+
+          <p>
+            Breaker space can be a problem in older or full panels. If there are no open spaces for a double-pole breaker, an electrician may use tandem breakers where the panel listing allows them, or mount a Type 1 device at the meter where the utility permits. Breaker-style surge devices need two adjacent spaces in a compatible panel. Find the panel label before you buy anything.
+          </p>
+
+          <p>
+            Good grounding is essential. A surge protector diverts energy to the grounding electrode system, so a poor ground connection reduces its effectiveness. Ask the electrician to confirm the grounding electrode conductor and bonding are sound. Also bond cable TV, satellite and phone lines at the same intergrounding point, so a surge on those lines cannot create a voltage difference across connected equipment. If you plan to label circuits while the panel is open, a <a href="/best-circuit-breaker-finder/">circuit breaker finder</a> speeds the job.
+          </p>
+        </div>
+
+        <div id="layered-protection" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Layered Protection Works Best
+          </h2>
+
+          <p>
+            A panel surge protector reduces surges to a level that is still too high for sensitive electronics. Its let-through voltage, typically 600 to 1,000 volts, is far better than the thousands that could otherwise arrive, but computers, televisions and networking gear benefit from a second layer. That is the role of plug-in Type 3 protectors near the equipment.
+          </p>
+
+          <p>
+            The two layers complement each other. The panel device handles the large external surges, so the point-of-use strip is not overwhelmed and wears out more slowly. The strip handles internal surges from appliances on the same circuit and anything that slips past the panel. Choose strips with a UL 1449 listing, a low VPR and an indicator light, and replace them every few years or after a major event.
+          </p>
+
+          <p>
+            Protect the other entry points too. Coaxial, phone and Ethernet cables can carry surges straight into a television, modem or router. Some panel devices include coax and phone protection modules, and many point-of-use strips include coax and Ethernet pass-throughs. Generators and solar inverters are further entry points that should be grounded and protected per their installation instructions.
+          </p>
+
+          <p>
+            If you run a portable generator through a transfer switch or interlock during outages, a surge protector at the panel provides some protection from generator voltage swings, but it is not a substitute for a clean inverter generator for sensitive loads. Our <a href="/best-home-generator-for-power-outages/">home generator guide</a> covers generator choice and safe connection. And whatever surge plan you choose, keep water treatment controls, well pumps and UV systems on protected circuits, as described in our <a href="/best-water-filtration-system-for-home/">home water filtration guide</a>.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. What It Costs
+          </h2>
+
+          <p>
+            The devices themselves are inexpensive. At the time of writing, compact Type 2 units cost roughly $50 to $120, mid-range devices with higher kA ratings and better indication roughly $100 to $200, and premium Type 1 and 2 units with surge counters or outdoor enclosures roughly $150 to $350. Breaker-style devices from panel makers usually fall in the $60 to $150 range.
+          </p>
+
+          <p>
+            Installation by a licensed electrician typically adds roughly $150 to $500, depending on local labor rates, the permit fee and how easy the panel is to work in. If the electrician is already on site for another job, adding a surge protector often costs much less. Doing it during a panel upgrade is the cheapest time of all, since the code may require it anyway.
+          </p>
+
+          <p>
+            Compare that with what is at risk. A furnace or heat pump control board costs roughly $200 to $600 to replace with labor, a refrigerator main board roughly $150 to $400, and a front-load washer board similar. One saved board pays for the device and install. Many manufacturers also offer connected-equipment warranties, but read the terms carefully, as claims typically require proof of proper installation and grounding.
+          </p>
+
+          <p>
+            Homeowner's insurance may cover surge damage to appliances, but deductibles often exceed the cost of a single board, and repeated claims can raise premiums. Treating the surge protector as a way to avoid small claims altogether is the more realistic way to think about its value. A few insurers offer discounts or inspection credits for whole-house protection, so it is worth asking your agent.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Item</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical cost (approx.)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Compact Type 2 device</td>
+                    <td class="px-4 py-4 text-gray-700">$50-$120</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Mid-range device, 80-108 kA</td>
+                    <td class="px-4 py-4 text-gray-700">$100-$200</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Premium Type 1/2 device</td>
+                    <td class="px-4 py-4 text-gray-700">$150-$350</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Electrician install</td>
+                    <td class="px-4 py-4 text-gray-700">$150-$500</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">HVAC control board replacement</td>
+                    <td class="px-4 py-4 text-gray-700">$200-$600</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Quality Type 3 power strip</td>
+                    <td class="px-4 py-4 text-gray-700">$25-$80</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="lifespan" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Lifespan and Replacement
+          </h2>
+
+          <p>
+            The protective components in most devices, metal oxide varistors, lose a little capacity every time they absorb a surge they absorb. After enough events, they lose the ability to clamp, and the device stops protecting while the house keeps working normally. Manufacturers often suggest a service life in the range of 5 to 10 years, but the real answer depends on how often and how hard your service gets hit.
+          </p>
+
+          <p>
+            Check the status lights at least twice a year, for instance when you test smoke alarms. A green light usually means protection is active; a dark or red light means one or more modes have failed. Devices with audible alarms or surge counters make this easier. After a nearby lightning strike or a major utility event, check right away.
+          </p>
+
+          <p>
+            Replacement is the same job as installation. The electrician turns off the breaker, disconnects the old device and fits a new one. If you replace an old device, take the chance to upgrade to a higher kA rating or a better VPR, and confirm the breaker and conductor sizes match the new device's instructions.
+          </p>
+
+          <p>
+            Some devices have replaceable modules, which can be swapped without removing the whole housing. These cost more up front but simplify service. For most homes, a standard sealed device replaced every several years is simpler and cheaper over time, provided someone actually looks at the indicator lights.
+          </p>
+
+          <p>
+            Keep a simple record. Write the install date and model number on a label inside the panel door, next to the circuit directory, and note it again whenever the device is replaced. Insurance adjusters and future electricians both find that useful, and it removes the guesswork about whether a ten-year-old device is still worth trusting. If the house is sold, the next owner will know what protection is in place and when it was last renewed.
+          </p>
+
+          <p>
+            If you ever see scorch marks, a bulging housing or a burning smell near the device, switch off its breaker and call an electrician. A device that has absorbed a very large surge can fail short, and the breaker is there to disconnect it safely. That is also why the manufacturer's breaker size matters: an oversized breaker may not trip when it should.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Treating it as lightning-proofing</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A panel surge protector diverts common surges but cannot stop a direct lightning strike, which can jump gaps and damage wiring anywhere in the house. Expect it to protect against everyday spikes and nearby strikes. If your area sees frequent lightning, talk to a specialist about a lightning protection system.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Long, coiled lead wires</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Every extra foot of wire between the device and the breaker adds let-through voltage and weakens protection. Mount the device right next to the breaker it connects to, trim conductors short and keep them straight. Coiling excess wire inside the panel is a common amateur error that undermines the whole purchase.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring the indicator lights</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Surge protectors fail silently. The house keeps working while the device no longer clamps anything. Check the status lights twice a year and after storms, and replace the unit when an indicator goes out. A device with an audible alarm or surge counter makes this easier.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping point-of-use protection</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The panel device lets through several hundred volts, which is still too much for sensitive electronics, and it does nothing about surges generated inside the house on the same circuit. Use UL 1449 listed plug-in protectors for computers, televisions and networking gear as a second layer.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">DIY panel work without qualification</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Even with the main breaker off, the service lugs remain energized by the utility and can be lethal. Many jurisdictions also require a permit and inspection for panel work. Unless you are qualified and permitted, hire a licensed electrician; the labor cost is small next to the risk.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which whole house surge protector is best for most homes?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homes, a Type 1 or Type 2 device with a high surge current rating, a low voltage protection rating and clear status indicators is the right choice. The Siemens FS140 and Eaton CHSPT2ULTRA are strong options. If you have a compatible GE panel with free spaces, the breaker-style THQLSURGE is the easiest install.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are panel surge protectors worth the money?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homes, yes. The device and install typically cost roughly $200 to $600 in total, while a single replacement control board for an HVAC system, refrigerator or washer can cost several hundred dollars. Panel protection covers hardwired appliances that cannot be plugged into a strip, and the code requires it on new and replaced services.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What separates a Type 1 from a Type 2 device?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A Type 1 device can be installed ahead of the main breaker, such as at the meter, and is built for larger external surges. A Type 2 device installs downstream of the main breaker, usually on a breaker in the panel. Many current products are listed for both, giving electricians flexibility.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I still need plug-in surge strips?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, for sensitive electronics. A panel device reduces surges to several hundred volts, which can still harm computers and televisions, and it does not catch surges generated by appliances on the same circuit. A layered approach, with a panel device plus quality UL 1449 listed strips, gives the best protection.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long do whole-house surge protectors last?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Many manufacturers suggest roughly 5 to 10 years, but life depends on how many and how large the surges are. Each surge wears the internal components slightly. Check the status lights twice a year and after storms, and replace the device when an indicator shows a failed mode. Note the install date on the panel directory.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a homeowner install a panel surge protector?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Installing one means working inside the service panel, where line-side conductors stay energized even with the main breaker off. Many jurisdictions require a permit for panel work. Unless you are qualified and permitted, hire a licensed electrician. A typical install takes under an hour. Expect to pay roughly $150 to $500 for labor.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Does the electrical code require surge protection?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The 2020 and 2023 National Electrical Code require a Type 1 or Type 2 surge protective device on services supplying dwelling units when the service is new or replaced. Adoption varies by jurisdiction, so check with your local building department. Existing services without planned work are not required to add one.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Electrical and Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-circuit-breaker-finder/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Electrical Tools</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Circuit Breaker Finders</h3>
+              <p class="text-gray-500 text-sm mt-2">Identify and label every breaker in your panel.</p>
+            </a>
+            <a href="/best-home-generator-for-power-outages/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Backup Power</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Home Generators for Outages</h3>
+              <p class="text-gray-500 text-sm mt-2">Size and connect backup power safely.</p>
+            </a>
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Backup Power</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Quiet battery backup for electronics and essentials.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most homes, the <strong>Siemens FS140</strong> gives the most headroom and install flexibility, and the <strong>Eaton CHSPT2ULTRA</strong> delivers high capacity for less. The <strong>Square D HEPD80</strong> suits tight spaces, the <strong>Intermatic IG2240</strong> suits outdoor service equipment, and the <strong>GE THQLSURGE</strong> is the easiest fit for compatible GE panels.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Have a licensed electrician install it with short, straight leads and confirm the grounding, then add quality plug-in protectors for your most sensitive electronics. While the panel is open, label every circuit using a <a href="/best-circuit-breaker-finder/">circuit breaker finder</a>, so the next emergency shutoff takes seconds.
+          </p>
+        </div>
+
+        <MoreInCategory category="Water, Plumbing & Electrical" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

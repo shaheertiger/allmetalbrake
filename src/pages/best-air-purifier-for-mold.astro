@@ -1,0 +1,967 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Basement Dehumidifiers",
+    "url": "/best-dehumidifier-for-basement/"
+  },
+  {
+    "title": "Best Mold Removers",
+    "url": "/best-mold-remover/"
+  },
+  {
+    "title": "Best Whole House Fans",
+    "url": "/best-whole-house-fan/"
+  },
+  {
+    "title": "How to Waterproof a Basement",
+    "url": "/how-to-waterproof-a-basement/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 6 Best Air Purifiers for Mold: HEPA Picks by Room Size";
+const description =
+  "Six HEPA air purifiers for mold spores and musty odors, compared on CADR, room size, carbon, and filter cost, plus what a purifier can and cannot fix.";
+
+const PRODUCTS = [
+  {
+    "name": "IQAir HealthPro Plus Purifier",
+    "badge": "Best Overall",
+    "category": "Medical-Grade HyperHEPA",
+    "amazonUrl": "",
+    "id": "iqair-healthpro-plus",
+    "pros": [
+      "HyperHEPA filter rated by IQAir down to 0.003 microns",
+      "Sealed housing designed so air cannot bypass the filters",
+      "Separate pre-filter, gas-phase carbon, and HEPA stages",
+      "Long filter life for the main HEPA stage",
+      "Swiss build with a strong reputation in clinical settings"
+    ],
+    "cons": [
+      "Expensive to buy, often roughly $900 to $1,200",
+      "Large and heavy for a bedroom"
+    ],
+    "bottomLine": "The most thorough filtration here, worth it for people with mold allergies or asthma who need the air as clean as possible.",
+    "description": "IQAir builds the HealthPro Plus for people who cannot afford leaky filtration, and its design reflects that. Air passes through a coarse pre-filter, a carbon and pelletized gas-phase stage for odors and chemicals, and finally a HyperHEPA stage that IQAir rates for particles down to 0.003 microns. Mold spores are hundreds to thousands of times larger than that, so they are well within its range. Just as important, the housing is built so air cannot sneak around the filters, a weak point in many cheaper machines. Owners with mold allergies and asthma tend to be the most enthusiastic reviewers, and the unit has a long record in hospitals and clinics. The drawbacks are price and size. It costs roughly $900 to $1,200 at the time of writing, and it is a substantial box that suits a living room or finished basement better than a nightstand. Filter replacement is also pricey, though the main HEPA stage lasts several years in normal use. If the budget allows and someone in the house reacts to spores, this is the safest choice."
+  },
+  {
+    "name": "Austin Air HealthMate Plus HM450",
+    "badge": "Best for Musty Odor",
+    "category": "HEPA with Heavy Carbon Bed",
+    "amazonUrl": "",
+    "id": "austin-air-healthmate-plus",
+    "pros": [
+      "Roughly 15 pounds of carbon and zeolite for odors and chemicals",
+      "Medical-grade HEPA filter in a single long-life cartridge",
+      "Filter rated to last up to about five years",
+      "Simple three-speed control with no electronics to fail",
+      "All-steel housing"
+    ],
+    "cons": [
+      "Bulky and fairly loud on high",
+      "No sensors, timer, or app"
+    ],
+    "bottomLine": "The best choice for a musty basement smell, thanks to a carbon bed many times larger than typical purifiers carry.",
+    "description": "The musty smell in a damp basement comes from gases that molds release as they grow, and a HEPA filter alone does almost nothing for gases. That is where the Austin Air HealthMate Plus stands apart. Its single cartridge combines a medical-grade HEPA layer with roughly 15 pounds of activated carbon and zeolite, which is far more adsorbent material than the thin carbon sheets inside most purifiers. The Plus version adds potassium iodide-impregnated carbon aimed at a wider range of chemicals. Austin rates the filter for up to five years, so although the replacement costs a few hundred dollars, the yearly cost is reasonable. The housing is steel, the controls are a simple dial, and there is nothing to update or pair. Owners with chemical sensitivities and persistent odor problems are its biggest fans. The trade-offs are size and noise: it is a big cylinder, and its high setting is loud enough that most people run it on medium. If the smell is the main complaint, this is the purifier to buy."
+  },
+  {
+    "name": "Coway Airmega 400 Smart Purifier",
+    "badge": "Best for Large Rooms",
+    "category": "Large-Room True HEPA",
+    "amazonUrl": "",
+    "id": "coway-airmega-400",
+    "pros": [
+      "Dual-sided intake moves a lot of air for a large open space",
+      "True HEPA with an activated carbon layer",
+      "Air quality sensor with an automatic mode",
+      "Coway rates it for very large rooms",
+      "Smart version adds app control and filter tracking"
+    ],
+    "cons": [
+      "Replacement filter sets are not cheap",
+      "Carbon layer is modest compared with the Austin Air"
+    ],
+    "bottomLine": "The pick for an open-plan finished basement or a big great room where smaller units simply cannot keep up.",
+    "description": "The Airmega 400 is the purifier to buy when the room is large and open. It pulls air from both sides through two stacked filter sets, which lets it move a lot of air without the fan sounding frantic, and Coway rates it for spaces well over 1,000 square feet at a single air change per hour. For mold work you want several air changes per hour, so think of it as a strong choice for a 500 to 800 square foot finished basement or great room. Every filter set pairs a true HEPA sheet with activated carbon, and an air quality sensor lets auto mode ramp the fan up when it detects particles. Owners commonly praise how quickly it clears dust and odor in big rooms and how quiet it is on lower speeds. The carbon layer is thin compared with dedicated odor units, so a strong musty smell will improve but may not vanish. Replacement filters are a real ongoing cost, roughly $100 to $150 a year depending on use. Plan for that before buying."
+  },
+  {
+    "name": "Levoit Core 600S Smart Air Purifier",
+    "badge": "Best Smart Purifier",
+    "category": "Large-Room HEPA, App Control",
+    "amazonUrl": "",
+    "id": "levoit-core-600s",
+    "pros": [
+      "High CADR for the price, around 410 CFM per Levoit",
+      "App control with scheduling and air quality history",
+      "Laser particle sensor drives auto mode",
+      "Mold-specific replacement filter available",
+      "Quiet sleep mode"
+    ],
+    "cons": [
+      "Tall cylinder needs open floor space around it",
+      "App features matter less if you just leave it on auto"
+    ],
+    "bottomLine": "The best mix of airflow, smart features, and price for medium to large rooms, especially with Levoit's mold-focused filter.",
+    "description": "The Core 600S is the large-room model in Levoit's popular Core line, and it brings a lot of airflow for the money. Levoit lists a clean air delivery rate of about 410 cubic feet per minute, which is enough for several air changes an hour in a typical living room or bedroom suite. A laser particle sensor feeds the auto mode, and the app shows air quality history, so you can see whether spore and dust levels spike when the basement door is open or the dehumidifier is off. Levoit sells several replacement filters for the 600S, including one marketed for mold and toxin absorption with a heavier carbon blend. Owners commonly mention the quiet sleep mode and the low price compared with premium brands. The weak points are minor: the cylinder needs a foot or so of open space around it to draw air evenly, and the smart features add little if you just set it to auto and forget it. For most households dealing with mild mold-related allergies, it is the best value at its size."
+  },
+  {
+    "name": "Winix 5500-2 HEPA Purifier",
+    "badge": "Best Budget Pick",
+    "category": "Mid-Size True HEPA",
+    "amazonUrl": "",
+    "id": "winix-5500-2",
+    "pros": [
+      "True HEPA plus a washable carbon pre-filter for odors",
+      "Low purchase and filter cost",
+      "AHAM-listed CADR for about 360 square foot rooms",
+      "Auto mode with an odor and particle sensor",
+      "PlasmaWave feature can be switched off"
+    ],
+    "cons": [
+      "PlasmaWave ionizer should be turned off by ozone-sensitive users",
+      "Carbon pre-filter is not a heavy odor solution"
+    ],
+    "bottomLine": "A proven, inexpensive true HEPA unit for a bedroom or small finished basement room, with PlasmaWave left off if you prefer.",
+    "description": "The Winix 5500-2 has stayed near the top of budget lists for years because it delivers real true HEPA filtration and a carbon pre-filter at a price that leaves room for a dehumidifier in the same budget. Its published CADR suits a room of roughly 360 square feet, which covers most bedrooms and a small basement den. An auto mode reads particles and odors and adjusts fan speed, and the filters are inexpensive compared with premium brands. The PlasmaWave feature is an ionizer that Winix says is CARB-certified as meeting California's ozone emission limit. It has a dedicated off switch, and if anyone in the house is sensitive or you simply prefer zero added ozone, leave it off; the HEPA filter does the spore-catching work either way. Owner feedback is consistently good on value and longevity, with the usual budget-unit notes about fan noise on turbo. It will not tame a strong musty odor on its own, but for spores and allergies in a modest room, it is hard to beat."
+  },
+  {
+    "name": "Blueair Blue Pure 211+ Auto",
+    "badge": "Best for Basements",
+    "category": "Large-Room Particle Filter",
+    "amazonUrl": "",
+    "id": "blueair-blue-pure-211-plus",
+    "pros": [
+      "High airflow with a simple, quiet design",
+      "Washable fabric pre-filter catches lint and dust",
+      "Carbon in the main filter for light odors",
+      "Auto mode with a particle sensor on the Auto version",
+      "Low energy use for its airflow"
+    ],
+    "cons": [
+      "Filtration is described in Blueair's own terms, not as a classic true HEPA sheet",
+      "Filters are replaced rather than cleaned"
+    ],
+    "bottomLine": "A quiet, high-airflow, low-fuss unit for an open basement rec room where spores and dust drift around.",
+    "description": "Basements tend to be large, open, and full of dust from stored boxes and exposed joists, and the Blue Pure 211+ is good at that kind of space. It pushes a lot of air with a quiet fan, Blueair rates it for rooms of roughly 500 square feet and more, and the washable fabric pre-filters slip over the body to catch lint and dust before it reaches the main filter. That main filter combines particle media with activated carbon for light odors. Blueair describes its filtration in its own terms rather than as a classic dense true HEPA sheet, so check the current listing for the capture rating it quotes before you buy if that distinction matters to you. Owners like how quiet and simple it is, with a single button on most versions. If you want a classic true HEPA filter for medical reasons, choose the IQAir or Winix instead. For a general musty basement where the goal is to keep spore counts down while the dehumidifier dries the space, the 211+ is a good, low-maintenance fit."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Air Purifier for Mold",
+          item: "https://www.allmetalbrake.com/best-air-purifier-for-mold/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Will a HEPA purifier capture mold spores?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. True HEPA filters capture at least 99.97 percent of particles at 0.3 microns and an even higher share of larger particles, and mold spores are roughly 1 to 30 microns. A sealed HEPA purifier sized for the room will remove most airborne spores that pass through it. It will not remove mold growing on surfaces, so the source still has to be cleaned."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What CADR do I need for a musty room?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Aim for a dust or pollen CADR of at least two-thirds of the room's floor area in square feet, which gives several air changes per hour. A 300 square foot bedroom needs about 200, and a 600 square foot basement den needs about 400. For high ceilings or open floor plans, go higher or use two units."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does an air purifier get rid of mildew odor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only if it has enough activated carbon. The smell is made of gases released by mold, and HEPA filters do not catch gases. Units with a heavy carbon bed, like the Austin Air HealthMate Plus, handle persistent odor far better than units with a thin carbon sheet. Removing the moisture and growth stops the smell at its source."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should an air purifier run all day for mold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, run it continuously. Spore levels rebuild within a couple of hours after a purifier is switched off, especially in a basement with any ongoing growth. Use auto mode or a low setting overnight and higher speeds during the day or during cleanup. The electricity cost of most purifiers on low is small."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a dehumidifier or air purifier better for mold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For preventing mold, a dehumidifier is more important because it removes the moisture mold needs to grow. A purifier then catches spores already in the air and helps with allergies. In a damp basement, buy the dehumidifier first. If symptoms persist after humidity stays below about 50 percent, add a purifier."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do UV-C air purifiers kill mold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A small UV-C lamp inside a purifier has limited effect on mold spores because air passes it too quickly for a lethal dose. Spores trapped on a HEPA filter are already removed from the air. UV-C is not harmful in a sealed, certified unit, but the HEPA filter does the meaningful work, so do not pay extra for the lamp."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a purifier replace mold remediation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. A purifier lowers airborne spores but does nothing to colonies on walls, wood, or carpet, which keep releasing spores. Clean small areas yourself with the right product and protection. For growth larger than about 10 square feet, contamination in ducts, or mold after sewage or flood water, hire a qualified remediation contractor."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Air, Mold & Water Heaters",
+    tags: [
+      "best air purifier for mold",
+      "hepa air purifier",
+      "mold spores",
+      "musty smell",
+      "air purifier for basement",
+      "cadr rating"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 6 Best <span class="text-[#38BDF8]">Air Purifiers for Mold</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A good HEPA purifier pulls mold spores out of the air you breathe and takes the edge off a musty smell. It cannot fix the damp that grows the mold, and the right model depends more on room size than on marketing.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#iqair-healthpro-plus"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Shaheer Ali Khan</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Consumer Product Testing &amp; Materials Performance Specialist</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="11.6k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#what-it-can-do" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. What a Purifier Can Do</a>
+          <a href="#specs" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Specs That Matter</a>
+          <a href="#sizing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Sizing by Room</a>
+          <a href="#avoid" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Technologies to Avoid</a>
+          <a href="#placement" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Placement & Run Time</a>
+          <a href="#purifier-vs-dehumidifier" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Purifier vs Dehumidifier</a>
+          <a href="#filter-costs" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Filter Costs</a>
+          <a href="#room-setups" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Setups by Room</a>
+          <a href="#is-it-working" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Is It Working?</a>
+          <a href="#pro-help" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. When to Call a Pro</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Mold spores range from about 1 to 30 microns, which is exactly the size a true HEPA filter catches most reliably. So almost any well-built HEPA purifier sized for your room will reduce airborne spores. What separates the good choices is airflow for the space, a real carbon bed for odor, honest filter costs, and the absence of ozone-producing gimmicks.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Air Purifiers for Mold, Ranked
+          </h2>
+
+          <p>
+            Each pick uses a true HEPA or HEPA-grade filter, and the rankings draw on published CADR figures, AHAM Verified and CARB listings, filter replacement costs, and patterns in owner feedback. No hands-on lab testing is claimed. Where the maker quotes room coverage, treat it as a rough guide and size up for mold work.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="what-it-can-do" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. What an Air Purifier Can and Cannot Do About Mold
+          </h2>
+
+          <p>
+            An air purifier is a fan pushing room air through filters. If those filters are true HEPA, they capture at least 99.97 percent of particles at 0.3 microns, the size HEPA filters find hardest to catch, and they are even more effective on larger particles. Mold spores are typically 1 to 30 microns, so a sealed HEPA purifier removes most of the spores that pass through it. That lowers what you breathe and can noticeably reduce allergy symptoms.
+          </p>
+
+          <p>
+            What it cannot do is reach mold where it lives. Colonies grow on damp drywall, behind baseboards, on the underside of subfloors, and in carpet pads. A purifier only cleans air that flows into it, and a growing colony keeps releasing new spores. Running a purifier without fixing the damp is like running a mop under a dripping pipe. It helps, but it never finishes.
+          </p>
+
+          <p>
+            That makes the purifier the third step, not the first. Step one is moisture control, usually with a dehumidifier from our <a href="/best-dehumidifier-for-basement/">best basement dehumidifiers</a> guide. Step two is cleaning or removing visible growth with a product chosen from our <a href="/best-mold-remover/">mold remover roundup</a>. Step three is a purifier that keeps airborne spores down while the space dries and during the cleanup itself, when disturbed mold sheds spores in large numbers.
+          </p>
+
+          <p>
+            A purifier also helps with the smell, but only if it has a meaningful amount of activated carbon. The musty odor is made of microbial volatile organic compounds, gases that a particle filter cannot catch. A thin carbon sheet handles light odor; a deep carbon bed, measured in pounds rather than ounces, handles persistent smell.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Fix the damp first, then filter the air</p>
+            <p class="text-gray-300 leading-relaxed m-0">Mold cannot grow without moisture. Keep relative humidity below about 50 percent and the colony stops spreading. The purifier then catches what is left in the air instead of fighting a source that keeps producing spores.</p>
+          </div>
+        </div>
+
+        <div id="specs" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Specs That Actually Matter
+          </h2>
+
+          <p>
+            Clean air delivery rate, or CADR, is the number to start with. It measures how many cubic feet of filtered air a purifier delivers per minute, tested by AHAM for smoke, dust, and pollen. For mold, the dust and pollen figures are the most relevant because spores sit in that size range. A unit marked AHAM Verified has had its CADR checked by an independent lab, which makes comparisons between brands more trustworthy.
+          </p>
+
+          <p>
+            True HEPA matters more than marketing variants. Labels like HEPA-type, HEPA-like, or 99 percent HEPA are not the same standard. Look for language stating 99.97 percent capture at 0.3 microns, or an equivalent medical-grade rating. A good filter in a leaky housing still lets air bypass the media, so sealed designs with a gasket around the filter perform closer to their rating.
+          </p>
+
+          <p>
+            Carbon weight tells you how much odor a unit can handle. Most compact purifiers carry a few ounces of carbon in a thin sheet, which saturates fast in a musty room. Units built for odor and chemicals carry pounds. If the manufacturer does not list carbon weight, assume it is light.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Spec</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">What to look for</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Why it matters for mold</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">CADR (dust/pollen)</td>
+                    <td class="px-4 py-4 text-gray-700">At least two-thirds of room area in sq ft</td>
+                    <td class="px-4 py-4 text-gray-700">Sets how many air changes per hour you get</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Filter standard</td>
+                    <td class="px-4 py-4 text-gray-700">True HEPA, 99.97% at 0.3 micron</td>
+                    <td class="px-4 py-4 text-gray-700">Spores of 1-30 microns are captured reliably</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Carbon</td>
+                    <td class="px-4 py-4 text-gray-700">Listed weight; pounds beats ounces</td>
+                    <td class="px-4 py-4 text-gray-700">Musty odor is a gas that HEPA cannot catch</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Ozone</td>
+                    <td class="px-4 py-4 text-gray-700">CARB certified, ionizer off switch</td>
+                    <td class="px-4 py-4 text-gray-700">Ozone irritates lungs and does not kill mold in safe amounts</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Filter cost</td>
+                    <td class="px-4 py-4 text-gray-700">Under about $100 a year for most rooms</td>
+                    <td class="px-4 py-4 text-gray-700">An unaffordable filter stops getting changed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Finally, check CARB certification. California limits ozone output from indoor air cleaners, and any unit sold there must meet that limit. Certification does not guarantee zero ozone, but it rules out the worst offenders.
+          </p>
+        </div>
+
+        <div id="sizing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Sizing a Purifier for a Mold Problem
+          </h2>
+
+          <p>
+            AHAM's rule of thumb pairs a purifier's smoke CADR with a room of about 1.5 times that figure in square feet, which works out to roughly five air changes per hour in a room with eight-foot ceilings. For allergy and mold work, aim for at least that and preferably more. In plain numbers, a 300 square foot bedroom wants a CADR of 200 or more, and a 600 square foot basement den wants 400 or more.
+          </p>
+
+          <p>
+            Manufacturer coverage claims are often based on a single air change per hour, which is fine for general freshness but too low for spores. If a box says it covers 1,500 square feet, check the fine print, then divide by three to four to get a realistic mold-control coverage. This is the most common reason people buy a purifier, run it for a month, and decide purifiers do not work.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Room size</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Minimum CADR</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Fits</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Up to 200 sq ft</td>
+                    <td class="px-4 py-4 text-gray-700">About 130</td>
+                    <td class="px-4 py-4 text-gray-700">Winix 5500-2</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">200-400 sq ft</td>
+                    <td class="px-4 py-4 text-gray-700">About 260</td>
+                    <td class="px-4 py-4 text-gray-700">Winix 5500-2, Levoit Core 600S</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">400-650 sq ft</td>
+                    <td class="px-4 py-4 text-gray-700">About 400</td>
+                    <td class="px-4 py-4 text-gray-700">Levoit Core 600S, Blueair 211+, Coway Airmega 400</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">650-1,000 sq ft</td>
+                    <td class="px-4 py-4 text-gray-700">600 or two units</td>
+                    <td class="px-4 py-4 text-gray-700">Coway Airmega 400, or two mid-size units</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Odor-first rooms</td>
+                    <td class="px-4 py-4 text-gray-700">Any of the above plus heavy carbon</td>
+                    <td class="px-4 py-4 text-gray-700">Austin Air HealthMate Plus, IQAir HealthPro Plus</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two mid-size units often beat one large unit in a chopped-up basement, because each one cleans the air in its own zone. A single large purifier in a corner of an L-shaped space leaves the far end with little circulation.
+          </p>
+
+          <p>
+            Ceiling height matters too. A basement with seven-foot ceilings has less air than a room with nine-foot ceilings, so a given CADR goes further. A great room with vaulted ceilings needs more than the floor area alone suggests.
+          </p>
+        </div>
+
+        <div id="avoid" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Ozone, UV, and Ionizers: What to Skip
+          </h2>
+
+          <p>
+            Ozone generators are sold as mold killers, and that claim does not hold up at safe concentrations. The EPA states that ozone at levels that do not harm people has little effect on mold and other contaminants, and that ozone itself irritates the lungs and can worsen asthma. Ozone shock treatments of empty buildings exist in professional practice, but they are not a household appliance feature. Do not run an ozone generator in an occupied home.
+          </p>
+
+          <p>
+            Ionizers and electrostatic features charge particles so they cling to surfaces or collector plates. Some produce small amounts of ozone as a by-product. Many reputable purifiers include one with an off switch and CARB certification, which is a reasonable compromise. If anyone in the house has asthma, leave it off; the HEPA filter does the work either way.
+          </p>
+
+          <p>
+            UV-C lamps inside purifiers draw a lot of marketing. In principle UV-C damages microorganisms, but killing mold spores takes a substantial dose, and air flows past a small internal lamp in a fraction of a second. Spores caught on a HEPA filter are already trapped and do not grow in a dry filter. A UV lamp is not harmful when sealed inside a certified unit, but it is not a reason to pay more.
+          </p>
+
+          <p>
+            Photocatalytic oxidation and similar technologies can generate formaldehyde and other by-products under some conditions. For a mold problem, they add cost and uncertainty without solving the core issue. A sealed true HEPA filter, a meaningful carbon bed, and enough airflow for the room is the formula that works.
+          </p>
+        </div>
+
+        <div id="placement" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Placement and How Long to Run It
+          </h2>
+
+          <p>
+            Put the purifier in the room where people spend the most time, not necessarily where the mold was. If the family room is in the basement, put it there. If the basement is storage and the problem is spores drifting upstairs, a unit in the main living area or bedroom often does more for your lungs. Keep it at least a foot from walls and furniture so it can pull air freely.
+          </p>
+
+          <p>
+            Run it continuously. Spore levels rebound within an hour or two of switching a purifier off, especially in a basement where something is still releasing them. Auto mode is fine as long as the sensor sees particles; many owners run the fan on low or medium overnight for quiet and let auto take over during the day.
+          </p>
+
+          <p>
+            During cleanup, run a purifier in the work area or just outside it, with the door closed, and keep it running for a day or two after you finish. Scrubbing, sanding, or removing drywall releases a burst of spores, and a purifier capturing them limits how many settle elsewhere in the house. Do not let it replace a proper respirator, which you should wear during any mold cleanup.
+          </p>
+
+          <p>
+            Close windows while it runs in humid weather. Outdoor air brings outdoor spores, and in summer it also brings moisture that undoes the dehumidifier. In dry, cool weather, airing a basement out briefly can help, but the purifier is most effective in a closed room.
+          </p>
+        </div>
+
+        <div id="purifier-vs-dehumidifier" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Purifier or Dehumidifier: Which Comes First
+          </h2>
+
+          <p>
+            If you can only afford one machine for a damp, musty basement, buy the dehumidifier. It removes the moisture that lets mold grow, and over a few weeks spore production drops along with humidity. A purifier without humidity control is permanently playing catch-up.
+          </p>
+
+          <p>
+            Buy the purifier first only when the moisture is already under control and symptoms persist, or when the concern is a specific room, such as a bedroom with a history of mold, where you want cleaner air immediately while the larger fix is underway. People with mold allergies often benefit from both, run together, for the first month after a cleanup.
+          </p>
+
+          <p>
+            The two machines also work differently in winter. Basements are usually drier in cold weather, so the dehumidifier may barely run. The purifier keeps catching dust and any residual spores year-round, which makes it the machine that stays on longer over the course of a year.
+          </p>
+
+          <p>
+            A good pairing for a typical 1,000 square foot basement is a 50-pint Energy Star dehumidifier and a mid-size HEPA purifier with a CADR of around 250 to 400. Total cost runs roughly $450 to $750 at the time of writing, which is less than many single remediation visits and keeps working long after.
+          </p>
+        </div>
+
+        <div id="filter-costs" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Filter Costs and How Often to Change Them
+          </h2>
+
+          <p>
+            The purchase price is only part of the cost. Replacement filters for the picks here range from roughly $40 a year for budget models to well over $150 a year for large-room and medical-grade units, depending on how hard they run. Check filter price and availability before buying; a purifier whose filter goes unreplaced eventually just circulates air.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Typical Annual Filter Cost</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">$40-$70</p>
+                <p class="text-gray-400 text-xs mt-1">Winix 5500-2</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">$60-$100</p>
+                <p class="text-gray-400 text-xs mt-1">Levoit Core 600S</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">$100-$150</p>
+                <p class="text-gray-400 text-xs mt-1">Coway Airmega 400</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">$80-$150</p>
+                <p class="text-gray-400 text-xs mt-1">Austin or IQAir, averaged</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Change HEPA filters on the maker's schedule or sooner during a mold cleanup. The filter holds captured spores, and while they generally do not grow on a dry filter, a filter that has been in a damp basement for a long time can develop a smell. Bag the old filter outdoors and dispose of it with household trash.
+          </p>
+
+          <p>
+            Pre-filters are worth cleaning every two to four weeks in a basement. They catch lint, pet hair, and dust before it clogs the more expensive HEPA layer, which extends its life. Vacuum or rinse them according to the manual, and let washable ones dry fully before you put them back.
+          </p>
+
+          <p>
+            Carbon is the stage that wears out fastest in a musty room. Once it saturates, it stops absorbing odor and the smell comes back. If the musty smell returns while the purifier is still running, the carbon is likely spent, even if the HEPA stage has life left.
+          </p>
+        </div>
+
+        <div id="room-setups" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Practical Setups for Common Rooms
+          </h2>
+
+          <p>
+            Finished basement family room: pair a 50-pint dehumidifier with a large-room purifier such as the Coway Airmega 400 or Levoit Core 600S. Put the purifier near the seating area and the dehumidifier near the dampest wall or the sump pit. Keep the stair door closed during humid months so upstairs air does not pull basement spores up the stairwell, and so the dehumidifier is not trying to dry the whole house.
+          </p>
+
+          <p>
+            Bedroom above a damp crawlspace or basement: a mid-size true HEPA unit like the Winix 5500-2 running on low through the night is usually enough. Seal gaps around plumbing penetrations in the floor with foam or caulk, because those openings are a direct path for crawlspace air. If you wake up congested and feel better away from home, look at the crawlspace before buying a second purifier.
+          </p>
+
+          <p>
+            Bathroom with recurring mildew: a purifier is the wrong tool here. Bathroom mold is a ventilation problem, and the fix is an exhaust fan that vents outdoors and runs for 20 to 30 minutes after every shower, plus regular cleaning of grout and caulk. Save the purifier budget for a room where people spend hours at a time.
+          </p>
+
+          <p>
+            Storage basement nobody uses: if the space is unfinished and you rarely go down there, a dehumidifier alone is usually the better investment. Spores that stay in the basement do little harm to people upstairs, especially with the stair door closed. If basement air does reach the living space through return ducts in the basement, change the furnace filter to a MERV 11 to 13 rated filter, which many residential systems can accept without restricting airflow too much; check with your HVAC installer if unsure, and check that return ducts are sealed.
+          </p>
+        </div>
+
+        <div id="is-it-working" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. How to Tell Whether the Purifier Is Helping
+          </h2>
+
+          <p>
+            The honest answer is that you cannot see spores, so judge results by what you can observe. Within a week or two of running a correctly sized unit continuously, most people with mold allergies notice fewer morning symptoms, less congestion after time in the room, and less dust settling on flat surfaces. If none of that changes after a month, the purifier is too small, the source is still active, or the symptoms have a different cause.
+          </p>
+
+          <p>
+            An inexpensive particle monitor helps. Consumer PM2.5 sensors do not count mold spores specifically, but they show whether the purifier is pulling particle levels down and how fast they rebound when it is off. Many smart purifiers, including the Levoit and Coway picks here, display this data in their apps. A room that drops quickly and stays low is getting enough air changes.
+          </p>
+
+          <p>
+            Watch the smell over several weeks. If the musty odor fades while the dehumidifier holds humidity below 50 percent, the combination is working. If the smell lingers even with dry air and a fresh carbon filter, something is still growing, often behind drywall, under flooring, or inside a wall cavity next to a plumbing leak. A moisture meter on the suspect wall is the next step.
+          </p>
+
+          <p>
+            Check the filter at the first change. A HEPA filter that comes out gray after a few months in a basement is doing its job. A filter that looks barely used after the same period suggests the unit is running too low, is blocked by furniture, or is in a room where little air moves. Adjust placement and fan speed before deciding the purifier is not up to the task.
+          </p>
+        </div>
+
+        <div id="pro-help" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. When the Problem Is Bigger Than a Purifier
+          </h2>
+
+          <p>
+            Mold covering more than about 10 square feet, roughly a three-by-three-foot patch, is the point at which the EPA suggests consulting professional guidance. Growth inside HVAC ducts, behind finished walls after a flood, or anywhere water entered from sewage should be handled by a remediation contractor regardless of size.
+          </p>
+
+          <p>
+            Persistent health symptoms are another trigger. If someone in the house has worsening asthma, frequent respiratory infections, or allergic reactions that track with time spent at home, see a doctor and consider a professional moisture and mold assessment. A purifier helps, but finding the hidden source matters more.
+          </p>
+
+          <p>
+            Before calling anyone, check the obvious water sources yourself. Gutters, downspouts, grading, plumbing leaks, and foundation cracks cause most basement moisture, and our guide on <a href="/how-to-fix-a-damp-basement/">fixing a damp basement</a> walks through them in order. A contractor will look at the same things first.
+          </p>
+
+          <p>
+            Be wary of companies that sell air testing as the main service and then recommend expensive treatments based on spore counts alone. Indoor air always contains some spores. The useful findings are moisture sources and visible or hidden growth, which a good inspector identifies with a moisture meter, a flashlight, and sometimes a thermal camera.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trusting the coverage on the box</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Coverage claims are often based on one air change per hour, which suits general freshness but not spore control. A unit sold for 1,000 square feet may really clean 300 square feet at the rate mold control needs. Size from CADR instead, aiming for about two-thirds of the room area or more.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying an ozone generator</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Ozone is marketed as a mold killer, but at levels safe for people it does little to mold and it irritates the lungs. The EPA advises against using ozone generators in occupied spaces. Spend the money on a sealed true HEPA unit and a dehumidifier instead.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting HEPA to remove the smell</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The musty smell is a gas, and HEPA filters only catch particles. A purifier with a thin carbon sheet will barely touch a strong basement odor. Choose a unit with a substantial carbon bed, and fix the moisture so the smell stops being produced in the first place.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running it only when it smells</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Spore counts climb back within hours after a purifier shuts off. Switching it on only when the room smells bad means it is always starting from behind. Run it continuously on low or auto, and turn it up during cleanup or when the basement is in heavy use.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping filter changes</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A clogged or saturated filter moves less air, and a spent carbon stage lets the odor return. Owners often blame the purifier when the real issue is a filter overdue by months. Note the change date on the filter and budget the replacement cost when you buy.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a HEPA purifier capture mold spores?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. True HEPA filters capture at least 99.97 percent of particles at 0.3 microns and an even higher share of larger particles, and mold spores are roughly 1 to 30 microns. A sealed HEPA purifier sized for the room will remove most airborne spores that pass through it. It will not remove mold growing on surfaces, so the source still has to be cleaned.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What CADR do I need for a musty room?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Aim for a dust or pollen CADR of at least two-thirds of the room's floor area in square feet, which gives several air changes per hour. A 300 square foot bedroom needs about 200, and a 600 square foot basement den needs about 400. For high ceilings or open floor plans, go higher or use two units.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Does an air purifier get rid of mildew odor?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Only if it has enough activated carbon. The smell is made of gases released by mold, and HEPA filters do not catch gases. Units with a heavy carbon bed, like the Austin Air HealthMate Plus, handle persistent odor far better than units with a thin carbon sheet. Removing the moisture and growth stops the smell at its source.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should an air purifier run all day for mold?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, run it continuously. Spore levels rebuild within a couple of hours after a purifier is switched off, especially in a basement with any ongoing growth. Use auto mode or a low setting overnight and higher speeds during the day or during cleanup. The electricity cost of most purifiers on low is small.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a dehumidifier or air purifier better for mold?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For preventing mold, a dehumidifier is more important because it removes the moisture mold needs to grow. A purifier then catches spores already in the air and helps with allergies. In a damp basement, buy the dehumidifier first. If symptoms persist after humidity stays below about 50 percent, add a purifier.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do UV-C air purifiers kill mold?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A small UV-C lamp inside a purifier has limited effect on mold spores because air passes it too quickly for a lethal dose. Spores trapped on a HEPA filter are already removed from the air. UV-C is not harmful in a sealed, certified unit, but the HEPA filter does the meaningful work, so do not pay extra for the lamp.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a purifier replace mold remediation?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. A purifier lowers airborne spores but does nothing to colonies on walls, wood, or carpet, which keep releasing spores. Clean small areas yourself with the right product and protection. For growth larger than about 10 square feet, contamination in ducts, or mold after sewage or flood water, hire a qualified remediation contractor.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Mold and Moisture Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-dehumidifier-for-basement/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Basement Dehumidifiers</h3>
+              <p class="text-gray-500 text-sm mt-2">The machine that stops mold growing in the first place.</p>
+            </a>
+            <a href="/best-mold-remover/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Mold Removers</h3>
+              <p class="text-gray-500 text-sm mt-2">Products that kill, clean, or prevent growth on surfaces.</p>
+            </a>
+            <a href="/how-to-fix-a-damp-basement/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">How-To</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Drying Out a Damp Basement</h3>
+              <p class="text-gray-500 text-sm mt-2">Track down the water before it feeds another colony.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most homes, the Levoit Core 600S or the Winix 5500-2 sized to the room will cut airborne spores enough to make a real difference to allergies. If the musty smell is the main complaint, the Austin Air HealthMate Plus and its heavy carbon bed is the one to choose. If someone in the house has asthma or serious mold sensitivity and the budget allows, the IQAir HealthPro Plus offers the most thorough filtration available to homeowners.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whatever you buy, treat it as the last line of defense. Dry the space to below 50 percent humidity, clean or remove what is growing, and then let the purifier keep the air clear while the house stays dry.
+          </p>
+        </div>
+
+        <MoreInCategory category="Air, Mold & Water Heaters" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

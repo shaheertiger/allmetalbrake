@@ -1,0 +1,961 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Basement Dehumidifiers",
+    "url": "/best-dehumidifier-for-basement/"
+  },
+  {
+    "title": "Best Heat Pump Water Heaters",
+    "url": "/best-heat-pump-water-heater/"
+  },
+  {
+    "title": "Best Gas Water Heaters",
+    "url": "/best-gas-water-heater/"
+  },
+  {
+    "title": "HEPA Purifiers for Smoky or Moldy Days",
+    "url": "/best-air-purifier-for-mold/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 6 Best Whole House Fans: Ranked by Climate and Attic";
+const description =
+  "Six whole house fans compared on airflow, noise, damper insulation, and attic fit, plus how to size CFM, vent the attic, and run one safely with gas appliances.";
+
+const PRODUCTS = [
+  {
+    "name": "QuietCool Stealth Pro 3.3",
+    "badge": "Best Overall",
+    "category": "Ducted, Mid-Size Home",
+    "amazonUrl": "",
+    "id": "quietcool-stealth-pro",
+    "pros": [
+      "Ducted design isolates motor noise in the attic",
+      "Insulated, gasketed ceiling damper closes when the fan is off",
+      "Airflow suited to many homes of roughly 1,500 to 2,000 square feet",
+      "Two-speed operation for quiet overnight running",
+      "Long manufacturer warranty"
+    ],
+    "cons": [
+      "Needs adequate attic venting, often more than the house already has",
+      "Flexible duct takes up attic space"
+    ],
+    "bottomLine": "The best balance of airflow, quiet running, and winter sealing for a typical single-story or small two-story home.",
+    "description": "QuietCool pioneered the ducted approach that changed how whole house fans sound, and the Stealth Pro 3.3 is the model that fits the largest number of homes. The motor hangs in the attic at the end of a flexible insulated duct, a few feet away from the ceiling grille, so the vibration and hum that made older fans so loud stay mostly in the attic. The number in the name points to its airflow class, which suits many homes in the 1,500 to 2,000 square foot range on the common two-to-three CFM per square foot rule. The ceiling damper is insulated and closes when the fan stops, which limits the winter heat loss that made traditional louvered fans unpopular. Two speeds let you run high in the evening to flush heat, then drop to low overnight. Owners commonly mention how quiet it is compared with older fans and how quickly the house cools once the windows are open. The practical catch is attic venting: a fan this size needs several square feet of net free vent area, and many houses need extra vents added."
+  },
+  {
+    "name": "QuietCool Classic 3.4",
+    "badge": "Best Value",
+    "category": "Ducted, Value Line",
+    "amazonUrl": "",
+    "id": "quietcool-classic",
+    "pros": [
+      "Same ducted, noise-isolating concept at a lower price",
+      "Lighter, simpler unit that is easy to install",
+      "Strong airflow for its price class",
+      "Ceiling grille fits standard joist spacing",
+      "Widely available at home centers"
+    ],
+    "cons": [
+      "Damper insulation is less robust than the Stealth line",
+      "Single speed on some configurations"
+    ],
+    "bottomLine": "A cost-effective way to get ducted quiet operation if you can live with a less heavily insulated damper.",
+    "description": "The Classic line is QuietCool's entry point, and it delivers the main benefit of ducted design at a lower price: the motor sits in the attic, separated from the ceiling by an insulated duct, so it is far quieter in the living space than an old-style direct-mount fan. Airflow in the 3.4 class covers many medium-sized homes. Installation is relatively simple for a capable DIYer with attic access and electrical experience, since the unit hangs from rafters with straps and the grille fits between standard joists. Where it gives ground to the Stealth Pro is the damper. The Classic seals reasonably well but carries less insulation, so in a cold climate expect more winter heat loss through the grille unless you add an insulated cover. Some configurations are single-speed, which is less flexible for overnight running. Owners generally rate it highly for value and noise compared with traditional fans. If you live somewhere with mild winters and want to keep the budget for added attic vents, this is the sensible pick."
+  },
+  {
+    "name": "Centric Air 3.5",
+    "badge": "Best Efficiency",
+    "category": "Ducted, High-Efficiency Motor",
+    "amazonUrl": "",
+    "id": "centric-air-3-5",
+    "pros": [
+      "Electronically commutated motor designed for low power draw",
+      "Variable speed control for fine-tuning airflow",
+      "Insulated damper for reduced heat loss",
+      "Ducted design for quiet operation",
+      "Good airflow for mid- to large-size homes"
+    ],
+    "cons": [
+      "Costs more than comparable QuietCool models",
+      "Fewer retail outlets, so often bought through installers or online"
+    ],
+    "bottomLine": "A strong pick for owners who will run the fan for long hours and want the lowest electricity use per cubic foot moved.",
+    "description": "Centric Air competes directly with QuietCool on ducted whole house fans, and its main argument is efficiency. The maker builds its fans around electronically commutated motors, the type found in high-efficiency furnace blowers, which typically move more air per watt than conventional motors and allow smooth variable speed rather than one or two fixed settings. If you plan to run the fan for many hours a night through a long dry summer, that efficiency adds up. Variable speed also helps with noise: you can dial airflow down to the point where it is barely audible in a bedroom while still pulling cool air through the house. The 3.5 model sits in the mid-to-large range, suiting many homes of roughly 1,750 to 2,300 square feet. The damper is insulated and closes when the fan is off. The trade-offs are price, which tends to run above QuietCool for similar airflow, and distribution, since you are more likely to buy it online or through an installer than at a big-box store. Installers who carry both lines often describe them as comparable in quality."
+  },
+  {
+    "name": "Tamarack HV1000 R50",
+    "badge": "Best for Cold Climates",
+    "category": "Between-Joist, Insulated Doors",
+    "amazonUrl": "",
+    "id": "tamarack-hv1000",
+    "pros": [
+      "Motorized insulated doors rated around R-50 seal the opening when off",
+      "Installs between ceiling joists with no duct or large opening",
+      "Very quiet, smaller airflow per unit",
+      "Multiple units can be zoned around the house",
+      "Minimal winter heat loss"
+    ],
+    "cons": [
+      "Lower airflow per unit, so larger homes need two or more",
+      "Higher cost per CFM than ducted fans"
+    ],
+    "bottomLine": "The right choice where winters are cold and air sealing matters, or where you want quiet zoned fans in several rooms.",
+    "description": "Tamarack takes a different approach from the ducted fans above. The HV1000 is a compact unit that sits between ceiling joists, and when it shuts off, motorized doors with heavy insulation close over the opening. The R50 in the name refers to that insulation rating. For anyone in a cold climate, that matters a great deal, because a whole house fan opening is otherwise a hole in the ceiling for six months of the year. The trade-off is airflow. At roughly 1,000 CFM per unit, a single HV1000 suits a small home, a cabin, or a bedroom wing rather than a large house. Many owners install two or three in different areas, which has its own advantages: you can run only the units in occupied zones, and each one is very quiet. Installation is simpler than a large ducted fan, since there is no big duct to hang. Cost per CFM is higher than QuietCool or Centric Air, so in mild climates the ducted fans are better value. In places with real winters, the Tamarack is the most airtight option here."
+  },
+  {
+    "name": "QuietCool Trident Pro 4.0",
+    "badge": "Best for Large Homes",
+    "category": "Ducted, Large Home",
+    "amazonUrl": "",
+    "id": "quietcool-trident-pro",
+    "pros": [
+      "High airflow for large homes in a single unit",
+      "Ducted design keeps noise in the attic",
+      "Insulated damper",
+      "Multi-speed control",
+      "Fewer ceiling openings than running several smaller fans"
+    ],
+    "cons": [
+      "Demands a lot of attic vent area",
+      "Overkill and more expensive than needed for smaller homes"
+    ],
+    "bottomLine": "A single-unit solution for homes over roughly 2,300 square feet that have the attic venting to support it.",
+    "description": "Large homes face a choice between several smaller fans and one big one, and the Trident Pro is QuietCool's case for one big one. Its airflow class suits homes well above 2,000 square feet on the usual sizing rule, delivered through the same ducted layout that keeps the motor noise in the attic. Multi-speed control lets you run it hard during the first hour of the evening and much more quietly through the night. The insulated damper limits winter heat loss. The real constraint is the attic. A fan moving this much air needs a correspondingly large net free vent area, and if the attic cannot exhaust that volume, pressure builds, airflow falls, and hot attic air can push back through ceiling fixtures and gaps. Before buying, calculate the vent area you need and confirm the attic has it or can be given it with gable, ridge, or soffit vents. For homes under about 2,000 square feet, a smaller fan does the same work for less money and less venting work."
+  },
+  {
+    "name": "Master Flow 24 in. Whole House Fan",
+    "badge": "Best Budget",
+    "category": "Direct-Mount Traditional",
+    "amazonUrl": "",
+    "id": "master-flow-whf",
+    "pros": [
+      "Low purchase price",
+      "Moves a lot of air for the money",
+      "Simple, proven direct-mount design",
+      "Shutter louvers close automatically when the fan stops",
+      "Easy to find replacement parts"
+    ],
+    "cons": [
+      "Much louder than ducted fans because the motor sits right above the ceiling",
+      "Louvered shutter leaks heat in winter without an added cover"
+    ],
+    "bottomLine": "Worth it only where budget rules and noise is acceptable, and only with an insulated winter cover.",
+    "description": "Before ducted fans, the typical whole house fan followed this pattern: a large fan mounted directly over a ceiling opening, with a louvered shutter below that opens when the fan pushes air and falls closed when it stops. The Master Flow 24-inch model keeps that design and its main advantage, price. It costs a fraction of a ducted fan and moves a substantial amount of air, which is why it remains popular for garages, workshops, and budget installs. The drawbacks are well known. Because the motor sits right above the ceiling, it is much louder in the room below, and owners commonly describe it as too loud to sleep with on high. The louvers close by gravity and do not seal well, so in winter warm air leaks into the attic unless you add an insulated winter cover, fitted either in the attic or on the ceiling side. Installation also involves cutting a larger ceiling opening and framing it. If your summers are short and your budget is tight, it works. If you plan to run the fan nightly for months, a ducted fan is worth the difference."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Whole House Fan",
+          item: "https://www.allmetalbrake.com/best-whole-house-fan/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "How many CFM should my whole house fan move?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A common rule is two to three CFM per square foot of living area, so a 1,500 square foot home wants roughly 3,000 to 4,500 CFM. Hotter climates sit at the upper end. Check that the result gives 15 to 30 air changes per hour, and confirm the attic has enough net free vent area to exhaust that volume."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many windows do I need to open?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open roughly twice as much window area as your attic net free vent area, spread through the house. For a typical mid-size fan, that often means several windows opened a few inches each, or a few opened fully. Opening windows in the rooms you want cooled most directs the airflow there. Always open windows before starting the fan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Whole house fan or attic fan: what separates them?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. An attic fan only exhausts air from the attic and has a limited effect on living-space temperature. A whole house fan pulls air through open windows, through the living space, and out through the attic, which cools the rooms directly. Whole house fans also flush the attic, so they reduce next-day heat gain from above."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a whole house fan work where summers are humid?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only partially. In humid climates, nights are often too warm and sticky for the fan to help, and running it can bring moisture into the house. It can still be useful in spring and fall when evenings are cool and dry. In the Gulf Coast and Southeast, most homeowners get better value from other efficiency upgrades."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a whole house fan cost to run?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most modern ducted fans draw roughly 100 to 600 watts depending on size and speed, compared with several thousand watts for central air conditioning. At average U.S. electricity prices, running a mid-size fan for a full night costs a few cents to a few tens of cents, which is why owners in suitable climates see substantial cooling savings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a whole house fan be dangerous with gas appliances?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can if the house is depressurized. Running the fan with too few windows open can pull exhaust, including carbon monoxide, back down the vent of an atmospheric gas water heater, furnace, or fireplace. Always open plenty of windows first, keep CO alarms on every level, and have an installer review combustion venting before installation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I install a whole house fan myself?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many ducted fans are designed for DIY installation by someone comfortable working in an attic and following detailed instructions. The electrical connection must meet local code, may require a dedicated circuit and permit, and is best done by a licensed electrician if you have not done similar work. Direct-mount fans that require cutting joists are a bigger job."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Air, Mold & Water Heaters",
+    tags: [
+      "best whole house fan",
+      "whole house fan sizing",
+      "ducted whole house fan",
+      "quietcool fan",
+      "attic ventilation",
+      "evening cooling"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 6 Best <span class="text-[#38BDF8]">Whole House Fans</span>, Ranked
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          On a dry summer evening, a whole house fan can flush a day's heat out of the house for the price of running a few light bulbs. It only works in the right climate, with enough attic venting, and with windows open.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#quietcool-stealth-pro"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="8.7k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#how-it-cools" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. How It Cools</a>
+          <a href="#climate" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Is Your Climate Right?</a>
+          <a href="#types" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Ducted or Direct-Mount</a>
+          <a href="#sizing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Sizing in CFM</a>
+          <a href="#venting" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Attic Venting</a>
+          <a href="#operation" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Operating It Well</a>
+          <a href="#install" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Install & Safety</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Cost & Savings</a>
+          <a href="#noise" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Noise & Sleep</a>
+          <a href="#winter" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Winter Heat Loss</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          The fan never chills anything. It replaces hot indoor air with cooler outdoor air, fast, by pulling it through open windows and pushing it out through the attic. When evenings drop into the 60s or low 70s and the air is dry, that can mean leaving the air conditioner off for much of the summer. When nights are warm and muggy, no fan will help, and you should spend the money elsewhere.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Whole House Fans, Ranked
+          </h2>
+
+          <p>
+            Rankings draw on manufacturer airflow and power ratings, damper and insulation design, warranty terms, installation requirements, and consistent themes in owner and installer feedback. We did not install or measure these fans; airflow figures below come from the makers and are rounded.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="how-it-cools" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. How a Whole House Fan Cools a House
+          </h2>
+
+          <p>
+            Through a hot day, walls, floors, furniture, and the air itself absorb heat. By evening, even when the temperature outside has dropped into the 60s, the house can still sit in the high 70s or low 80s because all that mass keeps releasing warmth. A whole house fan pulls air in through open windows, sends it through the living space, and exhausts it into the attic, where it leaves through the attic vents. Moving large volumes, often 15 to 30 air changes an hour, it replaces indoor air with outdoor air in minutes.
+          </p>
+
+          <p>
+            That has two effects. First, the air temperature indoors drops toward the outdoor temperature quickly. Second, the steady flow of cooler air through the house gradually pulls stored heat out of the building itself, so the house starts the next morning cooler and takes longer to warm up. In dry climates with large day-to-night temperature swings, that can delay or eliminate air conditioning for most of the day.
+          </p>
+
+          <p>
+            A whole house fan also flushes the attic. Attics often reach 130 degrees or more on summer afternoons, and that heat radiates down into the ceiling below. Pushing large volumes of cooler air through the attic every evening lowers its temperature, which reduces heat gain into the house the following day.
+          </p>
+
+          <p>
+            Do not confuse it with an attic fan. An attic ventilator, usually mounted on the roof or gable, only moves air from the attic to the outside, and its effect on living-space temperature is small. The whole house version pushes air across the rooms people occupy, and that flow is what does the cooling. The two are sometimes confused at the store, so check the product description.
+          </p>
+        </div>
+
+        <div id="climate" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Is Your Climate Right for One?
+          </h2>
+
+          <p>
+            The test is simple. On the evenings you would like to stop running the air conditioner, does the outdoor air drop below about 75 to 78 degrees, and does it feel dry? If yes, a whole house fan will probably pay for itself. If the evenings stay warm or sticky, it will not, and running it will drag humid air into the house that the air conditioner then has to deal with.
+          </p>
+
+          <p>
+            The strongest fits are dry Western climates such as much of California, the Mountain West, and the interior Pacific Northwest, where summer nights often fall into the 50s and 60s. Many Midwestern and Northeastern areas also see good results in late spring, early summer, and early fall, even if peak summer nights are too humid. The Gulf Coast and the Southeast are generally poor fits outside of the shoulder seasons.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Climate</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical summer night</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Fit for a whole house fan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Dry West, high desert, mountains</td>
+                    <td class="px-4 py-4 text-gray-700">Low to mid 60s, dry</td>
+                    <td class="px-4 py-4 text-gray-700">Excellent, can replace AC most nights</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Coastal and inland California</td>
+                    <td class="px-4 py-4 text-gray-700">60s, low humidity</td>
+                    <td class="px-4 py-4 text-gray-700">Excellent</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Midwest and Northeast</td>
+                    <td class="px-4 py-4 text-gray-700">Upper 60s to 70s, variable humidity</td>
+                    <td class="px-4 py-4 text-gray-700">Good in spring and fall, mixed mid-summer</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Mid-Atlantic</td>
+                    <td class="px-4 py-4 text-gray-700">Low to mid 70s, humid</td>
+                    <td class="px-4 py-4 text-gray-700">Fair, mainly shoulder seasons</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Gulf Coast and Southeast</td>
+                    <td class="px-4 py-4 text-gray-700">Upper 70s, very humid</td>
+                    <td class="px-4 py-4 text-gray-700">Poor; brings in moisture</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Air quality is the other consideration. During wildfire smoke events or high pollen counts, pulling large volumes of outdoor air through the house is the opposite of what you want. Plan to switch to air conditioning and filtration on those days. Allergy sufferers may also prefer to run the fan only in the late evening and overnight, when some pollens are lower.
+          </p>
+
+          <p>
+            Humid basements deserve a mention. Whole house fans pull from the windows you open, so keeping basement windows closed and running a dehumidifier from our <a href="/best-dehumidifier-for-basement/">basement dehumidifier guide</a> prevents the fan from drawing humid outdoor air down into the coolest part of the house.
+          </p>
+        </div>
+
+        <div id="types" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Ducted Versus Direct-Mount Fans
+          </h2>
+
+          <p>
+            Direct-mount fans sit right above a ceiling opening, often in a hallway, with a louvered shutter below. They move a lot of air for the money, but because the motor and blades are directly over the room, they are loud, and the louvers leak heat in winter. They also need a larger ceiling opening, typically cut across joists and reframed, which adds to installation work.
+          </p>
+
+          <p>
+            Ducted fans, such as the QuietCool and Centric Air models, put the motor several feet away in the attic and connect it to a ceiling grille with a flexible insulated duct. The duct absorbs much of the noise and vibration, and the grille usually fits between standard joists. Most include an insulated damper that closes when the fan stops. They cost more but are far quieter and better sealed, which is why most new installations today are ducted.
+          </p>
+
+          <p>
+            Between-joist units with insulated doors, such as the Tamarack HV1000, are a third type. They move less air per unit but seal tightly, so they work well in cold climates or as zoned fans in individual rooms. Larger homes typically use more than one.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Noise in the room</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Winter sealing</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical price, fan only</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Direct-mount with louvers</td>
+                    <td class="px-4 py-4 text-gray-700">Loud</td>
+                    <td class="px-4 py-4 text-gray-700">Poor without a cover</td>
+                    <td class="px-4 py-4 text-gray-700">Roughly $250-$600</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Ducted with insulated damper</td>
+                    <td class="px-4 py-4 text-gray-700">Quiet to moderate</td>
+                    <td class="px-4 py-4 text-gray-700">Good</td>
+                    <td class="px-4 py-4 text-gray-700">Roughly $800-$1,800</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Between-joist with insulated doors</td>
+                    <td class="px-4 py-4 text-gray-700">Quiet</td>
+                    <td class="px-4 py-4 text-gray-700">Excellent</td>
+                    <td class="px-4 py-4 text-gray-700">Roughly $1,000-$1,600 per unit</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            For a home that will run the fan every night through summer, ducted is worth the extra cost. For a garage or workshop where noise does not matter and the fan runs only on the hottest days, a direct-mount fan is fine.
+          </p>
+        </div>
+
+        <div id="sizing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Sizing a Whole House Fan in CFM
+          </h2>
+
+          <p>
+            Fan capacity is rated in cubic feet per minute. The usual sizing rule is two to three CFM per square foot of conditioned living area, with the lower end suited to cooler climates and the higher end to hotter ones. A 1,500 square foot home therefore wants roughly 3,000 to 4,500 CFM. Count only the floors the fan will draw through; an unfinished basement with closed windows does not count.
+          </p>
+
+          <p>
+            Another way to check is air changes per hour. Multiply floor area by average ceiling height to get the house volume, then divide the fan's CFM by that volume and multiply by 60. A result between 15 and 30 air changes per hour is the useful range. Below 15, the fan feels weak; above 30, you need a lot of attic vent area and open window area to support it.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Rough Sizing at 2-3 CFM per Square Foot</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">1,000 sq ft</p>
+                <p class="text-gray-400 text-xs mt-1">2,000-3,000 CFM</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">1,500 sq ft</p>
+                <p class="text-gray-400 text-xs mt-1">3,000-4,500 CFM</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">2,000 sq ft</p>
+                <p class="text-gray-400 text-xs mt-1">4,000-6,000 CFM</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">2,500 sq ft</p>
+                <p class="text-gray-400 text-xs mt-1">5,000-7,500 CFM</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Two-story homes benefit from placing the fan on the top floor, near the center, usually in a hallway ceiling, so it draws air up through the stairwell from windows on both floors. In a sprawling single-story house, two smaller fans at opposite ends often work better than one large fan in the middle.
+          </p>
+
+          <p>
+            Bigger is not always better. An oversized fan without enough attic venting pressurizes the attic, which can push hot air and dust back down through recessed lights and ceiling gaps, and in extreme cases interfere with gas appliance vents. Size to the house, then make sure the attic can exhaust what the fan moves.
+          </p>
+        </div>
+
+        <div id="venting" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Attic Venting: The Part Most Installs Get Wrong
+          </h2>
+
+          <p>
+            Every cubic foot the fan pushes into the attic has to leave through attic vents. Manufacturers commonly call for roughly 1 square foot of net free area per 750 CFM of fan capacity, and some recommend more. A 4,500 CFM fan therefore needs about 6 square feet of net free area, which is often double what a typical house already has.
+          </p>
+
+          <p>
+            Net free area is not the size of the vent opening. Screens and louvers block a share of each vent, so a gable vent that measures 2 square feet across might provide only 1 square foot of net free area. The vent label or manufacturer data lists the net free figure. Ridge vents, soffit vents, gable vents, and roof louvers all count, as long as they are not blocked by insulation or debris.
+          </p>
+
+          <p>
+            If the attic is short of vent area, add gable vents or roof louvers before the fan goes in. Signs of under-venting after installation include a whistling grille, doors that slam when the fan starts, dust puffing from recessed lights, and a weaker breeze than expected. Fixing venting after the fact is usually straightforward but easier to plan up front.
+          </p>
+
+          <p>
+            Spray-foam insulated attics, where the foam is applied to the underside of the roof deck, are sealed by design and generally cannot accept a standard whole house fan without special venting arrangements. If your attic is foamed, talk to the fan maker or an installer before buying.
+          </p>
+        </div>
+
+        <div id="operation" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Running a Whole House Fan Well
+          </h2>
+
+          <p>
+            Open windows before you switch the fan on, and keep them open the whole time it runs. A useful rule is to open about twice as much window area as the attic net free vent area, spread across the house. Opening windows in the rooms where you want the most cooling, such as bedrooms, steers the airflow there.
+          </p>
+
+          <p>
+            Start when the outdoor temperature falls below the indoor temperature, usually in early evening. Run on high for the first hour or two to flush the heat, then drop to low or a gentle setting overnight. Many owners use a timer switch so the fan shuts off in the early morning, before the outdoor air starts warming.
+          </p>
+
+          <p>
+            Close up the house in the morning. Shut windows and draw shades on the sunny side once the outdoor temperature begins to rise. The goal is to trap the cool air and the cooled mass of the house inside for as long as possible. In dry climates, a house managed this way can stay comfortable well into the afternoon.
+          </p>
+
+          <p>
+            Do not run the fan and the air conditioner at the same time. The fan would push conditioned air into the attic while pulling warm outdoor air in. Switch from one to the other as conditions change. Ceiling fans, by contrast, pair well with a whole house fan because they add a breeze without bringing in outside air.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">SAFETY FIRST</p>
+            <p class="text-xl font-bold text-white mb-3">Never run it with the windows closed</p>
+            <p class="text-gray-300 leading-relaxed m-0">A whole house fan with too little open window area depressurizes the house. That can pull exhaust gases, including carbon monoxide, down the flues of a gas water heater, furnace, or fireplace. Open windows first, every time, and keep working CO alarms on every level.</p>
+          </div>
+        </div>
+
+        <div id="install" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Installation and Safety
+          </h2>
+
+          <p>
+            Installation involves cutting a ceiling opening, mounting the fan or hanging the ducted unit in the attic, and wiring it to a switch. Experienced DIYers often handle ducted models, which come with detailed instructions. Direct-mount fans that require cutting joists and reframing are a bigger carpentry job. Either way, follow the manufacturer's instructions exactly; they cover clearances, mounting, and electrical requirements.
+          </p>
+
+          <p>
+            Electrical work must meet local code. Many fans need a dedicated circuit, and some jurisdictions require a permit. If you are not comfortable working in the panel and wiring a new circuit, hire a licensed electrician. Use the switch or timer the manufacturer specifies, and place it where children are less likely to start the fan with the windows closed.
+          </p>
+
+          <p>
+            Combustion appliances need special attention. If your water heater, furnace, or boiler uses an atmospheric vent, the fan must never depressurize the house. Open windows generously, keep the fan away from the appliance area, and install carbon monoxide alarms. If you have a gas water heater, our guide to the <a href="/best-gas-water-heater/">best gas water heaters</a> explains the difference between atmospheric and power-vented models.
+          </p>
+
+          <p>
+            Some fire codes require whole house fans to shut off automatically in a fire, often via a heat-sensing switch or a connection to the smoke alarm system, because a running fan can feed a fire with air. Check local requirements, and look for fans with built-in thermal cutoffs.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Costs, Running Costs, and Savings
+          </h2>
+
+          <p>
+            A ducted fan costs roughly $800 to $1,800 for the unit at the time of writing, with professional installation often adding $500 to $1,500 depending on attic access, venting work, and electrical requirements. Direct-mount fans are cheaper to buy but can cost as much to install if the ceiling opening needs reframing.
+          </p>
+
+          <p>
+            Running cost is where whole house fans shine. Most ducted fans draw roughly 100 to 600 watts depending on size and speed, compared with 2,000 to 5,000 watts for a typical central air conditioner. Running a mid-size fan for eight hours a night costs a few cents to a few tens of cents at average electricity rates.
+          </p>
+
+          <p>
+            Savings depend entirely on climate and habits. In dry climates where the fan can replace evening and overnight air conditioning for most of the summer, owners commonly report substantial reductions in cooling bills. In humid climates, savings are smaller because the fan sees fewer useful hours.
+          </p>
+
+          <p>
+            Factor in venting upgrades and possible electrical work when budgeting. A fan that needs two new gable vents and a dedicated circuit can easily cost several hundred dollars more to install than the quote for the fan alone. Ask installers for a line-item quote.
+          </p>
+        </div>
+
+        <div id="noise" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Noise, Sleep, and Living With the Fan
+          </h2>
+
+          <p>
+            Noise is the main reason people stop using a whole house fan, so it deserves as much attention as airflow. Two sounds matter: the hum and vibration of the motor, and the rush of air through the grille and open windows. Ducted designs reduce the first by putting distance and an insulated duct between the motor and the ceiling. The second depends on how hard the fan is pushing and how much open window area it has to draw from.
+          </p>
+
+          <p>
+            Starving a fan of intake air makes it louder. When there is too little open window area, air accelerates through the gaps and whistles, and the grille can rattle. Opening a few more windows, even a couple of inches each, often quiets a fan more than any other change. The same applies to attic venting; an under-vented attic makes the fan work against back pressure, which raises the pitch.
+          </p>
+
+          <p>
+            Placement matters for sleep. A grille in the hallway outside the bedrooms is common, and on high speed that hallway will be noisy. Owners who sleep with the fan on usually run it on high for the first hour or two after sunset, then switch to low before bed. Variable-speed fans, such as the Centric Air, make it easier to find a setting that is both effective and quiet.
+          </p>
+
+          <p>
+            Think about the breeze as well as the sound. Airflow concentrates at the windows nearest the fan, so rooms far from it get less. Opening windows in distant bedrooms and partly closing the ones closest to the grille spreads the cooling more evenly through the house, and lets you run a lower, quieter speed for the same overall effect.
+          </p>
+        </div>
+
+        <div id="winter" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. Winter Heat Loss and How to Stop It
+          </h2>
+
+          <p>
+            Any opening in a ceiling is a potential heat leak. Older direct-mount fans with gravity louvers are the worst offenders, because the louvers seal poorly and warm air rises straight into the attic all winter. In cold climates, that can add noticeably to heating bills and can carry moisture into the attic, where it condenses on cold roof sheathing.
+          </p>
+
+          <p>
+            Insulated dampers on modern ducted fans address most of this, and between-joist units with heavily insulated doors address nearly all of it. If you have an older louvered fan, fit an insulated cover over the opening for winter, either a rigid foam box from the attic side or a magnetic or clip-on cover from below.
+          </p>
+
+          <p>
+            Seal around the fan housing and grille as well. A gap between the grille frame and the ceiling drywall can leak as much as the fan opening. Caulk or foam those gaps from the attic side, keeping required clearances around the motor.
+          </p>
+
+          <p>
+            Attic moisture is worth a periodic look. Frost on the underside of the roof deck in winter, or dark staining on the sheathing near the fan, suggests warm, moist air is escaping into the attic. Better sealing usually fixes it; if the staining looks like mold, our roundup of the <a href="/best-mold-remover/">best mold removers</a> covers treatment for attic framing.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Undersizing the attic vents</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Most attics do not have enough net free vent area for a whole house fan, and adding the fan without more venting leaves it starved. Airflow drops, the attic pressurizes, and hot air can push back through ceiling fixtures. Calculate roughly 1 square foot of net free area per 750 CFM before installation.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Starting the fan before opening windows</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Running the fan against closed windows depressurizes the house and can pull flue gases from atmospheric gas appliances back into the living space. It also strains the motor. Make opening windows the first step every time, and consider a timer or interlock so the fan cannot run long unnoticed.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running it on humid nights</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A whole house fan brings outdoor air in as it is. On sticky nights that means humid air soaking into furniture, carpet, and drywall, which the air conditioner then has to remove the next day. Use the fan when the air is both cooler and reasonably dry.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying for the biggest number</h3>
+              <p class="text-gray-700 text-sm m-0">
+                An oversized fan needs more attic vent area and more open windows than many homes can provide. It is also louder at any given cooling level than a right-sized fan running on a faster speed. Size at two to three CFM per square foot of living area.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring winter sealing</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Old louvered fans leak heated air into the attic all winter, adding to heating bills and carrying moisture into the roof space. Choose a fan with an insulated damper or doors, seal around the grille, and add an insulated cover to older fans before cold weather arrives.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many CFM should my whole house fan move?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A common rule is two to three CFM per square foot of living area, so a 1,500 square foot home wants roughly 3,000 to 4,500 CFM. Hotter climates sit at the upper end. Check that the result gives 15 to 30 air changes per hour, and confirm the attic has enough net free vent area to exhaust that volume.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many windows do I need to open?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Open roughly twice as much window area as your attic net free vent area, spread through the house. For a typical mid-size fan, that often means several windows opened a few inches each, or a few opened fully. Opening windows in the rooms you want cooled most directs the airflow there. Always open windows before starting the fan.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Whole house fan or attic fan: what separates them?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. An attic fan only exhausts air from the attic and has a limited effect on living-space temperature. A whole house fan pulls air through open windows, through the living space, and out through the attic, which cools the rooms directly. Whole house fans also flush the attic, so they reduce next-day heat gain from above.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a whole house fan work where summers are humid?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Only partially. In humid climates, nights are often too warm and sticky for the fan to help, and running it can bring moisture into the house. It can still be useful in spring and fall when evenings are cool and dry. In the Gulf Coast and Southeast, most homeowners get better value from other efficiency upgrades.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What does a whole house fan cost to run?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most modern ducted fans draw roughly 100 to 600 watts depending on size and speed, compared with several thousand watts for central air conditioning. At average U.S. electricity prices, running a mid-size fan for a full night costs a few cents to a few tens of cents, which is why owners in suitable climates see substantial cooling savings.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a whole house fan be dangerous with gas appliances?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It can if the house is depressurized. Running the fan with too few windows open can pull exhaust, including carbon monoxide, back down the vent of an atmospheric gas water heater, furnace, or fireplace. Always open plenty of windows first, keep CO alarms on every level, and have an installer review combustion venting before installation.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I install a whole house fan myself?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Many ducted fans are designed for DIY installation by someone comfortable working in an attic and following detailed instructions. The electrical connection must meet local code, may require a dedicated circuit and permit, and is best done by a licensed electrician if you have not done similar work. Direct-mount fans that require cutting joists are a bigger job.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Home Comfort Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-dehumidifier-for-basement/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Basement Dehumidifiers</h3>
+              <p class="text-gray-500 text-sm mt-2">Keep the lowest level dry while the fan cools the rest of the house.</p>
+            </a>
+            <a href="/best-gas-water-heater/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Gas Water Heaters</h3>
+              <p class="text-gray-500 text-sm mt-2">Atmospheric versus power-vent, and why it matters with a big fan.</p>
+            </a>
+            <a href="/best-air-purifier-for-mold/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Air Purifiers for Mold</h3>
+              <p class="text-gray-500 text-sm mt-2">HEPA filtration for the days when outdoor air is not welcome.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most homes in a suitable climate, the QuietCool Stealth Pro 3.3 is the fan to buy: quiet, well sealed, and sized for the typical house. Choose the Classic to save money in mild-winter areas, the Centric Air for maximum efficiency over long run times, the Tamarack HV1000 where winters are cold, and the Trident Pro for large homes with the attic venting to match.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Before ordering, confirm two things: that your summer evenings are cool and dry enough to make a whole house fan worthwhile, and that your attic has, or can be given, roughly one square foot of net free attic venting for each 750 CFM. Then open the windows first, every time.
+          </p>
+        </div>
+
+        <MoreInCategory category="Air, Mold & Water Heaters" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

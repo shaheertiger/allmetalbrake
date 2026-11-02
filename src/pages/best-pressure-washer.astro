@@ -1,0 +1,998 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Electric Pressure Washers",
+    "url": "/best-electric-pressure-washer/"
+  },
+  {
+    "title": "Best Shop Vacs",
+    "url": "/best-shop-vac/"
+  },
+  {
+    "title": "Best Benchtop Planers",
+    "url": "/best-benchtop-planer/"
+  },
+  {
+    "title": "Best Surface Cleaners for Pressure Washers",
+    "url": "/best-surface-cleaner-for-pressure-washer/"
+  },
+  {
+    "title": "How to Remove Oil Stains From a Driveway",
+    "url": "/how-to-remove-oil-stains-from-driveway/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Pressure Washers: Gas and Electric Ranked by Job";
+const description =
+  "Seven gas and electric pressure washers matched to real jobs, from washing a car to stripping a driveway, with clear guidance on PSI, GPM, pumps and budget.";
+
+const PRODUCTS = [
+  {
+    "badge": "Top Pick Overall",
+    "category": "Honda GC190 Gas Engine, 2.4 GPM at 3100 PSI",
+    "name": "Simpson MegaShot MS60763",
+    "description": "The MegaShot MS60763 is the gas machine most homeowners should look at first. Simpson rates it at 3,100 PSI and 2.4 GPM, which works out to roughly 7,400 cleaning units, enough to clear a two-car concrete driveway in a reasonable morning with a surface cleaner attached. Power comes from a Honda GC190 engine, a residential overhead-cam design with a long reputation for starting easily and a dealer network that sells parts almost everywhere. The welded steel frame and 10-inch pneumatic wheels make it easier to roll across gravel or lawn than plastic-wheeled units. It ships with quick-connect tips covering the standard spray angles plus a soap nozzle. The pump is an axial cam design, which is normal at this price but means it is built for weekend use rather than daily contract work. For a house, driveway, deck and fence on a typical suburban lot, this is the balance point between power, reliability and price.",
+    "pros": [
+      "Honda GC190 engine with wide parts and service support",
+      "About 7,400 cleaning units handles concrete efficiently",
+      "Steel frame and pneumatic wheels roll well on rough ground",
+      "Quick-connect nozzles included for every common job"
+    ],
+    "cons": [
+      "Axial cam pump is not built for daily professional use",
+      "Loud and needs fuel, oil and winter prep like any gas engine",
+      "Too strong for casual car washing without care"
+    ],
+    "bottomLine": "The default gas pick for homeowners who clean concrete, siding and decks every year.",
+    "amazonUrl": "",
+    "id": "simpson-megashot-ms60763"
+  },
+  {
+    "badge": "Top Electric",
+    "category": "Brushless Plug-In, 1.2 GPM at 2300 PSI",
+    "name": "Ryobi RY142300 2300 PSI Brushless",
+    "description": "Ryobi's RY142300 is the electric unit that gives up the least to gas in everyday use. It is rated at 2,300 PSI and 1.2 GPM from a brushless motor, which Ryobi positions as longer-lived and quieter than the brushed universal motors used in most budget plug-ins. It stands upright on a compact frame with wheels, stores its hose and cord on board, and takes standard quick-connect nozzles, so third-party surface cleaners and wands fit without adapters. At about 2,760 cleaning units it handles cars, vinyl siding, outdoor furniture, patios and wood decks comfortably. Concrete is possible but slow, and a small surface cleaner helps a lot there. The draw for most buyers is practical: no fuel, no oil, no pull cord, and you can run it on a weekday evening without the neighbors noticing much. If your job list is mostly the house and the car, this is the machine to start with.",
+    "pros": [
+      "Brushless motor is quieter and built for longer life",
+      "Upright frame with on-board hose and cord storage",
+      "Standard quick-connect fittings accept common accessories",
+      "No fuel, oil or winter engine care"
+    ],
+    "cons": [
+      "1.2 GPM makes large concrete areas slow",
+      "Needs a GFCI outlet within cord reach",
+      "Still needs pump protection before a freeze"
+    ],
+    "bottomLine": "The plug-in to buy if your list is cars, siding, decks and patios rather than acres of concrete.",
+    "amazonUrl": "",
+    "id": "ryobi-ry142300-brushless"
+  },
+  {
+    "badge": "Gas Value Pick",
+    "category": "Generac OHV Gas Engine, 2.7 GPM at 3200 PSI",
+    "name": "Generac SpeedWash 3200 PSI",
+    "description": "Generac's SpeedWash 3200 is built around one idea: stop swapping nozzles. Its PowerDial spray gun rotates between spray patterns and a soap setting at the handle, so changing from a wide rinse to a narrower cleaning stream takes a twist instead of a walk back to the machine. Generac rates it at 3,200 PSI and 2.7 GPM, about 8,600 cleaning units, which is more flow than many gas units at a similar price and translates directly into faster rinsing. The kit typically includes quick-connect attachments such as a surface cleaner, a rotating brush and a foam cannon, so it can be a complete setup out of the box. It uses Generac's own overhead-valve engine rather than a Honda, which matters mainly for long-term parts sourcing. If you want strong flow and a convenient gun for a reasonable price, it is a smart buy.",
+    "pros": [
+      "2.7 GPM rinses faster than most consumer gas units",
+      "PowerDial gun changes spray pattern at the handle",
+      "Bundle commonly includes several useful attachments",
+      "Strong cleaning units for the money"
+    ],
+    "cons": [
+      "Generac engine has a smaller service network than Honda",
+      "Axial cam pump limits it to homeowner duty",
+      "Heavier than an electric to move and store"
+    ],
+    "bottomLine": "The most flow and convenience per dollar for homeowners who clean big surfaces.",
+    "amazonUrl": "",
+    "id": "generac-speedwash-3200"
+  },
+  {
+    "badge": "Budget Pick",
+    "category": "Plug-In with Two Soap Tanks, 1.76 GPM Max",
+    "name": "Sun Joe SPX3000 2030 PSI",
+    "description": "The SPX3000 has been one of the most widely sold pressure washers for years because it does light work for very little money. Sun Joe lists maximum figures of 2,030 PSI and 1.76 GPM; like most budget electrics, those peaks are not delivered at the same moment, so treat it as a light-duty machine. It uses a universal motor, which is louder and wears faster than an induction or brushless design, and it has two on-board detergent tanks with a selector switch, which is handy for switching between a car soap and a patio cleaner. Five quick-connect tips come with it, and an automatic shut-off stops the pump when you release the trigger. It is well suited to cars, bikes, grills, lawn furniture and small patios. It is not a good choice for anyone planning to strip a deck or clean a long driveway several times a year.",
+    "pros": [
+      "Very low price for a capable light-duty machine",
+      "Two detergent tanks with a selector switch",
+      "Five quick-connect tips included",
+      "Light enough to carry up steps"
+    ],
+    "cons": [
+      "Universal motor is loud and has a shorter service life",
+      "Peak ratings overstate real cleaning speed",
+      "Plastic build and short included hose"
+    ],
+    "bottomLine": "A sensible first pressure washer for cars and patios, not for heavy annual concrete work.",
+    "amazonUrl": "",
+    "id": "sun-joe-spx3000"
+  },
+  {
+    "badge": "Heavy-Duty Pick",
+    "category": "Honda GX Engine with Triplex Plunger Pump",
+    "name": "Simpson PowerShot PS60869",
+    "description": "The PowerShot line is where a homeowner pressure washer turns into a light commercial tool. The PS60869 pairs a Honda GX-series engine, the commercial-grade family with a cast-iron cylinder sleeve, with a triplex plunger pump. A triplex pump uses three ceramic plungers and can be serviced and rebuilt, so it is designed to run for many hundreds of hours instead of being replaced when it wears. Simpson rates this machine in the 4,000-PSI-plus class with high flow, which puts it well above the MegaShot in cleaning units. That much energy is overkill for a car and dangerous on soft wood if you are careless, but it is exactly right for someone who cleans large concrete pads, farm equipment, a long fence line or several properties. Expect to pay roughly double a residential gas unit. If you would use it weekly, the pump alone justifies the price.",
+    "pros": [
+      "Serviceable triplex plunger pump built for long hours",
+      "Commercial Honda GX engine",
+      "Very high cleaning units for big concrete jobs",
+      "Heavy steel frame with large wheels"
+    ],
+    "cons": [
+      "Roughly double the cost of a residential gas unit",
+      "Heavy and loud, hard to store in a small garage",
+      "Easy to damage wood and siding without care"
+    ],
+    "bottomLine": "Only worth it if you clean large areas often enough to need a pump that can be rebuilt.",
+    "amazonUrl": "",
+    "id": "simpson-powershot-ps60869"
+  },
+  {
+    "badge": "Gentlest on Paint",
+    "category": "Water-Cooled Plug-In, 1.4 GPM, Gun Pressure Control",
+    "name": "Karcher K5 Premium Smart Control",
+    "description": "Karcher's K5 Premium Smart Control is the electric pick for people who care about the finish on what they are cleaning. Karcher rates it around 2,000 PSI and 1.4 GPM from a water-cooled induction motor, a design that runs cooler and quieter than budget universal motors. Its signature feature is the trigger gun with a small display and pressure settings, so you can step the pressure down for paint and glass and back up for patio stones without switching tips. The Smart Control app pairs with the gun to suggest settings for different surfaces. The hose reel and tall upright frame make it tidy to store. The main drawback is that Karcher uses its own connection system on parts of the setup, so some third-party accessories need adapters. For car detailing, painted siding and outdoor furniture, it is the most controllable machine on this list.",
+    "pros": [
+      "Pressure adjustable at the gun with a readout",
+      "Water-cooled induction motor runs quieter",
+      "Built-in hose reel and tidy upright storage",
+      "Excellent control for paint and glass"
+    ],
+    "cons": [
+      "Some fittings are proprietary and need adapters",
+      "Pricey for a 2,000 PSI machine",
+      "Slow on large concrete areas"
+    ],
+    "bottomLine": "Buy it for controlled, gentle cleaning of cars, siding and furniture rather than raw power.",
+    "amazonUrl": "",
+    "id": "karcher-k5-premium"
+  },
+  {
+    "badge": "Most Pressure on a Plug",
+    "category": "Induction Plug-In, 1.1 GPM, 3000 PSI Rating",
+    "name": "Greenworks Pro GPW3000 3000 PSI Electric",
+    "description": "Greenworks advertises this as a 3,000 PSI electric, which is about as high as plug-in pressure washers go on a standard household circuit. The catch is flow: at roughly 1.1 GPM, its cleaning units land near 3,300, only a little above a good 2,000 PSI machine. Where the extra pressure helps is on stuck-on grime in small spots, such as tire marks, mildew in brick joints and the corners of a garage slab. It uses an induction motor and a sturdier frame than entry-level electrics, with on-board storage for tips, hose and cord. For siding, decks and patios it performs much like other mid-range electrics, and for concrete it still benefits from a surface cleaner. Buy it if you want the strongest point pressure you can get without a gas engine, and understand that pressure alone does not make a machine clean faster.",
+    "pros": [
+      "Among the highest PSI ratings on a household circuit",
+      "Induction motor for longer life than universal designs",
+      "Sturdier frame and storage than budget electrics",
+      "Good for stubborn small-area stains"
+    ],
+    "cons": [
+      "Low flow keeps overall cleaning speed modest",
+      "High pressure needs care on wood and siding",
+      "Heavier than compact electrics"
+    ],
+    "bottomLine": "A strong electric for tough spot cleaning, but not a substitute for a gas unit on big concrete.",
+    "amazonUrl": "",
+    "id": "greenworks-pro-3000-electric"
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Pressure Washer Picks",
+          item: "https://www.allmetalbrake.com/best-pressure-washer/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which pressure washer should most homeowners buy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For a typical suburban home with a driveway, siding and a deck, the Simpson MegaShot MS60763 balances flow, engine reliability and price well. If your jobs are mostly cars, patios and siding, the Ryobi RY142300 brushless electric is easier to live with. Decide on your three most frequent jobs first, then choose the power source that suits them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does flow or pressure matter more?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Flow, measured in GPM, is the one that predicts how fast you finish. PSI breaks dirt loose; flow carries it away. Multiply the two to get cleaning units, which is the most useful single figure for comparing machines. For delicate surfaces, moderate PSI with decent flow is the safest choice. For big concrete, prioritize GPM within your budget."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much PSI do I need for a concrete driveway?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most broom-finished driveways clean well somewhere between 2,500 and 3,500 PSI, ideally with at least 2.3 GPM and a rotating surface cleaner. A smaller electric can clean concrete, but it takes much longer and is prone to striping. Pretreat oil and rust stains with the right cleaner, because extra pressure does little to lift them on its own."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a pressure washer damage my house or deck?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, easily. Too narrow a tip or holding the wand too close can splinter softwood, etch concrete, strip paint, force water behind siding and break window seals. Start with a wide tip at a distance, test in a hidden spot, and increase force only as needed. On older homes, painted surfaces or anything you are unsure about, low pressure and a cleaner are safer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are electric pressure washers good enough?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For cars, outdoor furniture, decks, siding and modest patios, a good electric is more than enough and much easier to own. Where they fall short is large concrete areas, because household circuits limit flow to under about 2 GPM. Pair an electric with a small surface cleaner and it will handle a walkway and a single-car pad comfortably."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a home pressure washer last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends mainly on the pump and how it is stored. Consumer axial cam pumps are typically rated in the low hundreds of hours, which can mean many years of occasional use if the machine is never frozen or run dry. Triplex pumps are commonly rated much higher and can be rebuilt. Winterizing and using pump saver extend life significantly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I rent or buy a pressure washer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If you have one heavy job a year, renting a commercial gas unit for a day is usually cheaper and avoids storage and maintenance. Buying pays off once you have several substantial jobs each season or want to clean cars and furniture whenever you like. Many homeowners own an electric for routine work and rent gas for the yearly driveway."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Cleaning & Shop Tools",
+    tags: [
+      "best pressure washer",
+      "gas pressure washer",
+      "pressure washer buying guide",
+      "psi vs gpm",
+      "cleaning units",
+      "pressure washer for driveway"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Pressure Washers</span>, Gas and Electric, Matched to the Job
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          The right machine depends on what you clean and how often. These picks run from a quiet plug-in for cars and patio furniture up to a triplex-pump gas unit for anyone who strips decks and driveways every spring.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#simpson-megashot-ms60763"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="15.8k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#cleaning-units" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Pressure Times Flow</a>
+          <a href="#gas-or-electric" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Gas or Electric</a>
+          <a href="#job-matching" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Matching the Machine to the Job</a>
+          <a href="#pumps-engines" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Pumps and Engines</a>
+          <a href="#nozzles-accessories" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Nozzles and Add-Ons</a>
+          <a href="#running-it" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Running It Safely</a>
+          <a href="#storage-winter" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Storage and Winter</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. What It Costs</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Most people buy too much pressure washer or too little, and both mistakes cost money. A homeowner who washes a car, a grill and a patio set twice a year does not need a 3,000 PSI gas engine sitting in the shed with stale fuel in it. Someone with a long concrete driveway, a two-story house and a fence line will burn an entire Saturday with a small electric unit and still see stripes. The number that tells you which camp you are in is not PSI on its own; it is pressure multiplied by flow. This guide ranks seven machines on that basis and then explains how to pick, set up, run and store whichever one you buy.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Pressure Washers, Ranked
+          </h2>
+
+          <p>
+            Picks are based on manufacturer ratings for pressure, flow, engine or motor type and pump design, along with warranty terms, parts availability and recurring patterns in owner feedback. We weighted each machine by how well it fits a realistic household job list and budget. No hands-on testing is claimed, and no brand paid for placement.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="cleaning-units" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Pressure Times Flow: The Number That Predicts Speed
+          </h2>
+
+          <p>
+            Every box leads with PSI because it is the biggest number, but PSI only describes how hard the water hits. GPM, gallons per minute, describes how much water is doing the work and how fast it carries loosened dirt away. A narrow stream at high pressure will cut a clean line in grime, then leave you waiting while the slurry sits there. More flow sweeps it off. That is why a 2,700 PSI gas machine at 2.5 GPM finishes a driveway far faster than a 3,000 PSI electric at 1.1 GPM.
+          </p>
+
+          <p>
+            The industry shorthand for combining the two is cleaning units: multiply PSI by GPM. A typical budget electric lands between about 2,500 and 3,500. A good residential gas unit lands between 7,000 and 9,000. A commercial triplex machine can top 14,000. Cleaning units are not a lab standard, and they ignore nozzle design and how well a machine holds pressure under load, but as a first filter for comparing two machines in a store aisle, nothing works better.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Typical Cleaning Units by Class</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">2,500-3,500</p>
+                <p class="text-gray-400 text-xs mt-1">Budget electric</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">2,800-3,500</p>
+                <p class="text-gray-400 text-xs mt-1">Premium electric</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">7,000-9,000</p>
+                <p class="text-gray-400 text-xs mt-1">Residential gas</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">12,000+</p>
+                <p class="text-gray-400 text-xs mt-1">Triplex gas</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Watch for the word max. Many electric units, and some gas units, publish the highest pressure the pump can produce in a spike and the highest flow it can deliver with no restriction. Those two peaks do not happen together. Brands that publish rated or working figures certified under the CETA or PWMA standard give you numbers you can trust more. When a spec sheet says max PSI and max GPM, assume real working performance is noticeably lower and compare cleaning units with that discount in mind.
+          </p>
+
+          <p>
+            The practical rule: if your main job is a large flat surface, shop on GPM first and pressure second. If your main job is vertical surfaces, painted finishes or vehicles, more pressure is rarely useful and often harmful, and a mid-range electric with good flow for its class is the better tool. Most homeowners land in the second group more than they expect, which is why the <a href="/best-electric-pressure-washer/">best electric pressure washers</a> cover a larger share of real chore lists than the spec race suggests.
+          </p>
+        </div>
+
+        <div id="gas-or-electric" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Gas or Electric: Choosing the Power Source
+          </h2>
+
+          <p>
+            Gas buys you flow, freedom from cords and the ability to clean a long driveway in one session. It costs you noise, weight, fuel storage, oil changes and winter prep, and it brings carbon monoxide into the picture. A residential gas unit typically weighs 55 to 80 pounds and is loud enough that hearing protection is a good idea. If you clean concrete, a large deck or a whole house every year, the speed difference repays that hassle quickly.
+          </p>
+
+          <p>
+            Electric buys you convenience. You plug it in, connect the hose, and you are washing in a minute. Noise is closer to a loud vacuum, there are no fumes, and storage is a matter of draining the pump and rolling it into a corner. The trade-off is the household circuit: a 15-amp outlet limits a plug-in to roughly 1,800 watts, which caps flow at around 1.1 to 1.8 GPM no matter what the pressure rating says. That ceiling is physics, not a brand failing.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Factor</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Electric</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Gas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Typical flow</td>
+                    <td class="px-4 py-4 text-gray-700">1.1-1.8 GPM</td>
+                    <td class="px-4 py-4 text-gray-700">2.3-4.0 GPM</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Noise</td>
+                    <td class="px-4 py-4 text-gray-700">Moderate</td>
+                    <td class="px-4 py-4 text-gray-700">Loud, hearing protection advised</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Weight</td>
+                    <td class="px-4 py-4 text-gray-700">25-50 lb</td>
+                    <td class="px-4 py-4 text-gray-700">55-100+ lb</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Upkeep</td>
+                    <td class="px-4 py-4 text-gray-700">Pump care only</td>
+                    <td class="px-4 py-4 text-gray-700">Oil, fuel, spark plug, pump care</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Best for</td>
+                    <td class="px-4 py-4 text-gray-700">Cars, siding, decks, patios</td>
+                    <td class="px-4 py-4 text-gray-700">Driveways, large decks, whole houses</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Rough price</td>
+                    <td class="px-4 py-4 text-gray-700">$150-$450</td>
+                    <td class="px-4 py-4 text-gray-700">$350-$1,500+</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Cordless battery models now exist, and they solve a different problem: washing things where there is no outlet, such as a boat at a slip or a car in a parking space. Most draw from a bucket or a hose and offer light pressure for short bursts. They are useful tools, but they do not replace either category above for house and driveway work.
+          </p>
+
+          <p>
+            If you are torn, list the three jobs you will do most often. If two of them are concrete or a whole-house wash, buy gas. If two of them are a car, a deck, siding or furniture, buy electric and add a surface cleaner for the occasional patio. Many households that bought gas for a once-a-year driveway would have been happier with electric and a pro visit every few years.
+          </p>
+        </div>
+
+        <div id="job-matching" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Matching the Machine to the Job
+          </h2>
+
+          <p>
+            Different surfaces want very different amounts of force, and the right nozzle and distance matter as much as the machine. As a general guide, painted car finishes do best around 1,200 to 1,900 PSI with a 40-degree tip held a couple of feet away. Softwood decks such as pine and cedar want the low end, roughly 500 to 1,200 PSI, with a 25- or 40-degree tip. Vinyl and fiber cement siding sit around 1,300 to 1,600 PSI, sprayed downward, never up under the laps.
+          </p>
+
+          <p>
+            Concrete is the surface that rewards power. Broom-finished driveways and sidewalks generally clean well at 2,500 to 3,500 PSI with good flow, ideally through a rotating surface cleaner that keeps the distance constant and stops striping. Pavers sit lower, roughly 1,500 to 2,500 PSI, so the jets do not blow out joint sand. Brick and stone vary by mortar condition, so start low and check the joints after the first pass.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Surface</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical PSI</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Tip</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Car paint</td>
+                    <td class="px-4 py-4 text-gray-700">1,200-1,900</td>
+                    <td class="px-4 py-4 text-gray-700">40 degree or foam</td>
+                    <td class="px-4 py-4 text-gray-700">Keep 18-24 in. away</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Softwood deck</td>
+                    <td class="px-4 py-4 text-gray-700">500-1,200</td>
+                    <td class="px-4 py-4 text-gray-700">25 or 40 degree</td>
+                    <td class="px-4 py-4 text-gray-700">Follow the grain</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Vinyl siding</td>
+                    <td class="px-4 py-4 text-gray-700">1,300-1,600</td>
+                    <td class="px-4 py-4 text-gray-700">25 or 40 degree</td>
+                    <td class="px-4 py-4 text-gray-700">Spray downward only</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Pavers</td>
+                    <td class="px-4 py-4 text-gray-700">1,500-2,500</td>
+                    <td class="px-4 py-4 text-gray-700">Surface cleaner</td>
+                    <td class="px-4 py-4 text-gray-700">Re-sand joints after</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Concrete driveway</td>
+                    <td class="px-4 py-4 text-gray-700">2,500-3,500</td>
+                    <td class="px-4 py-4 text-gray-700">Surface cleaner</td>
+                    <td class="px-4 py-4 text-gray-700">Flow matters most</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Stains are a separate problem from dirt. Oil, rust and tire marks do not respond much to more pressure; they respond to chemistry and dwell time. Treat oil with a degreaser or poultice first, then rinse, as covered in <a href="/how-to-remove-oil-stains-from-driveway/">removing oil stains from a driveway</a>. Mildew on siding and decks needs a cleaner that kills the growth, applied at low pressure through the soap nozzle and left to work before you rinse.
+          </p>
+
+          <p>
+            If a single machine has to cover a car and a driveway, buy for the driveway and control the pressure for the car with a wide tip, distance and a foam cannon. The reverse does not work: no technique turns a 1.2 GPM electric into a fast concrete cleaner. The exception is a buyer whose concrete area is small, such as a front walk and a single-car pad, where an electric with a surface cleaner is entirely adequate.
+          </p>
+        </div>
+
+        <div id="pumps-engines" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Pumps and Engines: Where the Money Goes
+          </h2>
+
+          <p>
+            The pump is the part that fails, and pump design largely decides how long a pressure washer lives. Most consumer machines use an axial cam pump, also called a wobble or swash plate pump, which is compact and inexpensive. It is designed for homeowner duty, commonly rated in the low hundreds of hours, and when it wears out it is usually replaced rather than repaired. That is a fair trade for someone who runs the machine a few weekends a year.
+          </p>
+
+          <p>
+            Triplex plunger pumps use a crankshaft and three ceramic plungers, run at lower speeds, and can be rebuilt with seal kits and valves. Manufacturers commonly rate them for well over a thousand hours. They add several hundred dollars to the price, and they make sense for anyone who washes weekly, rents equipment, cleans for neighbors or runs a small side business. For the occasional user, the extra cost rarely pays back.
+          </p>
+
+          <p>
+            Engines follow a similar split. Honda's GC series is a residential overhead-cam design used on many consumer pressure washers, while the GX series is the commercial line with a cast-iron cylinder sleeve built for long hours. Store-brand overhead-valve engines from Generac, Briggs and Stratton, Kohler and others are generally reliable on homeowner machines. What matters more than the badge is whether a local shop can get parts, so check before you buy an unfamiliar brand.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">The Rule</p>
+            <p class="text-xl font-bold text-white mb-3">Buy the pump for the hours you will actually run.</p>
+            <p class="text-gray-300 leading-relaxed m-0">A few weekends a year: an axial cam pump is fine and the savings are real. Weekly use or paid work: a triplex pump pays for itself the first time it needs seals instead of replacement.</p>
+          </div>
+
+          <p>
+            On electrics, the motor is the comparable choice. Universal motors, common on budget units, are light and cheap but noisy and have carbon brushes that wear out. Induction and brushless motors run quieter and cooler and generally last longer. If you plan to keep a plug-in machine for many years, paying a little more for an induction or brushless design is worthwhile, as the higher-ranked electrics above reflect.
+          </p>
+        </div>
+
+        <div id="nozzles-accessories" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Nozzles and Add-Ons Worth Buying
+          </h2>
+
+          <p>
+            Quick-connect tips follow a color code. Red is a zero-degree pencil stream that concentrates all the force on a point the size of a coin. Yellow is 15 degrees, a narrow fan for stripping and tough spots. Green is 25 degrees, the general-purpose tip for most cleaning. White is 40 degrees, a wide, gentle fan for vehicles, windows and soft surfaces. Black is a low-pressure soap tip that opens the detergent injector. Most homeowners can leave red in the box permanently.
+          </p>
+
+          <p>
+            A turbo or rotary nozzle spins a zero-degree stream in a fast circle, which gives you pencil-point cleaning power across a cone. It is excellent on bare concrete and stubborn stains and too aggressive for wood, siding and paint. Treat it as a concrete-only tool, keep it moving, and hold it farther back than you think you need to.
+          </p>
+
+          <p>
+            The single best upgrade for anyone with concrete is a surface cleaner, a hooded spinning bar with two jets that rides on casters. It keeps distance constant, stops zebra stripes, contains spray, and often roughly halves the time a driveway takes. Match its rated PSI and GPM range to your machine; an oversized unit on a small electric just spins slowly. Our <a href="/best-surface-cleaner-for-pressure-washer/">surface cleaner guide</a> pairs models with machine classes.
+          </p>
+
+          <p>
+            Other add-ons earn their keep in specific situations. A foam cannon is worth it for car washing because it clings and loosens dirt before you touch the paint. An extension wand lets you reach second-story siding from the ground, which is much safer than spraying from a ladder, where kickback can throw you off balance. A longer, non-kinking pressure hose saves constant repositioning on big jobs. Before buying any accessory, confirm the fitting size, usually 1/4-inch quick-connect for tips and either M22 or 3/8-inch for hoses.
+          </p>
+        </div>
+
+        <div id="running-it" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Running It Safely and Getting Even Results
+          </h2>
+
+          <p>
+            Gas engines produce carbon monoxide, an odorless gas that can kill in minutes in an enclosed space. Run a gas pressure washer outdoors only, never in a garage, shed or basement, even with the door open, and keep the exhaust pointed away from windows, doors and vents. This is the same guidance that applies to portable generators, and it is not optional. If anyone feels dizzy, nauseated or develops a headache, shut the engine off and get to fresh air.
+          </p>
+
+          <p>
+            High-pressure water can cut skin and inject water and debris under it, an injury that looks minor and needs emergency care. Never point the wand at people or pets, never clear a clog with your hand, engage the trigger lock whenever you set the gun down, and wear closed shoes and eye protection. Plug electric units into a GFCI-protected outlet; most have an inline GFCI plug as well, and you should test it before each session.
+          </p>
+
+          <p>
+            Before starting, check the water supply. A gas unit rated at 2.5 GPM needs a spigot that can deliver at least that. Time how long a 5-gallon bucket takes to fill from your hose: under two minutes means you have about 2.5 GPM or more. Starving the pump of water causes cavitation, pulsing pressure and fast wear. Run water through the pump before starting the engine or motor to purge air.
+          </p>
+
+          <p>
+            For even results, start with the widest tip and step down only if needed. Hold the wand at a constant distance and move at a steady pace, overlapping each pass by about a third. Wash siding from the bottom up with detergent so it does not streak, then rinse from the top down. Do not leave the machine idling in bypass for more than a couple of minutes; recirculating water heats quickly and damages pump seals. Many machines have a thermal relief valve, but it is a backup, not a feature to rely on.
+          </p>
+        </div>
+
+        <div id="storage-winter" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Storage, Maintenance and Winter Prep
+          </h2>
+
+          <p>
+            Pumps die from three things: running dry, freezing and mineral buildup. After each session, shut off the machine, squeeze the trigger to release trapped pressure, disconnect the hoses and let the pump drain. If you will not use it for a month or more, run a pump saver product through the inlet. It lubricates seals and leaves an antifreeze film inside the manifold, and it is the cheapest insurance you can buy.
+          </p>
+
+          <p>
+            Freezing is the most common way to destroy a pump. Water left inside expands as it freezes and cracks the manifold, and the damage often shows up only when you start the machine in spring. If the unit lives in an unheated garage or shed anywhere that sees freezing temperatures, winterize it in fall without exception. This applies equally to electric machines, which owners often assume are immune.
+          </p>
+
+          <p>
+            Gas engines need fuel and oil care. Fill with fresh fuel and a stabilizer for the last run of the season, or run the carburetor dry, so ethanol blends do not varnish the jets over winter. Change the engine oil on the schedule in the engine manual, including the early break-in change many manufacturers specify. Check the spark plug and air filter yearly, and check the pump oil on models that have a separate pump crankcase.
+          </p>
+
+          <p>
+            Hoses and fittings wear too. Inspect the high-pressure hose for bulges and abrasion before each season and replace any O-rings that weep at the quick connects. Store tips in a holder so the orifices stay clean; a partially blocked tip causes pulsing and uneven spray that owners often blame on the pump. A tip cleaning wire costs a few dollars and fixes most of those complaints.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. What a Pressure Washer Really Costs
+          </h2>
+
+          <p>
+            At the time of writing, light-duty electrics run roughly $120 to $250, premium electrics with induction or brushless motors roughly $250 to $450, residential gas units roughly $350 to $650, and triplex-pump machines with commercial engines roughly $800 to $1,500 or more. Add a surface cleaner, a pump saver and a few detergents and the real starting cost is often $75 to $200 higher than the sticker.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Option</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rough Cost</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best When</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Rent a gas unit</td>
+                    <td class="px-4 py-4 text-gray-700">$70-$120 per day</td>
+                    <td class="px-4 py-4 text-gray-700">One big job a year or less</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Budget electric</td>
+                    <td class="px-4 py-4 text-gray-700">$120-$250</td>
+                    <td class="px-4 py-4 text-gray-700">Cars, furniture, small patio</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Premium electric</td>
+                    <td class="px-4 py-4 text-gray-700">$250-$450</td>
+                    <td class="px-4 py-4 text-gray-700">Regular house, deck and car work</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Residential gas</td>
+                    <td class="px-4 py-4 text-gray-700">$350-$650</td>
+                    <td class="px-4 py-4 text-gray-700">Annual driveway and whole-house wash</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Triplex gas</td>
+                    <td class="px-4 py-4 text-gray-700">$800-$1,500+</td>
+                    <td class="px-4 py-4 text-gray-700">Weekly use or paid work</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Hire a pro</td>
+                    <td class="px-4 py-4 text-gray-700">$150-$400 per job</td>
+                    <td class="px-4 py-4 text-gray-700">Two-story homes, roofs, delicate surfaces</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Renting deserves more consideration than it gets. If your only heavy job is a driveway once a year, two days of rental cost less than a gas machine and you skip the fuel, oil and storage entirely. Owning starts to make sense around three or more substantial jobs per year, or when you have several different surfaces to keep on top of through the season.
+          </p>
+
+          <p>
+            Pressure washing is often step one of a bigger project. A clean, dry deck is ready for stain, and concrete that has been washed and allowed to dry is ready for sealer. If that is your plan, look at our <a href="/best-deck-stain-reviews/">deck stain rankings</a> and <a href="/best-concrete-sealer/">concrete sealer picks</a>, and budget the coating with the machine. And if the job is just getting a driveway clean, start with the right chemistry from our <a href="/best-driveway-cleaner/">driveway cleaner guide</a> before you reach for more pressure.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using the Red Tip on Anything You Care About</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The zero-degree tip concentrates the full force of the pump into a pinpoint. On wood it carves grooves, on concrete it can etch lines that show forever, and on skin it causes serious injection injuries. Start with the 40-degree tip, move closer before you move narrower, and keep the red tip for rare, isolated spots on bare metal or masonry.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Spraying Up Under Siding Laps</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Siding is designed to shed water falling down, not water forced upward. Spraying from below drives water behind the panels into sheathing and insulation, where it feeds mold and rot you will not see for years. Hold the wand level or angled down, use detergent and a wide tip, and use an extension wand for upper stories.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying on PSI Alone</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A big PSI figure looks impressive, but flow decides how fast you finish. A 3,000 PSI electric at 1.1 GPM delivers fewer cleaning units than a 2,700 PSI gas unit at 2.3 GPM by a wide margin. Multiply pressure by flow, check whether the figures are rated or peak, and buy for the job you do most.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running the Engine in the Garage</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Starting a gas pressure washer just inside the garage door to stay out of the rain is a common way people are poisoned by carbon monoxide. The gas builds up quickly, has no smell, and drifts into the house. Run the engine outdoors only, well away from doors and windows, with the exhaust aimed away from the building.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Storing It Wet Over Winter</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A single overnight freeze can crack a pump manifold, and the damage shows up only as a leak or no pressure next spring. Drain the pump, run pump saver antifreeze through it, and store it somewhere above freezing if possible. Electric units need exactly the same care; their pumps are just as vulnerable as gas pumps.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which pressure washer should most homeowners buy?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For a typical suburban home with a driveway, siding and a deck, the Simpson MegaShot MS60763 balances flow, engine reliability and price well. If your jobs are mostly cars, patios and siding, the Ryobi RY142300 brushless electric is easier to live with. Decide on your three most frequent jobs first, then choose the power source that suits them.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Does flow or pressure matter more?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Flow, measured in GPM, is the one that predicts how fast you finish. PSI breaks dirt loose; flow carries it away. Multiply the two to get cleaning units, which is the most useful single figure for comparing machines. For delicate surfaces, moderate PSI with decent flow is the safest choice. For big concrete, prioritize GPM within your budget.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How much PSI do I need for a concrete driveway?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most broom-finished driveways clean well somewhere between 2,500 and 3,500 PSI, ideally with at least 2.3 GPM and a rotating surface cleaner. A smaller electric can clean concrete, but it takes much longer and is prone to striping. Pretreat oil and rust stains with the right cleaner, because extra pressure does little to lift them on its own.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a pressure washer damage my house or deck?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, easily. Too narrow a tip or holding the wand too close can splinter softwood, etch concrete, strip paint, force water behind siding and break window seals. Start with a wide tip at a distance, test in a hidden spot, and increase force only as needed. On older homes, painted surfaces or anything you are unsure about, low pressure and a cleaner are safer.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are electric pressure washers good enough?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For cars, outdoor furniture, decks, siding and modest patios, a good electric is more than enough and much easier to own. Where they fall short is large concrete areas, because household circuits limit flow to under about 2 GPM. Pair an electric with a small surface cleaner and it will handle a walkway and a single-car pad comfortably.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does a home pressure washer last?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends mainly on the pump and how it is stored. Consumer axial cam pumps are typically rated in the low hundreds of hours, which can mean many years of occasional use if the machine is never frozen or run dry. Triplex pumps are commonly rated much higher and can be rebuilt. Winterizing and using pump saver extend life significantly.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I rent or buy a pressure washer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                If you have one heavy job a year, renting a commercial gas unit for a day is usually cheaper and avoids storage and maintenance. Buying pays off once you have several substantial jobs each season or want to clean cars and furniture whenever you like. Many homeowners own an electric for routine work and rent gas for the yearly driveway.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Cleaning and Shop Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-electric-pressure-washer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Electric Pressure Washers</h3>
+              <p class="text-gray-500 text-sm mt-2">Quiet plug-in and cordless machines for cars, decks and siding.</p>
+            </a>
+            <a href="/best-surface-cleaner-for-pressure-washer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Accessory Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Surface Cleaners</h3>
+              <p class="text-gray-500 text-sm mt-2">The add-on that stops stripes and halves driveway time.</p>
+            </a>
+            <a href="/best-driveway-cleaner/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Driveway Cleaners</h3>
+              <p class="text-gray-500 text-sm mt-2">The chemistry that lifts stains pressure alone cannot.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most homes with a driveway, siding and a deck, the Simpson MegaShot MS60763 is the machine to buy: a dependable Honda engine and enough flow to make concrete work go quickly. If your list is mostly cars, patios and siding, the Ryobi RY142300 brushless electric is quieter, simpler and needs almost no upkeep. Big flow on a budget points to the Generac SpeedWash, and weekly or paid work justifies the triplex-pump PowerShot.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whichever you choose, multiply PSI by GPM before you trust a box, use the widest tip that gets the job done, and winterize the pump every fall. Add a surface cleaner if you have concrete, and pretreat stains with the right cleaner instead of turning up the pressure.
+          </p>
+        </div>
+
+        <MoreInCategory category="Cleaning & Shop Tools" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

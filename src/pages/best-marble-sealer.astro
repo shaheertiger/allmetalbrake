@@ -1,0 +1,860 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Concrete Sealers",
+    "url": "/best-concrete-sealer/"
+  },
+  {
+    "title": "Best Granite Sealers",
+    "url": "/best-granite-sealer/"
+  },
+  {
+    "title": "Best Grout Sealers",
+    "url": "/best-grout-sealer/"
+  },
+  {
+    "title": "Best Brick Sealers",
+    "url": "/best-brick-sealer-reviews/"
+  },
+  {
+    "title": "Silane vs Siloxane Sealers",
+    "url": "/silane-vs-siloxane-sealers/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "Best Marble Sealer: 6 Picks and What Sealing Cannot Stop";
+const description =
+  "Six marble sealers for counters, floors and showers, why none of them prevent acid etching, and how to keep Carrara or Calacatta looking right for years.";
+
+const PRODUCTS = [
+  {
+    "id": "tenax-proseal-professional-grade",
+    "name": "Tenax Proseal",
+    "category": "Professional Impregnator",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Strong water and oil repellency on calcite stones",
+      "Leaves polished marble looking untouched",
+      "Small amount covers a large area of dense stone",
+      "Made by a supplier to stone fabricators"
+    ],
+    "cons": [
+      "Mostly sold online and through stone suppliers",
+      "Higher price per ounce than mainstream brands"
+    ],
+    "bottomLine": "The best all-around impregnator for a polished marble kitchen counter or vanity.",
+    "description": "Tenax supplies fabricators around the world, and Proseal is its impregnator for natural stone, including marble, limestone and travertine. It is designed to soak into the stone and block both water and oil stains while leaving the surface appearance unchanged, which matters on polished Carrara or Calacatta where any haze or added gloss stands out. Polished marble is fairly dense, so a single careful coat often reaches the pores that matter, and a second can follow on more absorbent areas around the sink. Apply to clean, dry stone, keep the surface wet for the dwell time on the label, then buff off every trace of excess. Owners commonly report that wine and coffee wipe away cleanly on counters sealed with it, while etching from acids still occurs, as it will with any sealer. Expect roughly $30 to $60 depending on size at the time of writing."
+  },
+  {
+    "id": "dry-treat-stain-proof-plus",
+    "name": "Dry-Treat Stain-Proof Plus",
+    "category": "Premium Fluoro Impregnator",
+    "badge": "Best Premium",
+    "amazonUrl": "",
+    "pros": [
+      "Top-tier oil and water repellency",
+      "Rated for interior and exterior stone",
+      "Long service life between applications",
+      "Breathable, so moisture can escape"
+    ],
+    "cons": [
+      "Expensive for a small kitchen job",
+      "Requires careful wipe-off and full cure time"
+    ],
+    "bottomLine": "Worth the price on white marble that will see heavy cooking or high-value installations.",
+    "description": "Dry-Treat is an Australian brand known among stone restorers for long-lasting impregnators, and Stain-Proof Plus is its higher-performance formula for dense, polished surfaces. It uses fluorinated chemistry, which is what gives it unusually strong resistance to oil-based staining, the kind that turns white marble yellow-gray near a cooktop. The maker states it allows the stone to breathe, so moisture from below does not get trapped. It is pricier than most bottles on this list, so it makes most sense on large or expensive installations where staining would be costly to fix, such as an island in book-matched Calacatta. Application follows the standard impregnator sequence, but the label emphasizes letting it cure fully before exposing the surface to water, and that patience is part of getting the advertised result. Pricing is often in the $70 to $130 range for a liter at the time of writing."
+  },
+  {
+    "id": "miracle-sealants-511-impregnator",
+    "name": "Miracle Sealants 511 Impregnator",
+    "category": "Solvent-Carried Classic",
+    "badge": "Best Value Classic",
+    "amazonUrl": "",
+    "pros": [
+      "Easy to find at tile and hardware stores",
+      "Proven on marble, limestone and travertine",
+      "No sheen added to polished surfaces",
+      "Reasonable price per quart"
+    ],
+    "cons": [
+      "Strong solvent smell during application",
+      "Less oil repellency than fluoropolymer products"
+    ],
+    "bottomLine": "The dependable store-shelf option when you need to seal marble this weekend.",
+    "description": "The 511 Impregnator has been around for decades, and it is the product most tile shops keep in stock. Its solvent carrier helps it reach into the stone, and it is approved for marble along with most other natural stones and cementitious grout. That versatility makes it handy if you are sealing a marble vanity top and the surrounding tile floor at the same time. It provides solid water repellency and moderate oil protection, enough for bathrooms and lightly used kitchens. For a marble counter right next to a cooktop where oil is constant, one of the fluoropolymer options above will do a better job. Ventilate well while applying; the smell is significant but fades within a few hours. Wipe off excess carefully on polished marble, which shows haze more readily than speckled granite. A quart usually costs about $25 to $40 at the time of writing."
+  },
+  {
+    "id": "stonetech-bulletproof",
+    "name": "StoneTech BulletProof Sealer",
+    "category": "Water-Borne, Low Odor",
+    "badge": "Best for Bathrooms",
+    "amazonUrl": "",
+    "pros": [
+      "Low odor suits small, poorly ventilated rooms",
+      "Rated for showers, floors and counters",
+      "Seals stone and grout in one pass",
+      "Soap-and-water cleanup"
+    ],
+    "cons": [
+      "May need two coats on honed marble",
+      "Higher price than other water-based options"
+    ],
+    "bottomLine": "The easiest strong sealer to live with in a marble bathroom or shower.",
+    "description": "StoneTech BulletProof is a water-based penetrating sealer, and its low odor makes it the practical choice for marble showers, bathroom floors and vanities, where ventilation is limited and solvent fumes would linger. The maker rates it for interior and exterior use on natural stone, including marble and limestone, as well as grout. In a shower you can seal stone and grout lines in one go, which saves a step. Honed marble absorbs more product than polished, so plan on two applications for honed floors and shower walls, letting the first soak in before adding the second. Once cured, it does not change the color or finish. In showers, keep the space dry for the full cure window listed on the label before running water. Prices usually run around $35 to $50 per quart at the time of writing."
+  },
+  {
+    "id": "tenax-ager",
+    "name": "Tenax Ager",
+    "category": "Color-Enhancing Impregnator",
+    "badge": "Best Enhancer",
+    "amazonUrl": "",
+    "pros": [
+      "Deepens color and veining on honed or tumbled marble",
+      "Seals as it enhances",
+      "Can bring back weathered exterior stone"
+    ],
+    "cons": [
+      "Permanent darkening; test before committing",
+      "Not meant for polished white marble"
+    ],
+    "bottomLine": "A specialist product for honed, tumbled or dark marble that looks chalky.",
+    "description": "Tenax Ager is a color-enhancing impregnator, which means it seals while also darkening the stone to a wet-look tone and making veining stand out. On honed, brushed or tumbled marble, which can look dusty and flat, the effect can be dramatic in a good way. On dark marbles such as Nero Marquina or Emperador it brings back depth that an honed finish removes. It is the wrong product for a polished white marble counter whose appeal is its brightness: on white stone, enhancers can look blotchy or yellowish and the change is not easily reversed. Always try it on a spare tile or a hidden patch first and judge it fully dry the next day. Apply thinly with a cloth and remove all excess, especially from the surface of honed stone where residue shows. Expect to pay roughly $40 to $70 at the time of writing."
+  },
+  {
+    "id": "granite-gold-sealer",
+    "name": "Granite Gold Sealer",
+    "category": "Spray Maintenance Sealer",
+    "badge": "Easiest Upkeep",
+    "amazonUrl": "",
+    "pros": [
+      "Spray-and-wipe format with no special tools",
+      "Easy to find in big-box and grocery stores",
+      "Low odor, water-based",
+      "Fine for top-ups between full sealings"
+    ],
+    "cons": [
+      "Lighter protection than the impregnators above",
+      "Needs more frequent reapplication"
+    ],
+    "bottomLine": "Good for maintenance on a sealed counter, not the main sealer for porous marble.",
+    "description": "Despite the name, Granite Gold Sealer is labeled for marble and other natural stone as well as granite. It is a water-based spray, so you mist it onto clean dry stone, let it sit briefly, and wipe it dry. That makes it the simplest product here, and many owners keep a bottle under the sink for touch-ups in the heaviest-use zones like the coffee station or the area beside the range. As a primary sealer on honed or porous marble it is outmatched by the dedicated impregnators, which go deeper and last longer. The sensible strategy is to do a full sealing with Tenax Proseal, Dry-Treat or BulletProof, then use this spray every few months on the busiest areas to keep repellency strong. A 24-ounce bottle typically costs $12 to $18 at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Marble Sealer",
+          item: "https://www.allmetalbrake.com/best-marble-sealer/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Can any product make marble etch-proof?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No sealer stops etching on marble, because etching is a chemical reaction between acid and the calcite in the stone. Impregnators sit inside the pores and do not form a barrier on the surface. Some topical coatings and films claim etch resistance, but they change the look and feel of the stone and require professional application. For most homes, habits and polishing compound are the answer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How frequently does marble need a fresh coat?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Test with water every six to twelve months. When water darkens the stone within about five minutes, reseal. Heavily used kitchen counters typically need it every one to two years, while bathroom vanities and floors often go two to three years. Premium fluoropolymer sealers can last longer than budget products on the same stone, which offsets part of their higher price."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "The stone went darker after treatment. Is that normal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Either the product was a color enhancer, or the stone has not finished curing. Standard impregnators can make marble look slightly darker for a day or two while the carrier evaporates. If the darkness remains after the full cure time, an enhancing ingredient or heavy application is likely the cause, and the effect is generally permanent on porous stone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should a stain be removed before the stone is treated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can, but you should not. Sealing locks the stain in place and makes it much harder to remove. Poultice the stain first using a product matched to it: an oil-lifting poultice for grease, or a hydrogen peroxide poultice for organic stains like coffee on light marble. Let the stone dry fully afterward, then seal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "My marble is hazy after sealing. How do I fix it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Haze is excess sealer that dried on the surface. Apply a small amount of the same sealer to a clean cloth, rub the hazy area for a minute to re-dissolve the residue, then buff completely dry. For stubborn haze, the sealer manufacturer usually names a solvent that removes it. Avoid abrasive pads, which will dull polished marble."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is cultured marble the same as natural marble?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Cultured marble is a cast product made from crushed stone and resin with a gel coat on top, often used for one-piece vanity tops. It is not porous like natural stone and does not need or accept stone sealer. Clean it with non-abrasive cleaners and treat chips or dull spots as a gel-coat repair, not a sealing issue."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do marble floors need different sealer than counters?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The same impregnators work on both, but floors usually need more product because tiles are often honed or tumbled and the area is larger. Look for a sealer rated for floors and exterior use if it is near an entry. Floors also need regular dust mopping, since grit dulls marble faster than spills, and walk-off mats at every door."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Concrete & Masonry Sealers",
+    tags: [
+      "best marble sealer",
+      "marble countertop sealer",
+      "marble etching",
+      "sealing carrara marble",
+      "impregnating sealer for marble",
+      "marble care"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Marble Sealers</span>, and Their Limits
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A good sealer keeps red wine and oil out of marble. Nothing in a bottle keeps lemon juice from dulling it. Knowing the difference is what makes a marble kitchen livable.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#tenax-proseal-professional-grade"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="7.9k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. The 6 Picks</a>
+          <a href="#etch-vs-stain" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Etching vs Staining</a>
+          <a href="#finish-matters" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Finish Matters</a>
+          <a href="#test-your-marble" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Test Your Marble</a>
+          <a href="#choosing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. How to Choose</a>
+          <a href="#apply" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. How to Apply</a>
+          <a href="#daily-care" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Daily Care</a>
+          <a href="#etch-repair" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Fixing Etch Marks</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Cost</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Marble owners usually buy sealer to fix the wrong problem. The dull, rough spots that appear where a glass of juice or a splash of vinegar sat are etches, a chemical reaction with the calcite in the stone, and sealer does almost nothing to stop them. What sealer does do, and does well, is keep coffee, wine and cooking oil from soaking in and leaving dark stains. Pick a product for that job, apply it correctly, and handle etching with habits and a polishing compound.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Marble Sealers, Ranked
+          </h2>
+
+          <p>
+            We ranked these using each maker's technical data sheet, the stone types and finishes the label approves, stated reapplication intervals, and consistent themes in owner feedback about staining after sealing. Products earned priority for strong oil repellency, no change to the finish of polished marble, and forgiving application for a homeowner.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="etch-vs-stain" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Etching and Staining Are Different Problems
+          </h2>
+
+          <p>
+            Marble is mostly calcite, a form of calcium carbonate. Acids react with calcite and dissolve a microscopic layer of the surface. On polished marble that leaves a dull, slightly rough mark, an etch. Citrus, vinegar, wine, tomato sauce, soda, many fruit juices, and acidic cleaners all etch. The mark is physical damage, not something that has soaked in, and it cannot be wiped away.
+          </p>
+
+          <p>
+            A stain is the opposite: a substance enters the pores of the stone and leaves color behind. Oil darkens marble, coffee and tea leave brown marks, and red wine leaves pink or purple marks. Stains are what sealers stop. A well-sealed counter gives you minutes to hours to wipe a spill before color penetrates, depending on the substance and the sealer.
+          </p>
+
+          <p>
+            Red wine on marble often does both at once: it is acidic and it carries pigment. Sealer helps with the color, but the acid still etches. That is why a sealed counter can still show a dull ring where a glass sat overnight, and why owners sometimes think their sealer failed when it actually did the job it can do.
+          </p>
+
+          <p>
+            The practical takeaway is to treat the two problems separately. Use a quality impregnator to block stains. Manage etching with coasters, trivets, cutting boards and quick wipe-ups of anything acidic, and keep a marble polishing compound on hand for light etches on polished surfaces.
+          </p>
+        </div>
+
+        <div id="finish-matters" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Polished, Honed or Leathered: Why Finish Changes Everything
+          </h2>
+
+          <p>
+            Polished marble has a glassy, reflective surface produced by grinding down to very fine abrasives. It is relatively dense at the surface, which helps resist stains, but etches show dramatically against the shine. A polished white marble counter in a busy kitchen will collect etch marks; the question is only how many you are willing to live with.
+          </p>
+
+          <p>
+            Honed marble is ground to a smooth matte finish without the final polish. It is more absorbent than polished, so it stains more readily and benefits from two coats of sealer. The upside is that etches blend in: the surface is already matte, so a dull spot is far less visible. Many designers recommend honed marble for kitchens for exactly this reason.
+          </p>
+
+          <p>
+            Leathered and brushed finishes have a textured, slightly undulating surface. They hide etching even better than honed and feel pleasant to the touch, but the texture traps dirt and absorbs sealer unevenly. Apply with a soft brush to reach into the texture, then wipe excess with a cloth so it does not pool in the low spots.
+          </p>
+
+          <p>
+            Tumbled marble, common on backsplashes and floors, is the most porous and has rounded, pitted edges. It usually takes two or three coats of sealer and benefits from a color enhancer if you want it to look richer. For the grout between tumbled tiles, our <a href="/best-grout-sealer/">grout sealer guide</a> explains which products seal both at once.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Finish</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Stain risk</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Etch visibility</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Coats of sealer</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best room</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Polished</td>
+                    <td class="px-4 py-4 text-gray-700">Lower</td>
+                    <td class="px-4 py-4 text-gray-700">High</td>
+                    <td class="px-4 py-4 text-gray-700">1, sometimes 2</td>
+                    <td class="px-4 py-4 text-gray-700">Bathrooms, low-use counters</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Honed</td>
+                    <td class="px-4 py-4 text-gray-700">Higher</td>
+                    <td class="px-4 py-4 text-gray-700">Low</td>
+                    <td class="px-4 py-4 text-gray-700">2</td>
+                    <td class="px-4 py-4 text-gray-700">Kitchens, floors</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Leathered or brushed</td>
+                    <td class="px-4 py-4 text-gray-700">Higher</td>
+                    <td class="px-4 py-4 text-gray-700">Very low</td>
+                    <td class="px-4 py-4 text-gray-700">2, brushed in</td>
+                    <td class="px-4 py-4 text-gray-700">Kitchens, islands</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Tumbled</td>
+                    <td class="px-4 py-4 text-gray-700">Highest</td>
+                    <td class="px-4 py-4 text-gray-700">Very low</td>
+                    <td class="px-4 py-4 text-gray-700">2 to 3</td>
+                    <td class="px-4 py-4 text-gray-700">Backsplashes, rustic floors</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="test-your-marble" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Testing Whether Your Marble Needs Sealer
+          </h2>
+
+          <p>
+            Put a few drops of water on the surface in several places, including near the sink and cooktop, and wait. If the marble darkens under the water within about five minutes, it is absorbent enough to need sealing now. If it takes 15 to 30 minutes, sealing is still worthwhile, especially in a kitchen. If nothing happens after half an hour, the existing seal or the stone itself is holding well.
+          </p>
+
+          <p>
+            Repeat with a few drops of cooking oil on a hidden spot, such as inside a sink cabinet cutout or under an overhang. Wait 10 to 15 minutes and wipe. Any dark shadow that remains shows oil is getting in. Oil stains are the hardest to remove from marble, so an oil-repelling fluoropolymer sealer like Dry-Treat or Tenax Proseal is the better buy if this test fails.
+          </p>
+
+          <p>
+            Do not use lemon juice as a sealing test on marble you care about. It will etch the spot regardless of whether the stone is sealed, because sealer does not block acid reactions. The only thing a lemon test tells you is that the stone contains calcite, which you already know.
+          </p>
+
+          <p>
+            New installations deserve a test a week or so after the counter goes in. Fabricators do not always seal, and some apply a light product at the shop that does not last long. Testing on your own tells you exactly where you stand.
+          </p>
+        </div>
+
+        <div id="choosing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. How to Choose the Right Sealer for Your Marble
+          </h2>
+
+          <p>
+            For a <strong>polished kitchen counter</strong>, choose an impregnator with strong oil repellency and no effect on sheen: Tenax Proseal or Dry-Treat Stain-Proof Plus. These cost more, but a kitchen is where oil stains happen, and a single dark ring near the stove would cost more to remove professionally than the sealer does.
+          </p>
+
+          <p>
+            For a <strong>bathroom vanity or shower</strong>, choose a water-based, low-odor sealer such as StoneTech BulletProof. Small rooms trap solvent fumes, and the stain risks there are mostly cosmetics, soap scum and hair dye rather than cooking oil. Seal stone and grout together so you have one product and one schedule to track.
+          </p>
+
+          <p>
+            For <strong>floors</strong>, the main threats are tracked-in grit, water and the occasional spill. A mid-priced impregnator such as Miracle 511 or BulletProof is enough. Buy by the gallon if the area is large, and plan two coats on honed tile. Combine sealing with walk-off mats at entries, since grit scratches marble faster than anything else wears it.
+          </p>
+
+          <p>
+            For <strong>honed, tumbled or dark marble</strong> that looks flat, consider an enhancer such as Tenax Ager, but only after testing. Outdoors, marble weathers and etches from acid rain over time; it needs a breathable exterior-rated impregnator, and it should be treated as a stone that will patina; our <a href="/best-concrete-sealer/">concrete sealer guide</a> explains why breathability matters outdoors. Our <a href="/best-granite-sealer/">granite sealer guide</a> covers the overlap for mixed-stone kitchens.
+          </p>
+        </div>
+
+        <div id="apply" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Applying Marble Sealer Step by Step
+          </h2>
+
+          <p>
+            Clean the surface with a pH-neutral stone cleaner and remove any stains with a poultice before sealing. Let the marble dry completely, at least 24 hours after cleaning or 48 hours after a poultice. Mask off adjacent wood cabinets and painted walls with painter's tape; some solvent sealers can mark finishes.
+          </p>
+
+          <p>
+            Apply the sealer evenly with a lint-free cloth, foam pad or soft brush, working on an area of a few square feet at a time. Keep the surface wet for the dwell time on the label, typically 5 to 15 minutes, and add product to spots that dry out quickly, which are the most absorbent areas.
+          </p>
+
+          <p>
+            Wipe off all excess with clean, dry cloths before it starts to tack up. Polished marble shows residue more than any other stone, so be thorough: buff until the surface squeaks and looks exactly as it did before. If the label calls for a second coat, apply it within the interval it states, then wipe again.
+          </p>
+
+          <p>
+            Leave the surface alone through the full cure period, usually 24 to 72 hours. Keep water, cleaners and food off it. If you see haze the next day, apply a small amount of the same sealer to a cloth, rub the hazy area to re-dissolve the residue, and immediately buff it dry. For heavy residue, a stone professional can strip it with a solvent.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">BEFORE YOU START</p>
+            <p class="text-xl font-bold text-white mb-3">Fix etches first, then seal</p>
+            <p class="text-gray-300 leading-relaxed m-0">Polishing compound removes light etches by refinishing the surface, and that process also removes sealer. If your counter has etch marks you plan to polish, do the polishing first and seal afterward, or you will be sealing twice.</p>
+          </div>
+        </div>
+
+        <div id="daily-care" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Daily Care That Protects the Seal
+          </h2>
+
+          <p>
+            Use a neutral cleaner made for natural stone, or a few drops of plain dish soap in warm water. Avoid vinegar, lemon, all-purpose sprays, glass cleaner, bleach and abrasive powders. These either etch the marble directly or break down the sealer, and the damage accumulates even if it is invisible at first.
+          </p>
+
+          <p>
+            Coasters under glasses, trivets under hot pans, and cutting boards under anything acidic eliminate most etching before it starts. A tray by the coffee maker and another for olive oil and vinegar bottles catch drips that would otherwise sit unnoticed. These small habits matter more than the brand of sealer.
+          </p>
+
+          <p>
+            Wipe spills promptly, but blot rather than smear. Smearing spreads acid over a larger area and creates a wider etch. For wine, juice or tomato, blot, then rinse the spot with water and dry it. For oil, blot and wash with a little dish soap.
+          </p>
+
+          <p>
+            Recheck with the water test every six to twelve months. Kitchens with heavy use may need resealing yearly; bathroom vanities and floors can often go two or three years. Mark the date somewhere so you do not have to guess when the last coat went on.
+          </p>
+        </div>
+
+        <div id="etch-repair" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. What to Do About Etch Marks
+          </h2>
+
+          <p>
+            Light etches on polished marble, the kind you can see but barely feel, can usually be removed with a marble polishing powder or paste. Apply a small amount with a damp cloth and rub in circles until the shine returns, then rinse and dry. Work slowly; it can take a few minutes per spot. Afterward, reseal the area, since polishing removes the sealer along with the damaged layer.
+          </p>
+
+          <p>
+            Deeper etches that feel rough to a fingertip need honing with fine abrasives and then polishing. That is a job for a stone restoration professional with the right pads and a variable-speed polisher. Expect a service call to cost from about $200 to several hundred dollars depending on the size of the area and the number of marks.
+          </p>
+
+          <p>
+            On honed marble, etches are usually much less visible, and many can be blended by lightly buffing with a fine abrasive pad matched to the existing finish. Test the pad on a hidden spot first so you do not end up with a shinier or duller patch than the surrounding stone.
+          </p>
+
+          <p>
+            Some owners accept etching as patina. Marble in old European kitchens and bars is covered in it, and over the years the marks blend into an even soft sheen. If you prefer pristine stone, a polished marble counter in a heavily used kitchen may not be the right material, and quartz or a dense granite may be a better fit.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. What Sealing Marble Costs
+          </h2>
+
+          <p>
+            Store-shelf impregnators such as Miracle 511 and StoneTech BulletProof cost roughly $25 to $50 per quart at the time of writing. Premium fluoropolymer products such as Dry-Treat cost more, often $70 or above for a liter. A spray maintenance sealer runs $12 to $18 a bottle.
+          </p>
+
+          <p>
+            A typical kitchen counter of 40 to 50 square feet needs well under a quart even for two coats on honed stone. A 100-square-foot bathroom floor may need a quart or two depending on porosity. Doing it yourself, a full kitchen sealing costs the price of one bottle plus cloths.
+          </p>
+
+          <p>
+            Professional sealing usually runs from about $150 to $400 for a kitchen, more if it is bundled with polishing or stain removal. That premium makes sense if the stone also needs repair work; for routine resealing, the do-it-yourself route gives the same result, since the chemistry is the same.
+          </p>
+
+          <p>
+            The expensive mistake is skipping the sealer on porous marble and paying for stain removal later. A deep oil stain can take several poultice rounds or a professional visit to lift, and some never fully come out. Against that risk, a premium sealer is cheap insurance.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting sealer to stop etching</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Every marble sealer on the market targets stains, not acid reactions. Owners who expect a sealed counter to resist lemon juice end up frustrated and reapplying sealer that was already working. Accept that etching is managed with coasters, quick cleanup and polishing compound, not with another coat from a bottle.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trying an enhancer on white marble without testing</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Color enhancers darken stone permanently, and on white Carrara or Calacatta the result can look blotchy, yellowish or wet in an unflattering way. Always try the product on a spare tile or hidden area first, and look at it in daylight once it has fully dried overnight before treating the whole surface.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Leaving sealer to dry on the surface</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Polished marble shows every bit of residue as a cloudy smear in raking light. Wipe and buff thoroughly within the time on the label. If haze appears later, reactivate it with a little fresh sealer on a cloth and buff off at once, rather than scrubbing with abrasives that will dull the polish.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Cleaning with vinegar or citrus sprays</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Popular natural cleaning recipes rely on vinegar or lemon, and both etch marble on contact. Many all-purpose sprays are also acidic or strongly alkaline. Over months, they dull the finish and strip the sealer. Use a cleaner labeled pH-neutral and safe for natural stone, or diluted plain dish soap.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sealing over existing stains</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Sealer traps whatever is already in the stone. If a coffee ring or oil shadow is present, poultice it out first, let the marble dry for a day or two, then seal. Sealing over it makes the stain permanent and also makes later poultice attempts far less effective.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can any product make marble etch-proof?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No sealer stops etching on marble, because etching is a chemical reaction between acid and the calcite in the stone. Impregnators sit inside the pores and do not form a barrier on the surface. Some topical coatings and films claim etch resistance, but they change the look and feel of the stone and require professional application. For most homes, habits and polishing compound are the answer.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How frequently does marble need a fresh coat?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Test with water every six to twelve months. When water darkens the stone within about five minutes, reseal. Heavily used kitchen counters typically need it every one to two years, while bathroom vanities and floors often go two to three years. Premium fluoropolymer sealers can last longer than budget products on the same stone, which offsets part of their higher price.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">The stone went darker after treatment. Is that normal?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Either the product was a color enhancer, or the stone has not finished curing. Standard impregnators can make marble look slightly darker for a day or two while the carrier evaporates. If the darkness remains after the full cure time, an enhancing ingredient or heavy application is likely the cause, and the effect is generally permanent on porous stone.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should a stain be removed before the stone is treated?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                You can, but you should not. Sealing locks the stain in place and makes it much harder to remove. Poultice the stain first using a product matched to it: an oil-lifting poultice for grease, or a hydrogen peroxide poultice for organic stains like coffee on light marble. Let the stone dry fully afterward, then seal.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">My marble is hazy after sealing. How do I fix it?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Haze is excess sealer that dried on the surface. Apply a small amount of the same sealer to a clean cloth, rub the hazy area for a minute to re-dissolve the residue, then buff completely dry. For stubborn haze, the sealer manufacturer usually names a solvent that removes it. Avoid abrasive pads, which will dull polished marble.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is cultured marble the same as natural marble?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. Cultured marble is a cast product made from crushed stone and resin with a gel coat on top, often used for one-piece vanity tops. It is not porous like natural stone and does not need or accept stone sealer. Clean it with non-abrasive cleaners and treat chips or dull spots as a gel-coat repair, not a sealing issue.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do marble floors need different sealer than counters?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The same impregnators work on both, but floors usually need more product because tiles are often honed or tumbled and the area is larger. Look for a sealer rated for floors and exterior use if it is near an entry. Floors also need regular dust mopping, since grit dulls marble faster than spills, and walk-off mats at every door.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Stone and Sealer Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-granite-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Stone Care</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Granite Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Sealers matched to dense, porous and outdoor granite.</p>
+            </a>
+            <a href="/best-grout-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Tile</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Grout Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Protect the joints between marble tiles in showers and floors.</p>
+            </a>
+            <a href="/best-concrete-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Concrete Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">The full picture on penetrating and film-forming sealers.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most marble counters, Tenax Proseal is the best balance of stain protection, invisibility and price. For high-value white marble near a cooktop, Dry-Treat Stain-Proof Plus earns its premium. For bathrooms and showers, StoneTech BulletProof does the job without solvent fumes.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Seal for stains and manage etching with habits. Coasters, cutting boards, neutral cleaner and a jar of polishing compound will do more for how your marble looks in five years than any bottle on this list. If the broader world of masonry sealers interests you, our <a href="/best-concrete-sealer/">concrete sealer guide</a> covers the chemistry in depth.
+          </p>
+        </div>
+
+        <MoreInCategory category="Concrete & Masonry Sealers" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

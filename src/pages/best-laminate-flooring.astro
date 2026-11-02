@@ -1,0 +1,978 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Vinyl Plank Flooring",
+    "url": "/best-vinyl-plank-flooring/"
+  },
+  {
+    "title": "Rust Converter vs Rust Remover",
+    "url": "/rust-converter-vs-rust-remover/"
+  },
+  {
+    "title": "Best Men's Back Shavers",
+    "url": "/best-mens-back-shavers/"
+  },
+  {
+    "title": "Buzz Cut Guide",
+    "url": "/buzz-cut-guide/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Laminate Floors: Scratch-Proof and Spill-Ready";
+const description =
+  "Seven laminate lines compared on abrasion rating, core, edge sealing and spill warranty, plus underlayment, install and when laminate beats vinyl plank.";
+
+const PRODUCTS = [
+  {
+    "id": "pergo-outlast-plus",
+    "name": "Pergo Outlast+ with SpillProtect",
+    "category": "SpillProtect Laminate, 10 mm, Lowe's",
+    "badge": "Top Pick for Most Homes",
+    "amazonUrl": "",
+    "pros": [
+      "Spill protection with a stated time window on the warranty",
+      "Hard, scratch-resistant top surface",
+      "Pergo's easy-locking joint",
+      "Large range of wood looks at a mainstream price",
+      "Widely available for later repairs"
+    ],
+    "cons": [
+      "Not suited to flood-prone rooms",
+      "Requires care with perimeter sealing in kitchens"
+    ],
+    "bottomLine": "The balanced, widely available laminate for busy family rooms and kitchens.",
+    "description": "Pergo Outlast+ is the mainstream answer for households that want laminate's scratch resistance with real protection against spills. Pergo's SpillProtect system and sealed edges are designed to keep topical water from swelling the board for a warranted period, which makes it a realistic option for kitchens and pet households, provided spills are wiped up. The boards are typically 10 mm with an attached pad on many versions, so they feel solid and quiet underfoot, and the locking system is known for being forgiving for DIY installers. It is stocked at Lowe's in many colors, which makes it easy to buy extra boxes later. Owners commonly report the surface holds up well to dogs and chairs. It is not a flood floor, and wet rooms with tubs or washers still call for vinyl. For most homes, it hits the right mix of durability, availability and price, often roughly $3 to $4 per square foot at the time of writing."
+  },
+  {
+    "id": "mohawk-revwood-plus",
+    "name": "Mohawk RevWood Plus Laminate",
+    "category": "All-Weather Laminate, Sealed Edges",
+    "badge": "Top Pick for Spill-Prone Rooms",
+    "amazonUrl": "",
+    "pros": [
+      "Strong water-resistance claims for laminate",
+      "Realistic wood visuals and embossing",
+      "Tough top surface for pets",
+      "Good choice for kitchens in a dry house",
+      "Broad dealer and retail availability"
+    ],
+    "cons": [
+      "Higher price than store brands",
+      "Warranty conditions require following install rules"
+    ],
+    "bottomLine": "The laminate to pick when spills are a daily event but full flooding is not.",
+    "description": "Mohawk's RevWood Plus line is built around water resistance, with sealed joints and a treated core that Mohawk markets for all-weather performance in kitchens and entries. That makes it one of the stronger choices for families that want real-wood looks in rooms where spills, wet boots and pet water bowls are routine. The visuals and embossing are convincing, and the surface is rated for heavy residential traffic. As with every laminate, the protection is for water on the surface; standing water from a flood or leak that reaches the subfloor is excluded, and installation rules must be followed to keep the warranty valid. Prices run above store brands, typically roughly $3.50 to $5 per square foot at the time of writing, which is a fair premium for the added protection. If your house has a mudroom or a busy kitchen and you prefer laminate's feel to vinyl's, RevWood Plus is the line to shortlist."
+  },
+  {
+    "id": "shaw-repel",
+    "name": "Shaw Repel Water-Resistant Laminate",
+    "category": "Water-Repellent Laminate, Thick Boards",
+    "badge": "Most Solid Underfoot",
+    "amazonUrl": "",
+    "pros": [
+      "Thick boards feel solid and sound like wood",
+      "Water-repellent surface and edges",
+      "Good scratch resistance",
+      "Many wide-plank options",
+      "Sold through big-box and dealers"
+    ],
+    "cons": [
+      "Heavier boards are slower to cut and carry",
+      "Not for wet rooms"
+    ],
+    "bottomLine": "A solid, quiet-feeling laminate for open living areas and upstairs rooms.",
+    "description": "Shaw Repel is the brand's water-repellent laminate family, and its appeal is a thick, solid board that sounds and feels closer to hardwood than thin laminate does. Many collections come in 10 to 12 mm thicknesses, which reduces the hollow click of footsteps and helps bridge minor subfloor imperfections. That makes it a good choice for long open living spaces and upstairs rooms, where footfall noise matters. Shaw's water-repellent treatment is designed to resist topical spills for a set period, so kitchens in dry homes are fine with prompt cleanup. Owners commonly report a convincing look and an easy click-together install, with the usual note that thicker boards take longer to cut. Shaw's broad distribution makes matching boards later straightforward. Expect mid-range pricing, roughly $2.50 to $4 per square foot at the time of writing. Keep it out of full baths and laundry rooms."
+  },
+  {
+    "id": "quick-step-nature-tek",
+    "name": "Quick-Step NatureTEK Plus Laminate",
+    "category": "Hydroseal Laminate, Premium Realism",
+    "badge": "Most Wood-Like Look",
+    "amazonUrl": "",
+    "pros": [
+      "Very convincing wood grain and texture",
+      "Hydroseal coating guards joints against spills",
+      "Strong locking system",
+      "Good scratch resistance",
+      "Backed by a major flooring manufacturer"
+    ],
+    "cons": [
+      "Premium price for laminate",
+      "Fewer stockists than big-box brands"
+    ],
+    "bottomLine": "For buyers who want laminate that looks as close to real wood as it gets.",
+    "description": "Quick-Step, part of the Mohawk family, is known for some of the most realistic laminate visuals available, and NatureTEK Plus pairs that look with a Hydroseal coating that protects the joints from topical water. The grain texture is registered to the printed image, so the surface feels like wood where the grain is, which makes a big difference in raking light. The locking system is robust and installs cleanly, and owners commonly report fewer chipped tongues than with budget boards. The water protection makes it suitable for kitchens and entries in a dry house, with the usual rule to wipe spills up quickly. It costs more than most laminates and is sold mainly through flooring dealers, so plan a dealer visit and order extra boards. If you are replacing hardwood-look floors in a living space where realism is the priority, NatureTEK Plus is worth the premium."
+  },
+  {
+    "id": "mannington-restoration",
+    "name": "Mannington Restoration Collection Laminate",
+    "category": "Premium 12 mm Laminate, Made in USA",
+    "badge": "Top Wide-Board Choice",
+    "amazonUrl": "",
+    "pros": [
+      "Thick 12 mm boards in wide formats",
+      "Deep embossing and realistic wood character",
+      "Made in the United States",
+      "Strong scratch and wear resistance",
+      "Spill protection on current collections"
+    ],
+    "cons": [
+      "Premium pricing",
+      "Mostly sold through specialty dealers"
+    ],
+    "bottomLine": "A wide-plank, high-end laminate for open plans and renovation showpieces.",
+    "description": "Mannington's Restoration Collection is a long-running premium laminate line made in the United States, offered in 12 mm boards and wide formats with deep embossing that mimics hand-scraped and character-grade wood. The thickness makes it feel and sound solid, and the wide boards show fewer seams across a large room, which makes it a strong pick for open-plan living spaces. Current collections include spill protection for surface water, and the wear layer is rated for active households. It is priced at the premium end, typically roughly $4 to $6 per square foot at the time of writing, and sold mainly through specialty flooring dealers rather than big-box stores. That makes it a good fit for renovations where the floor is a focal point and you want laminate's durability. For bedrooms or rentals, a mid-range line gives most of the practical performance for less."
+  },
+  {
+    "id": "aquaguard-performance",
+    "name": "AquaGuard Performance Laminate",
+    "category": "Water-Resistant Laminate, Floor and Decor",
+    "badge": "Value Water-Resistant Pick",
+    "amazonUrl": "",
+    "pros": [
+      "Water-resistant at a store-brand price",
+      "Many colors and sizes in stock",
+      "Attached pad on many collections",
+      "Easy to see in-store before buying",
+      "Good fit for whole-house projects"
+    ],
+    "cons": [
+      "Only at Floor and Decor",
+      "Collections vary in thickness and finish quality"
+    ],
+    "bottomLine": "The value choice for water-resistant laminate across a whole floor.",
+    "description": "AquaGuard is Floor and Decor's in-house laminate brand, focused on water resistance at a lower price than national names. Most collections claim protection against topical spills for an extended window, and many include an attached pad, which saves money on underlayment over wood subfloors. It is a sensible choice for whole-house installs where budget matters, including kitchens in dry homes and busy hallways. Owners commonly report good looks for the price and an easy install, with some noting that finishes and thickness vary across the range, so compare collections side by side in the store. Because it is sold only through Floor and Decor, buy enough for the job plus spares, since stock rotates. Pricing generally runs roughly $2 to $3.50 per square foot at the time of writing. Treat its water resistance as spill protection, not a reason to install it in a full bath."
+  },
+  {
+    "id": "trafficmaster-lifeproof-laminate",
+    "name": "TrafficMaster Laminate Flooring",
+    "category": "Entry-Level Laminate, Home Depot",
+    "badge": "Lowest Cost per Foot",
+    "amazonUrl": "",
+    "pros": [
+      "Very low cost per square foot",
+      "Stocked in-store at Home Depot",
+      "Light boards are easy to handle",
+      "Fine for bedrooms and rentals",
+      "Simple click installation"
+    ],
+    "cons": [
+      "Thinner boards sound hollow",
+      "Lower abrasion rating, not for heavy traffic"
+    ],
+    "bottomLine": "A budget floor for low-traffic rooms, rentals and quick refreshes.",
+    "description": "TrafficMaster is Home Depot's entry-level laminate brand, and its role is simple: an inexpensive, easy-to-install floor for rooms that do not face heavy wear. Many of its boards are thinner, around 7 mm, with lower abrasion ratings than premium lines, so they suit bedrooms, guest rooms, rental units and quick pre-sale refreshes better than kitchens and entries. Light boards make it easy to carry and cut, and the click joints are straightforward for beginners. Owners commonly report that it looks good on day one but sounds more hollow than thicker laminate and shows wear faster in busy areas. Use a quality underlayment if the boards lack an attached pad, and keep it away from water. At typically roughly $1 to $2 per square foot at the time of writing, it is hard to beat for low-traffic rooms. For anything with dogs, kids and daily foot traffic, step up to an AC4 line."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Laminate Flooring Picks",
+          item: "https://www.allmetalbrake.com/best-laminate-flooring/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which laminate line is the safest all-round buy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homes, an AC4 water-resistant line in the 8 to 12 mm range with an attached pad is the safest buy. Pergo Outlast+ balances price, spill protection and availability. Mohawk RevWood Plus is the pick for heavy spill exposure, Quick-Step NatureTEK Plus for realism, and TrafficMaster for low-traffic rooms on a tight budget."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need AC4 or is AC3 enough?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AC3 handles bedrooms, guest rooms and living spaces with modest traffic. Choose AC4 for kitchens, hallways, entries and homes with active kids or large dogs. The price gap is usually small, and the harder surface is the cheapest way to extend the life of a busy floor. AC5 is commercial grade and rarely needed at home."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can laminate survive a spill or leak?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Modern water-resistant laminate tolerates topical spills for a warranted window, often 24 to 72 hours depending on the line. It will not survive a flood, an unnoticed plumbing leak or water rising from a slab, and warranties exclude those. Wipe spills promptly and use vinyl plank in full baths, laundry rooms and damp basements."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a thicker laminate board better?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Thicker boards, 10 to 12 mm, feel more solid, sound less hollow and bridge small subfloor dips better. They are not more scratch resistant; that comes from the AC rating. In open living spaces and upstairs rooms, the extra thickness is worth paying for. In bedrooms and closets, 8 mm with a good underlayment is enough."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is laminate a realistic DIY project?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, for a square room with a sound subfloor. You need a fine-tooth saw, a tapping block, pull bar, spacers and patience with the first rows. Budget extra time for subfloor prep, undercutting door casings and transitions. Most first-timers manage a bedroom in a day and a large living room over a weekend."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When is vinyl plank the better call?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Choose vinyl plank for full bathrooms, laundry rooms, basements on concrete, and any room where water can sit or rise from below, because its core cannot swell. Choose laminate for dry living spaces, bedrooms and hallways where scratch resistance and a wood-like feel matter most. Many homes use both, split by room."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What should I clean laminate with?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sweep or vacuum on a hard-floor setting, then use a barely damp microfiber mop with a cleaner approved by the manufacturer. Avoid steam mops, soaking-wet mops, oil soaps, wax and polishes, which leave film or push moisture into joints. Wipe spills dry immediately, and keep felt pads and door mats in good shape."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Flooring, Grooming & Misc",
+    tags: [
+      "best laminate flooring",
+      "water resistant laminate",
+      "laminate ac rating",
+      "laminate underlayment",
+      "laminate vs vinyl plank",
+      "diy laminate install"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Laminate Floors</span> for Busy Homes
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Laminate is the hardest-wearing wood look you can buy for the money, as long as you match the abrasion rating to the room and keep water off the core. These seven lines cover every budget and traffic level.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#pergo-outlast-plus"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="8.9k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#ac-ratings" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Abrasion Ratings Explained</a>
+          <a href="#thickness" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Thickness and Core</a>
+          <a href="#water-claims" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Spill and Water Claims</a>
+          <a href="#rooms" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Where Laminate Belongs</a>
+          <a href="#underlayment" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Underlayment and Slabs</a>
+          <a href="#install" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Laying It Yourself</a>
+          <a href="#versus-vinyl" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Laminate or Vinyl Plank</a>
+          <a href="#budget" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Price and Budget</a>
+          <a href="#looks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Color and Finish</a>
+          <a href="#upkeep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Upkeep and Repairs</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Laminate earns its place on one fact: its melamine top surface is harder than the urethane on vinyl plank or site-finished wood, so dog claws, kids' toys and grit leave fewer marks. Its weakness is the fiberboard core, which swells if water gets into it and stays. The current generation of sealed-edge, water-resistant laminate has narrowed that gap a great deal. Pick a line rated for your traffic, protect the core, and laminate is one of the best values in flooring.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Laminate Floors, Ranked
+          </h2>
+
+          <p>
+            Picks are ranked on published abrasion class, plank thickness, core and edge treatment, the length and terms of each spill or water warranty, availability, and recurring owner feedback about chipping, swelling and joint wear. Nothing here was installed or trialed for this list; specifications come from manufacturer data sheets and retailer listings and vary by collection.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="ac-ratings" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Abrasion Ratings Are the First Filter
+          </h2>
+
+          <p>
+            Laminate's toughness is graded by the European EN 13329 standard, which assigns an <strong>AC rating</strong> from AC1 to AC5 based on abrasion, impact, staining, burns and swelling. The higher the class, the more traffic the surface is built to absorb. Most packaging prints the AC class on the end of the box, and if a product does not list one at all, treat that as a warning sign rather than an oversight.
+          </p>
+
+          <p>
+            AC1 and AC2 are for bedrooms and closets that see socks more than shoes, and you will rarely find them in stores now. AC3 is the common entry rating and is fine through most of a house with ordinary traffic. AC4 handles kitchens, hallways, entries and active households with pets, and it is also rated for light commercial use such as small offices. AC5 is built for heavy commercial traffic and is more than most homes need.
+          </p>
+
+          <p>
+            The jump from AC3 to AC4 is the one worth paying for in a family home. It usually costs well under a dollar more per square foot, and it buys a harder surface in the rooms where grit and chair legs do the most damage. Some brands also grade themselves on in-house scales or quote Taber abrasion cycles; when you see those, compare them only within that brand's own lineup.
+          </p>
+
+          <p>
+            A high AC rating does not make laminate scratch-proof. Sand tracked in on shoes is harder than any melamine coating and will dull a floor over time. Mats at doors and felt pads under furniture matter just as much as the rating on the carton. Think of AC class as how long the floor can take abuse, not whether it can be abused.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">AC class</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Suited to</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical buyer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">AC2</td>
+                    <td class="px-4 py-4 text-gray-700">Bedrooms, closets</td>
+                    <td class="px-4 py-4 text-gray-700">Low-traffic rooms only</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">AC3</td>
+                    <td class="px-4 py-4 text-gray-700">Most rooms, normal traffic</td>
+                    <td class="px-4 py-4 text-gray-700">Budget whole-house installs</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">AC4</td>
+                    <td class="px-4 py-4 text-gray-700">Kitchens, halls, pets, light commercial</td>
+                    <td class="px-4 py-4 text-gray-700">Most families</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">AC5</td>
+                    <td class="px-4 py-4 text-gray-700">Heavy commercial</td>
+                    <td class="px-4 py-4 text-gray-700">Shops and offices</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="thickness" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Thickness and Core: What Actually Changes
+          </h2>
+
+          <p>
+            Laminate ranges from about 6 mm to 14 mm, with 7, 8, 10 and 12 mm the common sizes. Thickness does not change scratch resistance, which comes from the top layer. What it changes is feel and sound. Thicker boards are stiffer, so they sound less hollow when you walk on them, they bridge small subfloor dips better, and their deeper profile allows more pronounced beveled edges that read more like real wood.
+          </p>
+
+          <p>
+            A 12 mm board is worth the extra cost in long, open rooms and on upper floors where footfall noise travels below. An 8 mm board is fine for bedrooms and smaller spaces, especially with a quality underlayment. Very thin 6 to 7 mm products are budget picks that can sound tinny and are less forgiving of an imperfect subfloor, so save them for rentals, closets or quick flips.
+          </p>
+
+          <p>
+            The core itself is high-density fiberboard. Density and the resin treatment of the core affect how it responds to moisture and how well the locking joints hold. Premium lines use denser boards and treat the core and edges with water-repelling coatings or wax, which is how they achieve their water-resistance claims. You cannot see this on the shelf, which is why the warranty language on water is a useful proxy for core quality.
+          </p>
+
+          <p>
+            Look closely at the locking profile too. Robust angle-angle locks with a solid tongue resist chipping during install and stay tight longer. Owners commonly report that cheap boards chip at the corners during installation and that joints open slightly in winter, both of which point to softer cores and weaker locks.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">SHORTHAND</p>
+            <p class="text-xl font-bold text-white mb-3">AC rating sets wear; thickness sets feel.</p>
+            <p class="text-gray-300 leading-relaxed m-0">If your budget is tight, keep the AC4 rating and drop to a thinner board with a good underlayment, rather than buying a thick AC3 board for a busy room.</p>
+          </div>
+        </div>
+
+        <div id="water-claims" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Spill and Water Claims, Decoded
+          </h2>
+
+          <p>
+            Laminate marketing now uses three tiers of language. Standard laminate has no water protection beyond a quick wipe. <strong>Water-resistant</strong> laminate seals the edges and treats the core so that topical spills can sit for a stated period, often 24 to 72 hours, without swelling. The strongest claims, often labeled waterproof, cover topical water on the surface for the life of the warranty under specific conditions. None of these is the same as a floor you can flood.
+          </p>
+
+          <p>
+            Read the warranty for three details: how long standing water is covered, whether the floor must be installed with specific perimeter sealing or underlayment, and what is excluded. Nearly all exclude flooding, plumbing leaks that run unnoticed, wet mopping and steam mops. If your goal is a laundry room or full bath that may see real water, vinyl plank is still the safer core.
+          </p>
+
+          <p>
+            Water-resistant lines change where laminate can go. A kitchen that sees occasional spills, a powder room without a tub and a mudroom with wet boots are now realistic laminate rooms, provided you wipe water up the same day. Owners commonly report that modern sealed-edge boards survive dog bowl splashes and dropped ice that would have swollen older laminate within hours.
+          </p>
+
+          <p>
+            The weak point is no longer the board but the perimeter and transitions. Water that runs off a dishwasher or under a door threshold into the expansion gap reaches the edge of the boards and the subfloor. In wet-prone areas, seal the perimeter and transitions with the sealant the manufacturer specifies, and leave expansion gaps clean so the caulk can flex.
+          </p>
+        </div>
+
+        <div id="rooms" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Where Laminate Belongs, and Where It Does Not
+          </h2>
+
+          <p>
+            <strong>Living rooms, dining rooms, bedrooms and hallways</strong> are laminate's home ground. These rooms see shoes, furniture and pets, but rarely standing water, and laminate's hard surface keeps them looking new for longer than most vinyl at the same price. Choose AC4 for halls and family rooms and AC3 for bedrooms if you want to save.
+          </p>
+
+          <p>
+            <strong>Kitchens</strong> are fine with a water-resistant AC4 line. Leave the expansion gap at cabinets, run the floor under appliances where the instructions allow, and lay a mat at the sink. Install a leak sensor under the dishwasher and fridge water line, because a slow leak is what ruins laminate kitchens, not a dropped glass.
+          </p>
+
+          <p>
+            <strong>Full bathrooms, laundry rooms and below-grade basements</strong> are better served by vinyl. A tub overflow or a washer hose failure delivers more water than any laminate warranty covers, and basements combine moisture from the slab with the risk of a seep. If a basement is consistently dry and conditioned, a water-resistant laminate over a proper vapor barrier can work, but our <a href="/best-vinyl-plank-flooring/">vinyl plank picks</a> are the lower-risk choice there.
+          </p>
+
+          <p>
+            Stairs are possible with laminate using matching stair nose pieces, but it is slow, fussy work and the nose trim can feel slippery. Sunrooms and three-season porches with big temperature swings are a poor fit, since laminate needs a stable climate. Check each product's rules for unconditioned spaces before buying.
+          </p>
+        </div>
+
+        <div id="underlayment" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Underlayment, Vapor Barriers and Slabs
+          </h2>
+
+          <p>
+            Laminate floats on a thin cushion that smooths tiny subfloor flaws, quiets footsteps and, on concrete, blocks moisture. Many boards come with a pad already attached. If yours does, do not add another foam layer, because a double pad lets the joints flex and break. On concrete, you still lay a 6 mil poly vapor barrier under an attached pad unless the manufacturer says the pad includes one.
+          </p>
+
+          <p>
+            If the boards have no pad, choose an underlayment that matches the subfloor. Over plywood or OSB, a basic foam or a denser acoustic pad works. Over concrete, use a combination pad with a built-in vapor barrier, overlap and tape the seams, and run it slightly up the wall under the baseboard. In condos, check the building's sound rating requirements, which often specify a minimum IIC rating.
+          </p>
+
+          <p>
+            Before laying anything on a slab, test it. Tape a square of plastic sheeting to the floor for a day or two and look for condensation underneath. A damp result means the slab has a moisture source that needs fixing first, whether that is grading, gutters or a crack. Running a <a href="/best-dehumidifier-for-basement/">basement dehumidifier</a> helps control air humidity, but it will not stop water wicking up through concrete.
+          </p>
+
+          <p>
+            Flatness tolerances are similar to vinyl plank, usually about three-sixteenths of an inch over 10 feet. Laminate is stiffer than vinyl, so it rides over small high spots, but dips cause boards to flex at the joints and eventually creak or separate. Fix the subfloor with patch and a grinder or sander before you start.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Common Install Specs</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">3/8 in</p>
+                <p class="text-gray-400 text-xs mt-1">Typical expansion gap</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">48 hr</p>
+                <p class="text-gray-400 text-xs mt-1">Common acclimation time</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">8 in</p>
+                <p class="text-gray-400 text-xs mt-1">Minimum end-joint stagger</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">6 mil</p>
+                <p class="text-gray-400 text-xs mt-1">Poly vapor barrier on slabs</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="install" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Laying Laminate Yourself
+          </h2>
+
+          <p>
+            Laminate is a reasonable first flooring project if the room is square and the subfloor is sound. You need a miter saw or circular saw for crosscuts, a jigsaw for notches, a tapping block and pull bar, spacers, a rubber mallet, a square, and a jamb saw for undercutting door casings. Unlike rigid vinyl, laminate does not score and snap cleanly, so a saw with a fine-tooth blade is essential. Cut outdoors or with dust collection, as fiberboard dust is fine and messy.
+          </p>
+
+          <p>
+            Acclimate the unopened cartons flat in the room for the time the maker specifies, often 48 hours. Plan rows so the last one is at least a few inches wide, stagger end joints by 8 inches or more, and mix boards from several cartons. Laminate prints repeat, so set aside obvious duplicates and spread them out across the room.
+          </p>
+
+          <p>
+            Laminate expands more than vinyl, so the perimeter gap is usually larger, often three-eighths of an inch, and transitions are required at doorways and long runs per the instructions. Do not trap the floor under cabinets, door jambs or heavy built-ins. Undercut the casing and slide the boards under it so the trim covers the edge without pinching it.
+          </p>
+
+          <p>
+            Tap gently. Laminate tongues chip if you drive them with a hammer directly, so always use the tapping block, and use the pull bar for the last board against the wall. If a joint shows a hairline gap, unclick and reset it rather than forcing it closed; a poorly seated joint is where water and wear start.
+          </p>
+
+          <p>
+            Finish with baseboard or quarter-round nailed to the wall, never to the floor. Install transition strips, reattach door stops and put felt pads on every furniture leg before moving pieces back. A competent DIYer typically lays a few hundred square feet over a weekend once the subfloor prep is done.
+          </p>
+        </div>
+
+        <div id="versus-vinyl" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Laminate or Vinyl Plank
+          </h2>
+
+          <p>
+            Laminate beats vinyl plank on scratch resistance, realism and feel. Its embossed surfaces track the printed grain closely, the boards sound more like wood, and the top layer shrugs off pet claws better than a similarly priced vinyl wear layer. If the space is dry and sees heavy traffic from dogs and kids, a good AC4 laminate usually looks better for longer.
+          </p>
+
+          <p>
+            Vinyl plank beats laminate wherever water can sit or come from below. Its core cannot swell, so it is the safer choice for full baths, laundry rooms and basements. It is also quieter on concrete and more tolerant of rooms that are not kept at a steady temperature. Our <a href="/best-vinyl-plank-flooring/">vinyl plank flooring guide</a> lays out which cores and wear layers suit those rooms.
+          </p>
+
+          <p>
+            Prices overlap so much that cost rarely decides the question. Decide by room. Many households run laminate in living spaces and bedrooms and vinyl in wet rooms, joined with a T-molding at the doorway. If you want one floor for an entire open plan that includes a kitchen, a water-resistant AC4 laminate or a 20 mil vinyl both work, so choose based on the look and feel you prefer.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">If your priority is</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Pick</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Reason</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Scratch resistance with dogs</td>
+                    <td class="px-4 py-4 text-gray-700">AC4 laminate</td>
+                    <td class="px-4 py-4 text-gray-700">Harder melamine top</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Basement or full bath</td>
+                    <td class="px-4 py-4 text-gray-700">Vinyl plank</td>
+                    <td class="px-4 py-4 text-gray-700">Core will not swell</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Wood-like sound and feel</td>
+                    <td class="px-4 py-4 text-gray-700">12 mm laminate</td>
+                    <td class="px-4 py-4 text-gray-700">Stiffer, deeper bevels</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Quiet floor over a slab</td>
+                    <td class="px-4 py-4 text-gray-700">Cork-backed vinyl</td>
+                    <td class="px-4 py-4 text-gray-700">Softer, less hollow</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Kitchen in a dry house</td>
+                    <td class="px-4 py-4 text-gray-700">Either</td>
+                    <td class="px-4 py-4 text-gray-700">Water-resistant laminate or 20 mil vinyl</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="budget" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Price and Budget
+          </h2>
+
+          <p>
+            At the time of writing, entry-level AC3 laminate starts around $1 to $2 per square foot, mid-range AC4 boards with water resistance run roughly $2 to $4, and premium 12 mm lines with long spill warranties and realistic embossing reach $4 to $6. Big-box store brands frequently go on sale, so time a large order around a promotion if you can.
+          </p>
+
+          <p>
+            Add 10 percent for waste in a simple room, 15 percent in rooms with many corners or angled walls. Underlayment, if the boards have none attached, runs roughly $0.30 to $1 per square foot, and transitions, quarter-round and sealant add a few hundred dollars to a typical room. Professional installation typically runs $2 to $5 per square foot, more with subfloor prep, removal of old flooring or stairs.
+          </p>
+
+          <p>
+            The best value is usually an AC4 water-resistant board in the 8 to 10 mm range with an attached pad. It covers the busiest rooms of a typical house, avoids a separate underlayment purchase on wood subfloors, and is easy to find. Spending more buys thickness and realism, not durability. Spending less mainly buys you a softer core and a shorter useful life in busy rooms.
+          </p>
+        </div>
+
+        <div id="looks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Color, Width and Finish Choices
+          </h2>
+
+          <p>
+            Laminate is a photograph under a clear wear surface, so the choices that make it look real are about texture and variation as much as color. Look for embossed-in-register texture, where the raised grain lines up with the printed grain. Run your hand across a sample: if you feel the knots and grain where you see them, the floor will hold up in raking light from a window. Flat prints with a generic texture look convincing only from a distance.
+          </p>
+
+          <p>
+            Mid-tone browns and gray-beiges hide dust, pet hair and fine scratches best. Very dark floors show every footprint and paw print, and very light whitewashed floors show dirt and grit at the doorway. If you have a dog that sheds, hold a sample next to the fur color, because a floor that matches the dog hides an extra day between vacuums.
+          </p>
+
+          <p>
+            Wider and longer boards, 7 inches or more and 50 inches or longer, make a room look calmer and show fewer seams, which suits large open plans. Narrow boards suit smaller rooms and traditional houses. Check the number of unique board images in the line; budget products may repeat every few boards, which creates obvious patterns unless you shuffle cartons carefully during install.
+          </p>
+
+          <p>
+            Sheen matters more than most buyers expect. Low-gloss and matte finishes hide scratches and scuffs far better than high-gloss laminate, which shows every mark in sunlight. Beveled edges, whether painted or pressed, help each board read as a separate plank and also hide slight height differences between boards. Order physical samples and look at them in the actual room at different times of day before committing to hundreds of square feet.
+          </p>
+        </div>
+
+        <div id="upkeep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. Upkeep and Repairs
+          </h2>
+
+          <p>
+            Keep grit off it. Sweep or vacuum with a hard-floor setting, and use a microfiber mop that is barely damp. Never wet-mop or use a steam mop, because liquid driven into joints is what swells laminate cores. Use cleaners approved by the maker; oil soaps, waxes and polishes leave a dull film that attracts dirt and cannot be buffed out.
+          </p>
+
+          <p>
+            Felt pads under furniture, a chair mat under rolling office chairs, and mats at exterior doors cut most surface wear. Trim pets' nails regularly; even AC4 laminate shows fine scratches where large dogs turn and skid. Lift, do not drag, heavy furniture, and put appliances on a sheet of hardboard when you slide them in or out.
+          </p>
+
+          <p>
+            Small chips and scratches can be filled with color-matched laminate repair putty or wax sticks sold by most flooring brands. A swollen or badly damaged board near a wall can be unclicked and replaced row by row. In the middle of the room, a professional can cut out the board and glue in a replacement with the locking lip trimmed off. Keep a carton from the original order for repairs, because later production runs rarely match exactly.
+          </p>
+
+          <p>
+            If a board starts to peak or the joints open with the seasons, check for pinned edges at the walls or cabinets and look for humidity swings. Holding indoor humidity steady, roughly 35 to 55 percent, keeps laminate movement within what the joints can absorb.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Putting a budget AC3 board in the kitchen</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Entry-level laminate is fine in bedrooms, but kitchens, entries and pet-heavy rooms wear through it much faster. Pay the small premium for AC4 water-resistant boards in those spaces, and save the cheaper line for rooms that see mostly socks.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trapping the floor at the edges</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Laminate expands and contracts with humidity. A missing gap at walls, door jambs or cabinets, or trim nailed into the boards, pins the floor so it buckles or opens up at the joints. Keep the full gap, undercut door casings and nail trim to the wall only.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping the vapor barrier on concrete</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A slab releases moisture constantly, even when it looks dry. Without a 6 mil poly barrier or a combination pad, that vapor works into the fiberboard core and swells the board edges. Test the slab, lay the barrier with taped seams, and run it slightly up the wall.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Mopping with a wet mop or steam</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Laminate's core is wood fiber. Water forced into joints by a soaked mop or steam mop swells the edges over time, even on water-resistant lines. Use a barely damp microfiber pad and a cleaner the manufacturer approves, and wipe spills dry the same day.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Doubling up on underlayment</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Boards with an attached pad are engineered to sit directly on the subfloor or a thin poly barrier. Adding a foam pad under them makes the floor too soft, so the joints flex and break. Read the box: if a pad is attached, add only a vapor barrier on slabs.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which laminate line is the safest all-round buy?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homes, an AC4 water-resistant line in the 8 to 12 mm range with an attached pad is the safest buy. Pergo Outlast+ balances price, spill protection and availability. Mohawk RevWood Plus is the pick for heavy spill exposure, Quick-Step NatureTEK Plus for realism, and TrafficMaster for low-traffic rooms on a tight budget.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need AC4 or is AC3 enough?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                AC3 handles bedrooms, guest rooms and living spaces with modest traffic. Choose AC4 for kitchens, hallways, entries and homes with active kids or large dogs. The price gap is usually small, and the harder surface is the cheapest way to extend the life of a busy floor. AC5 is commercial grade and rarely needed at home.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can laminate survive a spill or leak?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Modern water-resistant laminate tolerates topical spills for a warranted window, often 24 to 72 hours depending on the line. It will not survive a flood, an unnoticed plumbing leak or water rising from a slab, and warranties exclude those. Wipe spills promptly and use vinyl plank in full baths, laundry rooms and damp basements.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a thicker laminate board better?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Thicker boards, 10 to 12 mm, feel more solid, sound less hollow and bridge small subfloor dips better. They are not more scratch resistant; that comes from the AC rating. In open living spaces and upstairs rooms, the extra thickness is worth paying for. In bedrooms and closets, 8 mm with a good underlayment is enough.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is laminate a realistic DIY project?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, for a square room with a sound subfloor. You need a fine-tooth saw, a tapping block, pull bar, spacers and patience with the first rows. Budget extra time for subfloor prep, undercutting door casings and transitions. Most first-timers manage a bedroom in a day and a large living room over a weekend.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">When is vinyl plank the better call?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Choose vinyl plank for full bathrooms, laundry rooms, basements on concrete, and any room where water can sit or rise from below, because its core cannot swell. Choose laminate for dry living spaces, bedrooms and hallways where scratch resistance and a wood-like feel matter most. Many homes use both, split by room.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What should I clean laminate with?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Sweep or vacuum on a hard-floor setting, then use a barely damp microfiber mop with a cleaner approved by the manufacturer. Avoid steam mops, soaking-wet mops, oil soaps, wax and polishes, which leave film or push moisture into joints. Wipe spills dry immediately, and keep felt pads and door mats in good shape.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Flooring Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-vinyl-plank-flooring/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Vinyl Plank Flooring</h3>
+              <p class="text-gray-500 text-sm mt-2">Waterproof rigid-core planks for baths, kitchens and basements.</p>
+            </a>
+            <a href="/best-dehumidifier-for-basement/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Moisture Control</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Basement Dehumidifiers</h3>
+              <p class="text-gray-500 text-sm mt-2">Hold humidity steady so floating floors stay flat.</p>
+            </a>
+            <a href="/best-shop-vac/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Cleanup</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Shop Vacs</h3>
+              <p class="text-gray-500 text-sm mt-2">Catch sawdust during install and water after a spill.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most homes, <strong>Pergo Outlast+</strong> is the balanced buy. If spills are constant, step up to <strong>Mohawk RevWood Plus</strong>. For realism, <strong>Quick-Step NatureTEK Plus</strong> or <strong>Mannington Restoration</strong>. For value across a whole floor, <strong>AquaGuard</strong>, and for low-traffic bedrooms and rentals, <strong>TrafficMaster</strong> does the job.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Match the AC rating to the room, keep the perimeter gap honest and keep water off the core. If any of your rooms are full baths, laundry rooms or basements, pair your laminate with a waterproof core from our <a href="/best-vinyl-plank-flooring/">vinyl plank picks</a>.
+          </p>
+        </div>
+
+        <MoreInCategory category="Flooring, Grooming & Misc" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

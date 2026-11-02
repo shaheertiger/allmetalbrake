@@ -1,0 +1,885 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Buzz Cut Guide",
+    "url": "/buzz-cut-guide/"
+  },
+  {
+    "title": "Best Vinyl Plank Flooring",
+    "url": "/best-vinyl-plank-flooring/"
+  },
+  {
+    "title": "Best Laminate Flooring",
+    "url": "/best-laminate-flooring/"
+  },
+  {
+    "title": "Rust Converter vs Rust Remover",
+    "url": "/rust-converter-vs-rust-remover/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 5 Best Back Shavers for Men: Manual and Electric";
+const description =
+  "Five back shavers for doing the job solo, compared on reach, blade type, wet or dry use and running cost, plus a step-by-step method and how to avoid razor bumps.";
+
+const PRODUCTS = [
+  {
+    "id": "mangroomer-platinum",
+    "name": "Mangroomer Ultimate Pro",
+    "category": "Electric Back Shaver, Extendable Handle",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Folding, extendable handle reaches the whole back",
+      "Electric blade handles long, thick hair",
+      "Low nick risk compared with razors",
+      "Lithium-ion battery",
+      "Adjustable head angle"
+    ],
+    "cons": [
+      "Leaves short stubble, not bare skin",
+      "Replacement heads cost more than razor blades"
+    ],
+    "bottomLine": "The most practical solo back shaver for thick hair and sensitive skin.",
+    "description": "Mangroomer built its name on back shavers, and the Ultimate Pro is its flagship electric model. It has a long handle that extends and folds, so it reaches from shoulders to waist and packs away compactly, and the head can be locked at different angles for different parts of the back. Its electric blade cuts through long, dense hair without clogging, which is where manual razors struggle, and owners commonly report it is easy to use without a mirror. Because it trims rather than shaves, the result is a very short stubble rather than bare skin, and razor bumps are much less likely. The rechargeable lithium-ion battery runs a full back session per charge, according to the brand. Downsides are the price compared with manual shavers and the cost of replacement blade heads. If you want quick, low-risk maintenance and can live with stubble, this is the one to buy first."
+  },
+  {
+    "id": "bakblade-2",
+    "name": "BAKblade 2.0 ELITE PLUS",
+    "category": "Manual Razor, Long Ergonomic Handle",
+    "badge": "Smoothest Shave",
+    "amazonUrl": "",
+    "pros": [
+      "Wide blade covers a lot of skin per stroke",
+      "Long curved handle for solo use",
+      "Works wet or dry",
+      "Closest result in this list",
+      "Replacement cartridges widely available from the brand"
+    ],
+    "cons": [
+      "Needs hair trimmed short first",
+      "Higher nick risk than electric options"
+    ],
+    "bottomLine": "The pick for a genuinely smooth back if you trim first and shave carefully.",
+    "description": "BAKblade is one of the best-known manual back shaver brands, and the 2.0 ELITE PLUS kit pairs a long, curved handle with a wide razor cartridge designed to lie flat across the back. The width means fewer strokes, and the handle shape helps you reach between the shoulder blades without contorting. It is meant for both wet and dry use, so you can shave in the shower with gel for the gentlest result. A manual razor gives the closest shave of any option here, which is the point if you want smooth skin. The trade-offs are standard for razors: trim long hair first or the blade clogs and pulls, use light pressure, and accept some risk of nicks while you learn the angle. Owners commonly report good results after the first couple of attempts. The ELITE PLUS bundle includes extra cartridges, which lowers the per-shave cost. Expect roughly $35 to $50 at the time of writing."
+  },
+  {
+    "id": "bearback-shaver",
+    "name": "Bearback Manual Back Shaver",
+    "category": "Manual Razor, Rounded No-Snag Head",
+    "badge": "Easiest Manual for Beginners",
+    "amazonUrl": "",
+    "pros": [
+      "Head designed to glide without snagging",
+      "Long, simple handle",
+      "Works with or without water",
+      "Lower price than many manual rivals",
+      "Easy to rinse and dry"
+    ],
+    "cons": [
+      "Less coverage per stroke than the widest heads",
+      "Still needs trimmed hair for best results"
+    ],
+    "bottomLine": "A forgiving, low-cost manual shaver for men new to shaving their own back.",
+    "description": "Bearback is a straightforward manual back shaver built around a long handle and a head designed to glide smoothly without catching on skin, which owners commonly cite as the reason they chose it over sharper-edged rivals. It can be used dry for a quick pass or wet in the shower for a closer, gentler shave. The handle is simple and long enough for most men to cover the whole back solo. Compared with the widest-cartridge shavers, each stroke covers a bit less skin, so a full back takes a few more passes. Like any razor, it works best on hair trimmed to stubble, and light pressure prevents irritation. Its main appeal is being forgiving: if you have tried a razor on your back before and come away with nicks, this design is aimed at you. Replacement blades are sold by the brand. Pricing is generally roughly $25 to $40 at the time of writing."
+  },
+  {
+    "id": "philips-bodygroom-7000",
+    "name": "Philips Norelco Bodygroom 7000",
+    "category": "Electric Body Groomer, Back Attachment Kit",
+    "badge": "Best for Sensitive Skin",
+    "amazonUrl": "",
+    "pros": [
+      "Two-sided head trims and shaves",
+      "Showerproof for wet or dry use",
+      "Gentle on skin, low irritation",
+      "Handles the whole body, not just the back",
+      "Strong brand support and replacement parts"
+    ],
+    "cons": [
+      "Back reach depends on the kit including the extension",
+      "Foil leaves a slight stubble"
+    ],
+    "bottomLine": "The whole-body groomer for men whose skin reacts to razors.",
+    "description": "The Philips Norelco Bodygroom 7000 is a body groomer with a two-sided head: a trimmer on one side for length, and a foil shaver on the other that gets close without a bare blade touching the skin. That design is why it is often recommended for men prone to razor bumps. Some kits include a long back extension attachment, so check the bundle carefully if back reach is the reason you are buying it. The tool is showerproof, so you can use it in the shower with gel or dry before getting dressed, and it rinses clean. It also handles chest, arms and other areas, making it a good one-tool solution for body grooming. The foil leaves a slight stubble rather than bare skin, and the back extension is less rigid than a dedicated back shaver handle. Philips sells replacement heads, and owners commonly report long service life. Expect roughly $60 to $100 at the time of writing, depending on the kit."
+  },
+  {
+    "id": "mangroomer-lithium-max",
+    "name": "Mangroomer Lithium Max Back Shaver",
+    "category": "Electric Back Shaver, Budget Electric",
+    "badge": "Best Value Electric",
+    "amazonUrl": "",
+    "pros": [
+      "Electric trimming at a lower price",
+      "Extendable handle with adjustable head",
+      "Handles longer hair",
+      "Rechargeable lithium-ion battery",
+      "Simple, few parts"
+    ],
+    "cons": [
+      "Not as refined as the Ultimate Pro",
+      "Stubble finish, not smooth"
+    ],
+    "bottomLine": "A cheaper way into electric back grooming from the same brand.",
+    "description": "The Mangroomer Lithium Max is a less expensive electric back shaver from the same company as the Ultimate Pro, with an extendable handle, an adjustable head and a rechargeable lithium-ion battery. It is aimed at men who want the low-risk, no-razor experience of an electric back shaver without paying flagship prices. It trims long and thick hair to a short stubble, so there is little chance of nicks or razor bumps, and it is quick to use once you find the angles. Compared with the Ultimate Pro, owners commonly report it feels less premium and has fewer refinements in the head and handle, but it covers the core job. As with all trimmer-style back shavers, it does not give a smooth finish. Pair it with a manual razor if you want a closer result for occasions. Check that replacement blade heads are available before buying. Pricing is typically roughly $40 to $60 at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Back Shaver Picks",
+          item: "https://www.allmetalbrake.com/best-mens-back-shavers/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which back shaver should a first-timer buy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If your back hair is thick or your skin is sensitive, start with an electric model like the Mangroomer Ultimate Pro, which trims safely without a razor touching your skin. If you want smooth skin and your hair is light, a manual shaver such as the BAKblade 2.0 ELITE PLUS or the Bearback gives a closer result once you learn the angle."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will back hair come back thicker after shaving?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Shaving cuts the hair at the surface and does not affect the follicle. Regrowth feels coarser because the cut end is blunt rather than tapered, and it may look darker before it is exposed to sun. The number of hairs, their thickness and their growth rate stay the same."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I really do my whole back without help?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, with the right tool. A long handle, 18 inches or more, and a head that sits flat at the right angle let most men reach every area, including between the shoulder blades. Use two mirrors or a phone camera to check for missed patches. Men with limited shoulder mobility should pick a handle with an adjustable head."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often should I shave or trim my back?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For a smooth look, shave every two to four days, since stubble appears quickly. For a short trimmed look with an electric shaver, every one to two weeks is usually enough. Many men trim regularly and only shave fully before beach trips or events, which keeps irritation and blade costs down."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I stop razor bumps on my back?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Trim before shaving, shower first to soften hair, use a gel, shave with the grain using light pressure, and replace dull blades. Exfoliate gently a day or two before shaving and moisturize afterward. If bumps persist, switch to an electric trimmer, which leaves a short stubble and rarely causes ingrown hairs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a body groomer as good as a dedicated back shaver?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A body groomer like the Philips Norelco Bodygroom 7000 works on the back only if the kit includes a long back attachment, and that attachment is usually less rigid than a dedicated handle. It is a good choice if you also groom your chest, arms and legs. If the back is your only target, a dedicated back shaver reaches more easily."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is laser worth it instead of shaving?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Laser can reduce back hair long-term and suits men with dark hair on lighter skin who are tired of maintenance. It takes several sessions, costs hundreds to thousands of dollars, and may need touch-ups. For most men, a back shaver is far cheaper and more flexible. Some use both, shaving between laser sessions as the clinic directs."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Flooring, Grooming & Misc",
+    tags: [
+      "best mens back shavers",
+      "back hair removal",
+      "manual vs electric back shaver",
+      "how to shave your back",
+      "back razor bumps",
+      "body groomer for back"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 5 Best <span class="text-[#38BDF8]">Back Shavers</span> for Doing It Yourself
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Reaching your own back comes down to the handle, the head angle and whether you want stubble-free or just tidy. These five tools cover both, without needing a second pair of hands.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#mangroomer-platinum"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="6.4k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#manual-or-electric" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Manual or Electric</a>
+          <a href="#features" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Features That Matter</a>
+          <a href="#shave-method" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. How to Shave Your Back</a>
+          <a href="#skin" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Skin, Bumps and Itch</a>
+          <a href="#trim-vs-shave" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Trim or Shave</a>
+          <a href="#alternatives" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Waxing, Creams and Laser</a>
+          <a href="#running-costs" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Running Costs</a>
+          <a href="#upkeep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Cleaning and Storage</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Back hair is normal, and dealing with it is optional. If you do want it gone, the problem is mechanical: you cannot see the area, your arms do not bend that way, and a regular razor on a short handle leaves streaks and cuts. A good back shaver solves that with a long handle and a head angle that stays flat against the skin. Choose a manual blade if you want the closest result and a trimmer or foil if your skin reacts to razors.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 5 Best Back Shavers, Ranked
+          </h2>
+
+          <p>
+            Picks are ranked on reach and handle design, blade or cutter type, wet or dry use, ongoing blade cost and recurring owner feedback about nicks, irritation and missed patches. No shaver was used or trialed for this list; details come from manufacturer descriptions, manuals and retailer listings, and kits vary by bundle.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="manual-or-electric" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Manual or Electric: Decide This First
+          </h2>
+
+          <p>
+            <strong>Manual back shavers</strong> are a razor blade on a long handle. They give the smoothest result, cost the least up front and never need charging. Their downside is technique: you are pulling a sharp edge over skin you cannot see, so pressure and angle need care, and they work best on hair that has already been trimmed short. Most are designed to be used dry or wet, with wet use being kinder to skin.
+          </p>
+
+          <p>
+            <strong>Electric back shavers</strong> use a trimmer blade, a foil, or both on an extendable handle. They cut hair close but not to bare skin, and they handle long, thick hair without clogging the way a razor does. They are safer if you are prone to nicks and gentler on sensitive skin. Their downsides are price, batteries that eventually fade, and replacement heads or foils that cost more than razor cartridges.
+          </p>
+
+          <p>
+            Many men end up owning one of each, or use an electric groomer for the first pass and a manual razor to finish. If your back hair is long and dense, start with an electric trimmer no matter what, then decide whether you want smooth skin or just a short, even crop. If your back hair is light and you want the cleanest result, a manual shaver alone is enough.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Factor</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Manual blade</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Electric trimmer or foil</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Closeness</td>
+                    <td class="px-4 py-4 text-gray-700">Bare skin</td>
+                    <td class="px-4 py-4 text-gray-700">Short stubble</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Long, thick hair</td>
+                    <td class="px-4 py-4 text-gray-700">Clogs, trim first</td>
+                    <td class="px-4 py-4 text-gray-700">Handles it</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Nick risk</td>
+                    <td class="px-4 py-4 text-gray-700">Higher</td>
+                    <td class="px-4 py-4 text-gray-700">Low</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Up-front cost</td>
+                    <td class="px-4 py-4 text-gray-700">Low</td>
+                    <td class="px-4 py-4 text-gray-700">Moderate</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Ongoing cost</td>
+                    <td class="px-4 py-4 text-gray-700">Blade cartridges</td>
+                    <td class="px-4 py-4 text-gray-700">Heads, foils, battery life</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="features" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Features That Actually Matter
+          </h2>
+
+          <p>
+            <strong>Handle length and shape</strong> come first. You need to reach from your neck to your lower back and across to each shoulder blade. Straight handles around 18 to 24 inches cover most men, while folding or telescoping handles help taller or broader men and make storage easier. A curve or a rubber grip helps you control pressure when your arm is bent behind you.
+          </p>
+
+          <p>
+            <strong>Head angle</strong> decides whether the blade lies flat. Fixed heads at a good angle are simple and predictable. Hinged or adjustable heads let you lock different angles for the upper back and the lower back, which helps if your shoulders are tight. Avoid heads that wobble loosely, because a blade that rocks off the skin leaves stripes and digs in at the edge.
+          </p>
+
+          <p>
+            <strong>Blade or cutter type</strong> matters for comfort. Wide manual blades cover more area per stroke, which means fewer passes and less irritation. On electric models, a trimmer handles length and a foil gives a closer finish; models that combine both on one head save switching tools. Look for replaceable parts sold by the brand, not a disposable head that leaves the handle useless.
+          </p>
+
+          <p>
+            <strong>Wet or dry use</strong> and battery details round it out. A shaver rated for shower use lets you shave with warm water and gel, which softens hair and skin. For electrics, check runtime per charge and whether the battery is lithium-ion, and whether the tool can run while plugged in. A tool you can rinse under the tap is far easier to keep clean than one you must brush out.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">FIT CHECK</p>
+            <p class="text-xl font-bold text-white mb-3">Can you reach the spot between your shoulder blades?</p>
+            <p class="text-gray-300 leading-relaxed m-0">That small patch in the middle of the upper back is the hardest place to reach. Before buying, look at the handle length and head angle with that spot in mind, especially if you have limited shoulder mobility.</p>
+          </div>
+        </div>
+
+        <div id="shave-method" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. How to Shave Your Own Back
+          </h2>
+
+          <p>
+            Trim first if the hair is longer than a quarter inch. Use an electric groomer or a back shaver with a trimmer attachment to bring everything down to stubble. A razor dragged through long hair pulls, clogs and skips, and that is where most nicks happen. Do the trimming before the shower, standing on a hard floor or a towel so cleanup is quick.
+          </p>
+
+          <p>
+            Shower with warm water for a few minutes to soften hair and skin. For a manual shaver, apply a clear shave gel or foam to the reachable areas with your hand and spread the rest with the shaver head or a long-handled brush. Some manual shavers are designed for dry use; if yours is, keep the skin clean and dry and use light strokes.
+          </p>
+
+          <p>
+            Work in sections and go with the grain first. Start at the top of each shoulder and pull down toward the waist in long, light strokes, then do the middle, then the lower back. Let the weight of the tool do the work; pressing harder is the most common cause of irritation. Rinse the blade often. Only go against the grain for a second pass if your skin tolerates it.
+          </p>
+
+          <p>
+            Check your work with two mirrors, or a phone camera on a timer, and do touch-up passes on missed patches. Rinse with cool water, pat dry and apply a fragrance-free moisturizer or aftershave balm. Shave at night if you can, so your skin has hours to settle before a shirt and a backpack strap rub on it.
+          </p>
+
+          <p>
+            Clean up the hair right away. Short back hair sticks to grout, carpet and bath mats. On a smooth floor like tile or <a href="/best-vinyl-plank-flooring/">vinyl plank</a>, a quick pass with a vacuum or a wet-dry <a href="/best-shop-vac/">shop vac</a> gets it in a minute; carpet takes much longer, so trim in the bathroom or over a towel.
+          </p>
+        </div>
+
+        <div id="skin" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Skin, Razor Bumps and Itch
+          </h2>
+
+          <p>
+            Razor bumps on the back are usually ingrown hairs or irritated follicles. They are more common with coarse or curly hair, with dull blades, and when you shave against the grain. Reduce them by shaving with the grain, using a fresh blade, avoiding pressure and keeping the skin lubricated. If bumps keep appearing, switch to an electric trimmer that leaves a little stubble.
+          </p>
+
+          <p>
+            Exfoliate a day or two before shaving with a body scrub or a washcloth on a long handle. Products with salicylic acid or glycolic acid, used a few times a week, help keep follicles clear. Avoid exfoliating right after shaving, because freshly shaved skin is already sensitive.
+          </p>
+
+          <p>
+            Itch during regrowth is normal for a few days as stubble pushes through, especially with tight clothing. A light, fragrance-free moisturizer helps, and loose cotton shirts rub less. Shaving more often, every few days, actually reduces itch for many men because the stubble never gets long enough to become stiff and scratchy.
+          </p>
+
+          <p>
+            See a dermatologist for painful, pus-filled bumps that keep coming back, signs of infection, or a rash that spreads. Back acne can look similar to razor bumps but needs different treatment, and shaving over active acne irritates it further. Also mention any new or changing moles before shaving over them; ask a partner or a doctor to check areas you cannot see.
+          </p>
+        </div>
+
+        <div id="trim-vs-shave" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Trim or Shave: Which Look You Want
+          </h2>
+
+          <p>
+            Trimming to a short, even length is the low-maintenance option. It removes the bulk that shows through shirts and at the collar, it does not cause razor bumps, and regrowth is barely noticeable. An electric back shaver or body groomer with a 1 to 3 mm comb gets you there in a few minutes once a week or two.
+          </p>
+
+          <p>
+            Shaving to bare skin looks cleanest on the beach or at the pool, but stubble returns within two or three days and needs maintenance to stay smooth. If you want smooth skin for a specific occasion, shave a day or two before, not the morning of, so any redness has time to fade.
+          </p>
+
+          <p>
+            Shaving does not make hair grow back thicker or darker. Stubble feels coarser because the blade cuts the tapered tip off each hair, leaving a blunt end, and it may look darker as it emerges because it has not been lightened by sun. The number and thickness of follicles do not change. Choose based on look and maintenance, not on that myth.
+          </p>
+
+          <p>
+            Blend the edges. A sharp line where back hair stops at the shoulders or lower back looks odd. Use a trimmer to taper the hair at the edges of the shaved area, so the transition is gradual. If you also keep your head short, matching the clipper guard you use on your head to your body trim makes everything look consistent; our <a href="/buzz-cut-guide/">buzz cut guide</a> explains guard lengths in millimeters.
+          </p>
+        </div>
+
+        <div id="alternatives" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Waxing, Creams and Laser
+          </h2>
+
+          <p>
+            <strong>Waxing</strong> at a salon removes hair from the root and keeps the back smooth for roughly three to six weeks. It hurts, especially the first time, and needs hair long enough to grip, so you cannot keep the back smooth between appointments. Expect to pay roughly $40 to $80 per back wax at the time of writing, depending on the city.
+          </p>
+
+          <p>
+            <strong>Depilatory creams</strong> dissolve hair at the surface and last a few days longer than shaving. They are messy to apply to your own back without help and can burn sensitive skin. Always patch-test on a small area 24 hours before, follow the timing on the label exactly, and never use them on broken or freshly shaved skin.
+          </p>
+
+          <p>
+            <strong>Laser hair removal</strong> and IPL reduce hair permanently or long-term over several sessions, and they work best on dark hair over lighter skin. A full back course commonly costs several hundred to a few thousand dollars at the time of writing. Choose a licensed clinic, discuss your skin type, and expect some maintenance sessions. Home IPL devices exist but are slow to use on your own back.
+          </p>
+
+          <p>
+            For most men, a back shaver is the cheapest and most flexible option. You decide when, how short and how often, with no appointments and no pain. If you hate maintenance and can afford it, laser is the long-term answer, and you can still keep a shaver for touch-ups between sessions.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Method</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Lasts</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Pain</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rough cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Back shaver, manual</td>
+                    <td class="px-4 py-4 text-gray-700">2 to 3 days smooth</td>
+                    <td class="px-4 py-4 text-gray-700">None</td>
+                    <td class="px-4 py-4 text-gray-700">$20 to $50 plus blades</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Electric trimmer</td>
+                    <td class="px-4 py-4 text-gray-700">1 to 2 weeks tidy</td>
+                    <td class="px-4 py-4 text-gray-700">None</td>
+                    <td class="px-4 py-4 text-gray-700">$40 to $100</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Waxing</td>
+                    <td class="px-4 py-4 text-gray-700">3 to 6 weeks</td>
+                    <td class="px-4 py-4 text-gray-700">High</td>
+                    <td class="px-4 py-4 text-gray-700">$40 to $80 per session</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Depilatory cream</td>
+                    <td class="px-4 py-4 text-gray-700">3 to 7 days</td>
+                    <td class="px-4 py-4 text-gray-700">Low, can sting</td>
+                    <td class="px-4 py-4 text-gray-700">$10 to $20 per tube</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Laser</td>
+                    <td class="px-4 py-4 text-gray-700">Long term</td>
+                    <td class="px-4 py-4 text-gray-700">Moderate</td>
+                    <td class="px-4 py-4 text-gray-700">Hundreds to thousands</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="running-costs" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Running Costs Over a Year
+          </h2>
+
+          <p>
+            The sticker price is only part of the cost. Manual back shavers use replacement cartridges or blades that typically last several shaves each, depending on hair density and how well you rinse and dry them. At the time of writing, replacement blades generally cost a few dollars apiece. Shaving every week, that adds up to roughly $30 to $80 a year.
+          </p>
+
+          <p>
+            Electric shavers have fewer ongoing costs but larger ones. Replacement foils and cutter heads often cost $15 to $40 and last months to a year or more, depending on use. Batteries eventually lose capacity after a few years; check whether the brand sells replacement batteries or whether a weak battery means a new tool.
+          </p>
+
+          <p>
+            Check how easy it is to buy the replacements before you buy the handle. Brands with their own proprietary blades can discontinue them, leaving a perfectly good handle useless. Shavers that accept widely sold blade formats, or brands that have kept the same cartridge for years, are a safer bet.
+          </p>
+
+          <p>
+            Bundled extra blades are worth it if the per-blade price is lower than buying separately. Avoid bundles padded with low-value extras such as cheap gel or travel pouches. Divide the bundle price by the number of shaves you will realistically get from the blades to see the real cost.
+          </p>
+        </div>
+
+        <div id="upkeep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Cleaning and Storage
+          </h2>
+
+          <p>
+            Rinse a manual shaver under warm running water after every few strokes and thoroughly when you finish. Shake it out and let it air-dry head up, out of the shower if possible. Water left on the blade dulls the edge and can rust it. Wiping the blade gently with a towel can damage the edge, so dab or air-dry instead.
+          </p>
+
+          <p>
+            Clean electric shavers according to the manual. Rinse waterproof models under the tap, then let them dry with the foil or head removed. Brush out hair from non-waterproof models with the included brush. A drop of clipper oil on trimmer blades every few uses keeps them cutting smoothly and running cooler.
+          </p>
+
+          <p>
+            Do not share a back shaver. Blades can carry bacteria and blood-borne germs, even when the skin looks fine. Disinfect blades occasionally with rubbing alcohol, especially after a nick, and replace blades that pull or feel rough rather than pushing through one more shave.
+          </p>
+
+          <p>
+            Store the shaver in a dry spot with the blade guard on. Charge lithium-ion electrics periodically if you only use them every few weeks, and avoid leaving them in a hot car or a steamy bathroom for long periods, which shortens battery life.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running a razor through long hair</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A razor on long back hair clogs, tugs and skips, which is when it nicks. Trim to stubble with an electric groomer or a trimmer attachment first, then shave. The extra two minutes of trimming saves irritation and a lot of rinsing.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Pressing hard because you cannot see</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Without visual feedback, most men push the blade too hard, causing razor burn and cuts. Use light, steady strokes and let the tool's weight do the work. Check the result with two mirrors or a phone camera instead of making extra hard passes.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Shaving against the grain on the first pass</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Going against the grain lifts hairs and cuts them below the skin line, a common cause of ingrown hairs on the back. Shave with the grain first. Only try a second pass across or against the grain if your skin stays calm after several shaves.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a dull blade too long</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A worn blade drags and pulls rather than cutting cleanly, which irritates skin and leaves patches. Replace cartridges at the first sign of tugging. Rinse and air-dry the blade after each use to keep the edge longer, and never wipe it with a towel.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Shaving right before a beach day</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Fresh shaving can leave redness or small bumps that take a day to fade, and salt water and sunscreen sting. Shave the evening before or two days ahead, moisturize, and let the skin settle before sun and swimming.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which back shaver should a first-timer buy?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                If your back hair is thick or your skin is sensitive, start with an electric model like the Mangroomer Ultimate Pro, which trims safely without a razor touching your skin. If you want smooth skin and your hair is light, a manual shaver such as the BAKblade 2.0 ELITE PLUS or the Bearback gives a closer result once you learn the angle.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will back hair come back thicker after shaving?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. Shaving cuts the hair at the surface and does not affect the follicle. Regrowth feels coarser because the cut end is blunt rather than tapered, and it may look darker before it is exposed to sun. The number of hairs, their thickness and their growth rate stay the same.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I really do my whole back without help?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, with the right tool. A long handle, 18 inches or more, and a head that sits flat at the right angle let most men reach every area, including between the shoulder blades. Use two mirrors or a phone camera to check for missed patches. Men with limited shoulder mobility should pick a handle with an adjustable head.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How often should I shave or trim my back?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For a smooth look, shave every two to four days, since stubble appears quickly. For a short trimmed look with an electric shaver, every one to two weeks is usually enough. Many men trim regularly and only shave fully before beach trips or events, which keeps irritation and blade costs down.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I stop razor bumps on my back?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Trim before shaving, shower first to soften hair, use a gel, shave with the grain using light pressure, and replace dull blades. Exfoliate gently a day or two before shaving and moisturize afterward. If bumps persist, switch to an electric trimmer, which leaves a short stubble and rarely causes ingrown hairs.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a body groomer as good as a dedicated back shaver?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A body groomer like the Philips Norelco Bodygroom 7000 works on the back only if the kit includes a long back attachment, and that attachment is usually less rigid than a dedicated handle. It is a good choice if you also groom your chest, arms and legs. If the back is your only target, a dedicated back shaver reaches more easily.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is laser worth it instead of shaving?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Laser can reduce back hair long-term and suits men with dark hair on lighter skin who are tired of maintenance. It takes several sessions, costs hundreds to thousands of dollars, and may need touch-ups. For most men, a back shaver is far cheaper and more flexible. Some use both, shaving between laser sessions as the clinic directs.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/buzz-cut-guide/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Grooming</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Buzz Cut Guide</h3>
+              <p class="text-gray-500 text-sm mt-2">Clipper guard numbers, styles and how to cut it yourself.</p>
+            </a>
+            <a href="/best-shop-vac/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Cleanup</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Shop Vacs</h3>
+              <p class="text-gray-500 text-sm mt-2">Pick up clipped hair and bathroom messes fast.</p>
+            </a>
+            <a href="/best-vinyl-plank-flooring/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Bathroom Floors</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Vinyl Plank Flooring</h3>
+              <p class="text-gray-500 text-sm mt-2">Waterproof bathroom floors that sweep clean in seconds.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most men, an electric shaver like the <strong>Mangroomer Ultimate Pro</strong> is the safest solo option, and the <strong>Mangroomer Lithium Max</strong> does the same job for less. If you want smooth skin, the <strong>BAKblade 2.0 ELITE PLUS</strong> gives the closest result, and the <strong>Bearback</strong> is the more forgiving manual for beginners. If your skin reacts to razors or you groom more than your back, the <strong>Philips Norelco Bodygroom 7000</strong> covers it all.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Trim first, shave light and with the grain, and moisturize after. Keeping your head short too? Our <a href="/buzz-cut-guide/">buzz cut guide</a> covers guard numbers and doing it yourself, so everything stays matched.
+          </p>
+        </div>
+
+        <MoreInCategory category="Flooring, Grooming & Misc" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

@@ -1,0 +1,915 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Concrete Sealers",
+    "url": "/best-concrete-sealer/"
+  },
+  {
+    "title": "Best Brick Sealers",
+    "url": "/best-brick-sealer-reviews/"
+  },
+  {
+    "title": "Silane vs Siloxane Sealers",
+    "url": "/silane-vs-siloxane-sealers/"
+  },
+  {
+    "title": "Best Penetrating Concrete Sealers",
+    "url": "/best-penetrating-concrete-sealer/"
+  },
+  {
+    "title": "Best Granite Sealers",
+    "url": "/best-granite-sealer/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "Best Chimney Sealer: 6 Picks for Brick, Mortar and Crowns";
+const description =
+  "Six chimney sealers and crown coatings, how to tell whether a leak starts at the brick, crown or flashing, and how to treat a chimney without trapping water.";
+
+const PRODUCTS = [
+  {
+    "id": "chimneysaver-water-repellent",
+    "name": "ChimneySaver Water Repellent",
+    "category": "Purpose-Made Chimney Repellent",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Formulated specifically for chimney masonry",
+      "Highly vapor permeable so the chimney can dry",
+      "No visible change to brick or mortar",
+      "Long track record with chimney sweeps",
+      "Backed by a long manufacturer warranty when applied per directions"
+    ],
+    "cons": [
+      "Harder to find in general hardware stores",
+      "Costs more per gallon than general masonry repellents"
+    ],
+    "bottomLine": "The repellent most chimney professionals reach for, built for exactly this job.",
+    "description": "ChimneySaver is made by Saver Systems, a company that has focused on chimney and masonry water repellents for decades, and the product is widely sold through chimney sweeps and specialty suppliers. It is a penetrating siloxane-based repellent designed to let chimney masonry release water vapor freely while stopping liquid rain from soaking in. That balance matters more on a chimney than on almost any other brick surface: chimneys are exposed on all four sides, take wind-driven rain, and carry moisture from combustion gases and condensation inside the structure. A film or a low-permeability coating can trap that moisture and accelerate freeze-thaw damage. The maker sells the repellent in more than one formulation, including water-based, and offers a warranty when applied as directed. Apply it by low-pressure sprayer from the top down, saturating the brick and mortar until it runs slightly. Pricing varies by size and supplier; a gallon is often in the $50 to $90 range at the time of writing."
+  },
+  {
+    "id": "ghostshield-siloxa-tek-8500-chimney",
+    "name": "Ghostshield Siloxa-Tek 8500",
+    "category": "Silane-Siloxane Penetrating Repellent",
+    "badge": "Best Deep Penetration",
+    "amazonUrl": "",
+    "pros": [
+      "Silane-siloxane blend reaches deep into dense brick",
+      "Vapor permeable after cure",
+      "Natural look with no sheen",
+      "Also suits brick walls, block and concrete"
+    ],
+    "cons": [
+      "Premium price",
+      "Requires dry weather before and after application"
+    ],
+    "bottomLine": "A strong choice for dense or hard-fired chimney brick and for treating the chimney and house walls together.",
+    "description": "Siloxa-Tek 8500 combines silane, a small molecule that penetrates deeply into dense masonry, with siloxane, which works closer to the surface on more porous material. On a chimney built from hard-fired brick with softer mortar joints, that combination treats both effectively. The result is a breathable, invisible water repellent that sheds rain while allowing vapor out. Because it is a general masonry repellent rather than a chimney-specific product, it is especially useful when you plan to treat the chimney and the brick walls of a house in one project, since one product and one sprayer cover the job. As with any penetrating sealer, coverage depends on porosity, so test a small section to calculate how much you need. Avoid getting it on roofing, windows or painted trim, and clean any overspray promptly. A gallon generally runs about $90 to $140 at the time of writing."
+  },
+  {
+    "id": "drylok-clear-masonry-repellent",
+    "name": "DRYLOK Clear Masonry Water Repellent",
+    "category": "Clear Penetrating Masonry Treatment",
+    "badge": "Best Budget",
+    "amazonUrl": "",
+    "pros": [
+      "Sold at most home centers",
+      "Clear, natural finish",
+      "Suitable for brick, block and stucco above grade",
+      "Affordable for a single chimney"
+    ],
+    "cons": [
+      "Less chimney-specific than dedicated products",
+      "Reapplication may be needed sooner than premium repellents"
+    ],
+    "bottomLine": "A practical, low-cost option when you need to treat a chimney with what is on the shelf this weekend.",
+    "description": "DRYLOK is a familiar masonry brand, and its clear masonry waterproofer is one of the easiest chimney-suitable treatments to find at a home center. It is designed to soak into above-grade brick, block and stucco and leave a clear, natural finish. For a single chimney on a modest budget, it does a reasonable job of reducing water absorption into the brick, which is the main goal of any repellent. It is not as specialized as ChimneySaver, and dedicated silane-siloxane blends generally claim longer service lives, so plan to check the chimney every year or two and reapply when water no longer beads. As with any treatment, confirm that the label calls the product breathable or vapor permeable before using it on a chimney, and apply it only to clean, dry masonry in mild, dry weather. A gallon usually sells for about $30 to $50 at the time of writing."
+  },
+  {
+    "id": "foundation-armor-sx5000",
+    "name": "Foundation Armor SX5000 WB",
+    "category": "Water-Borne Silane-Siloxane",
+    "badge": "Best Water-Based",
+    "amazonUrl": "",
+    "pros": [
+      "Low odor water-based carrier",
+      "Breathable silane-siloxane chemistry",
+      "Rated for brick, block and concrete",
+      "Good value per gallon"
+    ],
+    "cons": [
+      "Must stay dry during cure",
+      "Not chimney-specific; read the label for vertical masonry use"
+    ],
+    "bottomLine": "A good-value breathable repellent for homeowners treating the chimney along with other masonry.",
+    "description": "Foundation Armor SX5000 WB is a water-based silane-siloxane penetrating sealer rated for brick, concrete, pavers and block. On a chimney, the water carrier is an advantage for anyone working on a roof, since low odor and soap-and-water cleanup make a precarious job a little less unpleasant, and overspray is easier to clean off shingles and flashing than solvent products. Like the other repellents here, it leaves no visible coating and allows the brick to breathe. It offers solid value for homeowners who want to seal the chimney, a brick patio and maybe a block foundation wall with one purchase. Apply it with a pump sprayer, flooding the surface, and add a second coat wet on wet on soft or very porous brick, following label instructions. Keep it dry for the cure time listed, usually around a day. Gallons are commonly priced around $60 to $100 at the time of writing."
+  },
+  {
+    "id": "chimneyrx-crown-repair",
+    "name": "ChimneyRX Brushable Crown Repair",
+    "category": "Elastomeric Crown Coating",
+    "badge": "Best Crown Coating",
+    "amazonUrl": "",
+    "pros": [
+      "Elastomeric coating bridges hairline crown cracks",
+      "Brush-on application with no special tools",
+      "Flexible film moves with temperature changes",
+      "Seals the most common chimney leak point"
+    ],
+    "cons": [
+      "Only for the crown, not the brick sides",
+      "Cannot fix a crumbling or badly cracked crown"
+    ],
+    "bottomLine": "The repair for a crown with hairline cracks, applied alongside a brick repellent.",
+    "description": "The crown, the concrete or mortar cap at the top of a chimney, is one of the most common leak sources, and ordinary water repellents are not designed to fix it. ChimneyRX Brushable Crown Repair is an elastomeric coating made for this surface. It brushes on in a thick layer, bridges hairline cracks, and stays flexible as the crown expands and contracts with heat and cold, which is why crown cracks keep reopening when patched with rigid mortar alone. It suits crowns that are structurally sound but showing fine cracks or a weathered, porous surface. It does not replace a crown that is crumbling, broken into pieces, or built without an overhang; those need a rebuild. Clean the crown thoroughly, let it dry, fill any wider cracks with the patching product the maker recommends, then apply the coating per the label, keeping it off the flue liner. Expect to pay around $40 to $80 for a typical crown kit at the time of writing."
+  },
+  {
+    "id": "chimneysaver-crownseal",
+    "name": "ChimneySaver CrownSeal",
+    "category": "Flexible Crown Sealer",
+    "badge": "Best Crown Alternative",
+    "amazonUrl": "",
+    "pros": [
+      "Made by a chimney-focused manufacturer",
+      "Flexible, breathable crown coating",
+      "Bridges small cracks on sound crowns",
+      "Pairs with ChimneySaver repellent for a matched system"
+    ],
+    "cons": [
+      "Mainly sold through chimney professionals and specialty sellers",
+      "Not a substitute for rebuilding a failed crown"
+    ],
+    "bottomLine": "A matched crown coating for anyone using ChimneySaver on the chimney brick.",
+    "description": "CrownSeal is Saver Systems' coating for chimney crowns, designed to work alongside its ChimneySaver water repellent. It forms a flexible, water-resistant layer on top of the crown that bridges small cracks and keeps water out of the most exposed horizontal surface of the chimney, while being formulated to allow vapor to escape. Chimney sweeps often use it as part of a two-step treatment: CrownSeal on the crown, ChimneySaver on the brick sides. As with other crown coatings, it is for crowns that are structurally intact. Large cracks, loose pieces, or a crown made from a thin layer of mortar with no overhang need rebuilding, ideally as a properly formed concrete crown with a drip edge that projects past the brick. Apply only to clean, dry surfaces and avoid coating the flue liner or the joint between liner and crown unless the product instructions specifically allow it. Pricing varies by supplier, often around $50 to $90 at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Chimney Sealer",
+          item: "https://www.allmetalbrake.com/best-chimney-sealer/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Is a regular masonry repellent fine for a chimney?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Often yes, as long as it is breathable. Many silane-siloxane repellents sold for brick walls are suitable for chimney brick. Check that the label describes the product as vapor permeable and rates it for above-grade vertical masonry. Avoid film-forming sealers and paints. Chimney-specific products like ChimneySaver are formulated with especially high vapor permeability for chimney conditions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why are bricks on my chimney crumbling?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most often from freeze-thaw damage. Water soaks into the brick, freezes, expands and breaks off the face, a process called spalling. Soft brick, eroded mortar, a failed crown or a non-breathable coating all make it worse. Replace damaged bricks, repoint mortar, fix the crown, and apply a breathable repellent to slow future damage."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will sealing the brick stop my chimney leak?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only if the brick is the source. Many chimney leaks come from cracked crowns, failed flashing or a missing cap. A hose test, done one area at a time with a helper inside, shows where water enters. Sealing the brick is still worthwhile to protect the masonry, but it should be combined with repairs to whichever part is actually leaking."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does chimney water repellent last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Quality penetrating repellents are commonly rated for 5 to 10 years or more by their makers, depending on exposure and brick porosity. South- and west-facing sides and heavily exposed chimneys wear faster. Check the brick with a hose every year or two; when it darkens and stays dark instead of beading water, reapply."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to coat the chimney crown separately?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Crowns are horizontal, take the most water, and crack from temperature swings. A standard brick repellent does not bridge cracks. Use an elastomeric crown coating on a sound crown with hairline cracks, and rebuild crowns that are crumbling or lack an overhang. Keep coatings off the flue liner unless the product label allows it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a homeowner waterproof a chimney?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many can, if the roof is low-pitched and easily reached with a secured ladder. The work itself, cleaning, spraying and brushing on a crown coating, is straightforward. Steep or high roofs, multi-story chimneys, and any flashing or crown rebuilds are better left to a chimney or roofing professional with proper fall protection and equipment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a repellent make the chimney look wet or shiny?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Penetrating repellents are designed to dry clear, with no sheen or change in color. Brick may look darker for a few hours while wet with product, then return to normal. Crown coatings are visible but sit on top of the chimney where few people see them. Avoid gloss sealers, which change the look and trap moisture."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Concrete & Masonry Sealers",
+    tags: [
+      "best chimney sealer",
+      "chimney water repellent",
+      "chimney crown sealer",
+      "chimney leak repair",
+      "masonry chimney waterproofing",
+      "vapor permeable sealer"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Chimney Sealers</span>, and Where Leaks Really Start
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A chimney is a brick tower standing in the weather with heat and moisture moving through it from the inside. Seal it with something that breathes, fix the crown and flashing, and most leaks stop.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#chimneysaver-water-repellent"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="6.4k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. The 6 Picks</a>
+          <a href="#where-leaks-start" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Where Leaks Start</a>
+          <a href="#diagnose" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Diagnose First</a>
+          <a href="#breathable" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Why It Must Breathe</a>
+          <a href="#crown" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. The Crown</a>
+          <a href="#flashing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Flashing and Caps</a>
+          <a href="#apply" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. How to Apply</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Cost</a>
+          <a href="#maintenance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Maintenance</a>
+          <a href="#spalling-repair" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Repointing and Replacing Damaged Chimney Brick</a>
+          <a href="#inside-the-flue" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. What Not to Seal: The Flue, Firebox and Liner</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          When water shows up around a fireplace or on the ceiling beside a chimney, brick is rarely the only culprit. Cracked crowns, failed flashing and missing caps cause more chimney leaks than porous brick does. A breathable water repellent is still one of the best investments for chimney masonry, because it stops the slow soaking that leads to spalled brick and crumbling mortar. It just works best as part of a set of repairs, not as a cure-all sprayed over everything.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Chimney Sealers, Ranked
+          </h2>
+
+          <p>
+            Products are ranked using manufacturer technical data, the surfaces and exposures each is rated for, published vapor-permeability claims, warranty terms, and recurring owner and chimney-professional feedback. Breathable repellents for the brick come first; crown coatings are ranked separately because they solve a different problem.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="where-leaks-start" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Where Chimney Leaks Actually Start
+          </h2>
+
+          <p>
+            Chimney leaks show up as stains on the ceiling or wall beside the chimney, water in the firebox, rust on the damper, or white efflorescence on interior brick. The source is usually one of five places: the crown, the flashing, the cap, the brick and mortar, or condensation inside the flue. Several can be at fault at once.
+          </p>
+
+          <p>
+            <strong>The crown</strong> sits on top of the chimney and is supposed to shed water away from the brick. Many crowns are built from ordinary mortar rather than properly formed concrete, with no overhang or drip edge. They crack with temperature swings, and each crack funnels water straight into the chimney structure.
+          </p>
+
+          <p>
+            <strong>Flashing</strong> seals the joint where the chimney passes through the roof. Step flashing and counterflashing should overlap and be set into the mortar joints. When sealant dries out or the counterflashing pulls away from the brick, water runs down the chimney and into the attic, often showing up some distance from the actual entry point.
+          </p>
+
+          <p>
+            <strong>The cap</strong> covers the top of the flue opening. Without one, rain falls straight down the flue, and animals and debris get in. <strong>The brick and mortar</strong> absorb rain on all four sides of the chimney; soft brick and eroded joints can carry surprising amounts of water inward. A water repellent addresses this last source and helps protect the brick from freeze-thaw damage.
+          </p>
+        </div>
+
+        <div id="diagnose" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Diagnosing Your Chimney Before You Buy Anything
+          </h2>
+
+          <p>
+            Start with a look from the ground using binoculars. Check for cracks or missing pieces on the crown, a missing or damaged cap, flashing that looks bent or loose, dark wet patches on the brick, white staining, and spalled brick faces. Then look in the attic during or after a rain to see where water appears.
+          </p>
+
+          <p>
+            A controlled hose test pinpoints leaks. With a helper inside watching for water, run a garden hose gently over one part of the chimney at a time for 10 to 15 minutes, starting low at the flashing and working upward to the brick, then the crown, then the cap. When water appears inside, you have found the source. Do one area at a time, and stop if you see water inside so you do not soak the ceiling.
+          </p>
+
+          <p>
+            If a hose test is not possible, a professional chimney inspection is the reliable alternative. The National Fire Protection Association standard NFPA 211 calls for chimneys, fireplaces and vents to be inspected annually, and a sweep certified by the Chimney Safety Institute of America can do a Level 1 or Level 2 inspection, including a camera scan of the flue when needed.
+          </p>
+
+          <p>
+            An inspection also catches problems a homeowner should not try to seal around, such as a cracked flue liner, deteriorated mortar inside the flue, or creosote buildup. These are fire and carbon monoxide hazards, and no exterior sealer addresses them. Fix those first, then deal with water.
+          </p>
+        </div>
+
+        <div id="breathable" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Why a Chimney Sealer Must Breathe
+          </h2>
+
+          <p>
+            A chimney is constantly moving moisture. Rain soaks in from outside, and combustion and condensation add water from inside, especially with modern high-efficiency appliances or a fireplace used intermittently in cold weather. The brick has to release that moisture through its outer face, or it builds up in the masonry.
+          </p>
+
+          <p>
+            When water trapped in brick freezes, it expands and fractures the surface. Repeated winters of this produce spalling: chunks of brick face popping off, often visible as debris on the roof or in the gutter. Mortar joints erode similarly. Non-breathable coatings, including many paints, gloss acrylics and roofing tars, make this worse by sealing water in.
+          </p>
+
+          <p>
+            Breathable repellents, siloxane and silane-siloxane formulas in particular, line the pores of brick and mortar with a water-repellent layer without filling them. Rain beads and runs off, but vapor still escapes. Our <a href="/best-concrete-sealer/">concrete sealer guide</a> covers the same breathable chemistries for flatwork. Chimney professionals and repellent makers stress vapor permeability on their data sheets for exactly this reason. For the chemistry behind the two families, see <a href="/silane-vs-siloxane-sealers/">silane vs siloxane sealers</a>.
+          </p>
+
+          <p>
+            The same principle applies to the house walls if they are brick. Our <a href="/best-brick-sealer-reviews/">brick sealer guide</a> covers products for walls, patios and garden structures, many of which overlap with chimney-suitable repellents.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Product type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Breathable</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Where it goes</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Fixes</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Does not fix</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Siloxane or silane-siloxane repellent</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Brick and mortar sides</td>
+                    <td class="px-4 py-4 text-gray-700">Absorption, freeze-thaw wear</td>
+                    <td class="px-4 py-4 text-gray-700">Crown cracks, flashing</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Elastomeric crown coating</td>
+                    <td class="px-4 py-4 text-gray-700">Formulated to be</td>
+                    <td class="px-4 py-4 text-gray-700">Top of crown only</td>
+                    <td class="px-4 py-4 text-gray-700">Hairline crown cracks</td>
+                    <td class="px-4 py-4 text-gray-700">Crumbling crowns, flashing</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Flashing sealant</td>
+                    <td class="px-4 py-4 text-gray-700">N/A</td>
+                    <td class="px-4 py-4 text-gray-700">Flashing joints</td>
+                    <td class="px-4 py-4 text-gray-700">Small gaps at counterflashing</td>
+                    <td class="px-4 py-4 text-gray-700">Missing or rusted flashing</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Paint or gloss acrylic</td>
+                    <td class="px-4 py-4 text-gray-700">Usually low</td>
+                    <td class="px-4 py-4 text-gray-700">Not recommended</td>
+                    <td class="px-4 py-4 text-gray-700">Appearance</td>
+                    <td class="px-4 py-4 text-gray-700">Moisture trapping, spalling</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Roofing tar</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Not recommended</td>
+                    <td class="px-4 py-4 text-gray-700">Temporary patch only</td>
+                    <td class="px-4 py-4 text-gray-700">Long-term leaks</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="crown" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Dealing With the Crown
+          </h2>
+
+          <p>
+            Inspect the crown up close if you can do so safely. Hairline cracks on an otherwise solid crown are the ideal case for an elastomeric crown coating like ChimneyRX or CrownSeal. Clean off moss, debris and loose material, fill wider cracks with the patching compound the coating maker recommends, let everything dry, and brush on the coating in the thickness the label specifies.
+          </p>
+
+          <p>
+            A crown that is crumbling, broken into separate pieces, or built as a thin mortar wash with no overhang needs to be rebuilt. A proper crown is cast concrete, sloped to shed water, with an overhang of a couple of inches past the brick and a drip edge underneath so water falls clear rather than running down the face. A bond break around the flue liner lets the liner expand separately.
+          </p>
+
+          <p>
+            Crown rebuilds are a job for a mason or chimney contractor, typically costing several hundred to well over a thousand dollars depending on chimney size, roof pitch and access. That is significantly more than a coating, but a properly built crown can last decades, while patching a failed one buys only a season or two.
+          </p>
+
+          <p>
+            Keep crown coatings off the flue liner unless the product instructions specifically permit it, and never coat the inside of the flue. The flue must vent combustion gases, and coatings are not rated for those temperatures.
+          </p>
+        </div>
+
+        <div id="flashing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Flashing and Caps: The Other Half of the Job
+          </h2>
+
+          <p>
+            Flashing failures are the most common source of leaks that appear around the chimney inside the house. Look for counterflashing that has pulled out of the mortar joints, dried and cracked sealant along the top edge, rusted or holed metal, and missing step flashing pieces. Small gaps in counterflashing can sometimes be resealed with a high-quality polyurethane or flashing-rated sealant.
+          </p>
+
+          <p>
+            More serious flashing damage needs replacement, which usually means removing shingles around the chimney, installing new step flashing and counterflashing cut into the mortar joints, and reshingling. That is roofing work, and it should be done by a roofer or chimney contractor. Sealant smeared over badly failed flashing is a temporary fix at best.
+          </p>
+
+          <p>
+            A chimney cap keeps rain, snow, birds and animals out of the flue. Caps are inexpensive relative to the damage they prevent, and many come in stainless steel with a mesh screen that also acts as a spark arrestor. Measure the flue tile, or have the sweep fit one during an inspection.
+          </p>
+
+          <p>
+            For caulking choices around flashing and other exterior joints, see our <a href="/best-exterior-caulk/">exterior caulk guide</a>. Choose sealants rated for metal-to-masonry joints and for the temperature range the chimney sees, and avoid silicone where paint or another sealant may need to bond later.
+          </p>
+        </div>
+
+        <div id="apply" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. How to Apply Chimney Water Repellent
+          </h2>
+
+          <p>
+            Work on a cool, dry chimney. The fireplace and any appliances venting through the chimney should be off and cold for at least a day. The masonry should be dry, with no rain in the previous 24 hours or more, and the forecast should be clear for the cure window on the label. Mild temperatures, roughly 40 to 90 degrees Fahrenheit, suit most products.
+          </p>
+
+          <p>
+            Clean the brick first if it is dirty, mossy or stained. Use a masonry cleaner and a stiff brush; avoid high-pressure washing on chimney brick, which erodes mortar. Repair spalled bricks and eroded mortar joints, and let new mortar cure for the time its maker specifies before applying repellent. Fix the crown and flashing at the same time.
+          </p>
+
+          <p>
+            Protect the roof, windows and siding with plastic sheeting or drop cloths. Using a low-pressure pump sprayer, apply repellent to the brick from the top of the chimney down, flooding the surface so it runs a few inches below the spray. Apply a second coat wet on wet if the label calls for it. Cover all four sides, including the side facing away from you.
+          </p>
+
+          <p>
+            Let the repellent cure for the time on the label before rain. Results are not fully apparent for a few days; after that, water should bead on the brick. Recheck the chimney after the first heavy rain to confirm the leak has stopped, and if it has not, revisit the crown and flashing.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">SAFETY FIRST</p>
+            <p class="text-xl font-bold text-white mb-3">Roof work is the dangerous part</p>
+            <p class="text-gray-300 leading-relaxed m-0">Use a ladder rated for your weight plus tools, tie it off, and set it at a safe angle. On steep or high roofs, use a fall-arrest harness and roof anchor, or hire the job out. Never spray repellent into the flue or onto a warm chimney, and keep solvent products well away from any open flame or pilot light.</p>
+          </div>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. What Chimney Waterproofing Costs
+          </h2>
+
+          <p>
+            Materials for a do-it-yourself repellent job are modest. A typical single-flue chimney might have 100 to 200 square feet of brick above the roofline, which a gallon or two of repellent will cover depending on porosity. At the time of writing, that means roughly $40 to $200 in repellent, plus a pump sprayer and plastic sheeting.
+          </p>
+
+          <p>
+            A crown coating kit runs roughly $40 to $90. Flashing sealant is a few dollars a tube. A stainless steel chimney cap usually costs $50 to $200 for the part, more for multi-flue or custom sizes. All in, a DIY package of repellent, crown coating, flashing touch-ups and a cap is often under $500.
+          </p>
+
+          <p>
+            Professional chimney waterproofing, often bundled with an inspection and crown coating, typically ranges from a few hundred dollars to around $1,000. Crown rebuilds, flashing replacement and repointing add substantially, and major masonry repair on a deteriorated chimney can reach several thousand dollars.
+          </p>
+
+          <p>
+            Weigh that against the cost of ignoring a wet chimney. Water damage to framing, drywall and insulation around a chimney is expensive to repair, and chimneys that spall badly may need partial rebuilding above the roofline. Annual inspections and a repellent every several years are cheap by comparison.
+          </p>
+        </div>
+
+        <div id="maintenance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Inspection and Maintenance Schedule
+          </h2>
+
+          <p>
+            Have the chimney inspected once a year, as NFPA 211 recommends, ideally before the heating season. The sweep checks the flue, liner, damper and firebox for safety problems and can spot early crown cracks, flashing gaps and mortar erosion before they cause leaks.
+          </p>
+
+          <p>
+            Check the repellent every year or two with a simple hose test on a sample area. When the brick darkens and stays dark rather than beading water, it is time to reapply. Penetrating repellents do not need stripping; clean the brick and spray a fresh coat. Many manufacturers claim service lives of 5 to 10 years or more.
+          </p>
+
+          <p>
+            Look at the crown coating annually. Elastomeric coatings can wear, especially on south-facing exposures with strong sun. Touch up any thin spots or new cracks before winter. Check the cap for rust or damage and confirm it is secure after windstorms.
+          </p>
+
+          <p>
+            Watch for warning signs between inspections: brick fragments on the roof or in the gutter, white staining on the chimney, rust on the damper, a musty smell from the fireplace in wet weather, or water stains on nearby ceilings. Each points to a specific failure that is cheaper to fix early.
+          </p>
+        </div>
+
+        <div id="spalling-repair" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Repointing and Replacing Damaged Chimney Brick
+          </h2>
+
+          <p>
+            Repellent protects sound masonry; it does not restore damaged masonry. Before treating a chimney, walk through every face and note bricks with broken faces, joints recessed more than about a quarter inch, and mortar that crumbles when scraped with a screwdriver. Those spots let water in faster than any sealer can keep it out.
+          </p>
+
+          <p>
+            Repointing means grinding or raking out deteriorated mortar to a depth of roughly two to three times the joint width and packing in fresh mortar in layers. The new mortar should be compatible with the old, which on older chimneys often means a softer, lime-rich mix rather than a hard modern one. Mortar harder than the brick forces movement and moisture into the brick, which then spalls.
+          </p>
+
+          <p>
+            Individual spalled bricks can be cut out and replaced with matching salvaged or new brick. Where many bricks above the roofline have failed, a partial rebuild from the roofline up is often the most cost-effective repair, and it is a good moment to add a proper crown and new flashing.
+          </p>
+
+          <p>
+            New mortar needs to cure before repellent goes on, and the wait varies by mix and weather; mortar makers commonly suggest several weeks. Plan masonry repairs for late spring or summer and the repellent for early fall, so the chimney goes into winter repaired, cured and protected.
+          </p>
+        </div>
+
+        <div id="inside-the-flue" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. What Not to Seal: The Flue, Firebox and Liner
+          </h2>
+
+          <p>
+            Every product on this list is for the outside of the chimney. None is rated for the inside of a flue, the firebox, or the smoke chamber, which see high temperatures, corrosive combustion byproducts and creosote. Spraying a repellent or coating there can create flammable residue or release fumes when the fireplace is next used.
+          </p>
+
+          <p>
+            Flue liners that are cracked, missing tiles, or have open mortar joints need repair with methods designed for them, such as a stainless steel relining kit or a heat-rated cast-in-place or resurfacing system installed by a professional. A damaged liner allows heat and gases to reach combustible framing and can let carbon monoxide escape into living spaces.
+          </p>
+
+          <p>
+            Interior firebox brick with cracked or missing mortar joints is repaired with refractory mortar rated for fireplace temperatures, not with masonry sealer or standard mortar. Firebrick that is cracked through should be replaced.
+          </p>
+
+          <p>
+            If you notice smoke in the room, a strong creosote smell, or soot staining on the chimney exterior, stop using the fireplace and have the system inspected before any waterproofing work. Water problems can wait a week; a compromised flue cannot.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using paint, tar or a gloss sealer on chimney brick</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Non-breathable coatings trap moisture inside chimney masonry, where it freezes and breaks off the brick face. Roofing tar smeared on brick or crowns also cracks and holds water. Use only repellents described as vapor permeable on the brick, and reserve coatings for the crown with products designed for that surface.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sealing brick while the real leak is the flashing</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many leaks blamed on brick come from failed counterflashing or a cracked crown. Sealing the brick alone leaves those paths open, and the leak continues. Hose-test the chimney section by section to find the source, then fix the crown and flashing along with sealing the brick.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Treating a warm or recently used chimney</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Applying repellent to warm masonry can cause it to flash off before it penetrates, and solvent products near heat are a fire hazard. Let the fireplace and any appliance venting through the chimney sit unused and cold for at least a day before working, and schedule the job for a mild, overcast morning.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping repairs to spalled brick and mortar</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Sealer cannot rebuild a broken brick face or fill eroded joints. Spalled bricks and crumbling mortar let water deep into the chimney. Replace damaged brick, repoint the joints, let the mortar cure as directed, then apply repellent. Otherwise the sealer is wasted on surfaces that still leak.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Taking risks on the roof</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Most chimney work happens at height on a sloped surface. Unsecured ladders, wet shingles and working alone cause serious falls. Use a properly secured ladder, a roof harness on steep pitches, and a helper on the ground. If the roof is high or steep, hire a chimney professional.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a regular masonry repellent fine for a chimney?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Often yes, as long as it is breathable. Many silane-siloxane repellents sold for brick walls are suitable for chimney brick. Check that the label describes the product as vapor permeable and rates it for above-grade vertical masonry. Avoid film-forming sealers and paints. Chimney-specific products like ChimneySaver are formulated with especially high vapor permeability for chimney conditions.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Why are bricks on my chimney crumbling?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most often from freeze-thaw damage. Water soaks into the brick, freezes, expands and breaks off the face, a process called spalling. Soft brick, eroded mortar, a failed crown or a non-breathable coating all make it worse. Replace damaged bricks, repoint mortar, fix the crown, and apply a breathable repellent to slow future damage.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will sealing the brick stop my chimney leak?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Only if the brick is the source. Many chimney leaks come from cracked crowns, failed flashing or a missing cap. A hose test, done one area at a time with a helper inside, shows where water enters. Sealing the brick is still worthwhile to protect the masonry, but it should be combined with repairs to whichever part is actually leaking.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does chimney water repellent last?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Quality penetrating repellents are commonly rated for 5 to 10 years or more by their makers, depending on exposure and brick porosity. South- and west-facing sides and heavily exposed chimneys wear faster. Check the brick with a hose every year or two; when it darkens and stays dark instead of beading water, reapply.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need to coat the chimney crown separately?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. Crowns are horizontal, take the most water, and crack from temperature swings. A standard brick repellent does not bridge cracks. Use an elastomeric crown coating on a sound crown with hairline cracks, and rebuild crowns that are crumbling or lack an overhang. Keep coatings off the flue liner unless the product label allows it.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a homeowner waterproof a chimney?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Many can, if the roof is low-pitched and easily reached with a secured ladder. The work itself, cleaning, spraying and brushing on a crown coating, is straightforward. Steep or high roofs, multi-story chimneys, and any flashing or crown rebuilds are better left to a chimney or roofing professional with proper fall protection and equipment.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a repellent make the chimney look wet or shiny?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Penetrating repellents are designed to dry clear, with no sheen or change in color. Brick may look darker for a few hours while wet with product, then return to normal. Crown coatings are visible but sit on top of the chimney where few people see them. Avoid gloss sealers, which change the look and trap moisture.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Masonry Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-brick-sealer-reviews/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Masonry</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Brick Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Breathable repellents for brick walls, patios and garden walls.</p>
+            </a>
+            <a href="/silane-vs-siloxane-sealers/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Explainer</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Silane vs Siloxane Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">The two penetrating chemistries behind most chimney repellents.</p>
+            </a>
+            <a href="/best-exterior-caulk/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Repair</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Exterior Caulk</h3>
+              <p class="text-gray-500 text-sm mt-2">Sealants for flashing, trim and other exterior joints.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            ChimneySaver Water Repellent is the best chimney sealer for most homes, with Ghostshield Siloxa-Tek 8500 the pick for dense brick or for treating the chimney and house walls together. On a budget, DRYLOK Clear Masonry Water Repellent is easy to find. Pair any of them with ChimneyRX or CrownSeal on a sound crown.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Find the leak before you buy. Crowns, flashing and caps cause more chimney leaks than brick does, and an annual inspection catches all of them early. For the bigger picture on masonry sealers, start with our <a href="/best-concrete-sealer/">concrete sealer guide</a>.
+          </p>
+        </div>
+
+        <MoreInCategory category="Concrete & Masonry Sealers" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

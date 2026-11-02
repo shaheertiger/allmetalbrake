@@ -1,0 +1,979 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Deck Stains",
+    "url": "/best-deck-stain-reviews/"
+  },
+  {
+    "title": "Best Exterior Wood Sealer",
+    "url": "/best-exterior-wood-sealer/"
+  },
+  {
+    "title": "Best Redwood Sealer",
+    "url": "/best-redwood-sealer/"
+  },
+  {
+    "title": "Best Deck Stain for Pressure-Treated Wood",
+    "url": "/best-deck-stain-for-pressure-treated-wood/"
+  },
+  {
+    "title": "Best Deck Paint",
+    "url": "/best-deck-paint/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Fence Stains: Picks for Spraying Long Runs";
+const description =
+  "Seven fence stains ranked for sprayability, lap-mark resistance and life on vertical wood, with gallon math by fence length and prep for new or old fences.";
+
+const PRODUCTS = [
+  {
+    "id": "ready-seal-fence",
+    "badge": "Best Overall",
+    "category": "Oil-based penetrating stain",
+    "name": "Ready Seal Exterior Wood Stain and Sealer",
+    "amazonUrl": "",
+    "bottomLine": "The easiest stain to spray evenly over a long fence, with enough pigment to last.",
+    "pros": [
+      "Marketed as no back-brushing and no lap marks",
+      "Sprays easily through pump and airless sprayers",
+      "Fades evenly instead of peeling",
+      "Wide range of natural tones",
+      "Sold in economical five-gallon pails"
+    ],
+    "cons": [
+      "Color develops over about two weeks",
+      "Oil-based cleanup and longer dry time",
+      "Not ideal over old film finishes"
+    ],
+    "description": "Ready Seal is the stain many fence owners end up recommending to their neighbors, and the reason is how easily it goes on. The manufacturer says it needs no back-brushing and leaves no lap marks, and owner feedback on fences backs that up more consistently than for most products. It is an oil-based penetrating stain that sprays smoothly through a pump sprayer or an airless rig, which is what you want on hundreds of pickets. It fades rather than peeling, so a maintenance coat after a few years is a cleaning and one more pass. The tones range from light natural shades to deeper browns, and the semi-transparent look suits both cedar and pressure-treated pine. Five-gallon pails are common, and the price per gallon drops noticeably in that size. Two things surprise first-time users: the color looks lighter when wet and deepens over about two weeks, and it needs warm, dry weather to cure. It will not soak through old solid stain or paint. Prices ran roughly 40 to 55 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "sherwin-williams-superdeck",
+    "badge": "Best Pro-Grade",
+    "category": "Semi-transparent stain",
+    "name": "Sherwin-Williams SuperDeck Exterior Semi-Transparent Stain",
+    "amazonUrl": "",
+    "bottomLine": "A durable, contractor-favored stain with strong color options for fences that need to look sharp.",
+    "pros": [
+      "Sold and tinted at Sherwin-Williams stores",
+      "Oil and waterborne versions available",
+      "Wide color range with custom tinting",
+      "Designed for decks, fences and siding",
+      "Good support and color matching for touch-ups"
+    ],
+    "cons": [
+      "Higher price than big-box brands",
+      "Waterborne version needs care to avoid lap marks",
+      "Store availability limited to Sherwin-Williams locations"
+    ],
+    "description": "SuperDeck is Sherwin-Williams' exterior wood stain line, and its semi-transparent version is a common contractor choice for fences, decks and siding. Buying from a paint store has real advantages on a fence project: staff can tint a wide range of colors, match a previous batch for touch-ups and recommend the right sprayer tip. The line includes oil-based and waterborne versions, so you can choose based on your state's VOC rules and your tolerance for drying time. Owners commonly report even color and good longevity on vertical surfaces. The waterborne version dries faster, which shortens the window for overlapping passes, so work in shade and keep a wet edge. The oil version is more forgiving on long runs. It costs more than big-box brands, and you have to buy it at a Sherwin-Williams location, but frequent sales often narrow the gap. For a fence that is a visible part of the house's look, the color control is worth it. Prices were roughly 45 to 70 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "olympic-maximum",
+    "badge": "Best Big-Box Value",
+    "category": "Stain and sealant in one",
+    "name": "Olympic Maximum Stain + Sealant in One",
+    "amazonUrl": "",
+    "bottomLine": "A reasonably priced, easy-to-find stain for most fences, with tinting at Lowe's.",
+    "pros": [
+      "Widely available at Lowe's with in-store tinting",
+      "Clear, transparent, semi-transparent and solid versions",
+      "Water repellency and mildew resistance per the label",
+      "Moderate price",
+      "Sprayable with back-brushing"
+    ],
+    "cons": [
+      "Can build up with repeated heavy coats",
+      "Less natural look than penetrating oils",
+      "Needs back-brushing to avoid lap marks"
+    ],
+    "description": "Olympic Maximum Stain + Sealant in One is Lowe's flagship exterior stain, and for many fence owners it is the most practical choice. It is easy to find, tinted in store to a wide range of colors and priced below most paint-store brands. The line includes clear, transparent, semi-transparent and solid versions, so you can choose the look that fits your fence and change it later without switching systems. The label promises water repellency and mildew resistance, and owners generally report good results on vertical surfaces. It can be sprayed, but a quick back-brush or back-roll keeps lap marks away, especially on smooth boards. Because it behaves somewhat like a coating, repeated heavy coats can build up over years; keep coats thin and only recoat when water soaks in. On cedar and redwood, it looks slightly less natural than the penetrating oils. For a typical pressure-treated or cedar privacy fence, it is a solid value. Prices were roughly 35 to 50 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "behr-premium-solid",
+    "badge": "Best for Old Fences",
+    "category": "Solid color stain",
+    "name": "BEHR Premium Solid Color Waterproofing Stain & Sealer",
+    "amazonUrl": "",
+    "bottomLine": "The best way to make an old, patched or mismatched fence look uniform again.",
+    "pros": [
+      "Hides weathering, patches and mismatched boards",
+      "Wide color range at Home Depot",
+      "Long life on vertical surfaces",
+      "Soap-and-water cleanup",
+      "Moderate price per gallon"
+    ],
+    "cons": [
+      "Hides the wood grain completely",
+      "Can peel if applied over old penetrating stain or damp wood",
+      "Usually needs two coats"
+    ],
+    "description": "BEHR Premium Solid Color Waterproofing Stain & Sealer is the product to reach for when a fence has seen better days. Solid stain hides gray weathering, replacement boards, old stain blotches and the green tint of treated lumber, giving the whole fence one uniform color. On vertical surfaces, solid stains last longer than any semi-transparent product, and owners frequently report several years before a recoat is needed. It is an acrylic product sold and tinted at Home Depot, so colors are wide and touch-up cans are easy to find. It cleans up with soap and water. The tradeoffs are the ones that come with any film. It hides the grain completely, so it is a poor choice for a new cedar fence you want to show off. It can peel if applied over an old penetrating stain that still repels water or onto damp wood, so clean well and let the fence dry. Plan on two coats for even color. Prices were roughly 40 to 55 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "defy-extreme",
+    "badge": "Best Water-Based",
+    "category": "Water-based semi-transparent stain",
+    "name": "DEFY Extreme Semi-Transparent Wood Stain",
+    "amazonUrl": "",
+    "bottomLine": "The water-based fence stain to choose in low-VOC states or when you want easy cleanup.",
+    "pros": [
+      "Soap-and-water cleanup and low odor",
+      "Zinc oxide particles for UV resistance",
+      "Fast drying",
+      "Sold in states with strict VOC rules",
+      "Penetrates rather than building heavy film"
+    ],
+    "cons": [
+      "Fast drying makes lap marks more likely in sun",
+      "Needs warm, dry conditions",
+      "Can look flatter than oil stains"
+    ],
+    "description": "DEFY Extreme Semi-Transparent Wood Stain is a water-based stain that uses zinc oxide nanoparticles and pigment to resist UV. For fence projects, its strengths are cleanup and availability: equipment cleans with soap and water, odor is low and it can be shipped to states where many oil-based stains are restricted. It penetrates rather than forming a thick film, so wear shows as fading rather than peeling. The tones work on cedar, redwood and pressure-treated pine. The main challenge on a fence is drying speed. Fast drying helps when weather windows are short but makes lap marks more likely, especially in direct sun. Spray or roll in shade, work one section between posts at a time and back-brush as you go. Avoid days when dew or rain will arrive before it sets. Owners commonly report good color retention on vertical surfaces, with the usual note that it looks slightly flatter than oil. Prices ran roughly 40 to 55 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "cabot-australian-timber-oil",
+    "badge": "Best for Cedar Showpieces",
+    "category": "Oil-based translucent finish",
+    "name": "Cabot Australian Timber Oil",
+    "amazonUrl": "",
+    "bottomLine": "A rich, translucent oil for cedar and hardwood fences where the grain is the point.",
+    "pros": [
+      "Rich, warm translucent color",
+      "Penetrates dense and soft woods",
+      "Widely available",
+      "No film to peel",
+      "Enhances grain on cedar and hardwood"
+    ],
+    "cons": [
+      "More expensive per gallon than basic fence stains",
+      "Some tones read orange",
+      "Slower drying"
+    ],
+    "description": "Cabot Australian Timber Oil is a translucent, oil-based finish that brings out the grain and adds a rich, warm color. It was designed with dense hardwoods in mind, but on fences it shines on new cedar, horizontal slat designs and hardwood screens where the wood is a feature rather than a backdrop. Because it penetrates rather than forming a film, it fades gradually and can be refreshed after cleaning. It is widely stocked at major retailers. For a basic pressure-treated privacy fence, it is more product than you need, and other stains here cost less per gallon. On a modern horizontal cedar fence or an entry screen, the color depth is the reason to choose it. Test the tone on a spare board first, since some shades look orange on pale cedar. Apply thin coats, back-brush and wipe excess on smooth faces. Expect longer drying times than water-based options and solvent cleanup. Prices were roughly 45 to 65 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "thompsons-waterseal",
+    "badge": "Best Budget",
+    "category": "Waterproofing stain",
+    "name": "Thompson's WaterSeal Waterproofing Stain",
+    "amazonUrl": "",
+    "bottomLine": "An inexpensive, widely available stain for utility fences where a long finish life is not critical.",
+    "pros": [
+      "Low price and stocked almost everywhere",
+      "Transparent, semi-transparent and solid versions",
+      "Easy to apply with a sprayer or roller",
+      "Good water repellency when fresh",
+      "Fine for utility and back-lot fences"
+    ],
+    "cons": [
+      "Shorter life than premium stains",
+      "Less UV protection in lighter versions",
+      "Overlapping heavy coats can look uneven"
+    ],
+    "description": "Thompson's WaterSeal Waterproofing Stain is the budget option for fences, and it earns a place because many fences do not need a premium product. For a back-lot fence, a dog run or a utility fence behind a garage, it adds color and water repellency at a low price and can be found in almost any hardware store. It comes in transparent, semi-transparent and solid versions, and the more pigmented ones last longer in sun. Owners generally report that it goes on easily with a pump sprayer or roller and repels water well when fresh. The tradeoff is life. On a sunny fence, expect to recoat sooner than with the premium stains above, and the transparent version offers limited UV protection. Avoid overlapping heavy coats, which can look uneven, and recoat only when water soaks in. For the fence that faces the street and frames the house, spend more; for the rest, this is a reasonable choice. Prices were roughly 25 to 40 dollars per gallon at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Fence Stains",
+          item: "https://www.allmetalbrake.com/best-fence-stain/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which stain should most wood fences get?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most fences, an oil-based penetrating semi-transparent stain such as Ready Seal is the best balance of easy spraying, even fading and long life. Sherwin-Williams SuperDeck offers more color control, Olympic Maximum is a good big-box value, BEHR Solid suits old and mismatched fences, and DEFY Extreme is the water-based choice for low-VOC states."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many years will a fence stain hold up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On vertical fences, transparent stains often last about two to three years, semi-transparent stains three to five years and solid stains even longer, depending on sun and climate. South and west facing sections fade first. Sprinkler spray and soil contact shorten life at the bottom. Use the water drop test to decide when to recoat rather than relying on a fixed schedule."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I stain both sides of my fence?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Staining both sides protects the wood more evenly and reduces cupping and warping, because both faces absorb and lose moisture at similar rates. If the other side faces a neighbor, ask first; some want to choose their own color. At minimum, stain the top edges, posts and any surfaces you can reach on the back."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long should I wait to stain a new fence?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on the wood. New pressure-treated pine fences often need several weeks to a few months to dry enough to absorb stain. Kiln-dried treated lumber and cedar can often be stained sooner. Do a water drop test: if water soaks in within a minute or two, the wood is ready. If it beads, wait."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it better to spray or roll fence stain?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spraying is much faster on long fences, but rolling gives better control and less overspray. The best approach for most people is to spray and then back-brush or back-roll each section to work stain into the grain and catch drips. On short fences or near cars and windows, rolling or brushing alone is often easier."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I stain a fence in the fall?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, if temperatures stay within the label's range, typically above about 50 degrees, and the wood is dry. Fall often brings stable, mild weather and less intense sun, which helps stain penetrate evenly. Avoid days when dew, frost or rain will arrive before the stain sets, and finish early enough in the day for it to dry."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does it cost to stain a fence?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For a 100 foot, six foot tall fence stained on both sides, DIY stain costs typically run a few hundred dollars, plus cleaner, brightener and a sprayer. Professional staining adds labor that varies widely by region, fence design and prep needed. Ask quotes to list cleaning, brightening, both sides and the specific stain to be used."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Deck & Wood Finishes",
+    tags: [
+      "best fence stain",
+      "wood fence stain",
+      "staining a privacy fence",
+      "fence stain sprayer",
+      "cedar fence stain",
+      "fence stain coverage"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Fence Stains</span> for Long Runs and Tall Pickets
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A fence is mostly surface area: two faces, hundreds of pickets and every rail and post in between. The best fence stain is the one that sprays on evenly, does not show lap marks and fades instead of peeling. These seven are ranked on exactly that.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ready-seal-fence"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="10.3k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#fence-vs-deck" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Fence vs Deck Stain</a>
+          <a href="#opacity" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Choosing Opacity</a>
+          <a href="#new-fence" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. New Fence Timing</a>
+          <a href="#old-fence" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Prepping an Old Fence</a>
+          <a href="#fence-styles" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Fence Styles</a>
+          <a href="#how-much" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. How Much Stain</a>
+          <a href="#spray-or-roll" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Spray, Roll or Brush</a>
+          <a href="#sequence" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Staining Sequence</a>
+          <a href="#neighbors" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Neighbors and Plants</a>
+          <a href="#maintenance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Upkeep and Cost</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Fence stain gets less attention than deck stain, but a fence is often the larger job. A 150 foot privacy fence six feet tall has about 900 square feet per side, before counting posts and rails, which is more than most decks. The good news is that vertical wood is easy on finishes. It sheds rain, avoids foot traffic and catches the sun at an angle, so a stain that lasts two years on a deck can go four or more on a fence. That shifts the buying priorities. Ease of spraying, freedom from lap marks and a finish that fades evenly matter more on a fence than squeezing out the last bit of durability, and the picks below reflect that.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Fence Stains, Ranked
+          </h2>
+
+          <p>
+            Rankings draw on manufacturer data sheets and labels, stated spray and coverage guidance, VOC availability and recurring owner feedback on how each product applies and ages on fences. We did not run our own weathering trials. Sprayability and even fading were weighted heavily because they decide how a fence job goes for most homeowners.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="fence-vs-deck" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Why Fence Stain Is a Different Buy From Deck Stain
+          </h2>
+
+          <p>
+            Most fence stains are the same products sold as deck stains, often labeled for decks, fences and siding together. What changes is which features matter. A deck needs abrasion resistance and has to survive standing water. A fence needs to go on quickly over a huge vertical area, look even from twenty feet away and stay attractive for years without much attention.
+          </p>
+
+          <p>
+            Sprayability is the first test. Thin, penetrating oil stains flow through a pump sprayer or airless sprayer easily and tolerate overlapping passes without dark stripes. Thicker acrylic stains and solid colors can be sprayed but usually need back-brushing or back-rolling to look even. If you plan to spray, choose a product the label says can be sprayed.
+          </p>
+
+          <p>
+            Lap marks are the second. On a fence, they show as darker vertical or horizontal bands where wet stain overlapped stain that had started to dry. Oil-based penetrating stains are much more forgiving than fast-drying water-based ones. If you use a water-based stain, work in shade and keep a wet edge across each section.
+          </p>
+
+          <p>
+            Failure mode is the third. A penetrating stain that fades evenly can be refreshed with a cleaning and one coat. A film-forming stain that peels needs scraping or stripping on every picket, which is a miserable job on a long fence. Unless the fence is old and mismatched, favor penetrating products.
+          </p>
+
+          <p>
+            If you are finishing a deck at the same time, use our <a href="/best-deck-stain-reviews/">deck stain rankings</a> for the floor and pick a fence stain from the same brand and tone for a matching look. Fences usually hold their color longer, so the two will drift apart slightly over time.
+          </p>
+        </div>
+
+        <div id="opacity" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Transparent, Semi-Transparent or Solid?
+          </h2>
+
+          <p>
+            <strong>Transparent and toned.</strong> These show nearly all of the grain and add a hint of color. They suit new cedar and redwood fences where the wood itself is the attraction. They have the least pigment, so they fade fastest, but on a vertical fence they can still last two to three years.
+          </p>
+
+          <p>
+            <strong>Semi-transparent.</strong> This is the best default for most fences. Enough pigment to block UV and even out color differences between boards, while grain and texture still show. On new pressure-treated pine fences, a semi-transparent stain hides the green tint and blotchiness of treated lumber.
+          </p>
+
+          <p>
+            <strong>Solid color.</strong> Solid stains hide the grain and act like a thin paint. They make sense on older fences with weathered, patched or mismatched boards, or when matching house trim. They last the longest on vertical surfaces but can peel, and they commit you to that look.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Opacity</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Grain shows</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical life on a fence</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Transparent or toned</td>
+                    <td class="px-4 py-4 text-gray-700">Fully</td>
+                    <td class="px-4 py-4 text-gray-700">2 to 3 years</td>
+                    <td class="px-4 py-4 text-gray-700">New cedar or redwood</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Semi-transparent</td>
+                    <td class="px-4 py-4 text-gray-700">Mostly</td>
+                    <td class="px-4 py-4 text-gray-700">3 to 5 years</td>
+                    <td class="px-4 py-4 text-gray-700">Most fences, new treated pine</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Solid color</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">4 to 7 years</td>
+                    <td class="px-4 py-4 text-gray-700">Old, patched or mismatched fences</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Ranges like these depend heavily on sun, climate and prep. A south-facing fence in high-altitude sun can need attention twice as often as a shaded north-facing one. The water drop test, described below, is a better guide than any fixed number.
+          </p>
+        </div>
+
+        <div id="new-fence" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. When to Stain a New Fence
+          </h2>
+
+          <p>
+            New pressure-treated pine fences arrive wet from the treatment process. Stain applied too early cannot soak in and either sits on the surface or fails within months. Wait until the wood absorbs water, which can take a few weeks in hot, dry weather and several months in humid or cool conditions. Our guide on whether <a href="/can-you-stain-pressure-treated-wood/">you can stain pressure-treated wood</a> explains the absorption test and how kiln-dried treated lumber changes the timeline.
+          </p>
+
+          <p>
+            New cedar fences are usually drier and can often be stained much sooner. Cedar pickets sometimes have mill glaze, a smooth, hard surface from planing that blocks absorption. Rough-sawn faces absorb readily; smooth faces may need a few weeks of weathering or a light sanding. Many cedar fence pickets are rough on one side, and that side takes stain best.
+          </p>
+
+          <p>
+            Do not wait too long. A new fence left bare for a full year in strong sun will gray and may start checking, which means more prep before staining. A good target is the first stretch of dry, mild weather after the wood passes the absorption test.
+          </p>
+
+          <p>
+            Clean new fences lightly before staining. Dirt, sawdust, pencil marks and mill residue all interfere. A mild cleaner and a rinse, followed by a full day or two of drying, is usually enough on new lumber.
+          </p>
+
+          <p>
+            If you are building the fence, consider staining pickets before installation. Laying them out and spraying both faces is faster than staining an installed fence, and it gets stain into areas that are hard to reach later, such as where pickets overlap rails.
+          </p>
+        </div>
+
+        <div id="old-fence" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Prepping an Old or Gray Fence
+          </h2>
+
+          <p>
+            Start with a walk-through. Push on posts to find any that are loose or rotted at the ground line, replace broken pickets and set popped nails. Staining a fence that is about to fall over wastes the stain. Post rot at or just below grade is the most common failure on older fences.
+          </p>
+
+          <p>
+            Clean the wood. An oxygen-based wood cleaner applied with a pump sprayer and given time to work loosens gray fibers, mildew and dirt. Rinse with a pressure washer at low pressure and a wide tip, keeping the nozzle well back from the boards and working with the grain. Our guide to the <a href="/best-pressure-washer/">best pressure washers</a> covers models with adjustable pressure that suit wood.
+          </p>
+
+          <p>
+            Brighten after cleaning. An oxalic acid brightener restores color, neutralizes the cleaner and removes dark iron stains from fasteners. On cedar and redwood fences, the difference before and after brightening is striking.
+          </p>
+
+          <p>
+            Deal with old finish. If water soaks into the wood everywhere, a penetrating stain can go right on. If an old solid stain or paint is peeling, scrape it or strip it, or switch to a solid stain that can go over sound areas. A penetrating stain cannot get through an intact film.
+          </p>
+
+          <p>
+            Let the fence dry for at least two days of dry weather after washing. Test a few pickets with a water drop; once water soaks in within a minute or two, the wood is ready for stain.
+          </p>
+        </div>
+
+        <div id="fence-styles" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. How Fence Style Changes the Job
+          </h2>
+
+          <p>
+            <strong>Privacy fences with gapped pickets</strong> are the most common design and the most straightforward to stain. Spray or roll the faces, then make sure stain reaches the edges of each picket, where water enters first. Gaps of a quarter inch or so let you hit both edges from one side with a sprayer angled slightly left and right.
+          </p>
+
+          <p>
+            <strong>Board-on-board and shadowbox fences</strong> have overlapping pickets that hide surfaces from a sprayer. Those hidden faces still get wet and need finish, or they will weather and mildew behind the overlap. Angle the spray into the overlaps from both sides, and expect to use 15 to 25 percent more stain than a simple picket fence of the same size.
+          </p>
+
+          <p>
+            <strong>Horizontal slat fences</strong> behave more like a deck than a picket fence because each slat has an upward-facing edge that holds water. Give those top edges an extra pass, use a penetrating finish rather than a film, and expect them to need attention sooner than the faces.
+          </p>
+
+          <p>
+            <strong>Split-rail and ranch fences</strong> have far less surface area but more end grain and more ground contact. A heavily pigmented penetrating stain applied generously to the ends and the bottom of each post does more good than a perfect coat on the rail faces.
+          </p>
+
+          <p>
+            <strong>Gates</strong> deserve special care whatever the style. They move, get handled and often sag if the wood swells. Stain all six sides of gate boards where you can reach them, including the bottom edge, and check that hinges and latches are rated for outdoor use so rust does not streak down the new finish.
+          </p>
+        </div>
+
+        <div id="how-much" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. How Much Fence Stain to Buy
+          </h2>
+
+          <p>
+            Calculate one side first: fence length times height. A 100 foot fence six feet tall is 600 square feet per side. Double that if you are staining both sides. Add roughly 10 to 20 percent for posts, rails and the extra surface of shadowbox or board-on-board designs.
+          </p>
+
+          <p>
+            Then use the right coverage figure. Labels often list 150 to 300 square feet per gallon on smooth wood. Rough-sawn fence pickets and old, weathered wood absorb much more, often 100 to 175 square feet per gallon. Spraying also uses more product than brushing because of overspray.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Example: 100 ft x 6 ft fence</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">600 sq ft</p>
+                <p class="text-gray-400 text-xs mt-1">Surface per side</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">3-5 gal</p>
+                <p class="text-gray-400 text-xs mt-1">Per side, rough wood, one coat</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">6-10 gal</p>
+                <p class="text-gray-400 text-xs mt-1">Both sides with posts and rails</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">$240-$550</p>
+                <p class="text-gray-400 text-xs mt-1">Stain cost at roughly $40-$55 per gallon</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Five-gallon pails are the economical choice for most fences. They cost less per gallon and keep the color consistent. If you buy single gallons, mix several together in a larger bucket before starting so the color does not shift between containers.
+          </p>
+
+          <p>
+            Buy for the number of coats the label requires. Many penetrating stains go on as one coat, or two coats applied wet on wet. Solid stains usually need two full coats. Plan your purchase around that, plus a little extra for touch-ups.
+          </p>
+        </div>
+
+        <div id="spray-or-roll" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Spray, Roll or Brush
+          </h2>
+
+          <p>
+            <strong>Pump sprayers</strong> are the simplest tool for thin, penetrating stains. They are inexpensive, easy to clean and work well on fences up to a few hundred feet. Use a fan tip, hold it close to the wood to limit drift and keep a brush handy to catch runs.
+          </p>
+
+          <p>
+            <strong>Airless sprayers</strong> are much faster on long fences and handle thicker stains. They create more overspray, so masking and wind matter more. Rent or buy one sized for exterior stain, and use a tip in the size range the stain maker recommends. Our guide to the <a href="/best-paint-sprayer/">best paint sprayers</a> covers models that handle exterior stain.
+          </p>
+
+          <p>
+            <strong>Rollers and pads</strong> are slower but give better control and almost no overspray. A thick-nap roller works well on rough pickets, and a stain pad helps on rails and posts. Back-rolling after spraying combines speed with even coverage.
+          </p>
+
+          <p>
+            <strong>Brushes</strong> are essential for detail and back-brushing, especially on rough-sawn wood. Brushing pushes stain into the grain, improves penetration and evens out color. On a long fence, use the brush for corners, rails and touch-ups rather than as the main tool.
+          </p>
+
+          <p>
+            Whatever tool you use, stain the full height of each section before moving on, and work from the top down so drips land on wood you have not stained yet.
+          </p>
+        </div>
+
+        <div id="sequence" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. A Staining Sequence That Avoids Lap Marks
+          </h2>
+
+          <p>
+            Start on the shaded side of the fence and follow the shade around as the sun moves. Direct sun on fresh stain dries it too fast and causes lap marks. Check the forecast for at least a day without rain, and avoid evenings when dew will form before the stain sets.
+          </p>
+
+          <p>
+            Work one section between posts at a time. Stain the tops of pickets and the post caps first, since end grain absorbs the most. Then do rails and the backs of pickets where they meet rails, and finally the faces of the pickets from top to bottom.
+          </p>
+
+          <p>
+            Keep a wet edge. Do not stop in the middle of a section; finish it to the post, which acts as a natural break. With water-based stains, work smaller sections and move faster. With oil-based stains you have more time, but still avoid leaving a section half done.
+          </p>
+
+          <p>
+            Back-brush or back-roll as you go. A quick pass with a brush or roller works stain into the grain, picks up drips and evens out color. On rough-sawn pickets, this step makes a larger difference to the result than the brand of stain.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Finish each section post to post.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Stopping halfway across a section leaves a lap line. Use posts as natural breaks, stain the full height of each section and keep a wet edge until you reach the next post.</p>
+          </div>
+        </div>
+
+        <div id="neighbors" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Neighbors, Plants and Property Lines
+          </h2>
+
+          <p>
+            Talk to the neighbor before staining a shared fence. Some neighbors are glad to have both sides stained; others want to choose a different color or leave their side bare. A conversation avoids awkward surprises, and in some areas HOA rules dictate fence colors or require approval.
+          </p>
+
+          <p>
+            Protect the other side from overspray. Spray drifts through gaps between pickets and onto cars, siding and patios. Use drop cloths, cardboard shields or a spray shield, and avoid spraying on windy days. Roll or brush the faces near cars and windows.
+          </p>
+
+          <p>
+            Cover plants with breathable drop cloths, not plastic, which can cook plants in the sun. Water plants before you start so their leaves are wet and less likely to absorb stain. Rinse any overspray off leaves quickly.
+          </p>
+
+          <p>
+            Keep stain off masonry and concrete. Oil stains on concrete and stone are hard to remove. Lay drop cloths at the base of the fence along patios and walkways, and wipe up drips immediately with the right solvent.
+          </p>
+
+          <p>
+            Dispose of rags safely. Rags soaked with oil-based stain can heat up and ignite as they dry. Lay them flat outdoors to dry, or seal them in a metal container filled with water until disposal.
+          </p>
+        </div>
+
+        <div id="maintenance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. Upkeep, Recoats and Cost
+          </h2>
+
+          <p>
+            Check the fence each spring. Sprinkle water on a few pickets in full sun and in shade. If it beads, the stain is working. If it soaks in quickly, the fence is ready for a cleaning and a fresh coat. Sunny sections often need it before shaded ones, and penetrating stains let you recoat only those sections.
+          </p>
+
+          <p>
+            Keep sprinklers off the fence. Daily irrigation spray is one of the main reasons the bottom of a fence fades, grows mildew and rots early. Adjust sprinkler heads and keep soil, mulch and plants from touching the pickets so they can dry.
+          </p>
+
+          <p>
+            DIY cost is mainly stain and tools. For the 100 foot example above, plan on a few hundred dollars in stain, plus cleaner, brightener and a sprayer. Hiring a contractor adds labor, which varies widely by region and fence design. Ask whether the quote includes cleaning, brightening and both sides.
+          </p>
+
+          <p>
+            Compare cost per year, not per gallon. A good penetrating stain that lasts four years on a fence is cheaper over time than a bargain product that needs recoating every year, especially once you count your weekends.
+          </p>
+
+          <p>
+            For other exterior wood around the property, see our <a href="/best-exterior-wood-sealer/">exterior wood sealer guide</a>; for redwood fences specifically, our <a href="/best-redwood-sealer/">redwood sealer guide</a> covers tones that keep redwood looking red.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Staining a new pressure-treated fence too soon</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Fresh treated pickets are still wet from the treatment process, and stain applied to them cannot soak in. It sits on the surface and fades or peels quickly. Wait until water dropped on the wood soaks in within a minute or two, which can take weeks to months depending on climate and lumber.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Spraying without back-brushing on rough wood</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Spray alone can leave stain sitting in the texture of rough-sawn pickets and missing the deeper grain. The result looks uneven and wears faster. Follow each sprayed section with a brush or roller to work stain into the wood, catch drips and even out color across the section.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Stopping in the middle of a section</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Stopping halfway across a section lets the stain dry at the edge, and the next pass overlaps it and leaves a dark lap line. Work post to post, finish the full height of each section and keep a wet edge. Use posts and gates as natural break points when you need to pause.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring the bottom of the fence</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The bottom few inches of a fence take sprinkler spray, splashing rain and contact with soil and mulch, so they fade, grow mildew and rot first. Clean and stain the bottom edges carefully, give end grain an extra coat and pull soil and mulch back so the pickets can dry.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Underestimating how much stain you need</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Rough pickets, two faces, posts and rails add up fast. Buying for the smooth-wood coverage figure leaves you short partway through, which means a color shift where the new batch starts. Use the rough-wood figure, count both sides and the framing, and mix cans together before starting.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which stain should most wood fences get?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most fences, an oil-based penetrating semi-transparent stain such as Ready Seal is the best balance of easy spraying, even fading and long life. Sherwin-Williams SuperDeck offers more color control, Olympic Maximum is a good big-box value, BEHR Solid suits old and mismatched fences, and DEFY Extreme is the water-based choice for low-VOC states.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many years will a fence stain hold up?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                On vertical fences, transparent stains often last about two to three years, semi-transparent stains three to five years and solid stains even longer, depending on sun and climate. South and west facing sections fade first. Sprinkler spray and soil contact shorten life at the bottom. Use the water drop test to decide when to recoat rather than relying on a fixed schedule.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I stain both sides of my fence?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Staining both sides protects the wood more evenly and reduces cupping and warping, because both faces absorb and lose moisture at similar rates. If the other side faces a neighbor, ask first; some want to choose their own color. At minimum, stain the top edges, posts and any surfaces you can reach on the back.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long should I wait to stain a new fence?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on the wood. New pressure-treated pine fences often need several weeks to a few months to dry enough to absorb stain. Kiln-dried treated lumber and cedar can often be stained sooner. Do a water drop test: if water soaks in within a minute or two, the wood is ready. If it beads, wait.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is it better to spray or roll fence stain?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Spraying is much faster on long fences, but rolling gives better control and less overspray. The best approach for most people is to spray and then back-brush or back-roll each section to work stain into the grain and catch drips. On short fences or near cars and windows, rolling or brushing alone is often easier.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I stain a fence in the fall?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, if temperatures stay within the label's range, typically above about 50 degrees, and the wood is dry. Fall often brings stable, mild weather and less intense sun, which helps stain penetrate evenly. Avoid days when dew, frost or rain will arrive before the stain sets, and finish early enough in the day for it to dry.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How much does it cost to stain a fence?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For a 100 foot, six foot tall fence stained on both sides, DIY stain costs typically run a few hundred dollars, plus cleaner, brightener and a sprayer. Professional staining adds labor that varies widely by region, fence design and prep needed. Ask quotes to list cleaning, brightening, both sides and the specific stain to be used.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Fence and Wood Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-deck-stain-reviews/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Deck Stains</h3>
+              <p class="text-gray-500 text-sm mt-2">Stains ranked for the harder job of horizontal wood.</p>
+            </a>
+            <a href="/can-you-stain-pressure-treated-wood/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">How-To</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Can You Stain Pressure-Treated Wood?</h3>
+              <p class="text-gray-500 text-sm mt-2">The test that tells you a new fence is ready for stain.</p>
+            </a>
+            <a href="/best-paint-sprayer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Paint Sprayers</h3>
+              <p class="text-gray-500 text-sm mt-2">Sprayers that make quick work of long fence runs.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Ready Seal is the fence stain most homeowners should buy: it sprays evenly, hides lap marks and fades without peeling. SuperDeck is the paint-store alternative with more color control, Olympic Maximum is the easy big-box value, BEHR Solid rescues old and mismatched fences, DEFY Extreme suits low-VOC states, Cabot suits cedar showpieces and Thompson's covers utility fences on a budget.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The job itself decides how well any of them works. Let new treated wood dry, clean and brighten old fences, buy for rough-wood coverage, work post to post in the shade and back-brush as you go. For the deck next to the fence, see our <a href="/best-deck-stain-reviews/">deck stain rankings</a>.
+          </p>
+        </div>
+
+        <MoreInCategory category="Deck & Wood Finishes" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

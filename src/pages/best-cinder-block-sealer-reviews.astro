@@ -1,0 +1,980 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Basement Wall Sealers",
+    "url": "/best-basement-wall-sealer/"
+  },
+  {
+    "title": "Best Paint for Cinder Block",
+    "url": "/best-paint-for-cinder-block/"
+  },
+  {
+    "title": "How to Waterproof a Basement",
+    "url": "/how-to-waterproof-a-basement/"
+  },
+  {
+    "title": "Best Basement Waterproofing Systems",
+    "url": "/best-basement-waterproofing-systems/"
+  },
+  {
+    "title": "Best Brick Sealers",
+    "url": "/best-brick-sealer-reviews/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Cinder Block Sealers: Penetrating vs. Coating Picks";
+const description =
+  "Seven sealers for concrete block walls, split into invisible penetrating repellents and paint-like waterproof coatings, with prep, coverage and reapply timing.";
+
+const PRODUCTS = [
+  {
+    "id": "ghostshield-siloxa-tek-8500",
+    "name": "Ghostshield Siloxa-Tek 8500",
+    "category": "Silane-Siloxane Penetrating Repellent",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Silane-siloxane blend suited to porous block and mortar",
+      "Leaves no film and no change in appearance on most block",
+      "Breathable, so moisture vapor can still escape",
+      "Helps reduce efflorescence, spalling and freeze-thaw damage",
+      "Usable on concrete, brick and pavers as well"
+    ],
+    "cons": [
+      "Not intended to stop water under pressure from the soil side",
+      "Can make later painting difficult",
+      "Needs bare, clean, absorbent masonry"
+    ],
+    "bottomLine": "The top choice for exterior and above-grade block where you want a natural look and strong water repellency.",
+    "description": "Ghostshield Siloxa-Tek 8500 is a penetrating silane-siloxane water repellent, and for most above-grade block it is the product to beat. The blend makes sense for block: siloxane handles the large surface pores of an open-textured unit while silane reaches deeper, and together they line the pores with a water-shedding treatment instead of a film. The result is a wall that looks unchanged but sheds rain, which reduces the cycle of soaking and freezing that cracks face shells and the wicking that leaves efflorescence. Ghostshield markets it for concrete, block, brick and pavers, inside and out. The main limit is the one every repellent shares: it is not a barrier against water pushed through the wall from saturated soil, so on a seeping basement wall it is a supplement to drainage and a waterproof coating, not a substitute. It also tends to prevent paint adhesion, so decide on color before you seal. Owners commonly report strong beading on exterior block. Expect roughly $100 to $200 for a typical container at the time of writing."
+  },
+  {
+    "id": "drylok-extreme-masonry-waterproofer",
+    "name": "DRYLOK Extreme Masonry Waterproofer",
+    "category": "Masonry Waterproofing Coating",
+    "badge": "Best for Basement Block",
+    "amazonUrl": "",
+    "pros": [
+      "Maker rates it to withstand 15 psi of hydrostatic pressure",
+      "Fills block pores and pinholes when brushed in",
+      "Works as both moisture barrier and finish coat",
+      "Tintable and widely available"
+    ],
+    "cons": [
+      "Changes the look of the wall",
+      "Needs bare masonry free of paint and efflorescence",
+      "Brush application on block is slow and tiring"
+    ],
+    "bottomLine": "The best sealer for interior basement block that seeps or stays damp after rain.",
+    "description": "On the inside of a basement block wall, a repellent is the wrong tool because the water arrives from behind. DRYLOK Extreme is built for exactly that situation. It is a thick masonry waterproofer that the manufacturer rates to withstand 15 psi of hydrostatic pressure, which is well above what most residential walls with working gutters see. The key is application: the label calls for scrubbing the first coat into the block with a stiff nylon brush until every pinhole is filled, then adding a second coat. On block, that scrubbing matters more than on poured concrete, because the open texture is full of voids a roller will skip. DRYLOK Extreme dries to a paint-like finish that can be left as is or tinted, so it handles moisture and appearance at once. Its limits are the usual ones for coatings: it cannot stop water at the floor joint, and it fails early over efflorescence or paint. Expect roughly $40 to $60 a gallon at the time of writing."
+  },
+  {
+    "id": "foundation-armor-sx5000",
+    "name": "Foundation Armor SX5000",
+    "category": "Silane-Siloxane Penetrating Sealer",
+    "badge": "Best Value Repellent",
+    "amazonUrl": "",
+    "pros": [
+      "Silane-siloxane blend for deep and surface protection",
+      "No visible film or change in texture",
+      "Helps protect against water, salt and freeze-thaw damage",
+      "Offered in water-based and solvent-based versions"
+    ],
+    "cons": [
+      "Solvent version has strong odor indoors",
+      "Will not resist water pressure from the soil side",
+      "Can block paint adhesion"
+    ],
+    "bottomLine": "A strong-value penetrating repellent for exterior block, garage walls and retaining wall faces.",
+    "description": "Foundation Armor SX5000 is a silane-siloxane penetrating sealer that competes directly with Ghostshield and often costs a little less. It works the same way: the blend soaks into block, brick and concrete and leaves a water-repellent treatment inside the pores rather than a coating on top, so the surface looks unchanged and continues to breathe. Foundation Armor sells versions with different carriers; the water-based version is easier to live with indoors and in tight spaces, while solvent-based sealers can penetrate dense surfaces more readily but need careful ventilation and ignition control. It is well suited to exterior block walls, garage walls and the exposed faces of retaining walls, where rain and splash are the main threats. Like any repellent, it is not designed to stop water pushed through a basement wall from wet soil, and it may prevent later painting. Owner feedback commonly mentions easy application with a pump sprayer and good beading on porous surfaces. At the time of writing, five-gallon pails often run roughly $150 to $250."
+  },
+  {
+    "id": "radonseal-deep-penetrating",
+    "name": "RadonSeal Deep-Penetrating Concrete Sealer",
+    "category": "Reactive Silicate Penetrant",
+    "badge": "Best Silicate Option",
+    "amazonUrl": "",
+    "pros": [
+      "Reacts inside the concrete rather than coating it",
+      "No film to peel, blister or wear off",
+      "Treats walls and slabs with one product",
+      "Detailed instructions for testing absorption"
+    ],
+    "cons": [
+      "Performs best on poured concrete with free lime; results on block vary",
+      "Needs unsealed, unpainted surfaces",
+      "No visible change makes progress hard to judge"
+    ],
+    "bottomLine": "A good pick for mixed basements with block walls and a poured slab, where you want a film-free treatment.",
+    "description": "RadonSeal Deep-Penetrating Concrete Sealer takes a different route from the silane-siloxane products on this list. It is a water-based silicate-type sealer that reacts with lime and calcium compounds inside concrete to form a gel that fills capillaries and pores, reducing the movement of water and vapor without leaving anything on the surface. The maker says it penetrates deeply into concrete. That reaction depends on having enough reactive material in the pores, which is why it tends to perform best on dense poured concrete and somewhat less predictably on lean, hollow block. Where it shines is a basement with both block walls and a poured slab, or a wall where you want no film at all. It must go on bare, unsealed concrete; RadonSeal publishes instructions for checking absorption before you start. Despite the name, it is not a radon mitigation system on its own, and the EPA treats sealing as a supplement to active mitigation. Expect roughly $80 to $130 for a gallon at the time of writing."
+  },
+  {
+    "id": "seal-once-nano-poly",
+    "name": "Seal-Once Nano+Poly Concrete & Masonry Sealer",
+    "category": "Water-Based Penetrating Sealer",
+    "badge": "Best Low-Odor",
+    "amazonUrl": "",
+    "pros": [
+      "Water-based, low-VOC formula suited to indoor use",
+      "Penetrates and leaves a lightly protective surface",
+      "Easy cleanup with soap and water",
+      "Works on block, brick, concrete and stucco"
+    ],
+    "cons": [
+      "Lighter-duty than dedicated silane-siloxane products",
+      "Not designed for water under pressure",
+      "Coverage on very porous block can be low"
+    ],
+    "bottomLine": "A friendly choice for interior or enclosed block where odor and fumes are a concern.",
+    "description": "Seal-Once Nano+Poly is aimed at people who want a penetrating masonry sealer they can apply in a basement, garage or workshop without the smell of solvent products. It is a water-based formula that the maker says combines nano-scale particles that penetrate into the masonry with a polymer that adds a lightly protective layer near the surface. The label lists low VOCs and soap-and-water cleanup, which makes it easier to use in enclosed spaces and around living areas. On block, it reduces water absorption and helps with dusting and staining, and it is suitable for brick, concrete and stucco as well. It is lighter-duty than a dedicated silane-siloxane repellent on exposed exterior walls, and like other repellents it is not intended to hold back water pushed through a wall from wet soil. Very porous or split-face block may need more product than the headline coverage suggests. Owner feedback is generally positive on ease of use and odor. Expect roughly $50 to $80 a gallon at the time of writing."
+  },
+  {
+    "id": "masonry-defender",
+    "name": "MasonryDefender Penetrating Water Repellent",
+    "category": "Silane-Siloxane Water Repellent",
+    "badge": "Best for Brick and Block Mix",
+    "amazonUrl": "",
+    "pros": [
+      "Water-based silane-siloxane formula",
+      "Invisible, breathable treatment",
+      "Suited to brick, block, stone and concrete",
+      "Low odor compared with solvent repellents"
+    ],
+    "cons": [
+      "Not for below-grade walls facing water pressure",
+      "Usually sold online rather than in stores",
+      "Can interfere with later painting"
+    ],
+    "bottomLine": "A sensible pick for houses that mix block with brick or stone and need one repellent for all of it.",
+    "description": "MasonryDefender is a water-based silane-siloxane water repellent sold for brick, block, stone and concrete. Its appeal is versatility: houses that combine a block foundation with brick veneer, a stone chimney or a stucco section can often treat several surfaces with one product, which simplifies buying and application. Like the other repellents here, it soaks in and lines the pores rather than forming a film, so the masonry looks the same and continues to release moisture vapor. Being water-based, it is lower in odor than solvent alternatives and cleans up with water while wet. It performs best on above-grade masonry exposed to rain, where it reduces water absorption, efflorescence and freeze-thaw wear. It is not designed for interior basement walls that seep under pressure, and, as with most repellents, the treated surface may not accept paint later. It is mostly sold online. Check the label for the block-specific coverage rate before ordering, since porous block absorbs much more than brick. Expect roughly $40 to $70 a gallon at the time of writing."
+  },
+  {
+    "id": "ames-block-wall",
+    "name": "Ames Block & Wall Liquid Rubber",
+    "category": "Elastomeric Block Coating",
+    "badge": "Best Flexible Coating",
+    "amazonUrl": "",
+    "pros": [
+      "Flexible film tolerates hairline cracks and joint movement",
+      "Water-based with water cleanup",
+      "Formulated for masonry and concrete block",
+      "Can be painted over after curing"
+    ],
+    "cons": [
+      "Thicker film means lower coverage per gallon",
+      "Interior use on pressurized walls can blister",
+      "Needs multiple coats to reach full thickness"
+    ],
+    "bottomLine": "A good option for block walls with hairline mortar cracks where you want a flexible coating rather than a repellent.",
+    "description": "Ames Block and Wall is a water-based elastomeric coating aimed at concrete block. Its strength is flexibility: block walls develop hairline cracks along mortar joints as they settle and move with temperature, and a rigid coating can crack along with them. An elastomeric film built to the recommended thickness stretches over that movement and keeps the wall sealed. That makes it useful on exterior block, garage walls and retaining wall faces where you want a coating instead of an invisible repellent, and on interior walls that are damp from condensation or light wicking. It is less suited to interior basement walls with water pushing through from the soil side, where a flexible film can lift; a cement-based masonry waterproofer is the safer choice there. Ames recommends multiple coats to build thickness, and coverage per gallon is lower than with a thin paint. Prep is the same as for any coating. It can be painted once cured if you want a specific color. Expect roughly $70 to $110 a gallon at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Cinder Block Sealers",
+          item: "https://www.allmetalbrake.com/best-cinder-block-sealer-reviews/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "How do you seal a cinder block wall?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Clean the wall, remove efflorescence and old coatings, repoint damaged mortar and let it dry. For exterior or above-grade walls, spray a penetrating silane-siloxane repellent from the bottom up until it saturates, often in two wet-on-wet coats. For interior basement walls that seep, brush two coats of a masonry waterproofer into the bare block instead."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much water does concrete block soak up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, readily. Concrete block is made with a lean, open-textured mix and has hollow cores, so it absorbs and transmits water much more than poured concrete. Water that passes through the face shell can collect in the cores and travel down the wall. That is why block walls benefit from sealing and why drainage around them matters."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I seal a painted block wall?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not with a penetrating sealer; it needs bare masonry to soak into and cannot pass through paint. Most masonry waterproofers also require bare surfaces to perform as rated. Strip the paint by grinding, chemical stripping or abrasive cleaning first, or, if the paint is sound and the wall dry, simply repaint with a masonry paint system."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often does block need resealing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Penetrating repellents commonly last five to ten years in typical exposure, depending on product, sun and weather. Masonry waterproofers on interior walls also typically last five to ten years before touch-ups. The bead test tells you when to reapply: if water darkens the block and soaks in rather than beading, the treatment has worn through."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does block need sealing before it gets painted?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually not with a penetrating repellent, which can prevent paint from bonding. Before painting, use a block filler primer, which seals and smooths the surface. If the wall is a basement wall with dampness, a masonry waterproofer can serve as both the moisture barrier and the finish, or be topcoated with latex paint after it cures."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is DRYLOK a good cinder block sealer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For interior basement block that seeps or stays damp, yes. DRYLOK is a masonry waterproofer rated by its maker for hydrostatic pressure and designed to be brushed into block pores. For exterior above-grade block where you want a natural look and full breathability, a penetrating silane-siloxane repellent is usually the better choice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you seal block in cold weather?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most sealers specify a minimum air and surface temperature, often around 40 to 50 degrees Fahrenheit, during application and for a period afterward. Cold slows curing and can cause water-based products to fail. Check the label, avoid sealing when frost is forecast overnight, and choose a stretch of mild, dry weather for exterior walls."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Basement & Waterproofing",
+    tags: [
+      "best cinder block sealer reviews",
+      "concrete block sealer",
+      "silane siloxane sealer",
+      "block wall waterproofing",
+      "masonry water repellent",
+      "retaining wall sealer"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Cinder Block Sealers</span>, Split by How They Work
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Block is thirsty, hollow and full of mortar joints. The right sealer depends on whether you want the wall to look untouched or want a coating that resists water pushing through.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ghostshield-siloxa-tek-8500"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="7.3k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. The 7 Picks</a>
+          <a href="#block-basics" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Why Block Is Different</a>
+          <a href="#two-families" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Repellent or Coating</a>
+          <a href="#chemistry" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Silane and Siloxane</a>
+          <a href="#location" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Sealing by Location</a>
+          <a href="#prep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Prepping Block</a>
+          <a href="#apply" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. How to Apply</a>
+          <a href="#coverage" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Coverage and Quantity</a>
+          <a href="#painting" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Sealing and Painting</a>
+          <a href="#lifespan" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. When to Reapply</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. What It Costs</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Concrete block, still called cinder block by almost everyone, soaks up water far faster than poured concrete. Its open texture and hollow cores mean a sealer has a lot more surface to treat and a lot more ways for water to get around it. There are two good ways to seal block: soak it with a penetrating repellent that leaves it looking unchanged, or brush on a thick waterproof coating. Which one is right depends on where the wall is and what water it faces.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Cinder Block Sealers, Ranked
+          </h2>
+
+          <p>
+            Picks are ranked on what the manufacturers publish (active ingredients and solids, coverage on block, whether the product is rated for water pressure, recoat and cure times), how well each chemistry suits porous block specifically, and patterns in owner feedback. We did not test these products ourselves; specifications and claims are attributed to the makers.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="block-basics" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Why Block Walls Need a Different Approach
+          </h2>
+
+          <p>
+            A standard 8-by-8-by-16-inch concrete masonry unit is mostly air. Two or three hollow cores run through it, the face shells are only about an inch thick, and the concrete itself is a lean, open-textured mix. Water that gets through a face shell lands in a core, runs down inside the wall, and shows up somewhere else, often at the bottom course where it meets the floor.
+          </p>
+
+          <p>
+            Mortar joints add another path. A block wall has a joint every 8 inches vertically and every 16 inches horizontally, and mortar is often more porous than the block. Hairline cracks between mortar and block are common, especially in older walls and where the wall has settled. A sealer has to treat both the block face and the joints to do any good.
+          </p>
+
+          <p>
+            Compared with poured concrete, block also tends to show efflorescence more readily and to wick water further up the wall. That is why a sealer that works well on a dense poured wall can underperform on block: there is less material to react with and more open pore space to fill. Products made or labeled specifically for masonry and block usually account for this with higher solids or recommended flood coats.
+          </p>
+
+          <p>
+            Not all block is the same either. Smooth-faced standard block, split-face decorative block and lightweight block made with expanded aggregates all absorb differently. Rougher and lighter block drinks more product. Check the label for block-specific coverage rates, which are usually much lower than the headline figure for smooth concrete.
+          </p>
+        </div>
+
+        <div id="two-families" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Repellent or Coating: The First Decision
+          </h2>
+
+          <p>
+            <strong>Penetrating water repellents</strong> soak into the block and line the pores with a water-shedding compound. They leave no visible film, so the wall looks the same, breathes, and has nothing to peel. They are excellent at stopping rain and splash from soaking in, which is why they are the standard choice for above-grade exterior block, retaining walls and garage walls. Their limitation is pressure: they repel water but are not designed to resist water pushed through the wall from wet soil behind it.
+          </p>
+
+          <p>
+            <strong>Waterproof coatings</strong> such as DRYLOK and elastomeric products form a film on and in the surface. Cement-and-latex masonry waterproofers fill the pores and are rated by their makers to resist a stated hydrostatic pressure. They change the look of the wall, since they go on like thick paint, and they need a clean, bare surface to bond. They are the standard choice for basement block that seeps.
+          </p>
+
+          <p>
+            A simple rule covers most cases. Above grade, where water hits the face of the wall, choose a penetrating repellent. Below grade on the inside of a basement, where water arrives from the soil behind the wall, choose a waterproof coating. Our guide to the <a href="/best-basement-wall-sealer/">best basement wall sealers</a> goes deeper on the below-grade side.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Feature</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Penetrating repellent</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Waterproof coating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Appearance</td>
+                    <td class="px-4 py-4 text-gray-700">Unchanged, natural block</td>
+                    <td class="px-4 py-4 text-gray-700">Paint-like, usually white or tinted</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Breathability</td>
+                    <td class="px-4 py-4 text-gray-700">High</td>
+                    <td class="px-4 py-4 text-gray-700">Lower, varies by product</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Resists water pressure</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, to labeled rating</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Peeling risk</td>
+                    <td class="px-4 py-4 text-gray-700">None, no film</td>
+                    <td class="px-4 py-4 text-gray-700">Possible if prep is poor</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Best use</td>
+                    <td class="px-4 py-4 text-gray-700">Exterior, above grade, retaining walls</td>
+                    <td class="px-4 py-4 text-gray-700">Interior basement walls</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Can paint over later</td>
+                    <td class="px-4 py-4 text-gray-700">Often not</td>
+                    <td class="px-4 py-4 text-gray-700">Usually yes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="chemistry" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Silane, Siloxane and Blends Explained
+          </h2>
+
+          <p>
+            Most penetrating repellents for block are silanes, siloxanes or a blend. <strong>Silanes</strong> are very small molecules that penetrate deep into dense concrete and react with moisture in the pores to form a water-repellent lining. <strong>Siloxanes</strong> are larger molecules that do not travel as deep but work well in more porous materials, like block and brick, and tend to cure faster at the surface.
+          </p>
+
+          <p>
+            Because block is porous, a blend of silane and siloxane is a common and sensible choice: the siloxane handles the open surface pores, and the silane reaches deeper. Many products on this list are blends. Manufacturers often list the active solids percentage; higher is not automatically better, but very low solids products may need more coats to perform.
+          </p>
+
+          <p>
+            Silicate sealers, such as RadonSeal, work differently. They react with the lime in concrete to form a gel or crystalline structure in the pores, densifying rather than repelling. They tend to perform best on poured concrete with plenty of free lime and somewhat less predictably on block. Water-based and solvent-based versions of repellents both exist; water-based are lower odor and easier for interior use, while solvent-based often penetrate dense surfaces more readily.
+          </p>
+
+          <p>
+            Whatever the chemistry, these products only work if they can get into the block. Paint, old sealers, efflorescence and dirt all block penetration. If water still beads on part of the wall before you seal it, that area has an existing treatment and will not absorb new product until it is stripped or worn away.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">QUICK CHECK</p>
+            <p class="text-xl font-bold text-white mb-3">Splash water on the wall before you buy.</p>
+            <p class="text-gray-300 leading-relaxed m-0">If it darkens and soaks in, the block will accept a penetrating sealer. If it beads, something is already on the surface and must be removed first.</p>
+          </div>
+        </div>
+
+        <div id="location" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Sealing Block by Location
+          </h2>
+
+          <p>
+            <strong>Basement walls.</strong> Interior basement block faces water from the soil side. A masonry waterproofer brushed into bare block is the usual pick for seepage, with a penetrating repellent as an option for walls that are merely damp and that you want to leave unpainted. Fix outdoor drainage first; our guide on <a href="/how-to-waterproof-a-basement/">how to waterproof a basement</a> covers the order.
+          </p>
+
+          <p>
+            <strong>Exterior above-grade walls and garages.</strong> Rain is the main enemy here. A silane-siloxane repellent stops the block from soaking up water, which reduces freeze-thaw damage, efflorescence and staining. It leaves the block looking natural. If you want color, use a masonry paint system instead; see our guide to the <a href="/best-paint-for-cinder-block/">best paint for cinder block</a>.
+          </p>
+
+          <p>
+            <strong>Retaining walls and planters.</strong> These are tricky because water arrives from both sides: rain on the face and saturated soil behind. Ideally, the back of a retaining wall is waterproofed with a membrane and drained with gravel and a pipe when it is built. On an existing wall, a penetrating repellent on the exposed face helps, but efflorescence will continue if the soil behind it stays wet.
+          </p>
+
+          <p>
+            <strong>Block pools, ponds and tanks.</strong> Water containment needs a dedicated system, usually a cementitious or elastomeric waterproofing designed for immersion, sometimes with a liner. Standard repellents are not designed for constant submersion. Follow the coating maker's immersion guidance or use a product sold for that purpose.
+          </p>
+        </div>
+
+        <div id="prep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Prepping Block: Efflorescence, Mortar and Patching
+          </h2>
+
+          <p>
+            Start with the mortar. Rake out loose or crumbling joints and repoint them with a fresh mortar or a masonry patch, then let it cure for the time on the bag. New mortar is very alkaline and some coatings call for a waiting period, often several weeks, before sealing. Fill open voids and holes in the block faces with a patching compound.
+          </p>
+
+          <p>
+            Remove efflorescence. Dry-brush the white deposits with a stiff brush, then clean with a masonry cleaner or a mild acid product made for efflorescence, following its dilution and safety instructions. Rinse well. If efflorescence keeps coming back quickly, water is still moving through the wall, and you should look at drainage before sealing.
+          </p>
+
+          <p>
+            Strip any paint or previous coating where you plan to use a penetrating sealer; it cannot pass through a film. For a masonry waterproofer, the label usually requires bare masonry too. On exterior walls, a pressure washer at moderate pressure helps clean block, but keep the tip back from the surface so you do not erode mortar joints.
+          </p>
+
+          <p>
+            Let the wall dry. Most penetrating sealers want a surface-dry wall, often 24 to 48 hours after washing or rain, while some water-based products tolerate a damp surface; read the label. Air and surface temperatures should usually be above 40 to 50 degrees Fahrenheit and below the maximum on the label, with no rain expected for at least a day.
+          </p>
+        </div>
+
+        <div id="apply" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. How to Apply a Penetrating Sealer to Block
+          </h2>
+
+          <p>
+            Penetrating sealers are best applied with a low-pressure pump sprayer, the kind used for garden chemicals, with a fan or cone tip. Spray from the bottom of the wall upward so the run-down saturates the area below without leaving streaks. Many makers call for a flood coat: enough product to create a 6-to-8-inch run-down below the spray line.
+          </p>
+
+          <p>
+            On porous block, a second coat applied wet-on-wet, before the first has dried, is often recommended. Follow the label: some products want the second coat within minutes, others after a set time. Back-roll with a thick-nap roller or brush on rough block to push sealer into mortar joints and the textured surface. Protect windows, plants and adjacent surfaces from overspray.
+          </p>
+
+          <p>
+            For masonry waterproofers, the method is different. Stir thoroughly, then brush the first coat hard into the block with a stiff nylon brush, working it into every pinhole and mortar joint. Apply the second coat after the label dry time. Rolling a first coat onto block almost always leaves pinholes, and those pinholes are where water gets through.
+          </p>
+
+          <p>
+            Ventilate well indoors, especially with solvent-based sealers, and wear eye protection, gloves and a respirator rated for the product. Keep ignition sources away from solvent vapors. Clean water-based products from tools with water while still wet; solvent-based products need the cleanup solvent named on the label.
+          </p>
+        </div>
+
+        <div id="coverage" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Coverage and How Much to Buy
+          </h2>
+
+          <p>
+            Measure the wall area, length times height, and subtract large openings. Then use the block-specific coverage from the label, not the headline figure. Penetrating repellents on standard block often land in the range of roughly 75 to 200 square feet per gallon per coat, depending on porosity and whether the maker calls for a flood coat. Split-face and lightweight block can absorb far more.
+          </p>
+
+          <p>
+            Masonry waterproofers also cover less on block than on smooth concrete. DRYLOK lists roughly 75 to 100 square feet per gallon for the first coat on smooth masonry, with rough block taking more. For two coats on 500 square feet of block wall, plan on about 10 to 12 gallons in total.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Block Sealing by the Numbers</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">75-200</p>
+                <p class="text-gray-400 text-xs mt-1">Sq ft per gallon, penetrating</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">75-100</p>
+                <p class="text-gray-400 text-xs mt-1">Sq ft per gallon, waterproofer coat 1</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">2</p>
+                <p class="text-gray-400 text-xs mt-1">Coats on most block</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">24-48 hrs</p>
+                <p class="text-gray-400 text-xs mt-1">Typical dry time before sealing</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Test a small area first. Apply sealer to a few square feet, note how much it drinks, and let it cure. Then splash water on it. If the water beads and the block stays light, the coverage rate you used works. If it darkens, apply more or add a second coat. This also confirms that the product does not darken or stain your particular block.
+          </p>
+        </div>
+
+        <div id="painting" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Sealing Before or Instead of Painting
+          </h2>
+
+          <p>
+            Painting and penetrating sealers often do not mix. Many silane-siloxane repellents leave the block surface water-repellent enough that paint will not bond to it. If there is any chance you will want to paint the wall later, check the product data sheet for paint compatibility before applying. Some repellents state they can be painted over after a cure period; many say nothing or warn against it.
+          </p>
+
+          <p>
+            Masonry waterproofers sit at the other end. They are designed to be the finish or to accept a latex topcoat after cure, and they come tinted in many colors. On an interior basement wall that needs both moisture control and a decent look, a tinted waterproofer can do both jobs in one product.
+          </p>
+
+          <p>
+            If your goal is primarily appearance, with color, smooth texture and easier cleaning, you want a paint system rather than a sealer: a block filler primer to close the pores, followed by an acrylic masonry topcoat. Our guide to the <a href="/best-paint-for-cinder-block/">best paint for cinder block</a> covers fillers, topcoats and when a waterproofer should replace both.
+          </p>
+
+          <p>
+            Never put a penetrating repellent on top of paint expecting it to help. It cannot reach the block through the paint film, and most of it will sit on the surface, leaving a slick or blotchy finish.
+          </p>
+        </div>
+
+        <div id="lifespan" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. How Long Block Sealers Last and When to Reapply
+          </h2>
+
+          <p>
+            Penetrating repellents gradually lose effectiveness as UV light, weather and abrasion break down the treatment near the surface. Makers often quote multi-year lifespans, and figures of five to ten years are common on labels for silane-siloxane products in typical exposure, with some claiming longer. Exposed, sunny, wet walls wear faster than sheltered ones.
+          </p>
+
+          <p>
+            The bead test is the easiest way to know when to reapply. Splash or spray water on the wall. If it beads and runs off, the treatment is still working. If it darkens the block and soaks in, the repellent has worn through and the wall is ready for another coat. Reapplication is usually simpler than the first time because the wall needs only cleaning, not stripping.
+          </p>
+
+          <p>
+            Masonry waterproofers on interior basement walls typically last five to ten years before touch-ups, longer if the wall faces little water. Watch for blistering, flaking and returning efflorescence, all of which suggest water is pushing behind the coating. Touch up small areas after cleaning and abrading; widespread failure points back to drainage.
+          </p>
+
+          <p>
+            Keep notes of what you used and when. Sealers from different families do not always work well on top of each other, and knowing that a wall had a silane-siloxane treatment four years ago saves you from buying a coating that will not bond.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. What Sealing a Block Wall Costs
+          </h2>
+
+          <p>
+            At the time of writing, quality penetrating repellents for block typically cost roughly $30 to $70 per gallon, more for concentrates and premium silane-heavy formulas. Masonry waterproofers run roughly $35 to $60 a gallon. A typical 500-square-foot exterior garage or retaining wall might take $150 to $400 in sealer for a DIY job, plus a pump sprayer, brushes and cleaner.
+          </p>
+
+          <p>
+            Professional sealing of exterior block typically runs about $1 to $3 per square foot for penetrating repellents and more for waterproof coatings that need extensive prep. Interior basement coating jobs commonly price at $3 to $7 per square foot including cleaning and patching.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Job</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">DIY materials</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical pro price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">500 sq ft exterior block, penetrating</td>
+                    <td class="px-4 py-4 text-gray-700">$150-$400</td>
+                    <td class="px-4 py-4 text-gray-700">$500-$1,500</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">500 sq ft basement block, waterproofer</td>
+                    <td class="px-4 py-4 text-gray-700">$300-$600</td>
+                    <td class="px-4 py-4 text-gray-700">$1,500-$3,500</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Retaining wall face, penetrating</td>
+                    <td class="px-4 py-4 text-gray-700">$100-$300</td>
+                    <td class="px-4 py-4 text-gray-700">$400-$1,200</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Repointing and patching</td>
+                    <td class="px-4 py-4 text-gray-700">$50-$200</td>
+                    <td class="px-4 py-4 text-gray-700">$500-$2,000+</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The cheapest mistake to avoid is sealing a wall that keeps getting soaked by roof water or poor drainage. A downspout extension or regraded strip of soil makes any sealer last longer, and on many block walls it does more good than the sealer itself.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Rolling a coating onto block</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A roller bridges over the open pores of block and leaves pinholes that water passes straight through. The first coat of any masonry waterproofer needs to be scrubbed in with a stiff nylon brush. Rollers are acceptable for back-rolling penetrating sealers or for a second coat on smoother block.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sealing over efflorescence</h3>
+              <p class="text-gray-700 text-sm m-0">
+                White mineral deposits block penetrating sealers from entering the pores and push coatings off the wall as salts keep forming. Dry-brush, clean with an efflorescence remover, rinse and dry the wall before sealing. If the deposits return within weeks, find and fix the water source before sealing again.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a repellent against pressure</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Silane-siloxane repellents keep rain from soaking in, but they are not designed to stop water pushed through a basement wall from saturated soil. For interior basement block that seeps, use a masonry waterproofer with a labeled pressure rating, and fix gutters and grading outside first.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring the mortar joints</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Joints are often more porous than the block and are where many leaks start. Repoint loose or cracked mortar before sealing, and work sealer into the joints with a brush or back-roller. A sealer sprayed only on the block faces leaves the weakest part of the wall untreated.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Under-applying on porous block</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Block absorbs far more product than poured concrete, and labels often state lower coverage for it. Spreading a gallon over the smooth-concrete coverage figure leaves too little in the pores to work. Test a small area, use the block coverage rate, and apply a second coat where the label calls for one.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do you seal a cinder block wall?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Clean the wall, remove efflorescence and old coatings, repoint damaged mortar and let it dry. For exterior or above-grade walls, spray a penetrating silane-siloxane repellent from the bottom up until it saturates, often in two wet-on-wet coats. For interior basement walls that seep, brush two coats of a masonry waterproofer into the bare block instead.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How much water does concrete block soak up?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, readily. Concrete block is made with a lean, open-textured mix and has hollow cores, so it absorbs and transmits water much more than poured concrete. Water that passes through the face shell can collect in the cores and travel down the wall. That is why block walls benefit from sealing and why drainage around them matters.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I seal a painted block wall?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not with a penetrating sealer; it needs bare masonry to soak into and cannot pass through paint. Most masonry waterproofers also require bare surfaces to perform as rated. Strip the paint by grinding, chemical stripping or abrasive cleaning first, or, if the paint is sound and the wall dry, simply repaint with a masonry paint system.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How often does block need resealing?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Penetrating repellents commonly last five to ten years in typical exposure, depending on product, sun and weather. Masonry waterproofers on interior walls also typically last five to ten years before touch-ups. The bead test tells you when to reapply: if water darkens the block and soaks in rather than beading, the treatment has worn through.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Does block need sealing before it gets painted?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Usually not with a penetrating repellent, which can prevent paint from bonding. Before painting, use a block filler primer, which seals and smooths the surface. If the wall is a basement wall with dampness, a masonry waterproofer can serve as both the moisture barrier and the finish, or be topcoated with latex paint after it cures.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is DRYLOK a good cinder block sealer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For interior basement block that seeps or stays damp, yes. DRYLOK is a masonry waterproofer rated by its maker for hydrostatic pressure and designed to be brushed into block pores. For exterior above-grade block where you want a natural look and full breathability, a penetrating silane-siloxane repellent is usually the better choice.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can you seal block in cold weather?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most sealers specify a minimum air and surface temperature, often around 40 to 50 degrees Fahrenheit, during application and for a period afterward. Cold slows curing and can cause water-based products to fail. Check the label, avoid sealing when frost is forecast overnight, and choose a stretch of mild, dry weather for exterior walls.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Sealer and Basement Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-basement-wall-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Basement Wall Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Coatings and penetrants ranked for below-grade walls.</p>
+            </a>
+            <a href="/best-paint-for-cinder-block/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Paint for Cinder Block</h3>
+              <p class="text-gray-500 text-sm mt-2">Block fillers and masonry topcoats for color and a smooth finish.</p>
+            </a>
+            <a href="/silane-vs-siloxane-sealers/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Comparison</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Silane vs. Siloxane Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">How the two repellent chemistries differ and where each fits.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For exterior and above-grade block, a penetrating silane-siloxane repellent such as Ghostshield Siloxa-Tek 8500 keeps the wall looking natural while stopping rain from soaking in. For interior basement block that seeps, DRYLOK Extreme brushed into bare block is the better tool, because it is built to resist water pressure from behind.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whichever you use, prep decides the result: repoint the joints, remove efflorescence, strip old coatings and use the block coverage rate rather than the smooth-concrete figure. Then check the wall every year or two with a splash of water and reapply when it stops beading.
+          </p>
+        </div>
+
+        <MoreInCategory category="Basement & Waterproofing" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

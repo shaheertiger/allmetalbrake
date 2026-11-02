@@ -1,0 +1,921 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Concrete Sealers",
+    "url": "/best-concrete-sealer/"
+  },
+  {
+    "title": "Best Marble Sealers",
+    "url": "/best-marble-sealer/"
+  },
+  {
+    "title": "Best Grout Sealers",
+    "url": "/best-grout-sealer/"
+  },
+  {
+    "title": "Silane vs Siloxane Sealers",
+    "url": "/silane-vs-siloxane-sealers/"
+  },
+  {
+    "title": "Best Penetrating Concrete Sealers",
+    "url": "/best-penetrating-concrete-sealer/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 6 Best Granite Sealers: Countertop Picks by Stone Type";
+const description =
+  "Six granite sealers matched to dense, porous and outdoor stone, plus the lemon-juice test that tells you whether your counter needs sealing at all.";
+
+const PRODUCTS = [
+  {
+    "id": "miracle-511",
+    "name": "Miracle Sealants 511 Impregnator",
+    "category": "Solvent-Carried Impregnator",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Long track record on countertops, vanities and floors",
+      "Penetrates and leaves no film or sheen",
+      "Works on granite, marble, travertine and grout",
+      "Widely stocked at tile and hardware stores"
+    ],
+    "cons": [
+      "Solvent odor means windows open and good ventilation",
+      "Excess must be wiped off promptly or it leaves haze"
+    ],
+    "bottomLine": "The default choice for a typical kitchen slab when you want one bottle that just works.",
+    "description": "Miracle Sealants 511 Impregnator has been a stone-shop staple for decades, and the reason is simple: it soaks into medium-porosity granite and repels water and oil without changing the finish. It is solvent-based, which helps it travel deeper into the capillaries of a stone than many water-based products, and it is approved by the maker for interior and exterior use on most natural stone. The label calls for applying a wet coat, letting it dwell for a few minutes, then wiping every trace of excess off the surface. On most counters one application is enough; a very absorbent slab may take a second coat after the first dries. Expect a noticeable smell for an hour or two, so plan it for a day when you can run a fan and open windows. A quart is usually enough for an average kitchen. Prices run roughly $25 to $40 per quart at the time of writing."
+  },
+  {
+    "id": "tenax-hydrex",
+    "name": "Tenax Hydrex Stain Protector",
+    "category": "Fluoropolymer Impregnator",
+    "badge": "Best Stain Repellency",
+    "amazonUrl": "",
+    "pros": [
+      "Strong oil and water repellency for kitchens that see heavy cooking",
+      "Invisible once cured on polished stone",
+      "Professional-grade product from an Italian stone-care maker",
+      "Small amount covers a lot of dense granite"
+    ],
+    "cons": [
+      "Costs more per ounce than mainstream sealers",
+      "Harder to find in local stores"
+    ],
+    "bottomLine": "The pick for cooks who splash olive oil and want the most stain resistance a bottle can offer.",
+    "description": "Tenax is an Italian company that supplies fabricators, and Hydrex is its fluoropolymer-based impregnator aimed at stopping both water and oil-based stains. Fluorinated sealers are the category that tends to perform best against cooking oil, which is the stain that ruins more light-colored granite than anything else. Because the active ingredients are concentrated, a little goes far on dense stone, and the finish stays the same as it was before application. The process is the familiar one: apply, let it soak in for the time on the label, and buff the surface dry. Owners commonly report water beading for years on counters where cheaper sealers gave out in one. The trade-offs are price and availability. It usually sells online or through stone suppliers, and a liter costs noticeably more than hardware-store options, often in the $50 to $90 range at the time of writing."
+  },
+  {
+    "id": "stone-tech-bulletproof",
+    "name": "StoneTech BulletProof Stone Sealer",
+    "category": "Low-Odor Water-Borne Impregnator",
+    "badge": "Best Low-Odor Pick",
+    "amazonUrl": "",
+    "pros": [
+      "Low odor compared with solvent formulas",
+      "Rated for natural stone, tile and grout indoors and out",
+      "No change to color or sheen",
+      "Easy cleanup with water"
+    ],
+    "cons": [
+      "May need two coats on thirsty light granite",
+      "Premium price for a water-based product"
+    ],
+    "bottomLine": "The best option for anyone who wants strong protection without solvent fumes in the house.",
+    "description": "StoneTech BulletProof is a water-based penetrating sealer from a brand that many fabricators use for their own installs. Being water-based, it has a mild smell and cleans up from tools with soap and water, which matters if you are sealing a kitchen that stays occupied or a bathroom with poor ventilation. The maker positions it for maximum protection on porous stone, and it is rated for countertops, floors, showers and grout lines. On light, absorbent granites, follow the label and plan for a second application after the first has soaked in; on dense dark stone, one coat is often plenty, and too much product simply sits on top. It leaves the surface looking untouched, with no added shine. A quart typically sells for roughly $35 to $50 at the time of writing, with larger sizes available for floors."
+  },
+  {
+    "id": "granite-gold-sealer-spray",
+    "name": "Granite Gold Countertop Sealer Spray",
+    "category": "Trigger-Spray Maintenance Sealer",
+    "badge": "Easiest Application",
+    "amazonUrl": "",
+    "pros": [
+      "Trigger spray needs no brush or applicator pad",
+      "Sold in grocery and big-box stores",
+      "Low odor water-based formula",
+      "Good for quick touch-ups between full sealings"
+    ],
+    "cons": [
+      "Lighter protection than professional impregnators",
+      "Needs reapplying more often on porous stone"
+    ],
+    "bottomLine": "A convenient maintenance sealer, not the first choice for sealing a thirsty slab from scratch.",
+    "description": "Granite Gold Sealer is the bottle most homeowners find first, because it sits beside the countertop cleaners in ordinary stores. It is a water-based spray that you mist onto a clean, dry counter, let soak briefly, then wipe and buff. That format makes it the least intimidating product on this list, and it is a reasonable way to refresh areas that see the heaviest wear, like the zone beside the stove or the sink edge. The limitation is depth of protection. On a dense dark granite that barely absorbs anything, a light spray sealer is all you need. On a pale, open-grained slab that darkens within a minute when you drip water on it, you will get better results starting with a full impregnator like the 511 or BulletProof, then using this spray for upkeep. A 24-ounce bottle usually costs about $12 to $18 at the time of writing."
+  },
+  {
+    "id": "dupont-stonetech-pro",
+    "name": "StoneTech Professional Heavy Duty Sealer (DuPont)",
+    "category": "Exterior Solvent Impregnator",
+    "badge": "Best for Outdoor Granite",
+    "amazonUrl": "",
+    "pros": [
+      "Built for exterior stone that sees freeze-thaw and weather",
+      "Strong water and oil repellency",
+      "Suitable for patios, outdoor kitchens and stone steps",
+      "No change to natural appearance"
+    ],
+    "cons": [
+      "Strong solvent smell; best used outdoors or with heavy ventilation",
+      "Overkill for a dense indoor countertop"
+    ],
+    "bottomLine": "Use it for outdoor kitchens and granite pavers; it is more product than most indoor counters need.",
+    "description": "The StoneTech Professional Heavy Duty line, long sold under the DuPont name, is a solvent-based penetrating sealer made for exterior and high-traffic stone. Outdoor granite faces problems an indoor counter never does: rain, ultraviolet light, freeze-thaw cycles, grill grease and fallen leaves that leave tannin stains. A solvent carrier helps the active ingredients get deep into flamed or honed granite, which is usually more porous than a polished kitchen slab. It is a good fit for outdoor kitchens, stone steps, pool coping and granite pavers. Indoors, it works, but the solvent odor is strong and a dense polished counter cannot absorb what this product is designed to deliver. Wipe all excess within the window the label specifies, because dried residue on a polished surface takes a solvent rub to remove. Quarts are usually around $40 to $60 at the time of writing, and gallons are available for larger areas."
+  },
+  {
+    "id": "miracle-mira-color-enhancer",
+    "name": "Miracle Sealants Mira Enhancer",
+    "category": "Enhancer and Sealer in One",
+    "badge": "Best for Honed Stone",
+    "amazonUrl": "",
+    "pros": [
+      "Deepens color on honed, leathered and faded granite",
+      "Seals and enhances in one step",
+      "Can revive weathered outdoor stone"
+    ],
+    "cons": [
+      "Permanently darkens the stone, so test first",
+      "Not intended for highly polished surfaces"
+    ],
+    "bottomLine": "For honed or leathered granite that looks washed out; skip it if you like the stone as it is.",
+    "description": "Color enhancers are a different tool from plain impregnators. They seal, but they also darken the stone and make the pattern stand out, the same effect you see when granite is wet. That is a welcome change on honed, leathered and flamed finishes, which can look dusty or chalky, and on outdoor granite that has bleached in the sun. It is not the right product for a polished counter you already like, because the change is essentially permanent; there is no simple way to strip an enhancer back out of the stone. Always apply it to a hidden spot first, such as the underside of an overhang or a sink cutout offcut, and look at it dry the next day before committing. Apply thinly, work in sections, and remove all excess. Expect to pay roughly $30 to $45 per quart at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Granite Sealer",
+          item: "https://www.allmetalbrake.com/best-granite-sealer/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the right resealing interval for a granite counter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no fixed schedule because granite varies so much. Use the water test once a year: if a puddle darkens the stone within about five minutes, reseal. Dense dark granites may go five years or more, or never need it. Light, porous slabs might need sealing every year. Areas near the sink and stove usually wear first, so test those spots."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is sealing a counter a reasonable DIY job?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Sealing granite is one of the easiest stone-care jobs a homeowner can do. You need a clean, dry counter, the sealer, and a stack of lint-free cloths. Apply, wait the dwell time on the label, and buff off all excess. The whole job usually takes under an hour plus cure time, and it costs a fraction of a professional visit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a clear impregnator alter color or shine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A standard impregnating sealer should not change color or sheen once excess is wiped off. Color-enhancing sealers are the exception: they deliberately darken the stone and bring out the pattern, and the effect is largely permanent. If a regular sealer leaves the counter looking cloudy, that is residue on the surface, not a change to the stone itself."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it a problem to leave a slab untreated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On dense stone, very little. On porous stone, oils, wine and coffee can soak in and leave dark stains that need poulticing. Unsealed granite does not crack or fall apart from lack of sealing. The risk is cosmetic staining, so the value of sealing depends entirely on how absorbent your particular slab is."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is granite sealer the same as granite cleaner?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Cleaner removes dirt and grease from the surface. Sealer soaks into the stone and lines the pores to slow absorption. Some combination products clean and leave a trace of sealer behind, which helps maintain an existing seal but is not a substitute for a proper sealing on a porous slab. Use a dedicated sealer for the main application."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long before I can use the counter after sealing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most impregnators allow light use within a few hours, but full cure usually takes 24 to 72 hours. During that time keep water, oil and acidic foods off the surface and avoid setting anything wet on it. Check your product label for its specific cure window, and wait until it passes before judging the result with a water test."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will sealer fix etching or dull spots on granite?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. True granite rarely etches. If dull spots appear where acidic foods sat, the stone likely contains calcite, which etches like marble. Sealer cannot prevent or repair that. Etch marks are removed with a polishing compound or by a stone restoration professional, and the area should be resealed afterward because polishing removes the old sealer."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Concrete & Masonry Sealers",
+    tags: [
+      "best granite sealer",
+      "granite countertop sealer",
+      "penetrating stone sealer",
+      "granite impregnator",
+      "how to seal granite",
+      "natural stone care"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Granite Sealers</span>, Matched to Your Stone
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Some granite drinks oil in seconds and some will never absorb a drop. Pick the sealer for the slab you actually have, not the one on the brochure.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#miracle-511"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="8.7k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. The 6 Picks</a>
+          <a href="#does-it-need-sealing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Does It Need Sealing?</a>
+          <a href="#sealer-chemistry" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Sealer Chemistry</a>
+          <a href="#match-to-stone" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Match Sealer to Slab</a>
+          <a href="#how-to-apply" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. How to Apply</a>
+          <a href="#how-much" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. How Much You Need</a>
+          <a href="#maintenance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Maintenance</a>
+          <a href="#outdoor-granite" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Outdoor Granite</a>
+          <a href="#safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Food Safety</a>
+          <a href="#pro-or-diy" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Pro vs DIY</a>
+          <a href="#stain-guide" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Countertop Stains and How to Lift Them</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Most granite sold for kitchens is dense enough that one good coat of a quality impregnator lasts years, and a few slabs are so tight that no sealer will soak in at all. The job is not finding the strongest bottle. It is figuring out how thirsty your stone is, choosing a sealer chemistry that suits it, and applying it so nothing dries on the surface.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Granite Sealers, Ranked
+          </h2>
+
+          <p>
+            These rankings come from manufacturer data sheets, label directions, the stone types each product is rated for, and recurring patterns in owner feedback. We weighted stain repellency for oil and water, how forgiving the application is for a first-timer, and how long the maker says a coat should last on typical countertop granite.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="does-it-need-sealing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Does Your Granite Even Need Sealing?
+          </h2>
+
+          <p>
+            Granite is not one material. The trade name covers dozens of igneous and metamorphic stones with very different pore structures. Absolute Black and many dark gabbros are so dense that a sealer has nowhere to go, while some light quarries, especially pale whites and creams with visible crystals, will darken under a drop of water in under a minute. Sealing a stone that cannot absorb product does nothing except leave residue to buff off.
+          </p>
+
+          <p>
+            The quickest way to find out is a water test. Drip a small puddle of water on several spots, especially near the sink and the cooktop, and watch it. If the stone under the puddle darkens within one to four minutes, it is absorbent and needs sealing. If it takes 10 to 30 minutes, it is moderately absorbent and one coat will help. If nothing changes after half an hour, the slab is dense and sealing is optional.
+          </p>
+
+          <p>
+            Do a second test with cooking oil, because some stones resist water but still wick up oil. Put a few drops of vegetable oil on an inconspicuous spot, wait 15 minutes, then wipe. A dark ring that does not wipe away means oil is getting in, and a fluoropolymer or high-performance impregnator is worth paying for. A clean spot means a standard sealer is enough.
+          </p>
+
+          <p>
+            Lemon juice is a third test some fabricators use, but it is for marble and limestone contamination, not granite absorption. True granite will not etch from lemon juice. If a counter sold as granite goes dull under lemon juice, it probably contains calcite and should be treated like marble; see our <a href="/best-marble-sealer/">marble sealer guide</a> for how that changes the advice.
+          </p>
+        </div>
+
+        <div id="sealer-chemistry" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Solvent, Water or Fluoropolymer: What Is in the Bottle
+          </h2>
+
+          <p>
+            Every product on this list is an impregnator, meaning it soaks into the stone and lines the pores rather than forming a coating on top. Film-forming sealers such as acrylics and polyurethanes are wrong for countertops: they scratch, peel and leave a plastic look. If the label says topical, coating or high-gloss, it does not belong on a kitchen counter.
+          </p>
+
+          <p>
+            Solvent-based impregnators use mineral spirits or a similar carrier. The carrier is thin, so it pulls active ingredients deeper into tight stone, then evaporates. The downside is odor and flammability during application. Water-based impregnators use water as the carrier, which is safer and nearly odorless, but water has higher surface tension and may not travel as far into very dense granite. Modern water-based products have closed most of that gap.
+          </p>
+
+          <p>
+            The active ingredients matter more than the carrier. Silicone and siloxane resins repel water well and oil moderately. Fluoropolymer resins, often called fluorochemical or fluorocarbon sealers, repel both water and oil and are the reason premium products cost more. In a kitchen where olive oil, butter and bacon grease are daily hazards, oil repellency is the feature that pays off.
+          </p>
+
+          <p>
+            Color-enhancing sealers combine an impregnator with an ingredient that saturates the stone and darkens it. They are a cosmetic choice. For the broader picture of penetrating chemistries, including the silane and siloxane families used on concrete and masonry, see our explainer on <a href="/silane-vs-siloxane-sealers/">silane vs siloxane sealers</a>.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Sealer type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Repels water</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Repels oil</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Odor</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Solvent-based silicone/siloxane</td>
+                    <td class="px-4 py-4 text-gray-700">Very good</td>
+                    <td class="px-4 py-4 text-gray-700">Good</td>
+                    <td class="px-4 py-4 text-gray-700">Strong</td>
+                    <td class="px-4 py-4 text-gray-700">Typical indoor counters</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Water-based impregnator</td>
+                    <td class="px-4 py-4 text-gray-700">Very good</td>
+                    <td class="px-4 py-4 text-gray-700">Good</td>
+                    <td class="px-4 py-4 text-gray-700">Mild</td>
+                    <td class="px-4 py-4 text-gray-700">Occupied homes, bathrooms</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Fluoropolymer impregnator</td>
+                    <td class="px-4 py-4 text-gray-700">Excellent</td>
+                    <td class="px-4 py-4 text-gray-700">Excellent</td>
+                    <td class="px-4 py-4 text-gray-700">Varies</td>
+                    <td class="px-4 py-4 text-gray-700">Heavy-cooking kitchens, light stone</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Color enhancer</td>
+                    <td class="px-4 py-4 text-gray-700">Very good</td>
+                    <td class="px-4 py-4 text-gray-700">Good</td>
+                    <td class="px-4 py-4 text-gray-700">Varies</td>
+                    <td class="px-4 py-4 text-gray-700">Honed or faded granite</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Topical acrylic coating</td>
+                    <td class="px-4 py-4 text-gray-700">Good at first</td>
+                    <td class="px-4 py-4 text-gray-700">Fair</td>
+                    <td class="px-4 py-4 text-gray-700">Varies</td>
+                    <td class="px-4 py-4 text-gray-700">Not recommended on counters</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="match-to-stone" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Matching the Sealer to Your Slab
+          </h2>
+
+          <p>
+            <strong>Dense dark granite</strong>, such as Absolute Black, Uba Tuba and Black Pearl, rarely needs more than a light maintenance product, and often nothing at all. Overapplying here is the most common cause of hazy streaks. If the water test shows almost no absorption, a spray like Granite Gold once a year is the most you should do.
+          </p>
+
+          <p>
+            <strong>Medium-porosity granite</strong>, the large middle group of browns, golds and speckled patterns, is where a standard impregnator such as Miracle 511 or StoneTech BulletProof earns its keep. One full coat after installation and then a reseal every one to three years, guided by the water test, is a sensible schedule for most of these slabs.
+          </p>
+
+          <p>
+            <strong>Light and open-grained granite</strong>, including many whites, creams and stones with large crystals or visible fissures, can absorb a surprising amount. These are the slabs that show oil rings and coffee stains. Use a premium oil-repelling sealer, apply two coats, and test again after a week. Some of these quarries are resin-treated at the factory, which reduces absorption, but the resin does not cover every pore.
+          </p>
+
+          <p>
+            <strong>Honed, leathered and flamed finishes</strong> are always more absorbent than the polished version of the same stone because the finishing process opens the surface. They also show oil and water marks more readily. Seal them more generously, and consider a color enhancer if the finish looks washed out. For granite outside, the same logic applies as for any exterior masonry; our <a href="/best-concrete-sealer/">concrete sealer guide</a> covers how weather exposure changes product choice.
+          </p>
+
+          <p>
+            Seams deserve a separate look. The epoxy or polyester filler in a countertop seam is not stone and does not need sealer, but the stone edges on either side of it often absorb more than the field because they were cut and polished on site. Give the first inch either side of each seam, the sink cutout rim and the cooktop cutout an extra pass of sealer, since water and oil collect at those edges first.
+          </p>
+        </div>
+
+        <div id="how-to-apply" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. How to Seal Granite Without Leaving Haze
+          </h2>
+
+          <p>
+            Start with a clean, completely dry surface. Clean with a pH-neutral stone cleaner, not vinegar or bleach, and remove any stains first, because sealer locks in whatever is already in the pores. Then let the counter dry for at least 24 hours, longer if it was recently wet around the sink. Sealing damp stone traps moisture and blocks penetration.
+          </p>
+
+          <p>
+            Work in sections of about 3 by 3 feet. Apply the sealer with a lint-free cloth, foam brush or the spray nozzle so the surface looks evenly wet. Let it dwell for the time on the label, usually around 5 to 15 minutes, while keeping it wet; add a little more to spots that soak up product fast. That dwell period is when the sealer actually enters the stone.
+          </p>
+
+          <p>
+            Next comes the step that decides how the job looks: wipe off every bit of excess. Use clean dry cloths and buff until the surface feels like bare stone with no tackiness. Any sealer left on top will dry into a hazy, streaky film that is harder to remove later. Change cloths often. If a second coat is needed, wait the interval the label gives, typically 20 minutes to a few hours.
+          </p>
+
+          <p>
+            Most impregnators reach handling strength in a few hours, but full cure usually takes 24 to 72 hours depending on the product. Keep water, oil and acidic food off the surface during that time, and do not run a wet test until the cure window has passed. If a haze appears the next day, rub it with a little more of the same sealer on a cloth, which re-dissolves the residue, then buff dry immediately.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE ONE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Nothing should dry on the surface</p>
+            <p class="text-gray-300 leading-relaxed m-0">An impregnator only works inside the stone. Whatever is left on top after the dwell time is waste that will cure into haze. Wipe until the cloth comes away dry and the counter feels like stone again.</p>
+          </div>
+        </div>
+
+        <div id="how-much" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. How Much Sealer You Need
+          </h2>
+
+          <p>
+            Coverage depends far more on the stone than on the product. A dense dark granite may take a quart over 300 to 600 square feet, while a thirsty light granite can use the same quart on 100 to 200 square feet. The data sheet range for each product reflects that spread, so start in the middle and adjust after you see how quickly your slab drinks.
+          </p>
+
+          <p>
+            A typical kitchen has 30 to 60 square feet of counter, counting the island. Even on porous stone, that is well inside one quart for two coats. Buying a gallon for a kitchen is a waste unless you are also sealing a stone floor, a backsplash and bathroom vanities. Most sealers keep for a few years if capped tightly, so a leftover quart can serve the next reseal.
+          </p>
+
+          <p>
+            Outdoor kitchens, granite pavers and stone steps are a different calculation. Flamed exterior granite absorbs more, and you are covering more area, so gallon sizes make sense there. Measure the total square footage and divide by the low end of the coverage range on the label to avoid running short in the middle of a section.
+          </p>
+
+          <p>
+            Budget roughly $15 to $90 for a countertop job depending on the product tier, versus $150 to $300 or more for a professional sealing visit. The do-it-yourself job takes about an hour of work plus the drying wait. There is no real skill barrier as long as you follow the wipe-off step.
+          </p>
+        </div>
+
+        <div id="maintenance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Keeping the Seal Working
+          </h2>
+
+          <p>
+            Sealer wears out mainly through cleaning, not through use. Harsh cleaners strip it far faster than food or water. Vinegar, lemon-based sprays, bleach, ammonia and many all-purpose bathroom cleaners are either acidic or strongly alkaline, and they break down impregnators over time. Use a pH-neutral stone cleaner or a few drops of mild dish soap in warm water.
+          </p>
+
+          <p>
+            Wipe spills promptly, especially oil, wine, coffee and anything with strong pigment such as turmeric or beet juice. A sealer slows absorption; it does not make stone stain-proof. On a well-sealed slab, you typically have minutes to hours to wipe something up before it penetrates, which is plenty for normal kitchen life.
+          </p>
+
+          <p>
+            Recheck the counter with the water test once a year, focusing on the areas around the sink and stove where wear is highest. When water starts darkening the stone within about five minutes, it is time to reseal. Many dense counters go three to five years or longer between treatments; porous slabs might need attention annually.
+          </p>
+
+          <p>
+            If a stain does get in, a poultice can usually pull it out. For oil, mix baking soda with a little acetone or a dedicated stone poultice powder into a paste, cover it with plastic, let it sit 24 to 48 hours, then remove. Reseal the spot afterward, since the poultice also draws out sealer.
+          </p>
+
+          <p>
+            Water rings are a different case from stains. If a glass leaves a dark ring that disappears after an hour or two, that is just water evaporating out of the stone, and it means the seal near that spot is getting thin. A ring that stays light or dull is mineral deposit from hard water, which comes off with a neutral cleaner and a soft pad. Neither is permanent, but both are a useful early signal that resealing is due.
+          </p>
+        </div>
+
+        <div id="outdoor-granite" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Sealing Granite Outside
+          </h2>
+
+          <p>
+            Outdoor granite, from kitchen islands to pool coping and stair treads, faces sun, rain, freeze-thaw cycles, sprinklers and organic stains from leaves and berries. Most exterior granite has a flamed or thermal finish for slip resistance, which leaves a rougher, more porous surface than a polished kitchen slab. That means it absorbs more sealer and more staining agents.
+          </p>
+
+          <p>
+            Choose a sealer rated explicitly for exterior use. Water-repellent impregnators remain breathable, which matters outside: moisture that gets into stone from below or from the edges must be able to escape as vapor. A film-forming coating traps that moisture and can lead to spalling or white efflorescence deposits in cold climates.
+          </p>
+
+          <p>
+            Clean exterior granite thoroughly before sealing, ideally with a stone-safe cleaner and a low-pressure rinse rather than a high-pressure blast, which can etch soft mineral veins. Let it dry for a full 48 hours of dry weather. Apply in mild temperatures, typically between 50 and 90 degrees Fahrenheit, and avoid direct midday sun, which can flash the carrier off before the sealer penetrates.
+          </p>
+
+          <p>
+            Expect to reseal outdoor granite every one to three years. Granite pavers set in sand behave much like other paver systems; our <a href="/best-paver-sealer/">paver sealer guide</a> covers joint sand and edge sealing if your granite is part of a patio.
+          </p>
+        </div>
+
+        <div id="safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Is Granite Sealer Food-Safe?
+          </h2>
+
+          <p>
+            Once cured, most reputable impregnating sealers are considered safe for food-contact countertops. The active ingredients sit inside the stone, and the solvents or water carriers evaporate completely during cure. Several manufacturers state on their data sheets that the cured product is safe for food preparation surfaces; check the specific label or safety data sheet if this matters to you.
+          </p>
+
+          <p>
+            The risk is during application and cure, not afterward. Solvent-based products release volatile organic compounds and have flammable vapors, so turn off pilot lights and do not run gas burners near the work area, ventilate well, and keep children and pets out of the room until the smell is gone. Water-based products are far milder but still need the cure time on the label.
+          </p>
+
+          <p>
+            Wait the full cure period before putting food directly on the counter, typically 24 to 72 hours. Until then, use a cutting board or keep food prep elsewhere. After cure, wash the surface once with a neutral stone cleaner before normal use.
+          </p>
+
+          <p>
+            If anyone in the house is sensitive to fumes, choose a water-based sealer such as StoneTech BulletProof or Granite Gold and schedule the job for a day when the windows can stay open. The trade-off in protection is small, and you can always reapply sooner.
+          </p>
+        </div>
+
+        <div id="pro-or-diy" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Hiring a Pro vs Doing It Yourself
+          </h2>
+
+          <p>
+            Fabricators often seal a new counter at installation, but not always, and what they use varies from premium fluoropolymers to whatever is cheapest by the gallon. Ask the installer which product went on and when. If they cannot tell you, run the water test a week after install and decide for yourself rather than assuming the job was done.
+          </p>
+
+          <p>
+            A professional stone-care company makes sense when the counter also needs work a sealer cannot do: polishing out etch marks, removing a deep stain, filling a chip or pit, or restoring a dull honed finish. Those visits usually include sealing at the end, and the combined service is better value than paying separately for a sealing-only call.
+          </p>
+
+          <p>
+            For straightforward resealing, doing it yourself wins on cost and timing. A homeowner with a quart of good impregnator and a few cloths gets the same result as a technician using the same chemistry, because the product does the work. The only real skill is wiping off the excess thoroughly, which takes patience rather than training.
+          </p>
+
+          <p>
+            If you rent or plan to sell, keep a note of the product and date of each sealing. Buyers and landlords increasingly ask about stone maintenance, and a short record shows the counters were cared for. It also tells you, three years from now, which bottle worked well on that specific slab.
+          </p>
+        </div>
+
+        <div id="stain-guide" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. Common Countertop Stains and How to Lift Them
+          </h2>
+
+          <p>
+            <strong>Oil and grease</strong> leave a dark, spreading shadow that often looks like the stone is permanently wet. Use a poultice made with an absorbent powder and acetone or a commercial oil-lifting poultice, cover it with plastic, and let it work for a day or two. Repeat if the shadow fades but does not disappear; deep oil stains can take several rounds.
+          </p>
+
+          <p>
+            <strong>Coffee, tea, wine and food dyes</strong> are organic stains that usually show as brown or reddish marks. On light granite, a poultice made with 12 percent hydrogen peroxide and a little ammonia or a commercial organic-stain poultice often lifts them. Test on a hidden spot first, since peroxide can lighten some dark stones.
+          </p>
+
+          <p>
+            <strong>Rust stains</strong> from cast-iron pans or metal cans are orange-brown and stubborn. They need a rust remover made for natural stone; ordinary rust removers are often acidic and can damage stones containing calcite. If the stain is old and deep, a stone restoration professional may be the better option.
+          </p>
+
+          <p>
+            <strong>Hard-water marks</strong> around faucets are mineral deposits sitting on the surface, not stains in the stone. A neutral stone cleaner and a soft nylon pad usually remove them. After any stain removal, let the area dry for a day and reseal it, because poultices pull sealer out along with the stain.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sealing stone that cannot absorb anything</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Dense granites such as Absolute Black will not take sealer. Applying it anyway leaves a sticky, streaky film that has to be stripped with solvent. Do the water test first, and if water still sits on the surface after half an hour without darkening it, skip the sealer and save the money.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Letting excess sealer dry on top</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The product only works inside the stone. Anything left on the surface after the dwell time cures into a dull haze that shows in raking light. Wipe and buff with clean dry cloths until the counter feels like bare stone, and change cloths as soon as they get damp.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sealing over a stain</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Sealer locks in whatever is already in the pores. If there is an oil ring, a coffee spot or a water mark, poultice it out first and let the stone dry fully for a day or two. Sealing over it makes the stain permanent and also blocks the poultice from working later.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Cleaning with vinegar or bleach</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Acidic and harsh alkaline cleaners break down impregnators and shorten the life of the seal dramatically. They can also dull polished finishes on stones that contain any calcite, which many slabs sold as granite do. Switch to a pH-neutral stone cleaner or mild dish soap and water for daily wiping.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a topical coating meant for concrete</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Acrylic and urethane coatings designed for driveways or garage floors form a film that scratches, yellows and peels on a countertop. They also make the stone look plastic and are miserable to strip off later. Use only impregnating sealers rated for natural stone on any surface that sees food prep.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the right resealing interval for a granite counter?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                There is no fixed schedule because granite varies so much. Use the water test once a year: if a puddle darkens the stone within about five minutes, reseal. Dense dark granites may go five years or more, or never need it. Light, porous slabs might need sealing every year. Areas near the sink and stove usually wear first, so test those spots.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is sealing a counter a reasonable DIY job?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. Sealing granite is one of the easiest stone-care jobs a homeowner can do. You need a clean, dry counter, the sealer, and a stack of lint-free cloths. Apply, wait the dwell time on the label, and buff off all excess. The whole job usually takes under an hour plus cure time, and it costs a fraction of a professional visit.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a clear impregnator alter color or shine?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A standard impregnating sealer should not change color or sheen once excess is wiped off. Color-enhancing sealers are the exception: they deliberately darken the stone and bring out the pattern, and the effect is largely permanent. If a regular sealer leaves the counter looking cloudy, that is residue on the surface, not a change to the stone itself.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is it a problem to leave a slab untreated?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                On dense stone, very little. On porous stone, oils, wine and coffee can soak in and leave dark stains that need poulticing. Unsealed granite does not crack or fall apart from lack of sealing. The risk is cosmetic staining, so the value of sealing depends entirely on how absorbent your particular slab is.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is granite sealer the same as granite cleaner?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. Cleaner removes dirt and grease from the surface. Sealer soaks into the stone and lines the pores to slow absorption. Some combination products clean and leave a trace of sealer behind, which helps maintain an existing seal but is not a substitute for a proper sealing on a porous slab. Use a dedicated sealer for the main application.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long before I can use the counter after sealing?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most impregnators allow light use within a few hours, but full cure usually takes 24 to 72 hours. During that time keep water, oil and acidic foods off the surface and avoid setting anything wet on it. Check your product label for its specific cure window, and wait until it passes before judging the result with a water test.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will sealer fix etching or dull spots on granite?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. True granite rarely etches. If dull spots appear where acidic foods sat, the stone likely contains calcite, which etches like marble. Sealer cannot prevent or repair that. Etch marks are removed with a polishing compound or by a stone restoration professional, and the area should be resealed afterward because polishing removes the old sealer.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Stone and Sealer Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-marble-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Stone Care</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Marble Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Why marble needs a different approach, and what sealing can and cannot stop.</p>
+            </a>
+            <a href="/best-grout-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Tile</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Grout Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Protect the grout lines on a granite backsplash or tile floor.</p>
+            </a>
+            <a href="/best-concrete-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Concrete Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">The full guide to penetrating and film-forming sealers for masonry.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most kitchen granite, Miracle 511 Impregnator is the safe, proven choice. If you cook with a lot of oil or have a light, open-grained slab, spend more on Tenax Hydrex. If solvent fumes are a problem in your home, StoneTech BulletProof gives nearly the same protection with water-based convenience.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Before buying anything, run the water test. Plenty of dark granite needs no sealer at all, and the best money saved is on a product your stone cannot use. When you do seal, the wipe-off step decides whether the result is invisible or streaky.
+          </p>
+        </div>
+
+        <MoreInCategory category="Concrete & Masonry Sealers" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

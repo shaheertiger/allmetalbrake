@@ -1,0 +1,1009 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Chainsaw Picks",
+    "url": "/best-chainsaw/"
+  },
+  {
+    "title": "Hookaroon Picks",
+    "url": "/best-hookaroon-reviews/"
+  },
+  {
+    "title": "Weed Eater Picks",
+    "url": "/best-weed-eater/"
+  },
+  {
+    "title": "Best Compact Tractors",
+    "url": "/best-compact-tractor/"
+  },
+  {
+    "title": "Best Gas Generators",
+    "url": "/best-gas-generator/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Log Splitters: Sized to Your Wood Pile";
+const description =
+  "Seven gas, electric and manual log splitters matched to how much wood you burn, with plain guidance on tonnage, cycle time, safe operation and renting.";
+
+const PRODUCTS = [
+  {
+    "badge": "Best Overall",
+    "category": "Gas, 27 Ton, Vertical and Horizontal",
+    "name": "Champion Power Equipment 27-Ton",
+    "description": "Champion's 27-ton splitter is a full-size towable gas machine that covers almost every homeowner firewood job. It splits horizontally at waist height for ordinary rounds and tips to vertical so you can roll heavy, knotty rounds onto the foot plate instead of lifting them, which saves backs and time. Champion lists a quick cycle time for its class, an auto-return valve that lets the ram retract without holding the lever, and a Champion-built engine with a two-stage pump. Log cradles on the beam hold split pieces so they do not fall to the ground between strokes. It is towable behind a vehicle at modest speeds, and Champion's support and parts availability are good. It is overkill for a fire pit owner and heavier to move around a small yard than an electric unit, but for someone splitting several cords a year, it hits the best balance of speed, capability and price on this list.",
+    "pros": [
+      "27 tons with vertical and horizontal operation",
+      "Quick listed cycle time and auto-return valve",
+      "Log cradles keep splits off the ground",
+      "Towable with good parts support"
+    ],
+    "cons": [
+      "Too much machine for occasional fire pit wood",
+      "Heavy and loud compared with electric",
+      "Requires engine maintenance and storage care"
+    ],
+    "bottomLine": "The best all-around gas splitter for owners who burn several cords a year.",
+    "amazonUrl": "",
+    "id": "champion-27-ton"
+  },
+  {
+    "badge": "Best Build Quality",
+    "category": "Gas, 27 Ton, Vertical and Horizontal",
+    "name": "Cub Cadet LS 27 CCHP",
+    "description": "Cub Cadet's LS 27 is a 27-ton towable gas splitter with a reputation for solid construction and dealer support. It converts between horizontal and vertical operation and uses a two-stage hydraulic pump with auto-return. Owners commonly cite the frame, beam and hitch as more robust than budget competitors, and Cub Cadet's dealer network is a plus for buyers who want local service. It generally costs more than comparable Champion or YARDMAX models, so you are paying for the build and support rather than more splitting force. For owners who expect to split for many years and value dealer service, the premium is reasonable. As with all towable gas splitters, check the towing speed limit on the label and confirm whether your state requires lights or registration for road use. Owners who split many cords a year tend to appreciate the sturdier components most, since wear shows up first on hitches, beams and hydraulic fittings of lighter-built machines.",
+    "pros": [
+      "Robust frame, beam and hitch",
+      "Vertical and horizontal operation",
+      "Two-stage pump with auto-return",
+      "Dealer network for service"
+    ],
+    "cons": [
+      "Priced above similar-tonnage rivals",
+      "Heavy to move by hand",
+      "Engine and hydraulic maintenance required"
+    ],
+    "bottomLine": "A durable, dealer-supported splitter for owners who plan to keep it for years.",
+    "amazonUrl": "",
+    "id": "cub-cadet-ls27"
+  },
+  {
+    "badge": "Best Budget Gas",
+    "category": "Gas, 25 Ton, Full Beam",
+    "name": "YARDMAX YU2566 25-Ton Full Beam",
+    "description": "The YARDMAX YU2566 is a 25-ton gas splitter that brings full-beam construction and vertical and horizontal operation to a lower price than most name-brand competitors. A full beam lets you split on both directions of the ram travel in some setups and generally adds rigidity. It uses a two-stage pump and an auto-return valve, and it tows behind a vehicle. For owners splitting a few cords a year who want gas speed without paying top dollar, it is a strong value. Expect the fit and finish to be a step below Cub Cadet, and plan on checking hydraulic fittings and hardware after the first few hours, which is good practice on any new splitter. Parts and service are available but less widespread than for the biggest brands. It is a good fit for owners who want vertical capability and decent speed but cannot justify the cost of a premium dealer-sold machine.",
+    "pros": [
+      "25 tons at a budget-friendly price",
+      "Full-beam construction",
+      "Vertical and horizontal operation",
+      "Two-stage pump with auto-return"
+    ],
+    "cons": [
+      "Fit and finish below premium brands",
+      "Smaller service network",
+      "Heavy and loud like any gas splitter"
+    ],
+    "bottomLine": "The value pick for gas splitting a few cords a year.",
+    "amazonUrl": "",
+    "id": "yardmax-yu2566"
+  },
+  {
+    "badge": "Best Value Mid-Size",
+    "category": "Gas, 22 Ton, Vertical and Horizontal",
+    "name": "Powerhorse 22-Ton Horizontal/Vertical",
+    "description": "Powerhorse is Northern Tool's house brand, and its 22-ton splitter offers vertical and horizontal operation, a two-stage pump and auto-return at a price that undercuts many 25 to 27-ton machines. For most seasoned firewood such as oak, maple and ash in typical round sizes, 22 tons is enough, so the lower tonnage costs little in real-world capability. It is a sensible machine for someone who splits two or three cords a year and wants vertical capability for big rounds without paying for extra tonnage they will rarely use. Northern Tool's store network and parts availability help with support. Very large, twisted or green elm and gum rounds will be slower going, and those are the cases where higher-tonnage machines earn their premium. Check fittings and hardware after the first few hours of use, which is sensible on any new hydraulic splitter, and keep the hydraulic fluid at the level the manual specifies.",
+    "pros": [
+      "Vertical and horizontal at a lower price",
+      "22 tons handles most seasoned firewood",
+      "Two-stage pump with auto-return",
+      "Store network for parts"
+    ],
+    "cons": [
+      "Slower on large, stringy or knotty rounds",
+      "Heavy to move without towing",
+      "Gas engine maintenance"
+    ],
+    "bottomLine": "Enough splitter for most homeowners at a fair price.",
+    "amazonUrl": "",
+    "id": "powerhorse-22-ton"
+  },
+  {
+    "badge": "Best Electric",
+    "category": "Electric, 7 Ton, Horizontal",
+    "name": "Boss Industrial ES7T20 Electric",
+    "description": "Boss Industrial's ES7T20 is a 7-ton electric splitter that plugs into a standard household outlet and handles logs up to about 20 inches long, according to the manufacturer. Electric splitters are quiet, produce no exhaust, and need no engine maintenance, so you can run one in a garage with the door open or close to the house without bothering the neighbors. The ES7T20 is aimed at people splitting a modest amount of seasoned wood for a fireplace or fire pit. Seven tons is plenty for straight-grained seasoned rounds of moderate diameter but will stall on large, knotty or green wood. It operates horizontally, so you must lift each round onto the beam. Use a heavy-gauge extension cord sized per the manual, or plug directly into a GFCI-protected outlet. Never try to force a round that will not split by cycling the ram repeatedly; take it out, rotate it, or set it aside for a larger machine.",
+    "pros": [
+      "Quiet, no fumes, no engine maintenance",
+      "Plugs into a household outlet",
+      "Compact enough to store in a garage",
+      "Good for seasoned, moderate rounds"
+    ],
+    "cons": [
+      "Stalls on large, knotty or green wood",
+      "Horizontal only, so you lift each round",
+      "Slower than gas splitters"
+    ],
+    "bottomLine": "A quiet, low-maintenance choice for fireplace and fire pit volumes.",
+    "amazonUrl": "",
+    "id": "boss-industrial-es7t20"
+  },
+  {
+    "badge": "Best Budget Electric",
+    "category": "Electric, 6.5 Ton, Horizontal",
+    "name": "WEN 56207 6.5-Ton Electric",
+    "description": "WEN's 56207 is an inexpensive 6.5-ton electric splitter for owners who burn a little wood and do not want to swing a maul. It runs on household current, sits on a stand or workbench at a comfortable height, and is light enough to roll around the garage. It suits seasoned, straight-grained rounds of modest diameter, such as fire pit wood or kindling-size splits from larger pieces. Like all small electric splitters, it can stall on knots, crotches and green hardwood, and you should not try to force it by repeatedly cycling the ram into a round that will not split. The price is its strength; the trade-off is speed and capacity. Owners who go through under a cord per winter may never need more. Stick to straight-grained, seasoned rounds of modest diameter and you will get the best results from it.",
+    "pros": [
+      "Low price for an electric splitter",
+      "Light and easy to store",
+      "Quiet, no fuel or engine",
+      "Fine for seasoned fire pit wood"
+    ],
+    "cons": [
+      "Low tonnage stalls on knots and green wood",
+      "Horizontal only",
+      "Slow for larger volumes"
+    ],
+    "bottomLine": "A budget electric splitter for small, seasoned wood.",
+    "amazonUrl": "",
+    "id": "wen-56207"
+  },
+  {
+    "badge": "Best Manual",
+    "category": "Manual Hydraulic, 10 Ton",
+    "name": "Sun Joe LJ10M Logger Joe 10-Ton Hydraulic",
+    "description": "The Sun Joe LJ10M is a manual hydraulic splitter: you pump the handles and a hydraulic ram pushes the log into a wedge. There is no engine, no motor and no cord, so it works anywhere and makes almost no noise. Sun Joe lists 10 tons of force, which on paper beats small electric units, but the trade-off is effort and speed; each split takes many pump strokes. It is best for someone who splits small amounts of seasoned wood occasionally, for a cabin without power, or for anyone who wants a safer alternative to a maul for kindling and fire pit wood. It is not practical for cords of wood. Keep hands clear of the ram and wedge at all times, even though it moves slowly. Set it on firm, level ground before use so it cannot tip while you pump.",
+    "pros": [
+      "No fuel, cord or battery needed",
+      "Very quiet operation",
+      "Inexpensive",
+      "Useful for cabins and occasional use"
+    ],
+    "cons": [
+      "Slow, effortful pumping per split",
+      "Not practical for large volumes",
+      "Limited log length and diameter"
+    ],
+    "bottomLine": "A low-cost, power-free option for small amounts of wood.",
+    "amazonUrl": "",
+    "id": "sun-joe-lj10m"
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Log Splitter Picks",
+          item: "https://www.allmetalbrake.com/best-log-splitter/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "How many tons of splitting force do I actually need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For seasoned, straight-grained firewood of moderate diameter, a 4 to 7-ton electric splitter is enough. For most homeowner firewood, including larger and knottier rounds, a 20 to 27-ton gas splitter is the practical range. Very large, green or stringy wood such as elm benefits from the higher end. Beyond that, speed and features matter more than extra tons."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is an electric splitter good enough?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For fireplace and fire pit volumes of seasoned wood, yes. Electric splitters are quiet, clean and low-maintenance, and they can be used near the house. They are slower than gas, usually horizontal only, and can stall on large, knotty or green wood. If you split more than a cord or two a year, or your wood is big, a gas splitter is a better fit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I rent a splitter instead of buying?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Renting makes sense if you split once a year and handle a cord or two. Have the wood cut and staged before you pick up the machine to make the most of the rental period. If you split every year or several cords at a time, buying usually pays for itself within a few seasons, especially if you share a machine with neighbors."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What cycle time should I look for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many gas splitters list cycle times somewhere in the 10 to 20-second range; faster is better for big piles. Small electric splitters are generally slower. A two-stage pump and auto-return valve improve speed noticeably. Use cycle times to compare machines within a class, since test conditions vary between brands. Auto-return helps too."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is vertical splitting worth paying extra for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If you split large, heavy rounds, yes. Vertical operation lets you roll a round onto the foot plate instead of lifting it onto a waist-high beam, which saves your back and makes very heavy pieces manageable. If you only split moderate pieces that are easy to lift, horizontal-only is fine."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long should firewood season after splitting?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most hardwoods need at least six months and often a year or more to dry, stacked off the ground in a sunny, breezy spot with the top covered and the sides open. The EPA's Burn Wise program recommends a moisture content of 20 percent or less for clean burning, and a moisture meter is an inexpensive way to check."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can two people run a log splitter together?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Manufacturers warn against it. When one person loads and another runs the control, the operator cannot reliably see where the loader's hands are, and crushing injuries result. The safe practice is one operator who both positions the log and runs the control, with any helpers stacking splits well clear of the machine."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Yard & Outdoor Tools",
+    tags: [
+      "best log splitter",
+      "gas log splitter",
+      "electric log splitter",
+      "log splitter tonnage",
+      "hydraulic wood splitter",
+      "firewood splitting"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Log Splitters</span> for Every Size of Woodpile
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Half a cord of backyard fire pit wood and eight cords for the woodstove call for very different machines. Here is how to pick the splitter that fits your pile, and how to run it without getting hurt.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#champion-27-ton"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="8.7k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#how-much-wood" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Start With Your Volume</a>
+          <a href="#tonnage" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Tonnage Explained</a>
+          <a href="#cycle-time" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Cycle Time</a>
+          <a href="#types" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Gas, Electric and Manual</a>
+          <a href="#features" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Features Worth Paying For</a>
+          <a href="#safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Operating Safely</a>
+          <a href="#splitting-tips" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Splitting and Seasoning</a>
+          <a href="#maintenance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Maintenance</a>
+          <a href="#rent-or-buy" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Rent, Buy and Cost</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          People shopping for a log splitter tend to fixate on tonnage, and it is the wrong place to start. Most firewood splits easily within the range of a mid-size machine. What actually decides how pleasant your splitting weekend is comes down to how fast the ram cycles, whether you can split heavy rounds without lifting them, and whether the machine matches how many cords you burn.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Log Splitters, Ranked
+          </h2>
+
+          <p>
+            These picks are based on manufacturer specifications for splitting force, listed cycle time, maximum log length, engine or motor, orientation options and warranty, along with build details such as beam construction and patterns in owner feedback. Each machine is matched to a realistic annual firewood volume. We did not run splitting trials, so no figure here is a measurement of ours.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="how-much-wood" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Start With How Much Wood You Split
+          </h2>
+
+          <p>
+            The most useful number in choosing a splitter is not tons, horsepower or price; it is how many cords you split a year. A cord is a stack 4 feet high, 4 feet deep and 8 feet long, or 128 cubic feet, and it is the standard measure for firewood in the US. Someone who burns a face cord or two in a backyard fire pit needs a completely different machine from someone heating a house with six to eight full cords every winter.
+          </p>
+
+          <p>
+            Under a cord a year, a small electric or manual splitter, or even a good maul, is enough. From one to three cords, a quality electric splitter can work if your wood is seasoned and of moderate size, but a mid-size gas splitter saves real time. Above three cords, especially with big hardwood rounds, a 20 to 27-ton gas splitter with vertical operation is the right tool, and owners at the high end often value speed and auto-return features above everything else.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Annual volume</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Sensible machine</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Pick to consider</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Under one cord</td>
+                    <td class="px-4 py-4 text-gray-700">Manual or small electric</td>
+                    <td class="px-4 py-4 text-gray-700">Sun Joe LJ10M, WEN 56207</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">One to two cords</td>
+                    <td class="px-4 py-4 text-gray-700">Electric 7 ton or small gas</td>
+                    <td class="px-4 py-4 text-gray-700">Boss ES7T20, Powerhorse 22-Ton</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Two to five cords</td>
+                    <td class="px-4 py-4 text-gray-700">Gas 22 to 27 ton, vertical</td>
+                    <td class="px-4 py-4 text-gray-700">Champion 27-Ton, YARDMAX YU2566</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Five cords and up</td>
+                    <td class="px-4 py-4 text-gray-700">Robust 25 to 27-ton gas</td>
+                    <td class="px-4 py-4 text-gray-700">Cub Cadet LS 27, Champion 27-Ton</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Consider the wood itself too. Straight-grained, seasoned oak, ash and maple split far more easily than green elm, sweetgum or knotty crotch wood. If you cut your own trees with a <a href="/best-chainsaw/">chainsaw</a>, you will get a mix, including tough pieces from near the base and branches; buy for the hard pieces, not the easy ones.
+          </p>
+
+          <p>
+            Finally, factor in your body. Lifting 60 to 100-pound rounds onto a waist-high beam all day is hard work. If you split big rounds, vertical operation is not a luxury; it lets you roll the round onto the foot plate instead of lifting it.
+          </p>
+
+          <p>
+            Space and storage belong in the calculation as well. A towable gas splitter takes up roughly the footprint of a small trailer and needs a level spot to work and a dry place to sit the rest of the year. An electric or manual unit fits on a garage shelf or in a corner. If you have a small lot and a tight garage, that alone may settle the question in favor of electric, provided your wood is seasoned and of moderate size.
+          </p>
+        </div>
+
+        <div id="tonnage" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. What Tonnage Really Means
+          </h2>
+
+          <p>
+            Splitter tonnage is the maximum force the hydraulic ram can exert, calculated from the cylinder size and the pump's maximum pressure. It tells you whether the machine can push through a tough round, but beyond a certain point more tons do not split typical firewood any faster. Ratings also vary in how they are calculated and advertised, so a 25-ton machine from one brand is not always weaker than a 27-ton from another.
+          </p>
+
+          <p>
+            As a rough guide, small electric splitters in the 4 to 7-ton range handle seasoned, straight-grained rounds of modest diameter. Gas splitters in the 20 to 27-ton range handle nearly all homeowner firewood, including larger and knottier rounds. Commercial machines above that are for production firewood and very large, stringy wood.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Tonnage at a Glance</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">4-7 T</p>
+                <p class="text-gray-400 text-xs mt-1">Electric, seasoned moderate rounds</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">10 T</p>
+                <p class="text-gray-400 text-xs mt-1">Manual hydraulic, slow but steady</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">20-27 T</p>
+                <p class="text-gray-400 text-xs mt-1">Most homeowner gas splitters</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">128 ft³</p>
+                <p class="text-gray-400 text-xs mt-1">Volume of one full cord</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Wood condition changes the math. Seasoned wood with checking cracks at the ends splits much more easily than freshly cut green wood. Some species, especially elm and sweetgum, have interlocked grain that resists splitting no matter the tonnage, and they are slow even on big machines. Knots and crotches need far more force than straight sections.
+          </p>
+
+          <p>
+            Buy enough tonnage for the toughest wood you split regularly, then spend the rest of your budget on speed, vertical operation and build quality. A 22-ton machine with a fast cycle will usually get through a pile faster than a 30-ton machine with a slow one.
+          </p>
+        </div>
+
+        <div id="cycle-time" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Cycle Time: The Spec That Decides Your Weekend
+          </h2>
+
+          <p>
+            Cycle time is how long the ram takes to extend fully and return. Many gas splitters list cycle times somewhere in the 10 to 20-second range, while small electric splitters are typically slower. Over hundreds of splits, the difference adds up to hours. On a big pile, a faster cycle means less waiting with your hands idle, which also means less temptation to reach in while the ram is moving.
+          </p>
+
+          <p>
+            Two-stage pumps are the reason gas splitters cycle fast. They move the ram quickly at low pressure until it meets resistance, then switch to high-pressure, slow movement to split the wood. When the log pops, the pump shifts back to high speed. Look for a two-stage pump on any gas splitter you consider.
+          </p>
+
+          <p>
+            An auto-return valve also saves time. After the split, you move the lever to the return position and let go; a detent holds it there and drops back to neutral when the ram is fully home, freeing your hands to set up the next piece. Without it, you hold the lever through the whole return stroke.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">SPEED VS SAFETY</p>
+            <p class="text-xl font-bold text-white mb-3">A faster cycle is not a reason to rush.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Never position or adjust a log while the ram is moving, even on a slow machine. Wait for the ram to stop or retract fully, then reposition. Speed should come from the machine, not from shortcuts with your hands.</p>
+          </div>
+
+          <p>
+            Do not compare cycle times across brands too literally, since test conditions vary. Use them to separate fast machines from slow ones within the same class, and weigh them alongside tonnage and features.
+          </p>
+        </div>
+
+        <div id="types" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Gas, Electric, Manual and Kinetic Splitters
+          </h2>
+
+          <p>
+            <strong>Gas hydraulic</strong> splitters are the standard for serious firewood. They use a small gas engine to drive a hydraulic pump, offer 20 tons or more, often convert to vertical operation, and tow behind a vehicle. They are loud, need engine maintenance and are too big for many small properties, but they handle volume and difficult wood.
+          </p>
+
+          <p>
+            <strong>Electric hydraulic</strong> splitters run on household current and are quiet, clean and low-maintenance, so you can use them close to the house or in an open garage. They are typically 4 to 10 tons, horizontal-only, and slower than gas. They suit fireplace and fire pit volumes of seasoned wood. Use the extension cord gauge and length the manual specifies, or plug into a GFCI outlet directly.
+          </p>
+
+          <p>
+            <strong>Manual hydraulic</strong> splitters use a hand-pumped jack to push the ram. They need no power, are quiet and inexpensive, but each split takes many strokes, so they are practical only for small amounts. <strong>Kinetic</strong> splitters use a heavy spinning flywheel to drive the ram very quickly; they are fast but generally more expensive and require extra caution because the ram moves fast.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Strengths</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Weaknesses</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical buyer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Gas hydraulic</td>
+                    <td class="px-4 py-4 text-gray-700">Power, speed, vertical option</td>
+                    <td class="px-4 py-4 text-gray-700">Noise, maintenance, size</td>
+                    <td class="px-4 py-4 text-gray-700">Two cords a year and up</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Electric hydraulic</td>
+                    <td class="px-4 py-4 text-gray-700">Quiet, clean, compact</td>
+                    <td class="px-4 py-4 text-gray-700">Lower tonnage, slower</td>
+                    <td class="px-4 py-4 text-gray-700">Fireplace and fire pit use</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Manual hydraulic</td>
+                    <td class="px-4 py-4 text-gray-700">No power needed, cheap</td>
+                    <td class="px-4 py-4 text-gray-700">Slow, effortful</td>
+                    <td class="px-4 py-4 text-gray-700">Occasional small amounts</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Kinetic flywheel</td>
+                    <td class="px-4 py-4 text-gray-700">Very fast cycle</td>
+                    <td class="px-4 py-4 text-gray-700">Price, fast ram</td>
+                    <td class="px-4 py-4 text-gray-700">High volume, experienced users</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            For most homeowners the realistic choice is between a mid-size gas splitter and an electric one. If you split more than a cord or two a year, or your wood includes large rounds, choose gas. If you split a small amount of seasoned wood and value quiet and simplicity, choose electric.
+          </p>
+        </div>
+
+        <div id="features" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Features Worth Paying For
+          </h2>
+
+          <p>
+            <strong>Vertical operation</strong> is the feature that most improves the experience for anyone splitting big rounds. The beam tilts upright, and you roll a heavy round onto the foot plate rather than lifting it to waist height. It saves your back and lets you split rounds too heavy to lift safely. If you split large hardwood, consider it a must.
+          </p>
+
+          <p>
+            <strong>Log cradles</strong> or catch trays hold split halves in place beside the beam so they do not fall to the ground, which means fewer bends over a full day. <strong>Beam construction</strong> matters for durability; heavier I-beam designs resist flexing better than lighter channel beams. A <strong>wedge</strong> with a well-designed profile helps split cleanly, and some machines accept four-way wedges that split rounds into quarters in one pass.
+          </p>
+
+          <p>
+            For towable machines, check the <strong>towing setup</strong>: hitch type, tire size and the maximum towing speed on the label. Many towable splitters are not designed for highway speeds, and state laws vary on lights and registration for trailers. Check before towing on public roads.
+          </p>
+
+          <p>
+            Features to skip unless you need them include extremely high tonnage beyond your wood's needs and gimmicky accessories. Spend on vertical operation, cradles, a two-stage pump, auto-return and a solid beam first.
+          </p>
+
+          <p>
+            Also look at the controls. A lever with an auto-return detent, which latches in the return position and releases itself when the ram is fully retracted, is easier to live with than one you must hold through every stroke. Make sure the lever is positioned so you can operate it while standing clear of the wedge, with a clear view of the log.
+          </p>
+        </div>
+
+        <div id="safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Operating a Log Splitter Safely
+          </h2>
+
+          <p>
+            A log splitter's ram generates many tons of force and does not stop for fingers. The most important rules are simple. <strong>One person operates the machine</strong>; the same person who positions the log runs the control. Two-person setups, with one loading and one running the lever, are a leading cause of crushed hands, and manufacturers warn against them. Keep helpers well back while the machine runs.
+          </p>
+
+          <p>
+            <strong>Keep hands off the ends of the log and away from the wedge and ram</strong> while the ram is moving. Hold the log by its sides to position it, then remove your hands before engaging the control. Never try to reposition a log or clear a jam while the ram is extending or under pressure. Never try to split two logs at once, and never use the splitter to crush or move anything other than firewood.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">HYDRAULIC HAZARD</p>
+            <p class="text-xl font-bold text-white mb-3">Never check for hydraulic leaks with your hands.</p>
+            <p class="text-gray-300 leading-relaxed m-0">A pinhole leak in a pressurized hydraulic line can inject fluid through skin, causing a serious injury that needs emergency surgical care. Check suspected leaks with a piece of cardboard, relieve pressure before working on fittings, and get immediate medical help for any injection injury.</p>
+          </div>
+
+          <p>
+            Wear safety glasses or goggles, since splits and bark can fly, as well as sturdy gloves without loose cuffs, steel-toe or protective-toe boots, and long pants. Avoid loose clothing, drawstrings and jewelry. Hearing protection is wise with gas engines. Set the splitter up on level, firm ground with the wheels chocked, and keep the work area clear of tripping hazards.
+          </p>
+
+          <p>
+            Gas splitters produce carbon monoxide. Run them only outdoors, never in a garage, shed or enclosed space, and keep the exhaust away from windows and doors. Refuel with the engine off and cool. For electric splitters, use the correct cord and a GFCI outlet, and keep the machine out of rain and standing water.
+          </p>
+        </div>
+
+        <div id="splitting-tips" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Splitting and Seasoning Firewood
+          </h2>
+
+          <p>
+            Cut rounds to a consistent length that fits your stove or fireplace and your splitter's maximum log length, often around 16 to 20 inches for wood stoves. Square, flat cuts sit better on the beam and split more predictably. Place the round so the wedge enters along existing cracks or checking, which saves force. Split knotty or forked pieces with the wedge entering away from the knot.
+          </p>
+
+          <p>
+            Split large rounds into manageable pieces first, then reduce them to stove-size splits. A <a href="/best-hookaroon-reviews/">hookaroon</a> lets you pull rounds to the splitter and toss splits onto a pile without bending over, which matters over several cords. Stack splits as you go to avoid handling them twice.
+          </p>
+
+          <p>
+            Seasoning is what makes firewood burn well. Freshly cut wood can hold a large share of its weight in water; for clean burning, the US EPA's Burn Wise program recommends wood with a moisture content of 20 percent or less. Most hardwood needs at least six months, and often a year or more, split and stacked in a sunny, breezy spot with the top covered and the sides open. A simple moisture meter takes the guesswork out.
+          </p>
+
+          <p>
+            Splitting wood soon after cutting speeds drying, since split pieces expose more surface. Stack off the ground on pallets or rails, away from the house walls to reduce insects near the home, and do not burn wet, painted or treated wood.
+          </p>
+        </div>
+
+        <div id="maintenance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Maintenance That Keeps a Splitter Working
+          </h2>
+
+          <p>
+            Check the hydraulic fluid level before each use and top up with the fluid type listed in the manual. Many manufacturers recommend changing the hydraulic fluid and filter after a set number of hours. Low or dirty fluid slows the ram, causes overheating and damages the pump. Inspect hoses and fittings for wear, cracks and leaks, and replace damaged hoses rather than patching them.
+          </p>
+
+          <p>
+            For gas engines, change the oil after the break-in period listed in the manual and then regularly, clean or replace the air filter, and check the spark plug. Use fresh fuel with stabilizer or ethanol-free fuel. Before winter storage, drain the fuel or run the engine with stabilized fuel so the carburetor is protected.
+          </p>
+
+          <p>
+            Grease the beam and the ram guides as the manual directs so the wedge slides smoothly, and keep the wedge sharp by filing off burrs. Check bolts and the hitch periodically, and inspect tires for pressure and wear on towable models. Store the splitter covered or under a roof to keep rain out of the engine and controls.
+          </p>
+
+          <p>
+            Electric splitters need far less: keep the motor vents clean, check the hydraulic fluid level, inspect the cord, and store the machine indoors.
+          </p>
+        </div>
+
+        <div id="rent-or-buy" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Rent or Buy, and What It Costs
+          </h2>
+
+          <p>
+            Renting makes sense if you split once a year or less. Equipment rental yards commonly rent towable gas splitters by the half day or full day, with rates that vary by region and machine size. A day's rental can handle a cord or two if you have the wood cut and staged beforehand. Factor in pickup and return time and the need for a hitch on your vehicle.
+          </p>
+
+          <p>
+            Buying pays off when you split every year or split several cords. Small electric splitters run roughly $250 to $500 at the time of writing, manual hydraulic splitters roughly $100 to $200, and mid-size gas splitters roughly $1,300 to $2,500, with premium and commercial machines above that. Annual costs include fuel, oil, hydraulic fluid and filters.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Option</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rough cost</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Rent a gas splitter</td>
+                    <td class="px-4 py-4 text-gray-700">Daily rate varies by region</td>
+                    <td class="px-4 py-4 text-gray-700">One cord or less, once a year</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Manual hydraulic</td>
+                    <td class="px-4 py-4 text-gray-700">$100-$200</td>
+                    <td class="px-4 py-4 text-gray-700">Small amounts, no power</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Electric 6 to 7 ton</td>
+                    <td class="px-4 py-4 text-gray-700">$250-$500</td>
+                    <td class="px-4 py-4 text-gray-700">Fireplace and fire pit wood</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Gas 22 to 27 ton</td>
+                    <td class="px-4 py-4 text-gray-700">$1,300-$2,500</td>
+                    <td class="px-4 py-4 text-gray-700">Several cords a year</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Sharing a splitter with neighbors is another option: split the cost of a gas machine among two or three households and take turns. Agree in advance on maintenance and storage. However you get one, plan your firewood workflow around the right tools; a good <a href="/best-chainsaw/">chainsaw</a> for cutting rounds, a splitter, and a hookaroon for moving pieces turn a punishing job into a manageable one. For general yard cleanup around the woodpile, see our <a href="/best-weed-eater/">weed eater guide</a>.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying Tonnage Instead of Speed</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Most homeowner firewood splits within the range of a 20 to 27-ton gas machine, and extra tons beyond that rarely make the job faster. Cycle time, a two-stage pump and auto-return decide how long your pile takes. Buy enough force for your toughest regular wood, then prioritize speed and features.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running a Two-Person Operation</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Having one person load while another works the control is a classic way to crush fingers, because the operator cannot see or feel exactly where the loader's hands are. Manufacturers warn against it. One person should position the log and run the control, with helpers well clear of the machine.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Lifting Heavy Rounds Onto the Beam</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Lifting big rounds to waist height again and again strains backs and leads to dropped logs on feet. If you split large rounds, buy a splitter with vertical operation and roll heavy pieces onto the foot plate instead. Use a hookaroon to move rounds without bending.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running a Gas Splitter in a Garage</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Gas engines produce carbon monoxide, which can build up to dangerous levels quickly in enclosed spaces, even with a door open. Always run gas splitters outdoors, away from doors and windows. If you need to split close to the house, choose an electric model. Carbon monoxide is invisible and odorless.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Feeling for Hydraulic Leaks by Hand</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A pinhole leak in a pressurized line can inject hydraulic fluid through skin, a serious injury requiring emergency treatment. Check suspected leaks with cardboard, relieve pressure before working on fittings, and replace damaged hoses rather than patching them. Any injection injury, even one that looks minor, needs emergency medical care right away.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many tons of splitting force do I actually need?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For seasoned, straight-grained firewood of moderate diameter, a 4 to 7-ton electric splitter is enough. For most homeowner firewood, including larger and knottier rounds, a 20 to 27-ton gas splitter is the practical range. Very large, green or stringy wood such as elm benefits from the higher end. Beyond that, speed and features matter more than extra tons.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is an electric splitter good enough?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For fireplace and fire pit volumes of seasoned wood, yes. Electric splitters are quiet, clean and low-maintenance, and they can be used near the house. They are slower than gas, usually horizontal only, and can stall on large, knotty or green wood. If you split more than a cord or two a year, or your wood is big, a gas splitter is a better fit.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I rent a splitter instead of buying?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Renting makes sense if you split once a year and handle a cord or two. Have the wood cut and staged before you pick up the machine to make the most of the rental period. If you split every year or several cords at a time, buying usually pays for itself within a few seasons, especially if you share a machine with neighbors.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What cycle time should I look for?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Many gas splitters list cycle times somewhere in the 10 to 20-second range; faster is better for big piles. Small electric splitters are generally slower. A two-stage pump and auto-return valve improve speed noticeably. Use cycle times to compare machines within a class, since test conditions vary between brands. Auto-return helps too.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is vertical splitting worth paying extra for?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                If you split large, heavy rounds, yes. Vertical operation lets you roll a round onto the foot plate instead of lifting it onto a waist-high beam, which saves your back and makes very heavy pieces manageable. If you only split moderate pieces that are easy to lift, horizontal-only is fine.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long should firewood season after splitting?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most hardwoods need at least six months and often a year or more to dry, stacked off the ground in a sunny, breezy spot with the top covered and the sides open. The EPA's Burn Wise program recommends a moisture content of 20 percent or less for clean burning, and a moisture meter is an inexpensive way to check.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can two people run a log splitter together?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Manufacturers warn against it. When one person loads and another runs the control, the operator cannot reliably see where the loader's hands are, and crushing injuries result. The safe practice is one operator who both positions the log and runs the control, with any helpers stacking splits well clear of the machine.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Firewood and Yard Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-chainsaw/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Chainsaws</h3>
+              <p class="text-gray-500 text-sm mt-2">Cut rounds to length before they reach the splitter.</p>
+            </a>
+            <a href="/best-hookaroon-reviews/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Hookaroons</h3>
+              <p class="text-gray-500 text-sm mt-2">Move rounds and stack splits without bending over all day.</p>
+            </a>
+            <a href="/best-compact-tractor/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Compact Tractors</h3>
+              <p class="text-gray-500 text-sm mt-2">Haul logs and tow equipment around larger properties.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            If you burn several cords a year, the Champion 27-Ton is the best balance of speed, vertical capability and price, with the Cub Cadet LS 27 for buyers who want dealer support and heavier construction. Fire pit and fireplace owners are better served by a quiet electric splitter such as the Boss ES7T20, and occasional users can get by with a manual hydraulic unit.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whatever you buy, run it alone, keep your hands off the log ends while the ram moves, never feel for hydraulic leaks, and keep gas engines outdoors. Season the wood to 20 percent moisture or less and your splitting effort turns into heat instead of smoke.
+          </p>
+        </div>
+
+        <MoreInCategory category="Yard & Outdoor Tools" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

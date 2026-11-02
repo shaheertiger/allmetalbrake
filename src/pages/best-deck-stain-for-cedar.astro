@@ -1,0 +1,938 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Deck Stains",
+    "url": "/best-deck-stain-reviews/"
+  },
+  {
+    "title": "Best Stain for Pressure-Treated Decks",
+    "url": "/best-deck-stain-for-pressure-treated-wood/"
+  },
+  {
+    "title": "Top Oil-Based Deck Stains",
+    "url": "/best-oil-based-deck-stain/"
+  },
+  {
+    "title": "Best Exterior Wood Sealer",
+    "url": "/best-exterior-wood-sealer/"
+  },
+  {
+    "title": "Deck Stain Drying Time",
+    "url": "/deck-stain-drying-time/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "Cedar Deck Stain Guide: 7 Finishes That Hold the Warm Color";
+const description =
+  "Seven stains suited to soft, tannin-rich cedar, ranked by look and upkeep, plus how to handle mill glaze, tannin bleed and graying on a cedar deck.";
+
+const PRODUCTS = [
+  {
+    "id": "armstrong-clark-cedar",
+    "name": "Armstrong Clark Semi-Transparent Stain (Cedar)",
+    "category": "Oil-based penetrating stain",
+    "badge": "Best Overall for Cedar",
+    "amazonUrl": "",
+    "pros": [
+      "Penetrates soft cedar without building a film",
+      "Mix of drying and non-drying oils stays flexible",
+      "Cedar tone closely matches the natural wood",
+      "Fades evenly, so recoats need no stripping",
+      "Semi-solid version available for older boards"
+    ],
+    "cons": [
+      "Usually ordered online or from specialty dealers",
+      "Premium price per gallon",
+      "Mineral spirits needed for cleanup"
+    ],
+    "bottomLine": "The finish that best keeps cedar looking like cedar while cutting recoat effort to a minimum.",
+    "description": "Armstrong Clark suits cedar because it behaves like the wood wants it to. The formula combines oils that cure inside the fibers with oils that stay soft and keep the surface supple, so the finish moves with cedar as it swells in wet weather and shrinks in dry spells. It sinks in rather than sitting on top, which matters on a soft wood that a film-forming finish can trap moisture in. The Cedar color is close to the natural tone of new western red cedar, so the deck looks refreshed rather than painted, while the pigment is enough to slow the silvering that bare cedar goes through in its first summer. When it wears, it fades rather than flaking, and the maintenance coat is a cleaning, a brightener and one thin coat. It costs more than store brands and is not always on the shelf locally, but for a cedar deck you intend to keep looking like cedar, it is the most complete answer. Order a sample first, since cedar varies from board to board and the shade looks different on pale and dark heartwood."
+  },
+  {
+    "id": "twp-1500-cedartone",
+    "name": "TWP 1500 Series Wood Protector (1516 Cedartone)",
+    "category": "Oil-based semi-transparent preservative",
+    "badge": "Best for Damp, Shaded Cedar",
+    "amazonUrl": "",
+    "pros": [
+      "Mildewcides and fungicides in the formula",
+      "VOC-compliant and sold in all 50 states",
+      "Cedartone color warms up weathered boards",
+      "Penetrates rough-sawn and smooth cedar"
+    ],
+    "cons": [
+      "Strong solvent smell",
+      "Puddles turn tacky if not wiped",
+      "Some owners find the color more orange than natural cedar"
+    ],
+    "bottomLine": "The best choice for a cedar deck that lives in shade or humidity and keeps growing mildew.",
+    "description": "Cedar resists rot, but its surface still grows mildew and algae when it stays damp, and that is the problem the TWP 1500 Series is built to fight. It is an oil-based semi-transparent stain registered as a wood preservative, with mildewcides and fungicides in the mix, and it is the VOC-compliant member of the TWP family, so it can be bought anywhere in the country. On cedar it soaks in quickly, and the 1516 Cedartone shade adds a warm, slightly orange tone that brings tired gray cedar back to a convincing wood color. On new, very light cedar, that same shade can look a little brighter than expected, so test a sample on a hidden board first. TWP often recommends a second wet-on-wet coat on thirsty wood, but cedar can saturate quickly, so wipe any stain that is still glossy after the time listed on the label. Owners in humid regions commonly report it holds back mildew noticeably better than plain oils, which saves a scrubbing session every spring."
+  },
+  {
+    "id": "ready-seal-natural-cedar",
+    "name": "Ready Seal Exterior Stain and Sealer (Natural Cedar)",
+    "category": "Oil-based penetrating stain",
+    "badge": "Easiest Application",
+    "amazonUrl": "",
+    "pros": [
+      "Designed to go on without lap marks",
+      "No back-brushing or primer required per the label",
+      "Sprays easily for large decks",
+      "Natural Cedar shade suits cedar and redwood",
+      "Simple maintenance recoats"
+    ],
+    "cons": [
+      "Looks too orange until it cures for about two weeks",
+      "Moderate pigment means more frequent recoats in hot sun",
+      "Strong odor while applying"
+    ],
+    "bottomLine": "The most forgiving stain for a cedar deck if you are doing the job yourself for the first time.",
+    "description": "Cedar soaks up stain fast and unevenly, which makes lap marks and dark overlaps a constant risk with quick-drying products. Ready Seal sidesteps that. The oil-based formula is designed to stay workable long enough that you can stop partway through a board or come back to an area without leaving visible lines, and the manufacturer says it needs no back-brushing. That makes it the friendliest option for a first-time stainer or for a large cedar deck you want to spray. Natural Cedar is the obvious shade for cedar; it looks strongly orange on the day you apply it but settles into a warm, natural tone over roughly two weeks as the solvent evaporates. The moderate pigment load means sunny cedar decks often need a floor refresh after one to two years, but that refresh is straightforward: clean, let dry and apply again. If you value an easy, low-stress job over maximum longevity, it is hard to beat. The 5-gallon pail also keeps a big deck on one consistent batch."
+  },
+  {
+    "id": "defy-extreme-cedar-tone",
+    "name": "DEFY Extreme Semi-Transparent Stain (Cedar Tone)",
+    "category": "Water-based semi-transparent stain",
+    "badge": "Best Water-Based for Cedar",
+    "amazonUrl": "",
+    "pros": [
+      "Zinc oxide nano-particles for UV resistance",
+      "Low odor and soap-and-water cleanup",
+      "Low VOC and legal in all states",
+      "Dries quickly so the deck is usable sooner"
+    ],
+    "cons": [
+      "Fast drying increases the risk of lap marks",
+      "Tannin-rich cedar must be cleaned and brightened carefully",
+      "Thin coats needed to avoid a surface film"
+    ],
+    "bottomLine": "The water-based pick for cedar decks where low odor and quick turnaround matter most.",
+    "description": "Plenty of oil-stain loyalists have come around to DEFY Extreme, and on cedar it makes a strong case for water-based chemistry. On cedar, its UV protection comes from zinc oxide nano-particles, which help the Cedar Tone color hold against sun bleaching, and it is formulated to penetrate rather than build a film, which is important on soft wood. It dries quickly, cleans up with water and carries a low-VOC formula that is legal in every state. Cedar brings two challenges for any water-based stain. First, its tannins can bleed through as brownish marks if the wood is not cleaned and brightened properly beforehand. Second, cedar absorbs quickly, so fast-drying stain is prone to lap marks if you work in the sun or stop mid-board. Work early or late in the day, keep a wet edge and apply thin coats. With good prep, owners commonly report that the color holds well for two years or more on the floor."
+  },
+  {
+    "id": "cabot-australian-timber-oil",
+    "name": "Cabot Australian Timber Oil",
+    "category": "Translucent penetrating oil",
+    "badge": "Best Rich, Translucent Look",
+    "amazonUrl": "",
+    "pros": [
+      "Linseed and tung oil blend for deep penetration",
+      "Translucent finish shows off cedar grain",
+      "Warm tones such as Honey Teak and Natural",
+      "Sold widely in paint and home stores"
+    ],
+    "cons": [
+      "Less pigment means faster fading in direct sun",
+      "Slow to cure in cool or humid weather",
+      "Over-application leaves a sticky finish"
+    ],
+    "bottomLine": "Choose it when you want the grain to be the star and you are fine refreshing the floor every year.",
+    "description": "Cabot Australian Timber Oil gives cedar a finish that looks closer to oiled furniture than to a typical deck stain. The oil blend, which includes linseed and tung oil, soaks into the open grain of cedar easily, and the translucent tints add warmth without hiding the figure of the wood. Honey Teak and Natural are the colors most people choose for cedar, because they deepen its natural honey and red tones rather than replacing them. That beauty comes with more maintenance. Translucent oils carry less pigment than semi-transparent stains, so they offer less UV protection, and a sunny cedar deck will usually need a floor refresh about once a year. On a covered or shaded cedar deck, the interval stretches considerably. Apply one thin coat, wipe off any surplus before it gets tacky, and avoid application on cold or humid days when curing slows down. For cedar where appearance matters most, it is a beautiful option."
+  },
+  {
+    "id": "penofin-blue-label",
+    "name": "Penofin Penetrating Oil Finish (Blue Label)",
+    "category": "Oil-based penetrating oil",
+    "badge": "Best Natural-Oil Finish",
+    "amazonUrl": "",
+    "pros": [
+      "Penetrating oil made for softwoods such as cedar",
+      "Rosewood-oil based formula",
+      "Enhances grain with a natural, low-sheen look",
+      "Easy to spot-maintain worn areas"
+    ],
+    "cons": [
+      "Harder to find than mainstream brands",
+      "Needs a maintenance coat more often on sunny decks",
+      "Oily rags must be handled carefully to prevent fire"
+    ],
+    "bottomLine": "A strong choice for cedar owners who want an oiled, natural look and are happy with regular maintenance.",
+    "description": "Penofin has long been a favorite of cedar and redwood owners who want a natural, oiled look. Its penetrating finishes are built around Brazilian rosewood oil, and the Blue Label line is aimed at softwoods such as cedar, pine and fir. On cedar it soaks in deeply, enriches the grain and leaves a low-sheen surface that looks like well-cared-for wood rather than a coating. Transparent and tinted versions are available; the tinted ones give meaningfully more UV protection, so they are the better choice for a sunny deck. Because it is a penetrating oil, maintenance is simple: clean the deck and apply another thin coat to the worn areas, with no stripping and no visible patch lines once it settles. Like any linseed or drying-oil product, rags and pads soaked with it can self-heat and catch fire, so lay them flat to dry outside or seal them in a metal can filled with water before disposal."
+  },
+  {
+    "id": "thompsons-waterseal-timber-oil",
+    "name": "Thompson's WaterSeal Penetrating Timber Oil",
+    "category": "Oil-based penetrating stain",
+    "badge": "Best Budget",
+    "amazonUrl": "",
+    "pros": [
+      "Low price per gallon",
+      "Sold at most home centers",
+      "Oil-based penetration on softwoods",
+      "Several wood-tone colors suit cedar"
+    ],
+    "cons": [
+      "Generally shorter life on floors than premium oils",
+      "Limited color range",
+      "Coverage varies widely on weathered wood"
+    ],
+    "bottomLine": "A reasonable budget oil for a small or shaded cedar deck when you plan to recoat often.",
+    "description": "This is the budget choice for cedar owners who want an oil-based finish without a premium price. It is sold at most home centers, it soaks into softwoods the way a penetrating oil should, and its wood-tone colors suit cedar reasonably well. It adds water repellency and some UV protection, which slows graying and limits checking on the boards. Where it trails the premium oils is longevity, especially on the floor of a sunny deck. Owners commonly report needing to recoat the walking surfaces every year or two, while railings hold up longer. Thompson's product is widely stocked and simple to apply. For a small deck, a shaded deck or a rental, that trade is perfectly sensible, because recoating a penetrating oil is just a cleaning and another thin coat. Do the prep properly, test the color first on a cleaned and dried cedar board, and apply in thin coats, and it will give you an honest, affordable finish."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Cedar Deck Stain Picks",
+          item: "https://www.allmetalbrake.com/best-deck-stain-for-cedar/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which kind of stain suits a cedar deck best?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A penetrating, oil-based semi-transparent stain in a cedar or natural tone is the best fit for most cedar decks. It soaks into the porous wood, adds enough pigment to slow graying, shows the grain and wears by fading rather than peeling. Water-based semi-transparent stains also work if the wood is cleaned and brightened well."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I stop cedar from turning silver?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Graying comes from UV light breaking down the wood surface, so you need pigment, not just water repellent. Use a semi-transparent or translucent stain with real color, recoat when the color fades, and wash the deck each spring. Clear sealers keep water out but will not stop the sun from graying cedar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should new cedar weather before it is stained?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "New cedar usually needs a short wait or some prep because of mill glaze, a crushed and glossy surface left by planing. You can let it weather for a few weeks to a few months, or clean, brighten and lightly sand it right away. Either way, use the water-drop test to confirm the wood absorbs before staining."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use water-based stain on cedar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, but prep matters more. Cedar tannins can bleed through water-based finishes and leave brown marks. Clean the deck, apply a wood brightener to remove surface tannins, rinse and let the boards dry fully. Apply thin coats in the shade, keep a wet edge, and choose a product that specifically lists cedar on the label."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a clear finish enough for cedar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only in limited cases. Clear finishes keep water out but offer little protection from UV, so cedar in the sun will still turn gray. They suit covered decks, very shaded decks and owners willing to reapply every year. For most cedar decks, a lightly pigmented semi-transparent stain gives far better color retention."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does stain last on a cedar deck?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A semi-transparent stain on a cedar deck floor typically lasts about two to three years, while railings often go three to five. Translucent oils may need yearly attention in full sun. Shade, foot traffic, climate and the quality of the prep all shift those numbers, so inspect the deck each spring and recoat when the color fades."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to strip cedar before restaining?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not if the previous finish was a penetrating stain that has worn evenly. Clean, brighten and apply a thin coat of the same product. Stripping is needed if the old finish is peeling, if it is a solid stain, if you are switching between oil and water-based chemistry, or if you want a noticeably lighter color."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Deck & Wood Finishes",
+    tags: [
+      "best deck stain for cedar",
+      "cedar deck stain",
+      "western red cedar finish",
+      "stop cedar graying",
+      "tannin bleed",
+      "penetrating oil stain"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best Stain for a <span class="text-[#38BDF8]">Cedar Deck</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Cedar is the reason many people build a wood deck at all. The right finish keeps that warm color; the wrong one hides it, blotches it or peels within a year.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#armstrong-clark-cedar"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="12.8k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top 7 Picks</a>
+          <a href="#which-pick" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Which Pick Fits</a>
+          <a href="#cedar-nature" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. How Cedar Behaves</a>
+          <a href="#opacity" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Picking an Opacity</a>
+          <a href="#tannins" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Oil, Water and Tannins</a>
+          <a href="#new-cedar" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. New Cedar Decks</a>
+          <a href="#prep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Prep for Cedar</a>
+          <a href="#application" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Applying the Stain</a>
+          <a href="#species" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Cedar Species</a>
+          <a href="#upkeep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Stopping the Gray</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Cedar does not need a heavy coating. It is naturally resistant to decay, it is soft and porous, and it is full of oils and tannins that react badly to some finishes. What it needs is a light, penetrating stain with enough pigment to stop the sun from bleaching it gray, applied thin enough that the wood can still breathe.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Stains for Cedar Decks
+          </h2>
+
+          <p>
+            These rankings draw on manufacturer data sheets and labels (penetration, resin type, pigment level, VOC compliance and recoat instructions), on how each product is positioned for softwoods such as cedar, and on recurring themes in owner feedback about color, blotching and peeling. We have not run our own field trials, and no manufacturer paid to be included.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="which-pick" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Which Cedar Stain Fits Your Deck
+          </h2>
+
+          <p>
+            All seven picks will protect cedar, but they suit different decks and different owners. Start with the situation that describes you, then read the product card for details. If you are stuck between two, choose the one with more pigment for a sunny deck and the one with mildew protection for a shady one.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Your situation</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Start with</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Why</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Want cedar to look like cedar for years</td>
+                    <td class="px-4 py-4 text-gray-700">Armstrong Clark Cedar</td>
+                    <td class="px-4 py-4 text-gray-700">Flexible oils, close natural tone</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Shade, damp or recurring mildew</td>
+                    <td class="px-4 py-4 text-gray-700">TWP 1500 Cedartone</td>
+                    <td class="px-4 py-4 text-gray-700">Mildewcides and preservatives</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">First stain job, worried about streaks</td>
+                    <td class="px-4 py-4 text-gray-700">Ready Seal Natural Cedar</td>
+                    <td class="px-4 py-4 text-gray-700">Built to resist lap marks</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Low odor or strict VOC rules</td>
+                    <td class="px-4 py-4 text-gray-700">DEFY Extreme Cedar Tone</td>
+                    <td class="px-4 py-4 text-gray-700">Water-based with mineral UV blockers</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Want a rich, furniture-like look</td>
+                    <td class="px-4 py-4 text-gray-700">Cabot or Penofin</td>
+                    <td class="px-4 py-4 text-gray-700">Translucent oils that feature the grain</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Tight budget, happy to recoat</td>
+                    <td class="px-4 py-4 text-gray-700">Thompson's Timber Oil</td>
+                    <td class="px-4 py-4 text-gray-700">Low price, simple upkeep</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The table hides one important point. Cedar is soft and porous, so it absorbs whatever you put on it quickly and unevenly. Products with long open times and good penetration, such as Ready Seal and Armstrong Clark, are more forgiving on cedar than fast-drying products. If you have never stained a deck before, that forgiveness may matter more than any other feature.
+          </p>
+
+          <p>
+            Also consider how much you want to see the wood. Translucent oils such as Cabot and Penofin show the most grain but need the most frequent attention. Semi-transparent stains such as Armstrong Clark and TWP give a balance of color and protection. If your cedar is old and gray beyond cleaning, look at a semi-solid version, which our main <a href="/best-deck-stain-reviews/">deck stain rankings</a> cover in more detail.
+          </p>
+
+          <p>
+            Budget also deserves an honest word. On a typical 200 square foot cedar deck, the gap between the cheapest and most expensive stain on this list is usually well under $150 for the whole job. Spread across two or three years of protection, that difference is small compared with the hours of prep and application you will put in either way. If a premium stain saves you even one extra recoat, it has paid for itself. Spend the savings from a budget stain on a better brush and a proper brightener instead.
+          </p>
+        </div>
+
+        <div id="cedar-nature" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. How Cedar Behaves Under a Finish
+          </h2>
+
+          <p>
+            Western red cedar, the most common cedar decking in the United States, is light, soft and dimensionally stable. It shrinks and swells less than many woods, which helps finishes last, but it also dents easily and absorbs liquid quickly. A stain that would sit politely on pine can disappear into cedar and leave a blotchy surface if it is applied unevenly.
+          </p>
+
+          <p>
+            Cedar is rich in natural extractives, including oils and tannins that give it its smell, color and natural resistance to decay. Those same extractives can interfere with finishes. Tannins are water-soluble, so they can migrate to the surface and show up as brown or reddish stains, especially under water-based coatings or after the wood gets wet.
+          </p>
+
+          <p>
+            Cedar also grays faster than people expect. Ultraviolet light breaks down lignin in the surface fibers, and rain washes away the damaged material, leaving the familiar silvery color. On a sunny deck, unprotected cedar can begin to gray within a few months. A clear finish slows water damage but does little against this process, which is why pigment is so important.
+          </p>
+
+          <p>
+            Finally, cedar contains more heartwood variation than many species. Boards range from pale straw to deep reddish brown, and a transparent finish will show every difference. Semi-transparent stains even out the color without hiding the grain, which is why they are the most popular choice on cedar decks.
+          </p>
+        </div>
+
+        <div id="opacity" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Clear, Translucent, Semi-Transparent or Solid on Cedar
+          </h2>
+
+          <p>
+            <strong>Clear finishes and toners</strong> show cedar exactly as it is and repel water, but they give little protection against the sun. They make sense on covered decks, on new cedar you want to look natural for one season, or if you are happy to reapply every year. A good <a href="/best-deck-sealant/">deck sealant</a> fits this role.
+          </p>
+
+          <p>
+            <strong>Translucent oils</strong> add a light tint and a little UV protection. They are the best choice when you want the grain to dominate. Expect to refresh the floor roughly every year in full sun, less often in shade.
+          </p>
+
+          <p>
+            <strong>Semi-transparent stains</strong> are the most practical choice for most cedar decks. They carry enough pigment to slow graying for two to three years on the floor while still letting the grain show. In cedar and redwood tones, they also even out the natural color differences between boards.
+          </p>
+
+          <p>
+            <strong>Solid stains</strong> hide the grain and should be a last resort on cedar. They form a film, and cedar is so absorbent that a film can trap moisture and lead to peeling. Reserve solid stains for old cedar decks that have already been covered with a solid finish, or for railings and trim where peeling is less likely. Once cedar has gone solid, getting back to a transparent look requires stripping and often sanding.
+          </p>
+
+          <p>
+            Many cedar owners mix opacities on purpose: a semi-transparent stain on the floor, where wear is heaviest and recoats are frequent, and a slightly heavier semi-solid on the railings and fascia for a crisp, uniform look that lasts longer. If you try this, keep the two colors in the same family and test them side by side on scrap boards so the contrast is deliberate rather than accidental.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE CEDAR RULE OF THUMB</p>
+            <p class="text-xl font-bold text-white mb-3">Use the lightest opacity that still has real pigment.</p>
+            <p class="text-gray-300 leading-relaxed m-0">For most cedar decks in the sun, that means a semi-transparent stain in a cedar or natural tone. It protects against UV, keeps the grain visible and wears in a way that makes recoating easy.</p>
+          </div>
+        </div>
+
+        <div id="tannins" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Oil vs Water-Based on Cedar and the Tannin Problem
+          </h2>
+
+          <p>
+            Oil-based penetrating stains have a natural advantage on cedar. They soak into the porous wood, bond with its natural oils and are less likely to draw tannins to the surface. They also stay workable longer, which reduces lap marks on a wood that absorbs quickly. Most of the top picks above are oils for that reason, and our full list of <a href="/best-oil-based-deck-stain/">oil-based deck stains</a> includes more options.
+          </p>
+
+          <p>
+            Water-based stains have improved a lot and can work very well on cedar if you respect the tannin issue. Water can dissolve the tannins in cedar and carry them to the surface as brownish blotches. Cleaning and brightening the wood beforehand removes surface tannins and reduces this risk. Some water-based products include tannin-blocking chemistry; the label will usually say if they do.
+          </p>
+
+          <p>
+            Tannin bleed can also appear after rain on an oil-stained deck, usually as dark streaks near nail holes, cut ends or boards that stayed wet. A wood brightener, which typically contains oxalic acid, removes most of it. Treat the stained area, rinse, let it dry and touch up the finish if needed.
+          </p>
+
+          <p>
+            Whichever chemistry you choose, stay with it. Switching from oil to water-based, or the reverse, generally means stripping the old finish first. Mixing them can cause poor adhesion, blotching or peeling.
+          </p>
+        </div>
+
+        <div id="new-cedar" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Staining a Brand-New Cedar Deck
+          </h2>
+
+          <p>
+            New cedar often has a smooth, slightly shiny surface called mill glaze, caused by the planing process at the sawmill. The heat and pressure of the knives crush and seal the surface fibers, which limits how much stain the wood can absorb. Stain applied over mill glaze tends to sit on top and wear away quickly or look blotchy.
+          </p>
+
+          <p>
+            There are two ways to deal with it. The first is to let the deck weather for a few weeks to a few months, which breaks down the glaze naturally. The second, and faster, method is to clean the boards with a deck cleaner and then a wood brightener, or to sand lightly with 60 to 80 grit paper. Either approach opens the surface so stain can penetrate.
+          </p>
+
+          <p>
+            Moisture also matters. Kiln-dried cedar is usually dry enough to stain soon after installation, but air-dried or green cedar can take longer. Use the water-drop test: sprinkle water on the boards and see whether it soaks in within about ten minutes. If it beads, the wood is either still wet or still glazed.
+          </p>
+
+          <p>
+            Do not wait too long, though. Cedar starts to gray in the sun within months, and once the surface fibers break down you will need a stronger cleaning to restore the color. For most new cedar decks, staining within the first season after the glaze is removed gives the best result. Our <a href="/deck-stain-drying-time/">deck stain drying time</a> guide explains how long to keep foot traffic off afterward.
+          </p>
+        </div>
+
+        <div id="prep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Cleaning, Brightening and Sanding Cedar
+          </h2>
+
+          <p>
+            Cedar is soft, so gentle prep is the rule. Start by sweeping and clearing debris from the gaps between boards. Apply an oxygen-based deck cleaner according to the label, let it work for the recommended time, and scrub with a medium-stiff brush along the grain. Rinse it all away thoroughly, using plain hose water or a washer turned down low.
+          </p>
+
+          <p>
+            If you use a pressure washer, choose a wide 25- or 40-degree tip, keep the pressure low and hold the wand at least 12 inches from the surface. Cedar fibers tear easily, and a narrow tip or high pressure leaves furry, raised grain and gouges that are difficult to repair. Our <a href="/best-pressure-washer/">pressure washer</a> guide lists models with adjustable output that are easier to control.
+          </p>
+
+          <p>
+            After cleaning, apply a wood brightener. On cedar, this step does more than on many woods: it neutralizes cleaners, removes tannin stains and restores the natural warm color, often dramatically. Rinse it off and let the deck dry for at least 48 hours in warm, dry weather.
+          </p>
+
+          <p>
+            Once dry, check for raised fibers. A light pass with 60 to 80 grit sandpaper on a pole sander knocks down fuzz and opens the surface. Avoid fine grits, which polish cedar and reduce absorption. Sweep or blow away all dust, then do the water-drop test again before you stain.
+          </p>
+        </div>
+
+        <div id="application" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Applying Stain to Soft, Thirsty Cedar
+          </h2>
+
+          <p>
+            Cedar drinks stain quickly, so working conditions matter even more than on other woods. Stain when the boards are out of direct sun, the air is between about 50 and 90 degrees Fahrenheit, and no rain is forecast for at least 24 hours. Early mornings on the shady side of the house are ideal.
+          </p>
+
+          <p>
+            Work in sections of two or three boards, going from one end to the other without stopping. Start with railings and balusters so drips land on unstained floor boards. A brush gives the best control on cedar, while a pump sprayer or roller is faster. If you spray or roll, back-brush immediately to work the stain into the grain and remove any puddles.
+          </p>
+
+          <p>
+            Apply thin coats. Cedar can saturate quickly, and any stain left on the surface after the absorption time listed on the label will stay tacky, attract dirt and wear unevenly. Wipe up anything still shiny with a clean rag. If the label calls for a second coat, apply it wet-on-wet before the first dries, not the next day.
+          </p>
+
+          <p>
+            Pay extra attention to board ends and cut edges, which absorb moisture fastest and are most prone to checking. A second pass on the end grain is worth the effort. Remember that oily rags can spontaneously ignite; lay them flat outdoors to dry or soak them in water in a closed metal container.
+          </p>
+        </div>
+
+        <div id="species" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Western Red, White and Other Cedars
+          </h2>
+
+          <p>
+            Not all cedar decking is the same wood. <strong>Western red cedar</strong> is by far the most common, ranging from pale pinkish-tan to deep reddish brown, and it is the species most stain colors labeled cedar are designed to match. It takes penetrating oils well and shows dramatic grain under translucent finishes.
+          </p>
+
+          <p>
+            <strong>Eastern white cedar</strong> and northern white cedar are paler, often with more knots, and they are more common in the Northeast and for fencing. Cedar-toned stains can look much warmer on these woods than on red cedar. Natural, honey and light brown tones often look more balanced.
+          </p>
+
+          <p>
+            <strong>Alaskan yellow cedar</strong>, which is botanically a cypress, is denser and lighter in color, with a fine, even grain. It accepts penetrating oils well but more slowly, and translucent finishes will look much lighter than on red cedar. Test before choosing a color.
+          </p>
+
+          <p>
+            If your deck combines cedar with redwood or other species, color matching becomes harder because each wood absorbs and reflects stain differently. Choose a slightly heavier pigment, such as a semi-transparent or semi-solid, to tie them together. Our <a href="/deck-stain-colors-guide/">deck stain colors guide</a> covers how species changes the final look, and the <a href="/best-redwood-sealer/">redwood sealer</a> guide covers that species in depth.
+          </p>
+        </div>
+
+        <div id="upkeep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Keeping a Cedar Deck From Turning Gray
+          </h2>
+
+          <p>
+            The single biggest factor in keeping cedar colorful is regular, light maintenance. Each spring, sweep, clear the gaps and wash the deck with a mild oxygen-based cleaner. Check the sunniest areas and walking paths. If the color has faded or water no longer beads, clean, brighten and apply one thin coat of the same stain.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Typical Cedar Recoat Intervals</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">1 yr</p>
+                <p class="text-gray-400 text-xs mt-1">Translucent oil, sunny floor</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">2-3 yrs</p>
+                <p class="text-gray-400 text-xs mt-1">Semi-transparent, sunny floor</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">3-5 yrs</p>
+                <p class="text-gray-400 text-xs mt-1">Railings and vertical boards</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">48 hrs</p>
+                <p class="text-gray-400 text-xs mt-1">Minimum dry time after washing</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Those intervals are typical ranges from manufacturer guidance and owner experience, not guarantees. A south-facing cedar deck in Arizona will need attention sooner than a shaded deck in Oregon. Heavy foot traffic, pets and grills also shorten the life of the finish in specific spots.
+          </p>
+
+          <p>
+            Keep planters on stands, move rugs and mats regularly, and keep leaves and debris off the boards. Anything that holds moisture against cedar encourages mildew, tannin stains and dark rings. If gray patches appear, a cleaner and brightener usually restore the color before you recoat.
+          </p>
+
+          <p>
+            Write down the product and color you used and save a sealed quart for touch-ups. If you want to change color later, moving darker is easy; moving lighter generally requires stripping, so choose carefully at the start.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Staining Over Fresh Mill Glaze</h3>
+              <p class="text-gray-700 text-sm m-0">
+                New cedar boards often have a crushed, glossy surface from planing. Stain cannot penetrate it, so the finish sits on top and wears quickly or looks patchy. Clean and brighten the boards, sand lightly or let them weather for several weeks before staining, then check absorption with the water-drop test.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Putting a Solid Stain on Healthy Cedar</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Solid stains hide the grain you paid for and form a film that cedar can push moisture against, which leads to peeling. On cedar that is still in good condition, choose a semi-transparent or translucent finish. Save solid stains for old decks already coated with one, or for railings and trim.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring Tannin Stains</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Cedar tannins can bleed through and leave brown or reddish marks, especially with water-based stains or after rain. Brighten the wood with an oxalic acid product before staining to remove surface tannins. If marks appear later, treat them with brightener, rinse, let dry and touch up the finish.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Flooding the Boards With Stain</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Cedar absorbs quickly, which tempts people to keep adding stain until it looks rich. Excess stain sits on the surface, stays sticky and wears unevenly. Apply a thin coat, back-brush it and wipe up anything still shiny after the time on the label. Several thin coats beat one heavy coat.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Pressure Washing Too Hard</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Cedar is soft enough that a narrow tip or high pressure tears the fibers and leaves fuzzy, grooved boards. Use a wide fan tip at low pressure, keep the wand moving with the grain and stay at least a foot away. Let a cleaner and a brush do most of the work.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which kind of stain suits a cedar deck best?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A penetrating, oil-based semi-transparent stain in a cedar or natural tone is the best fit for most cedar decks. It soaks into the porous wood, adds enough pigment to slow graying, shows the grain and wears by fading rather than peeling. Water-based semi-transparent stains also work if the wood is cleaned and brightened well.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I stop cedar from turning silver?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Graying comes from UV light breaking down the wood surface, so you need pigment, not just water repellent. Use a semi-transparent or translucent stain with real color, recoat when the color fades, and wash the deck each spring. Clear sealers keep water out but will not stop the sun from graying cedar.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should new cedar weather before it is stained?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                New cedar usually needs a short wait or some prep because of mill glaze, a crushed and glossy surface left by planing. You can let it weather for a few weeks to a few months, or clean, brighten and lightly sand it right away. Either way, use the water-drop test to confirm the wood absorbs before staining.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I use water-based stain on cedar?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, but prep matters more. Cedar tannins can bleed through water-based finishes and leave brown marks. Clean the deck, apply a wood brightener to remove surface tannins, rinse and let the boards dry fully. Apply thin coats in the shade, keep a wet edge, and choose a product that specifically lists cedar on the label.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a clear finish enough for cedar?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Only in limited cases. Clear finishes keep water out but offer little protection from UV, so cedar in the sun will still turn gray. They suit covered decks, very shaded decks and owners willing to reapply every year. For most cedar decks, a lightly pigmented semi-transparent stain gives far better color retention.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does stain last on a cedar deck?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A semi-transparent stain on a cedar deck floor typically lasts about two to three years, while railings often go three to five. Translucent oils may need yearly attention in full sun. Shade, foot traffic, climate and the quality of the prep all shift those numbers, so inspect the deck each spring and recoat when the color fades.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need to strip cedar before restaining?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not if the previous finish was a penetrating stain that has worn evenly. Clean, brighten and apply a thin coat of the same product. Stripping is needed if the old finish is peeling, if it is a solid stain, if you are switching between oil and water-based chemistry, or if you want a noticeably lighter color.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">More Cedar and Deck Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-deck-stain-reviews/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Pillar Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Deck Stains Overall</h3>
+              <p class="text-gray-500 text-sm mt-2">The full ranking across every wood, climate and opacity.</p>
+            </a>
+            <a href="/best-redwood-sealer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Redwood Sealers</h3>
+              <p class="text-gray-500 text-sm mt-2">Finishes for cedar's close cousin, with the same tannin concerns.</p>
+            </a>
+            <a href="/deck-stain-colors-guide/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Color Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Choosing a Deck Stain Color</h3>
+              <p class="text-gray-500 text-sm mt-2">How species, opacity and sun change the final shade.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most cedar decks, Armstrong Clark Cedar is the best balance of natural color, protection and easy upkeep. TWP 1500 is the better choice where mildew is the main threat, Ready Seal is the easiest to apply, and DEFY Extreme leads the water-based options. Cabot and Penofin suit owners who want an oiled, grain-forward look and do not mind more frequent recoats, while Thompson's keeps the budget low.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whatever you pick, respect cedar's nature: deal with mill glaze, clean and brighten gently, apply thin coats in the shade and recoat before the wood turns gray. Do that, and cedar keeps the warm color that made you choose it.
+          </p>
+        </div>
+
+        <MoreInCategory category="Deck & Wood Finishes" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

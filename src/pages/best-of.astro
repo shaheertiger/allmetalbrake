@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { NAV_GROUPS } from '../data/nav';
+import { NAV_GROUPS, groupId } from '../data/nav';
 
 const allCategories = [
   {
@@ -124,7 +124,7 @@ const allCategories = [
 const cards = new Map(allCategories.flatMap((c) => c.guides).map((g) => [g.url, g]));
 const categories = NAV_GROUPS.map((group) => ({
   name: group.label,
-  id: group.label.toLowerCase().replace(/[^a-z]+/g, '-'),
+  id: groupId(group.label),
   guides: group.links.map((l) => cards.get(l.url) ?? { title: l.title, description: l.blurb, badge: 'Guide', url: l.url }),
 }));
 const allGuides = categories.flatMap(c => c.guides);

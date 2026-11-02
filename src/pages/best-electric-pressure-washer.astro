@@ -1,0 +1,951 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Pressure Washers",
+    "url": "/best-pressure-washer/"
+  },
+  {
+    "title": "Best Shop Vacs",
+    "url": "/best-shop-vac/"
+  },
+  {
+    "title": "Best Benchtop Planers",
+    "url": "/best-benchtop-planer/"
+  },
+  {
+    "title": "Best Surface Cleaners for Pressure Washers",
+    "url": "/best-surface-cleaner-for-pressure-washer/"
+  },
+  {
+    "title": "Best Driveway Cleaners",
+    "url": "/best-driveway-cleaner/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 6 Best Electric Pressure Washers: Plug-In and Cordless";
+const description =
+  "Six plug-in and battery pressure washers ranked for cars, decks, siding and patios, plus what a household outlet can power and how to avoid pump damage.";
+
+const PRODUCTS = [
+  {
+    "badge": "Top Electric Overall",
+    "category": "Brushless Plug-In, 1.2 GPM at 2300 PSI",
+    "name": "Ryobi RY142300 2300 PSI Brushless",
+    "description": "The RY142300 earns the top spot because it fixes the two things that usually go wrong with plug-in machines: noise and motor wear. Ryobi rates it at 2,300 PSI and 1.2 GPM, driven by a brushless motor rather than the brushed universal motor common on cheaper units. Brushless motors have no carbon brushes to wear out and generally run cooler, which matters on a machine you might run for an hour washing a deck. The upright frame has wheels and a handle, with on-board storage for the hose, cord and tips, so it rolls out of a closet and back in without a tangle. It uses standard quick-connect tips, so aftermarket surface cleaners, foam cannons and extension wands fit. Owners commonly mention how much quieter it is than older electrics. It is a strong choice for a household that washes cars, decks, siding and patios through the season.",
+    "pros": [
+      "Brushless motor with no brushes to wear out",
+      "Quieter than typical universal-motor electrics",
+      "Standard quick-connect fittings for accessories",
+      "Upright frame with on-board hose and cord storage"
+    ],
+    "cons": [
+      "1.2 GPM is slow on large concrete",
+      "Costs more than budget plug-ins",
+      "Pump still needs winter protection"
+    ],
+    "bottomLine": "The plug-in most households should buy for regular car, deck and siding work.",
+    "amazonUrl": "",
+    "id": "ryobi-ry142300-electric"
+  },
+  {
+    "badge": "Gentlest on Paint",
+    "category": "Water-Cooled Plug-In, 1.4 GPM, Pressure Set at the Gun",
+    "name": "Karcher K5 Premium Smart Control",
+    "description": "The K5 Premium Smart Control is the electric for people who spend more time washing cars and painted surfaces than concrete. Karcher rates it around 2,000 PSI and 1.4 GPM from a water-cooled induction motor, which runs cool and relatively quietly. The trigger gun has pressure settings and a small display, so you can drop pressure for paint, trim and glass and raise it for stone without walking back to switch tips. A companion app suggests settings by surface. The tall frame includes a hose reel and accessory storage. Karcher machines tend to use some proprietary connections, so third-party accessories may need adapters, and the price is high for its pressure rating. That said, 1.4 GPM is good flow for a plug-in, so rinsing soap off a car or siding goes quickly. If gentle, precise control matters more to you than raw power, this is the one.",
+    "pros": [
+      "Adjust pressure at the gun without changing tips",
+      "Good flow for a plug-in machine",
+      "Water-cooled induction motor",
+      "Hose reel and tidy upright storage"
+    ],
+    "cons": [
+      "Some fittings need adapters for third-party gear",
+      "Expensive for a 2,000 PSI rating",
+      "Heavy for an electric"
+    ],
+    "bottomLine": "The best electric for car detailing and painted siding where control beats power.",
+    "amazonUrl": "",
+    "id": "karcher-k5-electric"
+  },
+  {
+    "badge": "Most Pressure on a Plug",
+    "category": "Induction Plug-In, 1.1 GPM, 3000 PSI Rating",
+    "name": "Greenworks Pro GPW3000 3000 PSI",
+    "description": "Greenworks advertises 3,000 PSI on a standard household circuit, close to the ceiling for plug-in machines. It reaches that number by trading flow, rated at about 1.1 GPM, so the cleaning units land only modestly above a good 2,000 PSI electric. The extra pressure is useful on tight, stubborn spots: algae in brick joints, tire marks on a garage apron, old grime in the corners of a patio. An induction motor and a steel-reinforced frame give it a sturdier feel than entry-level electrics, and it carries its tips, cord and hose on board. On wood decks and vinyl siding you will rarely use its full pressure, and you will want a wide tip and some distance to avoid damage. Choose it if you want the strongest point pressure without moving to gas, and do not expect it to clean a large driveway faster than its flow allows.",
+    "pros": [
+      "One of the highest pressure ratings for a plug-in",
+      "Induction motor for longer life",
+      "Sturdy frame with on-board storage",
+      "Handles stubborn spot stains well"
+    ],
+    "cons": [
+      "Low flow limits overall cleaning speed",
+      "Too much pressure for softwood without care",
+      "Heavier than compact models"
+    ],
+    "bottomLine": "Best for tough spot cleaning on masonry, not a gas replacement for big slabs.",
+    "amazonUrl": "",
+    "id": "greenworks-gpw3000-electric"
+  },
+  {
+    "badge": "Budget Pick",
+    "category": "Plug-In with Two Soap Tanks, 1.76 GPM Max",
+    "name": "Sun Joe SPX3000 2030 PSI",
+    "description": "The SPX3000 is the inexpensive electric that a huge number of households already own, and for light work it earns that popularity. Sun Joe lists maximum ratings of 2,030 PSI and 1.76 GPM; as with most budget machines, those are peak figures that are not reached together, so real performance is lower. It runs on a universal motor, which is louder and wears faster than induction or brushless designs. What it does well is convenience at a low price: two detergent tanks with a selector dial, five quick-connect tips, an automatic shut-off that stops the pump when you release the trigger, and a light body you can carry up deck steps. It suits cars, bikes, lawn furniture, grills and small patios. Owners who try to strip whole decks or clean big driveways with it every year tend to wear it out, so match it to light duty.",
+    "pros": [
+      "Very low price for its capability",
+      "Two detergent tanks with a selector dial",
+      "Five quick-connect tips included",
+      "Light and easy to carry"
+    ],
+    "cons": [
+      "Universal motor is loud and wears sooner",
+      "Peak specs overstate working performance",
+      "Short hose and plastic construction"
+    ],
+    "bottomLine": "A good cheap machine for cars and furniture if you keep its jobs light.",
+    "amazonUrl": "",
+    "id": "sun-joe-spx3000-electric"
+  },
+  {
+    "badge": "Compact Value",
+    "category": "Plug-In, 1.76 GPM Max, Anti-Tip Frame",
+    "name": "Westinghouse ePX3100 2050 PSI",
+    "description": "The ePX3100 competes directly with the Sun Joe on price and adds a few thoughtful touches. Westinghouse lists maximum ratings of 2,050 PSI and 1.76 GPM, again peak figures rather than simultaneous ones. The frame is designed with a wide, low stance to resist tipping when the hose pulls on it, a common irritation with tall, light electrics. It includes an on-board detergent bottle, quick-connect tips and storage for the gun, cord and hose. It is a sensible pick for car washing, patio furniture, siding touch-ups and small decks, and its compact footprint suits apartments, townhouses and small garages. Like other machines in this price class, it is not built for heavy, frequent concrete work, and owners who need that should look at gas. As a tidy, inexpensive machine for occasional chores, it is a fair alternative if you find it priced below the Sun Joe.",
+    "pros": [
+      "Wide, stable stance resists tipping",
+      "Compact enough for small storage spaces",
+      "On-board detergent bottle and tip storage",
+      "Low price"
+    ],
+    "cons": [
+      "Peak ratings, not working ratings",
+      "Light-duty pump and motor",
+      "Short hose limits reach"
+    ],
+    "bottomLine": "A stable, compact budget electric for occasional light jobs.",
+    "amazonUrl": "",
+    "id": "westinghouse-epx3100"
+  },
+  {
+    "badge": "Battery Pick",
+    "category": "56V Battery Platform, 3200 PSI Peak",
+    "name": "EGO Power+ 56V Cordless Pressure Washer",
+    "description": "EGO's battery pressure washer is the one to consider if the thing you need to clean is far from an outlet: a boat on a trailer, an RV, a fence at the back of a property, a car parked on the street. EGO rates it up to 3,200 PSI peak on its 56-volt battery platform, which puts it in the same performance conversation as mid-range plug-ins rather than the small spray guns sold as cordless washers. It still needs water, so check the manual for supported supply options before you plan on using it away from a spigot. Runtime depends heavily on the batteries you use and how long you hold the trigger, and larger batteries make a real difference. It is expensive if you are buying into EGO from scratch. If you already own EGO mowers or blowers and their batteries, it becomes a much more attractive add-on for the jobs a cord cannot reach.",
+    "pros": [
+      "No outlet or cord needed",
+      "Mid-range pressure on battery power",
+      "Shares batteries with EGO lawn tools",
+      "Quiet compared with gas"
+    ],
+    "cons": [
+      "Expensive without existing EGO batteries",
+      "Runtime limited by battery capacity",
+      "Still needs a water supply"
+    ],
+    "bottomLine": "Worth it for EGO owners who clean away from outlets; otherwise a plug-in is better value.",
+    "amazonUrl": "",
+    "id": "ego-cordless-pressure-washer"
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Electric Pressure Washer Picks",
+          item: "https://www.allmetalbrake.com/best-electric-pressure-washer/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which electric pressure washer should most people buy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For regular washing of cars, decks and siding, the Ryobi RY142300 brushless is the best all-round choice, with a quieter, longer-lived motor and standard fittings. For gentle, controlled work on paint, the Karcher K5 Premium is better. On a tight budget for light chores, the Sun Joe SPX3000 or Westinghouse ePX3100 do the job well."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can an electric pressure washer clean a driveway?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can, but slowly. Household outlets cap electric flow under about 2 GPM, so a full two-car driveway takes a long time and tends to stripe when cleaned with a wand. A surface cleaner sized for electric machines helps a lot on smaller areas. For large driveways cleaned every year, a gas machine or a rental is far more efficient."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a brushless or induction motor worth paying more for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If you wash regularly, yes. Both run cooler and quieter than the universal motors in budget machines and are generally expected to last longer, since there are no carbon brushes to wear. For occasional short jobs, such as washing a car a few times a year, a budget universal-motor machine is usually adequate and will last for years."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use an extension cord with an electric pressure washer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many manuals advise against it or allow only short, heavy-gauge cords, often 12 or 14 gauge. Long or thin cords cause voltage drop, which makes the motor overheat and can trip the GFCI. The better solution is to place the machine near the outlet and use a longer garden hose or high-pressure hose to reach the work."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much pressure is safe on car paint?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most car care guidance suggests staying around 1,200 to 1,900 PSI with a 40-degree tip held 18 to 24 inches from the paint. Pressure at the paint drops quickly with distance, so distance and tip angle matter as much as the rating. Avoid narrow tips entirely, and be careful around chips, trim, emblems and seals."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are cordless pressure washers any good?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Small battery spray guns are handy for rinsing bikes, boots and wheels but are not real pressure washers. Full-size battery machines like EGO's are capable and useful where there is no outlet, such as at a dock or campsite. They are expensive unless you already own the batteries, so for most homes a corded electric is better value."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my electric pressure washer keep turning on and off?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Short cycling usually means the pump is not getting steady water or air is trapped in the system. Open the spigot fully, straighten the supply hose, clean the inlet screen and nozzle, and run water through before starting the motor. If it persists, a worn unloader or a small leak in the gun or hose can cause the same symptom."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Cleaning & Shop Tools",
+    tags: [
+      "best electric pressure washer",
+      "plug-in pressure washer",
+      "cordless pressure washer",
+      "brushless pressure washer",
+      "pressure washer for car",
+      "electric pressure washer for deck"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 6 Best <span class="text-[#38BDF8]">Electric Pressure Washers</span> for the House, the Car and the Deck
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          No fuel, no pull cord, no fumes. These plug-in and battery machines handle the jobs most homeowners actually do, and this guide is honest about the ones they cannot.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ryobi-ry142300-electric"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="11.3k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#outlet-limit" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Outlet Limit</a>
+          <a href="#motors" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Motor Types</a>
+          <a href="#cords-water" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Cords, Hoses and Water</a>
+          <a href="#what-it-cleans" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. What It Cleans Well</a>
+          <a href="#cordless" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Battery Models</a>
+          <a href="#car-deck-siding" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Cars, Decks and Siding</a>
+          <a href="#soap-foam" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Soap and Foam</a>
+          <a href="#care" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Care and Storage</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Cost and Value</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          An electric pressure washer is the right tool for most homes, and the wrong one for a few. If your list is a car every month, a deck in spring, vinyl siding, a grill and some patio furniture, a good plug-in does all of it quietly and starts every time. If your list is dominated by a long concrete driveway, no electric will make that fast, because a household outlet caps how much water the pump can move. This guide ranks six electric machines, explains the motor and circuit limits that separate good ones from bad ones, and covers technique for the surfaces electric machines are best at.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Electric Pressure Washers, Ranked
+          </h2>
+
+          <p>
+            Picks are based on manufacturer ratings for pressure and flow, motor type, frame and storage design, fitting standards and warranty, along with recurring themes in owner feedback about durability and pump life. We weighted machines that hold up to regular household use. No hands-on testing is claimed, and no brand paid for placement.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="outlet-limit" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. What a Household Outlet Can Power
+          </h2>
+
+          <p>
+            Every plug-in pressure washer is boxed in by the same constraint. A standard 120-volt, 15-amp circuit can safely supply about 1,800 watts continuously, and most machines are designed to draw 13 to 15 amps. That energy has to be split between pressure and flow. A pump can push a small amount of water at high pressure or more water at moderate pressure, but not a lot of both. That is why plug-ins top out around 1.1 to 1.8 GPM no matter how big the PSI number printed on the side is.
+          </p>
+
+          <p>
+            In practice, this means two electric machines with very different pressure ratings often clean at similar speeds. A 3,000 PSI unit at 1.1 GPM and a 2,000 PSI unit at 1.5 GPM deliver similar total cleaning energy, measured as pressure times flow. The higher-pressure machine is better at blasting a stubborn spot; the higher-flow machine is better at rinsing a big wall or a car. Choose based on which of those describes your work.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">The Plug-In Envelope</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">~1,800 W</p>
+                <p class="text-gray-400 text-xs mt-1">Continuous limit, 15 A circuit</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">1.1-1.8</p>
+                <p class="text-gray-400 text-xs mt-1">Typical GPM range</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">1,700-3,000</p>
+                <p class="text-gray-400 text-xs mt-1">Typical rated PSI</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">2,000-3,500</p>
+                <p class="text-gray-400 text-xs mt-1">Typical cleaning units</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Pay attention to whether figures are labeled max or rated. Peak pressure is a spike the pump can reach briefly; peak flow is measured with no nozzle restriction. Real working figures are lower, sometimes considerably. Machines certified to the industry standards used by CETA or the PWMA publish rated performance you can compare more fairly. When a budget box lists only max numbers, treat them as optimistic and compare on price, motor and build instead.
+          </p>
+
+          <p>
+            Share the circuit with nothing else. Running a pressure washer on the same garage circuit as a freezer or a compressor invites nuisance trips and voltage drop that makes the motor work harder. If your outdoor outlet trips often under load, the machine is telling you something about the wiring, and that is a job for an electrician rather than a heavier extension cord.
+          </p>
+        </div>
+
+        <div id="motors" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Universal, Induction and Brushless Motors
+          </h2>
+
+          <p>
+            The motor decides how loud the machine is and, often, how long it lasts. Universal motors, found on most budget plug-ins, spin very fast and use carbon brushes to carry current to the spinning armature. They are light and cheap, which is why they power most machines under about $200. They are also loud, run hot, and the brushes wear, so these machines tend to have shorter service lives, especially under long sessions.
+          </p>
+
+          <p>
+            Induction motors have no brushes and turn more slowly. They are heavier and cost more, but they run cooler, are noticeably quieter, and are commonly expected to last much longer. Machines like the Karcher K5 and the Greenworks Pro use them, and they are the better choice for anyone who washes regularly. Brushless DC motors, like the one in the Ryobi RY142300, get many of the same benefits with lighter weight and good efficiency.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Motor</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Noise</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Expected Life</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Weight</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical Price Class</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Universal</td>
+                    <td class="px-4 py-4 text-gray-700">Loud</td>
+                    <td class="px-4 py-4 text-gray-700">Shorter</td>
+                    <td class="px-4 py-4 text-gray-700">Light</td>
+                    <td class="px-4 py-4 text-gray-700">Under $200</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Induction</td>
+                    <td class="px-4 py-4 text-gray-700">Quieter</td>
+                    <td class="px-4 py-4 text-gray-700">Longer</td>
+                    <td class="px-4 py-4 text-gray-700">Heavier</td>
+                    <td class="px-4 py-4 text-gray-700">$250-$450</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Brushless DC</td>
+                    <td class="px-4 py-4 text-gray-700">Quieter</td>
+                    <td class="px-4 py-4 text-gray-700">Longer</td>
+                    <td class="px-4 py-4 text-gray-700">Moderate</td>
+                    <td class="px-4 py-4 text-gray-700">$250-$400</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Spec sheets do not always name the motor type. Clues include the weight, the price, and how the brand describes it: induction motors are usually advertised as such because they are a selling point, and brushless is always called out. A machine that weighs under 30 pounds, costs under $200 and says nothing about the motor almost certainly has a universal motor.
+          </p>
+
+          <p>
+            A universal motor is not a reason to avoid a machine if the jobs are short and occasional. A twenty-minute car wash once a month is well within what a budget unit can handle for years. It is a reason to avoid one if you plan to strip and wash a large deck or run the machine for hours at a time, where heat and brush wear accumulate.
+          </p>
+        </div>
+
+        <div id="cords-water" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Cords, Hoses and Water Supply
+          </h2>
+
+          <p>
+            Most manufacturers advise against extension cords or allow only short, heavy-gauge ones, and the reason is voltage drop. A long, thin cord starves the motor, which then draws more current, heats up and wears faster. If you must use one, check the manual and use the gauge it specifies, typically 12 or 14 gauge, kept as short as possible and fully unrolled. Keep connections off wet ground. The better approach is to put the machine near the outlet and run a longer high-pressure hose or garden hose instead.
+          </p>
+
+          <p>
+            Plug the machine into a GFCI-protected outlet. Electric pressure washers sold in the US come with a GFCI built into the plug, and you should press its test and reset buttons before each session. If the GFCI trips repeatedly, stop and look for a damaged cord or a water leak around the motor housing rather than resetting it again and again.
+          </p>
+
+          <p>
+            Water supply matters less with an electric than with gas, because flow demands are lower, but it still matters. Use a 5/8-inch garden hose of reasonable length with the spigot fully open, and make sure the inlet filter screen is clean. A kinked or undersized supply hose starves the pump, which shows up as pulsing pressure and a pump that cycles on and off.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">Quick Check</p>
+            <p class="text-xl font-bold text-white mb-3">Pulsing pressure is usually a supply problem.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Before blaming the pump, straighten the supply hose, open the spigot fully, clean the inlet screen, check for a partly blocked nozzle, and run water through the machine for a minute to purge trapped air.</p>
+          </div>
+
+          <p>
+            The high-pressure hose that comes with budget electrics is often 20 to 25 feet of stiff plastic. Upgrading to a longer, more flexible hose with the correct fittings, frequently M22 threads on these machines, is one of the most useful changes you can make. Check the pressure rating of any replacement hose and confirm it matches or exceeds the machine's peak rating.
+          </p>
+        </div>
+
+        <div id="what-it-cleans" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. What an Electric Cleans Well, and What It Does Not
+          </h2>
+
+          <p>
+            Electric machines are at their best on surfaces that need moderate pressure and rinse easily: painted cars, trucks, bikes, outdoor furniture, plastic playsets, grills, vinyl and fiber cement siding, fences, and softwood decks. On all of these, a good electric is not a compromise. Many of these surfaces are damaged by too much pressure, so an electric is often the better tool than gas.
+          </p>
+
+          <p>
+            Concrete is where electrics struggle. Small areas such as steps, a front walk or a patio clean up fine, especially with an 11- to 15-inch surface cleaner rated for electric machines. A full two-car driveway is a different story. Expect it to take a long time, and expect stripes if you work with a wand alone. If concrete is a big part of your list, our broader <a href="/best-pressure-washer/">pressure washer rankings</a> include gas machines built for that.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Job</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Electric Verdict</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Car, truck, bike</td>
+                    <td class="px-4 py-4 text-gray-700">Excellent</td>
+                    <td class="px-4 py-4 text-gray-700">Use the 40-degree tip or a foam cannon</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Vinyl or fiber cement siding</td>
+                    <td class="px-4 py-4 text-gray-700">Very good</td>
+                    <td class="px-4 py-4 text-gray-700">Spray downward; extension wand for height</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Softwood deck</td>
+                    <td class="px-4 py-4 text-gray-700">Very good</td>
+                    <td class="px-4 py-4 text-gray-700">Low pressure, follow the grain</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Patio furniture, grills</td>
+                    <td class="px-4 py-4 text-gray-700">Excellent</td>
+                    <td class="px-4 py-4 text-gray-700">Degreaser first on grill grates</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Small patio or walk</td>
+                    <td class="px-4 py-4 text-gray-700">Good</td>
+                    <td class="px-4 py-4 text-gray-700">Surface cleaner helps a lot</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Two-car driveway</td>
+                    <td class="px-4 py-4 text-gray-700">Slow</td>
+                    <td class="px-4 py-4 text-gray-700">Gas or a pro is faster</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Oil stains, rust marks and deep mildew are chemistry problems, not pressure problems. A gas machine will not lift a set-in oil stain much better than an electric. Use a degreaser or poultice first; the methods in <a href="/how-to-get-oil-out-of-concrete/">getting oil out of concrete</a> work regardless of which machine you rinse with afterward.
+          </p>
+
+          <p>
+            Roofs and stucco are jobs to skip with any pressure washer. Asphalt shingles lose granules under pressure, and stucco can absorb water and crack. Roof cleaning is normally done with a low-pressure chemical wash, and many homeowners hire it out. Old painted surfaces that may contain lead should not be blasted at all; use gentle washing methods and follow EPA guidance for older homes.
+          </p>
+        </div>
+
+        <div id="cordless" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Battery Pressure Washers: Where They Fit
+          </h2>
+
+          <p>
+            Cordless pressure washers fall into two groups. The first is small spray guns that run on a power tool battery and draw water from a bucket or hose, delivering a few hundred PSI. They are useful for rinsing muddy bikes, boots, dog crates and car wheels, and they cost little if you already own the batteries. They are not substitutes for a real pressure washer.
+          </p>
+
+          <p>
+            The second group is full-size battery machines like the EGO model ranked above, which aim to match mid-range plug-ins. These are genuinely useful where outlets are not: a boat at a dock, a horse trailer, an RV at a campsite, the far side of a large property. The trade-off is runtime and cost. Large batteries are expensive, and continuous spraying drains them faster than lawn tools.
+          </p>
+
+          <p>
+            If you are buying a battery machine, buy it from a platform you already use. Batteries and chargers are often half the cost of a kit, and the value comes from sharing them with a mower, trimmer or blower. Our <a href="/ryobi-tools-review/">Ryobi platform review</a> covers one ecosystem that includes several washer options, and the same logic applies to EGO, Greenworks and the professional tool brands.
+          </p>
+
+          <p>
+            For a house with an outdoor outlet and a hose bib, a corded machine remains the better value by a wide margin. Battery models make sense as a second machine or for specific remote jobs. They rarely make sense as the only pressure washer for someone who washes a house and deck every year.
+          </p>
+        </div>
+
+        <div id="car-deck-siding" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Technique for Cars, Decks and Siding
+          </h2>
+
+          <p>
+            For a car, start with a rinse using the 40-degree tip held 18 to 24 inches from the paint. Apply foam or soap, let it dwell for a few minutes without drying in the sun, then hand wash with a mitt and rinse again from the top down. Keep the stream away from damaged paint chips, emblems, rubber seals and the edges of film or wraps. Never use the 0- or 15-degree tip on a vehicle.
+          </p>
+
+          <p>
+            For a wood deck, apply a deck cleaner suited to the problem, such as a percarbonate cleaner for gray, weathered wood, and let it work. Rinse with a 25- or 40-degree tip, keeping the wand about a foot from the surface and moving along the length of the boards with the grain. Fuzzy, raised fibers mean the pressure is too high or the tip too close. Let the deck dry for at least a couple of days before staining; our <a href="/best-deck-stain-reviews/">deck stain guide</a> covers what to apply next.
+          </p>
+
+          <p>
+            For vinyl or fiber cement siding, apply detergent from the bottom up so streaks do not form on dry siding below, let it dwell, then rinse from the top down. Keep the stream level or angled down so water does not get pushed up behind the laps. Avoid spraying directly at window seals, vents, outlets and light fixtures. Use an extension wand for the upper story instead of working from a ladder.
+          </p>
+
+          <p>
+            For all three, start farther away than you think you need to and move closer only if the dirt is not lifting. Keep the wand moving and overlap passes. The goal is to let the detergent loosen the dirt and the water carry it away; pressure is the last thing you should increase, not the first.
+          </p>
+        </div>
+
+        <div id="soap-foam" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Soap, Foam and Detergent Injection
+          </h2>
+
+          <p>
+            Most electric machines pull detergent through an on-board tank or a siphon tube, and almost all of them only inject soap at low pressure. That is why you have to switch to the black soap tip or the low setting on an adjustable wand before soap will flow. If no soap is coming out, check that you are in low-pressure mode, that the tank is not empty, and that the screen on the pickup is not clogged.
+          </p>
+
+          <p>
+            Use detergents labeled for pressure washers. They are formulated to flow through the injector and rinse cleanly. Do not run bleach through the machine unless the manufacturer explicitly allows it, because chlorine can damage seals. Apply bleach-based solutions separately with a pump sprayer when cleaning mildew from siding or decks, and protect plants by wetting them before and after.
+          </p>
+
+          <p>
+            A foam cannon replaces the injector with a bottle that mixes soap, water and air into thick foam. For car washing it is the most useful accessory you can buy, because the foam clings and loosens grit before you touch the paint. It works on electric machines, though the foam is generally thinner than on gas units with more flow. Choose a cannon made for your machine's fitting and flow range.
+          </p>
+
+          <p>
+            Rinse the detergent system with clean water after each session. Dried soap blocks the injector and the pickup screen and is a common cause of no-soap complaints. A quick flush with a tank of plain water at the end of the job keeps it working for years.
+          </p>
+        </div>
+
+        <div id="care" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Care, Storage and Freeze Protection
+          </h2>
+
+          <p>
+            Electric machines need less care than gas ones, but the pump is identical in its weaknesses. After each use, turn off the machine and the water, squeeze the trigger to release pressure, disconnect both hoses and let water drain out of the pump. Wipe the cord dry before coiling it. Store tips in their holder so the small orifices stay clean.
+          </p>
+
+          <p>
+            If the machine sits for more than a few weeks, or lives anywhere that could freeze, run a pump protector product through the inlet. These leave a lubricating, antifreeze film on seals and valves. A freeze can crack the pump head even on a small electric, and the damage often appears as a leak or no pressure when you next start it. Storing the machine inside a heated space over winter avoids the problem entirely.
+          </p>
+
+          <p>
+            Check the inlet filter screen periodically and rinse out any grit. Inspect the high-pressure hose for bulges or cuts and replace it if you see any. If quick connects drip, a fresh O-ring usually fixes them. Do not let the machine sit in bypass with the trigger released for more than a minute or two; electric pumps heat water quickly when it recirculates, and many shut off the motor automatically, but that heat still stresses the seals.
+          </p>
+
+          <p>
+            Most electric pressure washers carry warranties in the range of two to three years on the machine, sometimes with different terms for the pump. Register the product and keep the receipt. Many owners who report early pump failures turn out to have frozen or dry-run the machine, which warranties typically exclude.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Cost and Value
+          </h2>
+
+          <p>
+            At the time of writing, budget universal-motor electrics sell for roughly $120 to $220. Brushless and induction-motor machines sell for roughly $250 to $450. Full-size battery machines often land between $300 and $600 depending on how many batteries come in the box. Add $40 to $120 for a surface cleaner, foam cannon or better hose.
+          </p>
+
+          <p>
+            The extra money for a better motor pays back for anyone who washes regularly. A budget machine that wears out after a few seasons of heavy deck and siding work, then gets replaced, costs more over five years than a well-built machine bought once. If your use is a car and some furniture a few times a year, the budget machine is the smarter purchase and will likely last.
+          </p>
+
+          <p>
+            Compared with gas, an electric saves money in ways beyond the sticker. There is no fuel, no oil, no spark plugs, no stabilizer and no carburetor cleaning. For a household that washes a few times per month in warm weather, those running costs add up. The trade-off is speed on big concrete, which is why many homeowners pair an electric with an occasional rental for the driveway.
+          </p>
+
+          <p>
+            If you want to see how electrics compare against gas on cost and speed for every job, our full <a href="/best-pressure-washer/">pressure washer guide</a> lays out both. If concrete is your main concern, a <a href="/best-surface-cleaner-for-pressure-washer/">surface cleaner</a> is the accessory that makes an electric viable on patios and walks, and it is worth buying before you consider upgrading the machine.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running a Long, Thin Extension Cord</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 100-foot light-duty cord drops voltage enough to make the motor run hot and labor, which shortens its life and can trip the GFCI. Put the machine near the outlet and run more hose instead. If an extension is unavoidable, use the gauge and maximum length the manual allows and keep the connection off wet ground.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trusting the Max PSI on the Box</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Budget electrics publish peak numbers that are not reached during normal spraying. Comparing two machines on max PSI alone tells you little about how fast either will clean. Look for rated figures, multiply pressure by flow, and weigh the motor type and build quality, which tend to predict satisfaction better than a headline number.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Leaving the Trigger Released With the Motor On</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many electrics stop the motor when you release the trigger, but water in the pump still heats up if the machine sits in bypass. Long pauses with the machine running damage seals. If you are stopping to move furniture or reposition the hose, switch the machine off and release pressure first.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using the Narrowest Tip on Soft Surfaces</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Even an electric can splinter cedar, etch soft brick and peel paint with a 0- or 15-degree tip. Start with the 40-degree tip at a foot or more and only move closer or narrower if dirt is not lifting. Fuzzy wood fibers or exposed aggregate are signs you have already gone too far.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Assuming an Electric Cannot Freeze</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Owners often winterize the gas mower and forget the plug-in washer in the same shed. The pump holds water and cracks just as easily when it freezes. Drain it, run a pump protector through the inlet before cold weather, and store it somewhere above freezing whenever you can.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which electric pressure washer should most people buy?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For regular washing of cars, decks and siding, the Ryobi RY142300 brushless is the best all-round choice, with a quieter, longer-lived motor and standard fittings. For gentle, controlled work on paint, the Karcher K5 Premium is better. On a tight budget for light chores, the Sun Joe SPX3000 or Westinghouse ePX3100 do the job well.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can an electric pressure washer clean a driveway?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It can, but slowly. Household outlets cap electric flow under about 2 GPM, so a full two-car driveway takes a long time and tends to stripe when cleaned with a wand. A surface cleaner sized for electric machines helps a lot on smaller areas. For large driveways cleaned every year, a gas machine or a rental is far more efficient.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a brushless or induction motor worth paying more for?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                If you wash regularly, yes. Both run cooler and quieter than the universal motors in budget machines and are generally expected to last longer, since there are no carbon brushes to wear. For occasional short jobs, such as washing a car a few times a year, a budget universal-motor machine is usually adequate and will last for years.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I use an extension cord with an electric pressure washer?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Many manuals advise against it or allow only short, heavy-gauge cords, often 12 or 14 gauge. Long or thin cords cause voltage drop, which makes the motor overheat and can trip the GFCI. The better solution is to place the machine near the outlet and use a longer garden hose or high-pressure hose to reach the work.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How much pressure is safe on car paint?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most car care guidance suggests staying around 1,200 to 1,900 PSI with a 40-degree tip held 18 to 24 inches from the paint. Pressure at the paint drops quickly with distance, so distance and tip angle matter as much as the rating. Avoid narrow tips entirely, and be careful around chips, trim, emblems and seals.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are cordless pressure washers any good?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Small battery spray guns are handy for rinsing bikes, boots and wheels but are not real pressure washers. Full-size battery machines like EGO's are capable and useful where there is no outlet, such as at a dock or campsite. They are expensive unless you already own the batteries, so for most homes a corded electric is better value.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Why does my electric pressure washer keep turning on and off?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Short cycling usually means the pump is not getting steady water or air is trapped in the system. Open the spigot fully, straighten the supply hose, clean the inlet screen and nozzle, and run water through before starting the motor. If it persists, a worn unloader or a small leak in the gun or hose can cause the same symptom.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Cleaning and Shop Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-pressure-washer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Pressure Washers, Gas and Electric</h3>
+              <p class="text-gray-500 text-sm mt-2">When a driveway or whole-house wash calls for more flow.</p>
+            </a>
+            <a href="/best-surface-cleaner-for-pressure-washer/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Accessory Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Surface Cleaners</h3>
+              <p class="text-gray-500 text-sm mt-2">Makes an electric viable on patios and walks.</p>
+            </a>
+            <a href="/best-deck-stain-reviews/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Deck Stains</h3>
+              <p class="text-gray-500 text-sm mt-2">What to put on the deck once it is clean and dry.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most homes, the Ryobi RY142300 brushless is the electric to buy: quiet, durable, and compatible with standard accessories. If paint and finish matter most, the Karcher K5 Premium gives you the most control. For light chores on a budget, the Sun Joe SPX3000 and Westinghouse ePX3100 are fine, and the EGO battery model makes sense only if you already own its batteries or regularly clean away from outlets.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Keep expectations matched to the outlet. An electric is excellent for cars, decks, siding and patios and slow on large concrete. Plug it into a GFCI outlet without a long cord, start with the widest tip, and protect the pump from freezing every fall.
+          </p>
+        </div>
+
+        <MoreInCategory category="Cleaning & Shop Tools" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

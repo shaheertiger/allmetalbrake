@@ -1,0 +1,982 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Weed Eater Picks",
+    "url": "/best-weed-eater/"
+  },
+  {
+    "title": "Weed Killer Picks",
+    "url": "/best-weed-killer/"
+  },
+  {
+    "title": "Chainsaw Picks",
+    "url": "/best-chainsaw/"
+  },
+  {
+    "title": "Best Self-Propelled Lawn Mowers",
+    "url": "/best-self-propelled-lawn-mower/"
+  },
+  {
+    "title": "Best Zero-Turn Mowers",
+    "url": "/best-zero-turn-mower/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 7 Best Cordless Leaf Blowers: Picked by Yard Size";
+const description =
+  "Seven battery leaf blowers compared on airflow, runtime, noise and platform, with plain advice on CFM vs MPH, wet leaves, batteries and local noise rules.";
+
+const PRODUCTS = [
+  {
+    "badge": "Best Overall",
+    "category": "56V Handheld, Turbo Boost",
+    "name": "EGO Power+ LB6504 650 CFM",
+    "description": "EGO's LB6504 is the battery blower that most often gets recommended to people replacing a gas handheld, and its specs explain why. EGO rates it at up to 650 CFM and 180 MPH on turbo, which is enough airflow to move matted leaves and push debris off a long driveway. A variable-speed trigger and a cruise-control dial let you set a steady output for long passes without holding the trigger the whole time. The brushless motor and 56-volt platform mean the same battery runs EGO's mowers, trimmers and snow blowers. The catch is the trade-off between power and runtime that every battery blower faces: on turbo, even a large battery empties quickly, so owners of bigger lots buy a second battery or a backpack-mounted battery. With a larger battery installed it is heavier at the handle than a compact blower, though the balance is reasonable. For most suburban yards, this is the one to beat.",
+    "pros": [
+      "Up to 650 CFM and 180 MPH rated output on turbo",
+      "Cruise control and variable speed",
+      "Shares batteries with a full EGO yard lineup",
+      "Brushless motor with strong owner reputation"
+    ],
+    "cons": [
+      "Turbo drains even large batteries fast",
+      "Heavy at the handle with a big battery",
+      "Kit cost climbs with larger batteries"
+    ],
+    "bottomLine": "The best all-around cordless blower for typical suburban fall cleanups.",
+    "amazonUrl": "",
+    "id": "ego-lb6504-cordless"
+  },
+  {
+    "badge": "Best Value",
+    "category": "40V Handheld, Low-Noise Design",
+    "name": "Ryobi 40V HP Whisper Series 730 CFM",
+    "description": "Ryobi's 40-volt HP Whisper Series blower is a strong value: Ryobi lists airflow around 730 CFM, at the top of the handheld battery class, and it is engineered to keep its noise level lower than many competitors. The brushless motor, variable speed dial and turbo button cover everything from clearing a patio to moving a carpet of wet oak leaves. Kits are usually priced below comparable EGO and Greenworks kits, and Ryobi's 40V line includes mowers, trimmers and chainsaws available at Home Depot. The usual battery caution applies: high airflow uses energy, so a single battery covers a mid-size yard on moderate settings rather than a whole lot on turbo. It is also a fairly large tool, and owners with small hands sometimes find the handle chunky. For a quarter to half-acre property where neighbors are close, it is an easy recommendation.",
+    "pros": [
+      "High listed airflow for a handheld battery blower",
+      "Designed for lower noise than typical blowers",
+      "Kits usually priced below rivals",
+      "Broad Ryobi 40V tool lineup"
+    ],
+    "cons": [
+      "Large and somewhat bulky",
+      "Turbo use shortens runtime sharply",
+      "40V batteries do not fit Ryobi 18V tools"
+    ],
+    "bottomLine": "The best value in a high-airflow cordless blower, especially where noise matters.",
+    "amazonUrl": "",
+    "id": "ryobi-40v-whisper-blower"
+  },
+  {
+    "badge": "Best Power",
+    "category": "80V Handheld, High Output",
+    "name": "Greenworks Pro 80V 730 CFM Blower",
+    "description": "Greenworks' 80-volt handheld blower sits at the top of the battery class for airflow, with Greenworks listing output around 730 CFM. That level of air moves deep leaf piles across a large lawn faster than the 18 and 20-volt blowers most people start with, and it gives the tool enough force to lift wet leaves from turf. The 80V platform spans mowers, trimmers, chainsaws, snow blowers and riding equipment, so a property owner can standardize on one battery family. The trade-offs are weight and battery appetite. Running at full output empties even a high-capacity battery in a relatively short session, and the larger batteries add noticeable weight. For owners of half-acre to one-acre properties who want to drop gas but need real airflow, it is a strong fit, especially with two batteries in rotation.",
+    "pros": [
+      "Very high listed airflow for a handheld",
+      "80V platform covers nearly every yard tool",
+      "Brushless motor",
+      "Moves wet leaves and deep piles"
+    ],
+    "cons": [
+      "Heavy with a large battery",
+      "Short runtime at full output",
+      "Higher upfront cost to enter the platform"
+    ],
+    "bottomLine": "The power pick for large lots, best bought with a second battery.",
+    "amazonUrl": "",
+    "id": "greenworks-80v-blower"
+  },
+  {
+    "badge": "Best for Milwaukee Owners",
+    "category": "Dual 18V Handheld",
+    "name": "Milwaukee M18 FUEL Dual Battery Blower",
+    "description": "Milwaukee's M18 FUEL dual-battery blower runs on two M18 batteries at once, and Milwaukee rates it at 600 CFM and 145 MPH. For anyone who already owns a stack of M18 batteries from drills, impact drivers and saws, it delivers near-top-tier airflow without buying into a separate outdoor battery platform. Build quality reflects Milwaukee's trade focus, and the variable-speed trigger and lock-on feature suit long passes. The dual-battery layout spreads weight across the tool, though it is still heavier than a compact blower with both packs installed. It makes much less sense for someone starting from zero, because buying two high-capacity M18 batteries and a charger costs more than many complete blower kits. Contractors and serious DIYers already on M18 should look here first. Its compact nozzle design and simple controls also make it a useful shop and job-site blower for clearing sawdust and debris from floors and decks, which adds to its value for tradespeople.",
+    "pros": [
+      "600 CFM rated airflow from two M18 batteries",
+      "Uses batteries many owners already have",
+      "Durable trade-oriented build",
+      "Lock-on for long passes"
+    ],
+    "cons": [
+      "Expensive if you need to buy batteries",
+      "Heavier with two packs installed",
+      "Needs two charged batteries to run"
+    ],
+    "bottomLine": "An excellent buy if you already own M18 batteries; a poor value if you do not.",
+    "amazonUrl": "",
+    "id": "milwaukee-m18-cordless-blower"
+  },
+  {
+    "badge": "Best for DeWalt Owners",
+    "category": "60V FLEXVOLT Handheld",
+    "name": "DeWalt 60V FLEXVOLT Handheld Blower",
+    "description": "DeWalt's 60-volt FLEXVOLT handheld blower is rated at 600 CFM and 125 MPH, and it runs on FLEXVOLT batteries that also power DeWalt's 20V MAX tools at the lower voltage. That cross-compatibility makes it attractive to anyone who already uses DeWalt drills and saws. The variable-speed trigger and speed lock are straightforward, and the blower has the rugged, contractor-friendly feel DeWalt is known for. As with every high-output battery blower, runtime depends on the battery size and how much you use maximum speed. FLEXVOLT batteries are not cheap if you need to buy them, so the value is highest for current DeWalt owners. It suits suburban leaf cleanup, garage and shop cleanup, and job-site debris equally well. Owners commonly mention that it feels solid and well balanced, though the larger FLEXVOLT batteries add noticeable weight at the handle. A spare battery is worth considering for bigger leaf jobs.",
+    "pros": [
+      "600 CFM rated airflow",
+      "FLEXVOLT batteries also run 20V MAX tools",
+      "Rugged build",
+      "Simple variable speed and lock"
+    ],
+    "cons": [
+      "FLEXVOLT batteries are pricey to add",
+      "Lower rated air speed than some rivals",
+      "Heavier than compact blowers"
+    ],
+    "bottomLine": "The obvious choice for DeWalt owners who need a full-size blower.",
+    "amazonUrl": "",
+    "id": "dewalt-60v-flexvolt-blower"
+  },
+  {
+    "badge": "Quietest Pick",
+    "category": "Dual 18V LXT Handheld",
+    "name": "Makita XBU02 18V X2 (36V) Blower",
+    "description": "Makita's XBU02 uses two 18-volt LXT batteries for 36 volts and is rated at 473 CFM and 120 MPH. Those are modest numbers next to the 600-plus CFM blowers on this list, but the XBU02 has long been popular with owners who value a smooth, refined tool, comparatively low noise, and compatibility with Makita's large LXT tool line. It is well balanced and comfortable for routine clearing of patios, walks and garages, and for small to mid-size yards it moves dry leaves capably. It is not the right tool for a big lot covered in wet leaves, where higher airflow saves real time. Like the Milwaukee, it is a strong buy for existing Makita battery owners and a poor one for anyone who would need to buy two batteries to start.",
+    "pros": [
+      "Refined, comfortable to use",
+      "Comparatively quiet operation",
+      "Runs on Makita LXT batteries",
+      "Good for patios, walks and small yards"
+    ],
+    "cons": [
+      "Lower airflow than top competitors",
+      "Needs two batteries",
+      "Struggles with heavy wet leaves"
+    ],
+    "bottomLine": "A smooth, quiet blower for Makita owners with modest yards.",
+    "amazonUrl": "",
+    "id": "makita-xbu02-blower"
+  },
+  {
+    "badge": "Best Compact",
+    "category": "Dual 20V (40V) Compact",
+    "name": "Worx Nitro LEAFJET 40V",
+    "description": "The Worx Nitro LEAFJET is a compact, brushless blower that runs on two Worx 20-volt PowerShare batteries for 40 volts. Its strength is the power-to-size ratio: it is shorter and lighter than full-size handheld blowers, which makes it pleasant for decks, patios, garages and small lawns, yet Worx lists airflow in a range that handles typical fall leaves on a small lot. A turbo button gives a short burst for stubborn debris. The PowerShare batteries also run a wide range of Worx yard and shop tools. It is not a big-yard blower; runtime on turbo is short and the smaller form factor limits how much air it can move over a long session. For condos, townhouses and small suburban lots, it is a convenient tool to grab for a quick cleanup.",
+    "pros": [
+      "Compact and light",
+      "Brushless with turbo boost",
+      "Uses Worx PowerShare batteries",
+      "Great for decks, patios and garages"
+    ],
+    "cons": [
+      "Short runtime on turbo",
+      "Not meant for large yards",
+      "Needs two batteries"
+    ],
+    "bottomLine": "A handy compact blower for small properties and quick cleanups.",
+    "amazonUrl": "",
+    "id": "worx-nitro-leafjet"
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Cordless Blower Picks",
+          item: "https://www.allmetalbrake.com/best-cordless-leaf-blower/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Can a battery blower really replace a gas one?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homeowners with up to about half an acre, yes. Top handheld battery blowers now list airflow comparable to many gas handhelds, start instantly and run much quieter. The limitation is runtime at high output. Owners of large wooded properties may still prefer a gas or battery backpack blower, or a second and third battery for handheld use."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many minutes will a battery blower run?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on battery capacity and speed. At the lowest setting, a large battery can run a long time, but at full output many high-airflow blowers run only around ten to fifteen minutes, and turbo shortens that further. Use the lowest speed that moves your debris and keep a spare battery for big cleanups."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a cordless blower move wet leaves?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "High-output models with strong air speed can lift wet leaves, especially with a narrow nozzle aimed low under the leading edge. It is still the hardest job for any blower and drains batteries quickly. Waiting for a dry afternoon, using a rake for matted spots, or mulching with a mower are often faster for heavily soaked leaves."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need more than one battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For small yards, one battery is usually enough. For quarter to half-acre lots with several trees, one large battery handles routine cleanups and a second makes fall weekends far easier. For bigger properties, plan on two large batteries from the start, or consider a backpack battery or backpack blower. A spare also lets one charge while the other runs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What CFM do I need for my yard?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As a rough guide, 300 to 450 CFM suits decks, patios and small lots, 450 to 600 CFM handles most suburban yards, and 600 CFM or more is worth it for larger lots and heavy leaf drops. Comparing ratings across brands is imperfect because test methods vary, so treat them as broad classes rather than exact rankings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are battery blowers quieter than gas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Generally yes. Many battery handhelds publish noise ratings in the 50s to 60s dBA measured at 50 feet, quieter than typical gas models. That is easier on neighbors, but a high-output blower on turbo can still be loud at your ear, so hearing protection is wise for long sessions. Lower settings are quieter still."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I buy a backpack blower instead?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A backpack blower makes sense for properties over about an acre, heavy tree cover, or anyone who clears leaves for long sessions. Backpacks move the weight onto your shoulders and can carry larger batteries or fuel tanks. For most suburban yards a good handheld battery blower with a spare battery is lighter, cheaper and easier to store."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Yard & Outdoor Tools",
+    tags: [
+      "best cordless leaf blower",
+      "battery leaf blower",
+      "cordless blower cfm",
+      "quiet leaf blower",
+      "brushless leaf blower",
+      "leaf blower runtime"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 7 Best <span class="text-[#38BDF8]">Cordless Leaf Blowers</span> for Real Fall Cleanups
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Battery blowers now move as much air as many gas handhelds. The trick is matching airflow and battery capacity to your yard, so you finish the job before the charge runs out.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ego-lb6504-cordless"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="10.3k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#cfm-vs-mph" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. CFM vs MPH</a>
+          <a href="#yard-size" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Sizing to Your Yard</a>
+          <a href="#runtime" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Batteries and Runtime</a>
+          <a href="#noise" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Noise and Local Rules</a>
+          <a href="#technique" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Blowing Technique</a>
+          <a href="#after-the-blow" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Handling the Leaves</a>
+          <a href="#platforms" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Choosing a Platform</a>
+          <a href="#gas-comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Gas or Corded?</a>
+          <a href="#care-and-safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Care and Safety</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Cost and Value</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">13. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          A cordless blower is the battery tool that most often disappoints new owners, and the reason is almost always the same: they bought on the speed number printed on the box, ran it on turbo, and watched the battery die in ten minutes with half the lawn still covered. Buy on airflow, carry a second battery for big jobs, and save turbo for the wet stuff.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 7 Best Cordless Leaf Blowers, Ranked
+          </h2>
+
+          <p>
+            These picks are based on manufacturer-listed airflow in CFM and air speed in MPH, battery platform and capacity, published noise ratings where available, weight, warranty, and recurring patterns in owner feedback. We favored blowers that pair strong airflow with a battery system you can grow into. No rankings come from measurements we did not make.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="cfm-vs-mph" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. CFM vs MPH: The Number That Moves Leaves
+          </h2>
+
+          <p>
+            Every blower box lists two numbers. <strong>CFM</strong>, cubic feet per minute, is the volume of air leaving the nozzle. <strong>MPH</strong> is the speed of that air. Manufacturers often lead with MPH because big speed numbers look impressive, but volume is what actually moves a layer of leaves across a lawn. A blower with high speed and low volume makes a narrow, fast jet that pushes a stripe of leaves; a blower with high volume moves a wide swath of debris in each pass.
+          </p>
+
+          <p>
+            Speed still matters for one job: lifting wet, matted leaves and debris that is stuck to pavement or wedged into turf. A fast stream gets under the edge of a leaf and peels it up. Once leaves are loose, volume does the heavy lifting. The best blowers combine high values of both, and some manufacturers also publish a combined force rating in newtons, which is a useful single comparison number where it is available.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Rough Airflow Guide</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">300-450</p>
+                <p class="text-gray-400 text-xs mt-1">CFM for decks, patios and walks</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">450-600</p>
+                <p class="text-gray-400 text-xs mt-1">CFM for most suburban yards</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">600+</p>
+                <p class="text-gray-400 text-xs mt-1">CFM for big lots and wet leaves</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">Turbo</p>
+                <p class="text-gray-400 text-xs mt-1">Short bursts only to save battery</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Be careful comparing ratings across brands, since there is no single mandatory test that every manufacturer follows for consumer blowers, and some list the highest figure from a turbo setting while others list sustained output. Treat the numbers as broad classes rather than exact rankings, and compare figures that are measured the same way, such as both turbo or both maximum non-turbo, when a manufacturer publishes both.
+          </p>
+
+          <p>
+            Weight is the hidden third number. A high-output blower with a large battery can weigh much more at the handle than a compact one, and you feel every pound in a 40-minute session. If your yard is small, a lighter blower with modest airflow is the more pleasant tool.
+          </p>
+        </div>
+
+        <div id="yard-size" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Matching the Blower to Your Yard
+          </h2>
+
+          <p>
+            Small properties, roughly a tenth of an acre or less, with a deck, patio and short driveway are well served by a compact blower in the 300 to 450 CFM range. The tool is light, quick to grab, and a single battery covers the whole job. The Worx LEAFJET and Makita XBU02 fit here, as do the smaller blowers on most battery platforms.
+          </p>
+
+          <p>
+            Typical suburban lots, a quarter to half acre with a few trees, are where full-size handheld battery blowers in the 500 to 650-plus CFM range shine. The EGO LB6504 and Ryobi 40V HP Whisper Series are the two strongest options for most people here. Plan on one large battery for routine cleanups and a second for the heaviest fall weekends, when a mature oak or maple can drop more leaves than any one battery can move.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Property</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Suggested airflow</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Battery plan</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Pick to consider</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Townhouse or small lot</td>
+                    <td class="px-4 py-4 text-gray-700">300-450 CFM</td>
+                    <td class="px-4 py-4 text-gray-700">One battery</td>
+                    <td class="px-4 py-4 text-gray-700">Worx LEAFJET, Makita XBU02</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Quarter to half acre</td>
+                    <td class="px-4 py-4 text-gray-700">500-650 CFM</td>
+                    <td class="px-4 py-4 text-gray-700">One large, one spare for fall</td>
+                    <td class="px-4 py-4 text-gray-700">EGO LB6504, Ryobi Whisper</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Half acre to one acre</td>
+                    <td class="px-4 py-4 text-gray-700">650+ CFM</td>
+                    <td class="px-4 py-4 text-gray-700">Two large batteries</td>
+                    <td class="px-4 py-4 text-gray-700">Greenworks 80V, EGO LB6504</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Over one acre, heavy trees</td>
+                    <td class="px-4 py-4 text-gray-700">Backpack blower</td>
+                    <td class="px-4 py-4 text-gray-700">Backpack battery or gas</td>
+                    <td class="px-4 py-4 text-gray-700">Consider a backpack model</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Above about an acre with many mature trees, handheld battery blowers become a struggle. That is backpack territory: either a battery backpack blower with a large back-mounted battery or a gas backpack. Mulching the leaves into the lawn with a mower is another option for big lots, and it returns nutrients to the soil. A good <a href="/best-self-propelled-lawn-mower/">mulching mower</a> can handle a light to moderate leaf drop in a few passes.
+          </p>
+
+          <p>
+            Your trees matter as much as acreage. A lot with two small ornamental trees needs far less airflow than the same lot under a stand of mature oaks. If your street floods with leaves every November, size up.
+          </p>
+        </div>
+
+        <div id="runtime" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Batteries and Realistic Runtime
+          </h2>
+
+          <p>
+            Battery blowers are the most power-hungry handheld yard tools. Moving several hundred cubic feet of air per minute takes a lot of energy, and runtime falls off sharply as you turn up the speed. Manufacturer runtime claims are usually measured at the lowest speed, which is the setting you will use least. At full output, even a high-capacity battery may last only around ten to fifteen minutes on many high-output blowers, and turbo shortens that further.
+          </p>
+
+          <p>
+            Plan around that rather than fighting it. Use the lowest setting that moves the debris you are working on, save turbo for wet patches and stuck leaves, and use cruise control or a speed lock for steady passes. Owners of bigger lots should budget for a second battery from the start; swapping batteries halfway through takes a few seconds, and a spare costs less than the frustration of stopping mid-job.
+          </p>
+
+          <p>
+            Amp-hours tell you capacity, and larger batteries run longer but weigh more. Some platforms also sell backpack batteries or harnesses that move the weight onto your shoulders, which helps on long sessions. Charge time is another factor: a large battery on a standard charger can take an hour or more, while rapid chargers cut that considerably.
+          </p>
+
+          <p>
+            Treat batteries well and they last for years. Store them indoors at moderate temperatures, let hot batteries cool before charging, and store them partially charged over the winter rather than full or empty. If you also own a trimmer on the same platform, as many owners of our <a href="/best-weed-eater/">top weed eater picks</a> do, rotating batteries between tools keeps them in regular use.
+          </p>
+        </div>
+
+        <div id="noise" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Noise, Neighbors and Local Rules
+          </h2>
+
+          <p>
+            Battery blowers are quieter than gas, but quieter is relative. Many battery handhelds publish noise ratings in the 50s to 60s dBA measured at a distance, often 50 feet, which is noticeably more pleasant for the neighbors than a gas backpack. At the operator's ear, a high-output battery blower on turbo can still be loud enough to warrant hearing protection, especially over a long session.
+          </p>
+
+          <p>
+            A growing number of cities and towns restrict gas-powered leaf blowers, and California's rules on small off-road engines have phased in limits on new gas-powered equipment sales. Many local ordinances also limit blower use to certain hours or set noise limits measured at a property line. Check your town's rules before buying, and check any homeowners association rules too. In some places a battery blower is the only legal choice.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">GOOD NEIGHBOR</p>
+            <p class="text-xl font-bold text-white mb-3">Lowest speed that works, reasonable hours, and pointed away from people.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Most complaints about blowers come from early mornings, long sessions on turbo, and dust blown toward sidewalks, cars and open windows. A little restraint avoids almost all of it.</p>
+          </div>
+
+          <p>
+            Choosing a blower designed for low noise, such as Ryobi's Whisper Series, helps if you live close to neighbors. So does running it at a lower setting, which reduces both noise and battery drain. Point the nozzle down and away from people, pets, cars and open windows.
+          </p>
+        </div>
+
+        <div id="technique" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Blowing Technique That Saves Time and Battery
+          </h2>
+
+          <p>
+            Work with the wind, not against it. Check which way the breeze is blowing and plan to move leaves downwind toward your collection point. Fighting even a light wind wastes battery and blows the same leaves back over cleared ground. Start at the edges of the property and the house and work toward the center, then toward a single pile or a tarp.
+          </p>
+
+          <p>
+            Hold the nozzle low and sweep it side to side in a steady arc, walking slowly forward. Aim at the leading edge of the leaf mass rather than straight down into it, so you roll the leaves forward rather than scattering them. Use a tarp to drag big piles to the curb or compost; it is faster than blowing them the whole distance.
+          </p>
+
+          <p>
+            Wet leaves are the hardest job for any blower. Wait for a dry afternoon when possible. When you cannot, use the highest speed setting on a narrow nozzle, aim low to get under the leaves, and accept that a rake or a mulching mower may finish the job faster. Leaves that have been rained on for a week can turn into a mat that no handheld blower will lift easily.
+          </p>
+
+          <p>
+            Never blow leaves into the street or storm drains. Leaves in gutters clog drains and add nutrients to streams when they decompose, and many towns prohibit it outright. Blow them onto the lawn for mulching, into beds as mulch, or onto a tarp for composting or curbside pickup according to local rules.
+          </p>
+        </div>
+
+        <div id="after-the-blow" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. What to Do With the Leaves Afterward
+          </h2>
+
+          <p>
+            Blowing leaves into a pile is only half the job, and the second half decides how much work the first one was. The least effort is usually to not collect them at all. A light to moderate layer of dry leaves on a lawn can be shredded in place with two passes of a mulching mower, and the small pieces settle between grass blades and break down over the winter. University extension services in many states recommend this for routine leaf drops because it returns organic matter to the soil.
+          </p>
+
+          <p>
+            Heavier drops need moving. Blow leaves onto a large tarp, pull the corners together, and drag it to a compost area or the curb. That is faster than blowing a pile across a whole lawn and saves battery. Shredded leaves make excellent mulch in vegetable and flower beds, and whole leaves stacked in a wire bin turn into leaf mold, a crumbly soil amendment, in a year or two.
+          </p>
+
+          <p>
+            Check your town's collection rules before you bag anything. Some municipalities collect loose leaves at the curb on a schedule, others require paper yard-waste bags, and many prohibit leaves in household trash. Never pile leaves in the street gutter unless your town specifically collects them there, and never burn them where burning is banned; smoke from leaf fires is a respiratory irritant, and many areas restrict open burning in fall.
+          </p>
+
+          <p>
+            Some blowers convert into vacuums that suck leaves through a shredding impeller into a bag. These are handy for flower beds, corners and small patios, but on a full lawn they are slow and the bag fills quickly. If your yard produces more leaves than a mulching mower can handle, a tarp and a blower remain the fastest combination for most homeowners.
+          </p>
+        </div>
+
+        <div id="platforms" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Choosing a Battery Platform
+          </h2>
+
+          <p>
+            A blower is often the second or third tool someone buys on a battery platform, and the platform will shape every outdoor tool purchase for years. EGO's 56-volt and Greenworks' 80-volt systems are built around outdoor power equipment, including mowers, trimmers, chainsaws and snow blowers. Ryobi offers both an 18-volt ONE+ system and a 40-volt outdoor system. DeWalt, Milwaukee and Makita come from the professional tool side, and their blowers make the most sense for people already invested in their batteries.
+          </p>
+
+          <p>
+            The math is simple. If you already own two or more compatible batteries, a bare-tool blower costs much less than a kit. If you own nothing, compare complete kits and look at what else that platform offers, especially a mower, trimmer and <a href="/best-chainsaw/">chainsaw</a> if you have trees. Avoid owning three different platforms with three chargers on the garage shelf.
+          </p>
+
+          <p>
+            Battery warranties and dealer support differ by brand. Read the warranty terms on batteries as well as tools, and keep receipts. A battery is often the most expensive single part of the kit, and a strong warranty on it is worth real money.
+          </p>
+
+          <p>
+            Cross-brand battery adapters exist but are risky. They often bypass the battery management electronics, can void warranties, and introduce fire risk. Stick to the manufacturer's own batteries and chargers.
+          </p>
+
+          <p>
+            One practical test before you commit: list the outdoor tools you expect to own in three years, then price each platform's bare tools and two batteries against that list. The platform with the lowest total for your list, not the cheapest blower kit on sale this week, is almost always the better deal over the life of the tools.
+          </p>
+        </div>
+
+        <div id="gas-comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. When Gas or Corded Still Makes Sense
+          </h2>
+
+          <p>
+            Cordless is the right answer for most homeowners, but not every one. A gas backpack blower still moves more air for longer than any handheld battery tool, and on a two-acre wooded lot with a long gravel drive, that runtime is hard to replace. If you clear leaves for two or three hours at a stretch, refueling in thirty seconds beats rotating four expensive batteries through a charger that needs an hour per pack.
+          </p>
+
+          <p>
+            The costs of gas are real, though. Two-stroke engines need mixed fuel, stale fuel gums up carburetors over the summer, and starting a cold engine in November is the least favorite job of many owners. Gas blowers are also loud enough at the operator's ear that hearing protection is required, and exhaust is unpleasant in a closed garage or courtyard. Never run a gas engine indoors or in an attached garage with the door closed; carbon monoxide builds quickly.
+          </p>
+
+          <p>
+            Corded electric blowers are the budget outlier. They are inexpensive, light and never run out of power, and some double as leaf vacuums with a mulching impeller. The cord limits them to small properties close to an outdoor outlet, and dragging 100 feet of cord across a lawn and around trees gets old quickly. For a townhouse patio or a short driveway they are a perfectly sensible, cheap tool.
+          </p>
+
+          <p>
+            For everyone in between, roughly a tenth of an acre up to an acre, a quality battery handheld with a spare battery is the sweet spot. It starts every time, is easy on neighbors, needs almost no maintenance, and shares batteries with the trimmer and mower many owners already have. That combination is why the picks above are all cordless.
+          </p>
+        </div>
+
+        <div id="care-and-safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Care and Safe Use
+          </h2>
+
+          <p>
+            Blowers throw dust, grit and small stones at high speed. Wear safety glasses rated to ANSI Z87.1 every time, plus hearing protection for longer sessions or high-output turbo use. A dust mask helps in dry conditions, especially when clearing a garage or a dusty driveway. Keep the nozzle pointed away from people and pets, and stop when anyone approaches.
+          </p>
+
+          <p>
+            Maintenance on a battery blower is minimal. Keep the air intake screen clear of leaves and debris so the motor can breathe and cool. Wipe the tool down after use, and store it indoors out of the rain. Check that the nozzle tube is seated firmly; a loose tube can fly off at high speed.
+          </p>
+
+          <p>
+            Battery safety matters as well. Do not charge a damaged or swollen battery, keep batteries away from water, and do not store them in a hot vehicle or in direct sun. If a battery gets wet, let it dry thoroughly before inserting it into a charger, and follow the manufacturer's guidance.
+          </p>
+
+          <p>
+            Do not use a leaf blower to clean up materials that are hazardous to breathe, such as dried animal droppings or fine construction dust from cutting concrete. Blowing those around spreads the hazard. Wet them down and clean them by hand or with an appropriate vacuum instead.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            11. Cost and Where the Value Is
+          </h2>
+
+          <p>
+            Compact battery blower kits with a battery and charger generally sell for roughly $100 to $180 at the time of writing. Full-size high-output handheld kits run roughly $200 to $350, and premium kits with large batteries can exceed that. Bare tools for people who already own the batteries are often half the kit price or less. Spare batteries run from about $100 to over $250 depending on platform and capacity.
+          </p>
+
+          <p>
+            The best value is usually on the platform you already own. A Milwaukee or Makita owner gets a great blower for the cost of a bare tool; the same blower is a poor value for someone who needs to buy two batteries. For a first-time buyer, the EGO LB6504 and Ryobi 40V HP Whisper Series offer the most airflow per dollar in a kit.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Purchase</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical price range</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Compact kit</td>
+                    <td class="px-4 py-4 text-gray-700">$100-$180</td>
+                    <td class="px-4 py-4 text-gray-700">Fine for small lots and patios</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Full-size handheld kit</td>
+                    <td class="px-4 py-4 text-gray-700">$200-$350</td>
+                    <td class="px-4 py-4 text-gray-700">Right for most suburban yards</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Bare tool</td>
+                    <td class="px-4 py-4 text-gray-700">$80-$200</td>
+                    <td class="px-4 py-4 text-gray-700">Best value if you own batteries</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Spare battery</td>
+                    <td class="px-4 py-4 text-gray-700">$100-$250+</td>
+                    <td class="px-4 py-4 text-gray-700">Worth it for big fall cleanups</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Do not overspend on maximum airflow if your yard is small, and do not underspend if you have mature trees. A blower matched to the property, plus one spare battery for heavy weeks, gives the best experience for the money.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying on MPH Alone</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Air speed is the most advertised number, but airflow volume in CFM moves most leaves. A high-speed, low-volume blower makes a narrow jet that pushes a stripe of debris and wastes your time on a big lawn. Compare CFM first, use MPH as a secondary number for wet leaves, and look at combined force where it is published.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running Turbo All the Time</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Turbo drains batteries several times faster than moderate settings, and most leaf piles move fine at lower speed. New owners who hold turbo the whole session are the ones who complain about runtime. Save it for wet patches and stuck debris, and use cruise control for steady passes.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a Platform You Will Not Grow Into</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A blower bought on sale from a brand that offers no mower, trimmer or chainsaw you would want leaves you with orphaned batteries. Before buying, look at the platform's outdoor lineup and pick the one that covers the tools you will need over the next few years.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Blowing Leaves Into the Street</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Leaves blown into gutters clog storm drains, cause localized flooding, and add nutrients to streams as they rot. Many towns ban it. Blow leaves onto the lawn for mulching, into beds as mulch, or onto a tarp for compost or proper curbside collection. Check local collection rules first.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping Eye and Ear Protection</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Blowers throw grit and small stones hard enough to injure eyes, and high-output models on turbo are loud at the operator's ear. Impact-rated safety glasses are a must, and hearing protection is a good idea for longer sessions. Keep the nozzle pointed away from people and pets.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            13. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a battery blower really replace a gas one?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homeowners with up to about half an acre, yes. Top handheld battery blowers now list airflow comparable to many gas handhelds, start instantly and run much quieter. The limitation is runtime at high output. Owners of large wooded properties may still prefer a gas or battery backpack blower, or a second and third battery for handheld use.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many minutes will a battery blower run?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on battery capacity and speed. At the lowest setting, a large battery can run a long time, but at full output many high-airflow blowers run only around ten to fifteen minutes, and turbo shortens that further. Use the lowest speed that moves your debris and keep a spare battery for big cleanups.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a cordless blower move wet leaves?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                High-output models with strong air speed can lift wet leaves, especially with a narrow nozzle aimed low under the leading edge. It is still the hardest job for any blower and drains batteries quickly. Waiting for a dry afternoon, using a rake for matted spots, or mulching with a mower are often faster for heavily soaked leaves.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need more than one battery?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For small yards, one battery is usually enough. For quarter to half-acre lots with several trees, one large battery handles routine cleanups and a second makes fall weekends far easier. For bigger properties, plan on two large batteries from the start, or consider a backpack battery or backpack blower. A spare also lets one charge while the other runs.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What CFM do I need for my yard?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                As a rough guide, 300 to 450 CFM suits decks, patios and small lots, 450 to 600 CFM handles most suburban yards, and 600 CFM or more is worth it for larger lots and heavy leaf drops. Comparing ratings across brands is imperfect because test methods vary, so treat them as broad classes rather than exact rankings.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are battery blowers quieter than gas?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Generally yes. Many battery handhelds publish noise ratings in the 50s to 60s dBA measured at 50 feet, quieter than typical gas models. That is easier on neighbors, but a high-output blower on turbo can still be loud at your ear, so hearing protection is wise for long sessions. Lower settings are quieter still.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I buy a backpack blower instead?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A backpack blower makes sense for properties over about an acre, heavy tree cover, or anyone who clears leaves for long sessions. Backpacks move the weight onto your shoulders and can carry larger batteries or fuel tanks. For most suburban yards a good handheld battery blower with a spare battery is lighter, cheaper and easier to store.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Yard and Outdoor Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-weed-eater/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Weed Eaters</h3>
+              <p class="text-gray-500 text-sm mt-2">Trimmers that share batteries with the blowers on this list.</p>
+            </a>
+            <a href="/best-chainsaw/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Chainsaws</h3>
+              <p class="text-gray-500 text-sm mt-2">Battery and gas saws for storm cleanup and firewood.</p>
+            </a>
+            <a href="/best-self-propelled-lawn-mower/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Self-Propelled Mowers</h3>
+              <p class="text-gray-500 text-sm mt-2">Mulch light leaf drops straight into the lawn.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most yards, the EGO LB6504 is the cordless blower to buy, with the Ryobi 40V HP Whisper Series a close second on value and noise. Big lots with heavy trees should look at the Greenworks 80V and plan on two batteries. Milwaukee, DeWalt and Makita owners should start with the blower that runs on the batteries they already own.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Buy on airflow, not the speed number. Keep turbo for wet leaves, carry a spare battery in the fall, work with the wind, and keep the leaves out of the street. Do that and a battery blower handles nearly any suburban cleanup without the noise and fuel of gas.
+          </p>
+        </div>
+
+        <MoreInCategory category="Yard & Outdoor Tools" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

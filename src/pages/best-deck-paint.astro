@@ -1,0 +1,937 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Deck Stains",
+    "url": "/best-deck-stain-reviews/"
+  },
+  {
+    "title": "Best Deck Sealant",
+    "url": "/best-deck-sealant/"
+  },
+  {
+    "title": "Can You Stain Pressure-Treated Wood?",
+    "url": "/can-you-stain-pressure-treated-wood/"
+  },
+  {
+    "title": "Best Fence Stain",
+    "url": "/best-fence-stain/"
+  },
+  {
+    "title": "Deck Stain Colors Guide",
+    "url": "/deck-stain-colors-guide/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-02", modified: "2026-11-02" });
+const title = "The 6 Best Deck Paints and Resurfacers, by Deck Condition";
+const description =
+  "Deck paint, solid stain or a thick resurfacer? Six real products matched to deck condition, with the prep and peeling risks that decide whether paint lasts.";
+
+const PRODUCTS = [
+  {
+    "id": "ben-moore-arborcoat-solid",
+    "badge": "Best Overall",
+    "category": "Waterborne solid stain",
+    "name": "Benjamin Moore Arborcoat Solid Deck & Siding Stain",
+    "amazonUrl": "",
+    "bottomLine": "The best choice for a sound deck that needs a uniform color without the heavy film of paint.",
+    "pros": [
+      "Thin, flexible film that follows the wood grain texture",
+      "Tintable to a wide range of colors",
+      "Designed for both decks and siding",
+      "Soap-and-water cleanup",
+      "Strong reputation among painting contractors"
+    ],
+    "cons": [
+      "Sold through Benjamin Moore dealers, not big-box stores",
+      "Premium price per gallon",
+      "Still needs careful prep and dry wood"
+    ],
+    "description": "Arborcoat Solid is Benjamin Moore's top waterborne solid stain for exterior wood, and it ranks first because it fits the most common painting job: a structurally sound deck with weathered or mismatched boards that needs an even color. A solid stain like this hides the grain but stays thinner and more flexible than a true paint, so it moves with the wood and keeps the board texture visible. It can be tinted across a wide palette at Benjamin Moore dealers, and the same product works on siding and railings, which makes color matching simple. Owners and contractors commonly describe it as easy to apply evenly with a brush or roller and as aging by gradually wearing in traffic lanes rather than peeling in sheets. It is a premium product with a matching price, roughly 60 to 85 dollars per gallon at the time of writing, and it is only available through dealers. Like every film, it depends on clean, dry, well-prepared wood; it will not save a deck that stays wet."
+  },
+  {
+    "id": "behr-premium-solid",
+    "badge": "Best Value",
+    "category": "Acrylic solid stain",
+    "name": "BEHR Premium Solid Color Waterproofing Stain & Sealer",
+    "amazonUrl": "",
+    "bottomLine": "The practical choice for a solid-color deck when you want to buy locally and keep the budget reasonable.",
+    "pros": [
+      "Available at every Home Depot",
+      "Wide color range with in-store tinting",
+      "Acrylic formula with soap-and-water cleanup",
+      "Works on decks, fences and siding",
+      "Moderate price per gallon"
+    ],
+    "cons": [
+      "Owners report shorter life on sunny horizontal surfaces than on vertical ones",
+      "Two coats needed for even color",
+      "Can peel if applied over old penetrating stain"
+    ],
+    "description": "BEHR's Premium Solid Color Waterproofing Stain & Sealer is the solid stain most homeowners can pick up today. It is an acrylic product sold and tinted at Home Depot, so color choice is wide and replacement cans for touch-ups are easy to find. It hides grain and mismatched boards while staying thinner than a floor paint. On railings, fences and siding, owners tend to be pleased with how long it holds color. On sunny horizontal decking the feedback is more mixed, with recoats more often needed in the main traffic paths after a few seasons. Most of the complaints about peeling come from decks where the product went over an old penetrating stain or onto damp wood, which is a prep problem rather than a formula one. Strip or thoroughly weather the old finish, sand lightly, let the wood dry and apply two thin coats. It costs roughly 40 to 55 dollars per gallon at the time of writing, which makes it the best value among the solid stains here."
+  },
+  {
+    "id": "behr-premium-deckover",
+    "badge": "Best Resurfacer",
+    "category": "Thick resurfacer",
+    "name": "BEHR Premium Advanced DeckOver",
+    "amazonUrl": "",
+    "bottomLine": "The resurfacer to try on a structurally sound but rough deck, as long as the wood is dry and the prep is thorough.",
+    "pros": [
+      "Thick body fills checks and small cracks",
+      "Textured finish improves traction",
+      "Locks down splinters on rough old decks",
+      "Works on wood and concrete",
+      "Wide color range at Home Depot"
+    ],
+    "cons": [
+      "Low coverage per gallon raises total cost",
+      "Very hard to remove once applied",
+      "Earlier resurfacer formulas drew class-action complaints over peeling"
+    ],
+    "description": "DeckOver is the best-known deck resurfacer, a thick acrylic coating meant to give a worn-out but sound deck a second life. Behr says it fills cracks up to about a quarter inch, and its textured surface hides checking, rough grain and splinters that a normal paint would outline. The finish also improves grip on stairs and around pools. Its history is a fair warning: resurfacers as a category, including earlier formulas from major brands, drew class-action complaints about peeling, and owner reviews still split sharply between decks that look great for years and decks that lift within a season. The difference usually comes down to moisture and preparation. It needs wood that is clean, dry and free of old stain, every board edge coated, and the spread rate on the label followed closely. Coverage is low, often 75 square feet per gallon or less per coat, so a full deck can cost several hundred dollars. Prices ran roughly 45 to 70 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "behr-porch-floor-paint",
+    "badge": "Best for Covered Porches",
+    "category": "Porch and floor enamel",
+    "name": "BEHR Porch & Patio Floor Paint, Low-Lustre Enamel",
+    "amazonUrl": "",
+    "bottomLine": "A smooth, durable floor paint for covered porches and protected decks where sun and standing water are limited.",
+    "pros": [
+      "Smooth, scuff-resistant enamel finish",
+      "Works on wood and concrete floors",
+      "Tintable in a wide color range",
+      "Easy cleanup and low odor",
+      "Good choice for screened and covered porches"
+    ],
+    "cons": [
+      "More slippery when wet without an additive",
+      "Harder film can crack on open, sun-baked decks",
+      "Primer usually needed on bare wood"
+    ],
+    "description": "BEHR's Porch & Patio Floor Paint is a one-part acrylic latex enamel formulated to stand up to foot traffic, and it is the right product for a covered porch, screened room or deck under a roof. The low-lustre finish is smooth and easy to clean, and the same paint works on concrete steps and patios, so one color can tie the whole entry together. Because it is a true paint rather than a stain, it forms a slightly harder film. That is an advantage under cover, where it resists scuffing and chair legs, and a disadvantage on an open deck in full sun, where the harder film is less tolerant of the wood's swelling and shrinking. On bare wood, use the exterior primer the label recommends, and use a stain-blocking primer under light colors on cedar or redwood. Add an anti-slip additive for steps and areas that get wet. It cost roughly 35 to 55 dollars per gallon at the time of writing."
+  },
+  {
+    "id": "kilz-over-armor",
+    "badge": "Budget Resurfacer",
+    "category": "Textured coating",
+    "name": "KILZ Over Armor Textured Wood/Concrete Coating",
+    "amazonUrl": "",
+    "bottomLine": "A cheaper middle step between floor paint and a heavy resurfacer for decks with modest wear.",
+    "pros": [
+      "Textured, slip-resistant finish",
+      "Fills minor cracks and hides rough grain",
+      "Lower cost than heavier resurfacers",
+      "Works on wood decks and concrete",
+      "Available at major home centers"
+    ],
+    "cons": [
+      "Thinner build than DeckOver, so it fills less",
+      "Same moisture sensitivity as any thick film",
+      "Hard to remove once applied"
+    ],
+    "description": "KILZ Over Armor sits between floor paint and a full resurfacer. It goes on thicker than normal paint and leaves a sand-textured, slip-resistant finish that hides rough grain, small checks and minor splintering, but it does not build as thick a layer as the heaviest resurfacers. That makes it a sensible choice for a deck with moderate wear that does not need deep crack filling. The texture is a plus on stairs and around pools. It works on both wood and concrete, which helps when a deck steps down onto a slab. Owner feedback follows the familiar resurfacer pattern: decks that were clean, dry and well-prepared tend to hold up, and decks coated over old stain or damp wood tend to peel. Follow the spread rate, coat board edges and ends, and stick to two coats. Expect it to be difficult to strip if you ever change course. It cost roughly 40 to 55 dollars per gallon at the time of writing, with coverage well below standard paint."
+  },
+  {
+    "id": "valspar-porch-floor-patio",
+    "badge": "Best at Lowe's",
+    "category": "Porch and floor paint",
+    "name": "Valspar Porch, Floor & Patio Latex Paint",
+    "amazonUrl": "",
+    "bottomLine": "A dependable porch and floor paint for Lowe's shoppers working on covered decks, steps and entry floors.",
+    "pros": [
+      "Widely available at Lowe's with in-store tinting",
+      "Durable acrylic latex floor formula",
+      "Works on wood and concrete",
+      "Moderate price",
+      "Easy soap-and-water cleanup"
+    ],
+    "cons": [
+      "Needs anti-slip additive for wet areas",
+      "Best on covered or partly shaded surfaces",
+      "Primer needed on bare or tannin-rich wood"
+    ],
+    "description": "Valspar's Porch, Floor & Patio Latex Paint is Lowe's answer to the floor enamel category, and it fills the same role as BEHR's porch paint for shoppers on the other side of the street. It is an acrylic latex designed to resist scuffing on floors and steps and can be tinted to a broad range of colors in store. Like any true floor paint, it does its best work on covered porches, partly shaded decks and steps rather than open decks in full sun, where a solid stain is a better match for the wood's movement. Owners generally describe it as easy to roll, with good hiding in two coats when the surface was primed. The common complaints are slipperiness on wet steps and peeling where it went over an old finish without enough prep. Add an anti-slip additive to the last coat on stairs and pool surrounds, and use a stain-blocking primer on cedar or redwood. It ran roughly 35 to 50 dollars per gallon at the time of writing."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Deck Paint",
+          item: "https://www.allmetalbrake.com/best-deck-paint/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Is it better to paint or stain a deck?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Stain is usually better for decks in good condition because it soaks in or forms a thin, flexible layer that fades rather than peels. Paint or solid stain makes sense when the boards are weathered, mismatched or already coated with film. Paint gives a uniform color but commits you to film maintenance, and removing it later requires stripping and heavy sanding."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many years will a painted deck hold up?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On an open, sunny deck, solid stain and porch paint typically last about three to five years before the traffic lanes need recoating, and longer on covered porches. Resurfacers can last several years when applied to dry, well-prepared wood but fail quickly when moisture gets behind them. Climate, sun exposure, foot traffic and preparation matter more than the brand."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does a deck need primer before paint?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That comes down to the product. Many solid stains and resurfacers are self-priming on bare wood, while porch and floor paints often require an exterior primer. Cedar and redwood bleed tannins, so a stain-blocking primer helps under light colors. When a manufacturer names a specific primer for its topcoat, use that one to keep the warranty and adhesion intact."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I paint over an old deck stain?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can paint over an old stain only after it has worn away enough that water soaks in, or after you strip it. Paint applied over a penetrating stain that still repels water does not bond well and tends to peel. Clean the deck, sand lightly, let it dry and test a small area with tape before coating the whole surface."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are deck resurfacers worth it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They can be on a structurally sound deck with rough, checked or splintered boards, where they hide damage and add traction. They are a poor choice on decks with soft wood, loose framing or chronic moisture. Resurfacers have a mixed track record, cost more per square foot because of low coverage and are very hard to remove, so weigh them against replacing worn boards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What temperature do I need to paint a deck?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most acrylic deck coatings call for air and surface temperatures of at least 50 degrees, sometimes higher, and need to stay above that while they dry overnight. Avoid painting in direct midday sun and on evenings when dew will form before the paint sets. Check the specific label for its range and the rain-free period it needs afterward."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I make a painted deck less slippery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use a textured coating, or mix an anti-slip additive made for the paint into the final coat, especially on stairs, pool surrounds and shaded areas that stay damp. Stir the additive often because it settles. Keeping the deck clean also helps, since algae, mildew and wet leaves make any painted surface far more slippery."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Deck & Wood Finishes",
+    tags: [
+      "best deck paint",
+      "deck resurfacer",
+      "solid deck stain",
+      "porch and floor paint",
+      "painting a wood deck",
+      "deck restoration"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The 6 Best <span class="text-[#38BDF8]">Deck Paints</span>, Matched to the Deck You Have
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Painting a deck is a one-way door. Done on sound, dry wood with the right coating, it buys years of color. Done on the wrong deck, it peels by next summer. Here is how to tell which deck you have and what to put on it.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ben-moore-arborcoat-solid"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare All Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="7.9k" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Top Picks</a>
+          <a href="#triage" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Should You Paint?</a>
+          <a href="#three-coatings" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Three Kinds of Coating</a>
+          <a href="#why-it-peels" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Why Deck Paint Peels</a>
+          <a href="#prep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Prep and Priming</a>
+          <a href="#application" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Application</a>
+          <a href="#traction-heat" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Traction and Heat</a>
+          <a href="#coverage-cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Coverage and Cost</a>
+          <a href="#upkeep" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Upkeep and Exit Plan</a>
+          <a href="#alternatives" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. When to Skip Paint</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Deck paint has a bad reputation, and some of it is earned. Horizontal wood is the hardest surface on a house to keep coated: it bakes in sun, holds standing water, flexes under feet and soaks up moisture from below. A film that would last a decade on siding can lift in two seasons on a deck. That does not mean paint is a mistake. It means the decision should start with the deck rather than the can. A structurally sound deck with weathered, mismatched or previously coated boards is a good candidate. A deck with soft spots, chronic dampness or boards that are still shedding old stain is not, and no product on this list will change that.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Best Deck Paints, Ranked
+          </h2>
+
+          <p>
+            Picks are ranked using manufacturer data sheets, label coverage and recoat guidance, published warranty terms, and patterns in owner feedback over several seasons. We did not run our own exposure panels. Each product is matched to the deck condition it suits, because the right coating for a sound deck is the wrong one for a cracked one.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="triage" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Should You Paint This Deck? A Five-Minute Triage
+          </h2>
+
+          <p>
+            Start with a screwdriver, not a paint chip. Push it into the boards near the house, around posts, on the stair treads and anywhere water pools. If it sinks in more than about an eighth of an inch with light pressure, that wood is soft or rotting. Coating it hides the problem for a season while the rot keeps spreading underneath. Replace soft boards first, and check the joists below them while they are open.
+          </p>
+
+          <p>
+            Next, look at the existing finish. If water beads on the boards, a sealer or stain is still active and paint will not bond to it. If the old coating is peeling in sheets, everything loose must come off before anything new goes on. If the boards are bare and gray, they are the easiest to paint after a thorough cleaning and a light sanding to remove loose fibers.
+          </p>
+
+          <p>
+            Then check moisture and airflow. Decks built low to the ground, over grass or wet soil, or with little gap between boards stay damp from below. Paint traps that moisture, and the coating bubbles and lifts from the underside. A pin moisture meter reading in the low to mid teens is a reasonable target before painting. A deck that reads higher than that on a dry week is a poor candidate for any film.
+          </p>
+
+          <p>
+            Finally, be honest about what you want. Paint and solid stain are the right answer when you want an even color, to hide mismatched replacement boards, or to cover stains and graying that cleaning cannot fix. They are the wrong answer if you love the grain, because once a film goes on, getting back to bare wood means stripping and sanding every board.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Deck condition</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best coating type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Sound, bare, graying wood</td>
+                    <td class="px-4 py-4 text-gray-700">Solid stain or porch paint</td>
+                    <td class="px-4 py-4 text-gray-700">Clean, light sand, two thin coats</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Sound, old stain worn off</td>
+                    <td class="px-4 py-4 text-gray-700">Solid stain</td>
+                    <td class="px-4 py-4 text-gray-700">Strip remaining stain first</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Checked, splintered, small cracks</td>
+                    <td class="px-4 py-4 text-gray-700">Thick resurfacer</td>
+                    <td class="px-4 py-4 text-gray-700">Only if structure is sound</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Soft spots or chronic damp</td>
+                    <td class="px-4 py-4 text-gray-700">None yet</td>
+                    <td class="px-4 py-4 text-gray-700">Fix wood and drainage first</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Covered porch floor</td>
+                    <td class="px-4 py-4 text-gray-700">Porch and floor enamel</td>
+                    <td class="px-4 py-4 text-gray-700">Less sun means longer life</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="three-coatings" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Solid Stain, Floor Paint and Resurfacer: Three Different Products
+          </h2>
+
+          <p>
+            <strong>Solid color deck stain</strong> is the closest thing to paint that still behaves like a stain. It is usually an acrylic or acrylic-modified coating that hides the grain but stays thinner and more flexible than paint, so it follows the texture of the board. Most solid stains are designed to be recoated without stripping as long as the surface is sound. For bare or recently stripped decks in full sun, solid stain is the default recommendation.
+          </p>
+
+          <p>
+            <strong>Porch and floor paint</strong> is a true paint, usually a one-part acrylic latex enamel formulated to resist scuffing. It forms a smoother, slightly harder film than solid stain and shines on covered porches, screened rooms and decks that see moderate sun. On open decks in harsh climates, its harder film is more prone to cracking with the wood's movement, so it suits protected surfaces best.
+          </p>
+
+          <p>
+            <strong>Resurfacers</strong> are thick-bodied coatings, often built up to many times the thickness of normal paint. They fill checks and small cracks, lock down splinters and leave a textured surface with better traction. They are meant for decks that are structurally fine but cosmetically worn out. They also have the most complicated history: resurfacers as a category, including early formulas from major brands, drew class-action complaints over peeling, and their success depends heavily on dry wood and careful prep.
+          </p>
+
+          <p>
+            These products are not interchangeable, and mixing them causes trouble. A resurfacer over a peeling solid stain inherits that stain's weak bond. A porch paint over a resurfacer can look fine and then crack as the thick layer beneath moves. Choose one system for the whole deck and stick with the same family on recoats, using the primer the manufacturer specifies if there is one.
+          </p>
+
+          <p>
+            If you only want to change the color of a deck that still has sound grain and you are willing to recoat every few years, look first at a semi-transparent product in our <a href="/best-deck-stain-reviews/">deck stain rankings</a>. It will never peel the way a film can, and it keeps the option of going lighter or back to natural later.
+          </p>
+        </div>
+
+        <div id="why-it-peels" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Why Deck Paint Peels, and How to Stop It
+          </h2>
+
+          <p>
+            Nearly every peeling deck traces back to moisture behind the film. Wood swells as it absorbs water and shrinks as it dries. A paint film has some flexibility but far less than the wood beneath it. When water gets in through a crack, an unsealed end, a nail hole or the underside of the board, the film is pushed off from behind. Sunlight then heats and softens the coating and finishes the job.
+          </p>
+
+          <p>
+            Coat every face you can reach. On new or replaced boards, prime or seal all four sides and both ends before installing them, or at least the ends. On existing decks, coat the board edges and ends, not just the top face. Water entering through uncoated ends is one of the most common causes of peeling that starts at the board tips and spreads inward.
+          </p>
+
+          <p>
+            Next, do not apply film over a surface that will not hold it. Old penetrating stain, waxy water repellents, mill glaze on new lumber and chalky residue from failed coatings all prevent adhesion. The tape test is simple: press masking tape firmly onto an area you have prepped and coated, let it dry, then pull it off quickly. If paint comes away on the tape, the surface needs more preparation.
+          </p>
+
+          <p>
+            Thickness is the last factor. Two thin coats outperform one heavy coat for everything but resurfacers, which are designed to go on thick but still within the label's limits. Overbuilt paint cracks as it ages, and cracks invite water. Measure out how much product a section should take and stick to it.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Paint fails from behind, not from on top.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Most peeling starts where water gets under the film through ends, edges, cracks or the underside of the board. Seal those paths, paint only dry wood, and the coating has a real chance of lasting.</p>
+          </div>
+        </div>
+
+        <div id="prep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Prep and Priming: Most of the Job
+          </h2>
+
+          <p>
+            Clean first. A deck cleaner and a scrub brush remove dirt, mildew and old chalking finish. Rinse with a pressure washer on a wide fan setting at low pressure, keeping the tip well back from the wood and moving with the grain. Our pressure washer guide, <a href="/best-pressure-washer/">best pressure washers</a>, covers models that adjust down far enough for softwood.
+          </p>
+
+          <p>
+            Remove anything that is not firmly bonded. A deck stripper handles old solid stain and loose paint across a whole surface; a scraper and a sander handle smaller areas. Sand with roughly 60 to 80 grit to open the wood and knock down raised fibers, then sweep and vacuum the dust out of the board gaps. A deck that has been stripped also needs a brightener to neutralize the stripper and restore the wood's pH.
+          </p>
+
+          <p>
+            Repair before you coat. Set any popped nails or replace them with deck screws, swap out cracked or soft boards, and fill small holes in railings with an exterior filler. On walking surfaces, fillers tend to pop out as the wood moves, so replacing a badly split board is the more durable fix. Our <a href="/best-wood-filler/">wood filler guide</a> covers products that hold up outdoors on railings and trim.
+          </p>
+
+          <p>
+            Let it dry. After washing or stripping, most coating labels want at least 48 hours of dry weather, and new pressure-treated lumber may need weeks or months before it accepts any film. If you are working with new treated boards, our guide on whether <a href="/can-you-stain-pressure-treated-wood/">you can stain pressure-treated wood</a> walks through the absorption test that tells you when it is ready.
+          </p>
+
+          <p>
+            Prime when the label calls for it. Many solid stains and resurfacers are self-priming on bare wood, while porch paints often call for an exterior primer. Cedar and redwood bleed tannins that can discolor light paint, so a stain-blocking exterior primer is worth using under light colors on those species. Use the primer the topcoat manufacturer names when one is listed.
+          </p>
+        </div>
+
+        <div id="application" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Applying Deck Paint for a Finish That Lasts
+          </h2>
+
+          <p>
+            Check the label's temperature window for both the air and the wood. Most acrylic coatings want at least 50 degrees, sometimes higher, and need to stay above that through the night. Avoid painting in direct midday sun, which dries the surface before the film levels, and avoid evenings when dew will form before the coating sets.
+          </p>
+
+          <p>
+            Cut in the edges and gaps with a brush first, then roll the board faces. Work two or three boards at a time along their full length so you always roll into wet paint. A brush or a thin putty knife pushed between boards clears paint that bridges the gap, which otherwise traps water and leaves a line that cracks.
+          </p>
+
+          <p>
+            For resurfacers, use the roller nap and spread rate the manufacturer specifies. These products depend on a specific thickness, and the most common mistake is spreading them too thin to stretch the gallon or too thick to fill a crack in one pass. Fill larger cracks separately with the manufacturer's recommended filler or a first spot coat, then apply the full coat.
+          </p>
+
+          <p>
+            Apply two coats unless the label says otherwise, waiting the full recoat time between them. On steps and the main traffic paths, a third coat or an anti-slip additive is a worthwhile upgrade. Do railings and vertical parts first, then the floor, and finish at the exit.
+          </p>
+
+          <p>
+            Respect cure time. Many coatings are dry to the touch in a few hours but take several days to harden fully. Light foot traffic is usually allowed after a day; furniture, grills and planters should wait longer, and rugs should stay off for at least a week so they do not trap moisture or stick to the film.
+          </p>
+        </div>
+
+        <div id="traction-heat" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Traction, Heat and Color Choice
+          </h2>
+
+          <p>
+            A smooth painted deck is noticeably more slippery when wet than bare wood. For stairs, pool surrounds and shaded decks that hold dew, choose a textured coating or add a fine anti-slip aggregate to the final coat. Most paint makers sell a compatible additive. Mix it thoroughly and stir often, because it settles to the bottom of the tray.
+          </p>
+
+          <p>
+            Color matters for comfort as much as appearance. Dark solid colors on a south or west facing deck can get uncomfortably hot under bare feet in summer, and darker films also expand and contract more through daily temperature swings. Mid-tone grays, tans and browns are more forgiving on both counts and hide dirt and pollen better than very light colors.
+          </p>
+
+          <p>
+            Light colors show every leaf stain and footprint, and on cedar or redwood they can turn yellow or tan as tannins bleed through. If you want a pale deck, use a stain-blocking primer and plan on more frequent cleaning. Many owners split the difference with a darker floor and lighter railings, which also hides wear on the walking surface.
+          </p>
+
+          <p>
+            Before committing, paint a sample on a scrap board or an out-of-the-way stair tread and look at it in morning and afternoon light. Solid stains and floor paints often dry a shade different from the chip. A one-quart test costs far less than repainting a whole deck in a color you dislike.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Rules of thumb</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">2 coats</p>
+                <p class="text-gray-400 text-xs mt-1">Standard for paint and solid stain</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">50°F+</p>
+                <p class="text-gray-400 text-xs mt-1">Typical minimum surface temperature</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">48 hrs</p>
+                <p class="text-gray-400 text-xs mt-1">Common dry time after washing</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">3-5 yrs</p>
+                <p class="text-gray-400 text-xs mt-1">Typical life of solid stain on decks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="coverage-cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Coverage and Cost
+          </h2>
+
+          <p>
+            Coverage varies more across deck coatings than across almost any other paint category. Standard porch paints and solid stains often list roughly 250 to 400 square feet per gallon per coat on smooth surfaces. Resurfacers may list as little as 50 to 75 square feet per gallon per coat because they go on so thick. Read the label for the specific product before you budget.
+          </p>
+
+          <p>
+            Measure the deck floor, then add railings and stairs. Rails with pickets can add nearly half again to the floor area, and each stair adds tread, riser and stringer faces. Use the rough-surface coverage figure for weathered or stripped wood and plan for two coats. Buying all the product at once from the same batch also avoids slight color differences between cans.
+          </p>
+
+          <p>
+            At the time of writing, quality solid stains and porch paints were roughly 40 to 70 dollars per gallon, and resurfacers were often 45 to 70 dollars per gallon with far lower coverage. For a 300 square foot deck, that can mean roughly 150 to 300 dollars in solid stain or porch paint, compared with several hundred dollars or more for a resurfacer, before primer, stripper and tools.
+          </p>
+
+          <p>
+            The hidden cost is time. Stripping, sanding and repairing a neglected deck can take a weekend or more by itself, before any coating goes on. If you are hiring out, ask whether the quote includes stripping and board replacement, since those line items are where estimates diverge. Cost per year of service is a better comparison than price per gallon.
+          </p>
+
+          <p>
+            Compare the coating budget to replacement as well. If more than about a quarter of the boards are cracked, cupped or soft, new decking over sound framing may cost less over the next decade than repeated resurfacing. Resurfacers are worth the money when the structure is good and the problem is mostly cosmetic.
+          </p>
+        </div>
+
+        <div id="upkeep" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Upkeep and the Exit Plan
+          </h2>
+
+          <p>
+            Wash a painted deck once or twice a year with a mild deck cleaner and a soft brush. Mildew and dirt hold moisture against the film and dull the color. Avoid high pressure, which can lift coating at worn edges. Clear leaves and debris from board gaps so water drains instead of soaking into edges.
+          </p>
+
+          <p>
+            Touch up early. Small chips at stair noses and in the main traffic lane are normal. Sand the edges of the chip, spot prime if bare wood shows, and apply thin coats of the same product. Catching wear early keeps water from creeping under the film and turning a small spot into a peeling patch.
+          </p>
+
+          <p>
+            Expect to recoat solid stain and porch paint every few years in full sun and less often under cover. Clean and lightly scuff the surface first, and use the same product family. Resurfacers are usually recoated with the same resurfacer, but read the label; some limit how many layers can be stacked before the coating must come off.
+          </p>
+
+          <p>
+            Know your exit plan before you start. Removing a solid coating from a deck means chemical stripping and heavy sanding, and resurfacers are especially stubborn. If you might want the natural wood back someday, a semi-transparent stain is the better choice now. Clear and lightly tinted options are covered in our <a href="/best-deck-sealant/">deck sealant guide</a>.
+          </p>
+
+          <p>
+            Keep records. Write the product name, color, batch number and date on the inside of the garage door or in a phone note. When it is time to touch up, matching the exact product avoids adhesion problems and a patchwork of slightly different colors.
+          </p>
+        </div>
+
+        <div id="alternatives" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. When Paint Is the Wrong Answer
+          </h2>
+
+          <p>
+            Skip paint on decks in constant shade with poor airflow. They stay damp, grow mildew under and on the film, and peel early. Improving drainage, trimming overhanging branches and using a penetrating finish usually works better on these decks than any coating.
+          </p>
+
+          <p>
+            Skip paint on new cedar, redwood or tropical hardwoods unless you have a specific reason. Those woods were chosen for their grain and natural durability, and covering them wastes that. A toned penetrating finish keeps them looking like what they are; our <a href="/best-redwood-sealer/">redwood sealer guide</a> covers finishes that preserve the warm color.
+          </p>
+
+          <p>
+            Skip paint on decks you are not prepared to maintain. A film neglected for several years fails in patches and is harder to restore than a faded stain. If you know the deck will be ignored, a semi-transparent penetrating stain degrades more gracefully and is easier to bring back.
+          </p>
+
+          <p>
+            Skip resurfacers on decks that move. Loose framing, bouncy boards and large gaps will crack a thick coating. Tighten or add framing, secure boards with screws, and only then decide whether a resurfacer is needed.
+          </p>
+
+          <p>
+            And skip paint altogether on composite decking unless the board maker publishes a coating system for it. Most composite manufacturers do not recommend coating their boards at all; a cleaning is usually all they need.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Painting over a finish that still repels water</h3>
+              <p class="text-gray-700 text-sm m-0">
+                If water beads on the boards, an old sealer or penetrating stain is still active and paint will not bond to it. The new coating may look fine for weeks and then peel in sheets. Strip the old finish or let it weather fully, clean and lightly sand, and test adhesion with tape on a small area first.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Coating a deck that stays damp</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Low decks over wet ground, decks under trees and boards with no gap between them hold moisture from below. A film traps that water, and the coating blisters and lifts from the underside. Fix drainage and airflow, check readings with a moisture meter, and consider a penetrating finish instead of paint on chronically damp decks.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Spreading a resurfacer too thin</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Resurfacers rely on a specific thickness to fill cracks and resist wear. Stretching a gallon to cover more area leaves a thin, weak layer that wears through quickly and fails to bridge checks. Use the roller and spread rate the label specifies, fill larger cracks separately and buy enough product for two full coats.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Leaving board ends and edges bare</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Water that enters through uncoated ends and edges gets behind the film and pushes it off, starting at the board tips. Brush coating into the ends, sides and gaps of every board, not just the top face. On new or replacement boards, coat the ends before installation so the most absorbent grain is protected.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Choosing a dark color for a sunny deck</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Very dark solid colors on decks facing south or west can become uncomfortably hot underfoot and expand and contract more each day, which stresses the film. Mid-tone colors stay cooler, hide dirt and pollen better and tend to last longer. Test a sample board in full sun before committing.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is it better to paint or stain a deck?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Stain is usually better for decks in good condition because it soaks in or forms a thin, flexible layer that fades rather than peels. Paint or solid stain makes sense when the boards are weathered, mismatched or already coated with film. Paint gives a uniform color but commits you to film maintenance, and removing it later requires stripping and heavy sanding.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many years will a painted deck hold up?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                On an open, sunny deck, solid stain and porch paint typically last about three to five years before the traffic lanes need recoating, and longer on covered porches. Resurfacers can last several years when applied to dry, well-prepared wood but fail quickly when moisture gets behind them. Climate, sun exposure, foot traffic and preparation matter more than the brand.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Does a deck need primer before paint?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                That comes down to the product. Many solid stains and resurfacers are self-priming on bare wood, while porch and floor paints often require an exterior primer. Cedar and redwood bleed tannins, so a stain-blocking primer helps under light colors. When a manufacturer names a specific primer for its topcoat, use that one to keep the warranty and adhesion intact.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I paint over an old deck stain?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                You can paint over an old stain only after it has worn away enough that water soaks in, or after you strip it. Paint applied over a penetrating stain that still repels water does not bond well and tends to peel. Clean the deck, sand lightly, let it dry and test a small area with tape before coating the whole surface.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are deck resurfacers worth it?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                They can be on a structurally sound deck with rough, checked or splintered boards, where they hide damage and add traction. They are a poor choice on decks with soft wood, loose framing or chronic moisture. Resurfacers have a mixed track record, cost more per square foot because of low coverage and are very hard to remove, so weigh them against replacing worn boards.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What temperature do I need to paint a deck?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most acrylic deck coatings call for air and surface temperatures of at least 50 degrees, sometimes higher, and need to stay above that while they dry overnight. Avoid painting in direct midday sun and on evenings when dew will form before the paint sets. Check the specific label for its range and the rain-free period it needs afterward.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I make a painted deck less slippery?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Use a textured coating, or mix an anti-slip additive made for the paint into the final coat, especially on stairs, pool surrounds and shaded areas that stay damp. Stir the additive often because it settles. Keeping the deck clean also helps, since algae, mildew and wet leaves make any painted surface far more slippery.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Deck and Wood Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-deck-stain-reviews/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Deck Stains</h3>
+              <p class="text-gray-500 text-sm mt-2">Semi-transparent and solid stains ranked for decks that still have good grain.</p>
+            </a>
+            <a href="/best-deck-sealant/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Deck Sealants</h3>
+              <p class="text-gray-500 text-sm mt-2">Clear finishes for owners who want the wood to look like wood.</p>
+            </a>
+            <a href="/best-porch-paint/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Porch Paint</h3>
+              <p class="text-gray-500 text-sm mt-2">Floor enamels for covered porches, steps and entry floors.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For a sound deck that needs one even color, Benjamin Moore Arborcoat Solid is the best coating here, with BEHR's solid stain as the value alternative you can buy today. Covered porches are better served by a true floor enamel such as BEHR Porch & Patio or Valspar Porch, Floor & Patio. Resurfacers like DeckOver and Over Armor earn their place only on rough decks with good structure and dry wood.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The coating is the last step, not the first. Probe for rot, fix drainage, strip what is failing, coat every edge and let the wood dry. If the grain is still worth seeing, skip paint and look at our <a href="/best-deck-stain-reviews/">deck stain rankings</a> instead; it is far easier to go from stain to paint later than the other way around.
+          </p>
+        </div>
+
+        <MoreInCategory category="Deck & Wood Finishes" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

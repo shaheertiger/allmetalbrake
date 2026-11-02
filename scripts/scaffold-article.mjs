@@ -194,7 +194,7 @@ const schema = {
             ${spec.kicker}
           </span>
           <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
-            Field Tested
+            Research-Based
           </span>
         </div>
         <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
