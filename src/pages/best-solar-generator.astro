@@ -1,0 +1,1201 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Portable Power Station for Home Backup",
+    "url": "/best-portable-power-station-for-home-backup/"
+  },
+  {
+    "title": "Best Portable Power Station for Camping",
+    "url": "/best-portable-power-station-for-camping/"
+  },
+  {
+    "title": "Best Portable Chargers for Power Outages",
+    "url": "/best-portable-chargers-for-power-outages/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Solar Generators: Power Stations Matched to Their Panels";
+const description =
+  "Seven solar generators paired with the panel wattage that refills them, with sun-hour math, MPPT input limits, series vs parallel wiring and cold-weather Voc.";
+
+const PRODUCTS = [
+  {
+    "id": "ecoflow-delta-3-plus",
+    "name": "EcoFlow Delta 3 Plus Portable Power Station",
+    "category": "1kWh LFP, 1,800W, Expandable",
+    "badge": "Best Overall Solar Generator",
+    "amazonUrl": "",
+    "pros": [
+      "Room for a realistic 300-400W of panels",
+      "1,800W output covers fridge starts and kitchen loads",
+      "Expandable, so solar and storage can grow together",
+      "Fast wall charging as a cloudy-day fallback"
+    ],
+    "cons": [
+      "About 28 pounds, heavier than the Jackery 1000 v2",
+      "120V only",
+      "Some solar settings live in the app"
+    ],
+    "bottomLine": "The best-balanced battery-to-panel pairing for most households, with room to grow both sides.",
+    "description": "The Delta 3 Plus is the easiest solar generator to get right. EcoFlow rates its battery at 1,024Wh of LFP, small enough that a modest panel set can genuinely refill it in a day: by the harvest math in this guide, 400W of portable panels on a clear summer day should deliver somewhere around 1.0-1.5kWh, which is a full battery with some left over to run loads while it charges. Drop to 300W and you still put back most of a day's fridge-and-internet use. That balance is why it leads this list. The 1,800W inverter is rated to start a refrigerator compressor, the battery covers an evening and overnight, and the panels pay it back the next day. Because the platform is expandable, you can add an extra battery later and grow the array alongside it rather than replacing the whole system. Pair it with EcoFlow's own folding panels for a tidy setup, or any compatible panel set within its published input range."
+  },
+  {
+    "id": "jackery-explorer-1000-v2",
+    "name": "Jackery Explorer 1000 v2 Portable Power Station",
+    "category": "1kWh LFP, 1,500W, Lightest 1kWh",
+    "badge": "Best Jackery Solar Generator",
+    "amazonUrl": "",
+    "pros": [
+      "Light at about 24 pounds for 1,070Wh",
+      "3,000W surge for motor start-ups",
+      "Widely bundled with SolarSaga folding panels",
+      "Simple controls with little to configure"
+    ],
+    "cons": [
+      "Not expandable",
+      "1,500W continuous is below the 1,800W rivals",
+      "Single-panel bundles are undersized for daily refills"
+    ],
+    "bottomLine": "The lightest 1kWh solar generator here; buy it with two panels if you plan to cycle it daily.",
+    "description": "If you search for a Jackery solar generator, this is the box you are most likely to land on, usually bundled with one or two of Jackery's SolarSaga folding panels. Jackery lists the Explorer 1000 v2 at 1,070Wh of LFP, 1,500W continuous with a 3,000W surge, and about 24 pounds, with a no-nonsense interface that suits campers and first-time buyers. The thing to watch is the bundle size. A single 200W panel puts back roughly 500-700Wh on a good day, which is about half this battery. That is fine for weekend camping, where you arrive full and only need to top up, but for outage use where you drain it nightly, two panels are the better pairing. Because the unit is not expandable, the solar side is the only part of the system you can grow, which is one more reason not to skimp on it."
+  },
+  {
+    "id": "ecoflow-delta-pro-3",
+    "name": "EcoFlow Delta Pro 3 Portable Power Station",
+    "category": "4kWh LFP, 4,000W, 120/240V",
+    "badge": "Best for Home Backup",
+    "amazonUrl": "",
+    "pros": [
+      "4,096Wh base, expandable to whole-home scale",
+      "120V and 240V output from one unit",
+      "Two separate solar inputs for larger arrays",
+      "Ties into EcoFlow transfer-switch hardware"
+    ],
+    "cons": [
+      "About 114 pounds; it lives on its wheels",
+      "Needs a big array to justify its battery",
+      "Panel and house connections need planning and an electrician"
+    ],
+    "bottomLine": "The best solar generator for home backup, provided you give it a real array to drink from.",
+    "description": "The Delta Pro 3 is a solar generator for people who mean generator. EcoFlow rates it at 4,096Wh of LFP with a 4,000W inverter and native 120/240V, enough on paper to run a fridge, freezer, furnace blower, lights and electronics together, and its two solar inputs let it accept a far larger array than any carry-size unit. That is the point: with 1,500W or more of rigid panels on a ground mount, a sunny day can put back most of what the house used overnight. Without that array, it is mostly an expensive battery. Folding panels in the 400W range barely dent a 4kWh pack, so plan the solar as part of the purchase, not as an afterthought. Connected through a transfer switch or EcoFlow's smart panel by a licensed electrician, it becomes a quiet, fuel-free backup that recharges itself."
+  },
+  {
+    "id": "anker-solix-f3800",
+    "name": "Anker SOLIX F3800 Portable Power Station",
+    "category": "3.8kWh LFP, 6,000W, 120/240V",
+    "badge": "Best for Heavy Loads",
+    "amazonUrl": "",
+    "pros": [
+      "6,000W output with native 120/240V",
+      "Two solar inputs for a large array",
+      "Expandable with add-on batteries",
+      "Handles 240V well pumps and big motor loads"
+    ],
+    "cons": [
+      "Heaviest pick at about 132 pounds",
+      "Overkill without 240V or heavy loads",
+      "Big output drains the battery fast on cloudy days"
+    ],
+    "bottomLine": "The solar generator for well pumps and 240V loads; plan the array as carefully as the battery.",
+    "description": "The SOLIX F3800 is the pick when the constraint is output rather than storage. Anker rates its inverter at 6,000W with native 120/240V, enough to start loads that would trip smaller units: a 240V deep-well pump, a fridge and window air conditioner together, or a short burst of emergency EV charging. Its 3,840Wh LFP battery is slightly smaller than the Delta Pro 3's, and like the EcoFlow it accepts a large array across two solar inputs and expands with add-on batteries. High output cuts both ways with solar. A system that can deliver 6,000W can also empty its battery in well under an hour, and no realistic home array refills it that fast. Pair it with as much panel as its inputs and your yard allow, keep the heavy loads short and scheduled for sunny hours, and it becomes a strong solar-plus-storage backbone for homes that rely on 240V equipment."
+  },
+  {
+    "id": "jackery-explorer-2000-v2",
+    "name": "Jackery Explorer 2000 v2 Portable Power Station",
+    "category": "2kWh LFP, 2,200W, One-Person Lift",
+    "badge": "Best Mid-Size",
+    "amazonUrl": "",
+    "pros": [
+      "2,042Wh in a roughly 40-pound case",
+      "2,200W output for most 120V appliances",
+      "Still a one-person lift into a car or RV",
+      "Pairs naturally with two or three folding panels"
+    ],
+    "cons": [
+      "120V only",
+      "Not expandable",
+      "Needs more panel than many bundles include"
+    ],
+    "bottomLine": "The right size for long outages and RV trips when you want to lift it yourself and feed it with folding panels.",
+    "description": "The Explorer 2000 v2 sits in the gap between carry-size and wheeled systems. Jackery lists a 2,042Wh LFP battery and a 2,200W inverter, which by the runtime math covers a fridge for about a day, or a fridge, CPAP, router and lights through a long night, and handles a microwave or a sump pump start. At about 40 pounds it still goes into an RV or car trunk without a ramp. On the solar side, think in pairs and threes. Two 200W folding panels give you around 1.0-1.4kWh on a clear day, which replaces roughly half to two-thirds of the battery; three panels get you close to a full refill in summer. That makes it a strong match for RV trips and for outages in sunny regions. Check the station's input limit before adding a third panel, because exceeding it simply wastes the extra glass."
+  },
+  {
+    "id": "bluetti-elite-100-v2",
+    "name": "Bluetti Elite 100 V2 Portable Power Station",
+    "category": "1kWh LFP, 1,800W, Compact",
+    "badge": "Best Compact Value",
+    "amazonUrl": "",
+    "pros": [
+      "1,800W from a compact, roughly 25-pound case",
+      "1,024Wh LFP matches the Delta 3 Plus on paper",
+      "Accepts common third-party panels",
+      "Often priced below the big two"
+    ],
+    "cons": [
+      "Not expandable",
+      "Smaller ecosystem of matched panels and accessories",
+      "App is functional rather than polished"
+    ],
+    "bottomLine": "A capable 1kWh solar generator at a lower price, best paired with your own choice of panels.",
+    "description": "The Elite 100 V2 is a good example of why buying station and panels separately can make sense. Bluetti rates it at 1,024Wh of LFP and 1,800W, matching the Delta 3 Plus for capacity and output in a lighter case, and it is frequently discounted. Bluetti's own panel range is smaller than EcoFlow's or Jackery's, but a pair of compatible 200W panels from another brand, wired within the station's published voltage range, gives it the same daily refill as any 1kWh system on this list. The trade-off is that the battery is fixed. If you later want more storage, you are buying a second unit, not an add-on pack. For a household that wants one capable 1kWh solar generator and is comfortable checking panel specs, that is an easy compromise."
+  },
+  {
+    "id": "ecoflow-river-3-plus",
+    "name": "EcoFlow River 3 Plus Portable Power Station",
+    "category": "286Wh LFP, 600W, 10 lb",
+    "badge": "Best Portable Solar Generator",
+    "amazonUrl": "",
+    "pros": [
+      "About 10 pounds, with a panel that folds to briefcase size",
+      "One 100-200W panel refills it in a day",
+      "600W output for coolers, lights and small tools",
+      "Optional extra battery for longer trips"
+    ],
+    "cons": [
+      "286Wh is not fridge-backup territory",
+      "Modest solar input limits panel upgrades",
+      "No kettles, heaters or microwaves"
+    ],
+    "bottomLine": "The best portable solar generator for camping: small enough that one panel truly keeps it full.",
+    "description": "The River 3 Plus is the purest example of a portable solar generator: a 10-pound LFP station and a single folding panel you can carry together from the car to a campsite. EcoFlow rates the battery at 286Wh, which is small, but that is exactly why solar works so well with it. A 100W panel puts back roughly 250-350Wh on a clear day, which is about a full refill; a 200W panel does it by early afternoon with margin for cloud. Its 600W inverter runs a 12V or AC cooler, lights, a CPAP without the heated humidifier, and every phone and camera in the group. Snap on EcoFlow's extra battery for a longer trip and step up to the larger panel."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Solar Generators",
+          item: "https://www.allmetalbrake.com/best-solar-generator/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is a solar generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A solar generator is a portable power station paired with solar panels. The station contains a lithium battery, an inverter that produces household AC power, and an MPPT charge controller that turns panel output into stored energy. Nothing is burned, so it is silent and safe indoors while the panels sit outside. The term is mostly marketing; what makes one good is how well battery size, input limits and panel wattage are matched."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many solar panels do I need for a solar generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Divide the battery capacity in watt-hours by about three to get the panel wattage that refills it on a typical sunny day, or by 2.5 for margin. A 286Wh camping unit needs about 100W, a 1kWh station about 350-400W, a 2kWh station about 700-800W, and a 4kWh system about 1,300-1,650W. Use less if you only drain part of the battery, and always stay inside the station's input limits."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does it take to charge a solar generator with solar panels?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on panel wattage, weather and battery size. Portable panels deliver roughly 60-75 percent of their rating in good sun, and a clear day offers about four to five peak sun hours. A 200W panel puts back about 500-700Wh a day, enough to refill a 286Wh unit by midday or half of a 1kWh station. With 400W, a 1kWh station refills in one sunny day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use any solar panel with my power station?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually, if three things fit. The panel's open-circuit voltage, or the total for a series string, must stay below the station's maximum input voltage with cold-weather headroom. The current, or the total for panels in parallel, must not exceed the input rating. And you need the right connector or adapter. Wattage above the input limit will not harm the station but will be clipped at midday."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I wire my panels in series or parallel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Series adds voltage, parallel adds current, and total wattage is the same. Series is usually better when it fits the voltage window, because it reaches the controller's start threshold earlier and loses less power over long cables. Parallel is safer when series would exceed the maximum voltage, and it copes better with partial shade. Large stations with two inputs often work best with one series string on each."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a solar generator power a house?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A large one can power a house's essential circuits, and with enough panels it can keep doing so through a long outage. Systems such as the EcoFlow Delta Pro 3 and Anker SOLIX F3800 store roughly 4kWh and are rated for 4,000-6,000W at 120/240V. Fed by 1,500-2,000W of rigid panels through a transfer switch, they can run a fridge, freezer, furnace blower, lights and internet. Central air and electric heat are beyond them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a solar generator better than a gas generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each wins in different situations. A solar generator is silent, produces no exhaust, runs indoors, needs no fuel storage and costs almost nothing to run once bought, which suits apartments, medical devices, camping and short outages. A gas generator delivers more power for longer at a lower upfront cost and keeps going through a week of storms. Many prepared households use both, with the gas unit refilling the battery during cloud."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best solar generator",
+      "solar generator for home",
+      "solar panels for power station",
+      "mppt input limits",
+      "series vs parallel solar panels",
+      "solar generator sizing"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Solar Generators</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A solar generator is only as good as the sun it can catch. Seven power stations paired with the right amount of panel, plus the math that decides whether the battery is full by dinner.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ecoflow-delta-3-plus"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare the Pairings
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#pairings" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Pairings at a Glance</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Seven Picks</a>
+          <a href="#sun-hours" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Sun-Hours Math</a>
+          <a href="#refill" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Solar to Refill Each Size</a>
+          <a href="#input-limits" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. MPPT Input Limits</a>
+          <a href="#wiring" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Series, Parallel and Voc</a>
+          <a href="#panels" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Panel Type and Placement</a>
+          <a href="#bundles" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Bundle or Separate?</a>
+          <a href="#home-backup" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Home-Backup Sizing</a>
+          <a href="#choosing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which Pairing to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          A solar generator is a battery and a set of panels, and most buyers spend all their attention on the battery. The panels decide whether it is full again tomorrow.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="pairings" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The Pairings at a Glance
+          </h2>
+
+          <p>
+            Most solar generator shopping goes wrong in the same place: people compare batteries and treat the panels as an accessory. But a solar generator is a two-part system. The power station stores energy and turns it into household current; the panels decide how much of that energy comes back each day. A 4kWh battery fed by a single 200W folding panel is, for practical purposes, a 4kWh battery you can only refill from the wall. A 1kWh battery with 400W of well-aimed panels can be emptied every evening and be full again by mid-afternoon, day after day, for as long as the weather holds.
+          </p>
+
+          <p>
+            So this guide works the other way round from our main <a href="/best-portable-power-station/">portable power station rankings</a>. It starts with the charge side: how many watts a panel actually delivers, how many sun hours you can count on, what the station's charge controller will accept, and how to wire panels so they stay inside its voltage window on a frosty morning. Then it pairs seven widely sold stations from EcoFlow, Jackery, Anker SOLIX and Bluetti with the amount of solar each one needs to be useful, from a 10-pound camping kit to a wheeled home-backup system feeding off a ground-mounted array.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE SHORT ANSWER</p>
+            <p class="text-xl font-bold text-white mb-3">Roughly one watt of panel for every three watt-hours you want back each day.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Never exceed the station's solar input voltage or wattage. For most households that means a 1kWh LFP station with 300-400W of panels; for camping, a 286Wh unit with a single 100-200W panel; for real home backup, a 4kWh station with 1,200-2,000W of rigid panels on a ground mount.</p>
+          </div>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Power station</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Battery</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">AC output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Suggested solar</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Sunny-day refill</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">EcoFlow Delta 3 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">1,024Wh (expandable)</td>
+                    <td class="px-4 py-4 text-gray-700">1,800W</td>
+                    <td class="px-4 py-4 text-gray-700">300-400W portable</td>
+                    <td class="px-4 py-4 text-gray-700">Most to all of the battery</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Jackery Explorer 1000 v2</td>
+                    <td class="px-4 py-4 text-gray-700">1,070Wh</td>
+                    <td class="px-4 py-4 text-gray-700">1,500W (3,000W surge)</td>
+                    <td class="px-4 py-4 text-gray-700">200-400W portable</td>
+                    <td class="px-4 py-4 text-gray-700">Half to all, depending on panels</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">EcoFlow Delta Pro 3</td>
+                    <td class="px-4 py-4 text-gray-700">4,096Wh (expandable)</td>
+                    <td class="px-4 py-4 text-gray-700">4,000W, 120/240V</td>
+                    <td class="px-4 py-4 text-gray-700">1,200-2,000W rigid</td>
+                    <td class="px-4 py-4 text-gray-700">Most of the battery</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker SOLIX F3800</td>
+                    <td class="px-4 py-4 text-gray-700">3,840Wh (expandable)</td>
+                    <td class="px-4 py-4 text-gray-700">6,000W, 120/240V</td>
+                    <td class="px-4 py-4 text-gray-700">1,200-2,000W rigid</td>
+                    <td class="px-4 py-4 text-gray-700">Most of the battery</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Jackery Explorer 2000 v2</td>
+                    <td class="px-4 py-4 text-gray-700">2,042Wh</td>
+                    <td class="px-4 py-4 text-gray-700">2,200W</td>
+                    <td class="px-4 py-4 text-gray-700">400-600W portable</td>
+                    <td class="px-4 py-4 text-gray-700">Around two-thirds or more</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Bluetti Elite 100 V2</td>
+                    <td class="px-4 py-4 text-gray-700">1,024Wh</td>
+                    <td class="px-4 py-4 text-gray-700">1,800W</td>
+                    <td class="px-4 py-4 text-gray-700">300-400W portable</td>
+                    <td class="px-4 py-4 text-gray-700">Most to all of the battery</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">EcoFlow River 3 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">286Wh (expandable)</td>
+                    <td class="px-4 py-4 text-gray-700">600W</td>
+                    <td class="px-4 py-4 text-gray-700">100-200W portable</td>
+                    <td class="px-4 py-4 text-gray-700">Full, with margin</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The sunny-day refill column assumes four to five peak sun hours and panels delivering 60-75 percent of their rating, which is what portable panels typically manage in real use rather than on a test bench. It also assumes the panel wattage you buy is within what the station can accept. Every figure in the capacity and output columns comes from the manufacturers' published specifications, so check the input limits on the listing you actually buy from before you add more glass, because those limits are revised between model years more often than the battery is.
+          </p>
+
+          <p>
+            Read the table as a set of matched pairs rather than a ranking of batteries. The three 1kWh stations are the sweet spot because a few hundred watts of folding panel, which one person can set out in five minutes, genuinely refills them. The two 4kWh systems only make sense with an array several times larger, which is a different kind of project with mounts, cable runs and probably an electrician. The 2kWh Jackery sits between those worlds, and the River 3 Plus is the one system where a single panel truly keeps up.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Seven Solar Generators
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications, not from hands-on testing. Each card covers the power station itself; the panel recommendations are in the text, because almost every station here accepts third-party panels as long as the connector, voltage and current fit. Bundles change constantly, so confirm what is in the box and what the station's solar input limits are on the listing you buy from.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="sun-hours" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Sun-Hours Math: What a Panel Really Delivers
+          </h2>
+
+          <p>
+            A panel's rated wattage is measured under standard test conditions: strong, perpendicular light on a cool cell. Real panels in a real yard almost never see that. Heat, dust, imperfect aim, wiring losses and the charge controller all take a share, and portable panels typically deliver about 60-75 percent of their rating at the best part of the day. A 200W folding panel that reads 130 to 150W on the station's display at noon is behaving normally, not failing, and planning around the label number is the most common reason a system disappoints.
+          </p>
+
+          <p>
+            The second number is peak sun hours: the day's sunlight expressed as the equivalent number of hours at full strength. A clear summer day across much of the U.S. gives four to five; winter in northern states can fall to two or three; the desert Southwest in summer runs higher. Peak sun hours are not the same as daylight hours. A fourteen-hour June day in Ohio still only adds up to roughly five hours of full-strength sun, because the morning and evening light arrives at a low angle and carries far less energy.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE HARVEST RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Daily harvest is roughly panel watts x 0.6-0.75 x peak sun hours.</p>
+            <p class="text-gray-300 leading-relaxed m-0">At four to five sun hours, that works out to roughly 2.5-3.5Wh per rated panel watt per day. A 200W panel gives about 500-700Wh; 400W gives about 1.0-1.4kWh; 1,600W of rigid panels gives about 4-5.6kWh.</p>
+          </div>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Panel wattage</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Poor day (~2 sun hrs)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical day (~4 sun hrs)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Great day (~5 sun hrs)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">100W</td>
+                    <td class="px-4 py-4 text-gray-700">~120-150Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~240-300Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~300-375Wh</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">200W</td>
+                    <td class="px-4 py-4 text-gray-700">~240-300Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~480-600Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~600-750Wh</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">400W</td>
+                    <td class="px-4 py-4 text-gray-700">~480-600Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~960-1,200Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~1,200-1,500Wh</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">800W</td>
+                    <td class="px-4 py-4 text-gray-700">~1.0-1.2kWh</td>
+                    <td class="px-4 py-4 text-gray-700">~1.9-2.4kWh</td>
+                    <td class="px-4 py-4 text-gray-700">~2.4-3.0kWh</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">1,600W</td>
+                    <td class="px-4 py-4 text-gray-700">~1.9-2.4kWh</td>
+                    <td class="px-4 py-4 text-gray-700">~3.8-4.8kWh</td>
+                    <td class="px-4 py-4 text-gray-700">~4.8-6.0kWh</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Notice the left-hand column. A heavily overcast or short winter day can cut harvest in half or worse, and a storm that knocks the power out is rarely a good solar day. That is why every array in this guide is sized with a margin, and why every serious solar generator plan keeps wall charging, car charging or a fuel-burning <a href="/best-home-generator-for-power-outages/">home generator for outages</a> as the fallback for a run of grey days. Solar is a renewable fuel, but it arrives on its own schedule.
+          </p>
+
+          <p>
+            You can look up your own sun hours rather than guessing. Free tools such as NREL's PVWatts calculator give month-by-month figures for any U.S. address, and the number for your worst outage month is the one to size around. If your power usually fails in winter ice storms, a summer figure of five hours will flatter the plan badly; if it fails in summer thunderstorms and hurricanes, you can afford to be more optimistic. Either way, write the number down before you choose panels, because it drives every calculation that follows.
+          </p>
+        </div>
+
+        <div id="refill" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. How Much Solar to Refill Each Size
+          </h2>
+
+          <p>
+            Divide the battery's capacity by about three, and you have the panel wattage that refills it on a typical sunny day. Divide by 2.5 if you want margin for haze and imperfect aim, which most people should. It is a deliberately simple rule, because the inputs to anything more precise, such as exact panel temperature and how carefully the panels get re-aimed, are guesses anyway. The table below applies that rule to the battery sizes in this guide and names the stations that fall in each class.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Battery size</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Panel watts for a full refill</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Panel watts for half a refill</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Example stations</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">~290Wh</td>
+                    <td class="px-4 py-4 text-gray-700">100-120W</td>
+                    <td class="px-4 py-4 text-gray-700">50-60W</td>
+                    <td class="px-4 py-4 text-gray-700">River 3 Plus</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">~1,000-1,070Wh</td>
+                    <td class="px-4 py-4 text-gray-700">350-430W</td>
+                    <td class="px-4 py-4 text-gray-700">175-215W</td>
+                    <td class="px-4 py-4 text-gray-700">Delta 3 Plus, Explorer 1000 v2, Elite 100 V2</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">~2,000Wh</td>
+                    <td class="px-4 py-4 text-gray-700">680-820W</td>
+                    <td class="px-4 py-4 text-gray-700">340-410W</td>
+                    <td class="px-4 py-4 text-gray-700">Explorer 2000 v2</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">~3,800-4,100Wh</td>
+                    <td class="px-4 py-4 text-gray-700">1,300-1,650W</td>
+                    <td class="px-4 py-4 text-gray-700">650-820W</td>
+                    <td class="px-4 py-4 text-gray-700">SOLIX F3800, Delta Pro 3</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two practical caveats apply. First, a full refill from empty is not always the goal. If you only drain a 1kWh station to about half each night, 200W of panels keeps pace, and the extra 200W in the full-refill column is insurance rather than necessity. Size the array to what you actually use per day, not to the battery label. A household that runs a fridge and a router needs a different array from one that also runs a window air conditioner in the afternoon, even if both own the same station.
+          </p>
+
+          <p>
+            Second, the station's solar input limit caps the useful array size. Panel wattage above that limit is not lost entirely, because it helps on hazy days, early in the morning and late in the afternoon, when the panels are producing well below their rating. But at noon on a clear day the charge controller will clip the extra. A modest oversize of 10-30 percent is common and sensible, especially with folding panels that rarely see full output; doubling the limit is wasted money that would be better spent on a second battery or a better mount.
+          </p>
+
+          <p>
+            The table also shows why the big systems are a different purchase. Refilling a 4kWh pack takes 1,300W or more of panel, which means four rigid residential panels or eight or more folding ones. That is a weekend project with a ground rack and cable runs, not something you unfold from the trunk. The 1kWh class, by contrast, refills from two folding panels that one person can set out and put away, which is the main reason it suits most households better than the bigger, heavier units.
+          </p>
+
+          <p>
+            If you are still choosing a station rather than panels, run the same arithmetic the other way. Work out the panel space you realistically have, whether a sunny corner of the yard, a balcony rail or an RV roof, multiply it by the harvest figure for your worst month, and buy a battery that matches what that space can put back. For a camping setup where you want the full picture on capacity, weight and ports, our <a href="/best-portable-power-station-for-camping/">camping power station guide</a> goes deeper on the small end of the range.
+          </p>
+        </div>
+
+        <div id="input-limits" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. MPPT Input Limits and Voltage Windows
+          </h2>
+
+          <p>
+            Every station on this list uses an MPPT (maximum power point tracking) charge controller. It continually adjusts the load on the panels to pull the most power from them as sunlight changes, which is noticeably more efficient than the older PWM controllers found on cheap kits. But an MPPT input has three limits printed on its spec sheet, and all three matter. Most buyers only look at the wattage figure and then wonder why a third panel made no difference, or why the station refuses to charge at dawn.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Maximum input power</h3>
+
+          <p>
+            This is the most the controller will turn into charge, in watts. Panels beyond it are clipped at midday. It is also the number that decides how fast the battery can refill from solar alone: a 1kWh station with a 500W input cannot fill in under about two and a half hours of perfect sun no matter how much glass you connect. On the bigger units the figure is much higher, which is part of what you pay for, but it is still a ceiling to design around rather than a target to exceed by a wide margin.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Voltage window and maximum current</h3>
+
+          <p>
+            The voltage window has a minimum below which the controller will not start charging, and a maximum that must never be exceeded. Exceeding the maximum, even briefly, can damage the controller, and manufacturers generally treat over-voltage damage as misuse rather than a warranty fault. The current limit matters when you wire panels in parallel, because parallel wiring adds their currents. If the total exceeds the input's current rating, the controller limits it and the extra panel adds little. Check all three numbers for every panel combination you plan, not just the first one.
+          </p>
+
+          <p>
+            Large stations such as the Delta Pro 3 and SOLIX F3800 split their solar input across two separate ports, each with its own window. That lets you build two smaller strings rather than one long one, which is easier to keep within voltage limits and less vulnerable to shade. Read each port's limits individually; they are not always identical, and on some models one port is designed for high-voltage residential panels while the other suits lower-voltage folding ones. The manual, not the marketing page, is the place to find the exact figures.
+          </p>
+
+          <p>
+            A useful habit is to write the three limits on a piece of tape on the station itself, next to the solar port. When you add a panel two years from now, borrow one from a neighbour during a long outage, or let a teenager set up the camping kit, the numbers are right there. It sounds fussy, but over-voltage is the one solar mistake that can permanently damage an otherwise healthy station, and it usually happens when someone improvises with panels they did not buy for that unit.
+          </p>
+        </div>
+
+        <div id="wiring" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Series, Parallel and Cold-Weather Voltage
+          </h2>
+
+          <p>
+            Once you have more than one panel, you have to decide how to connect them. In series, positive goes to negative and the voltages add while the current stays the same. In parallel, using a branch connector, positives join positives and the currents add while the voltage stays the same. Either way the total wattage is the same; what changes is how that power reaches the charge controller, and that difference decides whether the system works well at dawn, under partial shade and on a cold morning.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm"></th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Series</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Parallel</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">What adds up</td>
+                    <td class="px-4 py-4 text-gray-700">Voltage</td>
+                    <td class="px-4 py-4 text-gray-700">Current</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Main risk</td>
+                    <td class="px-4 py-4 text-gray-700">Exceeding the max input voltage, especially in cold</td>
+                    <td class="px-4 py-4 text-gray-700">Exceeding the max input current</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Long cable runs</td>
+                    <td class="px-4 py-4 text-gray-700">Better: higher voltage, lower losses</td>
+                    <td class="px-4 py-4 text-gray-700">Worse: higher current needs thicker cable</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Low light</td>
+                    <td class="px-4 py-4 text-gray-700">Reaches the controller's start voltage sooner</td>
+                    <td class="px-4 py-4 text-gray-700">May sit below start voltage at dawn and dusk</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Partial shade</td>
+                    <td class="px-4 py-4 text-gray-700">One shaded panel drags the string down</td>
+                    <td class="px-4 py-4 text-gray-700">Shaded panel affects mainly itself</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Mixed panels</td>
+                    <td class="px-4 py-4 text-gray-700">Panels should share the same current</td>
+                    <td class="px-4 py-4 text-gray-700">Panels should share the same voltage</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            For most portable setups the rule is simple: use series when the combined voltage stays comfortably inside the window, including cold-weather headroom; otherwise use parallel, or a mix of both. Large stations with two inputs often work best with one series string per input. And avoid mixing very different panels in the same string, because the weakest panel sets the pace for the rest. A new 200W panel wired in series with an old 100W panel will often deliver little more than the old panel alone.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Why Voc rises in the cold</h3>
+
+          <p>
+            The voltage number that matters for safety is Voc, open-circuit voltage: what a panel produces with nothing connected. It is always higher than the voltage under load, and it is printed on the panel's label. Crucially, Voc rises as the panel gets colder. Silicon panels typically gain somewhere around 0.3 percent of their voltage for every degree Celsius below the 25-degree (77F) test temperature. That is why a string that is comfortably legal in July can be over the limit on a bright January morning, with nothing else about the system changing.
+          </p>
+
+          <p>
+            Here is an illustrative example with round numbers. Suppose a station's input accepts up to 60V, and you have panels rated at 22V Voc. Two in series gives 44V, which looks fine; three gives 66V, which is already over. Now consider a clear January morning at -10C (14F), 35 degrees below the test temperature. At 0.3 percent per degree, Voc climbs roughly 10 percent, so the two-panel string reads about 48-49V and is still inside the window. But panels rated at 27V Voc would read 54V on paper and close to 60V on that morning, right at the limit with no margin at all.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">LEAVE HEADROOM</p>
+            <p class="text-xl font-bold text-white mb-3">Keep a series string's total Voc 15-20 percent below the station's maximum input voltage.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Do this if you will use the system in freezing weather. Cold, bright mornings after a snowfall, when the panels are cold and the light is reflected, are exactly when voltage peaks. On the battery side, LFP cells should not be charged below freezing, so keep the station indoors and run the panel cable through a door seal or window gap.</p>
+          </div>
+        </div>
+
+        <div id="panels" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Portable vs Rigid Panels, and Where to Aim Them
+          </h2>
+
+          <p>
+            The panel type you choose should follow what the system is for, not what the bundle includes. Folding panels are the right tool when the system moves: they pack flat, set up in minutes and plug straight into the station with the right adapter. Their drawbacks are price per watt, fragility in wind, and the fact that someone has to set them out and re-aim them. Rigid residential panels cost far less per watt, survive hail and snow, and can stay aimed permanently on a simple ground rack.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm"></th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Folding portable panels</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rigid residential panels</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Typical size</td>
+                    <td class="px-4 py-4 text-gray-700">100-400W per panel</td>
+                    <td class="px-4 py-4 text-gray-700">Commonly 350-450W per panel</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Cost per watt</td>
+                    <td class="px-4 py-4 text-gray-700">High</td>
+                    <td class="px-4 py-4 text-gray-700">Much lower</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Setup</td>
+                    <td class="px-4 py-4 text-gray-700">Unfold, aim, plug in</td>
+                    <td class="px-4 py-4 text-gray-700">Needs a ground mount, rack or roof</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Wind and weather</td>
+                    <td class="px-4 py-4 text-gray-700">Must be weighted or put away</td>
+                    <td class="px-4 py-4 text-gray-700">Built to stay out for decades</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Voltage</td>
+                    <td class="px-4 py-4 text-gray-700">Usually lower, simple to wire</td>
+                    <td class="px-4 py-4 text-gray-700">Higher Voc; check series limits carefully</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Best for</td>
+                    <td class="px-4 py-4 text-gray-700">Camping, RVs, occasional outages</td>
+                    <td class="px-4 py-4 text-gray-700">Home backup, daily cycling</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            For a 4kWh home-backup station, a few rigid panels on a ground mount near the house will almost always outperform a pile of folding ones for the same money. The catch with rigid panels is voltage. A full-size residential panel has a much higher Voc than a folding one, so two in series may already be near a mid-size station's input limit. Large stations with high-voltage inputs are designed for this; carry-size stations often are not. Check the numbers before you buy, using the headroom rule from the previous section.
+          </p>
+
+          <p>
+            Placement matters as much as panel type. Face the panels south in the Northern Hemisphere and avoid anything that throws shadow between mid-morning and mid-afternoon, because that window is where most of the day's energy arrives. Tilt the panel from horizontal by roughly your latitude, then add about 15 degrees in winter when the sun is low and subtract about 15 degrees in summer when it is high. Folding panels with built-in kickstands usually offer only a few fixed angles, so pick the closest one; lying a panel flat on the ground can cost a large share of its winter output.
+          </p>
+
+          <p>
+            Treat shade as the enemy. A shadow across even a small part of one panel can cut its output sharply, because the cells in each section are wired in series. Bypass diodes limit the damage, but a branch shadow, a vent pipe or a fence line across the bottom row still costs more than its size suggests. If one panel in a series string will be shaded part of the day, consider wiring it in parallel, or moving it. With portable panels at a campsite, turning them to follow the sun two or three times a day noticeably increases harvest.
+          </p>
+
+          <p>
+            Finally, keep panels cool and clean. Panels lose output as they heat up, so leave an air gap behind folding panels rather than laying them on hot pavement or a dark car roof, and wipe off dust, pollen and bird droppings with water and a soft cloth. None of these habits is dramatic on its own, but over a week-long outage the difference between a carefully aimed, clean, ventilated panel and one propped flat in the dirt can be a full battery's worth of energy.
+          </p>
+        </div>
+
+        <div id="bundles" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Bundle or Buy Separately?
+          </h2>
+
+          <p>
+            Every major brand sells its power stations as solar generator bundles with its own panels. The appeal is real: matched connectors, a panel that is guaranteed to sit inside the station's input window, one warranty contact, and sometimes a discount over buying the parts individually. For someone who does not want to think about Voc, MC4 adapters or current limits, a matched bundle removes every way of getting the wiring wrong, and that peace of mind is worth something.
+          </p>
+
+          <p>
+            The drawbacks are just as real. Bundles are often sized for a photo rather than a refill, with a single panel paired to a battery that needs two or three. Brand-name folding panels also tend to cost more per watt than comparable third-party panels. And for home backup, a bundle of folding panels is usually the wrong kind of panel altogether, because the system will sit in one place for years and would be better served by rigid panels on a permanent mount.
+          </p>
+
+          <p>
+            Our rule of thumb: buy a bundle for camping and RV systems where folding panels are what you want anyway, and check that the panel wattage roughly matches the battery using the refill table above. Buy separately for home backup, pairing the station with rigid panels, a ground mount and the right adapter cables, all checked against its input voltage, current and wattage. If you are deciding between the two biggest bundle brands, our <a href="/ecoflow-vs-jackery/">EcoFlow vs Jackery comparison</a> breaks down how their panels, inputs and ecosystems differ.
+          </p>
+
+          <p>
+            When you do buy separately, the parts list is short. You need panels whose combined Voc and current fit the station, an adapter from the panels' MC4 connectors to the station's solar port, an extension cable long enough to reach a sunny spot while the station stays indoors, and a mount or kickstand. A cheap inline fuse or breaker on longer runs is good practice. Buy the adapter from the station maker or confirm its polarity with a meter before connecting, because a reversed adapter is a surprisingly common way to damage a new unit.
+          </p>
+
+          <p>
+            Whichever route you take, confirm what is in the box on the listing you actually buy from. Bundles are reshuffled constantly, the same product name can ship with one panel or two depending on the retailer, and panel wattages change between generations. The station's specification sheet, not the bundle photo, is the document that tells you whether the panels will work together, and it takes five minutes to check against the numbers in this guide.
+          </p>
+        </div>
+
+        <div id="home-backup" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Home-Backup Solar Sizing: Worked Examples
+          </h2>
+
+          <p>
+            The process is the same for every house. Add up the energy your essential loads use in a day, divide by 0.85 for inverter losses, then size the battery to cover the night and the array to put the day's use back. The runtime rule from our main guide still applies: hours equals Wh x 0.85 divided by watts. The examples below use round numbers and typical appliance draws rather than measurements from any particular home, so treat them as templates to fill in with your own appliance labels or a plug-in watt meter.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Example 1: Apartment essentials on a 1kWh station</h3>
+
+          <p>
+            Refrigerator at about 1.2kWh a day, router and modem at 20W (about 480Wh), LED lamps (150Wh) and phone and laptop charging (100Wh). That is about 1,930Wh a day, or roughly 2,270Wh drawn from the battery once inverter losses are included. A 1kWh station alone lasts around ten to eleven hours. With 400W of folding panels on a balcony putting back about 1.0-1.4kWh on a clear day, you can cover the daytime load as it happens and still put some charge back. Running the fridge in cycles rather than continuously closes the rest of the gap, which stretches a short-outage plan to several days in good weather.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Example 2: Suburban house, essentials on a 4kWh system</h3>
+
+          <p>
+            Refrigerator (1.5kWh), chest freezer (0.8kWh), internet (0.5kWh), lights (0.3kWh), charging (0.1kWh), and a gas furnace blower running about 150W for four hours a day in winter (0.6kWh). Total about 3.8kWh a day, or about 4.5kWh from the battery. A Delta Pro 3 or SOLIX F3800 covers most of a full day on its own. To keep up indefinitely, the array must put back about 4.5kWh a day: at roughly 3Wh per rated watt, that is about 1,500W of panels in summer and closer to 2,000W or more for the shorter days of winter. Four or five rigid panels on a ground mount, split into two strings across the station's two inputs, is the realistic shape of this system. Our <a href="/best-portable-power-station-for-home-backup/">home-backup power station guide</a> covers the transfer-switch side in more depth.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Example 3: Rural house with a 240V well pump</h3>
+
+          <p>
+            Add a 240V well pump to Example 2. Its daily energy may be modest if water use is careful, but its starting surge is large, which is why the 6,000W, 120/240V SOLIX F3800 or the Delta Pro 3's 240V output matter here. The solar sizing barely changes; the inverter choice does. Schedule laundry and showers for the sunny middle of the day, when panels are carrying part of the load directly, and the battery saves its energy for the night. Check the pump's nameplate starting current against the station's surge rating before you commit.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Example 4: Medical device backup</h3>
+
+          <p>
+            A CPAP at 40W for eight hours a night uses about 320Wh, or about 375Wh from the battery. A 1kWh station covers two to three nights on its own, and even a single 200W panel replaces one night's use on most clear days. For anyone who depends on a device, this is the cheapest and most reliable solar generator setup there is. Confirm the station's UPS switchover time against the device maker's guidance, and keep a few charged power banks from our <a href="/best-portable-chargers-for-power-outages/">portable chargers for power outages</a> list for phones so the station's energy goes to the device.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Scenario</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Daily use (with losses)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Battery</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Panels to break even</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">CPAP only</td>
+                    <td class="px-4 py-4 text-gray-700">~375Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~1kWh</td>
+                    <td class="px-4 py-4 text-gray-700">~150-200W</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Apartment essentials</td>
+                    <td class="px-4 py-4 text-gray-700">~2.3kWh</td>
+                    <td class="px-4 py-4 text-gray-700">1-2kWh</td>
+                    <td class="px-4 py-4 text-gray-700">~700-900W (or cycle the fridge)</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Suburban essentials</td>
+                    <td class="px-4 py-4 text-gray-700">~4.5kWh</td>
+                    <td class="px-4 py-4 text-gray-700">~4kWh</td>
+                    <td class="px-4 py-4 text-gray-700">~1,500W summer, 2,000W+ winter</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Rural with 240V well pump</td>
+                    <td class="px-4 py-4 text-gray-700">~5kWh+</td>
+                    <td class="px-4 py-4 text-gray-700">~4kWh, 240V</td>
+                    <td class="px-4 py-4 text-gray-700">~1,700-2,400W</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            If those panel numbers look large, that is the honest picture. A big battery bridges a night; only a matching array bridges a week. For outages measured in weeks, or for central air and electric heat, a standby system is still the tool, and our <a href="/generac-generator-cost/">standby generator cost guide</a> shows what that involves. Many households land on a hybrid: a solar generator for silent nights and daily essentials, and a small inverter generator from our <a href="/best-small-generator-for-home/">small home generator picks</a> to refill the battery during a long run of cloud.
+          </p>
+        </div>
+
+        <div id="choosing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which Pairing to Buy
+          </h2>
+
+          <p>
+            For camping, van life and day trips, the EcoFlow River 3 Plus with one 100-200W folding panel is the answer. It is light, simple, and the panel genuinely keeps up with what a campsite uses: a cooler, lights, phones and maybe a CPAP. Nothing else on this list is as easy to carry from the car to a pitch, and the optional extra battery means it can grow a little for longer trips without becoming a two-person lift.
+          </p>
+
+          <p>
+            For most households that want outage backup plus the occasional camping trip, choose one of the 1kWh stations, the EcoFlow Delta 3 Plus, Jackery Explorer 1000 v2 or Bluetti Elite 100 V2, with 300-400W of panels. Buy the Jackery as a two-panel bundle rather than a single-panel one, buy the Bluetti with third-party panels checked against its input window, and choose the EcoFlow if you think you might add a second battery later. All three run a refrigerator and refill from two folding panels on a sunny day.
+          </p>
+
+          <p>
+            For RVs and longer outages in sunny regions, the Jackery Explorer 2000 v2 with 400-600W of folding panels is the step up. It roughly doubles the overnight reserve without crossing into the wheeled, 100-pound class, and two or three folding panels on an RV roof rack or picnic table keep it cycling through a sunny week. Watch the input limit before you add the third panel.
+          </p>
+
+          <p>
+            For whole-home essentials and multi-day outages, the EcoFlow Delta Pro 3 or Anker SOLIX F3800 with 1,200-2,000W of rigid panels on a ground mount is the real solar generator, connected to the house through a transfer switch by a licensed electrician. Choose the F3800 if a 240V well pump or heavy motor loads are on the list, and the Delta Pro 3 if you value EcoFlow's home-integration hardware and a slightly larger base battery. Either way, budget for the array and the installation, not only the station.
+          </p>
+
+          <p>
+            And if all you need is to keep phones and a few lights alive through an overnight outage, you may not need a solar generator at all. A good power bank or a small station charged from the wall is enough, and our <a href="/best-portable-chargers-for-power-outages/">power-outage charger guide</a> covers those. When you want the broader view of capacity classes, chemistry and runtime beyond the solar side, the <a href="/best-portable-power-station/">full portable power station ranking</a> is the place to start.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying the battery and treating panels as an afterthought</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 4kWh station with one 200W folding panel is a big battery you refill from the wall. Decide how much energy you need back each day, size the array to that using the divide-by-three rule, and only then choose the station whose input limits can accept it.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Planning around the panel's label wattage</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Portable panels typically deliver 60-75 percent of their rating in good sun, and far less on cloudy or winter days. Plan with roughly 2.5-3.5Wh per rated panel watt per day, then check the sun hours for your worst outage month rather than a flattering summer average.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Exceeding the input voltage on a cold morning</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Panel Voc rises about 0.3 percent per degree Celsius below 25C. A series string that is fine in July can exceed the station's limit on a bright January morning. Keep the total 15-20 percent below the maximum input voltage, and remember over-voltage damage is usually treated as misuse.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trusting the bundle to be correctly sized</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many bundles pair one panel with a battery that needs two or three to refill in a day. Before buying, divide the battery's watt-hours by three and compare it with the panel wattage in the box. If the panel falls well short, add a second or buy the parts separately.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Leaving the station outside in freezing weather</h3>
+              <p class="text-gray-700 text-sm m-0">
+                LFP cells should not be charged below freezing, and most stations block charging when too cold. Keep the station indoors or in an insulated space and run the panel cable through a door seal or window gap. The panels can live outside; the battery should not in winter.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is a solar generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A solar generator is a portable power station paired with solar panels. The station contains a lithium battery, an inverter that produces household AC power, and an MPPT charge controller that turns panel output into stored energy. Nothing is burned, so it is silent and safe indoors while the panels sit outside. The term is mostly marketing; what makes one good is how well battery size, input limits and panel wattage are matched.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many solar panels do I need for a solar generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Divide the battery capacity in watt-hours by about three to get the panel wattage that refills it on a typical sunny day, or by 2.5 for margin. A 286Wh camping unit needs about 100W, a 1kWh station about 350-400W, a 2kWh station about 700-800W, and a 4kWh system about 1,300-1,650W. Use less if you only drain part of the battery, and always stay inside the station's input limits.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does it take to charge a solar generator with solar panels?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on panel wattage, weather and battery size. Portable panels deliver roughly 60-75 percent of their rating in good sun, and a clear day offers about four to five peak sun hours. A 200W panel puts back about 500-700Wh a day, enough to refill a 286Wh unit by midday or half of a 1kWh station. With 400W, a 1kWh station refills in one sunny day.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I use any solar panel with my power station?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Usually, if three things fit. The panel's open-circuit voltage, or the total for a series string, must stay below the station's maximum input voltage with cold-weather headroom. The current, or the total for panels in parallel, must not exceed the input rating. And you need the right connector or adapter. Wattage above the input limit will not harm the station but will be clipped at midday.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I wire my panels in series or parallel?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Series adds voltage, parallel adds current, and total wattage is the same. Series is usually better when it fits the voltage window, because it reaches the controller's start threshold earlier and loses less power over long cables. Parallel is safer when series would exceed the maximum voltage, and it copes better with partial shade. Large stations with two inputs often work best with one series string on each.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a solar generator power a house?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A large one can power a house's essential circuits, and with enough panels it can keep doing so through a long outage. Systems such as the EcoFlow Delta Pro 3 and Anker SOLIX F3800 store roughly 4kWh and are rated for 4,000-6,000W at 120/240V. Fed by 1,500-2,000W of rigid panels through a transfer switch, they can run a fridge, freezer, furnace blower, lights and internet. Central air and electric heat are beyond them.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a solar generator better than a gas generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Each wins in different situations. A solar generator is silent, produces no exhaust, runs indoors, needs no fuel storage and costs almost nothing to run once bought, which suits apartments, medical devices, camping and short outages. A gas generator delivers more power for longer at a lower upfront cost and keeps going through a week of storms. Many prepared households use both, with the gas unit refilling the battery during cloud.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Seven stations ranked for outages, camping and CPAP use, with runtime math.</p>
+            </a>
+            <a href="/best-portable-power-station-for-home-backup/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Home Backup</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Power Stations for Home Backup</h3>
+              <p class="text-gray-500 text-sm mt-2">Big batteries, 240V output and transfer switches for multi-day outages.</p>
+            </a>
+            <a href="/ecoflow-vs-jackery/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#10B981] font-black text-xs uppercase tracking-widest mb-2">Comparison</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">EcoFlow vs Jackery</h3>
+              <p class="text-gray-500 text-sm mt-2">How the two biggest brands differ on panels, inputs and ecosystems.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Buy a solar generator as a pair, not a battery with a panel thrown in. For most households that means a 1kWh LFP station, our pick being the EcoFlow Delta 3 Plus, with 300-400W of panels wired inside its input window.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Campers should look at the River 3 Plus and one folding panel; homes that want days of fuel-free backup need a 4kWh station and a real rigid array, planned with an electrician. Whatever you choose, keep a non-solar way to recharge for the grey days.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

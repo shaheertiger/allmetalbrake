@@ -1,0 +1,1134 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Power Stations for Home Backup",
+    "url": "/best-portable-power-station-for-home-backup/"
+  },
+  {
+    "title": "Best Solar Generators",
+    "url": "/best-solar-generator/"
+  },
+  {
+    "title": "EcoFlow vs. Jackery",
+    "url": "/ecoflow-vs-jackery/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Portable Chargers for Power Outages: Power Banks to Stations";
+const description =
+  "Six portable chargers for power outages, from pocket power banks to 1kWh stations, with mAh-to-Wh math, real phone-charge counts and USB-C wattage explained.";
+
+const PRODUCTS = [
+  {
+    "id": "anker-737-power-bank",
+    "name": "Anker 737 PowerCore 24K Power Bank",
+    "category": "24,000mAh (~86-89Wh), 140W USB-C",
+    "badge": "Best Laptop Power Bank",
+    "amazonUrl": "",
+    "pros": [
+      "24,000mAh, three to four phone charges in one pack",
+      "Up to 140W over USB-C, enough for most laptops",
+      "Display shows remaining charge, so you know what is left",
+      "Under the 100Wh airline limit"
+    ],
+    "cons": [
+      "Heavy and bulky for a pocket",
+      "The 140W figure needs a compatible device and cable",
+      "No AC outlet for non-USB devices"
+    ],
+    "bottomLine": "The best single power bank for an outage drawer: phone charges for a family member for days, plus real laptop support.",
+    "description": "The Anker 737, sold as the PowerCore 24K, is the power bank we would put in a drawer for outages if we could only have one. Anker rates it at 24,000mAh, which works out to somewhere around 86-89 watt-hours, about as large as a power bank can be while staying under the 100Wh limit airlines allow without approval. In practical terms that is three to four full charges for a typical smartphone, or a meaningful top-up for a laptop. What sets it apart from cheaper 20,000mAh banks is output: Anker lists USB-C Power Delivery up to 140W, so it can charge a large laptop at close to full speed instead of trickling, and it refills itself quickly when power briefly comes back, which matters in a rolling outage. The built-in display showing remaining charge removes the guesswork of four blinking dots. The trade-off is heft; it is a dense brick, not something you forget is in your pocket."
+  },
+  {
+    "id": "anker-powercore-10000",
+    "name": "Anker PowerCore 10000 Power Bank",
+    "category": "10,000mAh (~36-37Wh), USB-A, Pocket Size",
+    "badge": "Best Pocket Power Bank",
+    "amazonUrl": "",
+    "pros": [
+      "Small and light enough to live in a pocket or glovebox",
+      "About two phone charges",
+      "Inexpensive enough to buy one per person",
+      "Long track record and widely available"
+    ],
+    "cons": [
+      "Will not charge a laptop",
+      "Classic version charges over USB-A at standard speed",
+      "Capacity runs out quickly in a long outage"
+    ],
+    "bottomLine": "A cheap, proven pocket bank: buy one for each person in the household and keep them charged.",
+    "description": "Not every charger has to be the biggest. The PowerCore 10000 has been one of the best-known small power banks for years because it does one thing simply: it carries roughly 36-37 watt-hours in a package about the size of a deck of cards, enough to refill a typical phone once and get well into a second charge. That is the right amount for a school bag, a car glovebox or the nightstand of someone who does not want to share the big bank. In an outage, several small banks often beat one large one, because a single shared pack becomes a bottleneck, and at this size you can afford one per person. Know its limits: it is a phone charger, not a laptop charger, and the classic model charges over USB-A at ordinary speed. Anker sells several variants under similar names, some with USB-C, so read the listing for the ports you want."
+  },
+  {
+    "id": "anker-solix-c300x",
+    "name": "Anker SOLIX C300X Portable Power Station",
+    "category": "288Wh LFP, 300W AC, Multi-Port USB-C",
+    "badge": "Best Outage Charging Hub",
+    "amazonUrl": "",
+    "pros": [
+      "288Wh is roughly three times the largest airline-legal power bank",
+      "Several USB-C ports charge phones and laptops at once",
+      "AC outlets for a lamp, router or radio",
+      "Long-life LFP cells at about 9 pounds"
+    ],
+    "cons": [
+      "300W AC limit rules out appliances",
+      "Too large to fly with",
+      "Not expandable"
+    ],
+    "bottomLine": "The best value step up from power banks: a whole household's phones, laptops and router through a one- to two-day outage.",
+    "description": "The SOLIX C300X sits right where a power bank turns into a power station, and for outage charging that is the sweet spot. Anker rates its LFP battery at 288 watt-hours, about as much as three of the biggest power banks you can buy, and because it charges USB devices from its DC side rather than through an inverter, most of that energy reaches your phones: roughly 15-17 phone charges by our planning math, or several full laptop charges. At about 9 pounds it sits on a kitchen counter as the family charging station, with enough ports that nobody has to take turns. The AC outlets are the bonus. A Wi-Fi router and modem draw around 15-25 watts together, so it can keep home internet up for much of a day while also charging phones, or run an LED lamp or small fan. It will not run anything with a heating element or a compressor; 300 watts is a firm ceiling."
+  },
+  {
+    "id": "ecoflow-river-3-plus",
+    "name": "EcoFlow River 3 Plus Portable Power Station",
+    "category": "286Wh LFP, 600W AC, Expandable",
+    "badge": "Best Small Power Station",
+    "amazonUrl": "",
+    "pros": [
+      "600W inverter handles a CPAP, fan or small cooler",
+      "Works as a UPS for a router or desktop",
+      "Optional add-on battery extends capacity",
+      "About 10 pounds with LFP cells"
+    ],
+    "cons": [
+      "Costs more than the C300X for similar capacity",
+      "Still too small to run a fridge for long",
+      "Limited solar input"
+    ],
+    "bottomLine": "Choose it over the C300X if you need to run a CPAP, a fan or a home-office UPS, not just charge devices.",
+    "description": "The River 3 Plus holds almost exactly the same energy as the Anker C300X, with EcoFlow listing 286 watt-hours of LFP storage, so for pure phone charging the two are nearly interchangeable. The reason to pay a little more is the inverter. EcoFlow rates it at 600 watts, which comfortably covers a CPAP machine without its heated humidifier, a box fan in summer heat, a small cooler, or a TV and streaming box for an evening, all things that push or exceed a 300W unit. It also works as an uninterruptible power supply: leave it plugged into the wall with the router, modem or a desktop plugged into it, and when the grid drops it takes over fast enough that the internet stays up. That turns a box that would otherwise sit in a closet into something useful every day. If one evening of capacity is not enough, EcoFlow's snap-on extra battery roughly triples it, a cheaper path than buying a second unit."
+  },
+  {
+    "id": "jackery-explorer-1000-v2",
+    "name": "Jackery Explorer 1000 v2 Portable Power Station",
+    "category": "1,070Wh LFP, 1,500W (3,000W Surge)",
+    "badge": "Best for Charging Plus a Fridge",
+    "amazonUrl": "",
+    "pros": [
+      "1,070Wh: dozens of phone charges plus appliance power",
+      "1,500W with 3,000W surge starts a refrigerator",
+      "Light for its size at about 24 pounds",
+      "Simple to use, LFP chemistry"
+    ],
+    "cons": [
+      "Far more than you need for phones alone",
+      "Not expandable",
+      "A real lift compared with a power bank"
+    ],
+    "bottomLine": "The jump from charging to backup: phones, laptops, router and a fridge through a short outage, in a box one person can carry.",
+    "description": "Once you want to keep the refrigerator cold as well as the phones charged, you have left the portable charger category and need a 1kWh class power station. The Explorer 1000 v2 is the lightest common way in. Jackery lists 1,070 watt-hours of LFP storage, which could in theory charge a phone more than 50 times, but its real value is the 1,500W inverter and 3,000W surge rating, which can start a fridge compressor and keep it running. Run the numbers with the usual rule of thumb, watt-hours times 0.85 divided by the load, and a fridge averaging 65 watts gets roughly 14 hours, while a 20W router alone would run for about 45. In a real outage you split the battery: the fridge for a few hours at a time, the router all evening, the phones whenever they need it. At about 24 pounds it is carryable, simple to use and frequently discounted."
+  },
+  {
+    "id": "ecoflow-delta-3-plus",
+    "name": "EcoFlow Delta 3 Plus Portable Power Station",
+    "category": "1,024Wh LFP, 1,800W, Expandable",
+    "badge": "Best Expandable Upgrade",
+    "amazonUrl": "",
+    "pros": [
+      "1,800W output covers a fridge, microwave or coffee maker",
+      "Expandable with add-on batteries",
+      "Fast UPS switchover for home offices",
+      "Accepts solar for multi-day outages"
+    ],
+    "cons": [
+      "Around 28 pounds",
+      "App needed for some settings",
+      "Overkill if charging is the only goal"
+    ],
+    "bottomLine": "Buy it if you want one battery that handles charging today and grows into real home backup later.",
+    "description": "The Delta 3 Plus is the pick for households that suspect they will outgrow a charging setup. EcoFlow rates it at 1,024 watt-hours, a near match for the Jackery, but its 1,800W inverter adds headroom for a microwave or coffee maker alongside the fridge, and it accepts EcoFlow's add-on batteries, so you can start at 1kWh and add capacity later rather than buying a second box. In an outage charging plan it plays the role of the central battery: everyone's phones and laptops, the router in UPS mode, lights and a fridge. EcoFlow quotes a wall recharge in about an hour when power briefly returns, and it takes solar panels if the grid stays down. The costs are weight, at around 28 pounds, an app for some of the deeper settings, and the simple fact that it is far more battery than you need if charging phones is the only goal."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Portable Chargers for Power Outages",
+          item: "https://www.allmetalbrake.com/best-portable-chargers-for-power-outages/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best portable charger for a power outage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most households, a 20,000 to 25,000 mAh USB-C power bank such as the Anker 737 PowerCore 24K is the best single charger. It stores roughly 86 to 89 Wh, enough for three to four phone charges or most of a laptop charge. If several people need to stay connected for more than a day, or you want the Wi-Fi router running, a 300 Wh station such as the Anker SOLIX C300X is better value per charge."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many times will a 20,000 mAh power bank charge a phone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually about three times, not four or five. At the cells' 3.6 to 3.7 volts, 20,000 mAh is about 72 to 74 Wh. Power banks typically deliver 60 to 70 percent of that after conversion and heat losses, so roughly 44 to 52 Wh arrives. A typical phone battery holds around 15 Wh, so that is about three full charges; a compact phone may get closer to four."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I convert mAh to watt-hours?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Multiply the mAh figure by the battery voltage and divide by 1,000. Power bank cells are nominally 3.6 to 3.7 volts, so a 10,000 mAh bank holds about 36 to 37 Wh and a 27,000 mAh bank sits right around the 100 Wh airline limit. Many banks print the Wh figure on the case for airline purposes; when it is there, use it instead of calculating."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a power bank or a power station better for outages?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They do different jobs. A power bank is small, cheap and portable, the right tool for keeping one or two phones alive through a short outage or in a go-bag. A power station holds far more energy and adds AC outlets, so it can charge a family's devices for days and run a router, lamp, fan or CPAP. Most well-prepared households own both: pocket banks per person and one station as the hub."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a power bank charge a laptop?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, if it has a USB-C Power Delivery port with enough wattage and your laptop charges over USB-C. Thin laptops typically need 45 to 65 watts, most 14 to 15 inch laptops 65 to 100 watts, and large performance laptops up to 140. You also need a cable rated for the wattage, since a standard 3 A cable caps the connection at 60 watts. Barrel-jack laptops need an AC outlet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I take a power bank on a plane?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, in your carry-on only, if it is 100 Wh or less, which is roughly 27,000 mAh or less. Banks between 100 and 160 Wh need airline approval and are usually limited to two per passenger. Anything over 160 Wh, including every power station in this guide, is not allowed at all. Make sure the capacity is printed legibly on the case, and check your airline's current in-flight policy."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a power bank hold its charge in storage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A healthy lithium-ion bank typically loses a few percent of its charge per month, so it is still mostly full after a few months but noticeably lower after six months to a year. Heat speeds both self-discharge and permanent aging, so store banks indoors. Top up every three months or so, and retire any bank that swells, cracks or gets hot while idle."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "portable chargers for power outages",
+      "power bank for power outage",
+      "emergency phone charger",
+      "mah to wh",
+      "usb-c power delivery",
+      "power bank airline limit"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Portable Chargers</span> for Power Outages
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          When the lights go out, your phone becomes your flashlight, radio and lifeline. Here is how to turn mAh into real phone charges, which USB-C wattage you need, and six chargers that keep a household connected from the first hour to the third day.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#anker-737-power-bank"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Jump to the Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. The Six Picks</a>
+          <a href="#mah-vs-wh" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. mAh vs. Wh</a>
+          <a href="#phone-charges" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Phone Charge Math</a>
+          <a href="#usb-c" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. USB-C Wattage</a>
+          <a href="#essentials" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Phones, Lights, Radios, Medical</a>
+          <a href="#car" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Car, Crank and Solar</a>
+          <a href="#travel" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. The 100 Wh Rule</a>
+          <a href="#kit" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Outage Charging Kit</a>
+          <a href="#storage" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Storage and Self-Discharge</a>
+          <a href="#choosing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Most outages are not dramatic. Within a few hours the real problem is that every phone in the house is draining faster than usual, hunting for a weak signal and doubling as a flashlight. A portable charger is the cheapest piece of outage equipment you can own, and for a short outage it is often the only one you need, as long as you buy it in watt-hours rather than marketing.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Six Chargers, Smallest to Largest
+          </h2>
+
+          <p>
+            The category spans pocket power banks, laptop banks and 1 kWh power stations that can also run a refrigerator, all sold as portable chargers and labeled in different units. These six widely sold options from Anker, EcoFlow and Jackery are arranged from smallest to largest and described from their manufacturers' published specifications, not hands-on testing. Power banks in particular are revised and renamed often, so check capacity, output wattage and port types on the listing before you buy. The short version: every household should own one 20,000 to 25,000 mAh USB-C bank; step up to a roughly 300 Wh station for longer outages, a CPAP or several people; and buy a 1 kWh unit only if the fridge is part of the plan.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="mah-vs-wh" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. mAh vs. Wh: Reading the Label Honestly
+          </h2>
+
+          <p>
+            Power banks are labeled in milliamp-hours because that is how phone batteries were historically marketed. The problem is that mAh is only meaningful alongside a voltage, and the voltage behind the number on a power bank label is not the voltage that comes out of the USB port. That is why a 20,000 mAh bank does not charge a 5,000 mAh phone four times, no matter how the box art makes it look.
+          </p>
+
+          <p>
+            The honest unit is the watt-hour, which measures energy regardless of voltage. To convert, multiply the mAh figure by the cell voltage and divide by 1,000. Lithium-ion power bank cells are nominally 3.6 to 3.7 volts, so the formula is Wh = mAh x 3.6 (or 3.7) / 1,000. A 24,000 mAh bank therefore holds about 86 to 89 Wh, and a 10,000 mAh bank about 36 to 37 Wh.
+          </p>
+
+          <p>
+            Many power banks print the watt-hour figure in small type on the case or base, because airline and shipping rules require it. When it is there, trust it over the mAh number. It also lets you compare a power bank directly with a power station, which is always rated in watt-hours, and that is the comparison that matters once you start asking whether a small station is better value than three big banks.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Label capacity</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Stored energy</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Delivered (60-70%)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical use</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">5,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">~18 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~11-13 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">One partial phone charge</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">10,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">~36-37 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~22-26 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">1.5-2 phone charges</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">20,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">~72-74 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~44-52 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">3 phone charges or half a laptop</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">24,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">~86-89 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~52-62 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">3-4 phone charges or most of a laptop</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">27,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">~97-100 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~58-70 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">The airline-limit ceiling</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Why Only 60 to 70 Percent Arrives</h3>
+
+          <p>
+            Energy is lost at every step. The bank boosts its 3.6 to 3.7 volt cells up to 5, 9, 15 or 20 volts for USB, and that conversion generates heat. The phone then steps the voltage back down to charge its own battery, losing more. The cable adds resistance, and charging a warm phone while it is in use wastes still more. Real-world delivered energy from a power bank typically lands around 60 to 70 percent of the stored figure. Faster charging generally runs a little less efficiently than slower charging, and a cold bank delivers less until it warms up.
+          </p>
+
+          <p>
+            Power stations are labeled in watt-hours already, and their USB ports draw from a higher-voltage battery pack through a single conversion stage, so they tend to deliver a higher share. Around 85 percent is a fair planning figure, the same one used for AC runtime in our <a href="/best-portable-power-station/">portable power station buying guide</a>. Charging a phone from a station's AC outlet through its wall adapter adds an extra conversion and wastes energy, so use the USB ports directly whenever you can.
+          </p>
+        </div>
+
+        <div id="phone-charges" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. How Many Phone Charges Will You Get?
+          </h2>
+
+          <p>
+            Phone batteries also hide behind mAh labels, but at a slightly higher nominal voltage, around 3.85 volts on many recent phones. A typical current phone stores somewhere around 12 to 20 Wh. Large Max and Ultra models sit at the top of that range and compact models toward the bottom, so we use 15 Wh as a planning number for a household of mixed phones.
+          </p>
+
+          <p>
+            The math is simple: charges = (bank Wh x efficiency) / phone Wh. For the Anker 737, 87 Wh x 0.65 is about 57 Wh delivered, and 57 divided by 15 is about 3.8 charges. For a 288 Wh power station, 288 x 0.85 is about 245 Wh, and 245 divided by 15 is roughly 16 charges. The same arithmetic works for tablets and laptops if you look up their battery size in watt-hours.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Charger</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Small phone (~12 Wh)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical phone (~15 Wh)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Large phone (~19 Wh)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Tablet (~30 Wh)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Laptop (~60 Wh)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">10,000 mAh bank</td>
+                    <td class="px-4 py-4 text-gray-700">~2</td>
+                    <td class="px-4 py-4 text-gray-700">~1.6</td>
+                    <td class="px-4 py-4 text-gray-700">~1.2</td>
+                    <td class="px-4 py-4 text-gray-700">~0.8</td>
+                    <td class="px-4 py-4 text-gray-700">Not practical</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">24,000 mAh bank</td>
+                    <td class="px-4 py-4 text-gray-700">~4.7</td>
+                    <td class="px-4 py-4 text-gray-700">~3.8</td>
+                    <td class="px-4 py-4 text-gray-700">~3</td>
+                    <td class="px-4 py-4 text-gray-700">~1.9</td>
+                    <td class="px-4 py-4 text-gray-700">~0.9</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">~288 Wh station (USB)</td>
+                    <td class="px-4 py-4 text-gray-700">~20</td>
+                    <td class="px-4 py-4 text-gray-700">~16</td>
+                    <td class="px-4 py-4 text-gray-700">~13</td>
+                    <td class="px-4 py-4 text-gray-700">~8</td>
+                    <td class="px-4 py-4 text-gray-700">~4</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">~1,000 Wh station (USB)</td>
+                    <td class="px-4 py-4 text-gray-700">~70</td>
+                    <td class="px-4 py-4 text-gray-700">~57</td>
+                    <td class="px-4 py-4 text-gray-700">~45</td>
+                    <td class="px-4 py-4 text-gray-700">~28</td>
+                    <td class="px-4 py-4 text-gray-700">~14</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Now the practical part: how long does a phone actually last in an outage? Far longer than the charges figure suggests if you manage it. A phone on low-power mode, screen dimmed, with Wi-Fi off once the router is dead, will often run a full day on one charge with moderate use. Most of the drain in a typical day comes from the screen, so the less you scroll, the further every watt-hour goes.
+          </p>
+
+          <p>
+            Scale that to a household. A family of four that each uses one charge a day needs about 60 Wh delivered per day. A single 24,000 mAh bank covers that for roughly one day, four 10,000 mAh banks cover it for a day and a half, and a 288 Wh station covers it for about four days before counting anything else. That one comparison is why a small station is often the better buy once more than two people depend on it.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">WEAK SIGNAL IS THE HIDDEN DRAIN</p>
+            <p class="text-xl font-bold text-white mb-3">Airplane mode can double a phone's outage runtime.</p>
+            <p class="text-gray-300 leading-relaxed m-0">When the power is out, nearby cell sites may be running on their own backup batteries or may go down, and phones burn energy searching for a signal. If you have no usable signal, switch to airplane mode and turn it off periodically to check messages.</p>
+          </div>
+        </div>
+
+        <div id="usb-c" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. USB-C Wattage and AC-Outlet Power Banks
+          </h2>
+
+          <p>
+            Capacity tells you how much energy a charger holds. Output wattage tells you how fast it can hand that energy over, and whether it can charge a particular device at all. USB-C Power Delivery negotiates a voltage and current between the charger and the device, and the wattage on the box is the best the charger can offer, not what every device will draw.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">USB-C output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">What it charges well</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Up to 12-18 W</td>
+                    <td class="px-4 py-4 text-gray-700">Phones at moderate speed, earbuds, watches</td>
+                    <td class="px-4 py-4 text-gray-700">Typical of older USB-A banks</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">20-30 W</td>
+                    <td class="px-4 py-4 text-gray-700">Phones at full fast-charge speed, small tablets</td>
+                    <td class="px-4 py-4 text-gray-700">Enough for nearly every phone</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">45-65 W</td>
+                    <td class="px-4 py-4 text-gray-700">Tablets, ultrabooks, handheld game consoles</td>
+                    <td class="px-4 py-4 text-gray-700">Most thin laptops charge here</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">100 W</td>
+                    <td class="px-4 py-4 text-gray-700">Most 14-15 inch laptops at full speed</td>
+                    <td class="px-4 py-4 text-gray-700">Needs a cable rated for 5 A</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">140 W and up</td>
+                    <td class="px-4 py-4 text-gray-700">Large performance laptops</td>
+                    <td class="px-4 py-4 text-gray-700">Extended power range; needs a compatible device and a 240 W-rated cable</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Three practical points follow. First, for phones alone, anything over about 30 watts per port is wasted, so buy capacity, not wattage. Second, for laptops, match the bank's USB-C output to your laptop's own charger rating; a 65 W laptop will charge from a 45 W bank, slowly, and may lose ground if you work on it at the same time. Third, the cable matters. A cheap cable rated for 3 amps caps the connection at 60 watts regardless of what the bank and laptop can do, so keep at least one 5 A cable, rated for 100 or 240 watts, in your outage kit.
+          </p>
+
+          <p>
+            Also watch the total. Many banks advertise a high single-port figure that drops when you plug in a second device, because the total output is shared between ports. If you want to charge two laptops at once, look for the combined output rating on the spec sheet, not the headline number on the front of the box.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Power Banks With an AC Outlet</h3>
+
+          <p>
+            Between laptop power banks and power stations sits a class of chargers marketed as a portable outlet: a power bank of roughly 60 to 100 Wh with a small AC outlet on the side, usually limited to somewhere between 65 and 100 watts. They exist for devices that only accept a wall plug, such as an older laptop with a barrel-jack charger, a camera battery charger, an electric shaver or a small lamp.
+          </p>
+
+          <p>
+            They are useful in a narrow way, but understand the trade-off. The AC outlet runs through a tiny inverter that wastes a meaningful share of an already small battery, and the low wattage limit means it will not run anything with a motor or heater. If all your devices charge over USB-C, a plain bank of the same size gives you more charges. If you need several AC devices, a 300 Wh class station such as the Anker SOLIX C300X or EcoFlow River 3 Plus gives you three times the energy and proper outlets for the price of a couple of premium banks. Before buying a portable outlet bank, check whether the outlet is pure sine wave and what its continuous limit is.
+          </p>
+        </div>
+
+        <div id="essentials" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Keeping Phones, Radios, Lights and Medical Devices Alive
+          </h2>
+
+          <p>
+            An outage charging plan starts with a list of what must stay powered and how much energy each item needs per day. The budget below covers the small electronics that matter most when the grid is down. Notice how small most of these are compared with a refrigerator, which uses 1 to 2 kWh a day and belongs in a different conversation, the one our <a href="/best-home-generator-for-power-outages/">home generator guide for power outages</a> covers.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Device</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical draw</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Energy per day</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best source</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Smartphone (managed use)</td>
+                    <td class="px-4 py-4 text-gray-700">Charges at 15-25 W</td>
+                    <td class="px-4 py-4 text-gray-700">~15-20 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Any power bank</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Rechargeable LED lantern</td>
+                    <td class="px-4 py-4 text-gray-700">3-10 W</td>
+                    <td class="px-4 py-4 text-gray-700">~15-40 Wh per evening</td>
+                    <td class="px-4 py-4 text-gray-700">USB from bank or station</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">USB weather radio</td>
+                    <td class="px-4 py-4 text-gray-700">1-3 W</td>
+                    <td class="px-4 py-4 text-gray-700">~5-15 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Own batteries, crank or USB</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Laptop (light use)</td>
+                    <td class="px-4 py-4 text-gray-700">15-45 W in use</td>
+                    <td class="px-4 py-4 text-gray-700">~40-80 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">High-output USB-C bank or station</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Wi-Fi router + modem</td>
+                    <td class="px-4 py-4 text-gray-700">15-25 W</td>
+                    <td class="px-4 py-4 text-gray-700">~180-300 Wh for 12 hours</td>
+                    <td class="px-4 py-4 text-gray-700">Power station AC or DC</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">CPAP (no heated humidifier)</td>
+                    <td class="px-4 py-4 text-gray-700">30-60 W</td>
+                    <td class="px-4 py-4 text-gray-700">~250-500 Wh per night</td>
+                    <td class="px-4 py-4 text-gray-700">Power station, ideally via DC</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Small USB fan</td>
+                    <td class="px-4 py-4 text-gray-700">3-6 W</td>
+                    <td class="px-4 py-4 text-gray-700">~25-50 Wh overnight</td>
+                    <td class="px-4 py-4 text-gray-700">Power bank</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Phones come first. Charge every phone to full as soon as a storm warning goes out, turn on low-power mode at the start of an outage rather than when the battery is already low, and use a dedicated flashlight instead of the phone's light. Download offline maps and save utility outage numbers before you need them, because looking them up on a weak signal burns battery you will want later.
+          </p>
+
+          <p>
+            Lighting is where many people waste their phone batteries. A rechargeable LED lantern or a USB-powered LED light uses very little energy and frees the phone for communication. Headlamps on AA or AAA batteries remain one of the best outage tools ever made: no charging, long shelf life, both hands free. Avoid candles as a main light source; they cause a disproportionate share of outage house fires. When cell networks are congested or down, a battery-powered AM/FM radio with NOAA weather bands is how you hear about restoration times, boil-water notices and evacuation orders.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Medical Devices Need Their Own Plan</h3>
+
+          <p>
+            If anyone in the house depends on powered medical equipment, plan for it separately and generously. A CPAP machine is manageable: without the heated humidifier it draws roughly 30 to 60 watts, so a 300 Wh class station gets most users through a night and a 1 kWh unit through two or three. Ask the manufacturer for a DC power cord, which lets the CPAP run from the station's 12 V outlet without inverter losses. Our guide to the <a href="/best-portable-power-station-for-home-backup/">best power stations for home backup</a> covers sizing for overnight medical loads in more depth.
+          </p>
+
+          <p>
+            Oxygen concentrators are a different matter. Many draw far more power continuously, and they should be backed by the supplier's own battery or cylinder plan rather than a consumer charger. Register with your utility's medical-needs program if one exists, and tell your equipment supplier what your backup plan is. Power banks are fine for small devices like glucose meters, hearing-aid chargers and insulin coolers that charge over USB.
+          </p>
+        </div>
+
+        <div id="car" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Recharging Without the Grid: Car, Crank and Solar
+          </h2>
+
+          <p>
+            Your car is a large battery with an engine-driven alternator attached, and in an outage it can be an excellent charger if you use it correctly. A USB-C car charger plugged into the 12 V socket can deliver 30 to 100 watts depending on the adapter, enough to charge phones and many laptops at full speed. A small plug-in inverter adds a household outlet, but the 12 V socket is typically fused for only about 120 to 180 watts, so keep the load modest.
+          </p>
+
+          <p>
+            Follow a few rules. Never run the engine in a garage, even with the door open; carbon monoxide builds up fast and seeps into the house. Park outside, in the open, away from windows and doors. Do not drain the car battery with the engine off for long, because most 12 V starting batteries are not designed for deep discharge and a dead car is a bigger problem than a dead phone. Idling to charge uses little fuel, but keep the tank above half when storms are forecast, because gas stations need power to pump.
+          </p>
+
+          <p>
+            A car can also recharge a power station through a 12 V car-socket charging cable. Input from a car socket is limited to roughly 100 to 120 watts, so a 288 Wh station refills in around three hours of driving, while a 1 kWh station takes a full day's driving. That makes the car a supplement rather than a solution for the larger units. For extended outages with heavier loads, a home generator is the more realistic recharging source, and our breakdown of <a href="/generac-generator-cost/">what a Generac standby generator costs installed</a> shows what that step involves.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Hand-Crank and Solar Radios</h3>
+
+          <p>
+            Emergency radios with a hand crank and a small solar panel are excellent at one job: keeping the radio itself running indefinitely. They are poor at another job they are often marketed for, which is charging your phone. A minute of brisk cranking generates only a tiny amount of energy, enough for a few minutes of radio listening or perhaps a brief emergency call. The built-in solar panel is typically a watt or two at best. Buy one for the radio, the flashlight and the weather alerts, and treat its USB output as an emergency trickle. Look for NOAA weather band reception, the ability to run on ordinary AA batteries, and a USB-C input so you can top it up from your power banks.
+          </p>
+
+          <p>
+            Solar is far more practical at a larger scale. A folding 100 W panel, which delivers about 60 to 75 percent of its rating in good sun, can put roughly 250 to 350 Wh into a power station over a day with four to five peak sun hours, enough to refill a 288 Wh station or recharge a household's phones for several days. Small 20 to 30 W panels with USB outputs can charge a phone directly in strong sun, but they are sensitive to clouds and angle, and phones often stop charging when the output dips; charging a bank from the panel and the phone from the bank works better. Our <a href="/best-solar-generator/">solar generator guide</a> covers matching panels to stations.
+          </p>
+        </div>
+
+        <div id="travel" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Flying With a Power Bank: The 100 Wh Rule
+          </h2>
+
+          <p>
+            If your outage charger doubles as a travel charger, the watt-hour figure decides whether it can fly. This is one more reason the 20,000 to 25,000 mAh class is the sweet spot for a single household bank: it is as big as you can carry onto a plane without asking anyone's permission, so the same pack serves the go-bag, the hurricane drawer and the next business trip.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Battery size</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Equivalent at 3.6-3.7 V</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Carry-on</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Checked bag</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Up to 100 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Up to about 27,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">Allowed</td>
+                    <td class="px-4 py-4 text-gray-700">Not allowed</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">100-160 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">About 27,000-43,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">Airline approval required, usually two spares maximum</td>
+                    <td class="px-4 py-4 text-gray-700">Not allowed</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Over 160 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Most power stations</td>
+                    <td class="px-4 py-4 text-gray-700">Not allowed</td>
+                    <td class="px-4 py-4 text-gray-700">Not allowed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Spare lithium batteries, including power banks, always travel in the cabin, never in checked luggage. The logic is that a battery fire in the cabin can be spotted and handled by crew, while one in the hold cannot. A bank without a legible Wh or mAh rating may be refused at security, so if the printing on your old bank has worn off, it may be time to retire it for travel and keep it at home.
+          </p>
+
+          <p>
+            Some airlines also restrict using power banks to charge devices in flight, or require them to be kept visible rather than in an overhead bin, and those policies change often. Check your airline before you go rather than relying on what was allowed last year.
+          </p>
+
+          <p>
+            Every power station in this guide, including the 286 to 288 Wh compact units, is above 160 Wh and cannot fly at all. If your plans include both outage backup and frequent flying, that argues for owning one airline-legal bank plus a station that stays home, rather than trying to make one device do both jobs. The same split works well for road trips and camping, where our <a href="/best-portable-power-station-for-camping/">camping power station guide</a> picks up the story.
+          </p>
+        </div>
+
+        <div id="kit" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Building an Outage Charging Kit
+          </h2>
+
+          <p>
+            A good kit layers small and large energy sources so nothing becomes a single point of failure. If the big station is drained running the router, the pocket banks still carry everyone's phones; if a pocket bank goes missing, the station covers it. Here is how we would build one for a typical household of three or four people, in three tiers that match how long your outages usually last.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Tier</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">What to include</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">What it covers</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Basic (short outages)</td>
+                    <td class="px-4 py-4 text-gray-700">One 10,000 mAh bank per person, one 20,000-25,000 mAh USB-C bank, headlamps, AA batteries, USB-C cables</td>
+                    <td class="px-4 py-4 text-gray-700">Phones and lights for 1-2 days</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Connected (1-3 days)</td>
+                    <td class="px-4 py-4 text-gray-700">Basic kit plus a ~300 Wh power station, a USB lantern, a weather radio, a USB-C car charger</td>
+                    <td class="px-4 py-4 text-gray-700">Phones, laptops, router and radio for 2-4 days</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Resilient (3+ days)</td>
+                    <td class="px-4 py-4 text-gray-700">Connected kit plus a 1 kWh station and a 100-200 W folding solar panel</td>
+                    <td class="px-4 py-4 text-gray-700">Everything above plus the fridge, CPAP and indefinite phone charging in sun</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The small things are what make a kit work. Pack cables for every device: at least two USB-C to USB-C cables with one rated for 5 amps, a USB-C to Lightning cable if anyone still has an older iPhone, and a USB-A to USB-C cable for older banks and car chargers. Add a multi-port wall charger, because when power returns briefly you want to refill everything at once rather than one device at a time.
+          </p>
+
+          <p>
+            Keep the kit in one labeled bin that the whole household knows about, with a card listing what is in it and when it was last charged. In longer outages, run a charging rota: recharge power banks from the power station during the day while someone is awake, rather than overnight and unattended. And print the numbers that matter, from the utility outage line and insurance to family contacts and the medical supplier. A dead phone should never mean lost numbers.
+          </p>
+
+          <p>
+            Choosing between the 1 kWh options at the top tier usually comes down to brand ecosystem and expansion. Jackery keeps things simple and light, while EcoFlow leans on expansion batteries and app control. Our <a href="/ecoflow-vs-jackery/">EcoFlow vs. Jackery comparison</a> goes through those differences in detail if you are stuck between the two.
+          </p>
+        </div>
+
+        <div id="storage" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Storage and Self-Discharge
+          </h2>
+
+          <p>
+            An outage charger is only useful if it is charged when the outage starts, and lithium batteries do not hold a charge forever. Lithium-ion power banks typically lose a few percent per month to self-discharge, plus a small draw from their own circuitry. After six months in a drawer, a bank charged to full may be noticeably lower. LFP power stations self-discharge slowly as well, but their displays and standby electronics can drain them faster if left switched on.
+          </p>
+
+          <p>
+            For long-term storage, manufacturers commonly recommend keeping lithium batteries partially charged, roughly 50 to 80 percent, and topping them up every three months or so. In practice, for outage kits we suggest a simple rhythm: check and top up everything when the clocks change in spring and fall, and again whenever a major storm is forecast. Storage at 100 percent for long periods ages cells faster, but the difference over a year or two is small compared with the cost of an empty bank in an outage. If in doubt, keep the main bank full.
+          </p>
+
+          <p>
+            Temperature matters as much as charge level. Do not store power banks in a hot car through summer; high heat is the fastest way to age lithium cells and, in rare cases, cause swelling. Cold reduces available capacity temporarily, and lithium batteries should not be charged below freezing. A closet inside the house is ideal, and a damp basement is not, for the same reason our guide to the <a href="/best-dehumidifier-for-basement/">best basement dehumidifiers</a> exists: moisture is hard on electronics.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">RETIRE SWOLLEN OR DAMAGED BANKS</p>
+            <p class="text-xl font-bold text-white mb-3">Puffed, cracked or hot-when-idle means done.</p>
+            <p class="text-gray-300 leading-relaxed m-0">A power bank that has swollen, cracked, gets hot when idle or smells odd should not be charged again. Do not throw it in the trash; take it to a battery recycling drop-off, many of which are at home improvement and electronics stores.</p>
+          </div>
+
+          <p>
+            For devices that run on disposable batteries, such as headlamps, radios and smoke detectors, lithium AA and AAA cells hold their charge for many years in storage and perform well in the cold. That makes them a good complement to rechargeable gear in a kit that may sit untouched for a long time, and a useful fallback if every rechargeable in the house has quietly drained.
+          </p>
+        </div>
+
+        <div id="choosing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which One to Buy
+          </h2>
+
+          <p>
+            For short outages with one or two people and phones only, buy a 10,000 mAh pocket bank each, such as the Anker PowerCore 10000. They are cheap, small and enough for a day or two of managed use, and having one per person removes the queue around a single shared charger.
+          </p>
+
+          <p>
+            For phones plus a laptop, or a single bank for a go-bag, get a 20,000 to 25,000 mAh USB-C bank with at least 65 watts of output. The Anker 737 PowerCore 24K at 140 watts is our pick. It stays under the airline limit, so it doubles as a travel charger, and it is the one charger in this guide we would tell every household to own regardless of what else they buy.
+          </p>
+
+          <p>
+            For a household's devices plus the router for a day or two, step up to a roughly 300 Wh power station. The Anker SOLIX C300X is the value choice for charging; the EcoFlow River 3 Plus is worth the extra if you need to run a CPAP, a fan or a router UPS. For charging plus the refrigerator, you want a 1 kWh LFP station with at least 1,500 watts of output: the Jackery Explorer 1000 v2 for lighter weight and simplicity, or the EcoFlow Delta 3 Plus for more output and expandability. Our main <a href="/best-portable-power-station/">portable power station guide</a> compares the full field.
+          </p>
+
+          <p>
+            For multi-day outages, well pumps or heating, you have moved beyond chargers. Look at 4 kWh class systems in our home backup power station guide, or at a home generator. If flooding is your main risk, a battery backup sump pump deserves a place on the list too, because no phone charger will keep the basement dry.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trusting the mAh number</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 20,000 mAh bank does not deliver 20,000 mAh to your phone. Convert to watt-hours, then assume 60 to 70 percent arrives after conversion losses. Planning on the label figure leaves you a full charge or more short per bank, which in a three-day outage is the difference between staying reachable and not.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying wattage instead of capacity for phones</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 140 W port does nothing extra for a phone, which rarely draws more than 25 to 30 watts. If your outage plan is phones only, spend the money on more watt-hours or on a second bank. High USB-C output only pays off when a laptop, tablet or handheld console is part of the plan.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Letting the kit go flat in storage</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Lithium banks lose a few percent a month, and a station left switched on drains faster. A kit charged last spring may be half empty when the storm hits. Top everything up when the clocks change and again when a storm is forecast, and write the date on the bin.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running the car in the garage to charge</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Idling a car to charge phones is efficient, but never in an attached garage, even with the door open. Carbon monoxide builds up quickly and moves into the house. Park outside, away from windows and doors, and keep the tank above half when bad weather is on the way.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Counting on a hand crank for the phone</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Crank and solar emergency radios are excellent for keeping the radio and flashlight alive, but a minute of cranking yields only minutes of radio, not a phone charge. Treat their USB port as a last-ditch trickle and rely on banks, a station, the car or a real folding solar panel.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best portable charger for a power outage?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most households, a 20,000 to 25,000 mAh USB-C power bank such as the Anker 737 PowerCore 24K is the best single charger. It stores roughly 86 to 89 Wh, enough for three to four phone charges or most of a laptop charge. If several people need to stay connected for more than a day, or you want the Wi-Fi router running, a 300 Wh station such as the Anker SOLIX C300X is better value per charge.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many times will a 20,000 mAh power bank charge a phone?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Usually about three times, not four or five. At the cells' 3.6 to 3.7 volts, 20,000 mAh is about 72 to 74 Wh. Power banks typically deliver 60 to 70 percent of that after conversion and heat losses, so roughly 44 to 52 Wh arrives. A typical phone battery holds around 15 Wh, so that is about three full charges; a compact phone may get closer to four.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I convert mAh to watt-hours?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Multiply the mAh figure by the battery voltage and divide by 1,000. Power bank cells are nominally 3.6 to 3.7 volts, so a 10,000 mAh bank holds about 36 to 37 Wh and a 27,000 mAh bank sits right around the 100 Wh airline limit. Many banks print the Wh figure on the case for airline purposes; when it is there, use it instead of calculating.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a power bank or a power station better for outages?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                They do different jobs. A power bank is small, cheap and portable, the right tool for keeping one or two phones alive through a short outage or in a go-bag. A power station holds far more energy and adds AC outlets, so it can charge a family's devices for days and run a router, lamp, fan or CPAP. Most well-prepared households own both: pocket banks per person and one station as the hub.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a power bank charge a laptop?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, if it has a USB-C Power Delivery port with enough wattage and your laptop charges over USB-C. Thin laptops typically need 45 to 65 watts, most 14 to 15 inch laptops 65 to 100 watts, and large performance laptops up to 140. You also need a cable rated for the wattage, since a standard 3 A cable caps the connection at 60 watts. Barrel-jack laptops need an AC outlet.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I take a power bank on a plane?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, in your carry-on only, if it is 100 Wh or less, which is roughly 27,000 mAh or less. Banks between 100 and 160 Wh need airline approval and are usually limited to two per passenger. Anything over 160 Wh, including every power station in this guide, is not allowed at all. Make sure the capacity is printed legibly on the case, and check your airline's current in-flight policy.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does a power bank hold its charge in storage?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A healthy lithium-ion bank typically loses a few percent of its charge per month, so it is still mostly full after a few months but noticeably lower after six months to a year. Heat speeds both self-discharge and permanent aging, so store banks indoors. Top up every three months or so, and retire any bank that swells, cracks or gets hot while idle.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Pillar Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Seven stations ranked for outages, camping and CPAP, with honest runtime math.</p>
+            </a>
+            <a href="/best-portable-power-station-for-home-backup/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Power Stations for Home Backup</h3>
+              <p class="text-gray-500 text-sm mt-2">Larger, expandable systems for fridges, well pumps and multi-day outages.</p>
+            </a>
+            <a href="/best-solar-generator/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Solar Generators</h3>
+              <p class="text-gray-500 text-sm mt-2">Stations and panels matched for recharging when the grid stays down.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Buy in watt-hours, not milliamp-hours. One 20,000 to 25,000 mAh USB-C bank per household, plus a cheap pocket bank per person, covers most short outages, and the Anker 737 is the one charger we would tell everyone to own.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Once the outage plan includes a router, a CPAP or several people for more than a day, a 300 Wh station is better value per charge. When the fridge joins the list, you are shopping for a 1 kWh power station, and that is a backup decision rather than a charging one.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>
