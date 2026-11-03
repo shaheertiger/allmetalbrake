@@ -1,0 +1,938 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Portable Power Station for Camping",
+    "url": "/best-portable-power-station-for-camping/"
+  },
+  {
+    "title": "Best Portable Air Conditioner for Camping",
+    "url": "/best-portable-air-conditioner-for-camping/"
+  },
+  {
+    "title": "Best Solar Power Bank",
+    "url": "/best-solar-power-bank/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Battery Powered Fans: Runtime, Batteries and Airflow";
+const description =
+  "Rechargeable, tool-battery and D-cell fans for outages, camping and jobsites, with runtime math by battery size and how to run a box fan from a power station.";
+
+const PRODUCTS = [
+  {
+    "id": "ryobi-one-plus-whisperseries-fan",
+    "name": "Ryobi ONE+ 18V Hybrid WhisperSeries 7-1/2 in. Fan",
+    "category": "18V Tool Battery or AC, Quiet, Compact",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Runs on any Ryobi ONE+ 18V battery, the largest consumer tool platform",
+      "Hybrid design can also run on AC power, so it is useful every day",
+      "WhisperSeries tuning keeps it quiet enough for a bedroom or tent",
+      "Compact enough for a nightstand, desk or camp table",
+      "Bare-tool pricing is low if you already own packs"
+    ],
+    "cons": [
+      "Battery and charger sold separately in the tool-only version",
+      "Small blade moves personal-scale air, not a whole room",
+      "Check the listing to see whether an AC adapter or cord is included"
+    ],
+    "bottomLine": "The best battery fan for most people, because ONE+ batteries are everywhere and the WhisperSeries is quiet enough to sleep beside.",
+    "description": "Ryobi ONE+ is the battery platform most homeowners already have in the garage, and the WhisperSeries 7-1/2 inch fan is the most broadly useful fan on it. It slides onto any ONE+ 18V pack, and the hybrid design means it can also run from AC power when you are not in an outage, so it earns its shelf space year round. Ryobi tuned the WhisperSeries line for low noise, which matters more than airflow numbers when the fan is pointed at your pillow during a hot, powerless night. The blade is small, so think of it as a personal fan: one person at a desk, a sleeper, or a corner of a tent. Runtime depends entirely on the pack. By the capacity math, a 4Ah ONE+ battery stores about 72 watt-hours, which runs a small fan of this type for many hours on low. Owners of two or three packs can rotate them for days, especially with a way to recharge."
+  },
+  {
+    "id": "dewalt-20v-max-jobsite-fan",
+    "name": "DEWALT 20V MAX Jobsite Fan",
+    "category": "20V MAX Tool Battery, 11-Inch Blade, Rugged",
+    "badge": "Best Jobsite Fan",
+    "amazonUrl": "",
+    "pros": [
+      "Runs on DEWALT 20V MAX packs that crews already carry",
+      "Larger blade moves noticeably more air than personal fans",
+      "Tough housing built for job sites, garages and shops",
+      "Adjustable head angle for aiming at a work area"
+    ],
+    "cons": [
+      "Louder than the quiet personal fans on this list",
+      "Bigger fan draws more power, so runtime per pack is shorter",
+      "Tool-only; battery and charger extra"
+    ],
+    "bottomLine": "The fan to buy if you are on DEWALT 20V MAX and want real airflow in a garage, attic or job site rather than a quiet bedside breeze.",
+    "description": "The DEWALT 20V MAX Jobsite Fan is built for the conditions its name suggests: dusty, hot and hard on equipment. DEWALT lists an 11-inch blade, which pushes far more air than a desk-size fan and makes it useful for drying a freshly painted room, clearing fumes from a garage, or keeping a crew from cooking in an attic. The housing is designed to survive being knocked off a sawhorse, and the head pivots so you can aim it at a work area. More air means more power, so expect fewer hours per pack than from the Ryobi WhisperSeries at a similar speed. A 5Ah 20V MAX pack stores about 100 watt-hours by the capacity math, so a larger pack is the right companion for all-day use, and a second pack on the charger keeps it going. It is louder than the bedside fans here, which is fine for a job site and less fine for sleeping. For outages it doubles as a strong room fan."
+  },
+  {
+    "id": "milwaukee-m12-compact-jobsite-fan",
+    "name": "Milwaukee M12 Compact Jobsite Fan",
+    "category": "M12 Tool Battery, Compact, Multiple Speeds",
+    "badge": "Most Compact Tool Fan",
+    "amazonUrl": "",
+    "pros": [
+      "Runs on small, light M12 packs",
+      "Very compact for tight spaces, vans and under-sink work",
+      "Multiple speeds and an adjustable head",
+      "Fits M12 owners who do not want to buy a second platform"
+    ],
+    "cons": [
+      "Small M12 packs limit runtime at high speed",
+      "Moves less air than 18V and 20V fans",
+      "Tool-only; batteries and charger extra"
+    ],
+    "bottomLine": "A smart buy for M12 owners who work in tight spaces, but not the fan to cool a whole room.",
+    "description": "Milwaukee's M12 line is popular with plumbers, electricians and HVAC techs because the packs are light and the tools are small, and the M12 Compact Jobsite Fan follows the same logic. It is small enough to wedge into a crawl space entrance, set on a ladder top or clip into a van, and it offers multiple speeds and an adjustable head so you can point it where you are working. The trade-off is the battery. M12 packs are 12-volt, so a 3Ah M12 battery holds about 36 watt-hours, roughly half what a similar amp-hour 18V pack stores. Expect respectable runtime on low and much shorter runtime on high. If you are already on M18 instead, Milwaukee also makes larger M18 fans worth comparing. For a homeowner without Milwaukee batteries, there is no reason to start a platform for this fan; one of the built-in-battery picks is simpler. For M12 owners, it is the obvious choice."
+  },
+  {
+    "id": "o2cool-treva-10-inch-fan",
+    "name": "O2COOL Treva 10-Inch Portable Battery Fan",
+    "category": "D-Cell Batteries or AC Adapter, 10-Inch",
+    "badge": "Best for Long Storage",
+    "amazonUrl": "",
+    "pros": [
+      "Runs on ordinary D-cell batteries you can buy anywhere",
+      "Alkaline batteries store for years, ideal for an emergency kit",
+      "Can also run from an AC adapter in normal use",
+      "Light and inexpensive, with a fold-out stand"
+    ],
+    "cons": [
+      "Disposable batteries cost more per hour than rechargeables",
+      "Airflow drops as batteries drain",
+      "Plastic build is basic"
+    ],
+    "bottomLine": "The best fan for an emergency kit that may sit untouched for years, because a fresh pack of D cells is always ready when an outage hits.",
+    "description": "The Treva line from O2COOL solves a problem rechargeable fans cannot: a lithium battery left on a shelf for two years may be flat, or worse, degraded, by the time you need it. The Treva 10-inch runs on D-cell batteries, which store a lot of energy for their price and keep most of their charge for years in a cool closet. That makes it the right fan for an emergency kit that lives in a basement until the next storm. D cells are also the battery most likely to still be on store shelves the day before a hurricane, after the lithium gear is gone. In normal use it can run from an AC adapter, so you are not burning batteries on ordinary summer days. The 10-inch blade is a step up from handheld fans and enough to keep one person comfortable at a bedside. Keep spare D cells with it, store the batteries out of the fan so they cannot leak into it, and rotate them every few years."
+  },
+  {
+    "id": "geek-aire-rechargeable-fan",
+    "name": "Geek Aire Rechargeable Outdoor Fan",
+    "category": "Built-In Lithium Battery, Floor/Table Fan",
+    "badge": "Best Built-In Battery Floor Fan",
+    "amazonUrl": "",
+    "pros": [
+      "Built-in rechargeable battery, so no tool platform needed",
+      "Larger floor-fan format moves room-scale air",
+      "Charges from the wall before an outage, then runs cordless",
+      "Sturdy build suited to patios, garages and campsites"
+    ],
+    "cons": [
+      "Built-in battery cannot be swapped for a fresh one mid-outage",
+      "Heavier than tool fans and handheld fans",
+      "Specifications vary by model; check runtime and charging details"
+    ],
+    "bottomLine": "The pick for someone with no tool batteries who wants a real room fan that runs cordless for an evening or a night.",
+    "description": "Geek Aire is one of the better-known brands making larger fans with a built-in rechargeable battery, closer to a floor or high-velocity fan than a desk accessory. That format is what most households without a tool platform actually want in an outage: something that charges from the wall while the power is on, then moves enough air to cool a bedroom or a patio for hours once it goes off. The lineup includes several sizes and battery capacities, and some models add a USB port for charging a phone, so read the specific listing for runtime, charge time and outputs before you buy. The trade-off with any built-in battery is that you cannot hot-swap a fresh pack. When it is empty, you need power to recharge it, which is where a small power station or solar panel comes in. For a family without Ryobi or DEWALT packs, it is a simpler, single-purchase answer than buying into a tool platform."
+  },
+  {
+    "id": "jisulife-handheld-fan",
+    "name": "Jisulife Portable Handheld Fan",
+    "category": "USB-C Rechargeable, Pocket Size",
+    "badge": "Best Handheld Fan",
+    "amazonUrl": "",
+    "pros": [
+      "Small enough for a pocket, bag or stroller",
+      "Recharges over USB-C from a phone charger or power bank",
+      "Can stand on a desk or nightstand as a personal fan",
+      "Inexpensive enough to buy one per family member"
+    ],
+    "cons": [
+      "Cools a face, not a room",
+      "Small internal battery runs down quickly on high",
+      "Not a substitute for a real fan in serious heat"
+    ],
+    "bottomLine": "A cheap, useful personal fan for commutes, events and outage nights, best bought in multiples and kept charged.",
+    "description": "Jisulife is one of the most widely sold names in handheld rechargeable fans, and the appeal is obvious: a fan the size of a phone that charges over USB-C and fits in a pocket. In an outage it becomes a bedside fan that one person can point at their face while they fall asleep, and it recharges from the same power bank or power station that keeps your phone alive. During normal life it rides along to ballgames, theme parks and hot commutes. Be realistic about what it is. A handheld fan has a small internal battery and a small blade, so it moves air across one person at close range, and runtime on the highest speed is short compared with its low setting. Lineups and battery sizes change frequently, so check the specific model before buying, and favor ones that list battery capacity. Buy one per person in the household and they become the cheapest way to make a hot, powerless night bearable."
+  },
+  {
+    "id": "lasko-3733-box-fan",
+    "name": "Lasko 3733 20-Inch Box Fan",
+    "category": "AC Box Fan, Power Station Friendly",
+    "badge": "Best for Power Stations",
+    "amazonUrl": "",
+    "pros": [
+      "Moves far more air than any battery fan here",
+      "Modest power draw is easy for a mid-size power station",
+      "Inexpensive and sold almost everywhere",
+      "Can double as a window fan to pull in cooler night air"
+    ],
+    "cons": [
+      "Needs AC power from a station, generator or the grid",
+      "Running through an inverter adds overhead",
+      "Bulky to store and carry"
+    ],
+    "bottomLine": "If you already own a power station, a plain 20-inch box fan is the most air per watt-hour you can buy for a summer outage.",
+    "description": "This is not a battery fan, and that is the point. A 20-inch box fan moves a large volume of air with a simple motor, and box fans of this size commonly draw well under 100 watts even on high; check the label on yours for the exact figure. The Lasko 3733 is a typical three-speed model, sold in nearly every hardware store. Paired with a power station, it becomes a cordless room fan that outperforms every battery fan here on airflow. A 1kWh station running a box fan at around 60 watts would last in the range of 12 to 14 hours once inverter losses are counted, which covers a full night with plenty left for phones. Smaller stations work too; a 300Wh unit still runs one for several hours. The inefficiency is the inverter, which uses some power just to stay on, so a DC fan wins on small batteries. On a mid-size or larger station, though, the box fan is the best value cooling you can buy."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Battery Powered Fan",
+          item: "https://www.allmetalbrake.com/best-battery-powered-fan/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best battery powered fan for a power outage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homes, a fan that runs on tool batteries you already own, such as the Ryobi ONE+ WhisperSeries, is the best choice because you can swap packs and run it for days. Without tool batteries, a built-in battery fan with USB-C charging is simpler, and a D-cell fan like the O2COOL Treva is best for kits that may sit unused for years."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long will a battery powered fan run?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Divide the battery's watt-hours by the fan's power draw. An 18V 4Ah pack holds about 72 watt-hours, so a small fan drawing around 10 watts on low runs roughly six or seven hours, and less on high. Handheld fans with 5,000 milliamp-hour cells store about 18 watt-hours. Runtime claims on boxes usually assume the lowest speed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run a box fan on a portable power station?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, and it is one of the best uses of a power station in a summer outage. A 20-inch box fan commonly draws well under 100 watts; check the label for the exact figure. At around 60 watts, a 1kWh station runs it through a full night, and a 300Wh station runs it for several hours. Inverter overhead shortens runtime slightly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are tool battery fans worth it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They are worth it if you already own the batteries. The fan costs little, packs swap in seconds, and a few charged batteries carry it through long outages. If you do not own the platform, the battery and charger add more cost than the fan itself, and a built-in battery fan or D-cell fan is usually the better buy."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do battery operated fans with D cells still make sense?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, for emergency kits. Alkaline D cells keep most of their charge for years in storage, they are sold everywhere, and you can carry spares indefinitely. Rechargeable lithium fans may be flat or degraded after a long time on a shelf. Store the D cells outside the fan to avoid leaks, and replace them every few years."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a fan keep me safe in extreme heat without power?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not on its own. The CDC notes electric fans may not prevent heat-related illness when temperatures reach the high 90s. Use the fan with wet cloths, cool showers, steady water intake and closed blinds, and move to a cooler place if you can. Signs like confusion, fainting or stopping sweating are medical emergencies requiring 911."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What should I look for in a small battery powered fan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Look for a published battery capacity in watt-hours or milliamp-hours, USB-C charging, a low speed quiet enough to sleep beside, and a stand or hook that lets you aim it. Avoid listings that promise all-day runtime from a pocket-size cell. For a bedside fan, quiet operation matters more than maximum airflow."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best battery powered fan",
+      "small battery powered fan",
+      "portable jobsite fan",
+      "rechargeable fan",
+      "battery operated fan for power outage"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Outage, Camp & Jobsite
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Battery Powered Fans</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Which cordless fan to buy depends on one question: what battery will feed it? Tool packs, built-in lithium, D cells and power stations each make sense for different people.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ryobi-one-plus-whisperseries-fan"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            See the Runtime Math
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#what-matters" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. What Actually Matters</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Seven Picks</a>
+          <a href="#comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Comparison Table</a>
+          <a href="#runtime" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Runtime vs Battery Size</a>
+          <a href="#tool-platforms" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Tool-Battery Platforms</a>
+          <a href="#usb-c" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Built-In Batteries and USB-C</a>
+          <a href="#power-station" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Box Fan on a Power Station</a>
+          <a href="#outages" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Fans in a Summer Outage</a>
+          <a href="#camp-jobsite" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Camping and Jobsites</a>
+          <a href="#choosing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          The best battery powered fan is usually the one that runs on a battery you already own. If you have a drawer of Ryobi, DEWALT or Milwaukee packs, a bare-tool fan is the cheapest, longest-running option there is. If you do not, a fan with a built-in battery and USB-C charging is simpler, and for long outages a plain box fan on a power station still moves the most air per dollar.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="what-matters" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. What Actually Matters in a Battery Fan
+          </h2>
+
+          <p>
+            Fan listings love airflow claims, speed counts and wind-chill graphics. Most of that matters less than one boring fact: how much energy the battery holds, and how easily you can replace or recharge it. A fan with a beautiful design and a small, sealed battery that dies at 3 a.m. is worse than a plain fan that slides onto a battery you have three spares of.
+          </p>
+
+          <p>
+            Battery fans fall into four families. Tool-battery fans run on the same packs as your drill, so they cost little if you are already on a platform and can run for days if you have several packs. Built-in battery fans charge from the wall or USB-C and suit people without tool batteries. D-cell fans run on disposable batteries that store for years, which makes them ideal for emergency kits. And ordinary AC fans run from a power station or generator, moving the most air for the money if you already own one of those.
+          </p>
+
+          <p>
+            Size and noise come next. A 7-inch personal fan cools one person at a bedside or desk and can be quiet enough to sleep beside. An 11-inch jobsite fan or a 20-inch box fan moves enough air to change how a room feels but makes more noise and draws more power. Decide whether you are cooling a person or a space before you shop, because a fan that tries to do both usually does neither well.
+          </p>
+
+          <p>
+            Finally, think about the scenario. A summer outage, a weekend at a hot campsite and a day in a sweltering attic are different problems. For outage planning, the fan is one part of a kit that also includes lights and phone power, which our guides to the <a href="/best-portable-power-station/">best portable power stations</a> and the <a href="/best-home-generator-for-power-outages/">best home generators for power outages</a> cover. For camping and jobsites, weight, toughness and battery sharing count for more.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Seven Best Battery Powered Fans
+          </h2>
+
+          <p>
+            These are grouped by power source rather than ranked on a single scale, because the right fan for a contractor with a dozen 20V packs is the wrong fan for a family stocking an outage kit. We have not lab-tested these fans; specifications are as each manufacturer lists them, and runtime estimates are worked from battery capacity rather than measured. Tool-only fans are sold without a battery or charger, so factor that in if you are not already on the platform.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} reviews)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Comparison Table
+          </h2>
+
+          <p>
+            The table groups the picks by what powers them. Battery capacities are standard pack sizes, and watt-hours are calculated from voltage times amp-hours, which is how you compare packs across platforms. We do not list airflow numbers because manufacturers measure them in different ways, and comparing those figures across brands is mostly meaningless.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Fan</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Power Source</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical Battery Energy</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Scale</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Ryobi WhisperSeries 7-1/2 in.</td>
+                    <td class="px-4 py-4 text-gray-700">Ryobi ONE+ 18V or AC</td>
+                    <td class="px-4 py-4 text-gray-700">72 Wh on a 4Ah pack</td>
+                    <td class="px-4 py-4 text-gray-700">Personal, quiet</td>
+                    <td class="px-4 py-4 text-gray-700">Bedside, desk, tent</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">DEWALT 20V MAX Jobsite Fan</td>
+                    <td class="px-4 py-4 text-gray-700">DEWALT 20V MAX</td>
+                    <td class="px-4 py-4 text-gray-700">100 Wh on a 5Ah pack</td>
+                    <td class="px-4 py-4 text-gray-700">Room, loud</td>
+                    <td class="px-4 py-4 text-gray-700">Garage, attic, crew</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Milwaukee M12 Compact</td>
+                    <td class="px-4 py-4 text-gray-700">Milwaukee M12</td>
+                    <td class="px-4 py-4 text-gray-700">36 Wh on a 3Ah pack</td>
+                    <td class="px-4 py-4 text-gray-700">Personal, compact</td>
+                    <td class="px-4 py-4 text-gray-700">Tight spaces, vans</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">O2COOL Treva 10-inch</td>
+                    <td class="px-4 py-4 text-gray-700">D cells or AC adapter</td>
+                    <td class="px-4 py-4 text-gray-700">Fresh alkaline D cells</td>
+                    <td class="px-4 py-4 text-gray-700">Personal</td>
+                    <td class="px-4 py-4 text-gray-700">Emergency kit</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Geek Aire Rechargeable</td>
+                    <td class="px-4 py-4 text-gray-700">Built-in lithium</td>
+                    <td class="px-4 py-4 text-gray-700">Varies by model</td>
+                    <td class="px-4 py-4 text-gray-700">Room</td>
+                    <td class="px-4 py-4 text-gray-700">No tool platform</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Jisulife Handheld</td>
+                    <td class="px-4 py-4 text-gray-700">Built-in, USB-C</td>
+                    <td class="px-4 py-4 text-gray-700">Small internal cell</td>
+                    <td class="px-4 py-4 text-gray-700">Face only</td>
+                    <td class="px-4 py-4 text-gray-700">Pocket, events</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Lasko 20-inch box fan</td>
+                    <td class="px-4 py-4 text-gray-700">AC from station or generator</td>
+                    <td class="px-4 py-4 text-gray-700">Your power station</td>
+                    <td class="px-4 py-4 text-gray-700">Whole room</td>
+                    <td class="px-4 py-4 text-gray-700">Power station owners</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two patterns are worth noticing. The tool-battery fans store the most energy per pack and let you swap packs in seconds, so they lead on runtime for anyone with several batteries. The built-in battery fans trade that flexibility for simplicity: one purchase, one charger, no platform to commit to.
+          </p>
+
+          <p>
+            The box fan sits apart. It moves the most air of anything here and costs the least, but only if you already own a power station or generator. If you do, it is the obvious choice for cooling a room. If you do not, buying a station just to run a fan rarely makes sense, unless the same station will also keep your fridge, phones and lights going.
+          </p>
+        </div>
+
+        <div id="runtime" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Runtime vs Battery Size: The Math That Matters
+          </h2>
+
+          <p>
+            Runtime claims on fan boxes are usually measured on the lowest speed with the biggest compatible battery, so they set expectations you will rarely see in practice. The honest way to estimate runtime is to work it out yourself. Multiply battery voltage by amp-hours to get watt-hours, then divide by the fan's power draw at the speed you will actually use.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Battery Energy by Pack (Calculated)</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">36 Wh</p>
+                <p class="text-gray-400 text-xs mt-1">12V 3Ah pack</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">72 Wh</p>
+                <p class="text-gray-400 text-xs mt-1">18V 4Ah pack</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">100 Wh</p>
+                <p class="text-gray-400 text-xs mt-1">20V MAX 5Ah pack</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">~18 Wh</p>
+                <p class="text-gray-400 text-xs mt-1">5,000mAh handheld cell</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Tool fans in the 7- to 11-inch class typically draw somewhere in the range of 10 to 40 watts depending on speed and size, with the low setting near the bottom of that range. On that basis, a 72-watt-hour 18V pack runs a small fan for roughly six or seven hours on low and two or three on high. A 100-watt-hour 20V MAX pack running a larger jobsite fan on medium lands in a similar range. These are planning estimates; the fan's own manual or listing is the place to check specific runtime figures.
+          </p>
+
+          <p>
+            Handheld fans work on the same math at a much smaller scale. A typical handheld lithium cell rated at 5,000 milliamp-hours stores about 18 watt-hours at its 3.7-volt nominal voltage. A small fan drawing a few watts runs for hours on low but drains quickly on its top speed, which is why handheld runtime claims vary so wildly between speeds. If a listing gives battery capacity only in milliamp-hours, multiply by 3.7 and divide by 1,000 to get watt-hours.
+          </p>
+
+          <p>
+            Speed is the biggest runtime lever. Fan power rises steeply with speed, so dropping from high to medium often stretches runtime far more than you would expect from the change in breeze. At night, the lowest speed pointed directly at the bed is usually enough, and it can make a single pack last until morning. If you need to recharge packs or handheld fans during a long outage, a <a href="/best-solar-power-bank/">solar power bank</a> or a small panel keeps USB devices topped up, and most tool brands sell chargers that run from a power station.
+          </p>
+        </div>
+
+        <div id="tool-platforms" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Tool-Battery Platforms: Ryobi, DEWALT and Milwaukee
+          </h2>
+
+          <p>
+            If you already own cordless tools, a bare-tool fan is the best value in this category. The fan itself costs little because the expensive part, the battery, is already on your shelf. You also get the platform's biggest advantage: interchangeable packs. With three batteries and a charger, you can run a fan through a multi-day outage by rotating packs whenever you have a way to recharge.
+          </p>
+
+          <p>
+            Pick the fan that matches the platform you own, not the fan with the best specs. Ryobi ONE+ is the most common platform among homeowners and has a wide range of fans, from quiet personal models like the WhisperSeries to larger air-mover styles. DEWALT 20V MAX and Milwaukee M18 dominate among contractors and offer tougher, louder jobsite fans. Milwaukee M12 suits people who value compact, light tools and accept less runtime per pack.
+          </p>
+
+          <p>
+            Do not buy into a new platform just for a fan. The batteries and charger cost more than the fan, and you end up with a second set of packs that compete for charger time with the first. If you are not on any platform yet and want a fan, a built-in battery model is cheaper. If you plan to buy cordless tools anyway, choose the platform for the tools and let the fan follow.
+          </p>
+
+          <p>
+            Battery care matters for emergency use. Lithium tool packs prefer to be stored partly charged, in a cool place, and they lose charge slowly over months. Before storm season, charge every pack fully and check that the charger still works. Keep at least one pack reserved for the fan and lights, so it is not dead in a drill when the power goes out. Avoid charging packs in a hot car or a very cold garage, where most chargers will refuse or slow down.
+          </p>
+        </div>
+
+        <div id="usb-c" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Built-In Batteries and USB-C Charging
+          </h2>
+
+          <p>
+            Built-in battery fans are the simplest answer for people without tool batteries. You charge the fan like a phone, and it runs cordless until the battery is empty. The best of them recharge over USB-C, which means the same cable and charger that serve your phone, laptop and power bank also serve the fan. In an outage, that standardization is a real advantage, because every USB-C power source you own can top it up.
+          </p>
+
+          <p>
+            Check what the fan actually accepts. Some larger built-in battery fans still use a barrel-plug AC adapter rather than USB-C, which means you need the specific adapter and an AC outlet, or a power station with an inverter, to recharge. Fans that charge from USB-C can be fed directly from a power station's USB-C port, a <a href="/best-laptop-power-bank/">laptop power bank</a> or a solar charger, skipping the inverter and its losses entirely.
+          </p>
+
+          <p>
+            The weakness of a built-in battery is that it is sealed. You cannot swap in a fresh pack at 2 a.m., and lithium cells slowly lose capacity over years of charge cycles and storage. A built-in battery fan that sat in a closet for two years may hold noticeably less than it did new. Charge it every few months during the off-season so it is full when you need it, and do not count on it alone for a long outage.
+          </p>
+
+          <p>
+            Watch for exaggerated claims in this category. Battery capacity, airflow and runtime numbers on lesser-known brands are not always reliable, and runtime figures are almost always measured on the lowest speed. Buy from brands that publish battery capacity in watt-hours or milliamp-hours and that sell through retailers with real return policies. If a listing promises a full day of cooling from a pocket-size battery, it is measuring something very different from what you will experience.
+          </p>
+        </div>
+
+        <div id="power-station" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Running a Box Fan From a Power Station
+          </h2>
+
+          <p>
+            If you own a power station, the cheapest way to cool a room in an outage is often an ordinary AC fan plugged into it. A 20-inch box fan moves far more air than any battery fan, and box fans of that size commonly draw well under 100 watts, so even a modest station can run one for hours. The label on the fan lists its power draw; that number, plus the station's capacity, is all you need to plan.
+          </p>
+
+          <p>
+            Inverter overhead is the hidden cost. Converting battery power to household AC wastes some energy, and many stations draw a few watts or more just to keep the inverter on. For a 60-watt box fan, that overhead is a small fraction of the load. For a 5-watt USB fan, it can be larger than the fan itself, which is why small DC fans should run from the station's USB or 12V ports with the AC output switched off.
+          </p>
+
+          <p>
+            Size the station to the night you need to cover. A 300-watt-hour unit runs a box fan for several hours, enough for the hottest part of the evening. A 1kWh station runs it all night with plenty left for phones and a router. If you are choosing a station for summer outages and camping, our guides to the <a href="/best-portable-power-station-for-camping/">best power stations for camping</a> and the <a href="/best-portable-power-station/">best portable power stations overall</a> show how much each size covers.
+          </p>
+
+          <p>
+            Do not expect a power station to run air conditioning for long. A window or portable air conditioner draws many times what a fan does, and even a large station only runs one for a few hours. Our guide to the <a href="/best-portable-air-conditioner-for-camping/">best portable air conditioners for camping</a> explains which compact units can run on batteries at all. For most outage nights, a fan, a cool shower and an open window after sunset do more for the money.
+          </p>
+        </div>
+
+        <div id="outages" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Fans in a Summer Outage: What They Can and Cannot Do
+          </h2>
+
+          <p>
+            A fan cools people by moving air across the skin, which speeds evaporation of sweat. It does not cool the air in the room. That works well in warm conditions, but the CDC notes that electric fans may not prevent heat-related illness once temperatures reach the high 90s, because blowing very hot air across the body can add heat rather than remove it. In that kind of heat, a fan alone is not enough.
+          </p>
+
+          <p>
+            Use the fan alongside other cooling. Wet a cloth or a T-shirt and let the fan blow across it, take cool showers or sponge baths, and drink water steadily even if you are not thirsty. Keep blinds and curtains closed on sun-facing windows during the day. After sunset, when the outside air is cooler than inside, set a box fan in a window blowing out and open a window on the opposite side to pull cooler air through the house.
+          </p>
+
+          <p>
+            Know the warning signs of heat exhaustion: heavy sweating, cold and clammy skin, nausea, dizziness, headache and weakness. Older adults, young children and people with chronic illnesses are at higher risk, as are people on medications that affect heat tolerance. If someone stops sweating, becomes confused or faints, that is a medical emergency. Call 911. During long, hot outages, a cooling center or a friend with power is the safer choice for anyone vulnerable. Medical devices come before fans; our <a href="/best-battery-backup-for-cpap/">CPAP battery backup guide</a> covers sizing for that.
+          </p>
+
+          <p>
+            Fans are also useful in a winter outage, quietly. A small fan on its lowest speed can push warm air from a heater around a closed room so it does not pool at the ceiling. If you are planning for cold-weather outages as well as summer ones, our guide to the <a href="/best-indoor-heater-for-power-outage/">best indoor heaters for power outages</a> covers heaters that are rated for indoor use and the carbon monoxide safety that comes with them.
+          </p>
+        </div>
+
+        <div id="camp-jobsite" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Camping and Jobsite Use
+          </h2>
+
+          <p>
+            At a campsite, weight and noise matter as much as airflow. A quiet personal fan hung from a tent loop or set on a camp table makes a hot night bearable, while a loud jobsite fan will annoy everyone in the next site. Tool-battery fans fit well if you also bring a cordless lantern or inflator on the same platform, so a couple of packs power everything and you only need one charger.
+          </p>
+
+          <p>
+            Recharging at camp shapes the choice. If you have a vehicle, a 12V outlet or a small power station can refill tool packs and USB-C fans between outings. For longer trips without a vehicle, a USB-C fan paired with a solar power bank is the most self-sufficient setup. Car campers with bigger power needs may want a generator; our guide to the <a href="/best-generator-for-camping/">best generators for camping</a> covers quiet inverter models that fit campground rules.
+          </p>
+
+          <p>
+            On a jobsite, toughness and battery sharing win. A fan that runs on the crew's existing packs gets used, while one that needs its own charger gets left in the truck. Larger jobsite fans with adjustable heads earn their place in attics, crawl spaces and freshly painted rooms, where moving air speeds drying and clears fumes. Keep fans out of the dust stream of saws and sanders, and blow fumes toward an open window or door rather than across the room.
+          </p>
+
+          <p>
+            At home, a fan also helps long-term comfort in mild weather. If you are tired of running air conditioning in spring and fall, a <a href="/best-whole-house-fan/">whole house fan</a> pulls cool evening air through the entire house for a fraction of the power, though it needs grid power or a substantial backup system. Battery fans fill the gaps: the garage workbench, the patio, the bedroom on a night when the power is out.
+          </p>
+        </div>
+
+        <div id="choosing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which One to Buy
+          </h2>
+
+          <p>
+            If you own Ryobi ONE+ batteries, buy the Ryobi WhisperSeries 7-1/2 inch fan. It is quiet enough to sleep beside, runs on packs you already have, and can run on AC power in normal use. It is the best battery powered fan for most homes simply because so many homes already have the batteries. Pair it with two charged packs and it covers most outage nights without help.
+          </p>
+
+          <p>
+            If you are on DEWALT 20V MAX and need airflow for a garage, attic or job site, buy the DEWALT 20V MAX Jobsite Fan. If you are on Milwaukee M12 and work in tight spaces, the M12 Compact Jobsite Fan is the natural fit. Do not switch platforms for a fan; buy the one that matches what you already own.
+          </p>
+
+          <p>
+            If you have no tool batteries, choose between a built-in battery floor fan such as the Geek Aire for room-scale cooling, and the O2COOL Treva 10-inch for an emergency kit that may sit for years. Add a Jisulife handheld fan for each family member as cheap personal cooling that charges from any USB-C source. These are the best small battery powered fans for anyone who wants simplicity over runtime.
+          </p>
+
+          <p>
+            If you already own a power station, buy a Lasko 20-inch box fan and plug it in. It moves more air than anything else here for less money. And if you are building an outage kit from scratch, the fan is the easy part; start with power. Our guides to the <a href="/best-portable-power-station/">best portable power stations</a> and the <a href="/best-home-generator-for-power-outages/">best home generators</a> will help you size the system that runs the fan, the fridge and the lights together.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a Fan on a Battery Platform You Do Not Own</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A bare-tool fan looks cheap until you add a battery and charger, which often cost more than the fan. Buy the fan that matches the cordless tools already in your garage, or choose a built-in battery fan if you have none. Starting a second platform for one fan rarely makes sense.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trusting Runtime Claims at Face Value</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Runtime figures on fan boxes are usually measured on the lowest speed with the largest compatible battery. Work it out yourself: battery volts times amp-hours gives watt-hours, divided by the fan's power draw at the speed you will actually use. Plan on medium speed and you will rarely be disappointed.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running a Tiny USB Fan Through an Inverter</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A power station's AC inverter uses power just to stay on, and for a 5-watt USB fan that overhead can exceed the fan's own draw. Plug small fans into the station's USB or 12V ports and switch the AC output off. Save the inverter for box fans and other AC loads.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Storing Rechargeable Fans Empty for Months</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Lithium batteries left fully drained for long periods can lose capacity or refuse to charge. Before storm season, charge every fan and tool pack, check that the charger works, and top them up every few months. For a kit that may sit for years, a D-cell fan with fresh batteries stored separately is more reliable.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Relying on a Fan Alone in Extreme Heat</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Fans cool people by evaporating sweat, and the CDC notes they may not prevent heat illness once temperatures reach the high 90s. Use a fan with wet cloths, cool showers, plenty of water and closed blinds. If anyone shows signs of heat illness, move them somewhere cooler and call 911 if symptoms are severe.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best battery powered fan for a power outage?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homes, a fan that runs on tool batteries you already own, such as the Ryobi ONE+ WhisperSeries, is the best choice because you can swap packs and run it for days. Without tool batteries, a built-in battery fan with USB-C charging is simpler, and a D-cell fan like the O2COOL Treva is best for kits that may sit unused for years.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long will a battery powered fan run?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Divide the battery's watt-hours by the fan's power draw. An 18V 4Ah pack holds about 72 watt-hours, so a small fan drawing around 10 watts on low runs roughly six or seven hours, and less on high. Handheld fans with 5,000 milliamp-hour cells store about 18 watt-hours. Runtime claims on boxes usually assume the lowest speed.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I run a box fan on a portable power station?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, and it is one of the best uses of a power station in a summer outage. A 20-inch box fan commonly draws well under 100 watts; check the label for the exact figure. At around 60 watts, a 1kWh station runs it through a full night, and a 300Wh station runs it for several hours. Inverter overhead shortens runtime slightly.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are tool battery fans worth it?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                They are worth it if you already own the batteries. The fan costs little, packs swap in seconds, and a few charged batteries carry it through long outages. If you do not own the platform, the battery and charger add more cost than the fan itself, and a built-in battery fan or D-cell fan is usually the better buy.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do battery operated fans with D cells still make sense?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, for emergency kits. Alkaline D cells keep most of their charge for years in storage, they are sold everywhere, and you can carry spares indefinitely. Rechargeable lithium fans may be flat or degraded after a long time on a shelf. Store the D cells outside the fan to avoid leaks, and replace them every few years.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a fan keep me safe in extreme heat without power?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not on its own. The CDC notes electric fans may not prevent heat-related illness when temperatures reach the high 90s. Use the fan with wet cloths, cool showers, steady water intake and closed blinds, and move to a cooler place if you can. Signs like confusion, fainting or stopping sweating are medical emergencies requiring 911.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What should I look for in a small battery powered fan?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Look for a published battery capacity in watt-hours or milliamp-hours, USB-C charging, a low speed quiet enough to sleep beside, and a stand or hook that lets you aim it. Avoid listings that promise all-day runtime from a pocket-size cell. For a bedside fan, quiet operation matters more than maximum airflow.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Outage and Camping Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">The battery that runs a box fan, the fridge and your phones together.</p>
+            </a>
+            <a href="/best-portable-power-station-for-camping/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Camping</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Power Stations for Camping</h3>
+              <p class="text-gray-500 text-sm mt-2">Light stations that keep fans, lights and coolers running at camp.</p>
+            </a>
+            <a href="/best-indoor-heater-for-power-outage/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-green-600 font-black text-xs uppercase tracking-widest mb-2">Winter Outages</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Indoor Heaters for Power Outages</h3>
+              <p class="text-gray-500 text-sm mt-2">Indoor-rated heat and the CO safety rules for the other half of the year.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Match the fan to the battery you already have. Ryobi, DEWALT and Milwaukee owners should buy the bare-tool fan on their platform and keep a couple of packs charged. Everyone else should choose a built-in battery fan with USB-C charging for everyday use, or a D-cell fan for an emergency kit that may sit for years.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            If you own a power station, a plain box fan beats every battery fan on airflow per dollar. And in extreme heat, remember that a fan is one tool among several, not a substitute for getting somewhere cool.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

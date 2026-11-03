@@ -1,0 +1,944 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Home Generators for Power Outages",
+    "url": "/best-home-generator-for-power-outages/"
+  },
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Home Battery Backup",
+    "url": "/best-home-battery-backup/"
+  },
+  {
+    "title": "Best Battery Backup for CPAP",
+    "url": "/best-battery-backup-for-cpap/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Indoor Heaters for Power Outages: Safe Emergency Heat";
+const description =
+  "Indoor-rated propane heaters, low-watt electric heat for power stations and the CO alarm you need first, with runtime math and the safety rules that matter.";
+
+const PRODUCTS = [
+  {
+    "id": "mr-heater-portable-buddy",
+    "name": "Mr. Heater Portable Buddy Propane Heater",
+    "category": "4,000/9,000 BTU, Indoor-Safe, ODS + Tip-Over",
+    "badge": "Best Overall Indoor Heater",
+    "amazonUrl": "",
+    "pros": [
+      "Sold by Mr. Heater as indoor-safe, with an oxygen depletion sensor and tip-over shutoff",
+      "Two settings, so you can run low through the night and high to warm a cold room",
+      "Rated to heat a space of roughly 225 square feet, the size of a typical bedroom",
+      "Runs on a 1-lb propane cylinder with no electricity at all",
+      "Piezo ignition and a fold-down handle make it easy to place and light"
+    ],
+    "cons": [
+      "A 1-lb cylinder lasts only a few hours on high, so stock plenty",
+      "Needs a fresh-air opening per the manual, which costs some heat",
+      "The front grille gets hot enough to burn skin and scorch fabric"
+    ],
+    "bottomLine": "The default indoor emergency heater for most homes: enough heat for one closed-off room, simple to run, and built around the right safety devices.",
+    "description": "The Portable Buddy, model MH9BX, is the heater most people mean when they talk about indoor propane. Mr. Heater rates it at 4,000 or 9,000 BTU per hour and markets it as indoor-safe, which in practice means it has an oxygen depletion sensor that shuts the burner off if oxygen in the room drops, and a tip-over switch that kills the flame if it is knocked over. Those two features are why it is on this list and a patio heater is not. It runs from a single 1-lb propane cylinder. By the fuel math, a 1-lb cylinder holds a little over 21,000 BTU, so expect roughly two to two and a half hours on high and around five on low. That makes the low setting the one you will actually live on. Use it in a room you have closed off, crack a window or door to the size the manual requires, keep it at least the stated distance from bedding and curtains, and never run it without a working CO alarm in the same room."
+  },
+  {
+    "id": "mr-heater-big-buddy",
+    "name": "Mr. Heater Big Buddy Propane Heater",
+    "category": "4,000/9,000/18,000 BTU, Indoor-Safe, Two Cylinders",
+    "badge": "Best for Larger Rooms",
+    "amazonUrl": "",
+    "pros": [
+      "Three settings up to 18,000 BTU for a living room or open family area",
+      "Indoor-safe rating with oxygen depletion sensor and tip-over shutoff",
+      "Holds two 1-lb cylinders, roughly doubling runtime between swaps",
+      "Optional battery-powered fan helps move heat across a bigger room"
+    ],
+    "cons": [
+      "High setting burns fuel fast and needs more ventilation",
+      "Bulkier and heavier than the Portable Buddy",
+      "Overkill for a single bedroom"
+    ],
+    "bottomLine": "The pick when your warm room is a living room rather than a bedroom, or when the whole family is camping in one space.",
+    "description": "The Big Buddy, model MH18B, is the Portable Buddy scaled up. Mr. Heater lists three settings, 4,000, 9,000 and 18,000 BTU, and the same oxygen depletion sensor and tip-over shutoff, with room for two 1-lb cylinders on board. It is rated for spaces up to roughly 450 square feet, which covers a living room or a den where a family can gather with mattresses on the floor. The high setting is for bringing a cold room up to temperature, not for all night. At 18,000 BTU an hour, two 1-lb cylinders last only a little over two hours by the fuel math, and the manual asks for a larger fresh-air opening at higher output. Settle on low or medium once the room is warm. The fan is a genuine help in a larger room and runs on D batteries, so it still works when the grid is down. If your plan is one bedroom, the smaller Portable Buddy is easier and cheaper to feed."
+  },
+  {
+    "id": "mr-heater-little-buddy",
+    "name": "Mr. Heater Little Buddy Propane Heater",
+    "category": "3,800 BTU, Indoor-Safe, Compact",
+    "badge": "Best for Small Rooms",
+    "amazonUrl": "",
+    "pros": [
+      "Compact and light; screws straight onto a 1-lb cylinder",
+      "Oxygen depletion sensor and tip-over shutoff like its bigger siblings",
+      "Low 3,800 BTU output stretches a cylinder through more of the night",
+      "Right-sized for a bathroom, small bedroom or tent"
+    ],
+    "cons": [
+      "Single heat setting with no high option",
+      "Cylinder sits underneath, so it is tall and must be on a stable, level surface",
+      "Too small to warm anything larger than a small room"
+    ],
+    "bottomLine": "A sensible small-room heater and a good second unit, but too little output to be the only heat in most houses.",
+    "description": "The Little Buddy, model MH4B, is the smallest indoor-rated heater in the Buddy line. Mr. Heater lists it at 3,800 BTU an hour for spaces up to about 95 square feet, with the same oxygen depletion sensor and tip-over protection. The cylinder screws into the base, so the whole unit is about the size of a large coffee can on a stand. Low output is the point. At 3,800 BTU an hour, a 1-lb cylinder runs for roughly five to six hours by the fuel math, which gets a small bedroom through much of the night with one swap. It is also a good choice for a bathroom where you need just enough warmth to wash, or as a second unit alongside a Portable Buddy. It will not keep up with a large room in real cold, and it has no high setting to recover a room that has already dropped into the 40s. Check the manual for altitude limits, because oxygen depletion sensors are sensitive to thin air."
+  },
+  {
+    "id": "first-alert-co400",
+    "name": "First Alert CO400 Battery-Powered Carbon Monoxide Alarm",
+    "category": "Battery CO Alarm, Works Without Grid Power",
+    "badge": "Must-Have First Purchase",
+    "amazonUrl": "",
+    "pros": [
+      "Battery-powered, so it keeps working when the power is out",
+      "Electrochemical sensor sounds a loud alarm at dangerous CO levels",
+      "Small enough to put in the exact room where the heater runs",
+      "Inexpensive enough to buy one for every sleeping area"
+    ],
+    "cons": [
+      "No digital readout, so you cannot see low, rising levels",
+      "Alarms and batteries have a limited service life; replace on schedule"
+    ],
+    "bottomLine": "Buy this before you buy a heater. Any fuel-burning heat source in a living space needs a working battery CO alarm beside it.",
+    "description": "A hardwired CO alarm without battery backup goes silent the moment the power goes out, which is exactly when people bring fuel-burning equipment inside. The First Alert CO400 runs on batteries, so it does not care whether the grid is up. It uses an electrochemical sensor and sounds a loud alarm when carbon monoxide reaches a dangerous concentration over time, as UL 2034 alarms are designed to. It is the cheapest piece of insurance on this page and the one that matters most. Put one in the room where the heater runs, one in or near every sleeping area, and one on each level of the house. Test it before the season starts and again before every outage you can see coming. Kidde and other brands make equivalent battery-powered alarms, and some include a digital display that shows lower levels before the alarm threshold, which is useful if you can find one. What matters is that it runs on batteries and that it is in the room."
+  },
+  {
+    "id": "sunbeam-heated-throw",
+    "name": "Sunbeam Microplush Heated Throw Blanket",
+    "category": "Low-Watt Electric, Power Station Friendly",
+    "badge": "Best Electric Option",
+    "amazonUrl": "",
+    "pros": [
+      "Draws a small fraction of what a space heater draws",
+      "Heats the person rather than the room, which is far more efficient",
+      "A mid-size power station can run one through a night",
+      "Useful every winter, not just during outages"
+    ],
+    "cons": [
+      "Needs a power station, generator or other source of AC power",
+      "Does nothing for pipes or room temperature",
+      "Auto shutoff timers may need resetting through the night"
+    ],
+    "bottomLine": "The best use of stored battery power for warmth: a heated throw on a power station keeps a person comfortable for hours on the energy a space heater burns in minutes.",
+    "description": "If you own a power station, the most effective thing you can do with it in the cold is heat people, not air. A heated throw like Sunbeam's Microplush model puts warmth directly against your body under a blanket that also traps it, and heated throws and blankets of this type typically draw well under 100 watts, often far less on low settings. Check the label on the one you buy. The difference is enormous. A 1,500-watt space heater empties a 1kWh power station in well under an hour, while a heated throw drawing around 50 watts runs for most of a night on the same battery. Pair it with a sleeping bag or a stack of comforters and you have a bed that stays warm even as the room drops into the 50s. Sunbeam throws include an auto shutoff for safety, which is a good thing but means someone may wake to restart it. Use it on top of you, not folded or tucked under a mattress, and follow the manufacturer's instructions."
+  },
+  {
+    "id": "coleman-north-rim-sleeping-bag",
+    "name": "Coleman North Rim 0 Degree Mummy Sleeping Bag",
+    "category": "Cold-Rated Sleeping Bag, No Fuel or Power",
+    "badge": "Best Zero-Energy Heat",
+    "amazonUrl": "",
+    "pros": [
+      "Needs no fuel, no electricity and no ventilation",
+      "Mummy hood traps heat around your head and shoulders",
+      "Cold-weather rating far beyond what an indoor room will reach",
+      "Doubles as camping gear the rest of the year"
+    ],
+    "cons": [
+      "Mummy shape feels confining to some sleepers",
+      "Synthetic fill is bulky to store",
+      "Temperature ratings are best-case; layer if you sleep cold"
+    ],
+    "bottomLine": "The cheapest, safest way to sleep warm in a cold house. Every household planning for winter outages should own one cold-rated bag per person.",
+    "description": "A good sleeping bag is the most underrated piece of emergency heat equipment. It burns nothing, draws nothing, and turns your own body heat into the heat source. The Coleman North Rim is a widely sold synthetic mummy bag with a 0-degree Fahrenheit rating, which is far colder than the inside of a house will get in all but the longest outages. Treat that rating as a survival limit rather than a comfort guarantee; most people are comfortable well above a bag's rated low. Indoors, that margin is exactly what you want. A family sleeping in cold-rated bags in one closed-off room can ride out a night in the 40s with no heater at all, and a small propane heater only needs to take the edge off in the evening. Put a foam pad or a mattress under the bag, because the ground or floor pulls heat out faster than air does. If a mummy bag is too confining, a rectangular bag with a lower rating plus a wool blanket works too."
+  },
+  {
+    "id": "lasko-754200-ceramic-heater",
+    "name": "Lasko 754200 Ceramic Space Heater",
+    "category": "1,500W Ceramic, Low Setting, Tip-Over Safety",
+    "badge": "Best for Generator Owners",
+    "amazonUrl": "",
+    "pros": [
+      "Electric, so no combustion and no carbon monoxide",
+      "Low setting reduces draw below the 1,500W maximum",
+      "Tip-over and overheat protection",
+      "Small and inexpensive, with a long track record"
+    ],
+    "cons": [
+      "Even on low, it drains a portable power station in hours or less",
+      "Really only practical on a generator or large home battery",
+      "Heats one small space and nothing else"
+    ],
+    "bottomLine": "Worth owning only if you have a generator or a large home battery. On a typical portable power station, it is the fastest way to waste stored energy.",
+    "description": "This is on the list partly as a warning. The Lasko 754200 is a widely sold small ceramic heater with a high setting of 1,500 watts, a lower setting, tip-over protection and an overheat cutoff. It is a perfectly good electric heater. It is just a poor match for most battery backup. At 1,500 watts, a 1kWh power station lasts roughly 35 to 40 minutes once inverter losses are counted, and the low setting buys only a little more time. Where it makes sense is with a generator running outside, a whole-home battery system, or a large portable station you can recharge with solar or a generator. Electric resistance heat produces no combustion gases, which is a real advantage in a closed room, and a ceramic heater with tip-over protection is safer than any open flame. Plug it directly into the station or a heavy-duty cord rated for the load, keep three feet of clearance from anything that can burn, and do not run it unattended."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Indoor Heater for Power Outage",
+          item: "https://www.allmetalbrake.com/best-indoor-heater-for-power-outage/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the safest indoor heater for a power outage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The safest options burn nothing at all: cold-rated sleeping bags, layered clothing and a heated blanket on a power station. For actual room heat without electricity, choose a propane heater the manufacturer rates for indoor use, such as the Mr. Heater Buddy series, which has an oxygen depletion sensor and tip-over shutoff. Always pair it with a battery-powered CO alarm and the ventilation its manual requires."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the Mr. Heater Buddy really safe to use indoors?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mr. Heater markets the Buddy series as indoor-safe, and the heaters include an oxygen depletion sensor and a tip-over shutoff. That makes indoor use reasonable when you follow the manual: provide the specified fresh-air opening, keep the stated clearance from combustibles, use 1-lb cylinders indoors, and run a working battery CO alarm in the same room. Many safety agencies advise turning it off before sleeping."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a 1-lb propane cylinder last in a Buddy heater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A 1-lb cylinder holds a little over 21,000 BTU of energy. At 9,000 BTU an hour that works out to roughly two to two and a half hours, and at 4,000 BTU about five hours. The 3,800 BTU Little Buddy runs about five to six hours. Cold weather and partly used cylinders shorten that, so stock more cylinders than the math suggests."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run a space heater on a portable power station?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can, but not for long. A 1,500-watt heater drains a 1kWh station in roughly 35 to 40 minutes, and even a low setting only stretches that to about an hour. That energy is better spent on a heated blanket, which can run most of the night on the same battery. Space heaters make sense on generators or large whole-home batteries."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I heat my house without electricity?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Concentrate on one small room. Close it off, block drafts, cover windows and gather everyone there. Use an indoor-rated propane heater with a CO alarm and the required ventilation during waking hours, and let cold-rated sleeping bags and layered clothing do the work overnight. An existing, inspected wood stove or fireplace is also a good option if it is in sound condition."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use my gas oven or stove to heat the house?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Gas ovens and ranges are not designed as space heaters, and running one for hours with the door open can produce dangerous levels of carbon monoxide and creates a fire risk. The same goes for camp stoves and grills of every kind. Use only heaters labeled for indoor residential use, and keep a battery CO alarm working whenever anything burns inside."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I buy a kerosene heater for power outages?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We left kerosene heaters off this list. Whether they may be used indoors depends on state and local rules, they require careful fuel storage and refueling outdoors, and they need generous ventilation. For most households, an indoor-rated propane heater with 1-lb cylinders is simpler to store and use safely. If you consider kerosene, check your local codes and the manual first."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "indoor heater for power outage",
+      "emergency heat",
+      "propane heater indoor safe",
+      "heater without electricity"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Safety-First Picks
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best Indoor Heaters for <span class="text-[#38BDF8]">Power Outages</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          How to stay warm when the furnace stops: which propane heaters are actually rated for indoor use, what a power station can and cannot heat, and the alarm that comes before any of it.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#mr-heater-portable-buddy"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Read the Safety Rules
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#why-heat-fails" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Why Heat Fails in an Outage</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Seven Picks</a>
+          <a href="#comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Comparison Table</a>
+          <a href="#propane-rules" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Indoor Propane Rules</a>
+          <a href="#co-alarms" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Carbon Monoxide Alarms</a>
+          <a href="#power-station-math" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Electric Heat on Batteries</a>
+          <a href="#warm-room" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. The One Warm Room Plan</a>
+          <a href="#pipes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Protecting Pipes</a>
+          <a href="#never-indoors" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. What Never Comes Inside</a>
+          <a href="#choosing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Most winter outage deaths are not from cold. They are from carbon monoxide, produced by people trying to stay warm with the wrong thing. The right emergency heat plan is a carbon monoxide alarm, a heater the manufacturer rates for indoor use, one closed-off room, and a lot of blankets. Everything else is detail.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="why-heat-fails" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Why Your Heat Stops When the Power Does
+          </h2>
+
+          <p>
+            Nearly every modern furnace needs electricity, even if it burns natural gas or propane. The igniter, the control board, the inducer fan that vents exhaust and the blower that moves warm air through the ducts all run on household current. When the grid goes down, a gas furnace goes cold just as surely as an electric heat pump. The same is true of most boilers, whose circulator pumps and controls need power, and of pellet stoves, which need electricity for the auger and fans.
+          </p>
+
+          <p>
+            That leaves three ways to stay warm. You can restore power to the heating system itself, which is what a properly installed generator or home battery with a transfer switch does. You can bring in a separate heat source that does not depend on the grid, which in practice means an indoor-rated propane heater or a wood stove you already have. Or you can reduce how much heat you need by closing off a room, insulating people instead of air, and protecting the parts of the house that freeze first.
+          </p>
+
+          <p>
+            The first option is the most comfortable and the most expensive. A furnace blower typically draws a few hundred watts with startup spikes above that, which is within reach of a large power station or a mid-size generator connected through an inlet and transfer switch by an electrician. Our guide to the <a href="/best-home-generator-for-power-outages/">best home generators for power outages</a> covers sizing, and the <a href="/best-home-battery-backup/">best home battery backup</a> systems can run a gas furnace quietly if they are wired to that circuit.
+          </p>
+
+          <p>
+            This guide is about the second and third options: what to do when you do not have whole-house backup, or when the outage outlasts it. The goal is modest and specific. Keep one room in the 60s, keep people warm enough to sleep, keep the pipes from freezing, and do it without filling the house with carbon monoxide. Every recommendation here is built around that goal, and anything that fails the last part is not on the list.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Seven Picks for Staying Warm Without Power
+          </h2>
+
+          <p>
+            This list mixes heaters with the things that make a heater safe or unnecessary. The three Mr. Heater Buddy models are the propane heaters most widely sold as indoor-safe, and each carries both an oxygen depletion sensor and a tip-over shutoff. The battery CO alarm is not optional. The electric picks are for people who already own a power station or generator, and the sleeping bag is the cheapest heat source on the page. We have not run lab tests on these products; specifications are as the manufacturers list them, and runtime figures are worked from those ratings.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} reviews)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Comparison Table: Every Option Side by Side
+          </h2>
+
+          <p>
+            The table puts the heaters and the alternatives on the same footing. BTU ratings are the manufacturer's; the runtime figures are worked from those ratings and the energy in a standard 1-lb propane cylinder, or from rated wattage and battery size for the electric options. Real runtimes vary with altitude, temperature and how full the cylinder was to begin with, so treat them as planning numbers.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Option</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Heat Output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Runs On</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rough Runtime</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Mr. Heater Portable Buddy</td>
+                    <td class="px-4 py-4 text-gray-700">4,000 / 9,000 BTU</td>
+                    <td class="px-4 py-4 text-gray-700">One 1-lb propane cylinder</td>
+                    <td class="px-4 py-4 text-gray-700">About 5 hr low, 2-2.5 hr high</td>
+                    <td class="px-4 py-4 text-gray-700">One bedroom</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Mr. Heater Big Buddy</td>
+                    <td class="px-4 py-4 text-gray-700">4,000 / 9,000 / 18,000 BTU</td>
+                    <td class="px-4 py-4 text-gray-700">Two 1-lb cylinders</td>
+                    <td class="px-4 py-4 text-gray-700">About 10 hr low, 2+ hr high</td>
+                    <td class="px-4 py-4 text-gray-700">Living room</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Mr. Heater Little Buddy</td>
+                    <td class="px-4 py-4 text-gray-700">3,800 BTU</td>
+                    <td class="px-4 py-4 text-gray-700">One 1-lb cylinder</td>
+                    <td class="px-4 py-4 text-gray-700">About 5-6 hr</td>
+                    <td class="px-4 py-4 text-gray-700">Small room, bathroom</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Heated throw</td>
+                    <td class="px-4 py-4 text-gray-700">Body heat, low watts</td>
+                    <td class="px-4 py-4 text-gray-700">Power station or AC</td>
+                    <td class="px-4 py-4 text-gray-700">Most of a night on 1kWh</td>
+                    <td class="px-4 py-4 text-gray-700">Sleeping, sitting</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">0-degree sleeping bag</td>
+                    <td class="px-4 py-4 text-gray-700">Your own body heat</td>
+                    <td class="px-4 py-4 text-gray-700">Nothing</td>
+                    <td class="px-4 py-4 text-gray-700">Unlimited</td>
+                    <td class="px-4 py-4 text-gray-700">Every sleeper</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">1,500W ceramic heater</td>
+                    <td class="px-4 py-4 text-gray-700">About 5,100 BTU on high</td>
+                    <td class="px-4 py-4 text-gray-700">Generator or big battery</td>
+                    <td class="px-4 py-4 text-gray-700">Under 40 min on 1kWh</td>
+                    <td class="px-4 py-4 text-gray-700">Generator owners</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Battery CO alarm</td>
+                    <td class="px-4 py-4 text-gray-700">None</td>
+                    <td class="px-4 py-4 text-gray-700">Batteries</td>
+                    <td class="px-4 py-4 text-gray-700">Years</td>
+                    <td class="px-4 py-4 text-gray-700">Every room with a heater</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two things jump out. The first is how little heat an electric heater actually makes compared with its appetite for power. A 1,500-watt heater produces about 5,100 BTU an hour, roughly the output of a Portable Buddy on a setting between low and high, yet it would drain a 1kWh battery before the propane heater finished its first hour. Propane stores an enormous amount of energy in a small, cheap cylinder, which is exactly why it is the practical choice for grid-free heat.
+          </p>
+
+          <p>
+            The second is that the cheapest rows are the ones that need no fuel at all. A sleeping bag rated well below freezing and a heated throw on a modest battery keep people warm for days, and they carry no combustion risk. The best plans use propane to make one room comfortable for a few hours in the evening and morning, and let bedding do the work overnight, when everyone is asleep and least able to notice a problem.
+          </p>
+        </div>
+
+        <div id="propane-rules" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Indoor Propane: The Rules That Keep It Safe
+          </h2>
+
+          <p>
+            A propane heater is only indoor-safe if the manufacturer designs, tests and labels it for indoor use, and only if you use it the way the manual says. The Mr. Heater Buddy models carry two safety devices that make that possible. An oxygen depletion sensor, usually called an ODS, shuts off the burner if oxygen in the room drops below a set level. A tip-over switch kills the flame if the heater is knocked over. Heaters sold for patios, garages, job sites or ice fishing often lack one or both, and they are not substitutes.
+          </p>
+
+          <p>
+            Understand what the ODS does and does not do. It responds to low oxygen, not to carbon monoxide directly. A properly working burner with enough fresh air produces very little CO, and the ODS is there to shut things down before the air in a sealed room gets bad enough for combustion to become incomplete. It is a good safety device. It is not a carbon monoxide alarm, and it is not a reason to skip one. Dust, damage and altitude can all affect how a sensor behaves, which is another reason for a separate alarm.
+          </p>
+
+          <p>
+            Ventilation is not optional, even for indoor-rated heaters. The manuals call for a fresh-air opening of a minimum size, which in practice means cracking a window or a door to the outside by the amount specified for your heater and setting. It feels wrong to let cold air in on purpose. Do it anyway. The heater consumes oxygen and produces water vapor and carbon dioxide, and a small, steady supply of outside air is what keeps the room safe to breathe.
+          </p>
+
+          <p>
+            Clearance and placement matter as much as ventilation. Keep the heater on a hard, level floor, away from foot traffic, at least the distance the manual specifies from curtains, bedding, furniture and anything else that can burn, and out of reach of children and pets. Do not sleep with a heater running unless the manual explicitly allows it, and even then many safety agencies advise against it. Turn it off before bed and let the sleeping bags take over.
+          </p>
+
+          <p>
+            Fuel handling is the last piece. Use 1-lb disposable cylinders inside, connect and disconnect them outdoors where possible, and check connections for leaks with soapy water rather than a flame. Do not bring a 20-lb barbecue tank into the living space; fire codes generally prohibit storing or using full-size cylinders indoors, and the Buddy hose-and-filter setups are not a loophole around that. Store spare cylinders outside, out of direct sun, and never in a basement. We have left kerosene heaters off this list because whether they may be used indoors depends on state and local rules, and their fuel handling and ventilation demands are higher.
+          </p>
+        </div>
+
+        <div id="co-alarms" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Carbon Monoxide Alarms: Buy This First
+          </h2>
+
+          <p>
+            Carbon monoxide is colorless and odorless, and early symptoms of poisoning feel like flu: headache, dizziness, nausea, tiredness. People sleeping cannot notice them at all. CO poisoning reliably spikes after major winter storms and outages, almost always because a generator, grill or other fuel-burning device was run inside or too close to the house. An alarm is the only thing that reliably catches it.
+          </p>
+
+          <p>
+            The problem is that many homes rely on hardwired CO alarms, and some of those have no battery backup. When the grid fails, they go silent. Check yours. If the alarm does not have a battery, or the battery is years old, buy battery-powered alarms like the First Alert CO400 and put them where the risk will be: in the room with the heater, in or near each sleeping area, and on every level of the house. Combination smoke and CO alarms work too, as long as they run on batteries.
+          </p>
+
+          <p>
+            Test alarms before the season and replace batteries on schedule. Every CO alarm also has a service life printed on it, after which the sensor is no longer reliable; replace the whole unit when it expires. If an alarm sounds, do not try to find the source. Turn off the heater if you can do so immediately, get everyone outside into fresh air, and call 911 or the fire department from outside. Do not go back in until responders say it is safe.
+          </p>
+
+          <p>
+            Think of the alarm as the gate for everything else on this page. If you do not have a working battery-powered CO alarm, you should not run any fuel-burning heater indoors, no matter what the label says. With one in place, an indoor-rated propane heater used according to its manual is a reasonable, widely used emergency heat source. Without one, it is a gamble you do not need to take.
+          </p>
+        </div>
+
+        <div id="power-station-math" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Electric Heat on a Power Station: The Hard Math
+          </h2>
+
+          <p>
+            A power station seems like the obvious answer to an outage, and for phones, lights, a fridge and a CPAP it is. For heat it is mostly the wrong tool. Electric resistance heaters are 100 percent efficient at turning electricity into heat, but heat simply takes a lot of energy. A standard space heater draws 1,500 watts on high. A 1kWh power station holds about 1,000 watt-hours, and after inverter losses delivers something closer to 850 or 900. Divide, and the heater runs for roughly 35 to 40 minutes.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Runtime on a 1kWh Power Station (Approximate)</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">~35 min</p>
+                <p class="text-gray-400 text-xs mt-1">1,500W space heater on high</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">~1 hr</p>
+                <p class="text-gray-400 text-xs mt-1">750-900W heater on low</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">~15 hr</p>
+                <p class="text-gray-400 text-xs mt-1">50W heated throw</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">Days</p>
+                <p class="text-gray-400 text-xs mt-1">Phones, lights and a router</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Turning the heater down helps less than people expect. A low setting of 750 to 900 watts roughly doubles the runtime to about an hour. That is barely enough to take the chill off a room before the battery is empty, and the room cools again within an hour of the heater stopping. Even a large 4kWh home-backup station only buys a few hours of space heating, which is energy you probably wanted for the refrigerator and medical equipment.
+          </p>
+
+          <p>
+            Heating people instead of rooms changes the numbers completely. A heated throw or blanket typically draws in the range of 50 to 100 watts, so the same 1kWh station runs one for most of a night, and a larger unit runs two or three. Electric mattress pads, heated vests with USB power banks and 12V heated blankets for cars all work on the same principle. If you are shopping for a station with winter in mind, our guides to the <a href="/best-portable-power-station/">best portable power stations</a> and the <a href="/best-portable-power-station-for-home-backup/">best power stations for home backup</a> show which sizes cover the fridge, the CPAP and a couple of heated blankets together.
+          </p>
+
+          <p>
+            If you want electric space heat during outages, plan for a generator rather than batteries. A generator running safely outside, at least 20 feet from doors and windows, can carry a 1,500-watt heater for as long as you have fuel. A power station charged by solar can keep low-watt loads going indefinitely, as our <a href="/best-solar-generator/">solar generator guide</a> explains, but winter sun rarely refills a battery fast enough to feed a space heater. Spend the stored energy where it goes furthest: blankets, lights, and the devices that keep people informed and safe.
+          </p>
+        </div>
+
+        <div id="warm-room" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. The One Warm Room Plan
+          </h2>
+
+          <p>
+            The single most effective thing you can do in a cold-weather outage is to stop trying to heat the whole house. Pick one room, ideally a smaller interior room on the side of the house away from the wind, with few exterior walls and windows. Move everyone into it. A Portable Buddy rated for about 225 square feet can make a closed bedroom comfortable; it has no chance with an open-plan first floor.
+          </p>
+
+          <p>
+            Close the doors to every other room and block drafts under them with rolled towels. Hang blankets over windows and over doorways without doors, and draw heavy curtains. Close the curtains on north-facing windows, but open south-facing ones during sunny hours to collect free heat, then close them before dusk. A tent or blanket fort set up inside the room, especially over a bed, holds body heat remarkably well and is something children often enjoy rather than endure.
+          </p>
+
+          <p>
+            Dress for the room rather than heating the room for your clothes. Wool or synthetic base layers, a fleece, a warm hat and dry socks matter more than a few degrees of air temperature. Cotton is a poor choice because it holds moisture. Eat regular meals and drink warm drinks if you can heat water safely, because the body generates heat by digesting food. Keep moving during the day; sitting still in a cold room is when people get chilled.
+          </p>
+
+          <p>
+            At night, let bedding carry the load. One cold-rated sleeping bag per person, a pad or mattress underneath, and a heated throw on a power station for anyone who runs cold is a complete plan for the sleeping hours. Turn the propane heater off before bed, check that the CO alarm is working, and run it again in the morning when everyone is awake. Keep a good battery light handy so nobody needs a candle; our guide to the <a href="/best-emergency-lantern/">best emergency lanterns</a> covers models that run for days on a charge.
+          </p>
+
+          <p>
+            Medical equipment changes the priorities. Anyone using a CPAP, oxygen concentrator or other powered device needs that load covered first, and heat second. A CPAP without its heated humidifier draws little enough to run for several nights on a mid-size station, and our <a href="/best-battery-backup-for-cpap/">CPAP battery backup guide</a> covers how to size it. If a long outage and severe cold combine with medical needs, the right move is often to relocate to a warming center or a relative with power.
+          </p>
+        </div>
+
+        <div id="pipes" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Protecting Pipes When the House Goes Cold
+          </h2>
+
+          <p>
+            Pipes freeze before people do. Water lines in exterior walls, crawl spaces, unheated garages and under sinks on outside walls are at risk once indoor temperatures fall well below freezing near them, and a burst pipe can do more damage than the outage itself. Your warm-room plan protects people; it does not protect the plumbing in the rest of the house.
+          </p>
+
+          <p>
+            In the early hours, open the cabinet doors under kitchen and bathroom sinks so room air reaches the pipes, and let faucets on exterior walls drip slowly, both hot and cold. Moving water is much harder to freeze, and an open faucet relieves pressure if ice does form. Know where your main water shutoff is and make sure it turns before you need it.
+          </p>
+
+          <p>
+            If the outage looks long and the house is dropping toward freezing, consider draining the system: shut off the main, open the lowest faucet and the highest, and flush toilets to empty tanks. Shut off power or gas to the water heater according to its manual before draining lines that feed it. This is the step plumbers recommend for vacant houses in winter, and it removes the risk entirely.
+          </p>
+
+          <p>
+            Do not try to thaw a frozen pipe with an open flame or a propane heater pointed at it. Use warm towels or a hair dryer once power returns, and work from the faucet end back toward the frozen section so melting water has somewhere to go. If a pipe has already burst, shut off the main water before anything else.
+          </p>
+        </div>
+
+        <div id="never-indoors" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. What Never Comes Inside
+          </h2>
+
+          <p>
+            Every winter storm brings the same headlines, and the causes are the same list. Never use a portable generator inside a home, garage, basement, crawl space or shed, even with doors and windows open. Run it outside, at least 20 feet from the house, with the exhaust pointed away from doors, windows and vents. A garage with the door up is not outside. Generators produce carbon monoxide fast enough to kill within minutes in an enclosed space.
+          </p>
+
+          <p>
+            Never use a charcoal or gas grill, a camp stove, a turkey fryer or an outdoor patio heater indoors for heat. None of them has an oxygen depletion sensor, and a charcoal grill in particular produces large amounts of CO with no visible smoke once the coals are lit. Never use a gas oven or range to heat the room; they are not designed for it, and an oven left open for hours can produce dangerous CO levels. Candles are a fire risk out of proportion to their heat.
+          </p>
+
+          <p>
+            Heaters sold for garages, workshops and construction sites, including forced-air propane torpedo heaters and many tank-top heaters, are designed for well-ventilated spaces and are labeled accordingly. The label decides. If a heater does not say it is approved for indoor residential use, treat it as an outdoor heater regardless of how it is marketed in a listing or a forum.
+          </p>
+
+          <p>
+            Fireplaces and wood stoves you already have are a different matter. If your chimney is inspected and the stove or fireplace is in good condition, it is an excellent outage heat source, but this is not the time to experiment with one you have not used in years. A cracked flue or a chimney fire in the middle of a storm, with emergency services stretched thin, is a disaster stacked on another one.
+          </p>
+        </div>
+
+        <div id="choosing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which One to Buy
+          </h2>
+
+          <p>
+            Start with the alarm. Buy a battery-powered CO alarm such as the First Alert CO400 for every level of the house and every sleeping area, and one more for the room where you plan to run a heater. If you do nothing else on this list, do this. Then buy one cold-rated sleeping bag, like the Coleman North Rim, for each person in the household. Those two purchases cover the most dangerous and the most common outage problems without fuel or power.
+          </p>
+
+          <p>
+            For actual heat, the Mr. Heater Portable Buddy is the right first heater for most homes. It warms a closed bedroom, runs on cylinders you can store for years, and has the safety devices that make indoor use reasonable. If your warm room is a living room or the household is large, choose the Big Buddy instead, and plan to run it on low or medium after the first warm-up. If you only need to take the chill off a bathroom or small bedroom, or want a second unit, the Little Buddy fits. Stock enough 1-lb cylinders for several days at a few hours of use a day.
+          </p>
+
+          <p>
+            If you already own a power station, add a heated throw like Sunbeam's to the kit and plan to use stored power for people rather than rooms. If you own a generator or a large home battery, a small ceramic heater like the Lasko 754200 makes sense as clean electric heat for one room. On a typical portable station, skip it. And if you are still deciding how to back up the house, our guides to the <a href="/best-home-generator-for-power-outages/">best home generators</a> and the <a href="/best-portable-chargers-for-power-outages/">best portable chargers for power outages</a> cover the rest of the kit.
+          </p>
+
+          <p>
+            Finally, write the plan down and practice it once before the cold arrives. Know which room you will use, where the cylinders and alarms are, how to shut off the water, and what temperature or forecast will send you to a warming center or a relative's house instead. The heater is the least important part of that plan. Knowing when to use it, and when to leave, matters more.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running Any Heater Without a Battery CO Alarm</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Hardwired CO alarms without battery backup go quiet in an outage, which is exactly when fuel-burning heaters come inside. An indoor-rated heater is only part of the safety system. Put a battery-powered alarm in the same room and near every sleeping area before you light anything, and test it first.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using an Outdoor Heater, Grill or Generator Inside</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Patio heaters, tank-top heaters, torpedo heaters, grills, camp stoves and generators are not indoor appliances, even with a window open or the garage door up. They lack oxygen depletion sensors and can produce lethal carbon monoxide in minutes. If the label does not say indoor residential use, it stays outside.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping the Fresh-Air Opening</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Indoor-rated propane heaters still burn oxygen, and their manuals require a fresh-air opening of a specific size. Sealing the room tight to keep the heat in defeats the design and can trigger the oxygen sensor or worse. Crack the window or door by the amount the manual specifies, every time the heater runs.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trying to Heat a Room From a Power Station</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 1,500-watt heater empties a 1kWh power station in roughly 35 to 40 minutes, and the room is cold again an hour later. Spend stored energy on heated blankets, which draw a small fraction as much, and on the fridge, lights and medical devices that cannot run on anything else.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Heating the Whole House Instead of One Room</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A small propane heater cannot keep up with an open-plan floor, so it burns through cylinders and the house still feels cold. Choose one small interior room, close it off, block drafts and hang blankets over windows. A Portable Buddy can make that room comfortable on a fraction of the fuel.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the safest indoor heater for a power outage?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The safest options burn nothing at all: cold-rated sleeping bags, layered clothing and a heated blanket on a power station. For actual room heat without electricity, choose a propane heater the manufacturer rates for indoor use, such as the Mr. Heater Buddy series, which has an oxygen depletion sensor and tip-over shutoff. Always pair it with a battery-powered CO alarm and the ventilation its manual requires.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is the Mr. Heater Buddy really safe to use indoors?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Mr. Heater markets the Buddy series as indoor-safe, and the heaters include an oxygen depletion sensor and a tip-over shutoff. That makes indoor use reasonable when you follow the manual: provide the specified fresh-air opening, keep the stated clearance from combustibles, use 1-lb cylinders indoors, and run a working battery CO alarm in the same room. Many safety agencies advise turning it off before sleeping.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does a 1-lb propane cylinder last in a Buddy heater?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A 1-lb cylinder holds a little over 21,000 BTU of energy. At 9,000 BTU an hour that works out to roughly two to two and a half hours, and at 4,000 BTU about five hours. The 3,800 BTU Little Buddy runs about five to six hours. Cold weather and partly used cylinders shorten that, so stock more cylinders than the math suggests.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I run a space heater on a portable power station?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                You can, but not for long. A 1,500-watt heater drains a 1kWh station in roughly 35 to 40 minutes, and even a low setting only stretches that to about an hour. That energy is better spent on a heated blanket, which can run most of the night on the same battery. Space heaters make sense on generators or large whole-home batteries.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I heat my house without electricity?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Concentrate on one small room. Close it off, block drafts, cover windows and gather everyone there. Use an indoor-rated propane heater with a CO alarm and the required ventilation during waking hours, and let cold-rated sleeping bags and layered clothing do the work overnight. An existing, inspected wood stove or fireplace is also a good option if it is in sound condition.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I use my gas oven or stove to heat the house?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. Gas ovens and ranges are not designed as space heaters, and running one for hours with the door open can produce dangerous levels of carbon monoxide and creates a fire risk. The same goes for camp stoves and grills of every kind. Use only heaters labeled for indoor residential use, and keep a battery CO alarm working whenever anything burns inside.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I buy a kerosene heater for power outages?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                We left kerosene heaters off this list. Whether they may be used indoors depends on state and local rules, they require careful fuel storage and refueling outdoors, and they need generous ventilation. For most households, an indoor-rated propane heater with 1-lb cylinders is simpler to store and use safely. If you consider kerosene, check your local codes and the manual first.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power Outage Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-home-generator-for-power-outages/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Home Generators for Power Outages</h3>
+              <p class="text-gray-500 text-sm mt-2">Run the furnace itself, safely outside, through a transfer switch.</p>
+            </a>
+            <a href="/best-portable-power-station-for-home-backup/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Home Backup</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Power Stations for Home Backup</h3>
+              <p class="text-gray-500 text-sm mt-2">Battery sizes that cover the fridge, CPAP and heated blankets.</p>
+            </a>
+            <a href="/best-emergency-lantern/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-green-600 font-black text-xs uppercase tracking-widest mb-2">Outage Kit</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Emergency Lanterns</h3>
+              <p class="text-gray-500 text-sm mt-2">Safe, long-running light so nobody reaches for a candle.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Emergency heat is a system, not a single product. A battery carbon monoxide alarm, one cold-rated sleeping bag per person and one closed-off room do most of the work, and they cost less than a heater. Add a Mr. Heater Portable Buddy, or a Big Buddy for a larger room, and you can keep that room comfortable for days on cylinders you can store safely outside.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Use stored battery power for blankets, not space heaters, and never bring a generator, grill or outdoor heater inside. If the cold, the outage or medical needs outrun your plan, leave for a warming center. That decision is part of the plan too.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

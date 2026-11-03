@@ -1,0 +1,980 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Power Inverters",
+    "url": "/best-power-inverter/"
+  },
+  {
+    "title": "Best Portable Solar Panels",
+    "url": "/best-portable-solar-panel/"
+  },
+  {
+    "title": "Best RV Generators",
+    "url": "/best-rv-generator/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Lithium RV Batteries: 12V LiFePO4 for RVs, Vans and Boats";
+const description =
+  "Six 12V LiFePO4 batteries for RVs, vans and boats, with Ah vs Wh, BMS current limits, cold-weather charging, converter and DC-DC setup, and bank sizing math.";
+
+const PRODUCTS = [
+  {
+    "id": "battle-born-100ah-12v-lifepo4-battery",
+    "name": "Battle Born 100Ah 12V LiFePO4 Deep Cycle Battery",
+    "category": "12V, 100Ah (about 1.28kWh), drop-in LiFePO4",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "The most established drop-in lithium brand in the RV market",
+      "Assembled in Reno, Nevada, with U.S.-based technical support",
+      "Backed by a 10-year warranty",
+      "Built-in BMS with low-temperature charge protection",
+      "Heated version available for cold-climate campers"
+    ],
+    "cons": [
+      "Costs substantially more per amp-hour than budget brands",
+      "100A continuous BMS limit means larger inverters need two or more in parallel"
+    ],
+    "bottomLine": "The lithium RV battery to buy if you want the safest bet on support and longevity and are willing to pay for it.",
+    "description": "Battle Born is the name most RV technicians and van builders mention first, and its 100Ah drop-in battery is the reason. It is a 12V LiFePO4 battery with an internal battery management system that handles cell balancing, overcharge and over-discharge protection, and blocks charging in freezing temperatures. Battle Born rates the BMS at 100A continuous with a higher short surge, which comfortably supports a 1,000W inverter on one battery; for a 2,000W inverter you parallel two or more. What you pay extra for is the company behind it: batteries assembled in Reno, a 10-year warranty, and a support line that will talk you through converter settings and DC-DC charging. If you camp below freezing, look at the heated version, which warms the cells before it accepts a charge. If budget matters more than brand, the LiTime below stores the same energy for far less."
+  },
+  {
+    "id": "litime-12v-100ah-lifepo4-battery",
+    "name": "LiTime 12V 100Ah LiFePO4 Lithium Battery",
+    "category": "12V, 100Ah (about 1.28kWh), budget LiFePO4",
+    "badge": "Best Value",
+    "amazonUrl": "",
+    "pros": [
+      "Same rated capacity as premium 100Ah batteries at a fraction of the price",
+      "100A BMS covers a 1,000W inverter on a single battery",
+      "Several variants, including low-temperature-protected and self-heating models",
+      "Can be paralleled to build larger banks cheaply"
+    ],
+    "cons": [
+      "Support and warranty handling are less proven than Battle Born's",
+      "Variant names are easy to mix up; check the cold-weather features on the listing",
+      "Formerly sold as Ampere Time, which confuses reviews and listings"
+    ],
+    "bottomLine": "The best lithium battery for an RV on a budget; buy the variant that matches your climate.",
+    "description": "LiTime, the brand formerly sold as Ampere Time, is what made 12V LiFePO4 affordable for ordinary RV and van owners. Its 100Ah battery stores the same roughly 1,280Wh as a premium drop-in, uses a 100A BMS that comfortably supports a 1,000W inverter, and costs a fraction of the big-name price, which means two LiTime batteries can cost less than one premium battery. That changes the sizing conversation: for many budgets, the choice is not premium versus budget but 100Ah versus 200Ah. The trade-offs are support depth and consistency of documentation, plus a product line with several near-identical 100Ah variants. LiTime sells versions with low-temperature charging protection and self-heating, so if you camp in shoulder seasons or winter, make sure the listing specifies the cold-weather feature you need. For warm-weather boondocking, a weekend trailer or a fishing boat, it is an easy recommendation."
+  },
+  {
+    "id": "renogy-12v-100ah-self-heating-lifepo4-battery",
+    "name": "Renogy 12V 100Ah Self-Heating LiFePO4 Battery",
+    "category": "12V, 100Ah (about 1.28kWh), built-in heating",
+    "badge": "Best for Cold Weather",
+    "amazonUrl": "",
+    "pros": [
+      "Self-heating warms the cells so they can accept a charge below freezing",
+      "Fits naturally into Renogy solar, DC-DC and inverter systems",
+      "Monitoring available through Renogy's app with compatible accessories",
+      "Priced between budget and premium brands"
+    ],
+    "cons": [
+      "Heating uses charging energy, which slows cold-morning solar recovery",
+      "Renogy's battery naming changes frequently between generations"
+    ],
+    "bottomLine": "The pick for shoulder-season and winter campers who want solar charging to keep working on frosty mornings.",
+    "description": "LiFePO4 batteries must not be charged below freezing, and that rule catches a lot of RV owners off guard on the first cold trip: the BMS blocks charging, the solar controller shows panels producing and the battery stays flat. Renogy's self-heating 100Ah battery addresses that directly. When it is cold and a charge source is connected, it uses incoming power to warm the cells to a safe temperature, then starts charging normally. That makes it a better fit than an unheated battery for anyone who camps in fall, winter or at altitude, or who stores a trailer outdoors with solar keeping the battery topped up. Renogy also sells the solar controllers, DC-DC chargers and inverters that sit around a battery, so building a matched system is straightforward. Confirm the exact model, monitoring options and heating thresholds on the listing, because Renogy revises its battery line often."
+  },
+  {
+    "id": "sok-12v-206ah-lifepo4-battery",
+    "name": "SOK 12V 206Ah LiFePO4 Battery",
+    "category": "12V, 206Ah (about 2.6kWh), serviceable case",
+    "badge": "Best Big Single Battery",
+    "amazonUrl": "",
+    "pros": [
+      "About twice the capacity of a 100Ah battery in one case",
+      "Serviceable design that can be opened, rather than a sealed block",
+      "Strong value per amp-hour",
+      "Heated versions offered for cold climates"
+    ],
+    "cons": [
+      "Heavy, and too large for some RV battery boxes",
+      "Smaller company with less retail presence than Renogy or Battle Born"
+    ],
+    "bottomLine": "A strong value when you want around 200Ah in one battery and have the space to fit it.",
+    "description": "SOK built its reputation among DIY van and solar builders by making a LiFePO4 battery you can actually open. Instead of a sealed plastic block, its batteries use a serviceable case, so the BMS and connections can be inspected and, in principle, replaced. The 206Ah model packs roughly 2.6kWh into a single battery, which is the capacity of two 100Ah batteries without the paralleling cables, busbars and balancing between separate units. For a camper that wants a 200Ah-class bank in one box, it is among the better values per amp-hour. Check the BMS continuous current rating on the listing before pairing it with a large inverter, as with any lithium battery. The practical limits are size and weight: measure your battery compartment first, because a 206Ah battery is considerably larger than a Group 24 or Group 27 lead-acid battery, and lifting it in and out is a two-hand job."
+  },
+  {
+    "id": "battle-born-270ah-12v-gc3-lifepo4-battery",
+    "name": "Battle Born 270Ah 12V GC3 LiFePO4 Battery",
+    "category": "12V, 270Ah (about 3.5kWh), GC3 format",
+    "badge": "Best for Large Banks",
+    "amazonUrl": "",
+    "pros": [
+      "270Ah in one 12V battery, the equivalent of nearly three 100Ah units",
+      "Same company support and warranty as the 100Ah",
+      "Fewer interconnects than a bank of small batteries",
+      "Suited to full-time RVs and big inverter loads"
+    ],
+    "cons": [
+      "Very expensive in absolute terms",
+      "Heavy and specific in size; measure before ordering"
+    ],
+    "bottomLine": "The premium way to build a big lithium bank in a motorhome or full-time fifth wheel with fewer batteries.",
+    "description": "Battle Born's GC3 battery is designed for RV owners who need a lot of storage and would rather not wire together three or four small batteries. At 270Ah of 12V LiFePO4, one battery holds roughly 3.5kWh, enough for a day of fridge, furnace fan, lights, laptops and a few microwave sessions, and a pair makes a bank large enough for heavy inverter use, subject to the BMS current ratings. Fewer batteries mean fewer cables, fewer lugs to work loose and simpler balancing, which matters in a vehicle that bounces down highways. The trade-off is cost and size. It is a large, heavy battery with a specific footprint, so measure your compartment, check how you will lift it into place and confirm the BMS current ratings against your inverter before you order. For weekend campers it is far more battery than needed; for full-time travelers who boondock, it is one of the cleanest ways to build a big bank."
+  },
+  {
+    "id": "dakota-lithium-12v-100ah-lifepo4-battery",
+    "name": "Dakota Lithium 12V 100Ah LiFePO4 Deep Cycle Battery",
+    "category": "12V, 100Ah (about 1.28kWh), marine and RV",
+    "badge": "Best for Boats",
+    "amazonUrl": "",
+    "pros": [
+      "Popular with anglers for trolling motors and house loads",
+      "Dakota advertises a long warranty, longer than most rivals",
+      "Drop-in replacement for many lead-acid deep-cycle batteries",
+      "U.S.-based company with established dealer presence"
+    ],
+    "cons": [
+      "Priced closer to premium than budget",
+      "Check BMS current limits and cold-weather features on the specific listing"
+    ],
+    "bottomLine": "A solid premium alternative when the battery spends its life on a boat as much as in a camper.",
+    "description": "Dakota Lithium is better known on the water than in campgrounds, but its 12V 100Ah LiFePO4 battery works in both. Anglers adopted it for trolling motors and house loads because lithium holds voltage steady as it discharges, so a trolling motor keeps its speed late in the day instead of fading the way it does on lead-acid. The same trait helps an RV inverter avoid low-voltage shutdowns. Dakota advertises an unusually long warranty, which is part of what you pay for, and the battery is offered as a drop-in replacement for many lead-acid deep-cycle units. As with any lithium battery, the charger matters: marine chargers and RV converters both need a lithium profile, and the battery should not be charged below freezing. Check the BMS current limit on the listing before pairing it with an inverter larger than about 1,000W, and parallel batteries when you need more current."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Lithium RV Batteries",
+          item: "https://www.allmetalbrake.com/best-lithium-rv-battery/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best lithium RV battery for most people?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most RV owners, a 12V 100Ah LiFePO4 battery from an established brand is the right starting point. The Battle Born 100Ah is the premium choice with the strongest support; the LiTime 12V 100Ah offers the same rated energy for far less. Buy two if you run a 2,000W inverter or a fridge and furnace through cold nights."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many lithium batteries do I need for my RV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Add up your daily watt-hours, multiply by the number of days between charges and by 1.2 for margin, then divide by 12.8 to get amp-hours. Weekend campers often need 100Ah. A fridge, furnace and laptops push most people to 200Ah, and full-time boondockers commonly run 400Ah or more with solar to recharge it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I just drop a lithium battery into my RV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Physically, usually yes; electrically, check the chargers first. Your converter, solar controller and any alternator connection need lithium-compatible settings. Replace the voltage-based battery gauge with a shunt monitor, confirm the cable and fuse sizes, and do not mix lithium with leftover lead-acid batteries. With those done, the swap is straightforward."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a LiFePO4 RV battery safe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "LiFePO4 is the most thermally stable of the common lithium chemistries and does not vent gas during normal charging like flooded lead-acid. The built-in BMS protects against overcharge, over-discharge, short circuits and charging in the cold. As with any battery, fuse the positive cable close to the battery, secure the battery against movement and use properly crimped cables."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a DC-DC charger for a lithium RV battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If you charge from a vehicle alternator, yes in most cases. Lithium accepts current so readily that a deeply discharged bank can overheat an alternator, and a DC-DC charger limits current, applies the correct lithium profile and keeps the starting battery isolated. For travel trailers charged through the 7-pin connector, it also makes the most of thin wiring."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can lithium RV batteries be used in the winter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, with care. LiFePO4 can usually discharge down to around -4°F, but it must not be charged below about 32°F. Batteries with low-temperature cutoff block charging until they warm up; self-heating batteries warm themselves using incoming charge power. Mounting the batteries inside the heated part of the RV is the simplest way to avoid the issue."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a portable power station better than a lithium RV battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on the setup. For an RV or van with built-in 12V circuits, a lithium house battery is cheaper per watt-hour and feeds the existing lights, pump and fans. For tents, car camping or a trailer you do not want to rewire, a portable power station with a LiFePO4 battery is simpler and can come into the house during an outage."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best lithium rv battery",
+      "best rv battery",
+      "lifepo4 rv battery",
+      "best lithium battery for rv",
+      "rechargeable lithium battery",
+      "portable lithium battery pack"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Lithium RV Batteries</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Six 12V LiFePO4 batteries from budget 100Ah drop-ins to a 270Ah full-timer battery, plus the BMS, cold-weather and charging rules that decide whether a lithium swap works.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#battle-born-100ah-12v-lifepo4-battery"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare the Batteries
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#at-a-glance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Batteries at a Glance</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Six Picks</a>
+          <a href="#ah-vs-wh" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Amp-Hours vs Watt-Hours</a>
+          <a href="#bms" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. What the BMS Limits</a>
+          <a href="#cold" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Cold-Weather Charging</a>
+          <a href="#charging" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Converter and DC-DC Charging</a>
+          <a href="#swap" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Lead-Acid Swap Checklist</a>
+          <a href="#sizing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Sizing a Bank</a>
+          <a href="#portable" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Portable Lithium Packs</a>
+          <a href="#which" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          A lithium battery roughly doubles the usable power in an RV and halves the weight. Whether it delivers depends less on the brand than on the charger, the cold and the current your inverter asks of it.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="at-a-glance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The Batteries at a Glance
+          </h2>
+
+          <p>
+            Swapping lead-acid house batteries for lithium iron phosphate is the single biggest upgrade most RV, van and boat owners can make. A 12V LiFePO4 battery gives you nearly all of its rated capacity instead of about half, holds steady voltage until it is almost empty, weighs roughly half as much, and is commonly rated for thousands of charge cycles rather than hundreds. It also costs more up front and asks more of your charging system, which is where most of the bad experiences come from.
+          </p>
+
+          <p>
+            This guide covers six 12V LiFePO4 batteries that are widely sold and well supported, from budget 100Ah units to a 270Ah battery for full-time travelers. The picks are based on manufacturers' published specifications and documentation, not on our own testing. The sections after the picks cover what actually decides whether a lithium RV battery works for you: the difference between amp-hours and watt-hours, what the BMS limits, cold-weather charging, converter and alternator compatibility, and how to size a bank.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Battery</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Capacity</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Energy (approx.)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Cold-weather option</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Battle Born 100Ah</td>
+                    <td class="px-4 py-4 text-gray-700">100Ah</td>
+                    <td class="px-4 py-4 text-gray-700">1,280Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Low-temp protection; heated version sold</td>
+                    <td class="px-4 py-4 text-gray-700">Premium drop-in</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">LiTime 12V 100Ah</td>
+                    <td class="px-4 py-4 text-gray-700">100Ah</td>
+                    <td class="px-4 py-4 text-gray-700">1,280Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Varies by variant</td>
+                    <td class="px-4 py-4 text-gray-700">Budget banks</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Renogy 12V 100Ah Self-Heating</td>
+                    <td class="px-4 py-4 text-gray-700">100Ah</td>
+                    <td class="px-4 py-4 text-gray-700">1,280Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Built-in heating</td>
+                    <td class="px-4 py-4 text-gray-700">Cold-weather camping</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">SOK 12V 206Ah</td>
+                    <td class="px-4 py-4 text-gray-700">206Ah</td>
+                    <td class="px-4 py-4 text-gray-700">2,640Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Heated versions sold</td>
+                    <td class="px-4 py-4 text-gray-700">200Ah in one case</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Battle Born 270Ah GC3</td>
+                    <td class="px-4 py-4 text-gray-700">270Ah</td>
+                    <td class="px-4 py-4 text-gray-700">3,460Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Low-temp protection</td>
+                    <td class="px-4 py-4 text-gray-700">Full-time RVs</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Dakota Lithium 12V 100Ah</td>
+                    <td class="px-4 py-4 text-gray-700">100Ah</td>
+                    <td class="px-4 py-4 text-gray-700">1,280Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Check listing</td>
+                    <td class="px-4 py-4 text-gray-700">Boats and RVs</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The energy column is simple arithmetic: amp-hours times the 12.8V nominal voltage of a LiFePO4 battery. It shows why capacity, not brand, is the first decision. Two budget 100Ah batteries store the same energy as one 206Ah battery and about three-quarters of a 270Ah battery. Which configuration suits you depends on space, weight, budget and how much current your inverter needs, all of which are covered below.
+          </p>
+
+          <p>
+            If you do not have a built-in RV electrical system and just want portable power for a campsite, a dedicated lithium battery may not be the right purchase. A <a href="/best-portable-power-station/">portable power station</a> packages a LiFePO4 battery, inverter and charger together. The section on portable lithium battery packs explains when that is the better route.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Six Lithium RV Batteries
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications and documentation, not from hands-on testing. Battery makers revise BMS ratings, heating features and case sizes between generations, so confirm the continuous current rating, cold-weather protection and dimensions on the listing you buy from.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="ah-vs-wh" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Amp-Hours, Watt-Hours and Usable Capacity
+          </h2>
+
+          <p>
+            Batteries are sold in amp-hours, but your loads are measured in watts, so the number that matters for planning is watt-hours. For a 12V LiFePO4 battery, multiply amp-hours by 12.8 volts. A 100Ah battery is about 1,280Wh, a 200Ah battery about 2,560Wh, and so on. That is the total energy stored; what you can actually use depends on battery chemistry and how you treat it.
+          </p>
+
+          <p>
+            This is where lithium pulls ahead. Most lead-acid deep-cycle batteries should not be discharged much below 50 percent if you want them to last, so a 100Ah lead-acid battery gives you roughly 50Ah, or about 600Wh, of usable energy. A 100Ah LiFePO4 battery can be used down to nearly empty without damage, so you get close to the full 1,280Wh. In practice, one lithium battery replaces two lead-acid batteries, and it weighs less than one of them.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE CONVERSION</p>
+            <p class="text-xl font-bold text-white mb-3">Watt-hours = amp-hours x 12.8 for a 12V LiFePO4 battery.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Then compare usable energy, not the label. 100Ah of lithium gives you roughly 1,200-1,280Wh you can use. 100Ah of lead-acid gives you about 600Wh if you stop at 50 percent. That is why a lithium swap usually doubles real capacity even at the same amp-hour rating.</p>
+          </div>
+
+          <p>
+            Voltage behavior matters too. A lead-acid battery's voltage sags steadily as it discharges and drops further under heavy load, which makes inverters shut off on low voltage and makes lights dim and fans slow. LiFePO4 holds a nearly flat voltage, around 13V, for most of its discharge. That is great for appliances, but it also means you cannot read state of charge from voltage. Install a shunt-based battery monitor that counts amp-hours in and out; the voltmeter in an RV's monitor panel is close to useless with lithium.
+          </p>
+
+          <p>
+            Finally, check how a battery's capacity is rated. Reputable LiFePO4 makers rate capacity at a moderate discharge current, and the numbers in this guide are the manufacturers' figures. Extremely cheap no-name batteries sometimes overstate capacity, which is one reason we stick to established brands even in the budget slot.
+          </p>
+        </div>
+
+        <div id="bms" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. What the BMS Does and Where It Limits You
+          </h2>
+
+          <p>
+            Every LiFePO4 battery on this list has a battery management system inside. The BMS watches individual cell voltages, balances the cells so they stay matched, cuts off charging if voltage climbs too high, cuts off discharging before the cells are damaged by going too low, and disconnects the battery in a short circuit or overcurrent. Most also monitor temperature and block charging when the cells are too cold. It is the reason a drop-in lithium battery is safe to use without a separate controller.
+          </p>
+
+          <p>
+            The BMS also sets a ceiling on how much current the battery can deliver. Many 100Ah batteries use a 100A continuous BMS, sometimes with a brief higher surge. At 12V, 100A is roughly 1,200W of DC, which works out to about 1,000W of AC through an inverter once losses are counted. Connect a 2,000W inverter to one such battery and run a microwave, and the BMS will shut the battery off to protect itself. That is the most common reason a new lithium setup "randomly" cuts out.
+          </p>
+
+          <p>
+            The fix is to add batteries in parallel. Two 100Ah batteries with 100A BMS each can share a 200A load; three can share 300A. Use identical batteries of the same model and age, bring each to full charge before connecting them, and wire them with equal-length cables to a pair of busbars so current is shared evenly. A <a href="/best-power-inverter/">power inverter</a> sized beyond your bank's combined BMS rating will keep tripping, no matter how much capacity the batteries have.
+          </p>
+
+          <p>
+            Series wiring for 24V or 48V is a different matter. Some 12V batteries permit series connections up to a stated limit and some do not, and the BMS in each battery cannot see the others, so batteries can drift out of balance over time. If you are building a large 24V or 48V system, a battery designed for that voltage is usually the better choice. Follow the manufacturer's instructions on series and parallel limits exactly.
+          </p>
+
+          <p>
+            A few BMS designs also include Bluetooth monitoring, which shows state of charge, cell voltages and temperature on your phone. It is useful for diagnosing problems, especially low-temperature cutoffs. It does not replace a proper shunt battery monitor for the whole bank, but it is a nice extra when it is offered.
+          </p>
+        </div>
+
+        <div id="cold" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Cold Weather: Low-Temp Cutoff and Self-Heating
+          </h2>
+
+          <p>
+            The one hard rule of LiFePO4 is that it must not be charged below freezing. Charging lithium cells below about 32°F (0°C) can plate metallic lithium onto the anode, which permanently reduces capacity and can damage the cell. Discharging in the cold is fine within limits; many makers rate their batteries to discharge down to around -4°F (-20°C). The asymmetry catches people out: the furnace fan runs all night on the battery, but the solar controller cannot recharge it the next morning.
+          </p>
+
+          <p>
+            Good batteries handle this with a low-temperature charge cutoff in the BMS. When the cells are too cold, the battery simply refuses to accept a charge, protecting itself. That is the minimum you should accept. Cheap batteries without low-temp protection rely on you to remember, and a single frosty morning with solar charging can do lasting damage.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE COLD RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Never charge LiFePO4 below about 32°F unless the battery heats itself first.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Low-temperature cutoff protects the battery but leaves you unable to recharge it. Self-heating batteries use incoming charge power to warm the cells, then start charging. If you camp below freezing, buy one or keep the battery inside the heated envelope of the RV.</p>
+          </div>
+
+          <p>
+            Self-heating batteries go further. When the cells are cold and a charging source is connected, they divert some of that incoming power into internal heating pads, then begin charging once the cells reach a safe temperature. The Renogy self-heating battery on this list works that way, and Battle Born, LiTime and SOK all sell heated versions. Heating uses energy, so on a cold morning the first stretch of solar production warms the battery before it stores anything.
+          </p>
+
+          <p>
+            Location helps as much as hardware. A battery in an exterior tongue box on a trailer sees the outside temperature; the same battery under a dinette or in a heated basement bay may never get near freezing. If you are moving from lead-acid, consider relocating the batteries inside the living space. LiFePO4 does not vent gas during normal charging the way flooded lead-acid does, which makes indoor mounting practical, though the battery should still be secured and properly fused.
+          </p>
+        </div>
+
+        <div id="charging" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Converter, Solar and Alternator Charging
+          </h2>
+
+          <p>
+            A lithium battery is only as good as the charger feeding it, and most RVs built before lithium became common have converters set up for lead-acid. Many older converters charge at a lower voltage than lithium wants, so the battery never fills completely. Some apply equalization or desulfation modes that lithium should never see. Most 12V LiFePO4 makers specify charging at around 14.2-14.6V with little or no float. Check your battery's chart and set every charger to match.
+          </p>
+
+          <p>
+            For shore and generator power, the cleanest fix is a lithium-capable converter. Makers such as Progressive Dynamics offer converters with a lithium charging mode that drop into the same space as the old unit. Solar charge controllers are usually easier: most MPPT controllers have a lithium or user-defined profile that you select during setup. Disable temperature compensation on any lead-acid-oriented controller, since LiFePO4 does not need it.
+          </p>
+
+          <p>
+            Alternator charging is the part people get wrong most often. Lithium batteries accept current eagerly, and a deeply discharged lithium bank connected directly to a vehicle alternator can pull more current than the alternator is designed to deliver continuously, overheating it. A DC-DC charger solves this. It sits between the starting battery and the house bank, limits charging current to a safe level, applies the correct lithium profile and isolates the two batteries so the engine always starts.
+          </p>
+
+          <p>
+            For tow vehicles charging a travel trailer through the 7-pin connector, the wiring is usually too thin to deliver much current, and voltage drop over that long run means the trailer battery barely charges while driving. A DC-DC charger mounted in the trailer, near the battery, makes the most of whatever arrives. For motorhomes and vans, a 30-50A DC-DC charger is a common and effective upgrade.
+          </p>
+
+          <p>
+            If you are building a system from scratch, choose the inverter, converter, solar controller and DC-DC charger together and check each one's lithium settings. Many RV owners pair the battery with a <a href="/best-portable-solar-panel/">portable solar panel</a> for boondocking; just make sure the controller is set to lithium before the first charge.
+          </p>
+        </div>
+
+        <div id="swap" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Swapping Out Lead-Acid: A Checklist
+          </h2>
+
+          <p>
+            Physically, most drop-in LiFePO4 batteries fit in the space a Group 24, 27 or 31 lead-acid battery occupies. Electrically, the swap involves more than moving cables. Start with the charging sources: converter, solar controller, DC-DC or alternator, and any inverter charger. Each needs a lithium profile or replacement. Skipping this step is the most common reason a lithium upgrade disappoints.
+          </p>
+
+          <p>
+            Next, replace the old voltmeter-style battery indicator with a shunt-based monitor. Because LiFePO4 voltage stays nearly flat, the old indicator will read full until the battery is almost empty. A shunt measures every amp in and out and gives you a real percentage, which is the only way to manage a lithium bank well.
+          </p>
+
+          <p>
+            Do not mix lithium and lead-acid in the same bank. They charge to different voltages and behave differently under load, so the lead-acid battery will be overcharged or the lithium battery undercharged, and the stronger battery will try to charge the weaker one constantly. Replace the whole bank at once. Also confirm that the battery is used for house loads only. Most deep-cycle LiFePO4 batteries are not designed for engine starting, and some motorhome generators start from the house bank, so check your battery's cranking guidance before relying on it.
+          </p>
+
+          <p>
+            Check the fusing and cables. If the lithium upgrade comes with a bigger inverter, the original cables and fuse may be too small. Size the cable to the inverter's current and fit a fuse rated for that cable as close to the battery as practical; a Class T fuse is often recommended with lithium because of its high interrupt rating. Finally, look for parasitic draws. Propane detectors, radios and control boards draw small currents constantly. Use the battery disconnect switch in storage, or keep the battery on a maintenance charge with the correct lithium profile.
+          </p>
+        </div>
+
+        <div id="sizing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. How to Size a Lithium RV Battery Bank
+          </h2>
+
+          <p>
+            Size the bank from your daily energy use, not from what the dealer recommends. List the things you run on battery power, estimate how many hours each runs in a day, multiply watts by hours, and add it up. The table below gives typical figures for common RV loads; check your own appliance labels for the specifics.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Load</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical draw</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Daily use</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Approx. Wh per day</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">LED lights</td>
+                    <td class="px-4 py-4 text-gray-700">20-40W total</td>
+                    <td class="px-4 py-4 text-gray-700">5 hours</td>
+                    <td class="px-4 py-4 text-gray-700">100-200Wh</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Furnace blower (cold night)</td>
+                    <td class="px-4 py-4 text-gray-700">60-100W</td>
+                    <td class="px-4 py-4 text-gray-700">4-8 hours</td>
+                    <td class="px-4 py-4 text-gray-700">250-800Wh</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">12V compressor fridge</td>
+                    <td class="px-4 py-4 text-gray-700">40-60W while running</td>
+                    <td class="px-4 py-4 text-gray-700">Cycles</td>
+                    <td class="px-4 py-4 text-gray-700">400-700Wh</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Water pump</td>
+                    <td class="px-4 py-4 text-gray-700">50-100W</td>
+                    <td class="px-4 py-4 text-gray-700">Brief</td>
+                    <td class="px-4 py-4 text-gray-700">Under 50Wh</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Laptop and phones</td>
+                    <td class="px-4 py-4 text-gray-700">60-100W</td>
+                    <td class="px-4 py-4 text-gray-700">4 hours</td>
+                    <td class="px-4 py-4 text-gray-700">250-400Wh</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">CPAP without humidifier</td>
+                    <td class="px-4 py-4 text-gray-700">30-60W</td>
+                    <td class="px-4 py-4 text-gray-700">8 hours</td>
+                    <td class="px-4 py-4 text-gray-700">250-500Wh</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Microwave via inverter</td>
+                    <td class="px-4 py-4 text-gray-700">~1,500W</td>
+                    <td class="px-4 py-4 text-gray-700">10 minutes</td>
+                    <td class="px-4 py-4 text-gray-700">~250Wh</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Parasitic draws</td>
+                    <td class="px-4 py-4 text-gray-700">5-15W</td>
+                    <td class="px-4 py-4 text-gray-700">24 hours</td>
+                    <td class="px-4 py-4 text-gray-700">100-350Wh</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            A weekend camper with lights, a water pump, phone charging and a fan might use 300-600Wh a day, which one 100Ah lithium battery handles easily. Add a 12V fridge and a furnace on cold nights and you are at 1,000-2,000Wh, which suggests 200Ah. Full-time boondockers who run a residential fridge, a microwave and laptops often need 400Ah or more, plus solar to refill it.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE SIZING RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Daily watt-hours x days between charges x 1.2, then divide by 12.8.</p>
+            <p class="text-gray-300 leading-relaxed m-0">That gives you the amp-hours of LiFePO4 to buy. A camper using 1,200Wh a day who wants two days without charging needs about 1,200 x 2 x 1.2 / 12.8, or roughly 225Ah: two 100Ah batteries or one 206Ah battery.</p>
+          </div>
+
+          <p>
+            Then check current. A bank's continuous output is the sum of its batteries' BMS ratings, and it must cover your inverter at full load. A 2,000W inverter needs roughly 200A of supply, so two 100A-rated batteries in parallel is the realistic minimum. If you plan to run induction cooktops or air conditioning from batteries, the current requirement rises sharply, and you are into the territory of a large bank, a powerful inverter charger and serious solar.
+          </p>
+
+          <p>
+            Plan the charging side alongside the bank. A battery you can empty in a day but only refill over three days of solar is not much use. As a rough guide, the solar array and DC-DC charger together should replace most of a typical day's use on a typical day, with shore or generator power as the backup. A quiet <a href="/best-rv-generator/">RV generator</a> remains useful for cloudy stretches and air conditioning.
+          </p>
+        </div>
+
+        <div id="portable" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Portable Lithium Battery Packs and Power Stations
+          </h2>
+
+          <p>
+            Not everyone searching for a lithium battery needs a 12V deep-cycle unit bolted into a battery box. If you have a tent, a car camper, a truck without a house electrical system, or you want something that also comes into the house during a blackout, a self-contained rechargeable lithium battery may be the better buy. The most capable of those are portable power stations, though for running a whole house through a long outage a <a href="/best-home-generator-for-power-outages/">home generator</a> is still the bigger tool.
+          </p>
+
+          <p>
+            A portable power station combines a lithium battery, often LiFePO4, with an inverter, a charger, a solar controller and a battery management system in one box with AC, USB and 12V outlets on the front. You charge it from the wall, the car or solar, and there is nothing to wire. Our <a href="/best-portable-power-station-for-camping/">camping power station picks</a> cover sizes from small weekend units to 2kWh models that rival a 200Ah RV battery.
+          </p>
+
+          <p>
+            The trade-off is integration and cost per watt-hour. A power station cannot easily feed the RV's built-in 12V circuits, lights and water pump, and large models cost more per watt-hour than a bare LiFePO4 battery. For an RV or van with an existing electrical system, a lithium house battery is usually better value. For a trailer you do not want to rewire, a power station is a reasonable stopgap.
+          </p>
+
+          <p>
+            At the small end, a portable lithium battery pack for phones and laptops is a different product altogether. For those, see our guides to the <a href="/best-laptop-power-bank/">best laptop power banks</a> and <a href="/best-solar-power-bank/">solar power banks</a>. They are lithium-ion rather than LiFePO4 in most cases and are measured in tens of watt-hours, not thousands.
+          </p>
+        </div>
+
+        <div id="which" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which Lithium RV Battery to Buy
+          </h2>
+
+          <p>
+            If you want the safest bet on support and longevity, the Battle Born 100Ah is the best lithium RV battery for most owners who are willing to pay for it. One battery replaces two lead-acid batteries for typical weekend use; two give you a bank that supports a 2,000W inverter. If you camp in freezing weather, buy the heated version or the Renogy self-heating battery.
+          </p>
+
+          <p>
+            If budget is the constraint, the LiTime 12V 100Ah gives you the same energy for far less, which often means you can afford 200Ah instead of 100Ah. Make sure you pick the variant with the cold-weather protection you need. For a single battery around 200Ah, the SOK 206Ah is a strong value, as long as it fits your compartment.
+          </p>
+
+          <p>
+            Full-time RVers and boondockers building a big bank should look at the Battle Born 270Ah GC3, which simplifies wiring by replacing several small batteries. For boats, especially those running trolling motors alongside house loads, the Dakota Lithium 100Ah is a well-regarded alternative.
+          </p>
+
+          <p>
+            Whatever you buy, budget for the supporting parts: a lithium-capable converter or charger, a DC-DC charger for alternator charging, a shunt battery monitor and the right fuse. Those parts are what make a lithium RV battery deliver on its promise. If your camping is more about occasional campsite power than a full RV system, a portable power station is the simpler choice, and our <a href="/ecoflow-vs-bluetti/">EcoFlow vs Bluetti comparison</a> is a good place to start.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Keeping the old lead-acid converter settings</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many older RV converters charge too low for lithium or apply equalize and desulfation modes that lithium should never see. The result is a battery that never fills, or one that is stressed by the wrong profile. Set every charger to the battery maker's lithium voltages, or replace the converter with a lithium-capable model.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Charging below freezing</h3>
+              <p class="text-gray-700 text-sm m-0">
+                LiFePO4 must not be charged below about 32°F. Batteries with low-temperature cutoff refuse the charge, which protects them but leaves you without power; batteries without it can be permanently damaged. If you camp in the cold, buy a self-heating battery or mount the bank inside the heated living space.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running a big inverter on one battery</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A typical 100Ah battery has a 100A BMS, which is about 1,000W of AC output. Ask it for a 2,000W microwave load and it disconnects. Add batteries in parallel until the combined BMS rating covers the inverter at full load, and wire them with equal-length cables to busbars so current is shared evenly.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Charging lithium straight from the alternator</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A depleted lithium bank can pull more current than an alternator is designed to deliver continuously, and the alternator overheats. A DC-DC charger limits the current, applies the correct lithium profile and isolates the starting battery so the engine still cranks. It is a modest addition that protects a much more expensive part.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Mixing lithium with lead-acid</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Lithium and lead-acid charge to different voltages and sag differently under load, so a mixed bank constantly fights itself and neither battery lives long. Replace the whole bank at once, use identical batteries of the same model and age in parallel, and bring each to full charge before connecting them together.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best lithium RV battery for most people?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most RV owners, a 12V 100Ah LiFePO4 battery from an established brand is the right starting point. The Battle Born 100Ah is the premium choice with the strongest support; the LiTime 12V 100Ah offers the same rated energy for far less. Buy two if you run a 2,000W inverter or a fridge and furnace through cold nights.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many lithium batteries do I need for my RV?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Add up your daily watt-hours, multiply by the number of days between charges and by 1.2 for margin, then divide by 12.8 to get amp-hours. Weekend campers often need 100Ah. A fridge, furnace and laptops push most people to 200Ah, and full-time boondockers commonly run 400Ah or more with solar to recharge it.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I just drop a lithium battery into my RV?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Physically, usually yes; electrically, check the chargers first. Your converter, solar controller and any alternator connection need lithium-compatible settings. Replace the voltage-based battery gauge with a shunt monitor, confirm the cable and fuse sizes, and do not mix lithium with leftover lead-acid batteries. With those done, the swap is straightforward.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a LiFePO4 RV battery safe?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                LiFePO4 is the most thermally stable of the common lithium chemistries and does not vent gas during normal charging like flooded lead-acid. The built-in BMS protects against overcharge, over-discharge, short circuits and charging in the cold. As with any battery, fuse the positive cable close to the battery, secure the battery against movement and use properly crimped cables.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need a DC-DC charger for a lithium RV battery?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                If you charge from a vehicle alternator, yes in most cases. Lithium accepts current so readily that a deeply discharged bank can overheat an alternator, and a DC-DC charger limits current, applies the correct lithium profile and keeps the starting battery isolated. For travel trailers charged through the 7-pin connector, it also makes the most of thin wiring.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can lithium RV batteries be used in the winter?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, with care. LiFePO4 can usually discharge down to around -4°F, but it must not be charged below about 32°F. Batteries with low-temperature cutoff block charging until they warm up; self-heating batteries warm themselves using incoming charge power. Mounting the batteries inside the heated part of the RV is the simplest way to avoid the issue.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a portable power station better than a lithium RV battery?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on the setup. For an RV or van with built-in 12V circuits, a lithium house battery is cheaper per watt-hour and feeds the existing lights, pump and fans. For tents, car camping or a trailer you do not want to rewire, a portable power station with a LiFePO4 battery is simpler and can come into the house during an outage.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-power-inverter/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Inverters</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Power Inverters</h3>
+              <p class="text-gray-500 text-sm mt-2">12V inverters sized to the BMS limits of your lithium bank.</p>
+            </a>
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Self-contained LiFePO4 power with no wiring required.</p>
+            </a>
+            <a href="/best-rv-generator/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#10B981] font-black text-xs uppercase tracking-widest mb-2">Generators</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best RV Generators</h3>
+              <p class="text-gray-500 text-sm mt-2">Backup charging for cloudy stretches and air conditioning.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most RV owners, a 12V 100Ah LiFePO4 battery is the right starting point: the Battle Born 100Ah if you want the strongest support, the LiTime 12V 100Ah if you would rather spend the savings on a second battery. Cold-weather campers should buy self-heating, and full-timers should look at larger batteries like the SOK 206Ah or Battle Born 270Ah GC3.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The battery is only half the upgrade. Set every charger to a lithium profile, add a DC-DC charger for alternator charging, install a shunt monitor, and size the bank's BMS current to your inverter. Do those things and a lithium RV battery will outlast several sets of lead-acid.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

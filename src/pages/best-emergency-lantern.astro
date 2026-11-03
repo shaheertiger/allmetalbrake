@@ -1,0 +1,953 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Portable Chargers for Power Outages",
+    "url": "/best-portable-chargers-for-power-outages/"
+  },
+  {
+    "title": "Best Solar Power Banks",
+    "url": "/best-solar-power-bank/"
+  },
+  {
+    "title": "Best Home Generators for Power Outages",
+    "url": "/best-home-generator-for-power-outages/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Emergency Lanterns: Outage Lights That Actually Last";
+const description =
+  "Seven emergency lanterns and lights for power outages, with lumens vs. runtime explained, rechargeable vs. AA and D cells, and how to store them so they work.";
+
+const PRODUCTS = [
+  {
+    "id": "goal-zero-lighthouse-600",
+    "name": "Goal Zero Lighthouse 600 Lantern",
+    "category": "600 Lumens, Rechargeable, Hand Crank, USB Out",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 600 lumens per Goal Zero, plenty for a main room",
+      "Dimmable, with the option to light one side to save power",
+      "Hand crank as a last-resort backup",
+      "USB output can top up a phone",
+      "Recharges from a wall, car, power bank or solar panel"
+    ],
+    "cons": [
+      "Bulkier than a pocket lantern",
+      "Hand crank is an emergency trickle, not a power source",
+      "Costs more than basic battery lanterns"
+    ],
+    "bottomLine": "The lantern to light your main room through a multi-day outage, with a crank and USB output as useful extras.",
+    "description": "The Lighthouse 600 is the lantern we would put at the center of a household outage kit. Goal Zero rates it at up to 600 lumens, which is far more than a living room needs, and that headroom is the point: run it at a third of maximum and it lights the room comfortably while the built-in battery lasts for nights rather than hours. The dimmer is a dial rather than a few fixed steps, and you can choose to light both sides of the lantern or just one, which halves the drain when the lantern sits against a wall. It recharges over USB from anything you have, including a car, a power bank or a solar panel, and a fold-out hand crank gives you emergency light if every battery in the house is flat. A USB output lets it top up a phone in a pinch. The folding legs and hanging handle make it easy to place where light spreads best."
+  },
+  {
+    "id": "biolite-alpenglow-500",
+    "name": "BioLite AlpenGlow 500 Lantern",
+    "category": "500 Lumens, Rechargeable, Warm and Color Modes, USB Out",
+    "badge": "Best Ambient Light",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 500 lumens per BioLite",
+      "Warm white and candle-flicker modes are easy on the eyes",
+      "Frosted design spreads light with little glare",
+      "USB output can charge a phone"
+    ],
+    "cons": [
+      "No hand crank or built-in solar",
+      "Color and party modes add little in an emergency",
+      "Pricier than basic rechargeable lanterns"
+    ],
+    "bottomLine": "The most pleasant lantern to spend an evening with; choose it over the Goal Zero if light quality matters more than a crank.",
+    "description": "Most emergency lanterns are designed for brightness first and comfort second. The AlpenGlow 500 flips that. BioLite rates it at up to 500 lumens, but its real strength is the quality of light at lower settings: a warm white mode and a candle-flicker mode that give a room the feel of a lamp rather than an interrogation. The frosted body diffuses light evenly, so a moderate setting lights a living room without glare, which is exactly where runtime is best. It recharges over USB and can share its battery with a phone through a USB output, though as with any lantern that comes at the cost of light later on. There is no crank and no solar panel, so plan to recharge it from a power bank or power station in a long outage. The color-cycling modes are fun for kids but not a reason to buy it. Buy it because it makes a dark house feel normal."
+  },
+  {
+    "id": "coleman-400-lumen-led-lantern",
+    "name": "Coleman 400 Lumen LED Lantern",
+    "category": "400 Lumens, D-Cell Batteries, Water Resistant",
+    "badge": "Best Battery Lantern",
+    "amazonUrl": "",
+    "pros": [
+      "Runs on D cells, which store a lot of energy",
+      "Batteries can be swapped in seconds, no grid required",
+      "Simple, rugged design from a long-established brand",
+      "Inexpensive enough to keep as a dedicated backup"
+    ],
+    "cons": [
+      "Heavy with batteries installed",
+      "Alkaline cells must be stored outside the lantern to avoid leaks",
+      "No USB output and no recharging"
+    ],
+    "bottomLine": "The closet backup that works after years in storage, provided you keep the D cells beside it rather than inside it.",
+    "description": "Coleman has been making camp lanterns for generations, and its 400 lumen LED lantern is the kind of light that suits a disposable-battery backup role perfectly. It runs on D-cell batteries, which hold several times the energy of AAs, so a fresh set gives long runtime at a moderate setting, and when they run low you simply swap in new ones rather than waiting for the power to come back. The 400 lumen maximum, per Coleman, is plenty for a room, and the lantern is built for outdoor use, so it shrugs off rough handling. Its weaknesses are the weaknesses of every battery lantern: it is heavy, it has no USB port, and alkaline D cells left inside for years can leak and ruin the contacts. Store the batteries in their packaging next to the lantern and check them at the same time you check the smoke alarms. It is not the nicest light in this guide, but it is one of the most dependable."
+  },
+  {
+    "id": "luminaid-packlite-max",
+    "name": "LuminAID PackLite Max 2-in-1 Solar Lantern",
+    "category": "Up to 150 Lumens, Solar + USB, Inflatable, Phone Charger",
+    "badge": "Best Solar Lantern",
+    "amazonUrl": "",
+    "pros": [
+      "Recharges itself from the built-in solar panel",
+      "Collapses flat for a go-bag, glovebox or drawer",
+      "Waterproof and floats, per LuminAID",
+      "Can also charge over USB and top up a phone"
+    ],
+    "cons": [
+      "Solar recharge needs direct sun and a full day",
+      "Lower maximum output than the rechargeable lanterns",
+      "Inflatable body feels less sturdy"
+    ],
+    "bottomLine": "The best light for a week-long grid-down outage or a car kit, as long as you can put it in direct sun.",
+    "description": "LuminAID started out making inflatable solar lights for disaster relief, and the PackLite Max 2-in-1 is the grown-up version of that idea. It packs flat to roughly the thickness of a paperback, inflates into a soft lantern that diffuses light well, and recharges itself from a solar panel on top. LuminAID rates it at up to 150 lumens, which is enough for a bedroom or a tent, and the 2-in-1 model can also recharge over USB and add a small charge to a phone. That combination makes it the light most likely to still be working at the end of a long outage when every other battery is spent. Be realistic about solar: it needs a full day of direct sun to recharge well, and a cloudy window sill will not do it. It also floats and is designed to be waterproof, which matters after a flood. As a main room light it is too dim; as a backup that never needs batteries, it is excellent."
+  },
+  {
+    "id": "goal-zero-lighthouse-micro-flash",
+    "name": "Goal Zero Lighthouse Micro Flash Lantern",
+    "category": "150 Lumens, USB Rechargeable, Lantern + Flashlight",
+    "badge": "Best Small Lantern",
+    "amazonUrl": "",
+    "pros": [
+      "Pocket-sized lantern and flashlight in one",
+      "Up to 150 lumens per Goal Zero",
+      "USB rechargeable, no batteries to buy",
+      "Cheap enough to buy one per bedroom"
+    ],
+    "cons": [
+      "Too small to light a large room",
+      "No USB output for phones",
+      "Built-in battery means no quick swap when it runs out"
+    ],
+    "bottomLine": "An inexpensive personal light: give one to every member of the household and keep the big lantern for the main room.",
+    "description": "The Lighthouse Micro Flash is a small cylinder about the size of a roll of coins that works as both a lantern and a flashlight. Goal Zero rates it at up to 150 lumens, which is plenty for a bedroom, a bathroom or a walk to the garage, and its built-in battery recharges over USB from a wall adapter, a car or a power bank. The main reason to buy it is that it is cheap enough to buy several, which solves the most common outage problem: one good light and several people who need it. Hang one from a bedroom door handle with its loop and nobody has to fumble for a phone at three in the morning. There is no phone-charging output and the battery is not replaceable, so it is a personal light rather than a backbone of the kit. Pair it with a larger lantern for shared spaces and keep it on the same twice-a-year recharge schedule as everything else."
+  },
+  {
+    "id": "black-diamond-moji",
+    "name": "Black Diamond Moji Lantern",
+    "category": "Compact Hanging Lantern, AAA Batteries (Rechargeable Versions Sold)",
+    "badge": "Best for Kids",
+    "amazonUrl": "",
+    "pros": [
+      "Small, light and easy for kids to carry",
+      "Frosted globe gives soft, even light",
+      "Hook-style hanger works on doors and tent loops",
+      "Battery-powered versions run on widely available AAA cells"
+    ],
+    "cons": [
+      "Low maximum output; a room light, not a work light",
+      "AAA cells drain quickly on high",
+      "Several versions sold, so check specs on the listing"
+    ],
+    "bottomLine": "A cheap, cheerful personal lantern for children, bathrooms and hallways rather than the main room.",
+    "description": "The Moji is a palm-sized lantern with a frosted globe that turns a small amount of light into a soft, even glow, which is exactly what a child's bedroom or a bathroom needs in an outage. Black Diamond sells it in several versions, including ones that run on AAA batteries and rechargeable versions, and output varies between them, so read the listing to see which you are getting. It is not bright enough to light a kitchen for cooking or a basement for checking a sump pump, and it does not try to be. What it does well is hang anywhere from its built-in hook, survive being dropped by a seven-year-old, and give everyone in the household their own light without spending much. If you choose the AAA version, standardize on the same cells as your other small lights and store spares in the kit. For hallways and bathrooms, its gentle light is easier on sleepy eyes than a bright lantern."
+  },
+  {
+    "id": "black-diamond-spot-400-headlamp",
+    "name": "Black Diamond Spot 400 Headlamp",
+    "category": "400 Lumens, AAA Batteries, Waterproof, Red Night Mode",
+    "badge": "Best Headlamp",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 400 lumens per Black Diamond",
+      "Hands-free light for carrying, cooking and repairs",
+      "Waterproof design rated for heavy rain",
+      "Red mode preserves night vision",
+      "Rechargeable Spot 400-R version also sold"
+    ],
+    "cons": [
+      "Focused beam does not light a whole room",
+      "AAA version needs spares for long outages"
+    ],
+    "bottomLine": "Every adult in the house should have a headlamp, and the Spot 400 is a proven, well-built default.",
+    "description": "A headlamp is the light you will wish you had the first time you try to carry a bucket, reset a breaker or check the basement in an outage while holding a phone in your mouth. The Black Diamond Spot 400 is one of the most popular hiking headlamps for good reasons: Black Diamond rates it at up to 400 lumens, it runs on common AAA batteries, and it is built to be waterproof, so it survives a trip outside to check a storm-damaged fence. A red light mode lets you move around at night without waking anyone or wrecking your night vision, and a dimmable output lets you trade brightness for runtime. Black Diamond also sells a rechargeable Spot 400-R version if you prefer USB charging. It is not a room light; its beam is designed to go where you look. That is precisely why it belongs in the kit alongside a lantern rather than instead of one."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Emergency Lanterns",
+          item: "https://www.allmetalbrake.com/best-emergency-lantern/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best emergency lantern for a power outage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homes, a rechargeable LED lantern with a dimmer and USB charging, such as the Goal Zero Lighthouse 600, is the best main light. It lights a room at a moderate setting for nights at a time and can be recharged from a power bank, car or power station. Back it up with a battery lantern and a headlamp for each adult."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many lumens do I need in an emergency lantern?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Around 100 lumens is enough for a small bedroom or bathroom, and 200 to 300 lumens comfortably lights a living room or kitchen. Higher settings are for short tasks. A lantern rated at 400 to 600 lumens gives you headroom to run it at a lower, longer-lasting setting most of the time, which is where its runtime claims apply."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a rechargeable lantern or a battery lantern better?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each has a role. Rechargeable lanterns are brighter, cheaper to run and often charge phones, but they must be charged before the outage. Battery lanterns that take D, AA or AAA cells can sit for years and are refilled in seconds. The most resilient setup is one rechargeable lantern for nightly use plus a battery lantern as backup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long do LED lanterns last on batteries?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on brightness, battery size and how the maker measured. Runtime claims are usually on the lowest setting and, under the ANSI FL1 standard, end when output falls to 10 percent of the start. Expect hours on high and days on low. D-cell lanterns generally outlast AA and AAA lights at the same brightness."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are hand-crank lanterns worth it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As a backup feature, yes; as a main power source, no. A minute of cranking typically gives only a few minutes of moderate light, because hand generators produce very little power. A crank is valuable when every battery is dead and you need to find your way. Choose a lantern for its battery and dimmer first, and treat the crank as insurance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe to use a camping lantern indoors?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Battery-powered LED camping lanterns are safe indoors and are the best choice. Fuel-burning camping lanterns that use propane, white gas or kerosene are not, because they produce carbon monoxide, which can build up in a closed home. Keep fuel lanterns outdoors, and if any fuel appliance runs during an outage, have battery-powered CO alarms on every level."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How should I store emergency lanterns?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Keep them somewhere cool, dry and easy to find in the dark, with at least one on every floor. Charge rechargeable lanterns and test battery lanterns twice a year, and store alkaline cells outside the light to prevent leaks. A spare set of batteries taped to or stored beside each lantern removes the guesswork when the power goes out."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best emergency lantern",
+      "emergency light for power outage",
+      "rechargeable lantern",
+      "battery lantern",
+      "led lantern",
+      "small battery operated lights"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Emergency Lanterns</span> for Power Outages
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A good lantern turns a dark house into a usable one. Here is how to read lumens and runtime claims, when D cells beat a rechargeable battery, and seven lights worth keeping in the outage kit.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#goal-zero-lighthouse-600"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Jump to the Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#lumens-runtime" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Lumens vs. Runtime</a>
+          <a href="#power-source" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Rechargeable vs. AA and D</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Seven Picks</a>
+          <a href="#comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Comparison Table</a>
+          <a href="#backups" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Crank, Solar and USB Output</a>
+          <a href="#house-plan" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Lighting the Whole House</a>
+          <a href="#fire-safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Candles, Fuel and CO</a>
+          <a href="#storage" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Storing Lights</a>
+          <a href="#choosing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          The first thing everyone grabs in an outage is a phone flashlight, and that is the worst light in the house to rely on: it is a narrow beam, it drains the one device you most need to keep charged, and it lights nothing when you set it down. A real lantern costs less than a tank of gas, lights a whole room from a table, and runs for nights rather than hours.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="lumens-runtime" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Lumens vs. Runtime: The Trade-Off on Every Box
+          </h2>
+
+          <p>
+            Every lantern box leads with two numbers: a big lumen figure and a long runtime figure. They are almost never measured at the same time. The lumen number is the light on its highest setting, and the runtime number is how long it lasts on its lowest. A lantern advertised as 600 lumens and 300 hours does not give you 600 lumens for 300 hours; it gives you 600 lumens for a few hours or a dim glow for many nights. Read both numbers as the ends of a range, then decide where on that range you will actually live.
+          </p>
+
+          <p>
+            The industry standard most reputable brands use is ANSI/PLATO FL1, which defines runtime as the time until output falls to 10 percent of its starting level. That is a generous definition. A light that started at 400 lumens is still running at 40 lumens when the clock stops, which is dim but usable for walking to the bathroom. Cheaper lights that do not cite FL1 may be quoting something even looser. When two lanterns list similar battery capacity but wildly different runtimes, the difference is usually in how the test was defined, not in the lantern.
+          </p>
+
+          <p>
+            How much light do you actually need? Far less than the box suggests. Around 100 lumens is enough to light a small bedroom or bathroom well enough to move around safely. Somewhere around 200 to 300 lumens makes a living room or kitchen comfortable for reading, cooking on a camp stove outdoors, or playing cards. The 500 to 1,000 lumen settings are for short tasks, such as finding the breaker panel or checking the basement for water. Most people who buy a bright lantern end up running it at a third of maximum, which is exactly where the runtime gets good.
+          </p>
+
+          <p>
+            That is why the most useful feature on a lantern is a stepless dimmer or at least four or five brightness steps. A light with only high and low forces you to choose between too bright and too dim, and too bright drains the battery for nothing. Diffusion matters too. A bare LED behind clear plastic throws harsh light and glare; a frosted globe spreads the same lumens across the room and feels brighter at a lower setting. For a lantern that will sit on a table for hours, a soft, warm-toned light is easier to live with than a cold blue-white one.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Buy lumens for the task, runtime for the outage.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Pick a lantern whose medium setting, around 200 to 300 lumens, lights your main room. Then check that the maker quotes enough runtime at that setting, or at low, to cover at least two nights without recharging or new batteries.</p>
+          </div>
+        </div>
+
+        <div id="power-source" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Rechargeable vs. AA and D Cells
+          </h2>
+
+          <p>
+            The single biggest decision is how the lantern is powered, and neither option is strictly better. A rechargeable lantern with a built-in lithium battery is cheaper to run, usually brighter, and often doubles as a phone charger. Its weakness is the same as every rechargeable device: it has to be charged when the outage starts, and a lithium battery left in a closet for a year slowly loses charge. A battery lantern that takes AA, AAA or D cells can sit in a drawer for years, and when it runs low you swap in fresh cells in a minute instead of waiting for power.
+          </p>
+
+          <p>
+            Battery size matters more than battery count. A D cell holds several times the energy of an AA, so a lantern that runs on three or four D cells will usually outlast one that runs on the same number of AAs by a wide margin at the same brightness. D-cell lanterns are heavy and bulky, but in a long outage that bulk is runtime. AAA lights are the opposite: compact and convenient, but they chew through batteries quickly at high output. If you choose a disposable-battery light, standardize the household on one or two sizes so the spare pack fits everything.
+          </p>
+
+          <p>
+            Alkaline cells are the default and they are fine for most people, with one serious caveat: they leak. An alkaline battery left in a lantern for years can corrode the contacts and ruin the light, which is a bad discovery to make in the dark. Lithium AA and AAA cells, such as Energizer Ultimate Lithium, cost more but are rated by the maker for very long storage, hold up much better in cold weather, and are far less prone to leaking. Low-self-discharge NiMH rechargeables, like Panasonic Eneloop, are the middle path if you already keep a charger around.
+          </p>
+
+          <p>
+            Our recommendation is a hybrid household. One good rechargeable lantern does the heavy lifting in the main room every night of an outage, and it can be topped up from a power bank, a car, or a <a href="/best-solar-power-bank/">solar power bank</a> as needed. One or two disposable-battery lanterns sit in the emergency bin with the batteries stored beside them, not inside, as insurance against the rechargeable being dead when the storm hits. That combination fails gracefully, which is the whole point of emergency gear.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Power Source</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Strength</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Weakness</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best Role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Built-in lithium (USB)</td>
+                    <td class="px-4 py-4 text-gray-700">Cheap to run, bright, often has USB output</td>
+                    <td class="px-4 py-4 text-gray-700">Must be charged before the outage; slow self-discharge</td>
+                    <td class="px-4 py-4 text-gray-700">Main-room lantern</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">D-cell alkaline</td>
+                    <td class="px-4 py-4 text-gray-700">Long runtime, swap cells in seconds</td>
+                    <td class="px-4 py-4 text-gray-700">Heavy; alkaline cells can leak in storage</td>
+                    <td class="px-4 py-4 text-gray-700">Long-outage backup</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">AA/AAA alkaline</td>
+                    <td class="px-4 py-4 text-gray-700">Compact, batteries easy to find</td>
+                    <td class="px-4 py-4 text-gray-700">Short runtime at high output</td>
+                    <td class="px-4 py-4 text-gray-700">Bedroom, bathroom, kids</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">AA/AAA lithium</td>
+                    <td class="px-4 py-4 text-gray-700">Long shelf life, cold-tolerant, low leak risk</td>
+                    <td class="px-4 py-4 text-gray-700">Higher upfront cost</td>
+                    <td class="px-4 py-4 text-gray-700">Grab-bag and car kit</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Solar or hand crank</td>
+                    <td class="px-4 py-4 text-gray-700">Needs no grid or store at all</td>
+                    <td class="px-4 py-4 text-gray-700">Slow to recharge, modest output</td>
+                    <td class="px-4 py-4 text-gray-700">Last-resort backup</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Seven Outage Lights, Room Lantern to Headlamp
+          </h2>
+
+          <p>
+            These seven lights cover the jobs an outage actually creates: one bright lantern for the main room, smaller lights for bedrooms and bathrooms, a light that needs no grid at all, and a headlamp for hands-free work. They are described from the manufacturers' published specifications and long-standing reputations, not from hands-on testing of our own, and lantern makers revise models often, so confirm lumens, battery type and charging port on the listing before you buy. Lumen figures are maximums on the highest setting; runtime figures, where makers give them, are almost always measured on the lowest. The short version: put one rechargeable lantern with a USB output in the main room, add a cheap battery lantern that can sit in a drawer for years, and give everyone a headlamp.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} reviews)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Comparison Table: The Seven Lights Side by Side
+          </h2>
+
+          <p>
+            The table below lines up the seven picks by power source, maximum output as the manufacturer lists it, and the job each one does best. Where we are not confident of a published figure, we have left it out rather than guess. Use it to build a small set of lights rather than to crown a single winner, because a household outage kit works best with two or three different lights doing different jobs.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Light</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Power</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Max Output (Maker)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">USB Out</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Goal Zero Lighthouse 600</td>
+                    <td class="px-4 py-4 text-gray-700">Built-in rechargeable + hand crank</td>
+                    <td class="px-4 py-4 text-gray-700">600 lumens</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Main room, long outages</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">BioLite AlpenGlow 500</td>
+                    <td class="px-4 py-4 text-gray-700">Built-in rechargeable</td>
+                    <td class="px-4 py-4 text-gray-700">500 lumens</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Living room, ambient light</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Coleman 400 Lumen LED Lantern</td>
+                    <td class="px-4 py-4 text-gray-700">D-cell alkaline</td>
+                    <td class="px-4 py-4 text-gray-700">400 lumens</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Drawer backup, long storage</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">LuminAID PackLite Max 2-in-1</td>
+                    <td class="px-4 py-4 text-gray-700">Solar + USB rechargeable</td>
+                    <td class="px-4 py-4 text-gray-700">150 lumens</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Grid-free backup, kits</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Goal Zero Lighthouse Micro Flash</td>
+                    <td class="px-4 py-4 text-gray-700">Built-in rechargeable</td>
+                    <td class="px-4 py-4 text-gray-700">150 lumens</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Bedrooms, pocket light</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Black Diamond Moji</td>
+                    <td class="px-4 py-4 text-gray-700">AAA (rechargeable versions sold)</td>
+                    <td class="px-4 py-4 text-gray-700">Modest, room-scale</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Kids, bathrooms, hanging</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Black Diamond Spot 400 Headlamp</td>
+                    <td class="px-4 py-4 text-gray-700">AAA (rechargeable version sold)</td>
+                    <td class="px-4 py-4 text-gray-700">400 lumens</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Hands-free tasks</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            A few patterns stand out. Only the rechargeable lanterns offer USB output, which turns them into small emergency phone chargers; that is a meaningful bonus but should not be your main phone-charging plan, since every watt that goes to the phone comes out of your light. The disposable-battery lights trade convenience for shelf life, which is why they belong in the kit as backups rather than as the primary light. And the brightest light on the list is a headlamp, which is a reminder that a focused beam is a different tool from a room light.
+          </p>
+
+          <p>
+            If you only buy one item from this table, make it a rechargeable lantern with a dimmer and a USB port, then charge it every few months. If you buy two, add a D-cell or AA lantern for the closet. If you buy three, the third should be a headlamp, because the moments you most need light in an outage, carrying things, checking the basement, resetting breakers, are the moments you need both hands free.
+          </p>
+        </div>
+
+        <div id="backups" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Hand-Crank, Solar and USB Output: Useful or Gimmick?
+          </h2>
+
+          <p>
+            Hand cranks are on a lot of emergency lights, and expectations need to be set honestly. Cranking a small generator by hand produces only a few watts at best, and a minute of steady cranking typically buys a few minutes of light at a moderate setting. That is not a way to run a lantern through a night. It is a way to get yourself out of a dark room when the battery is flat and nothing else is available. Treat a crank as a seatbelt, not an engine, and pick a lantern for its battery and dimmer first.
+          </p>
+
+          <p>
+            Built-in solar panels work on the same principle at a slower pace. A small panel on top of a lantern like the LuminAID can recharge it over a day of direct sun, which is genuinely useful after a hurricane or ice storm that leaves the grid down for a week. It is far less useful through a window, under clouds, or in winter when the sun is low. For anything more than a single small lantern, a separate folding panel charging a power bank or power station is much more effective, and our guide to the <a href="/best-portable-solar-panel/">best portable solar panels</a> covers what size actually makes a difference.
+          </p>
+
+          <p>
+            USB output, the ability to charge a phone from the lantern's battery, is the most useful of the three extras. A lantern with a several-thousand-mAh battery inside can add a meaningful partial charge to a phone at a pinch. The catch is that the lantern and phone now share one battery. Charge a phone from the lantern on the first night and you may lose a night of light. For phones, a dedicated power bank is the better tool, and our guide to <a href="/best-portable-chargers-for-power-outages/">portable chargers for power outages</a> shows how much capacity a household really needs.
+          </p>
+
+          <p>
+            The other direction matters as well: how does the lantern itself recharge? A lantern that charges over USB can be refilled from almost anything, including a car, a laptop, a power bank, or a <a href="/best-portable-power-station/">portable power station</a>. That flexibility is worth more than any built-in gimmick. Favor lanterns that charge over USB-C, which is now the standard and accepts the same cable as most current phones, and avoid anything that charges only through a proprietary adapter you will not be able to find in the dark.
+          </p>
+        </div>
+
+        <div id="house-plan" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Lighting the Whole House: How Many Lights and Where
+          </h2>
+
+          <p>
+            One lantern is not an outage plan for a family. People scatter: someone is reading in the bedroom, someone is in the bathroom, and someone is looking for the cooler in the garage. A practical setup is one bright lantern for the main living space, one small light per bedroom, one light that stays permanently in the bathroom, and a headlamp or flashlight for every adult. Small battery operated lights are cheap enough that buying a set beats fighting over one good lantern on the second night.
+          </p>
+
+          <p>
+            Placement changes how much light you need. A lantern on the floor lights the floor; the same lantern hung from a hook or set on top of a refrigerator or bookshelf lights the room. Many lanterns, including the Moji and the LuminAID, are designed to hang, and a few cheap ceiling hooks or carabiners installed in advance make a dramatic difference. Bouncing light off a white wall or ceiling spreads it further and cuts glare, which lets you run a lower setting and stretch runtime.
+          </p>
+
+          <p>
+            Bathrooms and hallways are where outage injuries tend to happen, because people move around them in the dark at night. Stick-on battery motion lights or plug-in night lights with a battery backup handle this nicely without anyone having to remember to switch them on. They do not need to be bright; even a few dozen lumens at ankle height is enough to see a step or a sleeping dog. Kids also cope much better with a small light of their own than with a flashlight they are told not to waste.
+          </p>
+
+          <p>
+            Light is only one part of keeping a house livable without power. In summer, a <a href="/best-battery-powered-fan/">battery-powered fan</a> often matters as much as a lantern for getting through the night, and in winter the conversation shifts to staying warm safely, which our guide to the <a href="/best-indoor-heater-for-power-outage/">best indoor heaters for power outages</a> covers in detail. For outages that last more than a day or two, the larger question is backup power for the whole house, the subject of our <a href="/best-home-generator-for-power-outages/">home generator guide for power outages</a>.
+          </p>
+        </div>
+
+        <div id="fire-safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Candles, Fuel Lanterns and Carbon Monoxide
+          </h2>
+
+          <p>
+            Candles feel like the natural outage light, and they are one of the worst choices. Fire safety organizations, including the National Fire Protection Association and the U.S. Fire Administration, consistently warn that candle fires spike during power outages, when people place lit candles near curtains, leave them burning in empty rooms, or fall asleep beside them. If you must use a candle, put it in a sturdy holder on a stable, uncluttered surface, keep it well away from anything that burns, and never leave it unattended. A cheap LED lantern makes that risk unnecessary.
+          </p>
+
+          <p>
+            Fuel-burning lanterns are a different and more serious hazard indoors. Propane, white-gas and kerosene lanterns produce carbon monoxide, a colorless, odorless gas that can build to dangerous levels in a closed room. The Centers for Disease Control and Prevention warns against using generators, grills, camp stoves and similar fuel-burning devices inside a home, garage or basement, and the same logic applies to fuel lanterns. They are designed for open-air campsites, not living rooms, and they should never be your primary indoor outage light.
+          </p>
+
+          <p>
+            If anyone in the house uses fuel-burning equipment during an outage, whether a generator outside or a fuel heater rated for indoor use, make sure you have working carbon monoxide alarms with fresh batteries on every level and near sleeping areas. A hardwired alarm with no battery backup will not protect you when the power is out, which is easy to forget. Battery-only CO alarms are inexpensive and a sensible addition to any outage kit, alongside the lanterns.
+          </p>
+
+          <p>
+            The good news is that LED lanterns remove almost all of this risk. They run cool, they will not ignite a curtain if knocked over, they produce no fumes, and they are safe to leave on in a child's room overnight. Given how cheap a reasonable LED lantern now is, there is simply no reason to make a flame your main light in an outage. Keep candles and fuel lanterns, if you have them at all, as a last resort with the caveats above.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">SAFETY</p>
+            <p class="text-xl font-bold text-white mb-3">No fuel lanterns indoors. Candles only with constant supervision.</p>
+            <p class="text-gray-300 leading-relaxed m-0">LED lanterns are the primary indoor light. Fuel lanterns produce carbon monoxide and belong outdoors. If any fuel-burning equipment runs during an outage, battery-powered CO alarms should be on every level of the home.</p>
+          </div>
+        </div>
+
+        <div id="storage" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Storing Emergency Lights So They Work When Needed
+          </h2>
+
+          <p>
+            The most common emergency-light failure is not a bad lantern. It is a good lantern that was put away dead, or a battery lantern whose alkaline cells leaked and corroded the contacts. Both are entirely preventable with a simple routine. Pick a recurring date, such as when the clocks change for daylight saving time, and use it to charge every rechargeable light, test every battery light, and check the expiry dates on spare cells. It takes ten minutes twice a year.
+          </p>
+
+          <p>
+            Store disposable batteries outside the light, in their original packaging or a battery case, and tape a spare set to the lantern or keep them in the same bin. That eliminates leak damage and still keeps the batteries where you will find them. If you prefer lights that are ready instantly, lithium AA and AAA cells are the safer choice to leave installed, since they are much less prone to leaking than alkaline. Never mix old and new cells or different chemistries in one light.
+          </p>
+
+          <p>
+            Rechargeable lanterns with lithium batteries prefer a cool, dry place, not a hot attic, car trunk or damp basement. Heat ages lithium cells faster than anything else. Lithium batteries also lose a little charge each month in storage, so a lantern charged in spring may be noticeably lower by fall. For an emergency light, the right compromise is to keep it close to full and top it up at each check, rather than storing it at the partial charge that is ideal for long-term battery health.
+          </p>
+
+          <p>
+            Finally, store the lights where you can find them in the dark. A lantern in a labeled bin in the basement is not much use if the outage hits at night and the basement stairs are the hazard. Keep at least one light in a known spot on every floor: a kitchen drawer, a bedside table, a hook by the back door. Glow-in-the-dark tape on the handle or the drawer front is a cheap trick that helps. Then make sure everyone in the house knows where those spots are.
+          </p>
+        </div>
+
+        <div id="choosing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Which One to Buy
+          </h2>
+
+          <p>
+            For most households, the best emergency lantern is the <a href="#goal-zero-lighthouse-600">Goal Zero Lighthouse 600</a>. It is bright enough to light a main room, has a dimmer to stretch runtime, charges over USB, adds a hand crank as a last resort, and can top up a phone. If you prefer softer, warmer light for evenings and do not need a crank, the <a href="#biolite-alpenglow-500">BioLite AlpenGlow 500</a> is the more pleasant lantern to live with. Either one should be the light that comes out first.
+          </p>
+
+          <p>
+            For a backup that can sit in a closet for years, buy the <a href="#coleman-400-lumen-led-lantern">Coleman 400 Lumen LED Lantern</a> and store a set of D cells next to it. For a grid-free option that packs flat into a go-bag or car kit, the <a href="#luminaid-packlite-max">LuminAID PackLite Max 2-in-1</a> recharges itself in the sun and floats if things get wet. Neither is as nice to use as the rechargeable lanterns, and both are better at sitting forgotten until needed.
+          </p>
+
+          <p>
+            For bedrooms and kids, the <a href="#goal-zero-lighthouse-micro-flash">Goal Zero Lighthouse Micro Flash</a> and the <a href="#black-diamond-moji">Black Diamond Moji</a> are small, inexpensive, and easy to hang. Buy one per person and stop the arguments. And every adult should have a headlamp: the <a href="#black-diamond-spot-400-headlamp">Black Diamond Spot 400</a> is a proven, waterproof choice with a red mode that preserves night vision. If you only have a small budget, prioritize one rechargeable lantern and one headlamp, then add the rest over time.
+          </p>
+
+          <p>
+            What we would skip: no-name "1,000-lumen" lanterns with no brand history and no FL1 rating, solar-only lights with tiny panels that never fully charge, and any lantern that charges through a proprietary plug. A good lantern is cheap enough that there is no reason to gamble on one. If your plans extend past lighting to keeping a fridge, a CPAP or a router running, start with our <a href="/best-portable-power-station/">portable power station guide</a>, since a station can recharge every light here many times over.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Relying on phone flashlights</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A phone flashlight drains the one device you need for news, alerts and calls, and it lights almost nothing once you set it down. Use phones for communication and buy real lanterns for light. Even a cheap LED lantern on a table beats every phone in the house used as a torch.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Storing alkaline batteries inside the light</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Alkaline cells left in a lantern for a year or more can leak potassium hydroxide, corrode the contacts and ruin the light. Store spares in their packaging beside the lantern, or use lithium AA and AAA cells if the light must be ready instantly. Check everything twice a year.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying on the biggest lumen number</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 1,000-lumen claim on a no-name lantern tells you little about real runtime or light quality. You will run most lanterns at a third of maximum. Prioritize a good dimmer, a diffused globe, a credible runtime figure and a brand with a track record over a big number.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using fuel lanterns or candles indoors</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Propane, white-gas and kerosene lanterns produce carbon monoxide and should never be your indoor light. Candles cause house fires during outages every year, often in rooms nobody was watching. Use LED lanterns indoors, keep any flame supervised, and install battery-powered CO alarms if fuel equipment runs anywhere near the house.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Owning only one light</h3>
+              <p class="text-gray-700 text-sm m-0">
+                One lantern for a whole family means arguments and people walking around in the dark. Plan for a main-room lantern, a small light per bedroom, a bathroom light and a headlamp for each adult. Small battery operated lights are cheap; a twisted ankle on dark stairs is not.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best emergency lantern for a power outage?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homes, a rechargeable LED lantern with a dimmer and USB charging, such as the Goal Zero Lighthouse 600, is the best main light. It lights a room at a moderate setting for nights at a time and can be recharged from a power bank, car or power station. Back it up with a battery lantern and a headlamp for each adult.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many lumens do I need in an emergency lantern?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Around 100 lumens is enough for a small bedroom or bathroom, and 200 to 300 lumens comfortably lights a living room or kitchen. Higher settings are for short tasks. A lantern rated at 400 to 600 lumens gives you headroom to run it at a lower, longer-lasting setting most of the time, which is where its runtime claims apply.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a rechargeable lantern or a battery lantern better?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Each has a role. Rechargeable lanterns are brighter, cheaper to run and often charge phones, but they must be charged before the outage. Battery lanterns that take D, AA or AAA cells can sit for years and are refilled in seconds. The most resilient setup is one rechargeable lantern for nightly use plus a battery lantern as backup.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long do LED lanterns last on batteries?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on brightness, battery size and how the maker measured. Runtime claims are usually on the lowest setting and, under the ANSI FL1 standard, end when output falls to 10 percent of the start. Expect hours on high and days on low. D-cell lanterns generally outlast AA and AAA lights at the same brightness.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are hand-crank lanterns worth it?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                As a backup feature, yes; as a main power source, no. A minute of cranking typically gives only a few minutes of moderate light, because hand generators produce very little power. A crank is valuable when every battery is dead and you need to find your way. Choose a lantern for its battery and dimmer first, and treat the crank as insurance.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is it safe to use a camping lantern indoors?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Battery-powered LED camping lanterns are safe indoors and are the best choice. Fuel-burning camping lanterns that use propane, white gas or kerosene are not, because they produce carbon monoxide, which can build up in a closed home. Keep fuel lanterns outdoors, and if any fuel appliance runs during an outage, have battery-powered CO alarms on every level.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How should I store emergency lanterns?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Keep them somewhere cool, dry and easy to find in the dark, with at least one on every floor. Charge rechargeable lanterns and test battery lanterns twice a year, and store alkaline cells outside the light to prevent leaks. A spare set of batteries taped to or stored beside each lantern removes the guesswork when the power goes out.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Outage Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Keep lanterns, phones, a router and even a fridge going through a long outage.</p>
+            </a>
+            <a href="/best-portable-chargers-for-power-outages/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Outage Charging</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Chargers for Outages</h3>
+              <p class="text-gray-500 text-sm mt-2">Power banks and small stations sized in watt-hours for phones and laptops.</p>
+            </a>
+            <a href="/best-battery-powered-fan/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-green-600 font-black text-xs uppercase tracking-widest mb-2">Stay Cool</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Battery-Powered Fans</h3>
+              <p class="text-gray-500 text-sm mt-2">Rechargeable and battery fans for summer outages and hot bedrooms.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            An emergency lantern is the cheapest piece of outage gear that makes the biggest difference to how a dark house feels. Buy a rechargeable lantern with a dimmer and USB charging for the main room, a battery lantern that can wait in a closet for years, and a headlamp for every adult.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Then do the part most people skip: charge and test everything twice a year, keep spare batteries outside the lights, and never make a candle or a fuel lantern your primary indoor light. A ten-minute routine is the difference between a lantern that works and one that leaked in the drawer.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

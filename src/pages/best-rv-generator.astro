@@ -1,0 +1,971 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Generators for Camping",
+    "url": "/best-generator-for-camping/"
+  },
+  {
+    "title": "Best Lithium RV Batteries",
+    "url": "/best-lithium-rv-battery/"
+  },
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Solar Generators",
+    "url": "/best-solar-generator/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best RV Generators: Sized for the Rooftop AC and the Plug";
+const description =
+  "Seven RV generators matched to 13,500 and 15,000 BTU rooftop AC, 30-amp and 50-amp hookups, parallel kits, propane from RV tanks and campground quiet hours.";
+
+const PRODUCTS = [
+  {
+    "id": "honda-eu3000is",
+    "name": "Honda EU3000iS Inverter Generator",
+    "category": "3,000W max / 2,800W rated, gas, TT-30R",
+    "badge": "Best Overall RV Generator",
+    "amazonUrl": "",
+    "pros": [
+      "Starts most 13,500 BTU rooftop units without help",
+      "Among the quietest generators in its class",
+      "Electric start and CO-MINDER automatic shutoff",
+      "TT-30R outlet, so a 30-amp rig plugs straight in",
+      "Long service life and a wide dealer network"
+    ],
+    "cons": [
+      "About 130 pounds; it needs wheels and a ramp",
+      "Gasoline only",
+      "Premium price compared with Champion and Westinghouse"
+    ],
+    "bottomLine": "The safest single-generator choice for a 30-amp trailer with one rooftop AC, if you can afford it and move it.",
+    "description": "The EU3000iS is the generator many experienced RVers end up with after trying cheaper ones. Honda rates it at 3,000 watts maximum and 2,800 watts rated, which is enough to start and run most 13,500 BTU rooftop air conditioners along with the converter and fridge, and its TT-30R outlet means a 30-amp rig plugs in directly. Electric start makes it easy to fire up from a seat, and Honda's CO-MINDER system shuts the engine down if carbon monoxide builds up around it. The 3.4-gallon tank lets it run through a long day at moderate load, and the enclosed design keeps it quiet enough for most campgrounds. The catch is weight. At around 130 pounds, it lives on its wheels and needs a ramp or a carrier to get into a truck. If your rooftop unit is a 15,000 BTU model, add a soft starter or look one size up."
+  },
+  {
+    "id": "westinghouse-igen4500dfc",
+    "name": "Westinghouse iGen4500DFc Dual Fuel Inverter Generator",
+    "category": "4,500W peak / 3,700W rated (gas), TT-30R",
+    "badge": "Best for 15,000 BTU AC",
+    "amazonUrl": "",
+    "pros": [
+      "Headroom above a TT-30R for heat and altitude",
+      "Runs on gasoline or propane",
+      "Remote start from a key fob",
+      "CO sensor with automatic shutoff",
+      "Parallel capable for larger rigs"
+    ],
+    "cons": [
+      "Heavy; plan on wheels and a ramp",
+      "Output drops on propane",
+      "Larger footprint than the Honda"
+    ],
+    "bottomLine": "The pick when your rooftop AC is a 15,000 BTU unit or you camp hot and high.",
+    "description": "The iGen4500DFc takes the popular iGen4500 platform and adds dual fuel and a CO sensor, which is what the c at the end of the model name signals. Westinghouse rates it at 4,500 peak and 3,700 running watts on gasoline, comfortably above the 3,600 watts a TT-30R outlet can deliver. That surplus is the point. On a hot day or at altitude, when engine output falls, it still has enough left to start a 15,000 BTU rooftop unit and keep the converter and fridge running. Remote start lets you fire it from inside the rig, and the propane option means you can run from the tanks you already carry. Westinghouse markets it as a quiet unit at light load, and it is parallel capable if you ever outgrow it. Expect lower output on propane, and plan for its weight and size when you think about where it rides."
+  },
+  {
+    "id": "champion-4500w-dual-fuel-inverter",
+    "name": "Champion 4500-Watt Dual Fuel Inverter Generator",
+    "category": "4,500W starting / 3,700W running (gas), TT-30R",
+    "badge": "Best Value for Big AC",
+    "amazonUrl": "",
+    "pros": [
+      "Gasoline or propane from your RV tanks",
+      "Enough output for a 15,000 BTU AC with headroom",
+      "Electric start",
+      "Parallel capable",
+      "Large U.S. service and parts network"
+    ],
+    "cons": [
+      "Louder than the Honda at full load",
+      "Heavy, with wheels a necessity",
+      "Propane output is lower"
+    ],
+    "bottomLine": "More generator for less money than the premium brands, with the propane flexibility RVers want.",
+    "description": "Champion's 4500-watt dual fuel inverter is one of the most common generators you will see parked beside travel trailers, and for good reason. Champion rates it at 4,500 starting and 3,700 running watts on gasoline, which covers a 15,000 BTU rooftop air conditioner plus everyday loads, and the dual fuel system lets you run it off a spare 20-pound cylinder instead of hauling gas cans. The TT-30R outlet plugs a 30-amp rig in directly, and electric start avoids the pull cord. It is parallel capable with compatible Champion inverters, and Champion has a broad service network and a reputation for answering the phone. The trade-offs are the usual ones for this class: it is heavy enough to need its wheels, it is a little louder than a Honda when working hard, and it makes less power on propane. For buyers who want headroom without paying Honda money, it is the default choice."
+  },
+  {
+    "id": "champion-3400w-dual-fuel-inverter",
+    "name": "Champion 3400-Watt Dual Fuel Inverter Generator",
+    "category": "3,400W starting / 3,100W running (gas), TT-30R",
+    "badge": "Best Budget RV Generator",
+    "amazonUrl": "",
+    "pros": [
+      "Handles a 13,500 BTU AC for many owners",
+      "Dual fuel for RV propane",
+      "Electric start on most versions",
+      "Parallel capable",
+      "Lower price than any single-unit pick here"
+    ],
+    "cons": [
+      "Little headroom for a 15,000 BTU unit",
+      "Heavy for its output",
+      "Propane output is noticeably lower"
+    ],
+    "bottomLine": "The budget answer for a 30-amp trailer with a 13,500 BTU AC, ideally paired with a soft starter.",
+    "description": "The Champion 3400 is the generator that made dual fuel inverters affordable for weekend RVers. Champion rates it at 3,400 starting and 3,100 running watts on gasoline, which puts a 13,500 BTU rooftop air conditioner within reach for many rigs, especially with a soft starter fitted. It has a TT-30R outlet, electric start on most versions, and the ability to run on propane from your RV tanks, so you can leave the gas can at home. Champion builds parallel capability in, so a second inverter can be added later. Where it falls short is headroom. A 15,000 BTU unit, a hot afternoon or a campground at elevation can push it to its limit, and when it works hard, it gets louder. It is also heavy for its output. Buy it for a mid-size trailer with one 13,500 BTU AC, not for a big rig with every appliance running."
+  },
+  {
+    "id": "honda-eu2200i",
+    "name": "Honda EU2200i Inverter Generator",
+    "category": "2,200W max / 1,800W rated, 47 lb, parallel capable",
+    "badge": "Best Parallel Pair",
+    "amazonUrl": "",
+    "pros": [
+      "About 47 pounds, a true one-person lift",
+      "Two in parallel give 3,600 running watts for a 30-amp rig",
+      "Very quiet at light load",
+      "CO-MINDER automatic shutoff",
+      "Doubles as a camping and tailgating generator"
+    ],
+    "cons": [
+      "One alone will not reliably start a rooftop AC without a soft starter",
+      "A pair plus kit costs more than a single 4,500W inverter",
+      "Gasoline only"
+    ],
+    "bottomLine": "Buy one for light loads and portability, then add a twin and a parallel kit when you need air conditioning.",
+    "description": "The EU2200i is the best-known small inverter generator in the country, and for RV owners it works as half of a system. Honda rates one unit at 2,200 watts maximum and 1,800 rated, enough to charge batteries, run the fridge on electric, a microwave and lights. With a soft starter on the AC, many owners report it starting a 13,500 BTU unit, though that is at the edge. Paralleled with a second EU2200i, the pair delivers about 4,400 starting and 3,600 running watts, which matches a 30-amp rig, and Honda's parallel hardware or the EU2200i Companion model provides the TT-30R outlet. At about 47 pounds each, the halves are easy to load, and CO-MINDER shuts each engine down if CO builds up. The pair costs more than one big inverter, but no other path gives you this much flexibility from mild weekends to hot summers."
+  },
+  {
+    "id": "westinghouse-wgen9500df",
+    "name": "Westinghouse WGen9500DF Dual Fuel Portable Generator",
+    "category": "12,500W peak / 9,500W running (gas), 14-50R",
+    "badge": "Best for 50-Amp Rigs",
+    "amazonUrl": "",
+    "pros": [
+      "A true 50-amp 14-50R outlet",
+      "Enough output to run two rooftop air conditioners",
+      "Gasoline or propane",
+      "Remote electric start",
+      "Doubles as a home backup generator"
+    ],
+    "cons": [
+      "Open frame and far too loud for most campgrounds",
+      "Very heavy, with no practical way to lift it",
+      "Not an inverter, so power is less clean"
+    ],
+    "bottomLine": "Only for 50-amp rigs boondocking far from neighbors, or owners who want one generator for the RV and the house.",
+    "description": "If your fifth wheel or motorhome has a 50-amp plug and you want every appliance running at once, you need a generator with a 14-50R outlet, and that means a big open-frame machine like the WGen9500DF. Westinghouse rates it at 12,500 peak and 9,500 running watts on gasoline, enough for two rooftop air conditioners, the residential fridge and the microwave together. It runs on gasoline or propane and has remote electric start. The downsides are serious for camping. It is an open-frame conventional generator, so it is far louder than any inverter on this list, and many campgrounds and parks will not allow it. It weighs far more than one person can lift and needs a trailer or a cargo carrier. Buy it for remote boondocking or because you also want serious home backup. For park camping, a 30-amp dogbone and a quiet 4,500-watt inverter make a better pairing."
+  },
+  {
+    "id": "anker-solix-f3800",
+    "name": "Anker SOLIX F3800 Portable Power Station",
+    "category": "3,840Wh LFP, 6,000W, TT-30R RV outlet",
+    "badge": "Best Silent Hybrid",
+    "amazonUrl": "",
+    "pros": [
+      "Runs a 30-amp rig silently through quiet hours",
+      "TT-30R outlet built in",
+      "6,000W inverter handles AC start surges",
+      "Expandable with add-on batteries",
+      "No fumes, so it can sit near the rig"
+    ],
+    "cons": [
+      "Runs a rooftop AC for only a few hours on a charge",
+      "About 132 pounds",
+      "Costs more than any gasoline pick here"
+    ],
+    "bottomLine": "The best companion to a small generator, or a standalone for parks with strict generator rules.",
+    "description": "The SOLIX F3800 is the way to camp with power during quiet hours and in generator-free loops. Anker rates its LFP battery at 3,840Wh and its inverter at 6,000 watts, and it carries a TT-30R outlet, so a 30-amp rig plugs straight in and runs everything, including a rooftop air conditioner, without a sound. The limit is capacity. An AC drawing around 1,400 watts drains it in a few hours, so on its own it is an overnight and quiet-hours solution, not an all-day one. It shines as half of a hybrid: run the battery through the night, then recharge it from solar panels or a small inverter generator during allowed hours. It also expands with add-on batteries for longer runs. At around 132 pounds it rides on its wheels and stays in the rig or truck. Because it makes no exhaust, it can sit beside the trailer rather than 20 feet away."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "RV Generators",
+          item: "https://www.allmetalbrake.com/best-rv-generator/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What size generator do I need to run a 13,500 BTU RV air conditioner?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Without a soft starter, plan on about 3,000 running watts so the compressor can start reliably along with the converter and fridge. With a soft starter installed, many owners report a single 2,200-watt inverter starting a 13,500 BTU unit, though that leaves little margin. Heat and altitude both reduce generator output, so buy a size up if you camp in the desert or the mountains."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a 50-amp RV run on a 30-amp generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. A 50-to-30-amp dogbone adapter lets a 50-amp rig plug into a TT-30R generator outlet. You are then limited to about 3,600 watts, which typically means one air conditioner and careful use of the microwave and water heater on electric. Many 50-amp rigs have an energy management system that automatically sheds loads on a 30-amp supply, which makes the arrangement easy to live with."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a 30 amp RV plug adapter used for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It usually adapts the rig's TT-30 plug to a standard 15 or 20-amp household outlet, or to a generator without a TT-30R. That works for lights, the converter and a fridge on electric, but limits you to roughly 1,800 to 2,400 watts, so the air conditioner is off the table. Adapters from 240-volt outlets need care; buy molded, labeled ones only."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is dual fuel worth it for an RV generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most RVers, yes. Running from the propane already on board eliminates gas cans, avoids stale fuel over the winter and simplifies refueling. The cost is lower output on propane, commonly around 10 percent, and faster tank use than many people expect. If your sizing is tight, check the propane running watts before relying on LP for air conditioning on hot days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run my RV generator overnight at a campground?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually not. Most campgrounds enforce quiet hours, commonly from around 10 p.m. to the morning, and many state and national parks restrict generators to set daytime windows. A battery power station or the rig's own lithium bank is the way to keep fans, the furnace blower and a CPAP running overnight, recharged by the generator during allowed hours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are portable power stations for RVs good enough to replace a generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For quiet hours, light loads and short trips with hookups between, they can be. A large unit with a TT-30R outlet runs the whole rig silently, but a rooftop AC drains even a 3,840Wh battery in a few hours. For multi-day boondocking with air conditioning, most owners still need a generator, ideally a small quiet one paired with the battery and solar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How far should an RV generator be from the camper?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As far as practical. The CPSC recommends at least 20 feet from occupied spaces for portable generators, with the exhaust pointed away from doors, windows and roof vents. At a tight campsite that can be hard, so use a longer heavy-gauge cord, buy a generator with automatic CO shutoff, and keep a working CO alarm inside the rig."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best rv generator",
+      "rv generator",
+      "30 amp rv plug adapter",
+      "portable power stations for rvs",
+      "rv appliances"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">RV Generators</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Seven generators for travel trailers, fifth wheels and motorhomes, chosen by the two things that actually decide the purchase: whether it starts your rooftop air conditioner, and whether it plugs into your rig without a mess of adapters.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#honda-eu3000is"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare the Specs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#sizing-ac" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Sizing for the Rooftop AC</a>
+          <a href="#plugs" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. 30-Amp, 50-Amp and Adapters</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Seven Picks</a>
+          <a href="#comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Side-by-Side Comparison</a>
+          <a href="#parallel" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Parallel Kits</a>
+          <a href="#fuel" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Dual Fuel and RV Propane</a>
+          <a href="#noise" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Quiet Hours and Campground Rules</a>
+          <a href="#hybrids" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Power Station Hybrids</a>
+          <a href="#safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Carbon Monoxide at the Campsite</a>
+          <a href="#which-one" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Most RV generator advice starts with brand loyalty. It should start with one appliance. The rooftop air conditioner is the biggest, most demanding load on almost every rig, and if a generator cannot start it on a hot afternoon, nothing else on the spec sheet matters. Size for the AC first, match the plug second, and only then argue about Honda versus Champion.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="sizing-ac" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Sizing for the Rooftop Air Conditioner
+          </h2>
+
+          <p>
+            A typical 13,500 BTU rooftop unit draws somewhere around 1,200 to 1,600 watts once the compressor is running, depending on the brand, the outside temperature and how hard it is working. A 15,000 BTU unit runs higher, commonly 1,500 to 1,900 watts. Those running numbers look easy for a 2,200-watt generator. The problem is the first second, when the compressor motor starts against pressure and briefly pulls several times its running current.
+          </p>
+
+          <p>
+            That start surge is what kills small-generator plans. Depending on the unit, a 13,500 BTU compressor can momentarily demand 2,500 to 3,500 watts or more, and an older or tired compressor can be worse. An inverter generator responds by sagging, stalling or tripping its overload. This is why a single 2,200-watt inverter starting a rooftop AC without help is a coin toss, and why owners who say it works are often camping at sea level on a mild day.
+          </p>
+
+          <p>
+            A soft starter changes the math. Devices such as the Micro-Air EasyStart and SoftStartRV are wired into the air conditioner and ramp the compressor up instead of slamming it on, which makers say cuts the start surge by more than half. With one installed, many owners report a 13,500 BTU unit starting reliably on a 2,200-watt inverter, and a 15,000 BTU unit starting comfortably on a 3,000-watt-class generator. Installation takes an hour or two for a handy owner, or a short shop visit.
+          </p>
+
+          <p>
+            Without a soft starter, a sensible floor is about 3,000 running watts for a 13,500 BTU unit and 3,500 or more for a 15,000 BTU unit, which is why the 3,000 to 4,500-watt class dominates this list. Remember the AC never runs alone. The converter charging your house batteries, the fridge on electric mode, a coffee maker or a microwave all stack on top. A 30-amp rig tops out around 3,600 watts anyway, so that is the target most travel trailer owners are actually shopping for.
+          </p>
+
+          <p>
+            Altitude and heat both cut generator output. Engines lose roughly 3 to 4 percent of their power per 1,000 feet of elevation, so a generator that just barely starts your AC in Florida may refuse in Colorado. If you camp high or in the desert in July, buy a size up or install the soft starter regardless of which generator you choose. It is the cheapest insurance in RV power.
+          </p>
+        </div>
+
+        <div id="plugs" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. 30-Amp, 50-Amp and the Adapters Between
+          </h2>
+
+          <p>
+            Look at the end of your RV's shore power cord before you look at generators. A 30-amp rig has a three-prong plug that fits a NEMA TT-30R outlet: 120 volts, 30 amps, about 3,600 watts maximum. A 50-amp rig has a four-prong plug that fits a NEMA 14-50R: two 120-volt legs at 50 amps each, about 12,000 watts in total. Nearly every RV-ready inverter generator has a TT-30R on the panel. Very few portables have a 14-50R, and those that do are big, loud, open-frame machines.
+          </p>
+
+          <p>
+            The good news for 50-amp owners is that you do not need 12,000 watts to camp. A 50-amp-to-30-amp adapter, often called a dogbone, lets a 50-amp rig plug into a TT-30R generator. You then live within 3,600 watts: one air conditioner, not two, and no microwave while the AC is cycling. Many 50-amp fifth wheels have an energy management system that sheds loads automatically when it detects a 30-amp supply, which makes this arrangement easy to live with.
+          </p>
+
+          <p>
+            The adapter question gets dangerous with 240-volt outlets. A generator's L14-30R twist-lock is a 120/240-volt outlet, and an adapter from it to a TT-30 plug must take only one 120-volt leg, which means your RV sees only half of the generator's output. Mis-wired or improvised adapters that send 240 volts into a TT-30 rig can destroy the converter, the fridge board and anything else plugged in. Buy a molded, labeled adapter, never a homemade one, and never confuse a TT-30R with a 240-volt NEMA 10-30 dryer outlet.
+          </p>
+
+          <p>
+            Searches for a 30 amp RV plug adapter usually come from the opposite problem: plugging the rig into a household 15 or 20-amp outlet or a small generator with only standard receptacles. Those puck-style adapters work, but they limit you to roughly 1,800 to 2,400 watts, which will run lights, the converter and a fridge on electric, not the air conditioner. One more detail: many inverter generators have a floating neutral, and some RV surge protectors read that as an open ground and refuse to pass power. A neutral-ground bonding plug in a spare outlet solves it.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Plug</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Outlet</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Voltage</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Usable watts</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">30-amp RV</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA TT-30R</td>
+                    <td class="px-4 py-4 text-gray-700">120V</td>
+                    <td class="px-4 py-4 text-gray-700">About 3,600W</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">50-amp RV</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA 14-50R</td>
+                    <td class="px-4 py-4 text-gray-700">120/240V</td>
+                    <td class="px-4 py-4 text-gray-700">About 12,000W</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">50A rig on 30A dogbone</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA TT-30R</td>
+                    <td class="px-4 py-4 text-gray-700">120V</td>
+                    <td class="px-4 py-4 text-gray-700">About 3,600W</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">30A rig on household puck</td>
+                    <td class="px-4 py-4 text-gray-700">5-15R / 5-20R</td>
+                    <td class="px-4 py-4 text-gray-700">120V</td>
+                    <td class="px-4 py-4 text-gray-700">About 1,800-2,400W</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Seven Picks
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications and widely reported owner experience, not from our own hands-on testing. Output figures are the maker's ratings on gasoline unless stated otherwise; propane output is always lower. Models and bundles change, so confirm the outlet panel and the exact model suffix on the listing before you buy, because a missing letter can mean a missing CO sensor or a different outlet.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} owner reviews)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Side-by-Side Comparison
+          </h2>
+
+          <p>
+            The table below lines up the seven picks on the specs that matter for RV use. Watts are the manufacturer's gasoline ratings where we are confident of them. Rather than reprint a decibel figure for every machine, we have grouped them by noise class, because makers measure at different loads and the differences between neighboring numbers are small next to the difference between an inverter and an open-frame generator.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Gas watts (start / run)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">RV outlet</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Fuel</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Noise class</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Honda EU3000iS</td>
+                    <td class="px-4 py-4 text-gray-700">3,000 / 2,800</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30R</td>
+                    <td class="px-4 py-4 text-gray-700">Gas</td>
+                    <td class="px-4 py-4 text-gray-700">Very quiet inverter</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Westinghouse iGen4500DFc</td>
+                    <td class="px-4 py-4 text-gray-700">4,500 / 3,700</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30R</td>
+                    <td class="px-4 py-4 text-gray-700">Gas or propane</td>
+                    <td class="px-4 py-4 text-gray-700">Quiet inverter</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Champion 4500W Dual Fuel</td>
+                    <td class="px-4 py-4 text-gray-700">4,500 / 3,700</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30R</td>
+                    <td class="px-4 py-4 text-gray-700">Gas or propane</td>
+                    <td class="px-4 py-4 text-gray-700">Quiet inverter</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Champion 3400W Dual Fuel</td>
+                    <td class="px-4 py-4 text-gray-700">3,400 / 3,100</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30R</td>
+                    <td class="px-4 py-4 text-gray-700">Gas or propane</td>
+                    <td class="px-4 py-4 text-gray-700">Quiet inverter</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Honda EU2200i (pair)</td>
+                    <td class="px-4 py-4 text-gray-700">4,400 / 3,600 paralleled</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30R via kit</td>
+                    <td class="px-4 py-4 text-gray-700">Gas</td>
+                    <td class="px-4 py-4 text-gray-700">Very quiet inverter</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Westinghouse WGen9500DF</td>
+                    <td class="px-4 py-4 text-gray-700">12,500 / 9,500</td>
+                    <td class="px-4 py-4 text-gray-700">14-50R</td>
+                    <td class="px-4 py-4 text-gray-700">Gas or propane</td>
+                    <td class="px-4 py-4 text-gray-700">Loud open frame</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker SOLIX F3800</td>
+                    <td class="px-4 py-4 text-gray-700">6,000W continuous</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30R</td>
+                    <td class="px-4 py-4 text-gray-700">Battery</td>
+                    <td class="px-4 py-4 text-gray-700">Silent</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two patterns jump out. First, the 3,000 to 4,500-watt inverters all land at or just above the 3,600 watts a TT-30R can deliver, which is why they are the default choice for 30-amp trailers. Buying more generator than your plug can carry only buys you headroom for altitude and heat, which is useful, but beyond that it is weight and fuel you are hauling for nothing.
+          </p>
+
+          <p>
+            Second, the only way to feed a 50-amp rig at full capacity from a portable is an open-frame generator like the WGen9500DF, and that comes with noise most campgrounds will not tolerate. If you camp in parks with neighbors, a 50-amp rig on a dogbone and a quiet 4,500-watt inverter is the better combination. Save the big open-frame unit for boondocking far from anyone else, or for home backup.
+          </p>
+
+          <p>
+            Weight is the hidden spec. The single-unit 3,000 to 4,500-watt inverters all sit around 100 to 130 pounds, which means wheels, a ramp or a hitch-mounted carrier. If you cannot lift one into a truck bed, the parallel pair of EU2200i units, at about 47 pounds each, is the practical answer, even though it costs more for the same output.
+          </p>
+        </div>
+
+        <div id="parallel" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Parallel Kits: Two Small Generators vs One Big One
+          </h2>
+
+          <p>
+            Parallel capability lets you link two compatible inverter generators with a short cable kit so they combine their output into one outlet. Two Honda EU2200i units paralleled deliver 4,400 starting and 3,600 running watts, which lines up exactly with a 30-amp RV. The parallel kit usually includes or sits beside a TT-30R outlet, so the rig plugs straight in. Honda also sells an EU2200i Companion model that carries the TT-30R on its own panel.
+          </p>
+
+          <p>
+            The case for a pair is flexibility. On a cool weekend, you bring one generator, charge the batteries and run the microwave. When the forecast says 95 degrees, you bring both and run the air conditioner. Each half weighs about 47 pounds, so one person can load them. And if one generator develops a problem far from a shop, you still have half your power instead of none.
+          </p>
+
+          <p>
+            The case against is cost and complexity. Two premium 2,200-watt generators plus a parallel kit cost meaningfully more than a single 3,000 to 4,500-watt dual fuel inverter, you maintain two engines, and you carry two sets of fuel. Most parallel kits require two of the same model or the same brand family; you generally cannot mix a Honda with a Champion. Check the manufacturer's compatibility list before buying a second unit to match one you already own.
+          </p>
+
+          <p>
+            Our rule of thumb: if you can handle a 100-plus pound generator with wheels and you always need air conditioning, buy one bigger inverter. If you cannot lift that much, camp in mixed weather, or also want a small generator for tailgating and tent trips, buy one 2,200-watt unit now and add its twin later. That second path also overlaps neatly with our <a href="/best-generator-for-camping/">camping generator picks</a>, which cover the small end of the market in more depth.
+          </p>
+        </div>
+
+        <div id="fuel" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Dual Fuel and Running Off the RV's Propane
+          </h2>
+
+          <p>
+            Most RVs already carry propane, either in two 20 or 30-pound cylinders on a travel trailer tongue or in a permanently mounted ASME tank on a motorhome. A dual fuel generator can draw from that supply, which means no separate gas cans in the truck bed, no stale gasoline gumming the carburetor over the winter, and one fuel to refill at the campground store. For a lot of owners, that alone justifies choosing dual fuel.
+          </p>
+
+          <p>
+            The trade-off is output. Propane carries less energy per unit than gasoline, so every dual fuel generator is rated lower on propane, commonly by around 10 percent. That matters when your sizing is already tight. A dual fuel unit that starts your 15,000 BTU air conditioner on gasoline may struggle on propane on a hot day. Check the propane running watts on the spec sheet, not the headline gasoline number, if you plan to run on LP most of the time.
+          </p>
+
+          <p>
+            Running from RV tanks takes the right hardware. On a travel trailer, the simplest method is a propane hose from the generator to a spare 20-pound cylinder, or an extended-stay tee at the tank valve. On a motorhome with an ASME tank, a quick-connect port installed by an RV technician is the clean solution. Use hose rated for the purpose, check connections with soapy water, and keep the line short and out of foot traffic.
+          </p>
+
+          <p>
+            Propane also burns through tanks faster than people expect. A generator working hard to run an air conditioner can empty a 20-pound cylinder in well under a day of continuous use, so budget for it, and remember that same tank feeds your furnace and fridge. In cold weather, propane vapor pressure drops and small cylinders can struggle to keep up with demand. For winter camping, gasoline or a larger tank is the more reliable fuel.
+          </p>
+        </div>
+
+        <div id="noise" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Quiet Hours, Campground Rules and Decibels
+          </h2>
+
+          <p>
+            Generator noise is quoted in dB(A), usually measured at 7 meters, about 23 feet. The scale is logarithmic: every 10 dB step sounds roughly twice as loud to the human ear. A quality inverter at light load in the high 40s to low 50s is closer to conversation than to a lawn mower. An open-frame generator in the 70s is a different experience entirely, and your neighbors will hear the difference before you do.
+          </p>
+
+          <p>
+            Campgrounds regulate generators more than most first-time owners expect. Quiet hours commonly run from 10 p.m. to 6 or 8 a.m., and many state and national park campgrounds go further, allowing generators only in set windows and banning them in tent or walk-in loops. National Park Service rules cap generator noise at 60 dB(A) measured at 50 feet, and individual parks set their own hours. Check the campground page or call ahead, because rules vary loop by loop.
+          </p>
+
+          <p>
+            Load changes noise more than brand does. Every inverter on this list is rated quietest at a quarter load, and gets louder as the air conditioner cycles on and the engine ramps up. A generator running near its limit to hold a 15,000 BTU AC will be several decibels louder than its brochure figure. Buying a size up, or adding a soft starter so the generator idles more of the time, is the practical route to a quieter site.
+          </p>
+
+          <p>
+            Placement helps too. Point the exhaust away from your rig and your neighbors, keep the generator on gravel or a mat rather than a hollow truck bed that acts like a drum, and use a longer heavy-gauge cord to put distance between the generator and where people sit. Never build an enclosure that traps exhaust; the heat and carbon monoxide hazards outweigh any noise benefit.
+          </p>
+        </div>
+
+        <div id="hybrids" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Power Station Hybrids and Solar
+          </h2>
+
+          <p>
+            Large battery power stations have changed RV power more than any generator in the last few years. A unit like the Anker SOLIX F3800 plugs into a 30-amp rig through its own TT-30R outlet and runs the rig silently, through quiet hours and in generator-free loops. Our guide to the <a href="/best-portable-power-station/">best portable power stations</a> covers the wider field, and it is worth reading before you assume a generator is the only answer.
+          </p>
+
+          <p>
+            The limit is energy, not power. A rooftop air conditioner drawing 1,400 watts empties a 3,840Wh battery in well under three hours. Batteries excel at everything else: overnight fans, the furnace blower, the water pump, lights, a CPAP and the fridge on 12-volt or electric. The smartest RV systems run the battery through the night and quiet hours, then run a generator for an hour or two during the day to refill it and cool the rig.
+          </p>
+
+          <p>
+            Solar closes the gap further for boondockers. Several hundred watts of folding panels can put back a meaningful share of a day's battery use in good sun, and our picks for the <a href="/best-portable-solar-panel/">best portable solar panels</a> and the <a href="/best-solar-generator/">best solar generators</a> show how to size the array to the battery. Solar will not run a rooftop AC in practice, but it can cut generator hours sharply.
+          </p>
+
+          <p>
+            If your rig already has a lithium house battery bank, a separate power station may be redundant. In that case the upgrade is a larger inverter and more lithium capacity built into the RV itself; our guides to the <a href="/best-lithium-rv-battery/">best lithium RV batteries</a> and the <a href="/best-power-inverter/">best power inverters</a> cover that route. Either way, pairing batteries with a smaller quiet generator is now usually a better plan than buying the biggest generator you can lift.
+          </p>
+        </div>
+
+        <div id="safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Carbon Monoxide and Setup at the Campsite
+          </h2>
+
+          <p>
+            A portable generator produces carbon monoxide, an odorless gas that kills campers every year. Run it outdoors only: never inside the RV, a basement storage bay, an enclosed truck bed with a cap, a tent or under a closed awning. Keep it as far from the rig as your cord allows, the U.S. Consumer Product Safety Commission recommends at least 20 feet from occupied spaces, with the exhaust pointed away from doors, windows, roof vents and your neighbor's site.
+          </p>
+
+          <p>
+            Buy a generator with automatic CO shutoff. Honda calls it CO-MINDER, Champion calls it CO Shield and Westinghouse uses a CO sensor on models with a trailing c, such as the iGen4500DFc. These systems shut the engine down when CO builds up around the generator. They are a backstop for bad placement and changing wind, not a substitute for distance, and they do nothing about exhaust drifting into a parked rig through an open window.
+          </p>
+
+          <p>
+            Inside the RV, a working CO alarm is non-negotiable. Most RVs come with one, but alarms have a service life, commonly in the five to ten-year range, and many owners never check the date. Test it before every trip and replace it at end of life. Pay particular attention when the rig is parked downwind or close to another camper's generator, because their exhaust is your problem too.
+          </p>
+
+          <p>
+            Two more setup habits matter. Let the generator cool before refueling, since spilled gasoline on a hot muffler is a fire risk. And run your shore cord through a surge protector or energy management system, which protects the rig from voltage swings and, on 50-amp rigs, from a mis-wired adapter. A good EMS is cheap compared with replacing a converter or a fridge control board.
+          </p>
+        </div>
+
+        <div id="which-one" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which One to Buy
+          </h2>
+
+          <p>
+            For a 30-amp travel trailer with one 13,500 BTU air conditioner and a buyer who wants the least drama, buy the <strong>Honda EU3000iS</strong>. It starts most 13,500 BTU units on its own, runs quietly through long afternoons and has the strongest reputation for longevity on this list. If budget matters more than the Honda badge, the <strong>Champion 3400W Dual Fuel</strong> gets you a similar result on gasoline and lets you burn the propane already on your tongue.
+          </p>
+
+          <p>
+            For a 15,000 BTU unit, a hot climate or high elevation, step up to the <strong>Westinghouse iGen4500DFc</strong> or the <strong>Champion 4500W Dual Fuel</strong>. Both give you headroom above the 3,600 watts a TT-30R can carry, which is what you want when heat and altitude eat into output. Choose the Westinghouse for its remote start and generally quieter reputation, the Champion for its wide service network.
+          </p>
+
+          <p>
+            If you cannot lift 100 pounds, buy one <strong>Honda EU2200i</strong> now, add a soft starter to the air conditioner, and buy a second unit with a parallel kit when you need more. If you own a 50-amp fifth wheel and boondock far from anyone, the <strong>Westinghouse WGen9500DF</strong> runs both air conditioners at once. If you mostly stay in parks with strict generator rules, the <strong>Anker SOLIX F3800</strong> may serve you better than any engine.
+          </p>
+
+          <p>
+            The generator we would skip for RV use is any cheap open-frame unit in the 3,000 to 4,000-watt range. They are loud enough to get you complaints, they often lack a TT-30R, and the raw power is less clean for the rig's electronics. If you also want the same machine to back up the house, read our <a href="/best-home-generator-for-power-outages/">home generators for power outages</a> guide before you decide; the right answer for a driveway is often wrong for a campground.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sizing to the running watts alone</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 13,500 BTU rooftop unit may run on 1,400 watts but demand twice that or more for the first second of a compressor start. Sizing to the running number is why so many 2,200-watt generators stall on hot afternoons. Size to the start surge, or fit a soft starter and size to the running load.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a homemade 240-volt adapter</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Adapters from an L14-30R or a dryer outlet to a TT-30 plug must deliver one 120-volt leg only. Improvised or mis-wired ones can send 240 volts into a 30-amp rig and destroy the converter and fridge board in an instant. Buy a molded, labeled adapter and run the rig through a surge protector.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring the propane derating</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Every dual fuel generator makes less power on propane. If your sizing only just works on gasoline, it may fail on propane, especially in heat or at altitude. Read the propane running watts on the spec sheet before relying on your RV tanks as the main fuel for air conditioning.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running the generator too close to the rig</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Parking the generator under the awning or beside an open window lets carbon monoxide drift inside. Keep it outdoors, as far away as your cord allows, at least 20 feet from occupied spaces where possible, exhaust pointed away, and test the RV's CO alarm before every trip. Watch neighbors' exhaust too.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping the campground rules</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many parks restrict generator hours, ban them in some loops, or cap noise at 60 dB(A) at 50 feet. Showing up with a loud open-frame generator can mean a long, hot weekend. Read the campground page before you book, and choose an inverter quiet enough for the places you actually camp.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What size generator do I need to run a 13,500 BTU RV air conditioner?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Without a soft starter, plan on about 3,000 running watts so the compressor can start reliably along with the converter and fridge. With a soft starter installed, many owners report a single 2,200-watt inverter starting a 13,500 BTU unit, though that leaves little margin. Heat and altitude both reduce generator output, so buy a size up if you camp in the desert or the mountains.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a 50-amp RV run on a 30-amp generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. A 50-to-30-amp dogbone adapter lets a 50-amp rig plug into a TT-30R generator outlet. You are then limited to about 3,600 watts, which typically means one air conditioner and careful use of the microwave and water heater on electric. Many 50-amp rigs have an energy management system that automatically sheds loads on a 30-amp supply, which makes the arrangement easy to live with.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is a 30 amp RV plug adapter used for?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It usually adapts the rig's TT-30 plug to a standard 15 or 20-amp household outlet, or to a generator without a TT-30R. That works for lights, the converter and a fridge on electric, but limits you to roughly 1,800 to 2,400 watts, so the air conditioner is off the table. Adapters from 240-volt outlets need care; buy molded, labeled ones only.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is dual fuel worth it for an RV generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most RVers, yes. Running from the propane already on board eliminates gas cans, avoids stale fuel over the winter and simplifies refueling. The cost is lower output on propane, commonly around 10 percent, and faster tank use than many people expect. If your sizing is tight, check the propane running watts before relying on LP for air conditioning on hot days.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I run my RV generator overnight at a campground?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Usually not. Most campgrounds enforce quiet hours, commonly from around 10 p.m. to the morning, and many state and national parks restrict generators to set daytime windows. A battery power station or the rig's own lithium bank is the way to keep fans, the furnace blower and a CPAP running overnight, recharged by the generator during allowed hours.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are portable power stations for RVs good enough to replace a generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For quiet hours, light loads and short trips with hookups between, they can be. A large unit with a TT-30R outlet runs the whole rig silently, but a rooftop AC drains even a 3,840Wh battery in a few hours. For multi-day boondocking with air conditioning, most owners still need a generator, ideally a small quiet one paired with the battery and solar.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How far should an RV generator be from the camper?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                As far as practical. The CPSC recommends at least 20 feet from occupied spaces for portable generators, with the exhaust pointed away from doors, windows and roof vents. At a tight campsite that can be hard, so use a longer heavy-gauge cord, buy a generator with automatic CO shutoff, and keep a working CO alarm inside the rig.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related RV Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-generator-for-camping/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Generators for Camping</h3>
+              <p class="text-gray-500 text-sm mt-2">Small, quiet inverters for tents, car camping and tailgates, with campground rules.</p>
+            </a>
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Battery Power</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Silent battery power for quiet hours, outages and trips, with runtime math.</p>
+            </a>
+            <a href="/best-lithium-rv-battery/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">RV Batteries</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Lithium RV Batteries</h3>
+              <p class="text-gray-500 text-sm mt-2">Upgrading the house bank so the generator runs fewer hours.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Buy an RV generator by working backward from the rooftop air conditioner and the plug on your shore cord. For most 30-amp trailers, that leads to a 3,000 to 4,500-watt inverter with a TT-30R outlet, ideally dual fuel, and a soft starter on the AC for margin.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Then think about the hours you cannot run it. A battery power station or a lithium house bank covers quiet hours and nights, and a quiet generator refills it during the day. That combination keeps you cool, keeps the neighbors friendly and keeps carbon monoxide well away from where you sleep.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

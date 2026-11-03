@@ -1,0 +1,927 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "EcoFlow vs Bluetti",
+    "url": "/ecoflow-vs-bluetti/"
+  },
+  {
+    "title": "Best Solar Generators",
+    "url": "/best-solar-generator/"
+  },
+  {
+    "title": "Best Portable Power Station for Home Backup",
+    "url": "/best-portable-power-station-for-home-backup/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best EcoFlow Power Stations: Every Model Matched to Its Job";
+const description =
+  "Every current EcoFlow power station compared, from the River 3 to the Delta Pro Ultra, with the right model for camping, CPAP, outages and whole-home backup.";
+
+const PRODUCTS = [
+  {
+    "id": "ecoflow-delta-3-plus",
+    "name": "EcoFlow Delta 3 Plus Portable Power Station",
+    "category": "1,024Wh LFP, 1,800W, Expandable to about 5kWh",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "1,800W inverter covers a fridge, microwave or sump pump start",
+      "Takes add-on batteries, so you can grow it later",
+      "Fast wall charging, quoted at under an hour to full",
+      "Fast UPS-style switchover for routers and computers",
+      "Light enough at about 28 pounds to take camping"
+    ],
+    "cons": [
+      "120V only, so no 240V well pumps or dryers",
+      "Some useful settings are buried in the app",
+      "Heavier than Jackery's 1kWh Explorer"
+    ],
+    "bottomLine": "The EcoFlow most people should buy: big enough for outages, small enough to carry, and expandable when 1kWh stops being enough.",
+    "description": "The Delta 3 Plus is the center of EcoFlow's lineup and the one to start with unless you already know you need something smaller or much bigger. EcoFlow rates it at 1,024Wh of LFP (lithium iron phosphate) storage behind an 1,800W inverter, which is enough to start a refrigerator, run a microwave for a few minutes or keep a router, laptop and lights going through a long evening. EcoFlow quotes under an hour from empty to full on a wall outlet and a fast switchover when grid power drops, so it can sit between the outlet and your modem as a basic battery backup. The reason it beats the cheaper fixed-size boxes is the expansion port: add one of EcoFlow's extra batteries and the same unit grows toward 5kWh by EcoFlow's figures. At around 28 pounds it still goes in a car trunk, which makes it the rare model that is equally sensible for a weekend campsite and a two-day outage."
+  },
+  {
+    "id": "ecoflow-river-3-plus",
+    "name": "EcoFlow River 3 Plus Portable Power Station",
+    "category": "286Wh LFP, 600W, About 10 lb",
+    "badge": "Best for Camping",
+    "amazonUrl": "",
+    "pros": [
+      "About 10 pounds, easy to carry one-handed",
+      "600W runs a small cooler, CPAP or projector",
+      "Snap-on extra battery roughly triples capacity",
+      "LFP chemistry built for thousands of cycles",
+      "Charges from the wall in about an hour"
+    ],
+    "cons": [
+      "286Wh is one CPAP night or a day of devices, not an outage plan",
+      "Will not run anything with a heating element"
+    ],
+    "bottomLine": "The best small EcoFlow: buy it for camping, car trips and CPAP nights, and add the extra battery if you need a second day.",
+    "description": "The River 3 Plus is the EcoFlow to buy if the station will be carried more than it sits. EcoFlow rates it at 286Wh of LFP storage with a 600W inverter, in a box of about 10 pounds that fits on a car floor or under a tent vestibule. That is enough for a night of CPAP use without the heated humidifier, a day of phones, cameras and laptops, or a few hours of a 12V cooler. Six hundred watts covers small appliances like a projector, a blender on low or a soldering iron, but not a coffee maker, a hair dryer or an electric kettle. What sets it apart from rival 300Wh boxes is the expansion path: EcoFlow's snap-on extra battery for the River 3 series roughly triples capacity to about 858Wh, turning a day-trip box into a weekend box without buying a second station. One small folding panel keeps it topped up at camp."
+  },
+  {
+    "id": "ecoflow-river-3",
+    "name": "EcoFlow River 3 Portable Power Station",
+    "category": "245Wh LFP, 300W, About 8 lb",
+    "badge": "Best Budget",
+    "amazonUrl": "",
+    "pros": [
+      "Lowest-cost way into the EcoFlow app and ecosystem",
+      "About 8 pounds with LFP chemistry",
+      "Quiet enough to sit on a nightstand",
+      "Works as a basic battery backup for a router"
+    ],
+    "cons": [
+      "300W rated output limits it to electronics and small fans",
+      "Not expandable, unlike the River 3 Plus"
+    ],
+    "bottomLine": "A good router-and-phones backup in the under $300 class; spend the extra on the River 3 Plus if you want to run anything bigger than a laptop.",
+    "description": "The River 3 is EcoFlow's entry ticket, usually sold in the under $300 class and often lower on sale. EcoFlow rates it at 245Wh of LFP storage and 300W of continuous output, in a case of roughly 8 pounds. That is a narrow brief, and it is worth being honest about it: this is a box for routers, phones, laptops, LED lamps, a small fan or a CPAP machine with the humidifier off. It will not start a refrigerator and it will not boil water. Within that brief it is very good. LFP cells handle years of regular cycling, the switchover is quick enough to keep a modem online when the power blinks, and it shares the same app as the bigger units. The reason it is not ranked higher is that the River 3 Plus doubles the output and adds an expansion port for a modest step up in price, which makes the Plus the better buy for most people."
+  },
+  {
+    "id": "ecoflow-delta-2-max",
+    "name": "EcoFlow Delta 2 Max Portable Power Station",
+    "category": "2,048Wh LFP, 2,400W, Expandable to about 6kWh",
+    "badge": "Best 2kWh Value",
+    "amazonUrl": "",
+    "pros": [
+      "2kWh in one box covers a fridge for about a day",
+      "2,400W handles a microwave and fridge together",
+      "Dual solar inputs for a bigger panel array",
+      "Expands with extra batteries to about 6kWh",
+      "Older model, so it is frequently discounted"
+    ],
+    "cons": [
+      "About 50 pounds, a two-hand lift",
+      "120V only",
+      "Previous generation; check the newer Delta 3 Max price before buying"
+    ],
+    "bottomLine": "The 2kWh EcoFlow to buy when it is on sale; if it is not, compare it against the newer Delta 3 Max first.",
+    "description": "The Delta 2 Max is the one older-generation model on this list, and it earns its place on value. EcoFlow rates it at 2,048Wh of LFP storage with a 2,400W inverter, which is enough to run a full-size refrigerator for roughly a day or a fridge, CPAP, router and lights through a long night with room to spare. Two solar inputs let it accept a much larger panel array than the Delta 3 Plus can use well, and EcoFlow lists expansion to about 6kWh with its extra batteries. The trade-off is size: at roughly 50 pounds it is a box you set down in one place and leave there, not one you carry to a campsite. Because a newer 2kWh model, the Delta 3 Max, now sits above it in EcoFlow's range, the Delta 2 Max is regularly discounted. When it is, it is one of the cheapest ways to get 2kWh of LFP and real expansion in a single EcoFlow box."
+  },
+  {
+    "id": "ecoflow-delta-pro-3",
+    "name": "EcoFlow Delta Pro 3 Portable Power Station",
+    "category": "4,096Wh LFP, 4,000W, 120/240V",
+    "badge": "Best for Home Backup",
+    "amazonUrl": "",
+    "pros": [
+      "4kWh of storage with native 120/240V output",
+      "Runs a fridge, freezer, furnace blower and lights together",
+      "Accepts a large rooftop or ground-mount solar array",
+      "Expands into the tens of kilowatt-hours",
+      "Integrates with EcoFlow's home panel and transfer options"
+    ],
+    "cons": [
+      "Well over 100 pounds; wheels, not handles",
+      "Needs an electrician to connect to the house properly",
+      "Overkill for camping or a single fridge"
+    ],
+    "bottomLine": "The EcoFlow to buy for real home backup: 240V, serious solar input, and room to grow into a multi-day system.",
+    "description": "The Delta Pro 3 is where EcoFlow stops making portable gadgets and starts making a home backup system. EcoFlow rates it at 4,096Wh of LFP storage, about 3,480Wh usable by its own figures, behind a 4,000W inverter that delivers both 120V and 240V. That 240V output is the point: it can feed a manual transfer switch or a generator inlet wired by an electrician, so the battery powers selected household circuits instead of extension cords. On the runtime math in this guide, it carries a typical refrigerator for about two days on its own, or the essential circuits of an efficient house through an overnight outage. Its solar inputs accept a far larger array than any carry-size unit, and add-on batteries take storage into the tens of kilowatt-hours. It is on wheels for a reason, weighing well over 100 pounds, and it is a poor choice for anyone who mainly wants to go camping."
+  },
+  {
+    "id": "ecoflow-delta-pro-ultra",
+    "name": "EcoFlow Delta Pro Ultra Home Backup Power Station",
+    "category": "6kWh per battery, 7,200W, 120/240V, Stackable",
+    "badge": "Best Whole-Home System",
+    "amazonUrl": "",
+    "pros": [
+      "7,200W inverter can start central-air and well-pump loads",
+      "Each stackable battery adds 6kWh",
+      "Designed around EcoFlow's Smart Home Panel 2",
+      "Very large solar input for a permanent array",
+      "Scales by adding batteries and inverters"
+    ],
+    "cons": [
+      "Not portable in any practical sense",
+      "Professional installation is effectively required",
+      "Priced like a home battery, not a power station"
+    ],
+    "bottomLine": "A home battery system sold through power-station channels; worth it only if you are wiring it into the house permanently.",
+    "description": "The Delta Pro Ultra is technically sold alongside EcoFlow's power stations, but it behaves like a home battery. It is a modular system: an inverter unit that EcoFlow rates at 7,200W with 120/240V output, sitting on top of one or more 6kWh LFP battery modules. Stack more batteries for more storage, or link inverters for more output, and the system scales well past anything else EcoFlow sells. Paired with the Smart Home Panel 2, it can switch over the house automatically when the grid drops and manage which circuits stay on. Its solar input is sized for a permanent array rather than folding panels. None of that comes cheap, and none of it is portable: each module is a heavy lift, and the whole system is meant to live in a garage or utility room on a dedicated install. If you are pricing this, also price a permanent wall-mounted home battery and a standby generator before you decide."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best EcoFlow Power Stations",
+          item: "https://www.allmetalbrake.com/best-ecoflow-power-station/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which EcoFlow power station is best for most people?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Delta 3 Plus. EcoFlow rates it at 1,024Wh and 1,800W, which starts a refrigerator and runs a microwave, and it accepts extra batteries if 1kWh proves too small. At about 28 pounds it is still portable enough for camping. Smaller households focused on electronics can save money with the River 3 Plus instead."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between EcoFlow River and Delta?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "River models are small, light power stations for electronics, CPAP machines and camping, with a few hundred watts of output and under 300Wh of built-in storage. Delta models start around 1kWh with 1,800W or more of output, enough for kitchen appliances and refrigerators, and most accept add-on batteries. Delta Pro models add 240V for home backup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is an EcoFlow solar generator different from the power station?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. An EcoFlow solar generator is one of its power stations sold in a bundle with folding or rigid panels and cables. The station is identical to the one sold alone. Judge a bundle by whether the panel wattage is large enough to refill the battery in a day, roughly one watt of panel per three watt-hours of storage."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can an EcoFlow power station run my whole house?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not on a single portable unit. A Delta Pro 3 with 4kWh and 240V output can run selected essential circuits through a transfer switch, and a Delta Pro Ultra with several battery modules and the Smart Home Panel 2 approaches whole-home backup. Central air, electric ranges and electric water heaters will still drain any of them quickly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I buy the Delta 3 Plus or the Delta Pro 3?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Buy the Delta 3 Plus if you mainly need a fridge, internet and lights on extension cords, or want one unit for outages and camping. Buy the Delta Pro 3 if you need 240V, want to power house circuits through a transfer switch, or plan a large solar array. The Pro costs several times as much and weighs over 100 pounds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do EcoFlow power stations work without the app?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Every model works out of the box with its physical buttons and default settings, so you can plug in and go. The app adds real-time monitoring, charge limits, charging-speed control and remote output switching, and some settings are only reachable through it. Most owners install it once to set things up and then rarely open it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long do EcoFlow batteries last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Current EcoFlow models use LFP cells, which EcoFlow rates for thousands of charge cycles before capacity falls significantly. For a station used occasionally for outages and camping, that means the battery is likely to outlast its electronics. Store it at partial charge in a cool place and top it up every few months between uses to keep it healthy."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best ecoflow power station",
+      "ecoflow power station",
+      "ecoflow portable power station",
+      "ecoflow delta 3 plus",
+      "ecoflow delta pro 3",
+      "ecoflow river 3 plus",
+      "ecoflow solar generator"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">EcoFlow Power Stations</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          EcoFlow sells a power station for every job from a phone charger to a whole-house battery. Here is which one fits yours, and which ones to skip.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#ecoflow-delta-3-plus"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Which One to Buy
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#lineup" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Lineup at a Glance</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Six Picks</a>
+          <a href="#which-one" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Which One to Buy</a>
+          <a href="#river-vs-delta" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. River vs Delta</a>
+          <a href="#expansion" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Expansion Batteries</a>
+          <a href="#home-backup" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Smart Home Panel and 240V</a>
+          <a href="#solar" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Solar Input and Bundles</a>
+          <a href="#app-charging" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. App, UPS and Charging</a>
+          <a href="#where-ecoflow-loses" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Where EcoFlow Loses</a>
+          <a href="#runtime" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Runtime by Model</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          For most people the right EcoFlow is the Delta 3 Plus. The rest of the lineup is for people who need something much lighter or much bigger, and the trick is knowing which side of that line you are on.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="lineup" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The EcoFlow Lineup at a Glance
+          </h2>
+
+          <p>
+            EcoFlow sells more power stations than any shopper needs to compare, and the names do not help. River, Delta, Delta Max, Delta Pro, Delta Pro Ultra and Trail all mean something specific, and the difference between a River 3 and a Delta Pro 3 is the difference between a lunchbox and a small appliance on wheels. The good news is that once you know what each line is for, the choice usually narrows to one or two models in a minute or two.
+          </p>
+
+          <p>
+            The <strong>River</strong> line is the portable end: small LFP batteries, a few hundred watts of output, light enough to carry one-handed. The <strong>Delta</strong> line is the middle, running from about 1kWh to 2kWh with inverters big enough to start a refrigerator, and most Delta models take add-on batteries. The <strong>Delta Pro</strong> models are home backup machines with 240V output, wheels and huge solar inputs. The <strong>Delta Pro Ultra</strong> is a modular home battery. And the <strong>Trail</strong> units are DC-only power banks with no AC outlets, useful for USB and 12V gear on a hike or a car trip but not what most people mean when they search for an EcoFlow power station.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Battery</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">AC Output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Expandable</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">River 3</td>
+                    <td class="px-4 py-4 text-gray-700">245Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">300W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Router, phones, laptops</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">River 3 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">286Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">600W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, to about 858Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Camping, car, CPAP nights</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Delta 3 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">1,024Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">1,800W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, to about 5kWh</td>
+                    <td class="px-4 py-4 text-gray-700">Most homes, mixed use</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Delta 2 Max</td>
+                    <td class="px-4 py-4 text-gray-700">2,048Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">2,400W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, to about 6kWh</td>
+                    <td class="px-4 py-4 text-gray-700">2kWh in one box, on sale</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Delta Pro 3</td>
+                    <td class="px-4 py-4 text-gray-700">4,096Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">4,000W, 120/240V</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, tens of kWh</td>
+                    <td class="px-4 py-4 text-gray-700">Home backup circuits</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Delta Pro Ultra</td>
+                    <td class="px-4 py-4 text-gray-700">6kWh per module</td>
+                    <td class="px-4 py-4 text-gray-700">7,200W, 120/240V</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, modular</td>
+                    <td class="px-4 py-4 text-gray-700">Whole-home installs</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Every model in the table uses LFP (lithium iron phosphate) cells, which is the chemistry you want for a battery that might sit in a closet for a year and then get cycled daily during an outage. LFP tolerates thousands of cycles and runs cooler than the older NMC packs that EcoFlow and its rivals used a few years ago. Specs in this guide come from EcoFlow's published figures, not from our own bench tests, and we round where EcoFlow rounds.
+          </p>
+
+          <p>
+            If you are not sure whether you want EcoFlow at all, our <a href="/best-portable-power-station/">portable power station rankings</a> compare it against Jackery, Anker SOLIX and Bluetti across every size class, and our head-to-head <a href="/ecoflow-vs-jackery/">EcoFlow vs Jackery</a> covers the brand question directly. This page assumes you have already decided on EcoFlow and want the right model.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Six Best EcoFlow Power Stations
+          </h2>
+
+          <p>
+            These picks are described from EcoFlow's published specifications, not from hands-on testing, and they are ranked by how well each fits the job most buyers have for it rather than by size. EcoFlow updates models and bundles often, so confirm the capacity, output and what is in the box on the listing you buy from.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="which-one" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Which EcoFlow Should You Buy?
+          </h2>
+
+          <p>
+            Start with the job, not the battery. Most bad EcoFlow purchases come from buying the biggest box the budget allows and then discovering it is too heavy to take anywhere, or from buying a River for an outage and finding out it will not run the refrigerator. Match the model to the heaviest thing you actually need to power, and to how often you will move it.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Phones, laptops and a router during short outages</h3>
+
+          <p>
+            Buy the <strong>River 3</strong>. Its 300W output and 245Wh battery keep a modem, router and a couple of laptops running for several hours, and it costs little enough to leave plugged in as an always-on backup. If you think you will want to run a small fan, a CPAP or a 12V cooler as well, step up to the River 3 Plus instead.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Camping, van trips and CPAP nights</h3>
+
+          <p>
+            Buy the <strong>River 3 Plus</strong>. It is the lightest EcoFlow that runs a CPAP comfortably and the only small model with an expansion battery. Weekend campers who also want to keep food cold should read our guide to the <a href="/best-12v-fridge-for-camping/">best 12V fridge for camping</a>, because an efficient compressor fridge is what makes a small battery last. If your camping includes an induction plate or an electric kettle, you have outgrown the River line and want a Delta.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Fridge, freezer and essentials through an outage</h3>
+
+          <p>
+            Buy the <strong>Delta 3 Plus</strong>, and add an extra battery if a single kilowatt-hour turns out to be tight. This is the right answer for most households: it starts a refrigerator, runs a microwave, recharges in under an hour when the power comes back, and is still light enough to take camping. If you want 2kWh from day one and can find the <strong>Delta 2 Max</strong> on a good sale, it is the cheaper way to get there in one box.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Circuits in the house, a furnace or a 240V pump</h3>
+
+          <p>
+            Buy the <strong>Delta Pro 3</strong> and budget for an electrician. It is the smallest EcoFlow with 240V output and the first one that makes sense connected to the house rather than to extension cords. Only if you are planning a permanent, whole-home installation with automatic switchover should you look at the <strong>Delta Pro Ultra</strong>, and at that price you should also compare it against a standby unit in our guide to the <a href="/best-home-generator-for-power-outages/">best home generators for power outages</a>.
+          </p>
+        </div>
+
+        <div id="river-vs-delta" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. River 3, River 3 Plus or Delta 3 Plus?
+          </h2>
+
+          <p>
+            These three are the models most shoppers are actually choosing between, and the gaps between them are larger than the names suggest. The River 3 and River 3 Plus look like siblings, but the Plus has twice the inverter output and an expansion port. The Delta 3 Plus is not a bigger River; it is a different class of machine with three times the output and nearly four times the storage.
+          </p>
+
+          <p>
+            The useful dividing line is the refrigerator. A full-size kitchen fridge draws only 100 to 200 watts while running, but its compressor can pull several times that for a moment at start-up, and it uses roughly 1 to 2kWh a day. Neither River can carry that. The River 3 Plus might technically start a small, efficient fridge, but its 286Wh battery would be empty within a few hours. The Delta 3 Plus, with 1,024Wh and 1,800W, runs a typical fridge for something like 10 to 20 hours depending on the model and how often the door opens.
+          </p>
+
+          <p>
+            Below that line, the River 3 Plus is the better buy than the River 3 for almost everyone. The extra 300 watts covers a CPAP with some headroom, a small electric cooler, a projector or a modest power tool charger, and the expansion battery means you are not stuck if your needs grow. The River 3 makes sense only when the budget is tight and the load list is strictly electronics, or when you want a second small unit for a home office.
+          </p>
+
+          <p>
+            Above it, the Delta 3 Plus is the most versatile EcoFlow by a wide margin. At about 28 pounds it is heavier than either River but still a one-person carry, which means the same box can keep the fridge cold during an outage and run the coffee maker at a campsite. That flexibility is why it tops this list. If you are deciding between two Rivers for different rooms and one Delta for the house, the single Delta is usually the better use of the money.
+          </p>
+
+          <p>
+            One caution: EcoFlow also sells a plain <strong>Delta 3</strong> without the Plus, at a lower price. It shares the same basic capacity class but trims some charging and input features. Compare the spec sheets line by line on the day you buy, because the gap in price is not always as large as the gap in features.
+          </p>
+        </div>
+
+        <div id="expansion" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Expansion Batteries: Buying Capacity Later
+          </h2>
+
+          <p>
+            Expansion is the strongest argument for EcoFlow over Jackery's v2 Explorer line. Most EcoFlow models from the River 3 Plus upward have a port for a matched extra battery, so you can buy the base unit now and add storage when you find out how much you really use. Jackery's popular Explorer v2 boxes are fixed in size; outgrowing one means selling it or buying a second station.
+          </p>
+
+          <p>
+            The pattern is consistent across the range. The River 3 Plus takes a snap-on extra battery that roughly triples its capacity. The Delta 3 Plus pairs with EcoFlow's Delta 3-series extra batteries to reach about 5kWh by EcoFlow's figures. The Delta 2 Max reaches about 6kWh with its own extra batteries. The Delta Pro 3 grows into the tens of kilowatt-hours, and the Delta Pro Ultra is built from stackable 6kWh modules from the start.
+          </p>
+
+          <p>
+            There are two things to understand before you plan around this. First, expansion adds storage, not output. A Delta 3 Plus with two extra batteries still has an 1,800W inverter, so it runs the same appliances for longer; it does not suddenly start a 240V pump. If you need more watts, you need a bigger base unit. Second, extra batteries are model-specific. A battery designed for one generation may not work with another, so buy the base unit with the expansion line you intend to use, and check compatibility on EcoFlow's own listing rather than a reseller's description.
+          </p>
+
+          <p>
+            Expansion batteries also cost real money, often a large share of the base unit's price per kilowatt-hour. For buyers who know from day one that they want 2kWh or more, a single larger unit is frequently cheaper than a small unit plus batteries. The expansion route earns its keep for people who are unsure, who want a lighter box to carry camping and a larger stack at home, or who are building toward a home system in stages.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Buy for the watts you need now; add batteries for the hours you need later.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Output cannot be upgraded after purchase. Storage can. Pick the base unit by its inverter and grow the runtime with extra batteries.</p>
+          </div>
+        </div>
+
+        <div id="home-backup" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Home Backup: Smart Home Panel, Transfer Switches and 240V
+          </h2>
+
+          <p>
+            Most EcoFlow units back up a house the simple way: you run extension cords from the station to the refrigerator, the router and a lamp. That works with any model and needs no electrician. It also means the furnace, the well pump and anything hardwired stays off, because those loads cannot be plugged into an outlet. To power circuits rather than cords, you need a station that can feed the house panel safely, and in EcoFlow's range that starts with the Delta Pro models.
+          </p>
+
+          <p>
+            The Delta Pro 3 delivers 120V and 240V natively, which matters because many of the loads you most want during an outage are 240V or sit on circuits you cannot reach with a cord. Connected through a manual transfer switch or an interlock and generator inlet, installed by a licensed electrician, it can run the circuits you choose, such as the fridge, the furnace blower, a few lighting circuits and the network closet. Never backfeed a house through a dryer outlet or a so-called suicide cord. It is illegal, and it can kill a lineworker.
+          </p>
+
+          <p>
+            EcoFlow's own answer for a cleaner install is its Smart Home Panel 2, a circuit-level transfer panel that switches over automatically when the grid fails and lets you see and control each circuit in the app. It is built around the Delta Pro-class systems, and it is the natural partner for the Delta Pro Ultra. Compatibility has shifted between product generations, so confirm on EcoFlow's site that the panel and the station you are buying work together before you order either. A smart panel adds meaningfully to the cost and requires professional installation.
+          </p>
+
+          <p>
+            If what you actually need is a 240V well pump, read our guide to the <a href="/best-generator-for-well-pump/">best generator for a well pump</a> before choosing; starting surge on a deep-well pump is the load most likely to defeat a battery. And if you want the station to protect sensitive electronics during the transfer, pair the installation with one of the <a href="/best-whole-house-surge-protector/">best whole-house surge protectors</a>.
+          </p>
+
+          <p>
+            For a broader look at how power stations compare to permanent options, our <a href="/best-portable-power-station-for-home-backup/">power stations for home backup</a> guide sets the Delta Pro 3 against Anker SOLIX and Jackery's large units, and our roundup of the <a href="/best-home-battery-backup/">best home battery backup</a> systems covers wall-mounted batteries that compete with the Delta Pro Ultra.
+          </p>
+        </div>
+
+        <div id="solar" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Solar Input and EcoFlow Solar Generator Bundles
+          </h2>
+
+          <p>
+            An EcoFlow solar generator is not a different machine. It is one of the stations above sold together with one or more EcoFlow folding or rigid panels and the cable to connect them. The station inside the box is identical to the one sold alone, so the questions are the same: is the station the right size, and is the panel bundle large enough to refill it?
+          </p>
+
+          <p>
+            A useful rule of thumb is one watt of panel for every three watt-hours you want back on a good day, because a portable panel rarely delivers its full rating for more than a few hours. By that rule a 100W panel refills most of a River 3 Plus on a clear day, a 200W panel does it with margin, and the Delta 3 Plus wants something like 300 to 400W of panels to be refilled daily. The Delta Pro 3 needs a permanent array in the kilowatt range before solar is a real recharge path rather than a top-up.
+          </p>
+
+          <p>
+            The most common bundle mistake is buying a large station with a single folding panel. A Delta Pro 3 with one 400W panel is, for practical purposes, a battery you can only refill from the wall. It is better to buy a smaller station with enough panel to refill it than a larger one with token solar. Larger Delta models have two solar inputs, which lets you add panels in stages; the River models have one.
+          </p>
+
+          <p>
+            Stay inside the station's voltage and current window. Every EcoFlow lists a solar input range on its spec sheet, and exceeding the voltage limit, especially on a cold, bright morning when panel voltage rises, can damage the charge controller. EcoFlow's own panels pair without any math, but third-party panels work fine if the connector and voltage fit. Our <a href="/best-solar-generator/">solar generator guide</a> works through the panel sizing for each station class, and our roundup of the <a href="/best-portable-solar-panel/">best portable solar panels</a> covers folding panels that fit EcoFlow inputs.
+          </p>
+
+          <p>
+            If you mostly travel by vehicle, also look at EcoFlow's 800W Alternator Charger, which refills a Delta-class station from the engine while you drive. For overlanders and van owners it is often a faster and more reliable recharge source than a roof panel.
+          </p>
+        </div>
+
+        <div id="app-charging" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. The EcoFlow App, UPS Mode and Charging Speed
+          </h2>
+
+          <p>
+            Every current EcoFlow connects to the EcoFlow app over Wi-Fi or Bluetooth, and the app is more useful than most. It shows input and output watts in real time, estimates remaining runtime, lets you set charge limits to extend battery life, and controls the AC and DC outputs remotely. On the larger units it also manages solar priority, schedules and, on Delta Pro-class systems, circuit-level control through the smart panel.
+          </p>
+
+          <p>
+            The downside is that some settings you will want live only in the app. Charging speed, battery charge limits and some output modes are easier to change from a phone than from the unit itself. If you are buying for a parent who will never open an app, that is a mark against EcoFlow and in favor of a simpler Jackery, though the stations work out of the box with default settings.
+          </p>
+
+          <p>
+            Charging speed is where EcoFlow made its name. The River 3 series and the Delta 3 Plus are quoted at around an hour to full from a household outlet, which matters more than it sounds. In a rolling outage or a storm with intermittent power, a station that refills in an hour during a short window of grid power can be the difference between a full battery and an empty one at night.
+          </p>
+
+          <p>
+            Most current EcoFlow models also work as a basic uninterruptible power supply. Plug the station into the wall and your router, modem or desktop into the station, and EcoFlow quotes a switchover in the range of 10 milliseconds or less when the grid drops. That is fast enough for most home electronics, though a dedicated <a href="/best-ups-battery-backup/">UPS battery backup</a> is still the better tool for a desktop computer or network rack that cannot tolerate any interruption.
+          </p>
+        </div>
+
+        <div id="where-ecoflow-loses" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Where EcoFlow Loses (and What Not to Buy)
+          </h2>
+
+          <p>
+            EcoFlow is our default recommendation in most size classes, but not every model is worth buying and the brand is not best at everything. Weight is the clearest weakness. At 1kWh and 2kWh, Jackery's Explorer v2 boxes store similar energy in lighter cases, and for campers who carry the station from the car every weekend, that difference adds up. Our <a href="/best-jackery-power-station/">Jackery power station guide</a> covers those models in detail.
+          </p>
+
+          <p>
+            Output per dollar at the very top is another. Anker's SOLIX F3800 offers more inverter output than the Delta Pro 3 in a similar class, and Bluetti competes hard on price at every size. If your shortlist is EcoFlow against Bluetti, our <a href="/ecoflow-vs-bluetti/">EcoFlow vs Bluetti</a> comparison works through the differences, and our <a href="/best-anker-solix-power-station/">Anker SOLIX guide</a> covers Anker's large units.
+          </p>
+
+          <p>
+            Within EcoFlow's own range, skip older NMC models still sold through third-party listings, such as the original Delta and River models, unless the discount is steep and the use is occasional. LFP is the better chemistry for a backup battery, and the newer models charge faster and integrate better with the app. Be wary, too, of listings that bundle a large station with one small panel and call it a solar generator; buy the station and panels to fit each other instead.
+          </p>
+
+          <p>
+            And do not buy the Delta Pro Ultra as a portable power station. It is a home battery system. If you will not wire it into the house with a smart panel, a Delta Pro 3 or two gives you most of the capability for far less money and can still roll out to the driveway when needed.
+          </p>
+        </div>
+
+        <div id="runtime" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. How Long Each EcoFlow Will Run Your Gear
+          </h2>
+
+          <p>
+            Capacity on the box is not capacity at the outlet. Inverter losses and battery management mean a station typically delivers something like 80 to 90 percent of its rated watt-hours as AC power. EcoFlow's own figure for the Delta Pro 3, about 3,480Wh usable from 4,096Wh, is a good illustration. Plan with roughly 85 percent of the label and you will rarely be disappointed.
+          </p>
+
+          <p>
+            For a CPAP without the heated humidifier, drawing around 30 to 60 watts, the River 3 Plus covers roughly one night, the River 3 slightly less, and the Delta 3 Plus several nights. Turn the humidifier on and consumption can double or triple, which is the most common reason a small station runs out before morning. Our guide to the <a href="/best-battery-backup-for-cpap/">best battery backup for CPAP</a> goes through the math by machine.
+          </p>
+
+          <p>
+            For a refrigerator, think in days rather than hours. A typical modern fridge uses 1 to 2kWh a day, so the Delta 3 Plus covers most of a day, the Delta 2 Max about a day, the Delta Pro 3 about two days, and a Delta Pro Ultra with a single battery module three days or more if nothing else is running. Add a chest freezer, a furnace blower or a sump pump and those numbers shrink quickly.
+          </p>
+
+          <p>
+            For electronics, the River line goes further than you might expect. A router and modem together typically draw 15 to 30 watts, so even the River 3 keeps a home office online for several hours. Phones and tablets barely register. If those are your only outage needs, a station may be more than you need at all, and our roundup of <a href="/best-portable-chargers-for-power-outages/">portable chargers for power outages</a> covers lighter, cheaper options.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a River for a refrigerator</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The River 3 and River 3 Plus are built for electronics, CPAP machines and small coolers. A kitchen refrigerator uses one to two kilowatt-hours a day, which empties a River in a few hours even if it starts the compressor. If keeping food cold is the goal, the Delta 3 Plus is the smallest EcoFlow that makes sense.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting extra batteries to add output</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Expansion batteries lengthen runtime but leave the inverter alone. A Delta 3 Plus with two extra batteries still tops out at 1,800W and still has no 240V output. Choose the base unit by the biggest load you need to start, then add batteries for the hours you need to cover.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Pairing a big station with one small panel</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 4kWh Delta Pro 3 bundled with a single folding panel will take days of sun to refill. Size solar to the battery, roughly one watt of panel per three watt-hours you want back daily, or treat the station as wall-charged and skip the bundle premium entirely.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Backfeeding the house through an outlet</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Plugging a station into a dryer or wall outlet with a male-to-male cord to power the house is illegal and can electrocute utility workers. Use extension cords to individual appliances, or have an electrician install a transfer switch, interlock or EcoFlow's smart panel for a Delta Pro-class unit.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring the solar voltage limit</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Every EcoFlow lists a maximum solar input voltage. Wiring third-party panels in series without checking can exceed it, especially on cold, sunny mornings when panel voltage rises above its rating. Check the combined open-circuit voltage of the whole string against the spec sheet before connecting anything.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which EcoFlow power station is best for most people?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The Delta 3 Plus. EcoFlow rates it at 1,024Wh and 1,800W, which starts a refrigerator and runs a microwave, and it accepts extra batteries if 1kWh proves too small. At about 28 pounds it is still portable enough for camping. Smaller households focused on electronics can save money with the River 3 Plus instead.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the difference between EcoFlow River and Delta?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                River models are small, light power stations for electronics, CPAP machines and camping, with a few hundred watts of output and under 300Wh of built-in storage. Delta models start around 1kWh with 1,800W or more of output, enough for kitchen appliances and refrigerators, and most accept add-on batteries. Delta Pro models add 240V for home backup.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is an EcoFlow solar generator different from the power station?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. An EcoFlow solar generator is one of its power stations sold in a bundle with folding or rigid panels and cables. The station is identical to the one sold alone. Judge a bundle by whether the panel wattage is large enough to refill the battery in a day, roughly one watt of panel per three watt-hours of storage.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can an EcoFlow power station run my whole house?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not on a single portable unit. A Delta Pro 3 with 4kWh and 240V output can run selected essential circuits through a transfer switch, and a Delta Pro Ultra with several battery modules and the Smart Home Panel 2 approaches whole-home backup. Central air, electric ranges and electric water heaters will still drain any of them quickly.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I buy the Delta 3 Plus or the Delta Pro 3?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Buy the Delta 3 Plus if you mainly need a fridge, internet and lights on extension cords, or want one unit for outages and camping. Buy the Delta Pro 3 if you need 240V, want to power house circuits through a transfer switch, or plan a large solar array. The Pro costs several times as much and weighs over 100 pounds.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do EcoFlow power stations work without the app?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. Every model works out of the box with its physical buttons and default settings, so you can plug in and go. The app adds real-time monitoring, charge limits, charging-speed control and remote output switching, and some settings are only reachable through it. Most owners install it once to set things up and then rarely open it.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long do EcoFlow batteries last?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Current EcoFlow models use LFP cells, which EcoFlow rates for thousands of charge cycles before capacity falls significantly. For a station used occasionally for outages and camping, that means the battery is likely to outlast its electronics. Store it at partial charge in a cool place and top it up every few months between uses to keep it healthy.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Every brand ranked for outages, camping and CPAP use, with runtime math.</p>
+            </a>
+            <a href="/ecoflow-vs-jackery/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Comparison</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">EcoFlow vs Jackery</h3>
+              <p class="text-gray-500 text-sm mt-2">Size class by size class: output, weight, expansion and apps.</p>
+            </a>
+            <a href="/best-jackery-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#10B981] font-black text-xs uppercase tracking-widest mb-2">Brand Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Jackery Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">The Explorer v2 and Plus lines matched to camping and home backup.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Buy the EcoFlow whose inverter covers the biggest thing you need to run, then add batteries for runtime. For most households that is the Delta 3 Plus: 1kWh, 1,800W, under an hour to recharge, and an expansion port for later.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Campers and CPAP users should start with the River 3 Plus. Anyone who needs 240V or wants to back up house circuits should go straight to the Delta Pro 3 and an electrician, and only a permanent whole-home install justifies the Delta Pro Ultra.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

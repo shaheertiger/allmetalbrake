@@ -1,0 +1,969 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Station for Home Backup",
+    "url": "/best-portable-power-station-for-home-backup/"
+  },
+  {
+    "title": "Best EcoFlow Power Station",
+    "url": "/best-ecoflow-power-station/"
+  },
+  {
+    "title": "Best Solar Generator",
+    "url": "/best-solar-generator/"
+  },
+  {
+    "title": "Best Home Generator for Power Outages",
+    "url": "/best-home-generator-for-power-outages/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "Home Battery Backup: 7 Whole-House Systems, Installed and Plug-In";
+const description =
+  "Seven home battery backup systems, from installer-only Powerwall 3 and Enphase to online EcoFlow and Anker kits, with kWh sizing, cost bands and safe wiring.";
+
+const PRODUCTS = [
+  {
+    "id": "tesla-powerwall-3",
+    "name": "Tesla Powerwall 3 Home Battery",
+    "category": "13.5kWh LFP, 11.5kW, Built-In Solar Inverter",
+    "badge": "Best Installed Battery",
+    "amazonUrl": "",
+    "pros": [
+      "11.5kW continuous output is the highest single-unit rating here",
+      "Built-in solar inverter saves a box on new solar installs",
+      "DC expansion units add storage without another inverter",
+      "Mature app and widely available installer network",
+      "Whole-home backup possible with Tesla's backup hardware"
+    ],
+    "cons": [
+      "Installer-only; no buying it online",
+      "Price set by local installer, often well into five figures",
+      "Best value when bought alongside new solar"
+    ],
+    "bottomLine": "The benchmark installed home battery, especially if you are adding solar at the same time.",
+    "description": "The Powerwall 3 is what most people picture when they think of a house battery, and its specifications explain why. Tesla rates it at 13.5kWh of usable storage and 11.5kW of continuous output, which is enough in a single unit to run most of a typical home, including many central air conditioners, during an outage. Unlike earlier Powerwalls, it has a solar inverter built in, so a new solar-plus-storage system needs one less piece of equipment, and Tesla's DC expansion units add more storage without adding another inverter. It uses LFP chemistry. You cannot buy it online and install it yourself; it is sold and installed through Tesla and certified installers, who also supply the backup gateway or switch that isolates the house from the grid. That makes the price a quote, not a list number, and it is usually best value when solar is part of the same project."
+  },
+  {
+    "id": "enphase-iq-battery-5p",
+    "name": "Enphase IQ Battery 5P Home Battery",
+    "category": "5kWh LFP per unit, 3.84kW, Modular",
+    "badge": "Best for Enphase Solar",
+    "amazonUrl": "",
+    "pros": [
+      "Modular 5kWh steps let you buy exactly what you need",
+      "Natural fit for homes with Enphase microinverters",
+      "LFP chemistry with a long warranty",
+      "3.84kW continuous and 7.68kW peak per unit, per Enphase",
+      "Multiple units add both storage and output"
+    ],
+    "cons": [
+      "Installer-only",
+      "Needs several units to match one Powerwall",
+      "Whole-home backup requires the IQ System Controller"
+    ],
+    "bottomLine": "The right battery if your roof already runs on Enphase microinverters.",
+    "description": "Enphase builds its battery the way it builds its solar: in small, modular pieces. Each IQ Battery 5P stores 5kWh and is rated by Enphase for 3.84kW of continuous output and 7.68kW of short-term peak, and units stack, so two give you 10kWh and roughly double the output, three give you 15kWh and so on. That makes it easy to size precisely, starting small and adding more later. It is AC-coupled and uses LFP cells, and it pairs most cleanly with homes already running Enphase microinverters, where the whole system lives in one app. Backup requires Enphase's IQ System Controller, which handles the grid isolation. Like the Powerwall, it is sold only through installers. The trade-off for the modularity is that matching a single Powerwall 3 takes several units, and the per-kWh cost can climb as you stack them."
+  },
+  {
+    "id": "franklinwh-apower-2",
+    "name": "FranklinWH aPower 2 Home Battery",
+    "category": "15kWh LFP, 10kW, aGate Controller",
+    "badge": "Best for Generator Pairing",
+    "amazonUrl": "",
+    "pros": [
+      "15kWh per unit is the largest single battery here",
+      "10kW continuous output handles heavy loads",
+      "aGate controller has a dedicated generator input",
+      "Works alongside existing solar from other brands",
+      "LFP chemistry"
+    ],
+    "cons": [
+      "Installer-only",
+      "Smaller installer network than Tesla or Enphase",
+      "Price depends entirely on local quotes"
+    ],
+    "bottomLine": "The installed battery to choose when you also want a generator in the plan.",
+    "description": "FranklinWH is the least famous of the three installed brands and arguably the most flexible. The aPower 2 is rated at 15kWh of storage and 10kW of continuous output per unit, putting it in the same class as the Powerwall 3 with a little more capacity per box. The real draw is the aGate, the controller that sits between the battery, the grid, the house and any solar. It is designed to work with solar from other manufacturers and includes a dedicated input for a standby or portable generator, so a battery-plus-generator system can be managed from one box rather than with improvised switching. That makes it a strong choice for rural homes that see long outages and want the generator to step in automatically when the battery runs low. It is sold through certified installers only, so availability and price depend on who serves your area."
+  },
+  {
+    "id": "ecoflow-delta-pro-ultra",
+    "name": "EcoFlow Delta Pro Ultra Whole Home Battery Generator",
+    "category": "6kWh per Battery, 7.2kW, 120/240V",
+    "badge": "Best Plug-In System",
+    "amazonUrl": "",
+    "pros": [
+      "120/240V split-phase output from one inverter",
+      "Scales from 6kWh to 30kWh per inverter, 90kWh stacked, per EcoFlow",
+      "High solar input, up to 5.6kW per inverter",
+      "Smart Home Panel 2 provides managed circuit backup",
+      "Can be bought online and expanded over time"
+    ],
+    "cons": [
+      "Battery modules are very heavy",
+      "Still needs an electrician and a panel or switch",
+      "Expensive once multiple batteries are added"
+    ],
+    "bottomLine": "The closest thing to a Powerwall you can order online, with 240V and room to grow.",
+    "description": "The Delta Pro Ultra is EcoFlow's whole-home system and the most capable plug-in option here. It is built as stacking modules: an inverter on top of one or more 6kWh LFP batteries. EcoFlow rates the inverter at 7.2kW continuous with true 120/240V split-phase output, so it can run 240V loads such as a well pump or many central air units, and it states that one inverter supports up to 30kWh of batteries, with stacked inverters reaching 90kWh. Solar input is listed at up to 5.6kW per inverter, which is enough for a serious ground-mounted array. Connection to the house is through EcoFlow's Smart Home Panel 2, which manages circuits automatically, or a conventional transfer switch, either installed by an electrician. The modules are heavy two-person lifts, so this is a garage system that happens to have wheels, not something you carry to a campsite."
+  },
+  {
+    "id": "anker-solix-f3800-plus",
+    "name": "Anker SOLIX F3800 Plus Portable Power Station",
+    "category": "3.84kWh LFP, 6kW, 120/240V, Expandable",
+    "badge": "Best Anker Battery Backup",
+    "amazonUrl": "",
+    "pros": [
+      "6kW continuous output with 120/240V",
+      "Expandable to 26.9kWh with BP3800 batteries",
+      "Two units can be linked for more output",
+      "Home Power Panel option for managed backup",
+      "More solar input than the original F3800"
+    ],
+    "cons": [
+      "Heavy, even with wheels",
+      "Expansion batteries add up quickly",
+      "Needs an electrician for a whole-panel connection"
+    ],
+    "bottomLine": "A strong 240V starter system that grows battery by battery.",
+    "description": "The F3800 Plus is the updated version of Anker's large home backup station, and it is the answer if you are specifically shopping for an Anker battery backup. Anker rates it at 3,840Wh of LFP storage and 6,000W of continuous output with 120/240V capability, which covers essentials plus a 240V well pump or dryer circuit. Add BP3800 expansion batteries and Anker states it can grow to 26.9kWh, and two units can be paired for more output. The Plus version increases solar input over the original F3800. For connection to the house, Anker sells the Home Power Panel, and the unit also works with a conventional transfer switch or interlock installed by an electrician. It rolls on wheels but is still a heavy machine, so plan to leave it in the garage or utility room where it can stay plugged in and ready."
+  },
+  {
+    "id": "jackery-explorer-5000-plus",
+    "name": "Jackery Explorer 5000 Plus Portable Power Station",
+    "category": "5kWh LFP, 7.2kW, 120/240V, Expandable",
+    "badge": "Most Capacity to Start",
+    "amazonUrl": "",
+    "pros": [
+      "5kWh in the base unit, the most of the plug-in systems",
+      "7.2kW continuous with 120/240V output",
+      "Jackery states expansion up to 60kWh",
+      "Smart Transfer Switch available for home connection",
+      "Simple interface"
+    ],
+    "cons": [
+      "Very heavy single unit",
+      "Expansion packs are a significant extra cost",
+      "Not much smaller than a full installed battery"
+    ],
+    "bottomLine": "The most storage you get in one box before buying a single expansion battery.",
+    "description": "Jackery's Explorer 5000 Plus puts more battery into the base unit than any other plug-in system here. Jackery rates it at 5,040Wh of LFP storage and 7,200W of continuous output with 120/240V capability, which is enough for a one-day essentials backup out of the box and covers 240V loads like a well pump. Jackery states the system expands up to 60kWh using additional battery packs and a second unit. For the house connection, Jackery sells its Smart Transfer Switch, and a conventional transfer switch or interlock installed by an electrician also works. The interface is simpler than EcoFlow's, which suits buyers who want to plug it in and forget about it. The catch is weight: this is a big single unit that is built to sit on wheels in a garage, not to be carried, and expansion packs add up fast."
+  },
+  {
+    "id": "bluetti-ac500-b300s",
+    "name": "Bluetti AC500 Power Station with B300S Battery",
+    "category": "5kW Inverter, 3.07kWh per B300S, 120V",
+    "badge": "Best 120V Modular System",
+    "amazonUrl": "",
+    "pros": [
+      "5kW continuous output at 120V",
+      "B300S batteries add storage in about 3kWh steps",
+      "Up to 18.4kWh with six B300S, per Bluetti",
+      "Modules are easier to move than one huge unit",
+      "Often cheaper per kWh than 240V systems"
+    ],
+    "cons": [
+      "120V only without extra hardware",
+      "Older platform than the other plug-in picks",
+      "Multiple boxes and cables to manage"
+    ],
+    "bottomLine": "A sensible modular system for homes that do not need 240V.",
+    "description": "The Bluetti AC500 is a modular system: a 5,000W inverter head that pairs with separate B300S battery packs, each rated at 3,072Wh of LFP storage. Bluetti states up to six B300S packs per AC500, for about 18.4kWh, so you can start with one or two and add more as needed. Because the inverter and batteries are separate boxes, each piece is lighter and easier to move than a single giant unit, which matters if you have stairs between the garage and the basement. The limitation is voltage: the AC500 is a 120V system, so it cannot run a well pump, electric dryer or central air on its own. Bluetti sells a separate box to combine two units for 240V output, but at that point one of the native 240V systems above is usually the simpler buy. For a gas-heated house on city water, it is a capable, flexible backup."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Home Battery Backup",
+          item: "https://www.allmetalbrake.com/best-home-battery-backup/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "How big a home battery backup do I need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Add up the running watts of everything that must operate at once and the largest starting surge to size the inverter, usually 3-6kW for essentials. Then estimate daily use, often 5-10kWh for essentials with gas heat. Multiply by the days you want to cover without recharging. Most homes land between 10 and 30kWh of storage for a realistic plan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a home battery run central air conditioning?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Often, but only with enough output. A single Tesla Powerwall 3 is rated at 11.5kW, which covers many central air units. Plug-in systems need 240V output and enough surge, and some homes need two linked inverters or a soft-start kit on the compressor. Air conditioning also drains a battery quickly, so pair it with solar or plan to run it sparingly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a battery backup better than a generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A battery is silent, produces no exhaust, switches over almost instantly and needs no fuel or maintenance. A generator runs as long as there is fuel, which matters in long winter outages. For frequent short outages a battery is better. For multi-day outages with little sun, a generator or a battery-plus-generator combination is the more reliable choice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I install a home battery myself?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can buy a plug-in system online and use it with extension cords on your own. Connecting any battery to your home's wiring requires a transfer switch, interlock or the maker's backup panel, installed by a licensed electrician, and usually a permit. Installed wall batteries like the Powerwall, Enphase and FranklinWH are only sold through certified installers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a home battery last during an outage?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Divide usable capacity by your average load. A 13.5kWh battery running a 500-watt essentials load lasts roughly a day; at 2,000 watts it lasts under seven hours. Inverter losses shave off a little more. Solar recharging can extend that indefinitely in good weather, and a generator can recharge it on cloudy days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Generac make a battery backup?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Generac's PWRcell is an installed home battery system sold through Generac dealers, and it is what most people mean by a Generac battery generator. It competes with the Powerwall, Enphase and FranklinWH. Compare it on usable capacity, continuous output, warranty and installer quality, the same terms used for every system in this guide."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long do home batteries last before replacement?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most systems here use LFP chemistry, which is rated by manufacturers for thousands of charge cycles. Warranties on installed systems commonly run 10-15 years with a guaranteed remaining capacity. A battery used only for occasional outages will age mainly with time and heat rather than cycles, so a cool, protected installation location helps it last longer."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "home battery backup",
+      "battery backup for house",
+      "house battery",
+      "whole home backup power solution",
+      "home backup electrical generators",
+      "generac battery generator",
+      "anker battery backup"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Home Battery Backup</span> Systems
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Seven ways to keep the lights, the fridge and the furnace running without a generator: three installer-sold wall batteries and four expandable systems you can buy online and wire in through a proper transfer switch.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#tesla-powerwall-3"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Size Your System
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#two-routes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Installed vs Plug-In</a>
+          <a href="#at-a-glance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Comparison Table</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Seven Picks</a>
+          <a href="#sizing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Sizing kWh and kW</a>
+          <a href="#connecting" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Connecting It Safely</a>
+          <a href="#recharging" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Solar and Recharging</a>
+          <a href="#cost" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Cost and Permits</a>
+          <a href="#vs-generator" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Battery vs Generator</a>
+          <a href="#which-one" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          A home battery backup is not one product category but two. Wall-mounted batteries are sold and installed by solar contractors; expandable power stations ship in boxes and plug into a transfer switch. Pick the route first and the model almost picks itself.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="two-routes" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Installed Batteries vs Plug-In Systems
+          </h2>
+
+          <p>
+            Every house battery does the same basic job: it stores electricity while the grid is up and feeds it back into some or all of your circuits when the grid goes down. Where products differ is how they get into your house. On one side are permanently installed wall batteries such as the Tesla Powerwall 3, Enphase IQ Battery 5P and FranklinWH aPower 2. On the other are large expandable power stations from EcoFlow, Anker, Jackery and Bluetti that you can order online, roll into a garage and connect through a transfer switch.
+          </p>
+
+          <p>
+            Installed batteries are bought the way you buy a furnace. A certified installer surveys the home, designs the system, pulls the permit, mounts the hardware, wires it to your main panel and registers it with the utility. You get a single warranty, a system that switches over on its own and, usually, deep integration with rooftop solar. You also get an installed price that runs well into five figures and a waiting list that depends on how busy local contractors are.
+          </p>
+
+          <p>
+            Plug-in systems trade some of that polish for flexibility. The battery and inverter are one portable unit, or a stack of modules on wheels, and you can start with a single battery and add more later. They still need a proper connection to the house, which means an electrician installing a transfer switch, an interlock or the manufacturer's own smart panel, but the battery itself can leave the house for a camping trip or a job site. For renters and people who move often, that portability matters.
+          </p>
+
+          <p>
+            There is a third group worth naming: the standby battery systems sold by generator brands. Generac's PWRcell line is the obvious example, and it is the reason so many people search for a Generac battery generator. It is an installed system, sold through Generac dealers, and it competes directly with the Powerwall and Enphase. If a Generac dealer is already quoting you a standby generator, ask for a PWRcell quote alongside it, but judge it on the same capacity, output and warranty terms as everything else here.
+          </p>
+
+          <p>
+            What none of these are is a small portable power station. A 1kWh box will keep a router and a phone alive, and our guide to the <a href="/best-portable-power-station/">best portable power stations</a> covers that tier properly. A home battery backup in the sense this guide means starts around 4kWh of storage and a few kilowatts of 240V-capable output, and it is meant to run real household circuits for hours, not charge devices.
+          </p>
+        </div>
+
+        <div id="at-a-glance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Seven Systems Compared
+          </h2>
+
+          <p>
+            The table lists the published headline numbers for the base configuration of each system. Capacity is usable storage in kilowatt-hours, which decides how long the house runs. Continuous output is the inverter rating in kilowatts, which decides how many things can run at once. Expansion is the manufacturer's stated maximum, which is usually far more battery than any single home will buy.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">System</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">How it is sold</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Base capacity</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Continuous output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">240V</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Max expansion (stated)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Tesla Powerwall 3</td>
+                    <td class="px-4 py-4 text-gray-700">Certified installer</td>
+                    <td class="px-4 py-4 text-gray-700">13.5kWh</td>
+                    <td class="px-4 py-4 text-gray-700">11.5kW</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">DC expansion units</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Enphase IQ Battery 5P</td>
+                    <td class="px-4 py-4 text-gray-700">Certified installer</td>
+                    <td class="px-4 py-4 text-gray-700">5kWh</td>
+                    <td class="px-4 py-4 text-gray-700">3.84kW</td>
+                    <td class="px-4 py-4 text-gray-700">Via system controller</td>
+                    <td class="px-4 py-4 text-gray-700">Stack multiple units</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">FranklinWH aPower 2</td>
+                    <td class="px-4 py-4 text-gray-700">Certified installer</td>
+                    <td class="px-4 py-4 text-gray-700">15kWh</td>
+                    <td class="px-4 py-4 text-gray-700">10kW</td>
+                    <td class="px-4 py-4 text-gray-700">Via aGate</td>
+                    <td class="px-4 py-4 text-gray-700">Multiple units</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">EcoFlow Delta Pro Ultra</td>
+                    <td class="px-4 py-4 text-gray-700">Online, electrician connects</td>
+                    <td class="px-4 py-4 text-gray-700">6kWh</td>
+                    <td class="px-4 py-4 text-gray-700">7.2kW</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">90kWh with stacked inverters</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker SOLIX F3800 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">Online, electrician connects</td>
+                    <td class="px-4 py-4 text-gray-700">3.84kWh</td>
+                    <td class="px-4 py-4 text-gray-700">6kW</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">26.9kWh</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Jackery Explorer 5000 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">Online, electrician connects</td>
+                    <td class="px-4 py-4 text-gray-700">5kWh</td>
+                    <td class="px-4 py-4 text-gray-700">7.2kW</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">60kWh</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Bluetti AC500 + B300S</td>
+                    <td class="px-4 py-4 text-gray-700">Online, electrician connects</td>
+                    <td class="px-4 py-4 text-gray-700">3.07kWh per B300S</td>
+                    <td class="px-4 py-4 text-gray-700">5kW</td>
+                    <td class="px-4 py-4 text-gray-700">No (120V)</td>
+                    <td class="px-4 py-4 text-gray-700">18.4kWh with six B300S</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two things jump out. First, the installed systems lead on output per box. A single Powerwall 3 is rated for more continuous power than any of the plug-in units, which is why one Powerwall can often carry a central air conditioner while a plug-in system may need two inverters linked to do the same. Second, the plug-in systems lead on how cheaply you can start. A single F3800 Plus or Explorer 5000 Plus with one battery is a much smaller check than any professionally installed wall battery, and you can grow it as budget allows.
+          </p>
+
+          <p>
+            The 240V column matters more than it looks. Most American homes have a handful of 240V loads: well pumps, electric dryers, central air, electric water heaters and ranges. A 120V-only system like the Bluetti AC500 can still back up a lot of the house, but it cannot run those loads without extra hardware. If your water comes from a well, our guide to the <a href="/best-generator-for-well-pump/">best generator for a well pump</a> walks through the starting-current math, and the same numbers apply to a battery inverter.
+          </p>
+
+          <p>
+            Read the expansion column as a ceiling, not a recommendation. Ninety kilowatt-hours of EcoFlow batteries would cost more than many standby generators and weigh well over a ton. The useful question is whether the system can grow from where you start to where you might reasonably end up, which for most homes is somewhere between 10 and 30kWh.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Seven Home Battery Backup Systems
+          </h2>
+
+          <p>
+            These systems are described from manufacturers' published specifications and installation documentation, not from hands-on testing. The first three are sold through certified installers, so the link on those cards is for reference rather than a shopping cart; your quote will come from a local contractor. The last four can be bought online and connected to a home by an electrician through a transfer switch or the maker's own backup panel. Specifications change between production runs, so confirm capacity, output and expansion limits on the listing or quote you actually receive.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="sizing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. How to Size a Battery Backup for a House
+          </h2>
+
+          <p>
+            Sizing comes down to two numbers, and buyers mix them up constantly. Kilowatt-hours (kWh) are the size of the tank: how much energy the battery holds. Kilowatts (kW) are the size of the pipe: how much power the inverter can deliver at any instant. A battery with lots of kWh and a small inverter will run a few things for a very long time. A big inverter on a small battery will run everything at once, briefly.
+          </p>
+
+          <p>
+            Start with the pipe. List the loads that must run during an outage and add their running watts, then add the largest single starting surge on top. A typical essentials list looks like this: refrigerator around 150 watts running with a much higher start, furnace blower 400-800 watts, lights and internet 200 watts, a sump pump that can spike hard on start, and a well pump if you have one. Most homes land between 3 and 6kW of continuous need for essentials, and 8-12kW once central air enters the picture.
+          </p>
+
+          <p>
+            Then size the tank. A modern refrigerator might use 1-2kWh a day, a gas furnace blower a few kWh on a cold day, and lights, internet and phones another 1-2kWh. An essentials-only house therefore uses somewhere around 5-10kWh a day during an outage if everyone is careful. Add an electric water heater, electric cooking or air conditioning and that figure climbs to 20-40kWh a day, which is where battery-only backup gets expensive fast.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Rough Daily Use During an Outage</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">5-10kWh</p>
+                <p class="text-gray-400 text-xs mt-1">Essentials only, gas heat</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">15-25kWh</p>
+                <p class="text-gray-400 text-xs mt-1">Essentials plus well pump and some AC</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">30kWh+</p>
+                <p class="text-gray-400 text-xs mt-1">Most of the house, electric heat or AC</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">3-6kW</p>
+                <p class="text-gray-400 text-xs mt-1">Typical essentials inverter need</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Decide how many days you want to cover without recharging. One day of essentials is a realistic target for a single Powerwall 3, a two-battery Delta Pro Ultra or a well-specified Explorer 5000 Plus. Three days requires either a lot of batteries or a way to refill them, which is why solar, and in some homes a small generator, matter so much in the next sections. If you want the essentials-only version of this calculation at a smaller scale, our guide to the <a href="/best-portable-power-station-for-home-backup/">best portable power station for home backup</a> runs the same math on 1-4kWh units.
+          </p>
+
+          <p>
+            Finally, size for the loads you will actually ration. Every system on this list lets you choose which circuits are backed up, either through a critical-loads subpanel or a smart panel with switchable breakers. Backing up eight circuits you genuinely need is far cheaper than backing up the whole panel and hoping nobody turns on the dryer. The cheapest kilowatt-hour is the one you decided you could live without.
+          </p>
+        </div>
+
+        <div id="connecting" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Connecting a Battery to Your House Safely
+          </h2>
+
+          <p>
+            This is the section that matters most, because a home battery connected the wrong way can kill a lineworker. During an outage, any power you push back into the utility lines is stepped up by the transformer outside your house to thousands of volts. That is backfeeding, and the only safe way to prevent it is equipment that physically separates your house from the grid before the battery powers it. A so-called suicide cord, a male-to-male plug run into a dryer outlet, is illegal, dangerous and has no place in any backup plan.
+          </p>
+
+          <p>
+            Installed batteries handle isolation as part of the system. The Powerwall 3 works with Tesla's Backup Gateway or Backup Switch, Enphase uses the IQ System Controller, and FranklinWH uses the aGate. Each of these detects the outage, opens the connection to the grid and then lets the battery energize your circuits, usually fast enough that clocks do not reset. The installer sizes and installs that hardware, pulls the permit and arranges the inspection, and the utility is involved because the system may also export solar power.
+          </p>
+
+          <p>
+            Plug-in systems need the same isolation, provided by different hardware. The options are a manual transfer switch for selected circuits, a generator interlock kit on the main panel, or the maker's own backup panel: EcoFlow's Smart Home Panel 2, Anker's Home Power Panel and Jackery's Smart Transfer Switch are all built for this. Whichever you choose, a licensed electrician should install it, and in most jurisdictions a permit is required. The battery itself plugs into an inlet box on the outside or garage wall, exactly as a portable generator would.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">No transfer switch, no connection to the house.</p>
+            <p class="text-gray-300 leading-relaxed m-0">A battery or generator may only feed house wiring through a listed transfer switch, an approved interlock or the manufacturer's isolation hardware, installed by a licensed electrician. Anything else risks backfeeding the grid, damaging equipment and electrocuting utility workers.</p>
+          </div>
+
+          <p>
+            If you are not ready for an electrician, you can still use a plug-in system the way you would use a portable generator: run heavy-duty extension cords from the unit's outlets to the fridge, a lamp and the internet gear. That is safe as long as nothing connects to the house wiring. It is clumsy, and it will not run hardwired loads like a furnace or well pump, but it is a legitimate first step.
+          </p>
+
+          <p>
+            One more protection worth adding with any battery install is surge protection at the panel. Grid restoration after a storm is when voltage spikes are most likely, and a battery inverter is an expensive thing to fry. Our guide to the <a href="/best-whole-house-surge-protector/">best whole-house surge protector</a> covers the panel-mounted devices an electrician can add during the same visit.
+          </p>
+        </div>
+
+        <div id="recharging" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Solar, Recharging and Long Outages
+          </h2>
+
+          <p>
+            A battery without a way to recharge is a countdown timer. For an outage of a few hours that is fine; for a multi-day storm or a wildfire shutoff, what decides whether the lights stay on is how fast the battery can be refilled. There are three sources: the grid when it returns, solar panels, and a fuel generator. Most serious home battery backup plans use at least two.
+          </p>
+
+          <p>
+            Installed batteries are usually designed around rooftop solar. The Powerwall 3 has a solar inverter built in, so a new solar-plus-battery install needs one less box. Enphase batteries are AC-coupled and pair naturally with Enphase microinverter systems, and FranklinWH's aGate can work alongside existing solar from other makers. With a properly sized roof array, a house in a sunny climate can refill much of a day's essential use on a clear day, which turns a one-day battery into an indefinite one as long as the weather cooperates.
+          </p>
+
+          <p>
+            The plug-in systems accept solar directly, usually through high-voltage inputs designed for portable or ground-mounted panels. EcoFlow quotes up to 5.6kW of solar input for a Delta Pro Ultra inverter, and the Anker, Jackery and Bluetti units all accept several kilowatts. In practice the limit is where you can put the panels. A row of panels on a ground rack in the backyard can refill a few kWh a day; folding panels laid out on a deck can add a meaningful top-up. Our guides to the <a href="/best-portable-solar-panel/">best portable solar panels</a> and the <a href="/best-solar-generator/">best solar generators</a> cover how to match panel wattage to an input window.
+          </p>
+
+          <p>
+            Pairing a battery with a generator is the most reliable answer for long outages in cloudy or winter conditions. The generator runs for a few hours to refill the battery at its most efficient load, then shuts off while the battery carries the house quietly overnight. The aGate has a dedicated generator input, and the plug-in systems can charge from a generator through their AC inputs. If you go this route, an inverter generator is the better match, and our <a href="/best-small-generator-for-home/">small generator for home</a> guide lists ones that suit.
+          </p>
+
+          <p>
+            Expect batteries to recharge more slowly than their output suggests. Charge rates from the wall are often limited by circuit size, solar harvest is limited by sun and panel angle, and cold batteries charge slowly or not at all until they warm up. LFP chemistry, used by most of the systems here, is safe and long-lived but dislikes charging below freezing, which is why units installed in unheated garages in cold climates should have heating or be placed somewhere protected.
+          </p>
+        </div>
+
+        <div id="cost" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Cost, Incentives and Permits
+          </h2>
+
+          <p>
+            Prices move too quickly for exact figures, but the bands are stable enough to plan around. An installed wall battery like a single Powerwall 3 or FranklinWH aPower 2 commonly lands somewhere in the low-to-mid teens of thousands of dollars installed, and more if your panel needs an upgrade or the install is complicated. Enphase systems scale in 5kWh steps, so the price depends heavily on how many units you need.
+          </p>
+
+          <p>
+            Plug-in systems start lower and climb with every battery added. A single Anker SOLIX F3800 Plus or Jackery Explorer 5000 Plus is a few thousand dollars, a Delta Pro Ultra with one battery somewhat more, and the electrician's work for an inlet and transfer switch or smart panel adds a further sum that varies a great deal by region. By the time a plug-in system matches the capacity of a Powerwall, the gap between the two routes has narrowed considerably.
+          </p>
+
+          <p>
+            Do not assume the federal tax credit applies. The 30 percent federal residential clean energy credit that covered home batteries for several years was ended for systems paid for after December 31, 2025, under the 2025 federal tax law. Some states, utilities and local programs still offer rebates or pay homeowners to let the utility draw on their battery during peak demand, and those can be worth real money. Ask any installer to show which incentives are current in your area rather than quoting old numbers.
+          </p>
+
+          <p>
+            Permits are part of the price, not an optional extra. Installed systems always go through permitting and usually a utility interconnection agreement if solar is involved. Plug-in systems need a permit for the transfer switch or panel work in most places, even though the battery itself is a consumer product. Insurers and future buyers of your house will both care whether that work was inspected, so it is worth doing properly.
+          </p>
+
+          <p>
+            Operating costs are low. There is no fuel, no oil change and no weekly exercise cycle. The main long-term cost is battery degradation, and most of the systems here are rated for thousands of cycles and backed by long warranties. If you want a broader cost comparison against a fuel-burning standby unit, our <a href="/generac-generator-cost/">Generac generator cost</a> breakdown covers the installed price of the generator side.
+          </p>
+        </div>
+
+        <div id="vs-generator" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Battery Backup vs a Standby Generator
+          </h2>
+
+          <p>
+            Home backup electrical generators and home batteries solve the same problem in opposite ways. A standby generator burns natural gas or propane, so it runs as long as the fuel lasts, which for a home on a gas line means essentially indefinitely. A battery runs for as long as its stored energy lasts, then needs refilling. If your outages routinely run for days in winter, that difference decides the question.
+          </p>
+
+          <p>
+            Batteries win on almost everything else. They are silent, so neighbors and noise ordinances are not a concern. They produce no exhaust, so there is no carbon monoxide risk and no clearance from windows to worry about. They switch over so fast that most electronics never notice, while a standby generator takes several seconds to start and transfer. And they earn their keep every day if paired with solar or a time-of-use rate plan, while a generator sits idle until the next storm.
+          </p>
+
+          <p>
+            Generators win on surge and duration per dollar. A whole-house standby generator rated for 20kW or more can start a central air conditioner, a well pump and an electric range without blinking, and a buried propane tank can run it for days. Matching that with batteries takes several high-output units and a lot of storage. Our guide to the <a href="/best-home-generator-for-power-outages/">best home generator for power outages</a> covers the fuel side if that is the better fit, and the <a href="/best-gas-generator/">best gas generator</a> guide covers portable options.
+          </p>
+
+          <p>
+            For many homes the right answer is both. A modest battery carries the house through the frequent short outages silently and instantly, and a generator, portable or standby, covers the rare long ones by recharging the battery for a few hours a day. That arrangement also lets a smaller, cheaper generator do the work of a big one, because it never has to handle the starting surge of every appliance at once.
+          </p>
+
+          <p>
+            If you only lose power a few times a year for a few hours, a battery alone is the cleaner solution. If you lose it for days every winter and have no sun to speak of, a generator or a generator-plus-battery setup is the honest recommendation, and spending a fortune on batteries alone would be the wrong call.
+          </p>
+        </div>
+
+        <div id="which-one" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Which Home Battery Backup to Buy
+          </h2>
+
+          <p>
+            If you are installing solar anyway, or already have it, get quotes for the <strong>Tesla Powerwall 3</strong> and the <strong>FranklinWH aPower 2</strong>. Both offer a lot of storage and output in one unit, and the Powerwall's built-in solar inverter makes it especially efficient for new solar installs. If you already have Enphase microinverters, the <strong>Enphase IQ Battery 5P</strong> is the natural fit, and its 5kWh steps let you buy exactly as much as you need.
+          </p>
+
+          <p>
+            If you want a whole home backup power solution without a contractor-led solar project, the <strong>EcoFlow Delta Pro Ultra</strong> is the most capable plug-in system here. Its 240V output and high solar input make it the closest thing to a Powerwall you can order online, and it scales from one battery to a garage full. Our <a href="/best-ecoflow-power-station/">EcoFlow power station guide</a> covers the smaller models if you want to stay in that ecosystem at a lower budget.
+          </p>
+
+          <p>
+            If you want the most capacity per dollar to start, look at the <strong>Jackery Explorer 5000 Plus</strong>, which puts 5kWh and 240V output in one wheeled unit. If you are already shopping for an Anker battery backup, the <strong>Anker SOLIX F3800 Plus</strong> is the pick: 240V, 6kW and expansion batteries that slot in later. Our <a href="/best-anker-solix-power-station/">Anker SOLIX power station</a> and <a href="/best-jackery-power-station/">Jackery power station</a> guides cover each lineup in more depth.
+          </p>
+
+          <p>
+            The <strong>Bluetti AC500 with B300S batteries</strong> is for homes where 120V circuits are enough: gas heat, gas water heater, city water, no central air. Its modular batteries are easy to add, and without the 240V hardware it is often cheaper per kilowatt-hour. If you need 240V for a well pump or dryer, skip it and buy one of the others.
+          </p>
+
+          <p>
+            And if none of this fits the budget, do not buy a small, undersized home battery just to say you have one. A good 1-2kWh portable power station for the fridge and internet, plus a few <a href="/best-portable-chargers-for-power-outages/">portable chargers</a> and lanterns, will get most households through a typical outage, and you can save toward a real system later.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Backfeeding through a dryer outlet</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Plugging a battery or generator into a household outlet with a double-male cord energizes the utility lines and can kill a lineworker. It can also start a fire in your own walls. Every connection to house wiring must go through a transfer switch, interlock or the maker's isolation hardware, installed by a licensed electrician.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sizing by kWh and ignoring kW</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A big battery with a small inverter cannot start a well pump or central air. List the loads that must run at the same time, add the largest starting surge, and buy an inverter that covers it before worrying about how many kilowatt-hours you need. Runtime is easy to add later; output often is not.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Assuming old tax credit numbers</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many sales pitches still quote the 30 percent federal credit, which ended for home battery systems paid for after 2025. Ask the installer which state, utility or local incentives are current in your area and get them in writing. A quote that depends on an expired credit is not a real quote.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Backing up the whole panel by default</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Whole-panel backup sounds best, but it lets anyone switch on a dryer or electric oven and drain the battery in an hour. A critical-loads subpanel or a smart panel with selected circuits stretches the same battery much further. Decide what you can live without before you pay to back it up.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Putting LFP batteries in a freezing garage</h3>
+              <p class="text-gray-700 text-sm m-0">
+                LFP chemistry is safe and long-lived but cannot charge normally below freezing, and some units will refuse to charge until they warm up. In cold climates, install the battery in a conditioned space or choose a model with built-in heating, and check the manufacturer's stated operating temperature range before picking a spot.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How big a home battery backup do I need?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Add up the running watts of everything that must operate at once and the largest starting surge to size the inverter, usually 3-6kW for essentials. Then estimate daily use, often 5-10kWh for essentials with gas heat. Multiply by the days you want to cover without recharging. Most homes land between 10 and 30kWh of storage for a realistic plan.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a home battery run central air conditioning?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Often, but only with enough output. A single Tesla Powerwall 3 is rated at 11.5kW, which covers many central air units. Plug-in systems need 240V output and enough surge, and some homes need two linked inverters or a soft-start kit on the compressor. Air conditioning also drains a battery quickly, so pair it with solar or plan to run it sparingly.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a battery backup better than a generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A battery is silent, produces no exhaust, switches over almost instantly and needs no fuel or maintenance. A generator runs as long as there is fuel, which matters in long winter outages. For frequent short outages a battery is better. For multi-day outages with little sun, a generator or a battery-plus-generator combination is the more reliable choice.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I install a home battery myself?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                You can buy a plug-in system online and use it with extension cords on your own. Connecting any battery to your home's wiring requires a transfer switch, interlock or the maker's backup panel, installed by a licensed electrician, and usually a permit. Installed wall batteries like the Powerwall, Enphase and FranklinWH are only sold through certified installers.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does a home battery last during an outage?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Divide usable capacity by your average load. A 13.5kWh battery running a 500-watt essentials load lasts roughly a day; at 2,000 watts it lasts under seven hours. Inverter losses shave off a little more. Solar recharging can extend that indefinitely in good weather, and a generator can recharge it on cloudy days.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Does Generac make a battery backup?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. Generac's PWRcell is an installed home battery system sold through Generac dealers, and it is what most people mean by a Generac battery generator. It competes with the Powerwall, Enphase and FranklinWH. Compare it on usable capacity, continuous output, warranty and installer quality, the same terms used for every system in this guide.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long do home batteries last before replacement?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most systems here use LFP chemistry, which is rated by manufacturers for thousands of charge cycles. Warranties on installed systems commonly run 10-15 years with a guaranteed remaining capacity. A battery used only for occasional outages will age mainly with time and heat rather than cycles, so a cool, protected installation location helps it last longer.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Home Backup Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Seven stations ranked for outages, camping and CPAP use, with runtime math.</p>
+            </a>
+            <a href="/best-home-generator-for-power-outages/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Home Generator for Power Outages</h3>
+              <p class="text-gray-500 text-sm mt-2">Standby and portable generators for when batteries alone are not enough.</p>
+            </a>
+            <a href="/ecoflow-vs-bluetti/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Comparison</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">EcoFlow vs Bluetti</h3>
+              <p class="text-gray-500 text-sm mt-2">How the two biggest expandable-battery brands compare on output and expansion.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Choose the route before the product. If you are adding solar or want a system that runs itself, get installer quotes for the Tesla Powerwall 3, FranklinWH aPower 2 or, on an Enphase roof, the IQ Battery 5P. If you want to buy online and grow over time, the EcoFlow Delta Pro Ultra is the most capable plug-in system, with the Jackery Explorer 5000 Plus and Anker SOLIX F3800 Plus as strong 240V alternatives.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whatever you buy, size the inverter for your largest simultaneous load, size the battery for the days you want to cover, and connect it to the house only through a transfer switch or approved backup panel installed by a licensed electrician.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

@@ -1,0 +1,895 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Portable Power Station for Camping",
+    "url": "/best-portable-power-station-for-camping/"
+  },
+  {
+    "title": "Best Solar Generators",
+    "url": "/best-solar-generator/"
+  },
+  {
+    "title": "Best Home Battery Backup",
+    "url": "/best-home-battery-backup/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Jackery Power Stations: Explorer v2 and Plus Ranked by Use";
+const description =
+  "Jackery's Explorer v2 and Plus power stations ranked by job, from the 300 Plus to the 5000 Plus, with which to buy for camping, RVs, CPAP and home backup.";
+
+const PRODUCTS = [
+  {
+    "id": "jackery-explorer-1000-v2",
+    "name": "Jackery Explorer 1000 v2 Portable Power Station",
+    "category": "1,070Wh LFP, 1,500W, 3,000W Surge, About 24 lb",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "About 24 pounds, among the lightest 1kWh LFP units",
+      "3,000W surge rating handles fridge compressor starts",
+      "One-hour emergency wall charge switched on in the app",
+      "Simple controls that work without touching the app",
+      "Widely bundled with SolarSaga panels"
+    ],
+    "cons": [
+      "Not expandable; outgrowing it means a second unit",
+      "1,500W continuous is tight for kettles and toasters",
+      "120V only"
+    ],
+    "bottomLine": "The Jackery most people should buy: a light, simple 1kWh station for camping and short outages, as long as you know 1kWh is enough.",
+    "description": "The Explorer 1000 v2 is the model Jackery is best known for and the one most buyers should start with. Jackery lists it at 1,070Wh of LFP storage with a 1,500W inverter and a 3,000W surge rating, in a case of about 24 pounds. That surge figure matters more than the continuous rating for most outage use, because a refrigerator compressor pulls a short spike at start-up and the 1000 v2 swallows it comfortably. On the runtime math in this guide it keeps a typical fridge going for roughly 10 to 20 hours, or a CPAP, router and lights through a long night. Jackery's app unlocks an emergency charging mode that it quotes at about an hour from the wall. The catch is that the battery is fixed. If you are unsure whether 1kWh will be enough, look at the expandable Explorer 1000 Plus instead; if you are sure, this is the lighter and simpler buy."
+  },
+  {
+    "id": "jackery-explorer-2000-v2",
+    "name": "Jackery Explorer 2000 v2 Portable Power Station",
+    "category": "2,042Wh LFP, 2,200W, About 40 lb",
+    "badge": "Best 2kWh Single Box",
+    "amazonUrl": "",
+    "pros": [
+      "2kWh in a single case of about 40 pounds",
+      "Runs a fridge for about a day on its own",
+      "2,200W covers a microwave or a sump pump start",
+      "Fits in an RV or car trunk without a ramp"
+    ],
+    "cons": [
+      "Not expandable",
+      "No 240V output",
+      "Heavier than it looks for a one-handed carry"
+    ],
+    "bottomLine": "The lightest practical way to get 2kWh in one box; the right Jackery for RV owners and overnight outages with a fridge and CPAP.",
+    "description": "The Explorer 2000 v2 is where Jackery's lightweight approach pays off most. Jackery lists 2,042Wh of LFP storage and a 2,200W inverter in a single case of about 40 pounds, which is unusually light for the capacity. That combination runs a typical refrigerator for about a day by the runtime math in this guide, or a fridge, CPAP, router and lights through a long outage night, and it handles a microwave, a coffee maker or a sump pump start. Because it is one box with a handle rather than a base unit and battery stack, it moves easily between a house, a car trunk and an RV. The trade-offs are the same as the 1000 v2: no expansion port and no 240V. If you know 2kWh is enough and you value moving the station around, there is no better Jackery. If you want to grow into home backup later, the Explorer 2000 Plus is the better platform."
+  },
+  {
+    "id": "jackery-explorer-300-plus",
+    "name": "Jackery Explorer 300 Plus Portable Power Station",
+    "category": "288Wh LFP, 300W, About 8 lb",
+    "badge": "Best Budget",
+    "amazonUrl": "",
+    "pros": [
+      "About 8 pounds with LFP chemistry",
+      "Covers phones, laptops, lights and a CPAP night",
+      "Small enough for a backpack or glovebox-sized space",
+      "Usually sold in the under $300 class"
+    ],
+    "cons": [
+      "300W rated output rules out anything with a heater",
+      "Not expandable"
+    ],
+    "bottomLine": "A good small station for devices and CPAP nights; do not buy it expecting to run kitchen appliances.",
+    "description": "The Explorer 300 Plus is Jackery's small LFP station and its most direct answer to EcoFlow's River 3 series. Jackery lists it at 288Wh of storage and 300W of output in a case of about 8 pounds, small enough to toss in a daypack or behind a car seat. That is plenty for laptops, camera batteries, phones, string lights, a fan and a 12V cooler for a few hours, and it covers a night of CPAP use with the heated humidifier off. It is not enough for anything with a heating element or a meaningful motor: kettles, hair dryers, coffee makers and refrigerators are all out of reach. Within that brief it is a well-built, simple box, and LFP cells mean it tolerates years of regular charging. Buy it as a device charger and campsite light source, or as a second unit for a home office, and it will do exactly what you expect."
+  },
+  {
+    "id": "jackery-explorer-1000-plus",
+    "name": "Jackery Explorer 1000 Plus Portable Power Station",
+    "category": "1,264Wh LFP, 2,000W, Expandable to about 5kWh",
+    "badge": "Best Expandable Mid-Size",
+    "amazonUrl": "",
+    "pros": [
+      "2,000W continuous, more than the 1000 v2",
+      "Takes up to three add-on battery packs",
+      "Grows to about 5kWh by Jackery's figures",
+      "LFP cells and a roughly five-year warranty"
+    ],
+    "cons": [
+      "About 32 pounds, noticeably heavier than the 1000 v2",
+      "Battery packs add real cost and weight"
+    ],
+    "bottomLine": "The Jackery to buy if you want 1kWh-class portability today and the option of a much bigger home setup later.",
+    "description": "The Explorer 1000 Plus is the answer to the 1000 v2's biggest weakness. Jackery lists it at 1,264Wh of LFP storage with a 2,000W inverter, both a step up from the v2, and it has an expansion port that takes up to three of Jackery's Battery Pack 1000 Plus units for about 5kWh in total. That makes it a much more flexible platform: carry the base unit to a campsite, then stack the battery packs at home for a multi-day outage. The extra 500 watts of continuous output also helps with kitchen loads like a coffee maker or a small microwave that sit right at the 1000 v2's limit. The price of that flexibility is weight. At about 32 pounds the 1000 Plus is roughly a third heavier than the v2, which campers will notice. If you are certain you will never want more than 1kWh, the v2 is the better carry; if not, buy the Plus."
+  },
+  {
+    "id": "jackery-explorer-2000-plus",
+    "name": "Jackery Explorer 2000 Plus Portable Power Station",
+    "category": "2,042Wh LFP, 3,000W, Expandable, 240V When Paired",
+    "badge": "Best for Home Backup",
+    "amazonUrl": "",
+    "pros": [
+      "3,000W continuous for larger kitchen and shop loads",
+      "Expands with battery packs into the double-digit kWh range",
+      "Two units can be linked for 120/240V output",
+      "Wheels and a telescoping handle",
+      "Works with Jackery's home transfer options"
+    ],
+    "cons": [
+      "About 61 pounds before any battery packs",
+      "240V needs two units and a connection kit",
+      "Expensive once fully built out"
+    ],
+    "bottomLine": "The most flexible Jackery for home backup; start with one unit and grow into a 240V, multi-day system if you need it.",
+    "description": "The Explorer 2000 Plus is Jackery's modular home backup platform. Jackery lists the base unit at 2,042Wh of LFP storage with a 3,000W inverter, and it takes add-on Battery Pack 2000 Plus units to push a single station into the double-digit kilowatt-hour range. Link two 2000 Plus units with Jackery's connection kit and the pair delivers 120/240V, which opens up well pumps, dryers and the kind of transfer-switch installation that a single 120V box cannot support. That growth path is the point; on its own, the 2000 Plus is a heavy alternative to the 2000 v2 with more output. At about 61 pounds it rolls on wheels with a telescoping handle rather than being carried, and a fully built-out system with several battery packs runs into serious money. For a household that wants to start with one unit for a fridge and internet and build toward a real circuit-level backup system, it is the Jackery to buy."
+  },
+  {
+    "id": "jackery-explorer-5000-plus",
+    "name": "Jackery Explorer 5000 Plus Portable Power Station",
+    "category": "5,040Wh LFP, 7,200W, 120/240V",
+    "badge": "Best Whole-Home Jackery",
+    "amazonUrl": "",
+    "pros": [
+      "5kWh in the base unit",
+      "7,200W, 120/240V output from a single box",
+      "Starts large motor loads like central air and well pumps",
+      "Expandable with add-on battery packs",
+      "Designed for a transfer switch installation"
+    ],
+    "cons": [
+      "Very heavy; wheels and two people for stairs",
+      "Effectively requires an electrician to use well",
+      "Priced like a home battery"
+    ],
+    "bottomLine": "Jackery's flagship for whole-home backup; only worth it if you are wiring it into the house.",
+    "description": "The Explorer 5000 Plus is Jackery's flagship and the model aimed at people who want a battery to replace a portable gas generator for home backup. Jackery lists it at 5,040Wh of LFP storage with a 7,200W inverter that delivers both 120V and 240V from a single unit, which is enough to start the motor loads that defeat smaller stations, including many well pumps and central air compressors. Add-on battery packs extend runtime toward multi-day coverage, and Jackery designs it to connect to the house through a transfer switch, installed by an electrician, so it can run the circuits you choose rather than extension cords. It is portable only in the sense that it has wheels. The unit is very heavy and lives in a garage or utility room, and the price puts it in the same conversation as wall-mounted home batteries and standby generators. If you are not planning a hardwired install, the 2000 Plus is the better value."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Jackery Power Stations",
+          item: "https://www.allmetalbrake.com/best-jackery-power-station/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Which Jackery power station is best for most people?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Explorer 1000 v2. Jackery lists it at 1,070Wh and 1,500W with a 3,000W surge in about 24 pounds, which runs a fridge through an evening outage and carries easily to a campsite. Buy the Explorer 1000 Plus instead if you might want more capacity later, because the v2 cannot be expanded."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between Jackery v2 and Plus models?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Explorer v2 models are fixed-size, lightweight stations built for carrying and simplicity. Explorer Plus models are heavier but take add-on battery packs, offer more output at the same size, and at the 2000 and 5000 sizes support 240V for home backup. Choose v2 if you know the capacity you need and Plus if you might grow."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a Jackery solar generator worth it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can be, if the bundle includes enough panel for the station. A Jackery solar generator is an Explorer sold with SolarSaga panels, so the station is the same as the standalone unit. Bundles with one small panel for a large battery are poor value for outage use; aim for roughly one watt of panel per three watt-hours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a Jackery run a refrigerator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, from the Explorer 1000 v2 upward. A typical fridge uses 1 to 2kWh a day and briefly pulls a start-up surge that the 1000 v2's 3,000W surge rating handles comfortably. Expect roughly 10 to 20 hours from a 1kWh unit, about a day from a 2kWh unit, and several days from the 5000 Plus."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a Jackery power my whole house?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not a portable v2 model. The Explorer 5000 Plus, or two linked 2000 Plus units, can deliver 120/240V and run selected essential circuits through a transfer switch installed by an electrician. Even those will be drained quickly by central air, an electric range or an electric water heater, so plan backup around essential circuits only."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Jackery 1000 v2 or 2000 v2: which should I buy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Buy the 1000 v2 if you mainly camp or need a fridge and internet through outages of a few hours, and value a 24-pound carry. Buy the 2000 v2 if you have an RV, run a CPAP and a fridge overnight, or want a full day of fridge runtime. Neither expands, so size up if unsure."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a Jackery battery last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Jackery's current Explorer models use LFP cells, which Jackery rates for thousands of charge cycles before capacity drops significantly. For occasional outage and camping use, the battery will likely outlast the station's electronics. Store it partially charged somewhere cool and top it up every few months, and avoid leaving it in a hot car for long periods."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best jackery power station",
+      "jackery power station",
+      "jackery portable power station",
+      "jackery solar generator",
+      "jackery explorer 1000 v2",
+      "jackery 2000 v2",
+      "jackery homepower 3600 plus",
+      "jackery generator"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Jackery Power Stations</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Jackery makes some of the lightest power stations for their capacity. Here is which Explorer fits your job, and when to step up to the expandable Plus line.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#jackery-explorer-1000-v2"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Which One to Buy
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#lineup" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Lineup at a Glance</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Six Picks</a>
+          <a href="#which-one" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Which One to Buy</a>
+          <a href="#v2-vs-plus" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. v2 vs Plus</a>
+          <a href="#home-backup" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Home Backup and HomePower</a>
+          <a href="#solar" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Solar Generator Bundles</a>
+          <a href="#app-charging" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Charging and the App</a>
+          <a href="#where-jackery-loses" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Where Jackery Loses</a>
+          <a href="#runtime" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Runtime by Model</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          For most people the right Jackery is the Explorer 1000 v2. The real decision is whether you want a light, fixed-size v2 or an expandable Plus model you can grow into home backup.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="lineup" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The Jackery Lineup at a Glance
+          </h2>
+
+          <p>
+            Jackery's range is easier to follow than EcoFlow's once you know the two suffixes. The <strong>Explorer v2</strong> models are fixed-size, lightweight boxes built for carrying: the 1000 v2 and 2000 v2 are the ones most people buy. The <strong>Explorer Plus</strong> models are expandable platforms that take add-on battery packs, and the larger ones add 240V output for home backup. Jackery's newer <strong>HomePower</strong> models, such as the HomePower 3600 Plus, are aimed squarely at home backup rather than camping.
+          </p>
+
+          <p>
+            That split is the most important decision you will make. A v2 is lighter and simpler for its capacity, and it is the better buy if you know the size you need. A Plus is heavier and costs more for the same watt-hours, but it can grow, and at the top of the range it can feed house circuits through a transfer switch. Buying a v2 when you will eventually want home backup, or a Plus when you only ever go camping, are the two most common Jackery mistakes.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Battery</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">AC Output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Expandable</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Explorer 300 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">288Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">300W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Devices, CPAP, day trips</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Explorer 1000 v2</td>
+                    <td class="px-4 py-4 text-gray-700">1,070Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">1,500W (3,000W surge)</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Camping, short outages</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Explorer 1000 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">1,264Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">2,000W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, to about 5kWh</td>
+                    <td class="px-4 py-4 text-gray-700">Grow from camping to home</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Explorer 2000 v2</td>
+                    <td class="px-4 py-4 text-gray-700">2,042Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">2,200W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">RVs, overnight outages</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Explorer 2000 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">2,042Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">3,000W; 240V when paired</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, double-digit kWh</td>
+                    <td class="px-4 py-4 text-gray-700">Modular home backup</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Explorer 5000 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">5,040Wh LFP</td>
+                    <td class="px-4 py-4 text-gray-700">7,200W, 120/240V</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Whole-home installs</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Every model on this list uses LFP (lithium iron phosphate) cells, which tolerate thousands of charge cycles and age more gracefully in storage than the NMC packs in Jackery's older Explorer models. Specs here come from Jackery's published figures rather than our own measurements, and we round where Jackery rounds. Weights are approximate and vary slightly between listings.
+          </p>
+
+          <p>
+            If you are still choosing a brand, our <a href="/best-portable-power-station/">portable power station rankings</a> compare Jackery against EcoFlow, Anker SOLIX and Bluetti, and our <a href="/ecoflow-vs-jackery/">EcoFlow vs Jackery</a> comparison goes size class by size class. This page assumes you have settled on Jackery and want the right Explorer.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Six Best Jackery Power Stations
+          </h2>
+
+          <p>
+            These picks are described from Jackery's published specifications, not from hands-on testing, and they are ranked by how well each fits the job most buyers have for it. Jackery sells many of these as solar generator bundles with SolarSaga panels; the station is the same either way, so confirm the panel count and what is in the box on the listing you buy from.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="which-one" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Which Jackery Should You Buy?
+          </h2>
+
+          <p>
+            Pick by the heaviest load you need to run and how often you will move the station. Jackery's lineup has a clean answer for almost every combination, and the most expensive model is the right one for very few people.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Phones, laptops, lights and a CPAP</h3>
+
+          <p>
+            Buy the <strong>Explorer 300 Plus</strong>. At about 8 pounds it is the easiest Jackery to take anywhere, and its 288Wh battery covers a night of CPAP use with the humidifier off or a long day of device charging. If you need to run a small appliance like a blender or a portable induction plate, skip past it; 300 watts is not enough.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Weekend camping and short outages</h3>
+
+          <p>
+            Buy the <strong>Explorer 1000 v2</strong>. It is the lightest 1kWh LFP box from a major brand, it starts a refrigerator, and it charges from the wall in about an hour in its app-enabled emergency mode. For a household that wants to keep the fridge cold and the Wi-Fi on through an evening outage, it is the simplest good answer. Campers should read our guide to the <a href="/best-portable-power-station-for-camping/">best portable power station for camping</a> for how it compares against rivals at the campsite.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">RVs, vans and overnight outages</h3>
+
+          <p>
+            Buy the <strong>Explorer 2000 v2</strong>. Two kilowatt-hours in a 40-pound box covers a fridge for about a day or a full night of CPAP, fridge, router and lights. RV owners comparing it with a house battery upgrade should also read our guide to the <a href="/best-lithium-rv-battery/">best lithium RV battery</a>, because a built-in battery bank may suit a full-time rig better than a portable box.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Growing toward home backup</h3>
+
+          <p>
+            Buy the <strong>Explorer 1000 Plus</strong> if you want to start small and stay portable, or the <strong>Explorer 2000 Plus</strong> if you already know you want circuit-level backup and possibly 240V. Only a planned whole-home installation with a transfer switch justifies the <strong>Explorer 5000 Plus</strong> or a HomePower model, and at that budget you should compare it with the options in our guide to the <a href="/best-home-generator-for-power-outages/">best home generators for power outages</a>.
+          </p>
+        </div>
+
+        <div id="v2-vs-plus" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Explorer v2 or Explorer Plus?
+          </h2>
+
+          <p>
+            The v2 and Plus lines overlap at 1kWh and 2kWh, and the choice between them is really a choice about the future. Compare the Explorer 1000 v2 and Explorer 1000 Plus: Jackery lists the v2 at 1,070Wh and 1,500W in about 24 pounds, and the Plus at 1,264Wh and 2,000W in about 32 pounds. The Plus has more capacity and more output, but it is a third heavier and costs more.
+          </p>
+
+          <p>
+            What the extra weight buys is the expansion port. The 1000 Plus takes up to three battery packs for about 5kWh in total; the 1000 v2 takes none. If there is any chance you will want more than 1kWh, the Plus avoids buying a second station later. If you are certain 1kWh is your ceiling, the v2 is the better object to own: lighter, cheaper and simpler.
+          </p>
+
+          <p>
+            At 2kWh the gap widens. The 2000 v2 and 2000 Plus store the same 2,042Wh by Jackery's figures, but the Plus has a 3,000W inverter against the v2's 2,200W and weighs about 61 pounds against about 40. The 2000 Plus also links with a second unit for 120/240V, which the v2 never will. For a household building a home system, the Plus is the right platform. For an RV owner who needs 2kWh and wants to lift it into the rig, the v2 is far more practical.
+          </p>
+
+          <p>
+            A simple test helps. Write down the biggest load you need, the longest outage you plan for, and whether the station will be carried or rolled. If your list stops at a refrigerator and one night, buy a v2. If it includes a well pump, a furnace, several days or the word 240V, buy a Plus and plan the expansion from the start.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">v2 if you know the size; Plus if you might grow.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Jackery's v2 boxes are the lighter, simpler buy at a fixed capacity. The Plus line costs more and weighs more, but it is the only Jackery path to more storage and 240V.</p>
+          </div>
+        </div>
+
+        <div id="home-backup" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Home Backup: Plus Systems, HomePower and Transfer Switches
+          </h2>
+
+          <p>
+            Any Jackery can back up a house the simple way, with extension cords from the station to the refrigerator, the router and a few lamps. That needs no installation and works through most outages. What it cannot do is run hardwired loads such as a furnace blower, a well pump or anything on a 240V circuit, because those cannot be plugged into the front of a power station.
+          </p>
+
+          <p>
+            For those, you need a station that can feed the house panel through a transfer switch or an interlock with a generator inlet, installed by a licensed electrician. In Jackery's range, that starts with the larger Plus systems. Two linked Explorer 2000 Plus units provide 120/240V, and the Explorer 5000 Plus delivers it from a single box. Jackery sells its own transfer switch for these larger systems; check that the switch and station you are buying are listed as compatible before ordering either.
+          </p>
+
+          <p>
+            Jackery's HomePower line, including the HomePower 3600 Plus, is the brand's newer push into dedicated home backup. These units are designed to sit in one place and connect to the house rather than travel. Because specifications and availability in this line have changed recently, we have not ranked a HomePower model here; if you are shopping for one, compare its published capacity, continuous output and 240V capability directly against the 2000 Plus and 5000 Plus before you decide.
+          </p>
+
+          <p>
+            Never try to power the house by plugging a station into a wall or dryer outlet with a male-to-male cord. It is illegal, it can push power back onto the grid and injure a utility worker, and it can start a fire. If you want circuits rather than cords, pay for the transfer switch.
+          </p>
+
+          <p>
+            For a wider view of the options, our <a href="/best-portable-power-station-for-home-backup/">power stations for home backup</a> guide sets Jackery's large units against EcoFlow's Delta Pro 3 and Anker's SOLIX F3800, and our roundup of the <a href="/best-home-battery-backup/">best home battery backup</a> systems covers wall-mounted batteries that compete with the 5000 Plus on price.
+          </p>
+        </div>
+
+        <div id="solar" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Jackery Solar Generators and SolarSaga Panels
+          </h2>
+
+          <p>
+            A Jackery solar generator is not a separate product. It is an Explorer power station sold together with one or more of Jackery's SolarSaga folding panels and the cable to connect them, and the station inside is identical to the one sold alone. Jackery leans on the term more than most brands, so it is worth reading bundle listings carefully: the name often tells you the station model and the number of panels.
+          </p>
+
+          <p>
+            The question to ask of any bundle is whether the panels can refill the battery in a day. A good rule of thumb is one watt of panel for every three watt-hours you want back, because a folding panel rarely delivers its full rating for more than a few hours. By that measure, one 100W panel suits the Explorer 300 Plus, a single 200W panel tops up a 1000 v2 at a campsite where you arrive full, and two or three 200W panels are what it takes to cycle a 2000 v2 daily during an outage.
+          </p>
+
+          <p>
+            Single-panel bundles for the larger stations are the most common disappointment. A 2000 v2 with one 200W panel will put back perhaps a third of its capacity on a clear day, which is fine for topping up between campsites but not for living off solar through a week without power. If you plan to depend on solar, buy the bundle with more panels or add panels separately.
+          </p>
+
+          <p>
+            SolarSaga panels pair cleanly with every Explorer, but they are not the only option. Third-party panels work as long as the connector, voltage and current fall within the station's published solar input range. Our <a href="/best-solar-generator/">solar generator guide</a> works through the sizing math for each station class, and our roundup of the <a href="/best-portable-solar-panel/">best portable solar panels</a> covers folding panels that fit Jackery inputs.
+          </p>
+        </div>
+
+        <div id="app-charging" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Charging Speed, the App and Battery Protection
+          </h2>
+
+          <p>
+            For years Jackery trailed EcoFlow on wall charging speed, and the v2 generation largely closed that gap. Jackery quotes about an hour from empty to full on the Explorer 1000 v2 in its emergency charging mode. The catch is that the fast mode is switched on through the Jackery app; out of the box, the station charges at a gentler default rate that Jackery positions as better for long-term battery health.
+          </p>
+
+          <p>
+            That is a reasonable design. Most owners do not need a one-hour charge most of the time, and slower charging is easier on the cells. But if you are buying for a storm season with rolling blackouts, install the app before the storm and learn where the setting is, because an hour of grid power is only useful if the station can absorb it.
+          </p>
+
+          <p>
+            Jackery's app is simpler than EcoFlow's, and the stations are designed to work without it. It shows input and output watts, sets charge modes and battery limits, and toggles outputs. Jackery also markets a battery management system it calls ChargeShield, which adjusts charging behavior to protect the cells. For a parent or grandparent who will never open an app, that simplicity is a real advantage: the 1000 v2 is about as close to plug-and-forget as a power station gets.
+          </p>
+
+          <p>
+            Jackery's v2 and Plus units can also act as a basic battery backup for a router or modem when left plugged in, switching over quickly when the grid drops. For a desktop computer or a CPAP that must not blink, check the switchover figure on the specific model's spec sheet, and consider a dedicated UPS for equipment that cannot tolerate any interruption. Our guide to the <a href="/best-battery-backup-for-cpap/">best battery backup for CPAP</a> covers the CPAP case in detail.
+          </p>
+        </div>
+
+        <div id="where-jackery-loses" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Where Jackery Loses (and What Not to Buy)
+          </h2>
+
+          <p>
+            Jackery's strengths are weight and simplicity. Its weaknesses are the flip side. The v2 models do not expand, so a 1000 v2 that turns out to be too small has to be replaced or supplemented rather than upgraded. EcoFlow's Delta 3 Plus, by contrast, takes add-on batteries at the same size, which is why our <a href="/best-ecoflow-power-station/">EcoFlow power station guide</a> ranks it as the more flexible 1kWh buy for home use.
+          </p>
+
+          <p>
+            Output per size class is the other gap. At 1kWh, the 1000 v2's 1,500W continuous rating sits below the 1,800W that EcoFlow and Bluetti offer, and many kettles, toasters and hair dryers draw 1,500 to 1,800W, right at or past the Jackery's limit. If those appliances are on your list, the 1000 Plus or a rival is the better choice.
+          </p>
+
+          <p>
+            Skip older Jackery models still sold through third-party listings, such as the original Explorer 1000 and 1500 with NMC batteries, unless the discount is deep and the use is occasional. They are heavier per watt-hour, charge more slowly and wear out sooner than the LFP models above. And treat the 5000 Plus as a home battery, not a portable power station: if you will not install a transfer switch, two 2000 Plus units or a 2000 v2 cover most needs for much less.
+          </p>
+
+          <p>
+            Finally, for the longest outages, a battery may not be the cheapest answer at all. A good inverter generator delivers more energy per dollar for multi-day use, and our guides to the <a href="/best-gas-generator/">best gas generators</a> and the <a href="/best-generator-for-camping/">best generator for camping</a> cover the fuel-burning alternatives honestly, noise and fumes included.
+          </p>
+        </div>
+
+        <div id="runtime" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. How Long Each Jackery Will Run Your Gear
+          </h2>
+
+          <p>
+            A station never delivers its full rated capacity as AC power. Inverter losses and battery management typically leave something like 80 to 90 percent of the label usable, so plan with about 85 percent and you will be close. On that basis the Explorer 300 Plus gives you around 245Wh, the 1000 v2 a little over 900Wh, the 2000 v2 roughly 1,700Wh and the 5000 Plus somewhere above 4,000Wh.
+          </p>
+
+          <p>
+            For a CPAP without the heated humidifier, drawing about 30 to 60 watts, the 300 Plus covers about one night and the 1000 v2 several. The humidifier can double or triple consumption, which is the usual reason a small station runs flat before dawn. For a refrigerator using 1 to 2kWh a day, the 1000 v2 covers most of a day, the 2000 v2 about a day, and the 5000 Plus several days if nothing else is running.
+          </p>
+
+          <p>
+            For electronics, even the smallest Jackery goes a long way. A modem and router together draw around 15 to 30 watts, so the 300 Plus keeps a home office online for most of a working day. Phones barely register. If devices are your only concern, a large power bank may do the job; our roundup of <a href="/best-portable-chargers-for-power-outages/">portable chargers for power outages</a> covers lighter, cheaper options.
+          </p>
+
+          <p>
+            Add loads and the hours shrink fast. A chest freezer, a furnace blower and a few lights alongside the fridge can double daily consumption, which is exactly the point where the expandable Plus models earn their extra weight. Build your load list before you buy, add 20 percent for the things you forgot, and choose the station that covers it with margin.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a v2 when you will want more later</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The Explorer 1000 v2 and 2000 v2 cannot take add-on batteries. If there is a real chance you will want home backup, more runtime or 240V down the road, start with an Explorer Plus model instead. Replacing a fixed-size station later costs more than buying the expandable one now.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting the 1000 v2 to run a kettle</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Jackery rates the 1000 v2 at 1,500W continuous, and many kettles, toasters and hair dryers draw 1,500 to 1,800W. Some will trip the station's overload protection. If heating appliances are on your list, look at the 1000 Plus with 2,000W or a 2kWh model instead.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trusting a one-panel bundle to refill a big station</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A Jackery solar generator bundle with a single 200W panel will put back only a fraction of a 2kWh battery on a clear day. That suits topping up while camping, not living on solar through an outage. Size panels at roughly one watt per three watt-hours you need back.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Never turning on fast charging</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Jackery's quickest wall charge is enabled through the app, and the station defaults to a slower rate. In a storm with rolling outages, that difference decides whether the battery is full by nightfall. Install the app and set the charge mode before the season starts, not during the blackout.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Powering the house through an outlet</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Connecting a station to a wall or dryer outlet with a double-male cord to energize the house is illegal and dangerous to utility workers. Run extension cords to individual appliances, or have an electrician install a transfer switch for a 2000 Plus pair or a 5000 Plus.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Which Jackery power station is best for most people?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The Explorer 1000 v2. Jackery lists it at 1,070Wh and 1,500W with a 3,000W surge in about 24 pounds, which runs a fridge through an evening outage and carries easily to a campsite. Buy the Explorer 1000 Plus instead if you might want more capacity later, because the v2 cannot be expanded.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the difference between Jackery v2 and Plus models?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Explorer v2 models are fixed-size, lightweight stations built for carrying and simplicity. Explorer Plus models are heavier but take add-on battery packs, offer more output at the same size, and at the 2000 and 5000 sizes support 240V for home backup. Choose v2 if you know the capacity you need and Plus if you might grow.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a Jackery solar generator worth it?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It can be, if the bundle includes enough panel for the station. A Jackery solar generator is an Explorer sold with SolarSaga panels, so the station is the same as the standalone unit. Bundles with one small panel for a large battery are poor value for outage use; aim for roughly one watt of panel per three watt-hours.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a Jackery run a refrigerator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, from the Explorer 1000 v2 upward. A typical fridge uses 1 to 2kWh a day and briefly pulls a start-up surge that the 1000 v2's 3,000W surge rating handles comfortably. Expect roughly 10 to 20 hours from a 1kWh unit, about a day from a 2kWh unit, and several days from the 5000 Plus.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a Jackery power my whole house?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not a portable v2 model. The Explorer 5000 Plus, or two linked 2000 Plus units, can deliver 120/240V and run selected essential circuits through a transfer switch installed by an electrician. Even those will be drained quickly by central air, an electric range or an electric water heater, so plan backup around essential circuits only.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Jackery 1000 v2 or 2000 v2: which should I buy?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Buy the 1000 v2 if you mainly camp or need a fridge and internet through outages of a few hours, and value a 24-pound carry. Buy the 2000 v2 if you have an RV, run a CPAP and a fridge overnight, or want a full day of fridge runtime. Neither expands, so size up if unsure.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does a Jackery battery last?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Jackery's current Explorer models use LFP cells, which Jackery rates for thousands of charge cycles before capacity drops significantly. For occasional outage and camping use, the battery will likely outlast the station's electronics. Store it partially charged somewhere cool and top it up every few months, and avoid leaving it in a hot car for long periods.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Every brand ranked for outages, camping and CPAP use, with runtime math.</p>
+            </a>
+            <a href="/ecoflow-vs-jackery/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Comparison</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">EcoFlow vs Jackery</h3>
+              <p class="text-gray-500 text-sm mt-2">Size class by size class: output, weight, expansion and apps.</p>
+            </a>
+            <a href="/best-ecoflow-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#10B981] font-black text-xs uppercase tracking-widest mb-2">Brand Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best EcoFlow Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">River, Delta and Delta Pro models matched to camping and home backup.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Buy the Explorer 1000 v2 if you want a light, simple 1kWh station for camping and short outages and you are confident that size is enough. Buy the 2000 v2 for RVs and overnight outages with a fridge and CPAP.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            If there is any chance you will want more storage or 240V later, start in the Plus line instead: the 1000 Plus to stay portable, the 2000 Plus to build a home system, and the 5000 Plus only for a planned transfer-switch install.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

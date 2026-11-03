@@ -1,0 +1,897 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Jackery Power Stations",
+    "url": "/best-jackery-power-station/"
+  },
+  {
+    "title": "Best Portable Power Station for Home Backup",
+    "url": "/best-portable-power-station-for-home-backup/"
+  },
+  {
+    "title": "EcoFlow vs Bluetti",
+    "url": "/ecoflow-vs-bluetti/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Anker Power Station: Every SOLIX Model, Sorted by Job";
+const description =
+  "Seven Anker SOLIX power stations from the C300X to the F3800 Plus, compared on capacity, output, charging and expansion, with a clear pick for each use case.";
+
+const PRODUCTS = [
+  {
+    "id": "anker-solix-c1000",
+    "name": "Anker SOLIX C1000 Portable Power Station",
+    "category": "1,056Wh LFP, 1,800W, Expandable",
+    "badge": "Best Overall Anker",
+    "amazonUrl": "",
+    "pros": [
+      "Full wall recharge in under an hour (UltraFast rating)",
+      "1,800W output runs most single household appliances",
+      "Expands to about 2kWh with the BP1000 battery",
+      "LFP cells and a five-year warranty",
+      "Up to 600W solar input"
+    ],
+    "cons": [
+      "About 28 pounds, heavier than the lightest 1kWh rivals",
+      "Owners commonly report loud fans during fast charging",
+      "120V only"
+    ],
+    "bottomLine": "The Anker most households should buy: fast to refill, big enough for a fridge, small enough to take camping.",
+    "description": "The C1000 is the center of the SOLIX lineup and the one we recommend to most readers. Anker rates it at 1,056 watt-hours of LFP storage and 1,800 watts of continuous output, with a SurgePad mode for heating appliances that briefly pull more. That covers a refrigerator for most of a day alongside a modem and lights, or a coffee maker and a microwave one at a time. Its standout feature is recharge speed: in UltraFast mode Anker rates a full refill from a wall outlet in under an hour, which is exactly what you want when power flickers on and off through a storm. It accepts up to 600 watts of solar, enough for two or three portable panels, and the BP1000 expansion battery roughly doubles its capacity if you outgrow it. You may also see a C1000X listing; compare the specs, and if they match, buy whichever is cheaper."
+  },
+  {
+    "id": "anker-solix-c1000-gen-2",
+    "name": "Anker SOLIX C1000 Gen 2 Portable Power Station",
+    "category": "1,024Wh LFP, 2,000W, Faster Charging",
+    "badge": "Fastest-Charging Anker",
+    "amazonUrl": "",
+    "pros": [
+      "2,000W output, more headroom than the original C1000",
+      "Even faster wall recharging than the first generation",
+      "Smaller and lighter than the original by Anker's figures",
+      "LFP cells and app control"
+    ],
+    "cons": [
+      "Slightly less capacity than the original C1000",
+      "Accessory compatibility differs from the first generation",
+      "Usually priced above the original"
+    ],
+    "bottomLine": "Buy it over the original C1000 when the price gap is small; the extra output and faster charging are real upgrades.",
+    "description": "The C1000 Gen 2 is a ground-up redesign rather than a cosmetic refresh. Anker rates it at 1,024 watt-hours of LFP storage, a little less than the original, but raises continuous output to 2,000 watts, which gives more margin for kitchen appliances, power tools and refrigerator start-up surges. Charging is faster again: Anker markets an even shorter wall recharge than the already quick first-generation model, so a short window of grid power during an outage refills most of the battery. It is also more compact by Anker's figures. The trade-offs are modest. Capacity dips slightly, it usually costs more than the original while both are on sale, and accessories such as expansion batteries are not necessarily shared between generations, so check compatibility before you plan a bigger system. If the two are within a small price band, the Gen 2 is the better buy; if the original is on a deep discount, it still does the job very well."
+  },
+  {
+    "id": "anker-solix-c300x",
+    "name": "Anker SOLIX C300X Portable Power Station",
+    "category": "288Wh LFP, 300W, About 9 lb",
+    "badge": "Best Small Anker",
+    "amazonUrl": "",
+    "pros": [
+      "Light enough to carry one-handed or pack in a backpack",
+      "High-output USB-C for laptops",
+      "AC outlets for a fan, lights or a CPAP",
+      "LFP cells for a long cycle life"
+    ],
+    "cons": [
+      "300W AC output cannot run kitchen appliances or a fridge",
+      "Too large to fly with"
+    ],
+    "bottomLine": "The right buy for devices, day trips and a CPAP for a night; not a refrigerator backup.",
+    "description": "The C300X sits right where a power bank turns into a power station, and for device charging that is the sweet spot. Anker rates it at 288 watt-hours of LFP storage and 300 watts of AC output, with a high-wattage USB-C port that can charge most laptops at full speed. In practical terms that is dozens of phone charges, several laptop refills, or a night or two of a CPAP without humidification, in a case of about 9 pounds. It is the model to buy for a day at the beach, tailgating, a hiking campsite or a home-office emergency kit. What it cannot do is run anything with a heating element or a compressor, so do not expect it to keep a refrigerator cold. Make sure the listing says C300X rather than C300 DC, because the DC version has no AC outlets at all."
+  },
+  {
+    "id": "anker-solix-c800-plus",
+    "name": "Anker SOLIX C800 Plus Portable Power Station",
+    "category": "768Wh LFP, 1,200W, Built-in Light",
+    "badge": "Best Anker for Camping",
+    "amazonUrl": "",
+    "pros": [
+      "Built-in pop-up camping light",
+      "1,200W output runs a 12V fridge, a kettle or small tools",
+      "Lighter than the C1000",
+      "Fast wall charging"
+    ],
+    "cons": [
+      "Not expandable",
+      "Less margin than the C1000 for outage use"
+    ],
+    "bottomLine": "A smart car-camping box; for home backup, spend a little more on the C1000.",
+    "description": "The C800 Plus is Anker's answer to the camper who wants more than a C300X but does not want to haul a full 1kWh unit. Anker rates it at 768 watt-hours of LFP storage and 1,200 watts of continuous output, and builds in a pop-up camping light that turns the station into a lantern for the picnic table. That combination suits drive-in camping well: it runs a 12V or AC cooler for a couple of days, charges everyone's devices, and powers a kettle, a small blender or a CPAP. Recharging from the wall is fast by Anker's rating, and it accepts solar for longer trips. The limitation is that it is not expandable and has less headroom than the C1000, so as a home outage backup it is a step behind. Buy it if camping is the main job and outages are secondary; buy the C1000 if it is the other way round."
+  },
+  {
+    "id": "anker-solix-f2000",
+    "name": "Anker SOLIX F2000 Portable Power Station",
+    "category": "2,048Wh LFP, 2,400W, Wheeled",
+    "badge": "Best 2kWh Anker",
+    "amazonUrl": "",
+    "pros": [
+      "Twice the energy of the C1000",
+      "2,400W output for larger appliances",
+      "Wheels and a telescoping handle",
+      "Expands to about 4kWh with Anker's matching battery"
+    ],
+    "cons": [
+      "Heavy enough that the wheels are a necessity",
+      "120V only, no 240V loads",
+      "Older design than the C-series Gen 2 units"
+    ],
+    "bottomLine": "A full day of fridge and freezer in one box; the F3800 is the step up only if you need 240V.",
+    "description": "Double the battery of the 1kWh class changes what a power station can do in an outage, and the F2000 is Anker's 2kWh option. It is the same unit once sold as the PowerHouse 767, and Anker rates it at 2,048 watt-hours of LFP storage and 2,400 watts of continuous output. That is enough to run a refrigerator and a chest freezer through a full day, or to power a sump pump intermittently with energy to spare for lights and internet. It rolls on wheels with a telescoping handle, which matters because it is too heavy to carry comfortably. A matching expansion battery doubles it to about 4kWh. The F2000 is 120V only, so it cannot run a 240V well pump or feed both legs of a panel; for that, look at the F3800. Its design is older than the newest C-series models, so compare it against a C1000 with an expansion battery, which can be cheaper and more flexible."
+  },
+  {
+    "id": "anker-solix-f3800",
+    "name": "Anker SOLIX F3800 Portable Power Station",
+    "category": "3,840Wh LFP, 6,000W, 120/240V",
+    "badge": "Best Anker for Home Backup",
+    "amazonUrl": "",
+    "pros": [
+      "6,000W with native 120/240V output",
+      "Runs 240V loads such as many well pumps",
+      "Expands with BP3800 batteries to a very large system",
+      "Pairs with Anker's home power panel",
+      "Five-year warranty"
+    ],
+    "cons": [
+      "About 132 pounds",
+      "Circuit-level backup needs a licensed electrician",
+      "Overkill for anything short of home backup"
+    ],
+    "bottomLine": "The Anker to buy for whole-home essentials and 240V loads; pair it with a transfer switch and solar.",
+    "description": "The F3800 is the pick when the constraint is output rather than storage. Anker rates it at 3,840 watt-hours of LFP storage and 6,000 watts of continuous output with native 120/240V, which is more inverter headroom than most portable stations offer and the reason it suits homes with a 240V well pump or other heavy motor loads. Connected through a transfer switch, an interlock or Anker's home power panel, it can run a refrigerator, freezer, furnace blower, sump pump, internet and lights for roughly a day, longer with solar. BP3800 expansion batteries stack to a total capacity in the mid-twenties of kilowatt-hours, which moves it into territory normally occupied by wall-mounted home batteries. It weighs about 132 pounds and rolls on wheels, so think of it as a home appliance rather than a portable. Have a licensed electrician handle the connection, and confirm your pump's starting current before relying on it."
+  },
+  {
+    "id": "anker-solix-f3800-plus",
+    "name": "Anker SOLIX F3800 Plus Portable Power Station",
+    "category": "3,840Wh LFP, 6,000W, Higher Solar Input",
+    "badge": "Best Anker for Big Solar",
+    "amazonUrl": "",
+    "pros": [
+      "Same 6,000W 120/240V output as the F3800",
+      "Higher solar input ceiling for large arrays",
+      "Faster recharging than the original, per Anker",
+      "Expandable for long outages"
+    ],
+    "cons": [
+      "Costs more than the original F3800",
+      "Extra solar headroom is wasted without a large array"
+    ],
+    "bottomLine": "Choose it over the F3800 only if you plan a large solar array; otherwise the original is the better value.",
+    "description": "The F3800 Plus keeps everything that makes the F3800 the best Anker for home backup, including 3,840 watt-hours of LFP storage and 6,000 watts of 120/240V output by Anker's rating, and focuses the upgrade on charging. Anker's spec sheet lists a higher solar input ceiling than the original, which matters if you plan a large fixed or ground-mounted array: more panels can feed the battery at once, so it refills faster in the hours of strong sun you actually get during a multi-day outage. Recharging overall is quicker as well. That is the whole case for it. If you plan to run a couple of portable panels, or mostly recharge from the grid between outages, the extra headroom does nothing for you and the original F3800 is the better value. If you are building a serious solar-plus-battery setup that should carry the house through several days, the Plus is the one to buy."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Anker Power Station",
+          item: "https://www.allmetalbrake.com/best-anker-solix-power-station/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best Anker power station for most people?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The SOLIX C1000. Anker rates it at 1,056Wh and 1,800W, enough to keep a refrigerator, internet and lights going through a typical outage, and it refills from the wall in under an hour. It expands to about 2kWh with the BP1000 and is still light enough for car camping. The C1000 Gen 2 is a worthy upgrade if priced close."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Anker SOLIX the same as Anker PowerHouse?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SOLIX is Anker's current brand for power stations and home batteries, and it replaced the PowerHouse name. Some models were simply renamed, such as the PowerHouse 767 becoming the SOLIX F2000. Older PowerHouse units with NMC cells were not carried over, and those are best avoided, because current SOLIX models use longer-lasting LFP cells."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can the Anker SOLIX F3800 power a whole house?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can power the essentials, not everything at once. With 3,840Wh and 6,000W at 120/240V, it can run a fridge, freezer, furnace blower, sump pump, lights and internet for roughly a day through a transfer switch or Anker's home power panel. Central air conditioning, electric ranges and electric water heaters will drain it far too quickly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long will an Anker C1000 run a refrigerator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A typical modern refrigerator uses roughly 1 to 2kWh per day, cycling on and off. After inverter losses, the C1000's 1,056Wh delivers somewhere around 900Wh of usable AC energy, so expect most of a day for an efficient fridge, less for an older or larger one. Adding the BP1000 battery roughly doubles that."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between the C1000 and C1000X?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The C1000X is generally a retailer-specific variant of the C1000 with the same core battery and inverter, sometimes with a different color or bundle. Compare the capacity, output and included accessories on each listing; if they match, buy whichever is cheaper or available sooner. Do not confuse either with the C1000 Gen 2, which is a different design."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I take an Anker power station on a plane?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Airlines generally limit carry-on lithium batteries to 100Wh, or up to 160Wh with approval. Even the smallest SOLIX power station, the C300X at 288Wh, exceeds that limit. For travel, choose an Anker portable power bank under 100Wh instead, and leave the power station at home or ship it ground by an approved carrier."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What warranty does Anker offer on SOLIX power stations?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Anker offers a five-year warranty on its current SOLIX power stations, which is among the longer warranties in the category and matches or beats most rivals. Coverage terms vary by model and region, and some apply only to units bought from authorized sellers, so register the product and keep the receipt from a recognized retailer."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best anker power station",
+      "anker powerstation",
+      "anker battery backup",
+      "anker solix",
+      "anker power bank portable",
+      "anker solix f3800",
+      "anker solix c1000"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Anker SOLIX Buyer's Guide
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Anker Power Station</span> for the Job
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Anker sells a SOLIX for everything from a weekend of phone charging to a 240V home backup system. Here is which one to buy, which to skip, and why the model names are more confusing than the products.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#anker-solix-c1000"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Jump to the Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#lineup" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. The Lineup in One Minute</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Seven Picks</a>
+          <a href="#compare" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Side-by-Side Comparison</a>
+          <a href="#naming" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Decoding the Model Names</a>
+          <a href="#charging" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Charging and Solar</a>
+          <a href="#home-backup" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Anker Battery Backup at Home</a>
+          <a href="#power-banks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Power Bank or Power Station?</a>
+          <a href="#rivals" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Anker vs. the Rivals</a>
+          <a href="#which" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Which Anker to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Anker's power stations are fast to charge, built on LFP cells and backed by one of the longer warranties in the category. The hard part is not deciding whether Anker is good; it is working out which of a dozen similar names you actually need. For most people the answer is the SOLIX C1000, and the rest of this guide explains when it is not.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="lineup" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The Anker SOLIX Lineup in One Minute
+          </h2>
+
+          <p>
+            Anker is better known for phone chargers and power banks than for big batteries, and that history shows in its power stations in a good way. The company leans hard on charging speed, compact cases and sensible port layouts, and it moved its whole lineup to lithium iron phosphate (LFP) cells earlier than some rivals. Everything it sells in this category now carries the SOLIX name, which replaced the older PowerHouse branding, so you will still see listings like the PowerHouse 767 that are the same box as the SOLIX F2000.
+          </p>
+
+          <p>
+            The range splits into two families. The C series covers portable units you can carry by hand, from the roughly 300 watt-hour C300X to the roughly 1 kilowatt-hour C1000 and its second-generation follow-up. The F series covers the heavy, wheeled units built for home backup and RV use, topped by the F3800 and F3800 Plus with native 120/240V output. Between them sits the C800 Plus, a camping-focused unit with a built-in light. Anker also sells expansion batteries for several models and a home power panel for the F3800, which is where the brand starts competing with whole-home battery systems.
+          </p>
+
+          <p>
+            The useful way to shop the lineup is by job, not by size. If your goal is charging phones, laptops and a camera on a weekend, a small C-series unit is plenty and anything larger is weight you will regret. If your goal is keeping a refrigerator, a modem and some lights going through an outage, you are in the 1kWh class, and that is where Anker is strongest. If your goal is running a well pump, a furnace blower and a freezer for a day, you need the F3800 and a transfer switch, and the conversation becomes about installation as much as batteries.
+          </p>
+
+          <p>
+            If you are not yet sure which of those jobs you are buying for, our main <a href="/best-portable-power-station/">portable power station guide</a> walks through sizing from scratch and compares Anker against every major brand. This page assumes you have already decided Anker is on the shortlist, whether because of its warranty, a sale, or because you already own its chargers, and want to know which SOLIX model earns the money. One honest note up front: we compiled this from Anker's published specifications and the broader market, not from bench testing every unit.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Seven Best Anker SOLIX Power Stations
+          </h2>
+
+          <p>
+            These are the Anker SOLIX models worth buying today, ordered by how many readers they suit rather than by size. Specifications are Anker's published figures, not our own measurements; confirm the details on the listing you buy from, because Anker revises models and bundles often.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="compare" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Anker SOLIX Power Stations Side by Side
+          </h2>
+
+          <p>
+            The table below lines up the seven picks on the specifications that actually decide a purchase: how much energy the battery stores, how much power the inverter can deliver at once, whether you can add batteries later, and the job each one is built for. Capacities and outputs are Anker's rated figures. Real usable energy is lower than the label once inverter losses are counted, typically by 10 to 15 percent when you run AC loads, so build that margin into any runtime estimate you make from these numbers.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Capacity</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">AC Output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Expandable</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">SOLIX C300X</td>
+                    <td class="px-4 py-4 text-gray-700">288 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">300 W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Devices, day trips</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">SOLIX C800 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">768 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">1,200 W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Car camping</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">SOLIX C1000</td>
+                    <td class="px-4 py-4 text-gray-700">1,056 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">1,800 W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes (BP1000)</td>
+                    <td class="px-4 py-4 text-gray-700">Outages, all-round</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">SOLIX C1000 Gen 2</td>
+                    <td class="px-4 py-4 text-gray-700">1,024 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">2,000 W</td>
+                    <td class="px-4 py-4 text-gray-700">Check listing</td>
+                    <td class="px-4 py-4 text-gray-700">Fastest refills</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">SOLIX F2000</td>
+                    <td class="px-4 py-4 text-gray-700">2,048 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">2,400 W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Fridge plus freezer</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">SOLIX F3800</td>
+                    <td class="px-4 py-4 text-gray-700">3,840 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">6,000 W, 120/240 V</td>
+                    <td class="px-4 py-4 text-gray-700">Yes (BP3800)</td>
+                    <td class="px-4 py-4 text-gray-700">Home backup</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">SOLIX F3800 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">3,840 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">6,000 W, 120/240 V</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Home backup with big solar</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two patterns stand out. First, the jump from the C800 Plus to the C1000 adds about a third more energy and half again as much output for a modest step in weight, which is why the C1000 is the default recommendation: the extra headroom is what lets it start a refrigerator compressor and run a coffee maker, two loads the smaller units struggle with. Second, there is a large gap between the 2kWh F2000 and the nearly 4kWh F3800. Anker fills it with expansion batteries rather than a separate model, so if you need around 2 to 3kWh, the cheaper route is often a C1000 with its add-on battery.
+          </p>
+
+          <p>
+            Output matters more than most buyers expect. A full-size refrigerator draws only 100 to 200 watts while running, but its compressor can pull several times that for a moment at start-up. A microwave, a space heater or a hair dryer can sit near or above 1,500 watts continuously. The C300X cannot run any of those, the C800 Plus manages some of them, and the C1000 handles nearly all household appliances one at a time. Only the F3800 family can run a 240V load such as a well pump or a dryer circuit, and even then you should check the motor's starting current before counting on it.
+          </p>
+
+          <p>
+            Weight is the other number worth knowing before you click buy. Anker lists the C300X at roughly 9 pounds, light enough to toss in a backpack. The C1000 is close to 28 pounds, comfortable for one person to move between rooms but not something you will carry far. The F3800 is about 132 pounds and rolls on wheels; it lives in a garage or utility room and moves only when it has to. If you plan to camp with it, weight caps your choice before capacity does.
+          </p>
+        </div>
+
+        <div id="naming" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Decoding Anker's Model Names
+          </h2>
+
+          <p>
+            Anker's naming causes more buyer confusion than its hardware, so it is worth a minute. The letter tells you the family: C for carry-sized portable units, F for the larger wheeled units. The number roughly tracks capacity in watt-hours, so a C1000 holds about 1,000Wh and an F3800 about 3,800Wh. That rule breaks at the small end, where the C300 family is named for its 300 watts of output rather than its 288Wh battery, but it holds well enough to orient you across the lineup.
+          </p>
+
+          <p>
+            Suffixes are where it gets messy. The X versions, such as the C300X and C1000X, are generally variants of the base model sold through particular retailers or with slightly different bundles and colors; the C300X specifically adds AC outlets that the C300 DC version lacks, which makes it the one most people want. Plus models, like the C800 Plus and F3800 Plus, add features on top of the base unit, such as the C800 Plus camping light or the F3800 Plus's higher solar input ceiling. Gen 2 models are genuine redesigns with new internals, not a cosmetic refresh.
+          </p>
+
+          <p>
+            The practical advice is simple: before you buy, compare the capacity, AC output and outlet list of the exact listing against Anker's own product page. If a C1000X listing and a C1000 listing show the same capacity and output, buy whichever is cheaper or ships faster. If a listing shows a C300 without the X, check whether it has AC outlets; the DC-only version is a fine power bank for USB-C laptops but cannot run anything with a wall plug. That one mistake accounts for a surprising share of returns in the small class.
+          </p>
+
+          <p>
+            Older PowerHouse names deserve the same caution. The PowerHouse 767 is the F2000, and the PowerHouse 757 became the F1200, but some older PowerHouse units used NMC cells rather than LFP, and those are not worth buying now even at a discount. LFP cells are rated for thousands of cycles rather than hundreds and are more tolerant of being kept full for backup. If a bargain listing does not say LiFePO4 or LFP clearly, assume it is an older model and look elsewhere.
+          </p>
+        </div>
+
+        <div id="charging" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Charging Speed, Solar Input and Car Charging
+          </h2>
+
+          <p>
+            Charging speed is Anker's signature, and it matters more for outage use than most specs. Anker rates the C1000 for a full recharge from a wall outlet in under an hour using its UltraFast mode, and the C1000 Gen 2 shortens that further. In real outages power often flickers back for an hour or two before failing again, and a station that can refill in that window is worth considerably more than one that needs an afternoon. It also means you can top up quickly the night before a storm instead of keeping the unit full all season.
+          </p>
+
+          <p>
+            Fast charging has a cost you should know about. Pulling well over 1,000 watts from a wall outlet means the station's fans run hard and loudly, and a 15-amp circuit shared with a space heater or microwave may trip. Anker lets you choose slower, quieter charging in the app, which is the better setting for overnight top-ups in a bedroom. Use the fast mode when time is short and the slow mode the rest of the time; it is also gentler on the battery over years of use.
+          </p>
+
+          <p>
+            Solar input sets how useful the unit is when the grid is down for days. Anker lists the C1000 at up to 600 watts of solar, enough for two or three 200-watt portable panels to refill it on a good summer day. The F3800 accepts considerably more across its two solar inputs, which is what lets a roof-sized ground array keep a home backup system going. If you plan to rely on the sun, read our <a href="/best-solar-generator/">solar generator pairing guide</a> for the sun-hour math, and our <a href="/best-portable-solar-panel/">portable solar panel picks</a> for panels that match these input windows.
+          </p>
+
+          <p>
+            Car charging is the slowest option and should be treated as a trickle. A 12V outlet typically delivers around 100 to 120 watts, so refilling a 1kWh battery from a car takes most of a day of driving. It is useful for a small unit like the C300X on a road trip, or for keeping a larger station topped up between campsites, but it is not a backup charging plan for a house. If you need serious off-grid recharging beyond solar, a small inverter generator paired with the station is the more realistic answer.
+          </p>
+        </div>
+
+        <div id="home-backup" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Anker Battery Backup for the Home
+          </h2>
+
+          <p>
+            Anker battery backup comes in two forms, and it is worth knowing which one you are shopping for. The first is plug-in backup: you run extension cords from a C1000 or F2000 to the refrigerator, the modem and a lamp. That works for any renter or homeowner, needs no electrician, and covers the loads most people care about in a typical outage. Most C and F models also offer pass-through power with a fast switchover, so you can leave the modem and router plugged in permanently and have them ride through brief blackouts the way they would on a computer UPS.
+          </p>
+
+          <p>
+            The second form is circuit-level backup, where the station feeds selected household circuits through a transfer switch, an interlock or Anker's own home power panel. That is the F3800's job. Anker rates it at 3,840Wh and 6,000 watts with native 120/240V output, enough to run a fridge, freezer, furnace blower, sump pump and lights together, or a 240V well pump with careful sizing. It expands with BP3800 batteries to a total in the mid-twenties of kilowatt-hours across multiple packs, which starts to rival permanently installed systems. Installation must be done by a licensed electrician; do not backfeed a panel through a dryer outlet.
+          </p>
+
+          <p>
+            For mid-size needs, expansion batteries are often better value than buying up a class. The C1000 accepts the BP1000 expansion battery, which roughly doubles its capacity to about 2kWh without changing the inverter. The F2000 likewise takes a matching expansion battery to reach about 4kWh. That approach keeps the main unit portable for camping while letting you build a deeper reserve at home, and you can buy the extra battery later when you know how much you actually use. Check compatibility on the exact model, because Gen 2 and Plus versions do not always share accessories with the originals.
+          </p>
+
+          <p>
+            Whether you need a portable F3800 or a fixed wall battery is a separate decision covered in our <a href="/best-home-battery-backup/">home battery backup guide</a>, and whether a battery beats a gas unit is covered in our <a href="/best-home-generator-for-power-outages/">home generator guide for power outages</a>. The short version: if outages in your area last a day or less and you value silence and indoor safety, an F3800 with solar is excellent. If they regularly stretch past three days in winter, a battery alone gets expensive quickly, and pairing it with a generator is usually smarter. For sizing by appliance, see our <a href="/best-portable-power-station-for-home-backup/">home backup power station picks</a>.
+          </p>
+        </div>
+
+        <div id="power-banks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Anker Power Bank or Anker Power Station?
+          </h2>
+
+          <p>
+            Plenty of people searching for an Anker power station actually need an Anker portable power bank, and the reverse is true too. The dividing line is the wall plug. A power bank stores 20,000 to 30,000 milliamp-hours, which is roughly 70 to 100 watt-hours, and outputs only USB. It charges phones several times and a laptop once or twice. A power station stores several times more and adds AC outlets that can run anything with a standard plug, at several times the weight.
+          </p>
+
+          <p>
+            If your outage plan is keeping two phones alive and a laptop working for a day, a good power bank is cheaper, lighter and entirely adequate. Our guides to <a href="/best-portable-chargers-for-power-outages/">portable chargers for power outages</a> and the <a href="/best-laptop-power-bank/">best laptop power banks</a> cover the options, including Anker's own high-output models. Buying a 1kWh station for that job wastes money and closet space, and the station's inverter draws power even when idle if you leave the AC side on.
+          </p>
+
+          <p>
+            The C300X is the overlap point. At 288Wh it holds roughly three times what the largest airline-legal power banks carry, adds AC outlets for a small fan, a CPAP or a string of lights, and weighs about 9 pounds. That makes it the right step up for someone who has outgrown a power bank but does not need to run a refrigerator. Note that at 288Wh it exceeds the 100Wh airline carry-on limit for batteries, so it cannot come on a flight; a power bank can.
+          </p>
+
+          <p>
+            Above the C300X, the question stops being about devices and becomes about appliances. Once you want a fridge, a microwave, a sump pump or a medical device that runs all night, you are in C1000 territory or above, and no power bank comes close. A sensible household setup for many people is one C1000-class station for appliances plus one or two good power banks that can be carried around the house and recharged from the station, which keeps the big unit parked by the fridge.
+          </p>
+        </div>
+
+        <div id="rivals" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Anker vs. EcoFlow, Jackery and Bluetti
+          </h2>
+
+          <p>
+            Anker competes with three other big names, and in most size classes the differences are narrower than the marketing suggests. All four now use LFP cells on current models, all four sell expandable units at 1kWh and above, and all four offer apps and solar bundles. Where Anker tends to stand out is charging speed, compact design at 1kWh, a five-year warranty on current SOLIX stations, and the F3800's 6,000-watt 120/240V output, which is among the highest in a portable unit.
+          </p>
+
+          <p>
+            EcoFlow is the closest rival. The Delta 3 Plus matches the C1000 on capacity and output, and EcoFlow's home ecosystem of smart panels and add-on batteries is broader. If you want the deepest app control and whole-home integration, our <a href="/best-ecoflow-power-station/">EcoFlow power station guide</a> is worth reading before you commit. Jackery's Explorer v2 models are lighter for their capacity and simpler to use, but most are not expandable; the <a href="/ecoflow-vs-jackery/">EcoFlow vs Jackery comparison</a> lays out that trade-off and applies equally to Anker.
+          </p>
+
+          <p>
+            Bluetti often wins on price per watt-hour, particularly at 2kWh where the AC200L undercuts the F2000, and its expansion battery range is extensive. Its units tend to be heavier for their capacity and its apps less polished, though both have improved. If you are choosing between those two brands specifically, our <a href="/ecoflow-vs-bluetti/">EcoFlow vs Bluetti breakdown</a> covers how Bluetti stacks up class by class, and most of its conclusions translate directly to an Anker comparison.
+          </p>
+
+          <p>
+            Our honest view is that brand matters less than buying the right size class with LFP cells and a long warranty. Anker is a strong choice when you value fast recharging, compact design and its warranty, or when you need 240V output at a lower weight than a two-unit setup. It is a weaker choice when you want the cheapest possible watt-hours or the most complete whole-home ecosystem. Shop the class first, then compare the three or four candidates within it on price that week.
+          </p>
+        </div>
+
+        <div id="which" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Which Anker Power Station Should You Buy?
+          </h2>
+
+          <p>
+            Most households should buy the SOLIX C1000. It keeps a refrigerator, internet and lights going through a typical outage, refills from the wall in under an hour by Anker's rating, can grow to about 2kWh with the BP1000, and is still light enough to take camping. If the C1000 Gen 2 is close in price, it is the better unit for its higher output and faster charging; if the original is meaningfully cheaper, the original is still an excellent buy and the one we would pick for most people.
+          </p>
+
+          <p>
+            For camping and devices, choose by how much you carry. The C300X is right for phones, cameras, lights and a CPAP for a night or two, especially if you hike in from the car. The C800 Plus suits drive-in car camping with a <a href="/best-12v-fridge-for-camping/">12V fridge</a>, where its built-in light and extra capacity earn their weight. For more camping-specific advice, see our <a href="/best-portable-power-station-for-camping/">camping power station guide</a>.
+          </p>
+
+          <p>
+            For home backup, choose by the loads. If a fridge and freezer through a day without a generator is the goal, the F2000 is the step up from the C1000, or a C1000 with its expansion battery if you want to keep the portable unit. If you need 240V for a well pump, or want to power essential circuits through a transfer switch or home power panel, the F3800 is the pick. Choose the F3800 Plus instead if you plan a large solar array, since its higher solar input is the main reason it exists.
+          </p>
+
+          <p>
+            A few models are not worth buying. Skip any older PowerHouse unit with NMC cells, however cheap, because its cycle life and safety margin trail current LFP units. Skip the DC-only C300 unless you specifically want a large USB power bank. And do not buy an F3800 for camping; at about 132 pounds it is a home appliance on wheels. If none of these fit, compare the same size class across brands in our <a href="/best-portable-power-station/">best portable power station roundup</a>.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying the C300 DC by mistake</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The C300 DC and C300X look alike in photos, but the DC version has no AC outlets. If you need to run a fan, a CPAP with a standard plug, or lights with a wall plug, confirm the listing says C300X and shows AC outlets before you check out, or you will be making a return.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sizing by capacity and ignoring output</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A large battery does not help if the inverter cannot start your load. A refrigerator, sump pump or microwave can exceed what a small unit delivers at start-up. Compare each appliance's running and starting watts against the AC output rating, not just the watt-hours, before choosing between the C800 Plus and C1000.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Treating the F3800 as portable</h3>
+              <p class="text-gray-700 text-sm m-0">
+                At about 132 pounds, the F3800 rolls across a garage floor but does not go up stairs or into a truck bed easily. People who buy it for camping usually regret it. If you need both camping and home backup, a C1000 with an expansion battery is often the better combination.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Backfeeding a panel without a transfer switch</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Running a cord from an F3800 into a dryer outlet to power the house is dangerous to you and to utility workers. Circuit-level backup needs a transfer switch, an interlock kit or Anker's home power panel, installed by a licensed electrician. Budget for that work when you price the system.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying an old NMC PowerHouse on sale</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Some older Anker PowerHouse units use NMC cells rated for far fewer cycles than LFP. They turn up cheap on clearance and in used listings. Unless the listing clearly says LiFePO4 or LFP, assume it is an older chemistry and buy a current SOLIX model instead.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best Anker power station for most people?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The SOLIX C1000. Anker rates it at 1,056Wh and 1,800W, enough to keep a refrigerator, internet and lights going through a typical outage, and it refills from the wall in under an hour. It expands to about 2kWh with the BP1000 and is still light enough for car camping. The C1000 Gen 2 is a worthy upgrade if priced close.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is Anker SOLIX the same as Anker PowerHouse?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                SOLIX is Anker's current brand for power stations and home batteries, and it replaced the PowerHouse name. Some models were simply renamed, such as the PowerHouse 767 becoming the SOLIX F2000. Older PowerHouse units with NMC cells were not carried over, and those are best avoided, because current SOLIX models use longer-lasting LFP cells.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can the Anker SOLIX F3800 power a whole house?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It can power the essentials, not everything at once. With 3,840Wh and 6,000W at 120/240V, it can run a fridge, freezer, furnace blower, sump pump, lights and internet for roughly a day through a transfer switch or Anker's home power panel. Central air conditioning, electric ranges and electric water heaters will drain it far too quickly.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long will an Anker C1000 run a refrigerator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A typical modern refrigerator uses roughly 1 to 2kWh per day, cycling on and off. After inverter losses, the C1000's 1,056Wh delivers somewhere around 900Wh of usable AC energy, so expect most of a day for an efficient fridge, less for an older or larger one. Adding the BP1000 battery roughly doubles that.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the difference between the C1000 and C1000X?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The C1000X is generally a retailer-specific variant of the C1000 with the same core battery and inverter, sometimes with a different color or bundle. Compare the capacity, output and included accessories on each listing; if they match, buy whichever is cheaper or available sooner. Do not confuse either with the C1000 Gen 2, which is a different design.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I take an Anker power station on a plane?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. Airlines generally limit carry-on lithium batteries to 100Wh, or up to 160Wh with approval. Even the smallest SOLIX power station, the C300X at 288Wh, exceeds that limit. For travel, choose an Anker portable power bank under 100Wh instead, and leave the power station at home or ship it ground by an approved carrier.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What warranty does Anker offer on SOLIX power stations?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Anker offers a five-year warranty on its current SOLIX power stations, which is among the longer warranties in the category and matches or beats most rivals. Coverage terms vary by model and region, and some apply only to units bought from authorized sellers, so register the product and keep the receipt from a recognized retailer.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power Station Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Every major brand compared by size class, from 300Wh to whole-home.</p>
+            </a>
+            <a href="/best-ecoflow-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Brand Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best EcoFlow Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">The River, Delta and Delta Pro lines sorted by the job each one suits.</p>
+            </a>
+            <a href="/best-home-battery-backup/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Home Backup</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Home Battery Backup</h3>
+              <p class="text-gray-500 text-sm mt-2">Portable stations versus wall batteries for keeping essential circuits on.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most households the SOLIX C1000 is the Anker to buy: big enough for a refrigerator and internet through a typical outage, quick to refill when the grid flickers back, and still light enough to bring camping. Take the Gen 2 if the price gap is small.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Go smaller with the C300X for devices and day trips, or bigger with the F3800 when you need 240V and circuit-level backup. Whatever you choose, buy current LFP models, check the exact listing against Anker's specs, and pair anything large with solar and a licensed electrician.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

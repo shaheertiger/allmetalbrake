@@ -1,0 +1,972 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Portable Chargers for Power Outages",
+    "url": "/best-portable-chargers-for-power-outages/"
+  },
+  {
+    "title": "Best Anker SOLIX Power Stations",
+    "url": "/best-anker-solix-power-station/"
+  },
+  {
+    "title": "Best Solar Power Banks",
+    "url": "/best-solar-power-bank/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Laptop Power Banks: USB-C PD Packs That Keep Up";
+const description =
+  "Six USB-C laptop power banks compared by PD output, watt-hours and airline limits, plus how to match a bank to your laptop and when a power station is better.";
+
+const PRODUCTS = [
+  {
+    "id": "anker-737-power-bank",
+    "name": "Anker 737 Power Bank PowerCore 24K",
+    "category": "24,000 mAh (~86 Wh), 140W USB-C PD, Smart Display",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 140W from a single USB-C port, per Anker",
+      "Enough for a 16-inch MacBook Pro at full speed with a 240W cable",
+      "Built-in display shows charge level and live wattage",
+      "Under 100 Wh, so it flies without approval",
+      "Fast USB-C recharging with a high-watt wall charger"
+    ],
+    "cons": [
+      "Dense and heavy for its size",
+      "140W is the total, so a second device slows the laptop",
+      "Full speed needs a PD 3.1-capable laptop and cable"
+    ],
+    "bottomLine": "The best single laptop power bank for most people: enough output for any USB-C laptop and about as much capacity as you can fly with.",
+    "description": "The Anker 737, also sold as the PowerCore 24K, has become the default recommendation for a laptop power bank because it gets the two important numbers right. Anker rates it at 24,000 mAh, around 86 Wh, which is roughly one full charge for a 14-inch laptop, and its USB-C port supports up to 140 watts under USB PD 3.1, enough to charge even a 16-inch MacBook Pro at full speed. It has two USB-C ports and a USB-A port, but the 140-watt figure is the total, so plugging in a phone alongside a big laptop shares that output. The built-in display is genuinely useful, showing the remaining capacity and the live wattage in and out, which tells you immediately whether a cable is throttling your laptop. It recharges quickly from a capable USB-C wall charger. The trade-off is weight: it is a dense brick you will notice in a bag, but nothing lighter does as much."
+  },
+  {
+    "id": "anker-prime-26k-300w",
+    "name": "Anker Prime Power Bank 26K 300W",
+    "category": "26,250 mAh (under 100 Wh), 300W Total, 140W per USB-C",
+    "badge": "Most Powerful",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 300W total output, per Anker",
+      "Can charge two large laptops at high wattage at once",
+      "Capacity sits just under the 100 Wh airline limit",
+      "Smart display with per-port readouts"
+    ],
+    "cons": [
+      "Priced at the top of the power bank market",
+      "Heavier than single-laptop banks",
+      "Overkill for one laptop and a phone"
+    ],
+    "bottomLine": "Buy it if you charge two laptops or a laptop plus a tablet at full speed; otherwise the Anker 737 does the job for less.",
+    "description": "The Anker Prime 26K is Anker's flagship power bank, and it exists for people whose needs outgrow a single 140-watt port. Anker rates it at 26,250 mAh, placing it just under the 100 Wh airline ceiling, and at up to 300 watts of total output across its ports, with up to 140 watts available on a single USB-C port. In practice that means it can feed two large laptops at high speed at the same time, or a laptop, tablet and phone without the usual renegotiation slowdown when a new device is plugged in. A display shows what each port is doing. For a single laptop user it is overkill: you are paying for output you will never use, and it weighs more than the 737. For a couple traveling with two work machines, a photographer with a laptop and camera charger, or anyone who works on two screens away from an outlet, it is the most capable bank you can carry onto a plane."
+  },
+  {
+    "id": "anker-laptop-power-bank-25k-165w",
+    "name": "Anker Laptop Power Bank 25K 165W",
+    "category": "25,000 mAh (~90 Wh), 165W Total, Built-In USB-C Cables",
+    "badge": "Best for Travel",
+    "amazonUrl": "",
+    "pros": [
+      "Built-in USB-C cables mean you never forget one",
+      "Up to 165W total output, per Anker",
+      "About 90 Wh, under the airline limit",
+      "Extra USB-C and USB-A ports for more devices"
+    ],
+    "cons": [
+      "Single-port output tops out below the 737's 140W",
+      "Built-in cables cannot be swapped if damaged",
+      "Bulkier than slim banks"
+    ],
+    "bottomLine": "The most convenient laptop bank for travel, ideal for laptops that charge at 100 watts or less.",
+    "description": "The most common reason a power bank fails to charge a laptop is not the bank; it is the cable left at home or the wrong cable in the bag. Anker's 25K 165W laptop power bank solves that by building USB-C cables into the body, one of them retractable, so the bank always carries its own 100-watt-class connections. Anker rates it at 25,000 mAh, around 90 Wh, and up to 165 watts of total output, with additional USB-C and USB-A ports for more devices. A single laptop gets up to roughly 100 watts, which suits nearly every 13- and 14-inch machine and most 16-inch Windows laptops, though a 16-inch MacBook Pro will charge more slowly than its 140-watt charger allows. A display shows remaining charge. The downside of built-in cables is that if one is damaged, you cannot simply replace it, but the extra ports provide a fallback. For frequent flyers, this is the bank that removes the most friction."
+  },
+  {
+    "id": "ugreen-nexode-25000mah-200w",
+    "name": "UGREEN Nexode Power Bank 25000mAh 200W",
+    "category": "25,000 mAh (~90 Wh), 200W Total, Multi-Port USB-C",
+    "badge": "Best Value Multi-Device",
+    "amazonUrl": "",
+    "pros": [
+      "200W total output across ports, per UGREEN",
+      "Charges a laptop and other devices together",
+      "About 90 Wh, under the airline limit",
+      "Typically priced below comparable Anker models"
+    ],
+    "cons": [
+      "Per-port maximum is lower than the 200W total",
+      "Heavier than single-laptop banks",
+      "Several similar Nexode models; check the exact one"
+    ],
+    "bottomLine": "A strong-value bank for charging a laptop plus a phone or tablet at the same time.",
+    "description": "UGREEN has built a solid reputation in USB-C chargers with its Nexode line, and this 25,000 mAh power bank brings the same approach to battery packs. UGREEN rates it at up to 200 watts of total output across its ports, which means it can charge a laptop at high speed while also feeding a phone or tablet, without the drastic slowdown that smaller banks show when a second device is connected. Its capacity of about 90 Wh puts it comfortably under the 100 Wh airline limit, and a display shows remaining charge. The key detail is that the 200-watt figure is the total; the most a single port delivers is lower, so check the per-port rating on the listing against your laptop charger. For most 13- to 15-inch laptops that is not a problem. UGREEN sells several Nexode power banks with similar names and different outputs, so confirm the 200W version specifically. It is usually a little cheaper than Anker for similar output."
+  },
+  {
+    "id": "baseus-blade-100w",
+    "name": "Baseus Blade 100W Laptop Power Bank 20000mAh",
+    "category": "20,000 mAh (~72 Wh), 100W USB-C, Ultra-Slim",
+    "badge": "Best Slim Bank",
+    "amazonUrl": "",
+    "pros": [
+      "Flat, thin design fits beside a laptop in a sleeve",
+      "Up to 100W USB-C output, per Baseus",
+      "Digital display shows remaining charge",
+      "Multiple USB-C and USB-A ports"
+    ],
+    "cons": [
+      "Smallest capacity of the picks, around one ultrabook charge",
+      "100W limit is not enough for 140W laptops at full speed",
+      "Large footprint despite the slim profile"
+    ],
+    "bottomLine": "The best fit for ultrabook owners who want a bank that slides into a laptop sleeve rather than a backpack pocket.",
+    "description": "Most laptop power banks are thick bricks. The Baseus Blade takes a different shape: a flat slab closer in profile to a small tablet, designed to slide into a laptop sleeve or a thin briefcase where a brick would bulge. Baseus rates it at 20,000 mAh, about 72 Wh, with up to 100 watts of USB-C Power Delivery output. That is enough to charge most 13- and 14-inch laptops at or near full speed and to deliver roughly one full charge for an ultrabook with a battery in the 50 Wh range. A display shows remaining charge, and it has multiple USB-C and USB-A ports for phones and accessories. The trade-offs follow from the design. It holds less energy than the 25,000 mAh banks, and 100 watts is not enough to run a 16-inch performance laptop at full speed. The flat shape also means a wide footprint. For an ultrabook owner who values a clean bag, it is the most comfortable bank to carry."
+  },
+  {
+    "id": "anker-solix-c300-dc",
+    "name": "Anker SOLIX C300 DC Power Bank Station",
+    "category": "288 Wh LFP, 300W, High-Watt USB-C, No AC",
+    "badge": "Best for Remote Work and Outages",
+    "amazonUrl": "",
+    "pros": [
+      "288 Wh, roughly three times the largest airline-legal bank",
+      "Several high-wattage USB-C ports charge laptops directly",
+      "LFP cells rated for long cycle life",
+      "DC-only design skips inverter losses for USB devices"
+    ],
+    "cons": [
+      "Cannot fly; far over the 160 Wh limit",
+      "No AC outlets, so no wall-plug devices",
+      "Much heavier than a power bank"
+    ],
+    "bottomLine": "When one laptop charge is not enough, this is the next step: three to four laptop charges for outages, cabins and remote work.",
+    "description": "The Anker SOLIX C300 DC sits between a power bank and a power station, and for laptop users it is the most efficient way to get past the 100 Wh airline ceiling. Anker rates its LFP battery at 288 Wh, roughly three times what the largest legal power bank holds, and it charges laptops directly through high-wattage USB-C ports rather than through an inverter and your laptop's wall charger. Skipping that DC-to-AC-to-DC round trip means more of the stored energy actually reaches your laptop, so three to four full laptop charges is a reasonable planning figure, plus phones. There are no AC outlets, which keeps size and cost down but rules out monitors, modems with wall bricks, or anything else with a plug. It cannot fly, and it is far heavier than any bank. For remote work in a cabin or van, or keeping laptops alive through a multi-day outage, it is the right size."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Laptop Power Banks",
+          item: "https://www.allmetalbrake.com/best-laptop-power-bank/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best laptop power bank?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most people, the Anker 737 Power Bank (PowerCore 24K) is the best laptop power bank. Its single USB-C port supports up to 140 watts, enough for nearly any USB-C laptop at full speed, and its roughly 86 Wh capacity flies without airline approval. Choose the Anker Prime 26K if you charge two laptops at once, or the Baseus Blade for a slim ultrabook bank."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many watts does a power bank need to charge a laptop?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Check the wattage on your laptop's original charger. Ultrabooks usually need 30 to 65 watts, mid-size performance laptops 65 to 100 watts, and 16-inch MacBook Pros up to 140 watts. A bank whose single USB-C port delivers at least two-thirds of that will charge the laptop, more slowly; matching it fully gives full speed under load."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many times will a power bank charge my laptop?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually about once. A 20,000 to 26,000 mAh bank holds roughly 72 to 100 Wh, and after conversion losses delivers around 70 to 85 percent of that. Most laptops have 50 to 75 Wh batteries, so expect about one full charge for a typical laptop, a bit more for a small ultrabook, and roughly two-thirds of a charge for a 16-inch machine."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I take a laptop power bank on a plane?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, in carry-on luggage only. Under FAA and IATA rules, power banks up to 100 Wh are allowed without airline approval, banks from 100 to 160 Wh need airline approval and are limited to two, and anything above 160 Wh is prohibited. Power banks are never allowed in checked bags. Some airlines also restrict using banks during the flight."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I convert mAh to Wh for a power bank?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Multiply the mAh rating by the cell voltage, usually 3.6 or 3.7 volts, then divide by 1,000. A 24,000 mAh bank is about 86 to 89 Wh, and a 20,000 mAh bank about 72 to 74 Wh. Use the watt-hour figure printed on the case when there is one, since airlines and laptop battery ratings both use watt-hours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a power bank charge my laptop while I use it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, as long as the bank supplies enough wattage for your laptop's workload. Under light use, a 65-watt bank keeps most ultrabooks charging. Under heavy load, such as gaming or video export, a laptop can draw more than the bank delivers and slowly drain while plugged in. The bank still extends runtime substantially, just not indefinitely at full performance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a power station better than a laptop power bank?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For travel, no; stations cannot fly and are much heavier. For outages, remote work or several laptop charges in a row, yes. A roughly 300 Wh station such as the Anker SOLIX C300 DC holds about three times the energy of the largest legal bank, which means three to four laptop charges plus phones, and the option to recharge from solar."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best laptop power bank",
+      "laptop portable power bank",
+      "laptop portable charger",
+      "portable laptop battery charger",
+      "laptop charger portable",
+      "usb-c pd power bank"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Laptop Power Banks</span> for Work, Travel and Outages
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Most power banks can charge a phone. Far fewer can keep a laptop running. Here is how to match a bank's USB-C output to your laptop, what the 100 Wh airline rule really means, and six packs worth carrying.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#anker-737-power-bank"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Jump to the Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#wattage" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Laptop Wattage vs. PD Output</a>
+          <a href="#mah-wh" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. mAh to Wh</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Six Picks</a>
+          <a href="#comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Comparison Table</a>
+          <a href="#airline" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. The 100 Wh Airline Limit</a>
+          <a href="#passthrough" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Pass-Through and Recharging</a>
+          <a href="#multi-device" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Charging Several Devices</a>
+          <a href="#cables" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Cables and Compatibility</a>
+          <a href="#station" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. When a Power Station Wins</a>
+          <a href="#choosing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          A laptop power bank is not a phone power bank with a bigger number on the box. The number that decides whether it works is the wattage on its USB-C port, and the number that decides how long it works is watt-hours, not milliamp-hours. Get those two right and a pack in your bag turns a dead laptop into another full workday; get them wrong and you carry a heavy brick that charges your laptop slower than you drain it.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="wattage" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Laptop Wattage vs. USB-C PD Output
+          </h2>
+
+          <p>
+            Start with the charger that came with your laptop. The wattage printed on it is the most your laptop will ever ask for, and it is the single best guide to the power bank you need. A thin-and-light laptop such as a MacBook Air or a 13-inch Windows ultrabook typically ships with a 30 to 65 watt charger. A 14-inch performance laptop usually comes with something in the 65 to 100 watt range, and a 16-inch MacBook Pro ships with a 140 watt charger. Gaming laptops often use 180 to 330 watt barrel chargers that no power bank can match.
+          </p>
+
+          <p>
+            Laptop power banks talk to laptops through USB Power Delivery, or PD. The bank and laptop negotiate a voltage and current, and the result sets the wattage. Classic USB PD tops out at 100 watts, delivered at 20 volts and 5 amps. The newer PD 3.1 Extended Power Range adds higher voltages, 28, 36 and 48 volts, which is how a port reaches 140 watts or more. A bank advertised at 140 watts on one port needs both a laptop and a cable that support those higher levels to deliver it; otherwise it falls back to 100 watts or less.
+          </p>
+
+          <p>
+            Watch the difference between total output and per-port output. A bank sold as 200 or 300 watts is usually quoting the combined output of every port at once. The most any single port can deliver is often lower, commonly 100 or 140 watts. That is still enough for almost any USB-C laptop, but it means a 300-watt bank will not charge one laptop at 300 watts. It means it can charge a laptop and a tablet and a phone simultaneously without throttling. Read the per-port figure first.
+          </p>
+
+          <p>
+            A bank does not need to match your charger exactly. If your laptop came with a 96 watt charger and you use a 65 watt bank, the laptop will still charge, more slowly, and it may hold steady rather than gain charge under a heavy workload such as video export. Some laptops show a slow-charger warning, and a few refuse to charge at all below a certain wattage. As a rule, aim for a bank whose single-port output is at least two-thirds of your laptop charger's rating, and match it fully if you work hard while unplugged.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Match the per-port USB-C wattage to your laptop charger.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Total output is for charging several devices at once. The per-port rating decides whether your laptop charges at full speed, slowly, or not at all. Aim for at least two-thirds of your charger's wattage, and all of it if you work under heavy load.</p>
+          </div>
+        </div>
+
+        <div id="mah-wh" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. mAh to Wh: How Many Laptop Charges You Really Get
+          </h2>
+
+          <p>
+            Power banks are sold in milliamp-hours because the number looks big, but laptop batteries are rated in watt-hours, and that is the unit that lets you compare the two. To convert, multiply the mAh rating by the battery's nominal cell voltage, usually 3.6 or 3.7 volts, and divide by 1,000. A 24,000 mAh bank works out to roughly 86 to 89 Wh. A 20,000 mAh bank is about 72 to 74 Wh, and a 25,000 mAh bank about 90 to 93 Wh. Many makers now print the Wh figure on the case, partly because airlines ask for it.
+          </p>
+
+          <p>
+            You do not get all of those watt-hours. A laptop bank has to boost its cells from about 3.6 volts to 20 volts or more, and that conversion loses energy as heat. A planning figure of 70 to 85 percent delivered is realistic for a good bank, and the lower end applies at high wattage. So a roughly 86 Wh bank can be expected to put somewhere around 60 to 73 Wh into a laptop. Cheap banks with inflated mAh ratings and poor converters can do considerably worse.
+          </p>
+
+          <p>
+            Now compare that with your laptop. A 13-inch MacBook Air has a battery in the low 50s of watt-hours; a 14-inch MacBook Pro sits around 70 Wh; and a 16-inch MacBook Pro is right at the 100 Wh legal maximum for a laptop battery. Windows ultrabooks typically land between 50 and 75 Wh. In practice that means a 20,000 to 25,000 mAh bank delivers roughly one full charge of a mid-size laptop, or one and a bit of a small one, and something like two-thirds of a charge for a 16-inch machine.
+          </p>
+
+          <p>
+            That number surprises people who expect a power bank to triple their battery life. It will not. What it does is roughly double a modern laptop's unplugged day, which for most people is the difference that matters: a full transatlantic flight, a conference day without an outlet, or a full workday during a power outage. If you genuinely need three or four laptop charges, you need more watt-hours than any airline-legal bank can hold, and that is where a small power station comes in.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rated Capacity</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Approx. Wh (3.6 V)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Delivered (70-85%)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical Result</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">20,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">~72 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~50-61 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">About one ultrabook charge</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">24,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">~86 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~60-73 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">About one 14-inch laptop charge</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">25,000 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">~90 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~63-77 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">One full charge plus a phone</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">26,250 mAh</td>
+                    <td class="px-4 py-4 text-gray-700">~95 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~66-80 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Near the airline ceiling</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">288 Wh station</td>
+                    <td class="px-4 py-4 text-gray-700">288 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">~230-245 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">Three to four laptop charges</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Six Laptop Power Banks, From Slim to Station
+          </h2>
+
+          <p>
+            These six options from Anker, UGREEN and Baseus are widely sold and come from brands with long track records in USB-C charging. They are described from the manufacturers' published specifications, not from hands-on testing of our own. Power banks are revised and renamed constantly, often with near-identical names, so confirm the capacity, the per-port USB-C wattage and the total output on the listing before you buy. Five are true power banks that can fly in a carry-on; the sixth is a small DC power station for people who need more than any airline-legal bank can hold. Capacity in watt-hours is calculated from the rated mAh at a 3.6 V nominal cell voltage unless the maker publishes its own figure.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} reviews)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Comparison Table: The Six Picks Side by Side
+          </h2>
+
+          <p>
+            The table lines up each pick by its rated capacity, the maximum single-port USB-C output the manufacturer lists, and its total output across all ports. Where we were not confident of a published figure, we left it blank rather than guess. The single-port number is the one to match against your laptop charger; the total matters only if you plan to charge several devices at once.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Capacity</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Max Single USB-C</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Total Output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Flies?</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker 737 (PowerCore 24K)</td>
+                    <td class="px-4 py-4 text-gray-700">24,000 mAh (~86 Wh)</td>
+                    <td class="px-4 py-4 text-gray-700">140W</td>
+                    <td class="px-4 py-4 text-gray-700">140W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Most laptops, best all-rounder</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker Prime 26K 300W</td>
+                    <td class="px-4 py-4 text-gray-700">26,250 mAh (under 100 Wh)</td>
+                    <td class="px-4 py-4 text-gray-700">140W</td>
+                    <td class="px-4 py-4 text-gray-700">300W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Two laptops at once</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker Laptop Power Bank 25K 165W</td>
+                    <td class="px-4 py-4 text-gray-700">25,000 mAh (~90 Wh)</td>
+                    <td class="px-4 py-4 text-gray-700">100W</td>
+                    <td class="px-4 py-4 text-gray-700">165W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Built-in cables, travel</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">UGREEN Nexode 25000mAh 200W</td>
+                    <td class="px-4 py-4 text-gray-700">25,000 mAh (~90 Wh)</td>
+                    <td class="px-4 py-4 text-gray-700">See listing</td>
+                    <td class="px-4 py-4 text-gray-700">200W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Value multi-device</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Baseus Blade 100W</td>
+                    <td class="px-4 py-4 text-gray-700">20,000 mAh (~72 Wh)</td>
+                    <td class="px-4 py-4 text-gray-700">100W</td>
+                    <td class="px-4 py-4 text-gray-700">100W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Thin bags, ultrabooks</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker SOLIX C300 DC</td>
+                    <td class="px-4 py-4 text-gray-700">288 Wh</td>
+                    <td class="px-4 py-4 text-gray-700">High-watt USB-C</td>
+                    <td class="px-4 py-4 text-gray-700">300W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Outages, remote work</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Three things jump out. First, every true power bank here sits between roughly 72 and 100 Wh, because 100 Wh is the airline ceiling and the market has crowded up against it. Second, the real difference between banks is output, not capacity: a 140-watt port charges a big laptop at full speed, while a 100-watt port is plenty for most 13- and 14-inch machines. Third, the jump to a station is a jump to roughly three times the energy, at the cost of weight and the ability to fly.
+          </p>
+
+          <p>
+            If you are choosing purely on the numbers, the Anker 737 has the best balance of high single-port output, near-maximum capacity and a long track record. Spend more on the Anker Prime only if you regularly charge two laptops at once. The UGREEN and Baseus banks cost less and suit people whose laptops draw 100 watts or less, which is most people.
+          </p>
+        </div>
+
+        <div id="airline" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. The 100 Wh Airline Limit, Explained
+          </h2>
+
+          <p>
+            The 100 Wh figure that shapes the whole laptop power bank market comes from aviation rules. Under FAA and IATA guidance, spare lithium-ion batteries, which is what a power bank counts as, must travel in carry-on luggage, never in checked bags. Batteries up to 100 Wh are allowed without airline approval. Batteries between 100 and 160 Wh require the airline's approval and are limited to two spares per passenger. Anything above 160 Wh cannot fly as a passenger item at all.
+          </p>
+
+          <p>
+            Airlines and screeners check the watt-hour figure printed on the bank. If the case shows only mAh, they may calculate it themselves or simply refuse the bank, which is a bad way to start a trip. All of the banks in this guide are designed to fall under 100 Wh, and reputable brands print the figure on the casing. If you are buying a bank primarily for travel, confirm that the Wh rating is clearly marked, and avoid banks with ratings that look suspiciously large for their size.
+          </p>
+
+          <p>
+            Rules are also tightening around using power banks in flight. A growing number of airlines restrict charging devices from a power bank during the flight, require banks to stay visible rather than in an overhead bin, or ban in-flight use altogether, after a series of cabin battery fires. Policies differ by airline and change often, so check your carrier's current rules before you plan on charging a laptop at 35,000 feet. Charging at the gate is almost always fine.
+          </p>
+
+          <p>
+            The practical takeaway is that 100 Wh, roughly 26,000 to 27,000 mAh, is the useful ceiling for a laptop power bank. Anything larger is a power station and stays home. That is why our picks cluster in the 20,000 to 26,250 mAh range, and it is also why the step up to a station, which we cover below and in our <a href="/best-portable-power-station/">portable power station guide</a>, is a step change rather than a slightly bigger bank.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Airline Lithium Limits (FAA/IATA)</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">≤100 Wh</p>
+                <p class="text-gray-400 text-xs mt-1">Carry-on, no approval</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">100-160 Wh</p>
+                <p class="text-gray-400 text-xs mt-1">Airline approval, max two</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">>160 Wh</p>
+                <p class="text-gray-400 text-xs mt-1">Not allowed as passenger item</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">0</p>
+                <p class="text-gray-400 text-xs mt-1">Spare batteries in checked bags</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="passthrough" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Pass-Through Charging and Recharge Speed
+          </h2>
+
+          <p>
+            Pass-through charging means the bank can charge your devices while it is itself plugged in and charging. It sounds minor, but it changes how you use a laptop bank. At a hotel with one outlet, you plug the bank into the wall and the laptop into the bank, and both charge overnight. During a power outage, when the power flickers back for an hour, the whole stack refills at once. Most current high-output banks from major brands support some form of pass-through, but check the listing because implementations vary.
+          </p>
+
+          <p>
+            There are caveats. Pass-through generates extra heat and puts more cycles on the bank's cells, so using it every day as a desk charger shortens the bank's life. Some banks also prioritize the connected device and charge themselves only after it is full, while others split the input. For occasional use it is a genuinely useful feature; as a permanent setup, it is better to plug the laptop straight into its own charger and leave the bank for when you need it.
+          </p>
+
+          <p>
+            Recharge speed matters more than most buyers expect. An 86 Wh bank that recharges at 20 watts takes most of a day to refill; one that accepts 100 watts or more over USB-C can refill in about an hour or so. That is the difference between a bank that is ready for tomorrow's flight and one that is not. High-output banks like the Anker 737 and Prime accept fast USB-C input, but only from a wall charger that can supply that much, so a cheap 20-watt phone brick will still recharge them slowly.
+          </p>
+
+          <p>
+            For outage use, fast recharging is even more valuable. When power is intermittent, a bank that can soak up 100 watts or more in short windows is far more useful than one that sips. It also makes the bank a good partner for solar: a folding panel feeding a fast-charging bank or a small power station puts energy away efficiently while the sun is out. Our guides to <a href="/best-solar-power-bank/">solar power banks</a> and <a href="/best-portable-solar-panel/">portable solar panels</a> go into what size panel makes sense.
+          </p>
+        </div>
+
+        <div id="multi-device" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Charging a Laptop, Phone and Tablet at Once
+          </h2>
+
+          <p>
+            Most people carry more than a laptop. A phone, earbuds, a tablet or a camera usually come along, and a laptop power bank with two or three ports can charge them all. This is where total output matters. A 140-watt bank that sends 100 watts to a laptop has only 40 watts left for everything else, and when you plug in a second device, many banks renegotiate every port, briefly cutting power to all of them and then splitting output.
+          </p>
+
+          <p>
+            Banks with 200 to 300 watts of total output, such as the UGREEN Nexode and the Anker Prime, are built for this situation. They can feed a laptop at close to full speed while still charging a phone quickly. The Anker Prime goes further and can run two large laptops at high wattage simultaneously, which matters for couples traveling with two work machines or for photographers charging a laptop and a camera battery charger at once. For one laptop and one phone, it is more than you need.
+          </p>
+
+          <p>
+            Remember that more ports do not mean more capacity. Charging three devices at once drains a 90 Wh bank three times faster, and the laptop is still the biggest draw. If your goal is to get a laptop through a long flight, unplug the earbuds and tablet until the laptop is done. If your goal is to keep a family's phones going through an outage, a phone-sized bank for each person is often a better plan, as our guide to <a href="/best-portable-chargers-for-power-outages/">portable chargers for power outages</a> explains.
+          </p>
+
+          <p>
+            Built-in cables are another quality-of-life detail worth considering. A bank with an attached USB-C cable, like Anker's 25K 165W model, removes the most common failure of all: leaving the right cable at home. Built-in cables are usually rated for 100 watts or so, which suits most laptops. The downside is that a damaged built-in cable can make the whole bank awkward to use, so look for one that also has a standard USB-C port as a fallback.
+          </p>
+        </div>
+
+        <div id="cables" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Cables, E-Markers and Laptop Compatibility
+          </h2>
+
+          <p>
+            A high-wattage power bank is only as fast as the cable you plug into it. Ordinary USB-C cables are rated for 3 amps, which caps them at 60 watts. To pass more than 60 watts, a cable needs an electronic marker chip, or e-marker, that tells the bank it can carry 5 amps, which unlocks 100 watts at 20 volts. To reach 140 watts or more under PD 3.1, the cable must be rated for 240 watts. Many cables bundled with phones are 60-watt cables, which quietly throttle a laptop bank.
+          </p>
+
+          <p>
+            If your bank seems to charge your laptop slowly, the cable is the first suspect. Buy a cable explicitly rated for 100 watts, or 240 watts if you have a 140-watt laptop such as a 16-inch MacBook Pro, from a reputable brand, and keep it with the bank. Short cables are also slightly more efficient than long ones. A small USB-C power meter, a cheap inline tester that shows voltage and wattage, is a worthwhile purchase if you want to see exactly what the bank and laptop have negotiated.
+          </p>
+
+          <p>
+            Not every laptop charges over USB-C. Many older laptops, budget models and most gaming laptops use a barrel connector, and a USB-C power bank will not charge them directly. Some gaming laptops do accept USB-C charging but limit it to around 100 watts, which keeps the battery topped up during light work but cannot sustain gaming loads. Check your laptop's specifications for USB-C PD charging support and the maximum wattage before buying any bank.
+          </p>
+
+          <p>
+            Finally, the laptop has a say. Even with the right bank and cable, a laptop under heavy load may draw more than the bank supplies and slowly drain its own battery while plugged in. That is not a fault; the bank is still extending runtime substantially. If you need full performance unplugged for hours, such as rendering video on a 16-inch machine, the honest answer is that a power bank cannot fully keep up, and a station with an AC outlet and your original charger is the better tool.
+          </p>
+        </div>
+
+        <div id="station" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. When a Small Power Station Beats a Power Bank
+          </h2>
+
+          <p>
+            A power bank is the right answer for travel, for a single long day, and for most people's outage plans. It stops being the right answer when you need several laptop charges in a row, run equipment with an AC plug, or work remotely for days at a time. At that point the 100 Wh ceiling becomes the limiting factor, and the next step up is a small power station in the 250 to 300 Wh range, which holds roughly three times the energy of the largest legal bank.
+          </p>
+
+          <p>
+            A DC-only station like the Anker SOLIX C300 DC makes the jump without paying for an inverter you may not need. It has high-wattage USB-C ports that charge laptops directly, which is more efficient than plugging your original laptop charger into an AC outlet, because it skips a conversion from DC to AC and back. For a remote worker in a cabin, a van, or a home office during a long outage, that adds up to three or four full laptop charges from one unit, plus phones and a router.
+          </p>
+
+          <p>
+            If you also need to run something with a wall plug, such as a monitor, a modem or a CPAP, choose a station with AC outlets. Our guide to the <a href="/best-anker-solix-power-station/">best Anker SOLIX power stations</a> covers the range of sizes, and for anyone keeping a home office online through outages, a desk-side <a href="/best-ups-battery-backup/">UPS battery backup</a> is often the better tool for the desktop and router, since it switches over instantly when the grid drops. For CPAP users, our <a href="/best-battery-backup-for-cpap/">CPAP battery backup guide</a> covers overnight sizing.
+          </p>
+
+          <p>
+            The trade-off is portability. A station weighs several times as much as a bank, cannot go on a plane, and is overkill for anyone who only needs to get through a flight or a conference. Our <a href="/best-portable-power-station-for-camping/">camping power station guide</a> covers stations sized for weekends away, and the main <a href="/best-portable-power-station/">portable power station guide</a> compares the full field if your needs stretch from laptops to appliances.
+          </p>
+        </div>
+
+        <div id="choosing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which One to Buy
+          </h2>
+
+          <p>
+            If you want one laptop power bank that handles almost anything, buy the <a href="#anker-737-power-bank">Anker 737 Power Bank</a>. Its 140-watt port can charge even a 16-inch MacBook Pro at full speed, its roughly 86 Wh capacity flies anywhere, and its display shows exactly what is going in and out. It has been on the market long enough to have a solid reputation, which matters with lithium batteries. It is heavy for its size, and that is the main reason not to choose it.
+          </p>
+
+          <p>
+            If you routinely charge two laptops or a laptop and a tablet at full speed, step up to the <a href="#anker-prime-26k-300w">Anker Prime 26K 300W</a>. It is the most capable bank here and priced to match, so buy it for a real need rather than a spec sheet. If you hate carrying cables, the <a href="#anker-laptop-power-bank-25k-165w">Anker Laptop Power Bank 25K 165W</a> with built-in cables is the most convenient travel bank. For a capable multi-port bank at a lower price, the <a href="#ugreen-nexode-25000mah-200w">UGREEN Nexode 25000mAh 200W</a> is a strong value.
+          </p>
+
+          <p>
+            If your laptop draws 100 watts or less, which covers most 13- and 14-inch machines, and you care about how the bank fits in a laptop sleeve, the <a href="#baseus-blade-100w">Baseus Blade 100W</a> is the slim choice. It holds less than the others, so it is best for one ultrabook charge rather than a big machine. And if you need several laptop charges for remote work or outages, skip the banks and buy the <a href="#anker-solix-c300-dc">Anker SOLIX C300 DC</a> to leave at home or in the car.
+          </p>
+
+          <p>
+            What we would avoid: no-name banks advertising 30,000 mAh or more with 100-watt output at bargain prices. Inflated capacity claims are common in this category, airline staff may refuse a bank without a clear Wh label, and a cheap lithium pack is the last thing you want in a backpack or bedroom. Buy from a brand with a track record, register the warranty, and retire any bank that swells, gets hot at rest, or has been crushed.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying on total wattage instead of per-port output</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 200- or 300-watt bank is usually quoting all ports combined. The single USB-C port your laptop uses may top out at 100 or 140 watts. Match the per-port figure to your laptop charger, and treat the total as a measure of how many devices it can feed at once.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a 60-watt cable on a laptop bank</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Ordinary USB-C cables carry 3 amps, capping them at 60 watts no matter what the bank can do. Laptops above 60 watts need a 5-amp e-marked cable rated for 100 watts, and 140-watt laptops need a 240-watt cable. A wrong cable is the most common cause of slow laptop charging.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting several laptop charges from one bank</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Airline-legal banks hold at most 100 Wh, and conversion losses mean a laptop sees roughly 70 to 85 percent of that. Plan on about one full charge for a typical laptop. If you need three or four charges, a small power station is the honest answer, not a bigger-sounding bank.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Packing a power bank in checked luggage</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Spare lithium batteries, including every power bank, must travel in carry-on bags under FAA and IATA rules. Banks found in checked bags are typically removed and may be confiscated. Keep the bank in your carry-on, make sure its Wh rating is printed on the case, and check your airline's in-flight use policy.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Assuming every laptop charges over USB-C</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many budget and gaming laptops use barrel connectors and cannot charge from a USB-C bank, and some that do support USB-C cap it near 100 watts. Check your laptop's specifications for USB-C Power Delivery charging and its maximum wattage before buying, or you may own a bank that only charges your phone.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best laptop power bank?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most people, the Anker 737 Power Bank (PowerCore 24K) is the best laptop power bank. Its single USB-C port supports up to 140 watts, enough for nearly any USB-C laptop at full speed, and its roughly 86 Wh capacity flies without airline approval. Choose the Anker Prime 26K if you charge two laptops at once, or the Baseus Blade for a slim ultrabook bank.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many watts does a power bank need to charge a laptop?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Check the wattage on your laptop's original charger. Ultrabooks usually need 30 to 65 watts, mid-size performance laptops 65 to 100 watts, and 16-inch MacBook Pros up to 140 watts. A bank whose single USB-C port delivers at least two-thirds of that will charge the laptop, more slowly; matching it fully gives full speed under load.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many times will a power bank charge my laptop?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Usually about once. A 20,000 to 26,000 mAh bank holds roughly 72 to 100 Wh, and after conversion losses delivers around 70 to 85 percent of that. Most laptops have 50 to 75 Wh batteries, so expect about one full charge for a typical laptop, a bit more for a small ultrabook, and roughly two-thirds of a charge for a 16-inch machine.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I take a laptop power bank on a plane?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, in carry-on luggage only. Under FAA and IATA rules, power banks up to 100 Wh are allowed without airline approval, banks from 100 to 160 Wh need airline approval and are limited to two, and anything above 160 Wh is prohibited. Power banks are never allowed in checked bags. Some airlines also restrict using banks during the flight.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I convert mAh to Wh for a power bank?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Multiply the mAh rating by the cell voltage, usually 3.6 or 3.7 volts, then divide by 1,000. A 24,000 mAh bank is about 86 to 89 Wh, and a 20,000 mAh bank about 72 to 74 Wh. Use the watt-hour figure printed on the case when there is one, since airlines and laptop battery ratings both use watt-hours.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a power bank charge my laptop while I use it?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, as long as the bank supplies enough wattage for your laptop's workload. Under light use, a 65-watt bank keeps most ultrabooks charging. Under heavy load, such as gaming or video export, a laptop can draw more than the bank delivers and slowly drain while plugged in. The bank still extends runtime substantially, just not indefinitely at full performance.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a power station better than a laptop power bank?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For travel, no; stations cannot fly and are much heavier. For outages, remote work or several laptop charges in a row, yes. A roughly 300 Wh station such as the Anker SOLIX C300 DC holds about three times the energy of the largest legal bank, which means three to four laptop charges plus phones, and the option to recharge from solar.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Portable Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">When you need more than 100 Wh: stations for outages, camping and home backup.</p>
+            </a>
+            <a href="/best-portable-chargers-for-power-outages/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Outage Charging</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Chargers for Outages</h3>
+              <p class="text-gray-500 text-sm mt-2">Power banks and small stations sized to keep a household connected.</p>
+            </a>
+            <a href="/best-solar-power-bank/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-green-600 font-black text-xs uppercase tracking-widest mb-2">Solar Charging</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Solar Power Banks</h3>
+              <p class="text-gray-500 text-sm mt-2">Banks with built-in panels, and when solar charging is actually worth it.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            A laptop power bank is worth buying on two numbers only: the wattage of its best USB-C port and its capacity in watt-hours. Match the first to your laptop charger, expect the second to deliver about one full laptop charge, and pair the bank with a cable rated for the wattage you need.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most people that means the Anker 737. Step up to the Anker Prime for two laptops, choose the Baseus Blade for a slim ultrabook bank, and move to a small station like the Anker SOLIX C300 DC when one charge is not enough. Avoid unbranded banks with impossible capacity claims, and keep every bank in your carry-on.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>
