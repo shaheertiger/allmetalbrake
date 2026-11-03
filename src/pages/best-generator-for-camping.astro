@@ -1,0 +1,967 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best RV Generators",
+    "url": "/best-rv-generator/"
+  },
+  {
+    "title": "Best Portable Power Station for Camping",
+    "url": "/best-portable-power-station-for-camping/"
+  },
+  {
+    "title": "Best Small Generators for Home",
+    "url": "/best-small-generator-for-home/"
+  },
+  {
+    "title": "Best Portable Solar Panels",
+    "url": "/best-portable-solar-panel/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Generators for Camping: Quiet Inverters Small Enough to Pack";
+const description =
+  "Seven small, quiet camping generators compared on dB at 23 feet, weight and runtime, plus campground generator rules, CO safety and when a power station wins.";
+
+const PRODUCTS = [
+  {
+    "id": "honda-eu2200i-camping",
+    "name": "Honda EU2200i Inverter Generator",
+    "category": "2,200W max / 1,800W rated, about 47 lb, gas",
+    "badge": "Best Overall Camping Generator",
+    "amazonUrl": "",
+    "pros": [
+      "Honda rates it at 48 to 57 dB(A), very quiet at light load",
+      "Runs a kettle or coffee maker plus charging loads",
+      "CO-MINDER automatic CO shutoff",
+      "Parallel capable with a second unit",
+      "Strong reputation for longevity and resale value"
+    ],
+    "cons": [
+      "Premium price",
+      "Small 0.95-gallon tank",
+      "No fuel gauge"
+    ],
+    "bottomLine": "The camping generator to buy once and keep for years, if the price does not put you off.",
+    "description": "The EU2200i is the reference small inverter generator, and the one most campground neighbors will not complain about. Honda rates it at 2,200 watts maximum and 1,800 rated, enough to run an electric kettle, a coffee maker or an induction burner alongside phone, laptop and light charging. Honda quotes its noise at 48 to 57 dB(A) from light to rated load, and in eco mode at typical camping loads it sits near the bottom of that range. At about 47 pounds, it is a comfortable one-hand carry from the car to the site. CO-MINDER shuts the engine down if carbon monoxide builds up, and the parallel ports let you link a second EU2200i if you later buy a trailer. Runtime on the 0.95-gallon tank ranges from about 3.2 hours at rated load to roughly 8 hours at a quarter load, by Honda's figures. The price is high, but so is its resale value."
+  },
+  {
+    "id": "yamaha-ef2200is",
+    "name": "Yamaha EF2200iS Inverter Generator",
+    "category": "2,200W max / 1,800W rated, gas, fuel gauge",
+    "badge": "Best for Longer Runtime",
+    "amazonUrl": "",
+    "pros": [
+      "Larger tank than the Honda EU2200i",
+      "Built-in fuel gauge",
+      "Quiet inverter with economy mode",
+      "Parallel capable with a matching unit",
+      "Yamaha dealer network for service"
+    ],
+    "cons": [
+      "Premium price, close to the Honda",
+      "A little heavier than the Honda",
+      "Gasoline only"
+    ],
+    "bottomLine": "The Honda alternative for campers who want a longer run per tank and a fuel gauge.",
+    "description": "Yamaha's EF2200iS competes head-on with the Honda EU2200i and wins on a couple of practical details. Yamaha rates it at 2,200 watts maximum and 1,800 rated, so it covers the same campsite loads: a kettle or coffee maker plus charging, lights and a 12-volt fridge. Its fuel tank is larger than the Honda's, which by Yamaha's published figures translates into a longer runtime at quarter load, and a built-in fuel gauge shows how much is left without opening the cap, a small thing that matters at night. Economy mode throttles the engine down at light loads to save fuel and cut noise, and it can be paralleled with a second unit for bigger loads. It is slightly heavier than the Honda, though still a one-person carry. Choose it over the EU2200i if you run long days, if a Yamaha dealer is nearer than a Honda one, or if you find a better price."
+  },
+  {
+    "id": "honda-eu1000i",
+    "name": "Honda EU1000i Inverter Generator",
+    "category": "1,000W max / 900W rated, about 29 lb, gas",
+    "badge": "Lightest Pick",
+    "amazonUrl": "",
+    "pros": [
+      "About 29 pounds, a true one-hand carry",
+      "Plenty for charging, lights, fans and a 12V fridge",
+      "Quiet at light load",
+      "Recharges a 1kWh power station during the day"
+    ],
+    "cons": [
+      "Cannot run a kettle, coffee maker or induction burner",
+      "Small fuel tank",
+      "Costly per watt"
+    ],
+    "bottomLine": "The generator for campers who never cook electrically and want something they barely notice carrying.",
+    "description": "The EU1000i is the generator for campers who have done the math and found they do not need 2,000 watts. Honda rates it at 1,000 watts maximum and 900 rated, which is plenty for phones, laptops, lights, fans, a 12-volt fridge and recharging a power station, but not enough for an electric kettle, a coffee maker or an induction burner. At about 29 pounds, it is light enough to carry to a walk-in site or tuck into a crowded trunk, and it is quiet at the light loads a campsite actually presents. It pairs especially well with a 1kWh power station: the battery covers the night and any short high-power bursts, while the Honda recharges it during generator hours. It is expensive for its output, and you will outgrow it if you take up a trailer, but if lightness and quiet are what you value most, nothing else on this list comes close."
+  },
+  {
+    "id": "champion-2500w-dual-fuel-inverter",
+    "name": "Champion 2500-Watt Dual Fuel Inverter Generator",
+    "category": "2,500W starting, gas or propane, ultralight class",
+    "badge": "Best for Tailgating",
+    "amazonUrl": "",
+    "pros": [
+      "Runs on gasoline or a propane cylinder",
+      "Champion rates it at 53 dBA from 23 feet",
+      "Light for a dual fuel unit",
+      "Parallel capable",
+      "Mid-range price"
+    ],
+    "cons": [
+      "Less output on propane",
+      "Less refined than the Honda or Yamaha",
+      "Propane hose and cylinder add bulk"
+    ],
+    "bottomLine": "The tailgate and car-camping generator for anyone who already carries propane.",
+    "description": "The Champion 2500-watt dual fuel inverter is the most practical tailgate generator on this list. It runs on gasoline or on a standard propane cylinder, so if you already bring one for a grill or camp stove, you can leave the gas can at home and never worry about stale fuel. Champion rates it at 2,500 starting watts on gasoline, enough for a kettle, a slow cooker, a TV or a small blender plus charging loads, and quotes 53 dBA from 23 feet, quiet enough for most lots and campgrounds. It is light for a dual fuel generator and carries easily from the car. It is parallel capable with compatible Champion inverters, and Champion's service network is wide. Expect lower output on propane, and less refinement and longevity than the Japanese brands. For the price, though, it is the best balance of flexibility and quiet for tailgaters and car campers."
+  },
+  {
+    "id": "wen-56203i",
+    "name": "WEN 56203i Inverter Generator",
+    "category": "2,000W surge / 1,600W rated, about 39 lb, gas",
+    "badge": "Best Budget Pick",
+    "amazonUrl": "",
+    "pros": [
+      "Low price for a true inverter",
+      "About 39 pounds",
+      "WEN rates it at 51 dBA at quarter load",
+      "Eco mode for light loads",
+      "Clean power for phones and laptops"
+    ],
+    "cons": [
+      "Lowest rated output of the 2,000W-class picks",
+      "Less durable than premium brands",
+      "Thinner service network"
+    ],
+    "bottomLine": "A good-value inverter for a few camping trips a year, not a decade of heavy use.",
+    "description": "The WEN 56203i is the generator to buy when the budget is tight but you still want a real inverter rather than a loud open-frame unit. WEN rates it at 2,000 surge and 1,600 rated watts, which covers charging, lights, a fan, a small TV and most 1,500-watt-or-smaller heating appliances if you run them alone. WEN quotes 51 dBA at quarter load, in the same quiet class as the premium picks, and at about 39 pounds it is easy to carry. Eco mode throttles the engine down when you are only charging devices, and the inverter output is clean enough for laptops and phones. The trade-offs are durability and support. It is not built to the same standard as the Honda or Yamaha, and service options are thinner. For campers who go out a handful of times a year and maintain it properly, it does the job for well under half the price of the premium brands."
+  },
+  {
+    "id": "generac-gp2500i",
+    "name": "Generac GP2500i Inverter Generator",
+    "category": "2,500W starting / 2,200W running, gas",
+    "badge": "Most Rated Watts",
+    "amazonUrl": "",
+    "pros": [
+      "Highest running watts among the small picks",
+      "Handles a heating load plus charging with margin",
+      "Economy mode",
+      "Parallel capable",
+      "Generac dealer support"
+    ],
+    "cons": [
+      "Heavier than the WEN and Champion",
+      "Gets loud at full load, like any small inverter",
+      "Gasoline only"
+    ],
+    "bottomLine": "The small inverter for campers who run kettles, hot plates or heaters for long stretches.",
+    "description": "Generac's GP2500i is the small inverter for campers who lean on heating loads. Generac rates it at 2,500 starting and 2,200 running watts, the highest continuous output among the compact picks, which gives real margin when a 1,500-watt kettle or hot plate runs alongside charging loads, or when you want to run a heating appliance for an extended stretch without pushing the generator to its limit. Economy mode drops engine speed at light loads, and it can be paralleled with a second compatible Generac for more power. Generac's dealer network is broad, which helps when parts are needed. It is a little heavier than the WEN and Champion, still manageable for one person, and like any small inverter it gets louder at full load. Choose it if you cook electrically every day of the trip; if you mostly charge devices, the extra running watts do little for you."
+  },
+  {
+    "id": "jackery-explorer-1000-v2-camping",
+    "name": "Jackery Explorer 1000 v2 Portable Power Station",
+    "category": "1,070Wh LFP, 1,500W, about 24 lb",
+    "badge": "Best Generator-Free Option",
+    "amazonUrl": "",
+    "pros": [
+      "Silent and fume-free, safe beside or inside a tent",
+      "Allowed during quiet hours and in generator-free loops",
+      "About 24 pounds",
+      "Recharges from solar, a car or a small generator"
+    ],
+    "cons": [
+      "Fixed energy that runs out on long, cloudy trips",
+      "Heating loads drain it quickly",
+      "Costs about as much as a premium 2,000W generator"
+    ],
+    "bottomLine": "The right buy for campers whose loads are charging, lights, a 12V fridge and a CPAP.",
+    "description": "For many campers, this is the better call than any generator. Jackery rates the Explorer 1000 v2 at 1,070Wh of LFP battery and 1,500 watts of output, enough to run phones, laptops, lights, a 12-volt fridge and a CPAP through a weekend, and short bursts of a coffee maker or small kettle if you accept the drain. At about 24 pounds, it is lighter than every generator on this list, and it makes no noise and no fumes, so it can sit beside the tent, run all night and stay legal through quiet hours and in loops that ban generators. The limitation is energy. Electric cooking eats the battery fast, and on a long trip without sun, it eventually runs flat. Pair it with a folding solar panel for most trips, or with a small generator for long cloudy stretches. For weekend tent and car camping with light loads, buy this instead of a generator."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Camping Generators",
+          item: "https://www.allmetalbrake.com/best-generator-for-camping/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What size generator do I need for camping?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For charging phones and laptops, lights, fans and a 12-volt fridge, a 1,000-watt inverter is enough. If you want to run an electric kettle, coffee maker, hot plate or induction burner, step up to a 2,000 to 2,500-watt inverter. Only travel trailers with air conditioning need more, and that becomes an RV generator question with different sizing rules."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How quiet is a quiet camping generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Quality small inverters are rated in the high 40s to low 50s dB(A) at quarter load, measured from about 23 feet, which is roughly the level of a quiet conversation. They get several decibels louder at full load and louder still up close. Open-frame generators commonly run in the 70s, which is why many campgrounds ban them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run a generator overnight at a campground?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually not. Most campgrounds enforce quiet hours from around 10 p.m. to the morning, and many state and national parks restrict generators to set daytime windows. It is also a carbon monoxide risk near sleeping people. Run overnight loads like a CPAP or fridge from a battery power station, and recharge it with the generator during allowed hours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a power station better than a generator for camping?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For light loads and weekend trips, usually yes. A power station is silent, fume-free and allowed during quiet hours, and it runs phones, lights, a 12-volt fridge and a CPAP easily. A generator wins for electric cooking, long trips without sun and higher power. Many campers carry both, using the generator to refill the battery during allowed hours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long will a small generator run on a tank of gas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends mostly on load. Honda quotes the EU2200i at roughly 3.2 hours on its 0.95-gallon tank at rated load and about 8 hours at a quarter load. Typical camping loads are light, so a full tank often covers an evening and a morning. Generators with larger tanks, like the Yamaha EF2200iS, stretch that further."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a camping generator work as a mini generator for home outages?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, within limits. A 2,000-watt inverter can run a refrigerator, internet equipment, lights and phone charging during an outage, from outdoors and well away from doors and windows. It will not run central air, an electric range or a well pump. For whole-house needs, a larger portable with a transfer switch or a standby generator is the right tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a generator safe to use at a tailgate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can be, with care. Keep it outdoors and away from crowds, tents and canopies, with the exhaust pointed away from people and vehicles. Choose a quiet inverter with automatic CO shutoff, check the stadium lot rules, and let it cool before refueling. Never refuel a hot generator next to a grill or open flame."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best generator for camping",
+      "camping portable generators",
+      "small generators for camping",
+      "portable generator for camping",
+      "small generators portable",
+      "mini generator for home",
+      "tailgate generator"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best Generators <span class="text-[#38BDF8]">for Camping</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Small inverter generators that fit in a trunk, run quietly enough not to ruin anyone's evening, and power the things a campsite actually needs, plus the honest answer on when a battery does the job better.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#honda-eu2200i-camping"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare the Specs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#generator-or-battery" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Generator or Power Station?</a>
+          <a href="#sizing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. How Much Power a Campsite Needs</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Seven Picks</a>
+          <a href="#comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Side-by-Side Comparison</a>
+          <a href="#noise" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Noise and dB at 23 Feet</a>
+          <a href="#rules" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Campground Generator Rules</a>
+          <a href="#weight-fuel" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Weight, Fuel and Runtime</a>
+          <a href="#co-safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. CO Safety at the Campsite</a>
+          <a href="#pairing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Pairing With a Power Station</a>
+          <a href="#which-one" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Most campers who buy a generator buy too much of one. A tent site needs to charge phones, run lights, keep a cooler cold and maybe boil water, and most of that fits in a few hundred watts. The best camping generator is the smallest, quietest one that covers your real loads, and for a lot of trips the best generator is not a generator at all.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="generator-or-battery" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Generator or Power Station? Decide First
+          </h2>
+
+          <p>
+            Before you compare generators, be honest about the trip. If you camp for a weekend at a state park and need to charge phones, run LED lights, power a CPAP and keep a 12-volt fridge cold, a battery power station does all of it silently, with no fuel, no fumes and no generator-hour rules. Our guide to the <a href="/best-portable-power-station-for-camping/">best portable power station for camping</a> sizes those for exactly that kind of trip.
+          </p>
+
+          <p>
+            A generator earns its place when the loads are big or the trip is long. Electric kettles, induction burners, coffee makers, hair dryers, small space heaters and power tools draw 1,000 to 1,800 watts, and they empty a battery quickly. A week in the backcountry without sun can also outlast any battery you can carry. In those cases, a gallon of gasoline holds far more usable energy than a battery you could lift, and a small generator refills in seconds.
+          </p>
+
+          <p>
+            Cost points the same way at the small end. A quality 2,000-watt inverter generator costs roughly the same as a 1kWh power station, but it can deliver its rated power for hours on a single tank. The battery is quieter, simpler and safer to run beside a tent; the generator is the better value per watt-hour delivered over a long trip. Neither is wrong. They solve different problems.
+          </p>
+
+          <p>
+            Many experienced campers end up with both: a power station for the quiet hours and the tent, and a small generator to refill it during the day when the sky is grey. We cover that pairing in its own section below. If you already own a large station from our <a href="/best-portable-power-station/">portable power station picks</a>, the generator you need may be much smaller than you think.
+          </p>
+        </div>
+
+        <div id="sizing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. How Much Power a Campsite Actually Needs
+          </h2>
+
+          <p>
+            Add up the loads you would run at the same time, not everything you own. Phone and camera charging is 10 to 30 watts per device. A laptop is commonly 45 to 100 watts. LED string lights are typically well under 50 watts. A 12-volt compressor fridge averages tens of watts once it is cold. A CPAP without a heated humidifier often draws 30 to 60 watts, more with the heater on. None of these come close to taxing even a 1,000-watt generator.
+          </p>
+
+          <p>
+            The loads that size the generator are the heating ones. An electric kettle, a drip coffee maker, a hot plate, an induction burner or a small space heater commonly draws 800 to 1,800 watts while it runs. Running one of them plus your charging loads is what pushes a campsite into the 2,000-watt class. If you never plan to boil water electrically, a 1,000-watt generator is genuinely enough, and it is lighter and quieter than anything bigger.
+          </p>
+
+          <p>
+            Motor loads need start headroom. A household mini fridge, a small air conditioner or a sump-style pump briefly pulls several times its running power when it starts. Our guide to <a href="/best-portable-air-conditioner-for-camping/">portable air conditioners for camping</a> covers which units small generators can actually start. A 12-volt fridge is the exception: compressor fridges designed for vehicles start gently, which is why they pair so well with batteries. Our <a href="/best-12v-fridge-for-camping/">12V camping fridge picks</a> go into their power draw in detail.
+          </p>
+
+          <p>
+            In practice, campers sort into three groups. Charging, lights and a 12-volt fridge only: buy a power station or a 1,000-watt generator. Add a kettle, coffee maker or induction burner: buy a 2,000 to 2,500-watt inverter. Add a small air conditioner or a travel trailer: you are now shopping for RV power, and our <a href="/best-rv-generator/">RV generator guide</a> is the better place to start, because rooftop air conditioning changes the math entirely.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Campsite load</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical draw</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">What it needs</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Phones, lights, laptop</td>
+                    <td class="px-4 py-4 text-gray-700">Under 150W</td>
+                    <td class="px-4 py-4 text-gray-700">Power station or 1,000W generator</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">12V compressor fridge</td>
+                    <td class="px-4 py-4 text-gray-700">Tens of watts average</td>
+                    <td class="px-4 py-4 text-gray-700">Power station or 1,000W generator</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">CPAP, no heated humidifier</td>
+                    <td class="px-4 py-4 text-gray-700">About 30-60W</td>
+                    <td class="px-4 py-4 text-gray-700">Power station preferred</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Kettle, coffee maker, induction burner</td>
+                    <td class="px-4 py-4 text-gray-700">800-1,800W</td>
+                    <td class="px-4 py-4 text-gray-700">2,000-2,500W inverter</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Small AC or travel trailer</td>
+                    <td class="px-4 py-4 text-gray-700">Large start surge</td>
+                    <td class="px-4 py-4 text-gray-700">See RV generators</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Seven Picks
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications and widely reported owner experience, not from our own hands-on testing. Noise figures are the makers' own ratings, usually at quarter load from about 23 feet, and we only quote them where we are confident of the published number. Six are gasoline or dual fuel inverters; the seventh is a battery power station for campers who would be better served without an engine.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} owner reviews)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Side-by-Side Comparison
+          </h2>
+
+          <p>
+            The table lines up the seven picks on the numbers that matter at a campsite. Wattage is the manufacturer's rating on gasoline. Where we are not confident of a published weight or decibel figure, we describe the class rather than reprint a number that might be wrong, because a guess presented as a spec is worse than no spec.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Watts (max / rated)</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Weight</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Fuel</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Honda EU2200i</td>
+                    <td class="px-4 py-4 text-gray-700">2,200 / 1,800</td>
+                    <td class="px-4 py-4 text-gray-700">About 47 lb</td>
+                    <td class="px-4 py-4 text-gray-700">Gas</td>
+                    <td class="px-4 py-4 text-gray-700">Best overall</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Yamaha EF2200iS</td>
+                    <td class="px-4 py-4 text-gray-700">2,200 / 1,800</td>
+                    <td class="px-4 py-4 text-gray-700">Similar to Honda</td>
+                    <td class="px-4 py-4 text-gray-700">Gas</td>
+                    <td class="px-4 py-4 text-gray-700">Longer runtime</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Honda EU1000i</td>
+                    <td class="px-4 py-4 text-gray-700">1,000 / 900</td>
+                    <td class="px-4 py-4 text-gray-700">About 29 lb</td>
+                    <td class="px-4 py-4 text-gray-700">Gas</td>
+                    <td class="px-4 py-4 text-gray-700">Lightest</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Champion 2500W Dual Fuel</td>
+                    <td class="px-4 py-4 text-gray-700">2,500 starting</td>
+                    <td class="px-4 py-4 text-gray-700">About 40 lb class</td>
+                    <td class="px-4 py-4 text-gray-700">Gas or propane</td>
+                    <td class="px-4 py-4 text-gray-700">Tailgating</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">WEN 56203i</td>
+                    <td class="px-4 py-4 text-gray-700">2,000 / 1,600</td>
+                    <td class="px-4 py-4 text-gray-700">About 39 lb</td>
+                    <td class="px-4 py-4 text-gray-700">Gas</td>
+                    <td class="px-4 py-4 text-gray-700">Budget</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Generac GP2500i</td>
+                    <td class="px-4 py-4 text-gray-700">2,500 / 2,200</td>
+                    <td class="px-4 py-4 text-gray-700">About 50 lb class</td>
+                    <td class="px-4 py-4 text-gray-700">Gas</td>
+                    <td class="px-4 py-4 text-gray-700">Most rated watts</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Jackery Explorer 1000 v2</td>
+                    <td class="px-4 py-4 text-gray-700">1,500W continuous</td>
+                    <td class="px-4 py-4 text-gray-700">About 24 lb</td>
+                    <td class="px-4 py-4 text-gray-700">Battery</td>
+                    <td class="px-4 py-4 text-gray-700">Silent camping</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The headline is how closely the 2,000 to 2,500-watt inverters cluster. They all cover a kettle plus charging loads, they all weigh roughly 40 to 50 pounds, and the differences come down to noise refinement, fuel options, build quality and price. That is good news for buyers, because it means even the budget picks will do the job; you are paying the premium for longevity and polish, not for capability.
+          </p>
+
+          <p>
+            The outliers are the useful part of the table. The Honda EU1000i shows how much weight you save by giving up electric cooking. The Champion's dual fuel option matters if you already carry propane for a camp stove. And the Jackery shows the trade from the other direction: the lightest and quietest option by far, with a fixed amount of energy that runs out unless you recharge it.
+          </p>
+
+          <p>
+            If two picks look equal on paper, buy the one with better parts and service support near where you live. Small generators need carburetor cleaning, oil changes and the occasional spark plug, and a brand with a dealer nearby is worth more on a holiday weekend than a few dollars saved at checkout.
+          </p>
+        </div>
+
+        <div id="noise" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Noise: What dB at 23 Feet Really Means
+          </h2>
+
+          <p>
+            Generator makers quote noise in dB(A), a scale weighted toward what the human ear hears, usually measured at 7 meters, or about 23 feet, at a quarter load. That is a flattering condition. At full load, the same generator can be several decibels louder, and at 10 feet from your camp chair, louder again. Treat brochure figures as a way to compare models measured the same way, not as what you will hear at the picnic table.
+          </p>
+
+          <p>
+            Decibels are logarithmic. A 10 dB increase sounds roughly twice as loud, and even 3 dB is a noticeable step. Honda rates the EU2200i at 48 to 57 dB(A) from light to rated load, which is roughly the range of a quiet conversation. An open-frame contractor generator in the 70s at the same distance is a different animal, and the reason many campgrounds ban that type outright.
+          </p>
+
+          <p>
+            Inverter generators are quieter for two reasons. They are enclosed in a sound-damping shell, and their engines throttle down when the load is light instead of running at a fixed speed. Leave the economy or eco mode switched on whenever you are only charging devices, and the generator will spend most of its time near the bottom of its noise range. Switch it off only when a heating load or motor start needs the full engine speed.
+          </p>
+
+          <p>
+            Placement matters as much as the spec. Set the generator on soft ground or a mat, not on a picnic table or in a truck bed that amplifies vibration. Point the exhaust and the louder side away from tents and neighbors. Use a heavy-gauge extension cord long enough to put real distance between the engine and where people sit, which also helps with carbon monoxide, covered below.
+          </p>
+        </div>
+
+        <div id="rules" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Campground Generator Rules and Hours
+          </h2>
+
+          <p>
+            Check the rules before you pack a generator. Many campgrounds set generator hours that are stricter than general quiet hours, which commonly run from about 10 p.m. to 6 or 8 a.m. State parks and national parks often allow generators only during defined daytime windows, sometimes with a midday break, and some tent-only and walk-in loops ban them entirely. The campground's page or the ranger station will tell you, and rules can differ from one loop to the next.
+          </p>
+
+          <p>
+            National Park Service regulations cap generator noise at 60 dB(A) measured at 50 feet, and individual parks add their own hours and loop restrictions on top. Any quality inverter on this list should meet that limit at light load; an open-frame generator often will not. If you camp in national parks regularly, that rule alone makes an inverter generator the only practical choice.
+          </p>
+
+          <p>
+            Dispersed camping on national forest and Bureau of Land Management land is usually looser on hours, but not on fire safety. Small engines used on national forest land generally need a working spark arrester, which inverter generators sold in the U.S. typically include, and seasonal fire restrictions can add further limits. Check current restrictions with the local ranger district before you go, especially in the dry months of late summer.
+          </p>
+
+          <p>
+            Private campgrounds and RV parks set their own policies, and many with electric hookups discourage generators completely. Tailgating has its own rules too: many stadium lots allow small generators but ban open flames or limit where they can sit. A quiet inverter and a short courteous conversation with your neighbors go a long way. The generator that keeps you welcome is worth more than the one with the biggest number on the side.
+          </p>
+        </div>
+
+        <div id="weight-fuel" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Weight, Fuel and Runtime
+          </h2>
+
+          <p>
+            Weight decides whether a generator comes on the trip. The 2,000 to 2,500-watt inverters on this list weigh roughly 40 to 50 pounds, which is a comfortable one-person carry from car to campsite but not something you want to haul far. The Honda EU1000i, at about 29 pounds, is the one you can carry with one hand down a trail to a walk-in site. If a generator is too heavy to bring, it does nothing for you.
+          </p>
+
+          <p>
+            Runtime depends far more on load than on tank size. Honda quotes the EU2200i at roughly 3.2 hours on its 0.95-gallon tank at rated load and about 8.1 hours at a quarter load. Because camping loads are usually light, a full tank often covers an evening and a morning. The Yamaha EF2200iS carries a larger tank than the Honda, which is the main reason owners pick it for long weekends.
+          </p>
+
+          <p>
+            Bring fuel safely. Carry gasoline in an approved, sealed can, outside the passenger cabin where possible, and treat it with a fuel stabilizer if it will sit for more than a few weeks. Small generators are sensitive to stale fuel, and a gummed carburetor is the most common reason they fail to start on the first trip of the season. Running the carburetor dry before storage, where the manual recommends it, prevents most of that trouble.
+          </p>
+
+          <p>
+            Dual fuel adds an option for campers who already bring a propane cylinder for the stove. A 20-pound cylinder stores indefinitely without going stale, and the Champion 2500 can run from it. Expect lower output on propane than on gasoline, and plan for the extra weight of a full cylinder. For short trips with light loads, a small can of treated gasoline is still the lighter way to carry a day of power.
+          </p>
+        </div>
+
+        <div id="co-safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Carbon Monoxide Safety at a Campsite
+          </h2>
+
+          <p>
+            Generators produce carbon monoxide, which is odorless, colorless and lethal, and campsites put people in tents and vehicles close to engines. Run the generator outdoors only. Never run it inside a tent, a vehicle, a camper, a screened shelter or under a tarp or canopy that traps exhaust. Rain is not a reason to bring it closer or under cover; use a purpose-made, open-sided generator tent if you must run it in wet weather.
+          </p>
+
+          <p>
+            Distance is the main protection. The U.S. Consumer Product Safety Commission recommends at least 20 feet between a portable generator and occupied spaces, with the exhaust pointed away. At a crowded campsite, that means thinking about your neighbors' tents as well as your own, and about where the wind is going overnight. Never sleep with a generator running near the tent, which is one more reason to let a battery handle the overnight loads.
+          </p>
+
+          <p>
+            Buy a generator with automatic CO shutoff. Honda calls its system CO-MINDER, Champion calls it CO Shield, and other brands now offer similar sensors that shut the engine down when CO builds up around it. Those systems are a backstop, not a license to run the generator close to a tent. Pair one with a battery-powered CO alarm inside your tent, camper or car if you sleep anywhere near engines, yours or anyone else's.
+          </p>
+
+          <p>
+            Learn the symptoms: headache, dizziness, nausea, confusion and drowsiness, often mistaken for altitude sickness or a long day. If anyone feels them while a generator is running, shut it off, get everyone into fresh air and call 911. Carbon monoxide does not give a second warning, so the habits matter more than the hardware.
+          </p>
+        </div>
+
+        <div id="pairing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Pairing a Generator With a Power Station
+          </h2>
+
+          <p>
+            The best camping power setup for most people is a small generator and a battery working together. The power station runs everything silently at night and during generator-restricted hours: lights, phones, the fridge and a CPAP. During allowed hours, the generator runs for an hour or two to recharge the station and handle any heating loads like the morning kettle. Each device does what it is good at.
+          </p>
+
+          <p>
+            This pairing lets you buy a smaller generator than you would otherwise need. A 1,000-watt generator can recharge most 1kWh power stations in a few hours, as long as you set the station's AC charging rate below the generator's rated output so a fast-charge mode does not overload it, while the battery covers the brief high-power loads its inverter can handle. CPAP users in particular should run their machine from a battery overnight; our guide to the <a href="/best-battery-backup-for-cpap/">best battery backup for CPAP</a> covers sizing for a full night.
+          </p>
+
+          <p>
+            Solar complements both. A folding panel tops the station up on bright days, so the generator stays packed unless the clouds roll in. Our picks for the <a href="/best-portable-solar-panel/">best portable solar panels</a> show how much a realistic panel puts back. If you prefer to stay inside one battery brand's ecosystem, our <a href="/best-jackery-power-station/">Jackery power station guide</a> covers the matching panels and stations.
+          </p>
+
+          <p>
+            The same kit doubles as outage backup at home. A small inverter generator works as a mini generator for home outages, running the refrigerator, internet and lights from outside the house while the power station covers overnight. For a whole-house picture, read our guide to <a href="/best-home-generator-for-power-outages/">home generators for power outages</a> and our <a href="/best-small-generator-for-home/">small generators for home</a> picks; for phones and lights only, <a href="/best-portable-chargers-for-power-outages/">portable chargers</a> may be enough.
+          </p>
+        </div>
+
+        <div id="which-one" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which One to Buy
+          </h2>
+
+          <p>
+            If you want one camping generator that will last a decade and you can afford the premium, buy the <strong>Honda EU2200i</strong>. It covers a kettle, charging and lights, is very quiet at light load and parallels with a second unit if you ever buy a trailer. If you prefer Yamaha or want a longer runtime per tank, the <strong>Yamaha EF2200iS</strong> is the equal alternative, with a fuel gauge Honda lacks.
+          </p>
+
+          <p>
+            If you never cook electrically and carry the generator any distance, buy the <strong>Honda EU1000i</strong>. It is light enough to forget about until you need it. If you tailgate, already carry a propane cylinder or want the most watts for a mid-range price, buy the <strong>Champion 2500W Dual Fuel</strong>. If you want more rated watts for running heating loads continuously, the <strong>Generac GP2500i</strong> is the pick.
+          </p>
+
+          <p>
+            On a tight budget, the <strong>WEN 56203i</strong> does the essential job for much less money. Expect less refinement and longevity than the Honda, but for a few trips a year, it is good value. If your loads are only charging, lights, a 12-volt fridge and a CPAP, skip the generator and buy the <strong>Jackery Explorer 1000 v2</strong> or another power station instead; it is silent, fume-free and welcome in every campground.
+          </p>
+
+          <p>
+            What we would not buy for camping: any open-frame generator, however cheap. They are loud enough to break campground rules, heavier than they need to be and harder on the electronics you are trying to charge. And do not buy the biggest inverter you can afford just in case. Every extra 500 watts adds weight, noise and fuel you will haul to sites that never needed it.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying more generator than the campsite needs</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Campers often buy 3,000 or 4,000 watts for loads that total a few hundred. Every extra 500 watts adds weight, noise and fuel. Add up what you will run at the same time; unless you cook electrically or run an air conditioner, a 1,000 to 2,200-watt inverter is plenty.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running the generator near the tent</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Placing a generator beside a tent, under a canopy or close to a car with sleeping occupants lets carbon monoxide build up. Keep it outdoors, at least 20 feet from occupied spaces where possible, exhaust pointed away, with automatic CO shutoff and a battery CO alarm where people sleep.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Assuming generators are allowed everywhere</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many campgrounds restrict generator hours, ban them in tent or walk-in loops, or cap noise at 60 dB(A) at 50 feet. Showing up without checking can mean a weekend with no power at all. Read the campground page or call the ranger station before you pack the generator.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Storing the generator with untreated fuel</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Gasoline left in a small carburetor for months turns to varnish and is the most common reason camping generators will not start on the first trip of the season. Use stabilized fuel, run the carburetor dry before storage where the manual says to, and start it every month or two.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying an open-frame generator to save money</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Cheap open-frame generators are loud enough to break campground noise limits and anger neighbors, heavier than small inverters, and their power is less suited to sensitive electronics. For camping, a budget inverter like the WEN costs little more and is far more welcome at the site.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What size generator do I need for camping?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For charging phones and laptops, lights, fans and a 12-volt fridge, a 1,000-watt inverter is enough. If you want to run an electric kettle, coffee maker, hot plate or induction burner, step up to a 2,000 to 2,500-watt inverter. Only travel trailers with air conditioning need more, and that becomes an RV generator question with different sizing rules.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How quiet is a quiet camping generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Quality small inverters are rated in the high 40s to low 50s dB(A) at quarter load, measured from about 23 feet, which is roughly the level of a quiet conversation. They get several decibels louder at full load and louder still up close. Open-frame generators commonly run in the 70s, which is why many campgrounds ban them.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I run a generator overnight at a campground?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Usually not. Most campgrounds enforce quiet hours from around 10 p.m. to the morning, and many state and national parks restrict generators to set daytime windows. It is also a carbon monoxide risk near sleeping people. Run overnight loads like a CPAP or fridge from a battery power station, and recharge it with the generator during allowed hours.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a power station better than a generator for camping?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For light loads and weekend trips, usually yes. A power station is silent, fume-free and allowed during quiet hours, and it runs phones, lights, a 12-volt fridge and a CPAP easily. A generator wins for electric cooking, long trips without sun and higher power. Many campers carry both, using the generator to refill the battery during allowed hours.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long will a small generator run on a tank of gas?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends mostly on load. Honda quotes the EU2200i at roughly 3.2 hours on its 0.95-gallon tank at rated load and about 8 hours at a quarter load. Typical camping loads are light, so a full tank often covers an evening and a morning. Generators with larger tanks, like the Yamaha EF2200iS, stretch that further.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a camping generator work as a mini generator for home outages?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, within limits. A 2,000-watt inverter can run a refrigerator, internet equipment, lights and phone charging during an outage, from outdoors and well away from doors and windows. It will not run central air, an electric range or a well pump. For whole-house needs, a larger portable with a transfer switch or a standby generator is the right tool.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a generator safe to use at a tailgate?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It can be, with care. Keep it outdoors and away from crowds, tents and canopies, with the exhaust pointed away from people and vehicles. Choose a quiet inverter with automatic CO shutoff, check the stadium lot rules, and let it cool before refueling. Never refuel a hot generator next to a grill or open flame.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Camping Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station-for-camping/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Battery Power</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Power Stations for Camping</h3>
+              <p class="text-gray-500 text-sm mt-2">Silent batteries sized by trip length, for tents, cars and small trailers.</p>
+            </a>
+            <a href="/best-rv-generator/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best RV Generators</h3>
+              <p class="text-gray-500 text-sm mt-2">Generators sized for rooftop AC, 30-amp and 50-amp hookups and RV propane.</p>
+            </a>
+            <a href="/best-12v-fridge-for-camping/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Camp Gear</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best 12V Fridges for Camping</h3>
+              <p class="text-gray-500 text-sm mt-2">Compressor fridges that sip power from a battery or vehicle.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The best camping generator is the smallest, quietest inverter that covers the loads you will actually run. For most campers who cook electrically, that is a 2,000 to 2,500-watt inverter like the Honda EU2200i; for those who never do, a 1,000-watt unit or a power station is the better buy.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Check the campground rules before you pack, keep the generator outdoors and well away from tents and vehicles, and let a battery handle the overnight hours. Do that, and a small generator becomes a quiet convenience rather than the thing your neighbors remember about the weekend.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>
