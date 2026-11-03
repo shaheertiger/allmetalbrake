@@ -1,0 +1,966 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Lithium RV Batteries",
+    "url": "/best-lithium-rv-battery/"
+  },
+  {
+    "title": "Best Power Inverters",
+    "url": "/best-power-inverter/"
+  },
+  {
+    "title": "Best Battery Pack with AC Outlet",
+    "url": "/best-battery-pack-with-ac-outlet/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Car Batteries: AGM and Flooded Picks by Group Size";
+const description =
+  "Seven car batteries from Optima, Odyssey, DieHard, Duracell, Interstate and EverStart, with group size, CCA, AGM vs EFB and date codes explained in plain terms.";
+
+const PRODUCTS = [
+  {
+    "id": "optima-redtop-starting-battery",
+    "name": "Optima RedTop Starting Battery",
+    "category": "Spiral-cell AGM starting battery, common in Group 34, 34/78, 35 and 75/25",
+    "badge": "Best for Vibration",
+    "amazonUrl": "",
+    "pros": [
+      "Spiral-wound AGM cells are built to resist vibration better than flat-plate designs",
+      "Spill-proof and can be mounted in almost any orientation",
+      "Strong cranking output for its size, according to Optima's ratings",
+      "Dual-terminal versions cover both top-post and GM side-post vehicles",
+      "Long track record in performance and off-road builds"
+    ],
+    "cons": [
+      "Expensive for an everyday commuter car",
+      "Lower reserve capacity than the YellowTop in the same group",
+      "Owners commonly report mixed longevity in recent years, so freshness and warranty matter"
+    ],
+    "bottomLine": "The tough, mount-anywhere AGM for performance cars, older trucks and off-road rigs that shake ordinary batteries apart.",
+    "description": "The Optima RedTop is the battery many enthusiasts picture when they think of AGM. Instead of flat plates, Optima winds its plates into six spiral cells, which makes the battery unusually resistant to vibration and lets it be mounted on its side if the application needs it. The RedTop is tuned for starting, so it delivers strong cold-cranking current for a quick burst but has less reserve capacity than the YellowTop sold beside it. That makes it a good fit for performance cars, classic trucks and off-road vehicles without heavy accessory loads. The catch is price: it costs considerably more than a mainstream AGM, and in a modern commuter car a flat-plate AGM does the same job for less. Optima also sells the RedTop in a limited set of group sizes, so confirm fitment carefully and use spacers or an adapter tray only if the maker approves it for your vehicle. Keep the receipt and check the date code before you leave the store."
+  },
+  {
+    "id": "optima-yellowtop-dual-purpose-battery",
+    "name": "Optima YellowTop Dual Purpose Battery",
+    "category": "Spiral-cell AGM, starting and deep-cycle, common in Group 34, 34/78, 35 and D31",
+    "badge": "Best for Accessories",
+    "amazonUrl": "",
+    "pros": [
+      "Designed for both engine starting and repeated deep discharge",
+      "Higher reserve capacity than the RedTop in the same group, per Optima's ratings",
+      "Spiral-cell AGM construction resists vibration",
+      "Suits winches, aftermarket audio, light bars and plow trucks",
+      "Spill-proof for cabin or trunk mounting"
+    ],
+    "cons": [
+      "Premium price over flat-plate AGM",
+      "Overkill for a stock car with no accessory loads",
+      "Needs an AGM-compatible charger to recover fully after deep drains"
+    ],
+    "bottomLine": "The Optima to buy when your vehicle regularly pulls the battery down with accessories, not just for starting.",
+    "description": "The YellowTop is Optima's dual-purpose battery, meant to start an engine and also survive the deep discharges that kill ordinary starting batteries. If you run a winch, a high-powered audio system, a plow, an off-road light bar or a camper's worth of accessories from the vehicle battery, the YellowTop is designed for that duty cycle in a way the RedTop is not. Optima lists more reserve capacity and amp-hours for the YellowTop than for the RedTop in the same group size, at the cost of a little cranking. It shares the same spiral-cell AGM construction, so it is vibration-resistant and can be mounted in unusual positions. For a stock car with no extra loads, it is more battery than you need. And it is still a starting battery at heart, not a replacement for a dedicated house bank: if you are running an inverter for hours, a separate deep-cycle battery isolated from the starter is the better design. Recharge it with a charger that has an AGM setting."
+  },
+  {
+    "id": "odyssey-extreme-series-agm-battery",
+    "name": "Odyssey Extreme Series AGM Battery",
+    "category": "Pure-lead AGM, starting and deep-cycle, wide range of group sizes",
+    "badge": "Best Premium",
+    "amazonUrl": "",
+    "pros": [
+      "Thin plate pure lead construction is built for strong cranking and deep cycling",
+      "Very low self-discharge, which suits vehicles that sit for weeks",
+      "Wide range of group sizes for cars, trucks and powersports",
+      "Rugged case and vibration resistance for work and off-road use",
+      "Among the longest warranties in the category, per Odyssey's published terms"
+    ],
+    "cons": [
+      "One of the most expensive car batteries you can buy",
+      "Heavy for its size",
+      "Benefits most from a charger that supports its higher charging voltage, per Odyssey's guidance"
+    ],
+    "bottomLine": "The no-compromise AGM for trucks, cold climates and vehicles that sit, if you will actually use what it offers.",
+    "description": "Odyssey's Extreme Series is built around thin plates of pure lead rather than the lead alloys most batteries use, which the company says lets it pack more plate surface into the case for strong cranking while also tolerating deep discharge. In practice it is the battery people buy for a diesel pickup that has to start on a frozen morning, a tow vehicle with a long list of accessories, or a classic or weekend car that sits for long stretches, since pure-lead AGM self-discharges slowly. It is offered in a wide range of group sizes and carries one of the longest warranties in the category, which reflects the maker's confidence. The downsides are price and weight: it is often well above a mainstream AGM, and in a typical commuter sedan that extra capability goes unused. Odyssey publishes specific charging guidance, so a charger with an AGM or high-voltage mode helps it reach full charge. Odyssey also sells a lower-priced Performance Series if you want the brand without the top-tier price."
+  },
+  {
+    "id": "diehard-platinum-agm-battery",
+    "name": "DieHard Platinum AGM Battery",
+    "category": "Flat-plate AGM, start-stop ready, sold through Advance Auto Parts",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "AGM construction suitable for start-stop and electronics-heavy vehicles",
+      "Available in most common group sizes",
+      "Easy warranty exchange through a large store network",
+      "Stores can usually test, install and recycle in the parking lot",
+      "Long free-replacement period compared with flooded store-brand tiers"
+    ],
+    "cons": [
+      "Primarily sold through one retail chain",
+      "Price swings with promotions, so the list price is rarely the real price",
+      "No advantage over a fresh flooded battery in a simple older car"
+    ],
+    "bottomLine": "The mainstream AGM most drivers should buy, especially if there is an Advance Auto Parts nearby for warranty service.",
+    "description": "DieHard is now owned by Advance Auto Parts, and the Platinum AGM is the top tier of its car battery line. It is a conventional flat-plate AGM, which makes it a straightforward replacement for the AGM batteries most automakers fit to start-stop vehicles and cars with heavy electronic loads. Nothing about it is exotic, and that is the point: it comes in most common group sizes, the store can usually test your old battery and install the new one, and if it fails inside the free-replacement period, any location can swap it. For most drivers, that network is worth more than the last bit of performance a premium battery offers. Watch for promotions, because the shelf price and the sale price often differ substantially, and look at the date code before paying. If your car came with an AGM, this is the sensible default. If your older car came with a flooded battery and has no start-stop, the DieHard flooded tiers or a budget alternative will do the same job for less."
+  },
+  {
+    "id": "duracell-ultra-platinum-agm-battery",
+    "name": "Duracell Ultra Platinum AGM Battery",
+    "category": "Flat-plate AGM, start-stop ready, sold through warehouse clubs and battery retailers",
+    "badge": "Best Warehouse-Club Pick",
+    "amazonUrl": "",
+    "pros": [
+      "AGM construction for start-stop and accessory-heavy cars",
+      "Often priced competitively at warehouse clubs",
+      "Covers most common car and light-truck group sizes",
+      "Free-replacement warranty on the AGM tier",
+      "Battery specialists that sell the brand can usually test and recycle"
+    ],
+    "cons": [
+      "Club pricing usually means installing it yourself",
+      "Availability of specific group sizes varies by store",
+      "The brand is licensed, so you are buying the factory behind it rather than Duracell's consumer-battery engineering"
+    ],
+    "bottomLine": "A solid mainstream AGM that is often the best value if you already shop at a warehouse club and install your own battery.",
+    "description": "Shoppers searching Duracell auto battery reviews usually want to know whether the familiar name means anything on a car battery. Duracell licenses its brand for automotive batteries built by an established battery manufacturer, and the Ultra Platinum AGM is the top of that line. It is a flat-plate AGM suited to start-stop vehicles, cars with large electronic loads and owners who want a spill-proof battery. Its main appeal is value and availability: it is commonly sold through warehouse clubs and battery specialists, often at a lower price than the same class of battery at a full-service parts store. The trade-off is service. A warehouse club generally will not install it, test your charging system or register the battery to your car's computer, so this pick suits people comfortable doing the swap themselves. Group-size availability varies by location, and stock can sit, so check the date code. Keep the receipt with your car's paperwork in case you need to make a warranty claim."
+  },
+  {
+    "id": "interstate-mtx-agm-battery",
+    "name": "Interstate MTX AGM Battery",
+    "category": "Flat-plate AGM (Mega-Tron Plus MTX line), start-stop ready",
+    "badge": "Best Dealer-Network AGM",
+    "amazonUrl": "",
+    "pros": [
+      "AGM built for start-stop and high-electrical-load vehicles",
+      "Sold and installed by a large network of independent shops and dealers",
+      "Warranty service available through that dealer network",
+      "Wide group-size coverage for cars and light trucks",
+      "Well-known brand among mechanics and fleet buyers"
+    ],
+    "cons": [
+      "Usually priced above store-brand AGM",
+      "Buying through an installer adds labor cost",
+      "Retail availability depends on your local dealers"
+    ],
+    "bottomLine": "The AGM to choose if you want your shop to supply and install the battery and handle any warranty claim.",
+    "description": "Interstate sells mostly through independent repair shops, dealers and distribution partners rather than through its own stores, and the MTX AGM is the line it offers for start-stop vehicles and cars with heavy electrical loads. That distribution model is the reason to buy it. If you already have a mechanic you trust, there is a good chance they stock Interstate, can install the correct group, register the battery to your car if required and handle the warranty if it fails. The battery itself is a mainstream flat-plate AGM, comparable in purpose to the DieHard Platinum AGM and the Duracell Ultra Platinum AGM, so the deciding factors are price, convenience and how fresh the stock is. Expect to pay somewhat more than store-brand AGM, especially once labor is added. If you do your own maintenance and have a parts store nearby, a store-brand AGM is usually the better value; if you want one phone call to sort everything out, Interstate is the easier route."
+  },
+  {
+    "id": "everstart-maxx-lead-acid-automotive-battery",
+    "name": "EverStart Maxx Lead Acid Automotive Battery",
+    "category": "Flooded lead-acid starting battery, sold at Walmart",
+    "badge": "Best Budget",
+    "amazonUrl": "",
+    "pros": [
+      "Low price for a battery with a meaningful free-replacement period",
+      "Exchange counters in nearly every town",
+      "Covers a wide range of common group sizes",
+      "Perfectly adequate for older cars with simple electrical systems",
+      "Old battery core can be returned at the same counter"
+    ],
+    "cons": [
+      "Flooded design: not suitable for start-stop cars or vehicles that came with AGM or EFB",
+      "More sensitive to heat, deep discharge and long storage than AGM",
+      "Shelf age varies, so date codes need checking"
+    ],
+    "bottomLine": "The right buy for an older car without start-stop when you want a fresh battery and an easy exchange, not premium construction.",
+    "description": "The EverStart Maxx is Walmart's mid-tier flooded battery and the budget pick here. It is a conventional flooded lead-acid design, which means it is the wrong battery for any vehicle that came with AGM or EFB, and for any start-stop car. For the millions of older sedans, pickups and minivans that left the factory with a flooded battery and have a simple electrical system, it is a sensible, low-cost replacement. The main argument for it is the combination of price and an exchange counter in almost every town: if it fails inside the free-replacement period, getting a new one is easy. The main caution is freshness. Flooded batteries lose charge on the shelf faster than AGM, and a battery that sat discharged can be permanently weakened, so read the date code and ask for a test if it looks old. In hot climates, expect a shorter life than a premium AGM, and plan to check the battery each year before summer ends."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Car Batteries",
+          item: "https://www.allmetalbrake.com/best-car-battery/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best car battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no single best car battery for every vehicle. For most modern cars, especially those with start-stop, a mainstream AGM such as the DieHard Platinum AGM, Duracell Ultra Platinum AGM or Interstate MTX in the correct group size is the right choice. For trucks and cold climates, the Odyssey Extreme Series is the premium pick, and for older cars without start-stop, a fresh flooded battery like the EverStart Maxx is the value buy."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is an AGM car battery worth it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An AGM car battery is worth it, and often required, if your car has start-stop, came with AGM from the factory, carries heavy electronic loads, sits for long periods or sees a lot of vibration. For an older car with a simple electrical system that came with a flooded battery, AGM is optional. A fresh flooded battery usually delivers better value there, though AGM's longer life can partly offset the higher price."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a car battery last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most car batteries last about three to five years, but climate makes a big difference. Heat speeds up internal corrosion and water loss, so batteries in hot regions often fail sooner, and the damage usually shows up the following winter. Short trips, long parking without a maintainer and a weak charging system also shorten life. Test the battery yearly once it passes three years old."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are Duracell car batteries good?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Duracell auto battery reviews are generally in line with other mainstream brands, because Duracell licenses its name to an established automotive battery manufacturer. The Ultra Platinum AGM is a conventional flat-plate AGM suited to start-stop and electronics-heavy vehicles. Buy it for price and availability at warehouse clubs, check the date code, and keep the receipt for any warranty claim."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I read a car battery date code?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no single standard. Many batteries now carry a sticker showing month and year. Others use a code where a letter stands for the month, starting with A for January, and a digit stands for the year. Some makers stamp a longer manufacturing code into the case. If you cannot decode it, ask the store or check the maker's website, which usually explains its format."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a portable power station jump-start a car?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Generally no. A portable power station's 12V car-style port is usually limited to around 10 amps, while a starter draws hundreds of amps, so the station will shut down to protect itself. Some power stations are sold with jump-start functions, but most are not. Use a dedicated lithium jump starter or cables, or plug a battery charger into the station's AC outlet to recharge slowly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to register a new car battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many newer vehicles with battery monitoring systems, including models from BMW, Mercedes-Benz, Audi, Volkswagen, Ford and others, need a new battery registered or the battery monitor reset. That tells the charging system it has a fresh battery, and on some cars, which type and capacity it is. Skipping it can lead to overcharging or undercharging and a shorter battery life. A shop scan tool or a capable consumer scanner can do it."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best car battery",
+      "best rated auto battery",
+      "duracell auto battery reviews",
+      "agm car battery",
+      "car battery",
+      "start-stop battery",
+      "car battery group size"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Car Batteries</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Seven starting batteries from a budget flooded workhorse to premium AGM, plus the group size, cold-cranking, start-stop and date-code rules that decide which one actually fits your car.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#optima-redtop-starting-battery"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Find Your Battery
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#at-a-glance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Batteries at a Glance</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Seven Picks</a>
+          <a href="#group-size" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Group Size and Fit</a>
+          <a href="#cca-rc" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. CCA and Reserve Capacity</a>
+          <a href="#agm-efb" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. AGM vs Flooded vs EFB</a>
+          <a href="#date-codes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Warranty and Date Codes</a>
+          <a href="#testing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Testing and Charging</a>
+          <a href="#backup" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Jump Starters and Backup Power</a>
+          <a href="#compare" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Comparison Table</a>
+          <a href="#which" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          The best car battery is the one that matches your car's group size, technology and cold-cranking needs, and was made recently. Brand matters less than most shoppers think, because a handful of factories build most of what is on the shelf.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="at-a-glance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The Car Batteries at a Glance
+          </h2>
+
+          <p>
+            A car battery has one main job: deliver a few hundred amps for a few seconds to turn the starter, then sit quietly while the alternator refills it. Modern cars have added a second job, which is to keep a growing pile of electronics alive while the engine is off, and on start-stop vehicles to restart the engine dozens of times on every commute. That second job is why the battery aisle now splits into three technologies and why the cheapest battery that fits the tray is not always the right one.
+          </p>
+
+          <p>
+            We picked seven widely sold batteries to cover the realistic choices: a budget flooded battery for older cars with simple electrical systems, mainstream AGM batteries for start-stop and electronics-heavy vehicles, and premium AGM units for trucks, cold climates and cars that sit for weeks. These picks are based on published specifications, warranty terms and the way each battery is built, not on our own bench testing. Where we describe how a battery behaves, we attribute it to the maker or to what owners commonly report.
+          </p>
+
+          <p>
+            Before you read the product cards, know that the most important spec is not on the front label. It is the group size printed in your owner's manual or on your current battery, which fixes the physical dimensions and the terminal layout. Every battery below is sold in many group sizes, and the cold-cranking amps, reserve capacity and price change with each one. A RedTop in Group 34 and a RedTop in Group 35 are different batteries with different numbers.
+          </p>
+
+          <p>
+            The second thing to know is that a car battery is a perishable product. Lead-acid batteries slowly self-discharge on the shelf, and a battery that sat in a hot warehouse for a year can arrive partly sulfated and already short of its rated capacity. A fresh, mid-priced battery will usually outlast an old premium one, which is why we spend a whole section on reading date codes. It is also why we would rather buy from a store that turns its stock quickly than chase the last few dollars online.
+          </p>
+
+          <p>
+            If you are here because your car would not start this morning, do not buy anything yet. A dead battery is often a symptom of a weak alternator, a parasitic drain or a corroded cable, and a new battery will die the same way. Have the battery and charging system tested first, which most auto parts stores do free, and then use this guide to pick the replacement.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Seven Car Batteries
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications, warranty terms and retailer fitment data, not from hands-on testing. Cold-cranking amps, reserve capacity and warranty length vary by group size and change between production runs, so confirm the numbers on the exact battery listed for your vehicle before you buy.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="group-size" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Group Size, Terminals and Fit
+          </h2>
+
+          <p>
+            Battery Council International group sizes are a standard set of case dimensions and terminal positions. Common ones include Group 24F, 34, 35, 47 (also called H5), 48 (H6), 49 (H8), 51R, 65 and 94R (H7). The number tells you the length, width and height of the case, and suffixes such as R or F tell you the terminals are reversed from the standard layout. Get the group wrong and the battery will not fit the tray, the hold-down clamp will not reach, or the cables will not stretch to the posts.
+          </p>
+
+          <p>
+            Reversed polarity is the fit mistake that actually causes damage. A Group 35 and a Group 24F are close in size but have their positive and negative posts on opposite sides. If the cables happen to reach, it is possible to connect a battery backwards, which can blow fuses, destroy the alternator's diodes and damage control modules in seconds. Always match the group exactly, and check that red goes to the positive post before tightening anything.
+          </p>
+
+          <p>
+            Terminal type matters too. Most cars use SAE top posts, which are tapered lead posts. Many GM vehicles use side terminals that take a bolt, and some batteries such as the Optima RedTop 34/78 offer both so one part number covers more vehicles. Dual-terminal batteries are convenient, but make sure the unused terminals are capped so a wrench cannot short across them while you work.
+          </p>
+
+          <p>
+            Finally, the hold-down is not optional. A battery that can slide or bounce in its tray will crack its case, rub through cables and shake its internal plates apart. AGM batteries tolerate vibration better than flooded ones, but no battery likes to be loose. Reuse the factory clamp, replace it if it is corroded, and torque the terminal nuts to the value in the service manual rather than to whatever feels tight. A <a href="/best-torque-wrench/">small torque wrench</a> is cheap insurance against stripped soft-lead terminals.
+          </p>
+
+          <p>
+            The easiest way to get all of this right is to use the retailer's fitment lookup with your exact year, make, model and engine, then cross-check it against the label on the battery you are removing. If the two disagree, trust the owner's manual. Previous owners sometimes install the wrong group because it was what the store had in stock.
+          </p>
+        </div>
+
+        <div id="cca-rc" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Cold-Cranking Amps and Reserve Capacity
+          </h2>
+
+          <p>
+            Cold-cranking amps, or CCA, is the number of amps a fully charged 12V battery can deliver at 0°F for 30 seconds while staying above 7.2 volts. It is the headline number on every label, and it matters most in cold climates, where engine oil thickens and battery chemistry slows down. Your owner's manual lists a minimum CCA for your engine. Meet or modestly exceed it. Buying double the required CCA does not make the car start better once the requirement is met; it mainly costs more.
+          </p>
+
+          <p>
+            Do not confuse CCA with cranking amps (CA) or marine cranking amps (MCA). Those are measured at 32°F and always produce a bigger, more flattering number. A label that leads with "1,000 cranking amps" may be a battery with well under 1,000 CCA. Compare CCA to CCA, and be wary of listings that only quote the warmer figure.
+          </p>
+
+          <p>
+            Reserve capacity, or RC, is the number of minutes a battery can supply 25 amps at 80°F before falling to 10.5 volts. It is a rough proxy for how long the car can run on the battery alone if the alternator fails, and for how well the battery tolerates electronics drawing current while parked. Vehicles with heavy accessory loads, aftermarket audio or long periods of short trips benefit from higher RC more than from higher CCA.
+          </p>
+
+          <p>
+            Amp-hours (Ah) are often listed on AGM and European-spec batteries instead of, or alongside, RC. Ah measures total stored energy over a 20-hour discharge. A bigger Ah figure in the same group size usually means more lead and more tolerance for deep drains, which is why dual-purpose batteries such as the Optima YellowTop list a higher RC and Ah than the matching RedTop while giving up a little cranking.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Match the group, meet the CCA, then buy freshness and warranty.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Once a battery fits the tray and clears your engine's minimum cold-cranking amps, extra CCA buys little. Spend the difference on a recently built battery and a longer free-replacement period instead.</p>
+          </div>
+
+          <p>
+            For most drivers in mild climates, the minimum CCA in the manual is generous already. If you live where winter mornings fall well below zero, park outside, or run a diesel, stepping up one notch in CCA within the same group is reasonable. If you mostly make short trips with lots of electronics running, prioritize reserve capacity and consider an AGM battery, which recovers better from repeated partial charging.
+          </p>
+        </div>
+
+        <div id="agm-efb" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. AGM vs Flooded vs EFB for Start-Stop Cars
+          </h2>
+
+          <p>
+            A conventional flooded lead-acid battery has lead plates sitting in liquid sulfuric acid. It is the cheapest technology, works well in older cars with simple electrical systems, and is what most budget batteries such as the EverStart Maxx line use. Its weaknesses are sensitivity to deep discharge, vulnerability to vibration and heat, and the need to stay upright. Many are sold as maintenance-free, but they still lose water over time in hot climates.
+          </p>
+
+          <p>
+            An AGM car battery, short for absorbent glass mat, holds the electrolyte in fiberglass mats packed tightly between the plates. That construction makes it spill-proof, more vibration-resistant, faster to recharge and more tolerant of repeated partial discharges. It is the technology most automakers specify for vehicles with start-stop systems, regenerative braking or heavy electronic loads. Optima uses a spiral-wound version of AGM; most others, including Odyssey, DieHard Platinum, Duracell's AGM line and Interstate MTX, use flat plates.
+          </p>
+
+          <p>
+            An EFB, or enhanced flooded battery, sits between the two. It is still a flooded design but uses improved plate additives and construction so it can handle the cycling of a basic start-stop system at a lower price than AGM. Some automakers fit EFB at the factory on entry-level start-stop cars. If your car came with an EFB, you can replace it with another EFB or upgrade to AGM. You should not downgrade it to a plain flooded battery.
+          </p>
+
+          <p>
+            The rule for start-stop vehicles is simple: replace like with like or better. A car that came with AGM needs AGM. Fitting a conventional flooded battery may work for a while, but it will typically fail early, and the car's battery monitoring may disable start-stop or throw warnings. Many BMW, Mercedes, Audi, Volkswagen, Ford and other models also need the new battery registered with the car's computer so the charging system adjusts to a fresh battery. Skipping that step can overcharge or undercharge the new battery and shorten its life.
+          </p>
+
+          <p>
+            Should you upgrade an older non-start-stop car to AGM? It is optional. AGM makes sense for cars that sit for long periods, cars with big audio systems or winches, off-road vehicles that see heavy vibration, and batteries mounted in the cabin or trunk where spill-proof construction matters. For a daily-driven older sedan with a simple electrical system, a fresh flooded battery is usually the better value.
+          </p>
+        </div>
+
+        <div id="date-codes" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Warranty, Date Codes and Where to Buy
+          </h2>
+
+          <p>
+            Car battery warranties are written in two parts. The free-replacement period is the number of months during which a failed battery is swapped for a new one at no charge. Some brands add a prorated period after that, during which you get partial credit toward a replacement. The free-replacement number is the one that matters. A "60-month warranty" that is really 24 months free plus 36 months prorated is much less generous than it sounds.
+          </p>
+
+          <p>
+            Warranty length is also a decent proxy for how much lead and construction quality the maker put into a battery, since the maker is paying for every early failure. Within a single store brand, the tiers usually line up with warranty: the premium AGM line carries the longest free-replacement period, the mid-tier flooded line less, and the economy line the least. Compare free-replacement months per dollar across tiers rather than looking at price alone.
+          </p>
+
+          <p>
+            Date codes tell you when the battery was built or shipped, and they are not standardized. Many batteries now carry a plain sticker with month and year. Others use a stamped code where a letter stands for the month (A for January, B for February, and so on, sometimes skipping I) and a digit stands for the year. Some makers stamp a longer manufacturing code into the case. If you cannot read it, ask the store or check the maker's website, which usually explains its format.
+          </p>
+
+          <p>
+            As a working rule, buy a battery that is no more than about six months old, and prefer one under three months. A flooded battery loses charge faster on the shelf than an AGM, and a battery that sat discharged can sulfate permanently. If the only stock on hand is old, ask the store to test it and top it up before installation, or buy elsewhere. A battery that tests weak on the day you buy it is not a bargain.
+          </p>
+
+          <p>
+            Where you buy affects warranty service more than people expect. Store brands such as DieHard at Advance Auto Parts and EverStart at Walmart are easy to exchange because there is a store in most towns. Duracell automotive batteries are widely sold through warehouse clubs and battery specialists, and Interstate through its dealer network and warehouse-club partners. Optima and Odyssey are sold through many retailers and online, but a warranty claim on a battery shipped to your door may mean shipping it back or finding an authorized dealer, so keep the receipt.
+          </p>
+        </div>
+
+        <div id="testing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Testing, Charging and Making It Last
+          </h2>
+
+          <p>
+            The simplest health check is resting voltage. Let the car sit for several hours with everything off, then measure across the posts with a multimeter. A fully charged lead-acid battery reads about 12.6 to 12.8 volts; around 12.4 volts is roughly three-quarters charged; 12.0 volts or below is close to fully discharged. Voltage alone does not tell you whether the battery can deliver cranking current, but a low reading after a full charge is a strong hint that it is worn out.
+          </p>
+
+          <p>
+            A proper test needs a load or conductance tester, which estimates the battery's real cold-cranking ability and compares it with the rating on the label. Most auto parts chains will test your battery, starter and alternator free in the parking lot. With the engine running, charging voltage should typically sit between roughly 13.5 and 14.7 volts depending on the vehicle; if it is far outside the range in your service information, the problem is the charging system, not the battery.
+          </p>
+
+          <p>
+            Heat kills more car batteries than cold does. High under-hood temperatures speed up corrosion of the positive plates and water loss, and the damage shows up the following winter when the weakened battery can no longer crank a cold engine. That is why batteries in hot southern states often last three years or less, while the same battery up north may last five or more. Cars with the battery under the hood next to the exhaust manifold benefit most from AGM and from a heat shield if the factory fitted one.
+          </p>
+
+          <p>
+            Short trips and long parking are the other battery killers. A five-minute drive does not fully replace the energy used to start the engine, and modern cars draw a small current for alarms, keyless entry and telematics even when parked. If the car sits for more than a couple of weeks, connect a smart maintainer that has the right mode for your battery type. AGM batteries generally want a charger with an AGM setting, and you should never use an old unregulated charger that can push voltage too high.
+          </p>
+
+          <p>
+            Keep the terminals clean and tight. White or green crust on the posts adds resistance and can mimic a dead battery. Disconnect negative first, clean with a terminal brush and a baking soda solution, rinse sparingly, reconnect positive first, and coat lightly with terminal grease. Wear eye protection whenever you work on a lead-acid battery, keep sparks and flames away, and remember that a battery left in your garage or garbage is hazardous waste; return the old one to the store for its core charge and recycling.
+          </p>
+        </div>
+
+        <div id="backup" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Jump Starters, Power Stations and Backup Power
+          </h2>
+
+          <p>
+            Every car should carry a way to start itself without a second vehicle. A compact lithium jump starter, about the size of a paperback, can usually start a four- or six-cylinder engine several times on one charge, and the better ones include reverse-polarity protection so a panicked hookup does not damage anything. Keep it charged every few months; a jump pack that has been dead in the glovebox for a year is just a brick.
+          </p>
+
+          <p>
+            Jumper cables still work and never need charging, but they require another car and a careful sequence. Connect red to the dead battery's positive, red to the donor's positive, black to the donor's negative, and the final black clamp to bare metal on the dead car's engine block or a designated ground point, away from the battery. Start the donor, let it run a few minutes, then try the dead car. If it still clicks, stop and get it tested rather than cranking until the starter overheats.
+          </p>
+
+          <p>
+            A <a href="/best-portable-power-station/">portable power station</a> is not a jump starter. Its 12V car-style output is usually limited to around 10 amps, which is nowhere near the hundreds of amps a starter draws, and trying to crank through it will simply trip its protection. What a power station can do is run a small AC battery charger or maintainer overnight to bring a flat battery back up slowly, which is gentler on the battery than a jump. A <a href="/best-battery-pack-with-ac-outlet/">battery pack with an AC outlet</a> can do the same for a small maintainer.
+          </p>
+
+          <p>
+            Running household loads from the car is a different job again. A <a href="/best-power-inverter/">12V power inverter</a> can turn the car battery into a few hundred watts of AC, but a starting battery is designed for short, high-current bursts, not hours of deep discharge. Run an inverter with the engine off and you can drain a starting battery to the point where it will not crank in about an hour. For real off-grid use, a separate deep-cycle bank such as one of the <a href="/best-lithium-rv-battery/">lithium RV batteries</a> we cover, isolated from the starting battery, is the right setup.
+          </p>
+
+          <p>
+            That distinction also answers a common question: can you replace a car's starting battery with a lithium house battery? Generally no. Lithium iron phosphate house batteries are built for steady deep cycling, often have battery management systems that limit surge current or cut off in cold weather, and are not designed to sit beside a hot engine. Dedicated lithium starting batteries exist for racing and powersports, but for a daily driver, a quality AGM or flooded battery of the correct group size is still the right answer.
+          </p>
+        </div>
+
+        <div id="compare" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Comparison Table
+          </h2>
+
+          <p>
+            The table below summarizes the seven picks by technology, typical use and what the maker emphasizes. We have deliberately left out cold-cranking and reserve-capacity numbers because they change with every group size; look them up for the exact part number that fits your car. Warranty terms also vary by group, retailer and region, so treat the warranty column as a general tier, not a promise.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Battery</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Technology</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Start-stop ready</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Price band</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Optima RedTop</td>
+                    <td class="px-4 py-4 text-gray-700">Spiral-cell AGM</td>
+                    <td class="px-4 py-4 text-gray-700">Check fitment</td>
+                    <td class="px-4 py-4 text-gray-700">High cranking, vibration, older performance cars</td>
+                    <td class="px-4 py-4 text-gray-700">Premium</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Optima YellowTop</td>
+                    <td class="px-4 py-4 text-gray-700">Spiral-cell AGM, dual purpose</td>
+                    <td class="px-4 py-4 text-gray-700">Check fitment</td>
+                    <td class="px-4 py-4 text-gray-700">Winches, audio, accessories, deep cycling</td>
+                    <td class="px-4 py-4 text-gray-700">Premium</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Odyssey Extreme Series</td>
+                    <td class="px-4 py-4 text-gray-700">Pure-lead AGM</td>
+                    <td class="px-4 py-4 text-gray-700">Yes (AGM)</td>
+                    <td class="px-4 py-4 text-gray-700">Trucks, cold climates, long storage</td>
+                    <td class="px-4 py-4 text-gray-700">Premium</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">DieHard Platinum AGM</td>
+                    <td class="px-4 py-4 text-gray-700">Flat-plate AGM</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Start-stop cars, everyday AGM upgrade</td>
+                    <td class="px-4 py-4 text-gray-700">Mid to upper</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Duracell Ultra Platinum AGM</td>
+                    <td class="px-4 py-4 text-gray-700">Flat-plate AGM</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Start-stop cars, warehouse-club buyers</td>
+                    <td class="px-4 py-4 text-gray-700">Mid to upper</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Interstate MTX</td>
+                    <td class="px-4 py-4 text-gray-700">Flat-plate AGM</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Start-stop and electronics-heavy vehicles</td>
+                    <td class="px-4 py-4 text-gray-700">Mid to upper</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">EverStart Maxx</td>
+                    <td class="px-4 py-4 text-gray-700">Flooded lead-acid</td>
+                    <td class="px-4 py-4 text-gray-700">No (non-AGM)</td>
+                    <td class="px-4 py-4 text-gray-700">Older cars without start-stop</td>
+                    <td class="px-4 py-4 text-gray-700">Budget</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two patterns stand out. First, the mid-tier AGM batteries from DieHard, Duracell and Interstate occupy the same space and often come from the same small group of manufacturers, so the deciding factors are fitment, freshness, local warranty service and the price on the day. Second, the premium AGM batteries from Optima and Odyssey earn their price only when you actually need what they do better: vibration resistance, deep-cycle tolerance, or long storage without a maintainer.
+          </p>
+
+          <p>
+            If your car does not have start-stop and lives a quiet life, the honest answer is that the EverStart Maxx or a similar flooded battery will do the job for less, and spending premium money on an AGM buys convenience rather than necessity. If your car has start-stop or came from the factory with AGM, cross the flooded options off the list entirely.
+          </p>
+
+          <p>
+            Whichever row you pick, buy the exact group size your car calls for, check the date code at the counter, and keep the receipt with the car's paperwork. Warranty claims are routinely refused when the buyer cannot prove the purchase date, and the free-replacement window is the single most valuable thing you are paying for.
+          </p>
+        </div>
+
+        <div id="which" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which Car Battery Should You Buy?
+          </h2>
+
+          <p>
+            <strong>For a start-stop car or anything that came with AGM,</strong> buy a mainstream AGM in the exact group size: the DieHard Platinum AGM if you have an Advance Auto Parts nearby, the Duracell Ultra Platinum AGM if you already shop at a warehouse club, or the Interstate MTX if you prefer a dealer or installer network. All three are aimed at the same job. Choose on freshness, warranty terms and convenience of exchange, and remember to have the battery registered if your car requires it.
+          </p>
+
+          <p>
+            <strong>For trucks, cold climates and vehicles that sit,</strong> the Odyssey Extreme Series is the premium pick. Its pure-lead AGM design is built for strong cranking and slow self-discharge, which suits a pickup that tows in winter, a weekend car that sits for weeks, or a work vehicle with a long list of accessories. It is expensive and heavy, and in a commuter car it is more battery than you need.
+          </p>
+
+          <p>
+            <strong>For older performance cars, off-road rigs and vehicles with vibration problems,</strong> the Optima RedTop is the long-standing choice. Its spiral-cell construction is famously tough and it mounts in almost any orientation. If you run a winch, a big audio system or other accessories that pull the battery down regularly, the Optima YellowTop is the better Optima, because it is designed for repeated deep discharge as well as starting.
+          </p>
+
+          <p>
+            <strong>For an older car without start-stop on a budget,</strong> the EverStart Maxx is the sensible buy. It is a conventional flooded battery with a reasonable free-replacement period and an exchange counter in nearly every town. Check the date code carefully, because shelf age matters more with flooded batteries, and do not put it in a car that came with AGM or EFB.
+          </p>
+
+          <p>
+            <strong>If you are reading Duracell auto battery reviews and wondering whether the name means anything,</strong> know that Duracell licenses its brand for automotive batteries made by an established battery manufacturer; you are buying the factory and the warranty, not the company that makes AA cells. That is true of most store and licensed brands, and it is fine. What separates the best rated auto battery from the rest in practice is the right group, the right technology, a recent date code and a warranty you can actually use. Pair it with a jump starter or a <a href="/best-portable-power-station/">power station</a> and a smart maintainer, and a dead battery stops being an emergency.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying by CCA instead of group size</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Cold-cranking amps only matter once the battery fits. The group size fixes the dimensions and terminal layout, and the wrong group can mean a loose hold-down, stretched cables or reversed polarity. Match the group in your owner's manual or on the old battery first, then pick a battery that meets or slightly exceeds the minimum CCA.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Downgrading a start-stop car to flooded</h3>
+              <p class="text-gray-700 text-sm m-0">
+                If your car came with an AGM or EFB battery, a conventional flooded replacement will usually fail early and can make start-stop stop working or trigger warnings. Replace like with like or better, and check whether the car needs the new battery registered with its computer so the charging system adjusts correctly.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring the date code</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Lead-acid batteries self-discharge on the shelf, and one that sat for a year can arrive weakened. Check the sticker or stamped code before paying and aim for a battery built within the last six months, preferably three. If the store's stock is old, ask for a fresh one or have it tested and charged first.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Replacing the battery without testing the charging system</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A battery that keeps dying is often the victim, not the cause. A failing alternator, a parasitic drain or corroded cables will kill a new battery just as quickly. Have the battery, starter and alternator tested, which most parts stores do free, before assuming the battery is the problem.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trying to jump-start with a power station</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A portable power station's 12V output is typically limited to around 10 amps, far below what a starter draws, so it will trip rather than crank. Use a dedicated jump starter or cables, or use the power station's AC outlet to run a small battery charger and bring the battery back up slowly.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best car battery?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                There is no single best car battery for every vehicle. For most modern cars, especially those with start-stop, a mainstream AGM such as the DieHard Platinum AGM, Duracell Ultra Platinum AGM or Interstate MTX in the correct group size is the right choice. For trucks and cold climates, the Odyssey Extreme Series is the premium pick, and for older cars without start-stop, a fresh flooded battery like the EverStart Maxx is the value buy.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is an AGM car battery worth it?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                An AGM car battery is worth it, and often required, if your car has start-stop, came with AGM from the factory, carries heavy electronic loads, sits for long periods or sees a lot of vibration. For an older car with a simple electrical system that came with a flooded battery, AGM is optional. A fresh flooded battery usually delivers better value there, though AGM's longer life can partly offset the higher price.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How long does a car battery last?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most car batteries last about three to five years, but climate makes a big difference. Heat speeds up internal corrosion and water loss, so batteries in hot regions often fail sooner, and the damage usually shows up the following winter. Short trips, long parking without a maintainer and a weak charging system also shorten life. Test the battery yearly once it passes three years old.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are Duracell car batteries good?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Duracell auto battery reviews are generally in line with other mainstream brands, because Duracell licenses its name to an established automotive battery manufacturer. The Ultra Platinum AGM is a conventional flat-plate AGM suited to start-stop and electronics-heavy vehicles. Buy it for price and availability at warehouse clubs, check the date code, and keep the receipt for any warranty claim.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How do I read a car battery date code?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                There is no single standard. Many batteries now carry a sticker showing month and year. Others use a code where a letter stands for the month, starting with A for January, and a digit stands for the year. Some makers stamp a longer manufacturing code into the case. If you cannot decode it, ask the store or check the maker's website, which usually explains its format.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a portable power station jump-start a car?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Generally no. A portable power station's 12V car-style port is usually limited to around 10 amps, while a starter draws hundreds of amps, so the station will shut down to protect itself. Some power stations are sold with jump-start functions, but most are not. Use a dedicated lithium jump starter or cables, or plug a battery charger into the station's AC outlet to recharge slowly.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need to register a new car battery?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Many newer vehicles with battery monitoring systems, including models from BMW, Mercedes-Benz, Audi, Volkswagen, Ford and others, need a new battery registered or the battery monitor reset. That tells the charging system it has a fresh battery, and on some cars, which type and capacity it is. Skipping it can lead to overcharging or undercharging and a shorter battery life. A shop scan tool or a capable consumer scanner can do it.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Battery, inverter and charger in one box for outages, camping and topping up a flat car battery.</p>
+            </a>
+            <a href="/best-lithium-rv-battery/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Batteries</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Lithium RV Batteries</h3>
+              <p class="text-gray-500 text-sm mt-2">Deep-cycle LiFePO4 house batteries that keep inverter loads off the starting battery.</p>
+            </a>
+            <a href="/best-power-inverter/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#10B981] font-black text-xs uppercase tracking-widest mb-2">Inverters</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Power Inverters</h3>
+              <p class="text-gray-500 text-sm mt-2">12V inverters for cars and trucks, and how to wire one without draining the starting battery.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most modern cars, the best car battery is a fresh, mainstream AGM in the exact group size your manual calls for: the DieHard Platinum AGM, Duracell Ultra Platinum AGM or Interstate MTX, chosen by where you can get warranty service. Step up to the Odyssey Extreme Series or an Optima only when cold, vibration, accessories or long storage give you a reason, and save money with the EverStart Maxx on an older car without start-stop.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whatever you buy, check the date code, test the charging system before blaming the battery, and keep a jump starter in the car. A good battery will start your car for years; a jump starter means that the day it does not is an inconvenience rather than a tow.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

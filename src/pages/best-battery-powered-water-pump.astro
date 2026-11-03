@@ -1,0 +1,938 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Water Filtration System for Home",
+    "url": "/best-water-filtration-system-for-home/"
+  },
+  {
+    "title": "Best Drain Snake",
+    "url": "/best-drain-snake/"
+  },
+  {
+    "title": "Best Fuel Transfer Pump",
+    "url": "/best-fuel-transfer-pump/"
+  },
+  {
+    "title": "Best Lithium RV Battery",
+    "url": "/best-lithium-rv-battery/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Battery Powered Water Pumps for Draining, Transfer and RV Water";
+const description =
+  "Six battery and 12V DC water pumps for draining water heaters, clearing flooded spots and running RV fresh water, with GPH vs lift and potable vs non-potable.";
+
+const PRODUCTS = [
+  {
+    "id": "milwaukee-2771-20",
+    "name": "Milwaukee M18 2771-20 Transfer Pump",
+    "category": "Cordless transfer pump, M18 battery, garden hose ports",
+    "badge": "Best Overall Cordless Pump",
+    "amazonUrl": "",
+    "pros": [
+      "Runs on the widely used M18 battery platform",
+      "Self-priming with standard garden hose connections",
+      "Robust build suited to frequent jobs",
+      "Good choice for water heaters, hot tubs and window wells",
+      "Bare tool keeps cost down for existing M18 owners"
+    ],
+    "cons": [
+      "Battery and charger sold separately",
+      "Not for drinking water or flammable liquids",
+      "Costs more than the Ryobi as a bare tool"
+    ],
+    "bottomLine": "The cordless transfer pump to buy if you own M18 batteries and pump water regularly.",
+    "description": "Milwaukee's M18 Transfer Pump, model 2771-20, is a bare-tool, self-priming utility pump that runs on any M18 battery. It uses standard garden hose threads on both ports, so you can connect it to a water heater drain valve on one side and run a hose to a drain or outside on the other. Milwaukee markets it for transferring water and other non-flammable liquids, and it is the pump owners most often report choosing for frequent draining, hot tub service and flood cleanup. Runtime depends on the pack fitted and on how high and how far you are moving water, so a high-capacity M18 pack is worth having for bigger jobs. Like every cordless transfer pump, it is not a drinking-water pump and must never be used with gasoline or solvents. It earns the top spot for durability and for the size of the M18 battery ecosystem behind it."
+  },
+  {
+    "id": "dewalt-dce040",
+    "name": "DEWALT 20V MAX DCE040 Transfer Pump",
+    "category": "Cordless transfer pump, 20V MAX battery, garden hose ports",
+    "badge": "Best for DEWALT Owners",
+    "amazonUrl": "",
+    "pros": [
+      "Runs on DEWALT 20V MAX batteries",
+      "Self-priming, garden hose threads on both ports",
+      "Compact and easy to carry to the job",
+      "Handles water heaters, sinks and flooded spots",
+      "Bare tool price suits existing DEWALT owners"
+    ],
+    "cons": [
+      "Battery and charger sold separately",
+      "Utility use only, not potable",
+      "Not for fuel or flammable liquids"
+    ],
+    "bottomLine": "The obvious cordless pump if your garage already runs on DEWALT 20V MAX.",
+    "description": "The DEWALT DCE040 is DEWALT's cordless transfer pump for its 20V MAX platform. It is a self-priming utility pump with garden hose connections, designed for the jobs homeowners and contractors run into: draining a water heater, emptying a clogged sink or tub, clearing a flooded window well or lowering a hot tub before service. It is sold as a bare tool, so its value depends on already owning DEWALT 20V MAX batteries; buying into the platform for the pump alone rarely makes sense. Flow and runtime fall as lift and hose length increase, so keep the pump close to the water and the discharge run short. DEWALT positions it as a water transfer pump, not a drinking-water pump, and like the other cordless picks it must never be used with gasoline, diesel or solvents. For DEWALT households it is the straightforward choice."
+  },
+  {
+    "id": "ryobi-p750",
+    "name": "Ryobi ONE+ 18V P750 Transfer Pump",
+    "category": "Cordless transfer pump, ONE+ battery, garden hose ports",
+    "badge": "Best Budget Cordless Pump",
+    "amazonUrl": "",
+    "pros": [
+      "Least expensive bare tool of the cordless picks",
+      "Runs on the huge Ryobi ONE+ battery line",
+      "Self-priming with garden hose threads",
+      "Light and easy to stash for occasional jobs",
+      "Enough for most homeowners' yearly draining"
+    ],
+    "cons": [
+      "Less robust than the Milwaukee for frequent use",
+      "Utility use only, not potable",
+      "Battery sold separately"
+    ],
+    "bottomLine": "For Ryobi owners who need a pump a few times a year, it is all the pump you need.",
+    "description": "The Ryobi P750 is a small 18V ONE+ transfer pump that has been on shelves for years and remains one of the most common cordless pumps in American garages, largely because the ONE+ battery line is so widespread. It is self-priming, uses garden hose connections and is aimed squarely at homeowner jobs: draining a water heater for its annual flush, emptying a rain barrel, clearing a flooded spot or lowering an aquarium or hot tub. Owners commonly report it is slower than the pricier pumps on big jobs but perfectly adequate for occasional use. A high-capacity ONE+ battery helps on longer jobs. As with the other tool pumps, it is not for drinking water, not for flammable liquids, and it should not be run dry for long. If you already have Ryobi batteries, it is the cheapest way to get a capable cordless pump."
+  },
+  {
+    "id": "shurflo-4008-101-e65",
+    "name": "Shurflo 4008-101-E65 Revolution 12V Water Pump",
+    "category": "12V DC diaphragm pump, 3.0 GPM, 55 psi",
+    "badge": "Best 12V RV Water Pump",
+    "amazonUrl": "",
+    "pros": [
+      "Built for RV and marine fresh-water systems",
+      "Shurflo lists it at 3.0 GPM and 55 psi",
+      "Fits the common RV mounting pattern",
+      "Generally regarded as quieter than budget rivals",
+      "Self-priming with built-in pressure switch"
+    ],
+    "cons": [
+      "Costs more than SEAFLO alternatives",
+      "Needs an inlet strainer to protect the diaphragm",
+      "Not suited to gritty or dirty water"
+    ],
+    "bottomLine": "The proven, factory-standard RV fresh-water pump and the safest replacement choice.",
+    "description": "The Shurflo 4008-101-E65 Revolution is a 12 volt DC diaphragm pump made for RV, marine and off-grid fresh-water systems, and it is one of the pumps RV manufacturers fit at the factory. Shurflo lists it at 3.0 gallons per minute and 55 psi, with a built-in pressure switch that starts the pump when a tap opens and stops it when pressure builds back. It is self-priming and fits the mounting and port pattern many RVs are built around, which makes replacement a straightforward job. Owners generally describe it as quieter and smoother than budget pumps, especially when mounted on its rubber feet with flexible hose on each side. Fit a strainer on the inlet, size the wire and fuse to Shurflo's instructions, and add an accumulator if you want to reduce cycling. For a van build or RV replacement where you want the pump you never have to think about, this is it."
+  },
+  {
+    "id": "seaflo-21-series",
+    "name": "SEAFLO 21-Series 12V Diaphragm Water Pump",
+    "category": "12V DC diaphragm pump, 3.0 GPM, 45 psi (common version)",
+    "badge": "Best Budget 12V Pump",
+    "amazonUrl": "",
+    "pros": [
+      "Much cheaper than the Shurflo",
+      "Common version listed at 3.0 GPM and 45 psi",
+      "Self-priming with pressure switch",
+      "Sold in several flow and pressure versions",
+      "Popular for van, boat and RV builds"
+    ],
+    "cons": [
+      "Owners more often report a louder hum",
+      "Lower pressure than the Shurflo pick",
+      "Check which version you are buying"
+    ],
+    "bottomLine": "The budget 12V pump that does the same job for less, with a bit more noise.",
+    "description": "SEAFLO's 21-Series is a family of 12V DC diaphragm pumps sold for RV, marine and off-grid fresh-water use, and it has become the default budget choice for van builders and RV owners replacing a tired pump. The most common version is listed at 3.0 gallons per minute and 45 psi, and SEAFLO also sells higher and lower flow variants in the same series, so check the listing before you buy. Like the Shurflo, it is self-priming with a built-in pressure switch, and it uses the common mounting and port arrangement. Owners commonly report it does the job well for the price but runs a little louder; rubber feet, flexible hose sections and an accumulator help. Fit the inlet strainer and fuse it to the manual's rating. If you want a fresh-water pump on a budget and can live with some extra hum, it is a sensible buy."
+  },
+  {
+    "id": "rule-25d",
+    "name": "Rule 25D 500 GPH Bilge Pump",
+    "category": "12V DC submersible bilge pump, non-automatic",
+    "badge": "Best 12V Submersible",
+    "amazonUrl": "",
+    "pros": [
+      "Submersible, so no priming problems",
+      "Simple to wire to any 12V battery",
+      "Inexpensive way to dewater from a car battery",
+      "Compact enough to drop into a hole or well",
+      "Long-established marine pump line"
+    ],
+    "cons": [
+      "Non-automatic, needs a switch and fuse",
+      "Not for drinking water",
+      "Must sit in the water to work"
+    ],
+    "bottomLine": "The cheapest way to dewater a hole or boat from a 12V battery, if you wire it properly.",
+    "description": "Rule's bilge pumps have been standard equipment on small boats for decades, and the 25D is the non-automatic 500 gallons-per-hour model in the line. It is a 12V DC submersible: you drop it into the water, run a discharge hose to where the water should go, and power it from a battery through a switch and fuse. Because it sits in the water, it never needs priming and it does not struggle to pull water up from below the way a surface pump does. On land it makes a cheap, effective dewatering pump for a flooded hole, a window well, a pond or a low spot, powered from a car or deep-cycle battery. Fit an inline fuse at the battery end sized to Rule's instructions, use adequately sized wire, and keep the battery out of the water. It is a utility pump for dirty or non-potable water only."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Battery Powered Water Pump",
+          item: "https://www.allmetalbrake.com/best-battery-powered-water-pump/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best battery powered water pump for draining a water heater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A cordless transfer pump on a battery platform you already own. The Milwaukee M18 2771-20, DEWALT DCE040 and Ryobi P750 all connect to a water heater drain valve with a garden hose. Turn the heater off first, let the water cool, use a high-capacity battery, and refill the tank completely before restoring power or gas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a battery operated water pump be used for drinking water?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only if it is built and sold for potable use. RV diaphragm pumps like the Shurflo 4008 and SEAFLO 21-Series are designed for fresh-water systems. Cordless transfer pumps and bilge pumps are utility pumps and should not be used for drinking water. Use a drinking-water safe hose too, and keep it separate from drain hoses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What size 12 volt DC water pump does an RV need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most RVs use a pump around 3 GPM with a pressure rating in the 45 to 55 psi range, such as the Shurflo 4008-101-E65 or the common SEAFLO 21-Series version. Match the replacement to the original pump's flow and pressure where possible, since RV plumbing and fixtures are designed around those typical figures."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How high can a cordless transfer pump lift water?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Less than most buyers expect. Every pump has a practical suction limit, and atmospheric pressure caps suction lift at about 33 feet at sea level, with small pumps managing far less. Flow falls steadily as lift and hose length increase. Keep the pump close to the water surface and let it push rather than pull."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a battery powered pump enough for a flooded basement?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For a few inches of clean water, a cordless transfer pump or a 12V submersible can help, especially during an outage. For real flooding it is a stopgap. A permanently installed sump pump with a battery backup is the proper fix. Stay out of standing water near outlets or equipment until the power is off."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run a 12V water pump from a portable power station?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, if the station has a 12V DC output rated for the pump's current draw. Check the pump's amp rating against the output's limit and use a fused connection. Diaphragm pumps only run while water flows, so their energy use is modest, which makes a power station a practical camp or emergency option."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my RV water pump keep cycling on and off?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When all taps are closed, a pump that keeps cycling is usually seeing pressure loss from a leak, a dripping faucet or toilet valve, or a worn check valve inside the pump. Check for drips and wet spots first. A clogged inlet strainer can also cause rough running. An accumulator tank reduces cycling during small draws."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Water, Plumbing & Electrical",
+    tags: [
+      "battery powered water pump",
+      "battery operated water pump",
+      "12 volt dc water pump",
+      "water pump battery powered",
+      "cordless transfer pump",
+      "rv water pump"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Battery Powered Water Pumps</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A cordless transfer pump empties a water heater or a flooded window well with no outlet nearby. A 12-volt diaphragm pump runs the faucets in an RV or van. They are different tools for different jobs, and buying the wrong one is the usual mistake. Six pumps matched to the job.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#milwaukee-2771-20"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Match a Pump to the Job
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#two-kinds" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Two Kinds of Pump</a>
+          <a href="#at-a-glance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Comparison Table</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Six Picks</a>
+          <a href="#gph-vs-lift" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. GPH vs Lift</a>
+          <a href="#self-priming" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Self-Priming and Dry Running</a>
+          <a href="#potable" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Potable vs Non-Potable</a>
+          <a href="#draining" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Water Heaters and Flooding</a>
+          <a href="#rv-water" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. RV Fresh-Water Systems</a>
+          <a href="#batteries" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Batteries and Runtime</a>
+          <a href="#which-one" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Most people shopping for a battery powered water pump want one of two things: a portable pump that moves water from where it is to where it should be, or a fixed pump that pressurizes drinking water from a tank. Those are different machines, and the label on the box rarely makes that clear.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="two-kinds" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Two Kinds of Battery Powered Water Pump
+          </h2>
+
+          <p>
+            The first kind is the cordless transfer pump. It is a small self-priming pump driven by a drill-style tool battery, with a garden hose thread on the inlet and outlet. You drop the suction hose into a water heater drain, a flooded window well, a rain barrel or a stopped-up laundry sink, run the discharge hose somewhere useful, and pull the trigger. Ryobi, DEWALT and Milwaukee all sell one, and each runs on the batteries those brands already put in millions of garages.
+          </p>
+
+          <p>
+            The second kind is the 12 volt DC water pump, usually a diaphragm pump, that lives permanently inside an RV, van, boat or off-grid cabin. It sits between a fresh-water tank and the faucets, senses when pressure drops because somebody opened a tap, and runs until pressure builds back up. It draws from a house battery rather than a tool pack. Shurflo and SEAFLO dominate this category, and most RVs on the road leave the factory with one of their pumps or a close copy.
+          </p>
+
+          <p>
+            A third, smaller group is the 12V submersible pump, the bilge pump boaters know. It sits in the water, has no priming problem at all because it is already submerged, and pushes water up and out through a hose. It is the simplest way to dewater a hole, a boat or a low spot when you have a car or deep-cycle battery and some wire. It is not designed for drinking water and should never be used as one.
+          </p>
+
+          <p>
+            The confusion comes because all three get sold as a water pump battery powered and they look similar in search results. A transfer pump will not run your RV faucets properly because it has no pressure switch. A diaphragm RV pump can move water from a bucket, but slowly, and it is not built for sand and grit. A bilge pump will drain a hole faster than either but cannot draw water up from below itself. Decide the job first, then read the rest of this guide.
+          </p>
+
+          <p>
+            If what you actually need is to keep a household well pump running during an outage, none of these is the answer. That is a 240-volt load that needs a properly sized generator and a transfer switch, covered in our guide to the <a href="/best-generator-for-well-pump/">best generator for a well pump</a>. The pumps here are for moving and pressurizing modest amounts of water away from the grid.
+          </p>
+        </div>
+
+        <div id="at-a-glance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Six Pumps Compared
+          </h2>
+
+          <p>
+            The table sorts the picks by type and power source. Flow is listed only where the manufacturer's figure is well established; where it is not, the column says so rather than guessing. The potable column matters more than the flow column for anyone filling a drinking-water tank.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Power</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Self-priming</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Drinking water</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Milwaukee M18 Transfer Pump 2771-20</td>
+                    <td class="px-4 py-4 text-gray-700">Cordless transfer</td>
+                    <td class="px-4 py-4 text-gray-700">M18 tool battery</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">No, utility use</td>
+                    <td class="px-4 py-4 text-gray-700">Heavy, frequent draining</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">DEWALT 20V MAX Transfer Pump DCE040</td>
+                    <td class="px-4 py-4 text-gray-700">Cordless transfer</td>
+                    <td class="px-4 py-4 text-gray-700">20V MAX tool battery</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">No, utility use</td>
+                    <td class="px-4 py-4 text-gray-700">DEWALT owners, general draining</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Ryobi ONE+ 18V Transfer Pump P750</td>
+                    <td class="px-4 py-4 text-gray-700">Cordless transfer</td>
+                    <td class="px-4 py-4 text-gray-700">ONE+ tool battery</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">No, utility use</td>
+                    <td class="px-4 py-4 text-gray-700">Occasional jobs on a budget</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Shurflo 4008-101-E65 Revolution</td>
+                    <td class="px-4 py-4 text-gray-700">12V diaphragm</td>
+                    <td class="px-4 py-4 text-gray-700">12V DC house battery</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, built for RV fresh water</td>
+                    <td class="px-4 py-4 text-gray-700">RV and van fresh water</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">SEAFLO 21-Series Diaphragm Pump</td>
+                    <td class="px-4 py-4 text-gray-700">12V diaphragm</td>
+                    <td class="px-4 py-4 text-gray-700">12V DC house battery</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Yes, built for fresh water</td>
+                    <td class="px-4 py-4 text-gray-700">Budget RV, van, boat builds</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Rule 25D Bilge Pump</td>
+                    <td class="px-4 py-4 text-gray-700">12V submersible</td>
+                    <td class="px-4 py-4 text-gray-700">12V DC battery</td>
+                    <td class="px-4 py-4 text-gray-700">Not needed, submerged</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Dewatering holes and boats</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Read across the cordless transfer pumps and you will see they are close cousins. The real differences are the battery platform you already own, how much run time a pack gives, and how robust the pump head is. If you own Milwaukee M18 batteries, the Milwaukee is the obvious buy; the same logic applies to DEWALT and Ryobi. Buying a second battery platform just for a pump almost never makes sense.
+          </p>
+
+          <p>
+            The two diaphragm pumps are drop-in replacements for most RV fresh-water pumps. The Shurflo 4008 is the quieter, more refined pump and the one many RV makers fit at the factory; the SEAFLO 21-Series is the budget pick that owners commonly report does the same job with a bit more noise. Both use a pressure switch, so they shut off when the taps close.
+          </p>
+
+          <p>
+            The Rule 25D stands apart. It is a non-automatic 12V bilge pump: wire it to a battery with a switch and a fuse and it moves a lot of water from wherever it is sitting. It is the cheapest way to dewater a flooded spot from a car battery, but it needs to be submerged to work and it is not for drinking water.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Six Battery and 12V Water Pumps
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications and widely reported owner experience, not from hands-on testing. Flow figures are maximums at zero lift and zero pressure; real flow falls as you lift water higher or push it through longer hose, so treat any headline gallons-per-hour number as a ceiling, not a promise.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="gph-vs-lift" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. GPH vs Lift: Why the Box Number Lies
+          </h2>
+
+          <p>
+            Every pump box leads with gallons per hour, and that number is measured in the easiest possible conditions: no height to lift the water, no hose restriction, and a fresh battery. The moment you lift the water a few feet or push it through fifty feet of garden hose, flow falls. Lift it far enough and flow drops to zero. That height is the pump's maximum head, and it is the number that actually tells you whether a pump can do your job.
+          </p>
+
+          <p>
+            There are two kinds of lift to think about. Suction lift is how far below the pump the water surface sits, for example a pump on the basement floor drawing from a sump pit a few feet down. Discharge head is how far above the pump you are pushing water, for example up a basement stairwell and out a window. Every self-priming pump has a practical suction limit, and the atmosphere sets a hard ceiling around 33 feet at sea level that no pump can beat by pulling; in practice small pumps manage well under that.
+          </p>
+
+          <p>
+            For a cordless transfer pump, the practical rule is to keep the pump close to the water and let it push rather than pull. Set it on the step just above the flooded window well rather than at the top of a ladder. Use the shortest suction hose that reaches, and make the discharge run as short and straight as possible. A standard 5/8-inch garden hose is fine for discharge, but a kinked or very long hose cuts flow more than most people expect.
+          </p>
+
+          <p>
+            For a 12 volt DC water pump in an RV, flow is quoted in gallons per minute and the second number on the label is pressure in psi. The Shurflo 4008-101-E65 is sold as a 3.0 GPM, 55 psi pump, and the common SEAFLO 21-Series version is listed at 3.0 GPM and 45 psi. Higher pressure gives a firmer shower but also works the plumbing harder; RV fittings are designed around these typical pump pressures, so do not swap in something dramatically stronger.
+          </p>
+
+          <p>
+            The takeaway is simple. Buy for the job's lift and hose length, not the biggest GPH number. If a pump is marginal on paper, it will be slow in real use. When the water is deep below where you can stand, a submersible pump that pushes from the bottom beats any surface pump trying to pull it up.
+          </p>
+        </div>
+
+        <div id="self-priming" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Self-Priming, Dry Running and Debris
+          </h2>
+
+          <p>
+            A self-priming pump can pull air out of its suction hose and start drawing water on its own, as long as the hose end is in the water and the run is not too long or high. All three cordless transfer pumps and both diaphragm pumps here are self-priming. That is what lets you drop a hose into a bucket and walk away from the outlet end. Priming is fastest when the suction hose is short, the fittings are tight and the pump head is wet.
+          </p>
+
+          <p>
+            Air leaks are the usual reason a self-priming pump will not prime. A garden hose washer that is missing or cracked, a loose connection or a split in the suction hose lets the pump suck air instead of water. If a pump hums but nothing comes out, check every inlet fitting before blaming the pump. Pouring a little water into the inlet side before starting can also help a stubborn pump catch.
+          </p>
+
+          <p>
+            Dry running is the opposite problem. A pump that keeps running after the water is gone generates heat in its seals and impeller, and most small pumps are not designed to do that for long. Watch a transfer pump near the end of a job and release the trigger once it starts sucking air. Check the manual for each model's dry-run guidance rather than assuming it is tolerant of it.
+          </p>
+
+          <p>
+            Debris is the third issue. Transfer pumps typically ship with an inlet strainer, and that strainer is there for a reason. Leaves, sand, sediment from the bottom of a water heater and grit from a flooded window well can jam or score a small pump head. Keep the suction end off the bottom, use the strainer, and if you are pumping something genuinely muddy, a trash pump or a utility submersible on extension cord is the better tool.
+          </p>
+
+          <p>
+            Diaphragm RV pumps are even less tolerant of debris and almost always want an inline strainer on the inlet. Shurflo and SEAFLO both sell one, and many RV installations already have it. Cleaning that strainer is the first thing to try when an RV pump starts cycling, running rough or losing pressure.
+          </p>
+        </div>
+
+        <div id="potable" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Potable vs Non-Potable: The Line Not to Cross
+          </h2>
+
+          <p>
+            Potable means safe for drinking water. A pump built for potable use has wetted parts, the materials the water touches, chosen so they do not leach anything harmful, and it is normally sold specifically for fresh-water systems. RV diaphragm pumps like the Shurflo 4008 and SEAFLO 21-Series are built for exactly this, because they sit between your tank and the kitchen tap. Check the current listing for the specific certification the maker claims.
+          </p>
+
+          <p>
+            Cordless transfer pumps are utility pumps. They are designed to move water you are getting rid of: a water heater's sediment-laden contents, a flooded spot, a hot tub, a rain barrel used for the garden. They are not sold as drinking-water pumps, and a pump that has spent its life draining dirty water should not be used to fill a drinking-water tank. Keep one pump for each job and label it if you need to.
+          </p>
+
+          <p>
+            The same goes for hoses. A standard garden hose is not designed for drinking water. If you are filling an RV fresh-water tank or a potable storage container, use a hose sold as drinking-water safe, and keep it separate from the hose you use for draining or for the black tank flush. RV owners usually color-code them, white or blue for fresh water and anything else for waste.
+          </p>
+
+          <p>
+            Never use any of these pumps for fuel, solvents or other flammable liquids. Battery tool pumps have brushed or brushless motors and switches that are not designed for flammable vapor, and the makers say so in their manuals. If you need to move gasoline or diesel, use a pump built and listed for that fluid, covered in our guide to the <a href="/best-fuel-transfer-pump/">best fuel transfer pump</a>.
+          </p>
+
+          <p>
+            If you are pumping from a private well, a cistern or a stored-water container for drinking, the pump is only part of the picture. Water quality matters as much, and a filter on the tap side is worth having. Our pillar guide to the <a href="/best-water-filtration-system-for-home/">best water filtration system for home</a> covers the filter types that make stored or well water safer to drink.
+          </p>
+        </div>
+
+        <div id="draining" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Draining Water Heaters and Flooded Spots
+          </h2>
+
+          <p>
+            Draining a tank water heater is the classic job for a cordless transfer pump, especially in a basement with no floor drain. Turn off the heater first: on a gas unit, set the control to off or pilot; on an electric unit, switch off the breaker so the elements cannot energize in an empty tank. Close the cold-water supply valve, open a hot tap upstairs to let air in, and let the water cool for a few hours if you can, because tank water can be scalding.
+          </p>
+
+          <p>
+            Then connect a garden hose to the heater's drain valve, run it to the pump's inlet, and run another hose from the pump's outlet to a drain, a sink or outside. Open the drain valve and start the pump. Gravity alone is slow when the outlet is higher than the drain valve, which is why the pump helps. Watch for sediment; if the flow slows, it is usually because grit has collected at the valve or strainer, not because the pump has failed.
+          </p>
+
+          <p>
+            Check the transfer pump's maximum liquid temperature before you start. Small pumps are not designed for boiling-hot water, and hot water can soften seals and hoses. Letting the tank cool is safer for you and for the pump. When you are done, refill the tank completely and purge air from a hot tap before you restore power or gas, because an electric element switched on in an empty tank burns out almost instantly.
+          </p>
+
+          <p>
+            For a flooded window well, a low spot in the yard, a crawlspace puddle or a basement after a pipe leak, the same pump works as long as the water is shallow enough to reach and clean enough not to clog it. A cordless pump earns its place when there is no outlet nearby or the power is out. If you face standing water near electrical outlets or equipment, keep away until the circuit is off, and call a licensed electrician if water has reached the panel or wiring.
+          </p>
+
+          <p>
+            For larger or repeated flooding, a battery pump is a stopgap, not a solution. A properly installed sump pump with a battery backup system is the permanent answer for basements that flood, and getting the remaining moisture out afterwards is the job of a good <a href="/best-dehumidifier-for-basement/">basement dehumidifier</a>. A <a href="/best-shop-vac/">wet-dry shop vac</a> picks up the last half-inch a pump cannot reach.
+          </p>
+        </div>
+
+        <div id="rv-water" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. RV and Van Fresh-Water Systems
+          </h2>
+
+          <p>
+            In an RV, the 12 volt DC water pump does one job all day: it keeps the plumbing pressurized when you are not connected to city water. Turn the pump switch on, open a tap, pressure drops, the pump's built-in pressure switch closes, and the pump runs until the tap closes and pressure builds back. A healthy pump should run only when water is flowing. If it cycles on and off with every tap closed, there is a leak somewhere or the pump's check valve is failing.
+          </p>
+
+          <p>
+            Replacing an RV pump is one of the easiest repairs on the vehicle. The Shurflo 4008 and SEAFLO 21-Series use the common mounting pattern and port sizes most RVs are built around, so a replacement usually means disconnecting two hoses and two wires, unscrewing four mounting screws and reversing the process. Disconnect the battery or pull the fuse first, mount the pump on its rubber feet to cut vibration noise, and fit the strainer on the inlet side.
+          </p>
+
+          <p>
+            Wire gauge and fusing matter more than most DIY installers think. A pump drawing several amps at 12 volts over a long wire run loses voltage quickly, and a starved pump runs slow, hot and noisy. Use wire sized to the pump's manual for the run length, fuse it close to the battery at the rating the manual specifies, and keep connections clean and tight. If your RV electrical system is a mystery, a qualified RV technician is cheaper than a melted wire.
+          </p>
+
+          <p>
+            Noise is the most common complaint about RV pumps, and the cure is usually installation rather than a new pump. Flexible hose sections on both sides of the pump, rubber mounting feet and an accumulator tank on the outlet side smooth out pulsing and stop the pump from short-cycling on small draws. The Shurflo is generally considered the quieter of the two picks; the SEAFLO is fine but owners more often report a louder hum.
+          </p>
+
+          <p>
+            Power draw is modest because the pump only runs while water flows. A typical RV pump is a small load on a house battery, which is why it rarely decides how long you can stay off-grid. If you are building a van or upgrading an RV, it sits comfortably alongside the fridge and lights on a good <a href="/best-lithium-rv-battery/">lithium RV battery</a>, and a <a href="/best-portable-power-station/">portable power station</a> with a 12V output can run a pump in a simple tank-and-tap setup at camp.
+          </p>
+        </div>
+
+        <div id="batteries" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Batteries, Runtime and Power Outages
+          </h2>
+
+          <p>
+            Cordless transfer pump runtime depends almost entirely on the battery you fit. A small compact pack will empty a bucket or two; a larger high-capacity pack is what you want for a water heater or a flooded spot. The makers do not publish a single runtime number because it depends so much on lift and hose length. Plan on having a second charged pack ready for big jobs, and rotate them while one charges.
+          </p>
+
+          <p>
+            This is where battery platform loyalty pays. If you already own Milwaukee M18, DEWALT 20V MAX or Ryobi ONE+ tools, the pump is a bare tool and costs far less than a pump with its own battery. If you own none of them, our <a href="/milwaukee-vs-dewalt/">Milwaukee vs DEWALT comparison</a> and <a href="/ryobi-tools-review/">Ryobi tools review</a> are a better place to start than the pump itself, because the battery decision outlasts any single tool.
+          </p>
+
+          <p>
+            During a power outage, a cordless pump keeps working as long as you have charged packs, which is exactly when a basement can start taking water. Charging the packs is the bottleneck. A <a href="/best-portable-power-station-for-home-backup/">portable power station for home backup</a> can recharge tool batteries through its AC outlets indoors, safely, with no exhaust. If you use a gas generator, run it outdoors only, well away from doors, windows and vents.
+          </p>
+
+          <p>
+            For 12V DC pumps, the battery is the vehicle's house battery or a standalone deep-cycle battery. A bilge pump like the Rule 25D can be wired to a car battery with alligator clips for an emergency, but do it properly: fit an inline fuse at the battery end sized to the pump's manual, use wire heavy enough for the length, and keep the battery itself out of the water. Never wire a 12V pump to anything in a house's AC electrical system.
+          </p>
+
+          <p>
+            Battery care is simple but often skipped. Store tool packs partly charged and indoors, top them up every few months, and do not leave a deep-cycle battery sitting discharged after a pumping job. A lead-acid battery left flat for weeks can lose capacity permanently, which is a nasty surprise the next time water comes in.
+          </p>
+        </div>
+
+        <div id="which-one" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which One to Buy
+          </h2>
+
+          <p>
+            If you own Milwaukee M18 batteries and drain water heaters, hot tubs or window wells more than once in a blue moon, buy the Milwaukee M18 Transfer Pump. It is the most robust of the cordless pumps and the one owners most often report choosing for frequent work. If you own DEWALT 20V MAX, the DEWALT DCE040 does the same job on the batteries you already have.
+          </p>
+
+          <p>
+            If you own Ryobi ONE+ batteries and need a pump a few times a year, the Ryobi P750 is the sensible buy. It is the least expensive of the three as a bare tool, and for occasional draining it is all most homeowners need. If you own none of these platforms, pick the platform first based on the other tools you want, then buy that brand's pump.
+          </p>
+
+          <p>
+            For an RV, van or boat fresh-water system, the Shurflo 4008-101-E65 Revolution is the pick if you want a quiet, proven, factory-standard replacement. The SEAFLO 21-Series is the budget alternative and a reasonable choice for a van build where cost matters more than a little extra noise. Either is a far better choice than a transfer pump for pressurizing drinking water.
+          </p>
+
+          <p>
+            For dewatering a hole, a boat or a low spot from a car or deep-cycle battery, the Rule 25D bilge pump is the simplest and cheapest answer, provided you fuse it properly and keep it out of drinking-water service. It moves water faster than the cordless transfer pumps for the money but needs to sit in the water to work.
+          </p>
+
+          <p>
+            What is not worth buying: no-name battery pumps with optimistic GPH claims and no clear lift, temperature or potable rating. They are cheap for a reason, and a pump that dies halfway through draining a water heater leaves you worse off than having no pump at all.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying by the biggest GPH number</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Gallons per hour is measured with no lift and no hose. Lift water a few feet or push it through a long garden hose and real flow drops sharply. Buy for the height and distance of your actual job, keep the pump close to the water, and keep the discharge hose short and unkinked.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a transfer pump for drinking water</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Cordless transfer pumps are utility pumps for water you are getting rid of. They are not sold as potable pumps, and one that has drained a water heater or a flooded window well should never fill a drinking-water tank. Use a diaphragm pump built for fresh water and a drinking-water safe hose.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Pumping fuel with a water pump</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Battery tool pumps and RV pumps are not designed for gasoline, diesel or solvent vapors, and their manuals say so. A spark from a motor or switch can ignite fumes. Use a pump specifically listed for the fuel you are moving, outdoors, with an approved container.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Draining a hot water heater without shutting it off</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Turn off the breaker on an electric heater or set a gas unit to off before draining, and let the water cool. An element energized in an empty tank burns out in seconds, and scalding water can soften pump seals and hoses. Refill completely before restoring power.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Wiring a 12V pump without a fuse</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 12V battery can deliver enough current to melt a wire and start a fire if a pump jams or a wire shorts. Fit an inline fuse close to the battery at the rating the pump's manual specifies, use wire sized for the run length, and keep connections clean and tight.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best battery powered water pump for draining a water heater?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A cordless transfer pump on a battery platform you already own. The Milwaukee M18 2771-20, DEWALT DCE040 and Ryobi P750 all connect to a water heater drain valve with a garden hose. Turn the heater off first, let the water cool, use a high-capacity battery, and refill the tank completely before restoring power or gas.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a battery operated water pump be used for drinking water?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Only if it is built and sold for potable use. RV diaphragm pumps like the Shurflo 4008 and SEAFLO 21-Series are designed for fresh-water systems. Cordless transfer pumps and bilge pumps are utility pumps and should not be used for drinking water. Use a drinking-water safe hose too, and keep it separate from drain hoses.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What size 12 volt DC water pump does an RV need?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most RVs use a pump around 3 GPM with a pressure rating in the 45 to 55 psi range, such as the Shurflo 4008-101-E65 or the common SEAFLO 21-Series version. Match the replacement to the original pump's flow and pressure where possible, since RV plumbing and fixtures are designed around those typical figures.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How high can a cordless transfer pump lift water?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Less than most buyers expect. Every pump has a practical suction limit, and atmospheric pressure caps suction lift at about 33 feet at sea level, with small pumps managing far less. Flow falls steadily as lift and hose length increase. Keep the pump close to the water surface and let it push rather than pull.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a battery powered pump enough for a flooded basement?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For a few inches of clean water, a cordless transfer pump or a 12V submersible can help, especially during an outage. For real flooding it is a stopgap. A permanently installed sump pump with a battery backup is the proper fix. Stay out of standing water near outlets or equipment until the power is off.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I run a 12V water pump from a portable power station?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, if the station has a 12V DC output rated for the pump's current draw. Check the pump's amp rating against the output's limit and use a fused connection. Diaphragm pumps only run while water flows, so their energy use is modest, which makes a power station a practical camp or emergency option.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Why does my RV water pump keep cycling on and off?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                When all taps are closed, a pump that keeps cycling is usually seeing pressure loss from a leak, a dripping faucet or toilet valve, or a worn check valve inside the pump. Check for drips and wet spots first. A clogged inlet strainer can also cause rough running. An accumulator tank reduces cycling during small draws.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Water and Backup Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-water-filtration-system-for-home/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Water Filtration Systems for Home</h3>
+              <p class="text-gray-500 text-sm mt-2">Filters for city, well and stored water, matched to what is actually in it.</p>
+            </a>
+            <a href="/best-generator-for-well-pump/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Generator for a Well Pump</h3>
+              <p class="text-gray-500 text-sm mt-2">How to size a generator for a 240V well pump and connect it safely.</p>
+            </a>
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Battery power for pumps, fridges and tool chargers when the grid is down.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Pick the kind of pump first. For draining water heaters, hot tubs and flooded spots, buy the cordless transfer pump that matches the batteries you already own: the Milwaukee M18 2771-20 for frequent use, the DEWALT DCE040 for DEWALT households, or the Ryobi P750 for occasional jobs. For RV and van fresh water, the Shurflo 4008-101-E65 is the quiet, proven choice and the SEAFLO 21-Series is the budget alternative.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Respect the limits. Buy for lift and hose length rather than headline GPH, keep utility pumps out of drinking water, never pump fuel with a water pump, and fuse every 12V connection. A Rule 25D bilge pump on a fused battery lead is the cheapest dewatering tool there is, as long as it stays out of potable service.
+          </p>
+        </div>
+
+        <MoreInCategory category="Water, Plumbing & Electrical" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

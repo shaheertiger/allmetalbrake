@@ -1,0 +1,883 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best RV Generators",
+    "url": "/best-rv-generator/"
+  },
+  {
+    "title": "Best Power Inverters",
+    "url": "/best-power-inverter/"
+  },
+  {
+    "title": "Best Generators for Camping",
+    "url": "/best-generator-for-camping/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Small Microwaves: Compact Picks That Fit RVs, Dorms and Off-Grid Power";
+const description =
+  "Compact 0.7 and 0.9 cu ft microwaves compared on cooking vs input watts, inverter tech, power station and generator sizing, and RV and dorm clearances.";
+
+const PRODUCTS = [
+  {
+    "id": "toshiba-em925a5a-microwave",
+    "name": "Toshiba EM925A5A Countertop Microwave",
+    "category": "0.9 cu ft, 900W cooking, turntable, black stainless",
+    "badge": "Best Overall Small Microwave",
+    "amazonUrl": "",
+    "pros": [
+      "900 cooking watts in a compact 0.9 cu ft body",
+      "Cook times close to full-size microwaves",
+      "One-touch presets and an ECO mode per Toshiba",
+      "Option to mute the beeps, a small thing owners appreciate",
+      "Widely sold with long-running retail support"
+    ],
+    "cons": [
+      "Input draw in the 1,400 watt range rules out smaller power stations",
+      "Larger footprint than 0.7 cu ft models",
+      "Not an inverter design, so power levels cycle on and off"
+    ],
+    "bottomLine": "The compact microwave to buy if it lives on a kitchen counter on household power: near full-size speed in a small box.",
+    "description": "The Toshiba EM925A5A is the small microwave we would put in most apartments and compact kitchens. Toshiba rates it at 0.9 cubic feet and 900 cooking watts, which is a meaningful step up from the 700-watt dorm class: frozen meals and leftovers heat noticeably faster, and package instructions written for 1,000 watts need only small adjustments. Toshiba lists one-touch presets, an ECO mode that reduces standby power, and a mute option for the beeps, and owners commonly praise the clear control panel. The cavity is roomy enough for a standard dinner plate and taller containers. The trade-off appears when you unplug it from the wall. At 900 cooking watts, expect input draw in the 1,400-watt range, so it needs a power station of roughly 1,800 watts or more to run comfortably, and it will share a 2,000-watt inverter generator with very little else. For a home kitchen that is no issue at all. For camping and outage use, the 700-watt picks are easier."
+  },
+  {
+    "id": "black-decker-em720cb7-microwave",
+    "name": "BLACK+DECKER EM720CB7 Digital Microwave",
+    "category": "0.7 cu ft, 700W cooking, 10 power levels, child lock",
+    "badge": "Best for Power Stations and Dorms",
+    "amazonUrl": "",
+    "pros": [
+      "700 cooking watts keeps input draw near 1,000 to 1,100 watts",
+      "One of the smallest footprints among mainstream models",
+      "Ten power levels and pre-programmed buttons",
+      "Child lock, useful in shared spaces",
+      "Light enough to move between home, camper and office"
+    ],
+    "cons": [
+      "Slower than 900-watt and larger models",
+      "Small turntable limits larger dishes",
+      "Door and button feel are basic"
+    ],
+    "bottomLine": "The easiest small microwave to power off-grid and the right size for dorms and offices.",
+    "description": "The BLACK+DECKER EM720CB7 is the small microwave we would pair with a power station or a camping generator. BLACK+DECKER rates it at 0.7 cubic feet and 700 cooking watts, with ten power levels, pre-programmed buttons for common foods, a turntable and a child lock. That 700-watt rating is the point: input draw lands around 1,000 to 1,100 watts, which a 1,500-watt-class power station or a 2,000-watt inverter generator handles with room to spare. Its compact size suits dorm shelves, office kitchenettes and RV counters, and it is light enough to carry to a campsite. Cooking is slower than a full-size microwave, so add time to package instructions written for higher wattage, and larger dinner plates and casserole dishes may not fit on the turntable. Owners commonly describe it as basic but dependable. It is not a premium machine, and it does not pretend to be; for the price band it sits in, it is a sensible default for anyone who needs a microwave that goes where the power is limited."
+  },
+  {
+    "id": "ge-jes1072shss-microwave",
+    "name": "GE JES1072SHSS Countertop Microwave",
+    "category": "0.7 cu ft, 700W cooking, stainless steel, turntable",
+    "badge": "Best Stainless Compact",
+    "amazonUrl": "",
+    "pros": [
+      "Stainless finish matches mainstream kitchen appliances",
+      "700 cooking watts suits power stations and generators",
+      "Convenience cooking controls for common foods",
+      "Compact 0.7 cu ft footprint",
+      "Backed by a major appliance brand"
+    ],
+    "cons": [
+      "Same cooking speed as cheaper 700-watt models",
+      "Stainless shows fingerprints",
+      "Not an inverter design"
+    ],
+    "bottomLine": "A 700-watt compact for buyers who want stainless and a major appliance brand behind the purchase.",
+    "description": "The GE JES1072SHSS is the stainless steel option in the 700-watt compact class. GE rates it at 0.7 cubic feet and 700 cooking watts, with convenience cooking controls for popular items, a turntable and a stainless steel exterior. The cooking performance is the same as any 700-watt microwave, so the case for buying it rests on the finish, the brand and the controls. If your kitchen or RV has stainless appliances, it looks at home in a way that black plastic does not, and GE's appliance distribution is about as broad as it gets. On power, it behaves like the BLACK+DECKER: input draw in the 1,000 to 1,100 watt range, comfortable on a 1,500-watt-class power station or a 2,000-watt inverter generator. Stainless steel shows fingerprints and smudges, and you are paying a little more for the look than for anything inside. If you do not care about finish, the BLACK+DECKER does the same job; if you do, this is the one to buy."
+  },
+  {
+    "id": "commercial-chef-0-7-cu-ft-microwave",
+    "name": "Commercial Chef 0.7 Cu Ft Countertop Microwave",
+    "category": "0.7 cu ft, 700W cooking, digital controls",
+    "badge": "Best Budget Small Microwave",
+    "amazonUrl": "",
+    "pros": [
+      "Low price band for a name-brand compact",
+      "700 cooking watts is easy on generators and power stations",
+      "Simple digital controls with preset buttons",
+      "Light and easy to move",
+      "Good fit for garages, workshops and cabins"
+    ],
+    "cons": [
+      "Build quality is basic, especially the door latch and buttons",
+      "Not the one for heavy daily household use"
+    ],
+    "bottomLine": "A low-cost 700-watt microwave for occasional use in a garage, cabin or shop.",
+    "description": "Commercial Chef's 0.7 cubic foot countertop microwave is the budget pick, and it earns that slot by doing the basics without fuss. It is a 700-watt machine with a turntable and digital controls that include preset buttons for common foods, sold in several finishes. The low price band is the main reason to buy it, and the 700-watt rating keeps input draw in the range that a mid-size power station or a small inverter generator can handle. It is light enough to carry to a cabin or a jobsite trailer and set on any sturdy surface with adequate clearance. Where it gives ground is build quality: owners commonly report that the door, buttons and turntable feel less robust than the BLACK+DECKER or GE, and it is not the microwave we would put in a busy family kitchen. For a garage, a workshop or a seasonal cabin where it heats lunch a few times a week, that trade-off is perfectly reasonable."
+  },
+  {
+    "id": "panasonic-nn-sn65kb-microwave",
+    "name": "Panasonic NN-SN65KB Inverter Microwave",
+    "category": "1.2 cu ft, 1,200W cooking, inverter, Genius Sensor",
+    "badge": "Best Inverter Upgrade",
+    "amazonUrl": "",
+    "pros": [
+      "Inverter design delivers true reduced power for even heating",
+      "Inverter Turbo Defrost for faster, more even thawing",
+      "Genius Sensor adjusts cook time automatically",
+      "Lower power settings genuinely reduce draw on battery systems",
+      "1,200 cooking watts for fast full-power cooking"
+    ],
+    "cons": [
+      "1.2 cu ft is not small; too big for most dorms and vans",
+      "Full-power input in the 1,500-watt range",
+      "Inverter electronics demand a pure sine wave power source"
+    ],
+    "bottomLine": "Not a small microwave, but the right upgrade if even reheating matters and you have the counter and the power.",
+    "description": "The Panasonic NN-SN65KB is here as a deliberate contrast. Panasonic rates it at 1.2 cubic feet and 1,200 cooking watts, and it uses Panasonic's inverter technology, which runs the magnetron at reduced output continuously instead of cycling it fully on and off. The result, which owners commonly cite as the reason they buy Panasonic, is more even reheating and defrosting, with fewer cold centers and fewer rubbery edges. Panasonic also lists its Genius Sensor, which adjusts time based on steam from the food, and Inverter Turbo Defrost. On a battery system, the inverter design has a real advantage: a medium setting genuinely lowers the draw, so you can sometimes run it on a power station that could not handle it at full power. At full power, though, input lands in the 1,500-watt range, and it needs a pure sine wave source. It is too big for a dorm shelf or a van galley, but in a small kitchen with a real counter, it is the better microwave."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Small Microwaves",
+          item: "https://www.allmetalbrake.com/best-small-microwave/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What size microwave counts as small?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Compact microwaves generally run from about 0.6 to 0.9 cubic feet. A 0.7 cubic foot model is the classic dorm and office size and usually has 700 cooking watts, while a 0.9 cubic foot model is a bit larger and usually rated around 900 watts. Exterior dimensions vary by brand, so measure your space and check the clearances in the manual before buying."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many watts does a 1000W microwave actually use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A microwave rated at 1,000 cooking watts typically draws around 1,500 watts from the outlet, because the transformer and magnetron lose a lot of energy as heat. The exact figure is on the rating label inside the door or on the back. Size any power station, inverter or generator to that input number, with at least 20 percent headroom."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a 1,000 watt power station run a small microwave?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually not reliably. A 700-watt microwave draws around 1,000 to 1,100 watts plus a start-up surge, which puts it at or above the limit of a 1,000-watt station. Some stations ride through and many shut down. A station rated around 1,500 watts continuous is the comfortable minimum for a 700-watt model, and 1,800 watts or more for a 900-watt model."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run a microwave on a 2,000 watt inverter generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, a 700-watt microwave runs comfortably on a typical 2,000-watt inverter generator, whose running rating is usually around 1,600 to 1,800 watts. A 900-watt model is workable but leaves little room for other loads. Keep the generator outdoors, far from windows and doors, and turn off economy mode if the microwave hesitates when starting."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a portable microwave for a car?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most products marketed as car microwaves are heated lunch boxes that warm food slowly through a heating plate. True 12-volt microwaves have existed but are rare, and we could not find one in wide distribution to recommend. A real microwave in a vehicle needs a 120-volt model, a pure sine wave inverter, heavy cabling and a battery bank able to supply around 100 amps at 12 volts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are inverter microwaves worth it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For even reheating and defrosting, yes. An inverter microwave runs at genuinely reduced power on lower settings, so food heats more evenly. On a battery system, lower settings also genuinely reduce draw. The catch is size and price: most inverter models start around 1.2 cubic feet, so they are hard to fit in dorms and vans. For basic reheating, a conventional compact is fine."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do I need to know about microwaves in an RV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Check whether your RV microwave is a built-in or over-the-range unit with a trim kit, because swapping in a countertop model often needs a different opening and airflow. Secure any countertop model for travel and remove the glass tray. Make sure the outlet and circuit can carry the input draw, and avoid running it with the air conditioner on a small generator."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best small microwave",
+      "small microwave",
+      "compact microwave",
+      "microwave for rv",
+      "1000w microwave",
+      "portable microwave for car"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            0.7 to 1.2 Cu Ft Countertop Models
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Small Microwaves</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Five compact microwaves worth buying for a small kitchen, a dorm room or an RV, and the input-watt math that decides whether one will run on your power station or generator.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#toshiba-em925a5a-microwave"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Jump to the Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#what-small-means" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. What Small Really Means</a>
+          <a href="#watts" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Cooking Watts vs Input Watts</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Five Picks</a>
+          <a href="#comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Comparison Table</a>
+          <a href="#inverter-microwaves" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Inverter Microwaves</a>
+          <a href="#power-station" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Power Station Sizing</a>
+          <a href="#generator" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Running on a Generator</a>
+          <a href="#rv-clearances" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. RV, Van and Dorm Fit</a>
+          <a href="#which-to-buy" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          A small microwave is the easiest appliance in the house to buy and the easiest to get wrong once it leaves the house. The number printed on the box is cooking power, not what it pulls from the wall, and that gap is the whole story when the outlet is a power station, an inverter or a camping generator.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="what-small-means" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. What Small Really Means in a Microwave
+          </h2>
+
+          <p>
+            Microwaves are sold by interior capacity in cubic feet, and the compact end of the market runs from about 0.6 to 0.9 cubic feet. A 0.7 cubic foot model is the classic dorm and office size: it fits a standard dinner plate on a turntable in the 10-inch range, reheats a mug of coffee or a bowl of soup without fuss, and sits on a counter about the width of a large toaster oven. A 0.9 cubic foot model adds enough room for a taller casserole dish or a bag of popcorn that does not scrape the ceiling, and it usually comes with a jump from 700 to 900 cooking watts.
+          </p>
+
+          <p>
+            The capacity number is only half of the fit question. Exterior width, depth and the swing of the door decide whether the thing actually goes where you want it. Compact models are generally somewhere between 17 and 20 inches wide and 13 to 16 inches deep, but those numbers vary by a couple of inches between brands at the same capacity, and a couple of inches is everything in an RV galley or a dorm shelf. Measure the space, subtract the ventilation clearance the manual asks for, and only then shop. We cover clearances properly later in this guide.
+          </p>
+
+          <p>
+            Smaller also means lower power, and that is not purely a downside. A 700-watt machine takes longer to heat a frozen dinner than a 1,100-watt family model, often by a minute or two, and package instructions are usually written for 1,000 watts or more. But a 700-watt microwave is also the one most likely to run on a mid-size portable power station or a small inverter generator. For anyone who cooks off-grid, in a camper or during outages, that trade is the reason to buy small in the first place.
+          </p>
+
+          <p>
+            There is one category we deliberately left out: the so-called portable microwave for a car. Most products sold under that phrase are actually heated lunch boxes, which warm food slowly through a heating plate and are not microwaves at all. True 12-volt microwaves have existed as niche products, but we could not find one currently in wide distribution that we were confident recommending. If what you need is a hot lunch in a truck cab, our guide to the <a href="/best-heated-lunch-box/">best heated lunch box</a> is the honest answer. If you want a real microwave in a vehicle, you need a 120-volt model, an inverter and a battery bank sized for it.
+          </p>
+
+          <p>
+            Finally, small does not mean cheap in the bad sense. The compact class is crowded with no-name units that look identical, and the differences show up in door latches, control panels and turntable motors after a year of use. Every pick here comes from a brand with long-running retail distribution, which matters when a turntable coupler or a glass tray breaks and you want a replacement part rather than a new microwave.
+          </p>
+        </div>
+
+        <div id="watts" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Cooking Watts vs Input Watts: The Number That Matters Off-Grid
+          </h2>
+
+          <p>
+            Every microwave has two power figures, and only one of them is on the front of the box. The headline number, 700 watts or 900 watts or 1,200 watts, is cooking power: the microwave energy delivered into the cavity. The second number is input power, what the appliance pulls from the outlet to make that cooking power. It is printed on the rating label inside the door frame or on the back, and in the manual's specification table. For a typical household microwave, input is roughly 1.5 times the cooking rating.
+          </p>
+
+          <p>
+            That ratio comes from the losses inside the machine. A conventional microwave runs a high-voltage transformer feeding a magnetron, and both the transformer and the magnetron give off a lot of heat, which is why there is a cooling fan running the whole time. Add the turntable motor and the interior light, and a 700-watt microwave commonly draws around 1,000 to 1,100 watts from the wall, a 900-watt model somewhere around 1,350 to 1,450 watts, and a 1,200-watt model in the 1,500 to 1,600 watt range. Always check your specific model's label, because some run a little higher or lower than the rule of thumb.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Size your power source to input watts, not cooking watts.</p>
+            <p class="text-gray-300 leading-relaxed m-0">A 1000W microwave in the sense people search for is usually a 1,000-watt cooking model that pulls roughly 1,500 watts from the outlet. Read the input figure on the rating label, then add headroom of at least 20 percent for the start-up surge and for an inverter that is running warm.</p>
+          </div>
+
+          <p>
+            There is also a start-up surge. Conventional transformer-based microwaves draw a brief inrush when the magnetron circuit energizes, and that spike is higher than the steady running figure. A power station or inverter that can hold the running load can still trip on the first second of every cooking cycle if its surge rating is thin. This is the single most common reason people report that a microwave works on one power station and fails on another with the same continuous rating.
+          </p>
+
+          <p>
+            Power level settings do not change the peak draw on a conventional microwave. At 50 percent, a non-inverter model cycles the magnetron fully on and fully off, so it hits the same full input wattage for part of each cycle. The average energy use drops, which helps a battery last longer, but the inverter or generator still has to handle the full draw every time the magnetron kicks in. Inverter microwaves behave differently, which is the subject of a later section.
+          </p>
+
+          <p>
+            Energy use, as opposed to power, is easier on a battery than people expect. A 700-watt microwave pulling about 1,050 watts for three minutes uses a little over 50 watt-hours, a small slice of a 1,000 watt-hour battery. The microwave is a heavy load but a short one. The problem is almost never capacity; it is whether the outlet can deliver the peak draw at all.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Five Small Microwaves Worth Buying
+          </h2>
+
+          <p>
+            These are mainstream countertop models from brands with real distribution and parts support, chosen for footprint, controls and how easy they are to power. We have not lab-tested these units; the specs below come from manufacturer listings, and the notes on reliability reflect what owners commonly report. Four are compact 0.7 to 0.9 cubic foot machines, and one is a larger inverter model included on purpose, because it shows what you gain and what you pay for when you step up.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} reviews)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Small Microwave Comparison Table
+          </h2>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Capacity</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Cooking watts</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Inverter</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Toshiba EM925A5A</td>
+                    <td class="px-4 py-4 text-gray-700">0.9 cu ft</td>
+                    <td class="px-4 py-4 text-gray-700">900W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Small kitchens, best all-rounder</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">BLACK+DECKER EM720CB7</td>
+                    <td class="px-4 py-4 text-gray-700">0.7 cu ft</td>
+                    <td class="px-4 py-4 text-gray-700">700W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Dorms, offices, power stations</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">GE JES1072SHSS</td>
+                    <td class="px-4 py-4 text-gray-700">0.7 cu ft</td>
+                    <td class="px-4 py-4 text-gray-700">700W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Stainless kitchens, simple controls</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Commercial Chef 0.7 Cu Ft</td>
+                    <td class="px-4 py-4 text-gray-700">0.7 cu ft</td>
+                    <td class="px-4 py-4 text-gray-700">700W</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                    <td class="px-4 py-4 text-gray-700">Lowest cost, occasional use</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Panasonic NN-SN65KB</td>
+                    <td class="px-4 py-4 text-gray-700">1.2 cu ft</td>
+                    <td class="px-4 py-4 text-gray-700">1,200W</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                    <td class="px-4 py-4 text-gray-700">Even reheating, larger counters</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The table makes the shape of this market plain. Three of the five are 700-watt, 0.7 cubic foot machines, and the honest truth is that they cook almost identically. The differences between them are in the control panel layout, the finish, the door and the brand's parts support, which is why we rank them on fit and usability rather than pretending one 700-watt magnetron is meaningfully better than another.
+          </p>
+
+          <p>
+            The Toshiba stands apart because it gives you 900 cooking watts in a body that is still compact, which closes most of the gap with full-size microwaves on cook times. The cost of that is an input draw in the 1,400-watt range, which pushes it out of reach of the smaller power stations and some 2,000-watt inverter generators on their running rating. If you will only ever plug in at home, that does not matter. If you camp or prep for outages, it might.
+          </p>
+
+          <p>
+            The Panasonic is the outlier on purpose. At 1.2 cubic feet it is not a small microwave, but it is the most widely sold inverter microwave in the US, and it is the right comparison point for anyone wondering whether inverter technology is worth the extra size and price. For dorms and RVs it is usually too big. For a small kitchen with a real counter, it can be the better buy.
+          </p>
+
+          <p>
+            Use the input watt column you build yourself, from the label, as the deciding column when the microwave is going anywhere near a battery. Cooking watts tell you how fast dinner heats; input watts tell you whether it heats at all.
+          </p>
+        </div>
+
+        <div id="inverter-microwaves" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Inverter Microwaves: What They Fix and What They Do Not
+          </h2>
+
+          <p>
+            An inverter microwave replaces the heavy transformer with an electronic power supply that can run the magnetron at partial output continuously. Panasonic has built its microwave line around this design for years. At 50 percent power, an inverter model actually delivers roughly half power the whole time, instead of blasting at full power for a few seconds and then shutting off. The practical result is more even reheating and defrosting: the edges of a frozen block do not cook while the middle stays icy, and leftovers reheat without the rubbery rim.
+          </p>
+
+          <p>
+            For off-grid use, the inverter design has a second benefit that gets less attention. Because the magnetron can run at reduced output, a lower power setting genuinely lowers the draw from the outlet rather than just averaging it out. On a power station that cannot handle full input, dropping an inverter microwave to a medium setting can bring the load within limits. A conventional microwave cannot do that, because every on-cycle hits full draw. Owners running inverter microwaves on battery systems commonly report this as the deciding advantage.
+          </p>
+
+          <p>
+            Do not confuse the microwave's inverter with the power inverter in your RV or truck. They are unrelated. The power inverter converts 12-volt battery power to 120-volt household power, and for any microwave it should be a pure sine wave unit. Modified sine wave inverters can make microwaves run hot, buzz, cook unevenly, or fail outright, and inverter microwaves with sensitive electronics are the least tolerant of a dirty waveform. Our guide to the <a href="/best-power-inverter/">best power inverter</a> covers sizing a pure sine unit for this kind of load.
+          </p>
+
+          <p>
+            What an inverter microwave does not fix is peak input at full power. The Panasonic NN-SN65KB at its 1,200-watt rating still draws in the 1,500-watt range at high power, more than any compact model on this list. And inverter microwaves in the compact size class are scarce in the US; most inverter models start around 1.2 cubic feet. If you need genuinely small and genuinely inverter, the choice narrows quickly, and you may have to accept one or the other.
+          </p>
+
+          <p>
+            Our view: if you mostly reheat coffee and leftovers at home, the inverter premium is not worth paying for a small microwave. If you defrost a lot, cook delicate food, or plan to run the microwave on a battery system where controlling peak draw matters, the inverter design earns its keep, and it is worth making counter space for it.
+          </p>
+        </div>
+
+        <div id="power-station" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Running a Small Microwave on a 1,000 to 1,800 Watt Power Station
+          </h2>
+
+          <p>
+            Portable power stations are where most people discover the cooking-watts trap. A station with a 1,000-watt continuous output looks like it should run a 700-watt microwave easily, but with an input draw around 1,000 to 1,100 watts and a start-up surge on top, it is right at the edge or over it. Some stations ride through, especially those with a generous surge rating, and some shut down every time the magnetron starts. A 1,000-watt station is the wrong buy if a microwave is on your list.
+          </p>
+
+          <p>
+            The comfortable range starts around 1,500 watts continuous for a 700-watt microwave and 1,800 watts or more for a 900-watt model. At that output, the station has headroom for the surge and is not running its inverter at the limit, which keeps the fan quieter and the electronics cooler. Most current 1,800-watt-class stations from the major brands have surge ratings well above their continuous figure, which is what you want. Our pillar guide to the <a href="/best-portable-power-station/">best portable power station</a> lists continuous and surge output for each pick, and that is the comparison to make.
+          </p>
+
+          <p>
+            Some stations offer a power-lifting or surge-boost mode that lets resistive loads like kettles run above the rated output by lowering voltage. That mode is designed for heating elements, not microwaves. A microwave's transformer and electronics need proper voltage, and running one on a voltage-lowered output can mean weak cooking or a fault. Leave those modes off for microwaves unless the station's manufacturer explicitly says otherwise.
+          </p>
+
+          <p>
+            Capacity is the easier half. A microwave is a brief load, so a 1,000 to 2,000 watt-hour battery handles a surprising amount of reheating. Ten three-minute sessions on a 700-watt model use roughly 500 watt-hours, give or take efficiency losses. If you plan to use the station for outages as well, our guide to <a href="/best-portable-power-station-for-home-backup/">power stations for home backup</a> covers how to size for a fridge, lights and a microwave together.
+          </p>
+
+          <p>
+            Plug the microwave directly into an AC outlet on the station, not through a power strip or a thin extension cord. Do not run it at the same time as another large load like a space heater or a coffee maker; total draw is what trips the station. And if the station has a separate 20-amp outlet or a higher-rated port, use that one for the microwave.
+          </p>
+        </div>
+
+        <div id="generator" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Running a Small Microwave on a Generator
+          </h2>
+
+          <p>
+            A 2,000-watt inverter generator is the classic camping and tailgating size, and it is a good match for a 700-watt microwave. These generators typically carry a running rating around 1,600 to 1,800 watts with the 2,000-watt figure being the peak, so a microwave drawing about 1,100 watts leaves room for a phone charger and a few lights. A 900-watt microwave at around 1,400 watts input is workable but tight; add a coffee maker or a small electric heater and the generator will overload. The picks in our <a href="/best-generator-for-camping/">best generator for camping</a> guide are sized with this in mind.
+          </p>
+
+          <p>
+            Use an inverter generator rather than an open-frame contractor unit when possible. Inverter generators produce cleaner power with steadier voltage and frequency, which microwaves and their electronic controls tolerate better. Many also have an economy mode that idles the engine down at light load. Economy mode can cause a hesitation when the microwave starts, and some owners turn it off for the minutes the microwave is running so the engine is already at speed when the load hits.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">SAFETY FIRST</p>
+            <p class="text-xl font-bold text-white mb-3">Generators run outside, always.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Never run a generator in a garage, under an awning, in a tent vestibule or inside an RV or truck bed cap, even with doors open. Carbon monoxide kills quickly and without warning. Keep the generator well away from windows, doors and vents, with the exhaust pointed away from where people are, and keep working carbon monoxide alarms in the RV or home.</p>
+          </div>
+
+          <p>
+            In an RV with a built-in generator, the microwave is often already on the generator circuit, and the limit is usually the generator's running rating and what else is on at the time. The rooftop air conditioner is the usual culprit when a microwave trips the breaker. Running the AC and the microwave together on a smaller onboard generator is often more than it can handle, and many RVers simply pause the AC for the few minutes the microwave runs. Our <a href="/best-rv-generator/">best RV generator</a> guide explains which sizes can carry both loads.
+          </p>
+
+          <p>
+            If you plan to power a home microwave from a generator during an outage, use heavy-duty outdoor extension cords run from the generator to the appliance, or a transfer switch or interlock installed by a licensed electrician and permitted where your local code requires it. Never backfeed a house through a dryer outlet or any other receptacle. It is illegal in most places, and it can energize the utility lines and kill a line worker.
+          </p>
+        </div>
+
+        <div id="rv-clearances" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Fitting a Small Microwave in an RV, Van or Dorm
+          </h2>
+
+          <p>
+            Countertop microwaves need air. The cooling fan pulls air in and pushes it out through vents on the sides, top or back, and the manual for each model specifies minimum clearances around the cabinet. Those numbers vary by model, commonly a few inches on the top and sides and at least an inch or so behind, and they are not suggestions. A microwave tucked into a tight cabinet with no airflow overheats, trips its thermal cutoff, and has a shorter life. Read the clearance table in your specific model's manual before you build around it.
+          </p>
+
+          <p>
+            RV factory microwaves are often over-the-range or built-in units with trim kits designed for the cabinet opening. Replacing one with a countertop model sounds easy and often is not, because the opening is sized for a different body and may not provide the airflow a countertop unit expects. If you are replacing a built-in RV microwave, start with the RV manufacturer's or the original microwave maker's replacement and trim kit, or have an RV technician confirm a countertop model will fit with its stated clearances.
+          </p>
+
+          <p>
+            A countertop microwave in a moving vehicle needs to be secured. A 25-pound box on a counter becomes a projectile in a hard stop, and the glass turntable tray should come out and be packed for travel. Owners use strap kits, L-brackets screwed into the counter or a shelf with a lip, but whatever you choose should not block the vents. The microwave also needs its own 120-volt outlet sized for the load; in an RV, that means a dedicated circuit or one you know is not shared with the air conditioner, and on shore power, adequate amperage at the pedestal. Our <a href="/best-rv-power-adapter/">RV power adapter</a> guide covers what happens when you plug a 30-amp rig into a 15-amp outlet.
+          </p>
+
+          <p>
+            In a van or truck running off a battery bank and inverter, a 700-watt microwave pulling around 1,050 watts at 120 volts asks roughly 90 to 100 amps or more from a 12-volt battery once inverter losses are included. That requires properly sized cable, fusing and a battery able to deliver that current. A lithium bank handles it far better than lead-acid; see our <a href="/best-lithium-rv-battery/">lithium RV battery</a> guide. This is not a cigarette-lighter project, and if you are not comfortable with DC wiring and fuse sizing, have an RV or marine electrician install it.
+          </p>
+
+          <p>
+            Dorms are simpler but have their own rules. Many colleges restrict microwave wattage or capacity, or ban personal microwaves in favor of a shared one or a microwave-fridge combo unit. Check the housing policy before you buy. Plug the microwave directly into a wall outlet, not into a power strip with a fridge, laptop and space heater on it, and do not share a circuit with another heating appliance if the breaker keeps tripping.
+          </p>
+        </div>
+
+        <div id="which-to-buy" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Which Small Microwave Should You Buy?
+          </h2>
+
+          <p>
+            <strong>For most small kitchens and apartments,</strong> buy the Toshiba EM925A5A. It gives you 900 cooking watts in a compact body, which means cook times close to a full-size microwave, and its control panel is straightforward. The only reason to pass is if it will run on a power station under 1,800 watts or a 2,000-watt generator with other loads; then step down to 700 watts.
+          </p>
+
+          <p>
+            <strong>For a dorm, an office or anything powered by a battery,</strong> buy the BLACK+DECKER EM720CB7. Its 700-watt rating keeps input draw around the 1,000-watt range, the footprint is one of the smallest in its class, and it has simple controls that anyone can use. It is the most sensible microwave to pair with a 1,500-watt-class power station or a 2,000-watt inverter generator. If you prefer a stainless finish to match appliances, the GE JES1072SHSS is the same idea with a different look.
+          </p>
+
+          <p>
+            <strong>For occasional use on the lowest budget,</strong> the Commercial Chef 0.7 cubic foot model does the job: it heats food, it is light enough to move around, and its controls are clear. It is the right buy for a garage, a workshop or a cabin where it gets used a few times a month, not the right buy as the only microwave in a busy household.
+          </p>
+
+          <p>
+            <strong>For the best reheating results and a counter with room to spare,</strong> the Panasonic NN-SN65KB is the upgrade. Its inverter design genuinely improves defrosting and reheating, and on a battery system a lower power setting genuinely lowers the draw. It is not small and it needs a big power source at full power, so it fits kitchens and large RVs rather than dorms and vans.
+          </p>
+
+          <p>
+            Whichever you choose, read the input watt figure on the rating label before it goes anywhere near a power station, inverter or generator, and size the power source to that number with headroom. That one habit prevents nearly every off-grid microwave problem we hear about.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Sizing the power source to cooking watts</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The number on the front of the microwave is cooking power. Input draw is roughly 1.5 times higher, so a 700-watt model pulls about 1,000 to 1,100 watts and a 1,000-watt model around 1,500. Read the rating label and size the power station, inverter or generator to that input figure, plus headroom for start-up surge.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running it on a modified sine wave inverter</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Microwaves, and inverter microwaves in particular, expect a clean sine wave. On a cheap modified sine wave inverter they can buzz, run hot, cook poorly or fail. In a truck, van or RV running off a battery bank, the inverter feeding it should be a pure sine wave unit sized well above the microwave's input draw.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Boxing it into a cabinet with no airflow</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Every countertop microwave needs the clearances listed in its manual on the top, sides and back so the cooling fan can move air. Tucking one into a tight RV cabinet or a bookshelf without that space leads to overheating, nuisance shutdowns and a shorter life. Measure the space and subtract the clearances before choosing a model.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Running a generator too close to the RV or house</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A generator powering a microwave belongs outdoors, well away from windows, doors and vents, with the exhaust pointed away from people. Never run it in a garage, under an awning or inside a truck cap. Carbon monoxide builds up fast and without warning, so keep working carbon monoxide alarms wherever people are sleeping.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Stacking the microwave with other big loads</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A power station or small generator that runs the microwave alone may trip when the coffee maker, space heater or RV air conditioner is running too. Total draw is what counts. Run the microwave by itself for its few minutes, then switch the other loads back on, and plug it directly into the source rather than a crowded power strip.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What size microwave counts as small?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Compact microwaves generally run from about 0.6 to 0.9 cubic feet. A 0.7 cubic foot model is the classic dorm and office size and usually has 700 cooking watts, while a 0.9 cubic foot model is a bit larger and usually rated around 900 watts. Exterior dimensions vary by brand, so measure your space and check the clearances in the manual before buying.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How many watts does a 1000W microwave actually use?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A microwave rated at 1,000 cooking watts typically draws around 1,500 watts from the outlet, because the transformer and magnetron lose a lot of energy as heat. The exact figure is on the rating label inside the door or on the back. Size any power station, inverter or generator to that input number, with at least 20 percent headroom.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a 1,000 watt power station run a small microwave?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Usually not reliably. A 700-watt microwave draws around 1,000 to 1,100 watts plus a start-up surge, which puts it at or above the limit of a 1,000-watt station. Some stations ride through and many shut down. A station rated around 1,500 watts continuous is the comfortable minimum for a 700-watt model, and 1,800 watts or more for a 900-watt model.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I run a microwave on a 2,000 watt inverter generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, a 700-watt microwave runs comfortably on a typical 2,000-watt inverter generator, whose running rating is usually around 1,600 to 1,800 watts. A 900-watt model is workable but leaves little room for other loads. Keep the generator outdoors, far from windows and doors, and turn off economy mode if the microwave hesitates when starting.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is there a portable microwave for a car?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Most products marketed as car microwaves are heated lunch boxes that warm food slowly through a heating plate. True 12-volt microwaves have existed but are rare, and we could not find one in wide distribution to recommend. A real microwave in a vehicle needs a 120-volt model, a pure sine wave inverter, heavy cabling and a battery bank able to supply around 100 amps at 12 volts.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are inverter microwaves worth it?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For even reheating and defrosting, yes. An inverter microwave runs at genuinely reduced power on lower settings, so food heats more evenly. On a battery system, lower settings also genuinely reduce draw. The catch is size and price: most inverter models start around 1.2 cubic feet, so they are hard to fit in dorms and vans. For basic reheating, a conventional compact is fine.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What do I need to know about microwaves in an RV?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Check whether your RV microwave is a built-in or over-the-range unit with a trim kit, because swapping in a countertop model often needs a different opening and airflow. Secure any countertop model for travel and remove the glass tray. Make sure the outlet and circuit can carry the input draw, and avoid running it with the air conditioner on a small generator.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power and Off-Grid Kitchen Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Pillar Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Compare continuous and surge output before you plug in a microwave.</p>
+            </a>
+            <a href="/best-generator-for-camping/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Generators for Camping</h3>
+              <p class="text-gray-500 text-sm mt-2">Quiet inverter generators sized for a small microwave and a few lights.</p>
+            </a>
+            <a href="/best-heated-lunch-box/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Heated Lunch Boxes</h3>
+              <p class="text-gray-500 text-sm mt-2">The honest alternative to a car microwave: slow, low-power food warmers.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For a small kitchen on household power, the Toshiba EM925A5A gives you near full-size speed in a compact body. For anything that runs on a battery or a camping generator, the 700-watt BLACK+DECKER EM720CB7 or GE JES1072SHSS is the easier machine to power, and the Panasonic NN-SN65KB is the upgrade if even reheating matters and you have room.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whatever you buy, read the input watts on the label, size the power source to that number with headroom, keep generators outside, and give the microwave the airflow its manual asks for.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

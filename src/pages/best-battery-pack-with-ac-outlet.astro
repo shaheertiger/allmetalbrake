@@ -1,0 +1,940 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Station for Camping",
+    "url": "/best-portable-power-station-for-camping/"
+  },
+  {
+    "title": "Best Power Inverter",
+    "url": "/best-power-inverter/"
+  },
+  {
+    "title": "Best Portable Solar Panel",
+    "url": "/best-portable-solar-panel/"
+  },
+  {
+    "title": "Best Charging Station",
+    "url": "/best-charging-station/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Battery Packs With an AC Outlet: What 300 Watts Really Runs";
+const description =
+  "Six battery packs with a real AC outlet, sized by what 300 to 600 watts actually runs, with pure sine, surge, inverter idle draw and airline limits explained.";
+
+const PRODUCTS = [
+  {
+    "id": "anker-solix-c300x",
+    "name": "Anker SOLIX C300X Portable Power Station",
+    "category": "288Wh LiFePO4, 300W pure sine AC",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "300W pure sine inverter with 600W surge",
+      "LiFePO4 chemistry rated for thousands of cycles",
+      "Strong USB-C output for laptops alongside AC",
+      "Compact enough to carry in one hand",
+      "Solar, car and wall charging"
+    ],
+    "cons": [
+      "300W is the limit; no heating appliances",
+      "Not allowed on passenger flights at 288Wh"
+    ],
+    "bottomLine": "The best all-round portable outlet for laptops, CPAPs, fans and routers.",
+    "description": "Anker's SOLIX C300X is the sensible middle of this category. Anker lists it at 288 watt-hours of lithium iron phosphate capacity with a 300-watt pure sine wave AC inverter and 600 watts of surge, which covers a CPAP without its humidifier, a laptop brick, a box fan, a router or a small TV, and can start many small motors. What sets it apart from the other 300-watt packs is the USB-C side: it is built to charge a laptop at high wattage directly over USB-C, which skips inverter losses and leaves the AC outlet free for something that only takes a plug. LiFePO4 chemistry is rated for far more charge cycles than older lithium-ion packs, so it tolerates being used every weekend and kept ready for outages. It recharges from the wall, a car socket or a solar panel. The limits are the ones every pack this size shares: nothing with a heating element, and it is too large to fly."
+  },
+  {
+    "id": "ecoflow-river-3",
+    "name": "EcoFlow River 3 Portable Power Station",
+    "category": "245Wh LiFePO4, 300W pure sine AC, X-Boost",
+    "badge": "Lightest Pick",
+    "amazonUrl": "",
+    "pros": [
+      "Smallest and lightest pick in this guide",
+      "300W pure sine inverter",
+      "X-Boost runs some resistive loads at reduced voltage",
+      "Fast switchover for desk and router backup",
+      "Quick wall recharge"
+    ],
+    "cons": [
+      "Smallest battery of the six",
+      "X-Boost does not help motors or electronics",
+      "Fewer outlets than larger models"
+    ],
+    "bottomLine": "The one to grab when weight and size matter more than capacity.",
+    "description": "The EcoFlow River 3 is the lightest way into a real AC outlet in this list. EcoFlow lists it at 245 watt-hours of LiFePO4 capacity with a 300-watt pure sine inverter, plus its X-Boost mode, which lets resistive loads up to 600 watts run at reduced voltage. That makes a small hair dryer or kettle possible in a pinch, but slower and weaker, and it does nothing for motors or electronics, so treat 300 watts as the real rating. EcoFlow also promotes a fast switchover for UPS-style use, which suits a modem, router or desk lamp that should keep running when the wall power drops. It recharges quickly from the wall and accepts solar and car input. The trade-off for the small size is capacity: 245 watt-hours is the smallest battery here, so for an overnight CPAP or a long day of fan use, one of the 280-plus watt-hour packs gives more margin."
+  },
+  {
+    "id": "jackery-explorer-300-plus",
+    "name": "Jackery Explorer 300 Plus Portable Power Station",
+    "category": "288Wh LiFePO4, 300W pure sine AC",
+    "badge": "Best for Jackery Solar",
+    "amazonUrl": "",
+    "pros": [
+      "288Wh LiFePO4 battery",
+      "300W pure sine inverter with 600W surge",
+      "App control and charge settings",
+      "Pairs with Jackery SolarSaga panels",
+      "Light for its capacity"
+    ],
+    "cons": [
+      "Same 300W ceiling as the cheaper picks",
+      "Fewer AC outlets than the bigger stations"
+    ],
+    "bottomLine": "A solid 300-watt pack that makes most sense if you already use Jackery panels.",
+    "description": "Jackery's Explorer 300 Plus matches the Anker on the headline numbers: Jackery lists 288 watt-hours of LiFePO4 capacity and a 300-watt pure sine wave inverter with 600 watts of surge. It is notably light for that capacity, and the app lets you check output and adjust charging behavior from your phone, which is handy when the pack is across a campsite or in another room running a fan. Its strongest argument is the ecosystem. Jackery's SolarSaga panels plug straight in, and if you already own one, the 300 Plus is the easiest way to turn it into a portable outlet that recharges itself on a sunny day. On the loads that matter in this class, CPAPs without humidifiers, laptop chargers, fans, routers and small TVs, it behaves like the other 300-watt picks. Choose it for the Jackery solar fit rather than for any advantage in raw output."
+  },
+  {
+    "id": "bluetti-eb3a",
+    "name": "Bluetti EB3A Portable Power Station",
+    "category": "268Wh LiFePO4, 600W pure sine AC, Power Lifting",
+    "badge": "Most AC Watts",
+    "amazonUrl": "",
+    "pros": [
+      "600W continuous pure sine inverter",
+      "Power Lifting to 1,200W for resistive loads",
+      "LiFePO4 chemistry",
+      "UPS function for desk and router backup",
+      "Often priced close to 300W rivals"
+    ],
+    "cons": [
+      "Heavier than the 300W packs",
+      "Power Lifting runs heaters at reduced voltage",
+      "Smaller battery than its inverter suggests"
+    ],
+    "bottomLine": "Twice the AC watts of the 300-watt packs in a box that is still easy to carry.",
+    "description": "The Bluetti EB3A is the pick for people whose problem is watts rather than watt-hours. Bluetti lists it at 268 watt-hours of LiFePO4 capacity with a 600-watt continuous pure sine inverter, double the output of most packs this size, and a Power Lifting mode that runs resistive loads up to 1,200 watts at reduced voltage. The 600-watt rating means a laptop, a small TV and a fan together, or a single 400 to 500-watt load such as a small power tool charger bank or a larger monitor setup, all at full voltage. It also includes a UPS function for keeping a router or desk setup running through a short outage. The catch is the ratio: 600 watts drains a 268 watt-hour battery in well under an hour, so the bigger inverter is for headroom and short jobs rather than long runtimes. It is a little heavier than the 300-watt picks, and Power Lifting is not a way to run a real hair dryer properly."
+  },
+  {
+    "id": "ecoflow-river-3-plus",
+    "name": "EcoFlow River 3 Plus Portable Power Station",
+    "category": "286Wh LiFePO4, 600W pure sine AC, expandable",
+    "badge": "Best Expandable",
+    "amazonUrl": "",
+    "pros": [
+      "600W continuous pure sine inverter",
+      "X-Boost to 1,200W for resistive loads",
+      "Optional add-on battery for more capacity",
+      "LiFePO4 chemistry",
+      "Fast switchover for backup use"
+    ],
+    "cons": [
+      "Costs more than the 300W picks",
+      "Add-on battery adds weight and cost"
+    ],
+    "bottomLine": "The 600-watt portable outlet that can grow if your needs do.",
+    "description": "The EcoFlow River 3 Plus takes the River 3 formula and doubles the inverter. EcoFlow lists it at 286 watt-hours of LiFePO4 capacity with a 600-watt pure sine inverter and X-Boost for resistive loads up to 1,200 watts at reduced voltage. That puts it alongside the Bluetti EB3A as one of two picks here that can genuinely run a 400 to 500-watt load at full voltage. Its advantage over the EB3A is expandability: EcoFlow sells an add-on battery that snaps on to increase capacity, so a pack bought for weekend use can be stretched later for longer outages without buying a second station. It also supports fast switchover for desk and router backup and recharges quickly from the wall, car or solar. It costs more than the 300-watt picks, and with the extra battery fitted it becomes heavier, but for buyers unsure how much they will need it is the most flexible small pack in this list."
+  },
+  {
+    "id": "jackery-explorer-240-v2",
+    "name": "Jackery Explorer 240 v2 Portable Power Station",
+    "category": "256Wh LiFePO4, 300W pure sine AC",
+    "badge": "Best Budget",
+    "amazonUrl": "",
+    "pros": [
+      "300W pure sine inverter with 600W surge",
+      "LiFePO4 battery",
+      "Simple, compact design",
+      "Often among the cheapest LiFePO4 packs with AC",
+      "Solar and car charging"
+    ],
+    "cons": [
+      "Less capacity than the 288Wh picks",
+      "Fewer outputs than the 300 Plus"
+    ],
+    "bottomLine": "A straightforward 300-watt outlet for people who want the basics done right.",
+    "description": "The Jackery Explorer 240 v2 is the plain, affordable version of a battery pack with an AC outlet. Jackery lists it at 256 watt-hours of LiFePO4 capacity with a 300-watt pure sine wave inverter and 600 watts of surge, the same output class as the Anker C300X and the Jackery 300 Plus, in a simpler package with fewer extras. For the loads this category is good at, a CPAP without the humidifier, a laptop charger, a fan, a router or a camera and drone charging station, that is all you need. LiFePO4 chemistry means it tolerates years of use and storage better than older lithium-ion packs at a similar price. It recharges from the wall, a car socket or solar. The trade-offs are modest: a little less capacity than the 288 watt-hour picks and a smaller selection of USB ports. If you just want a reliable portable outlet for occasional outages and camping, it is the one to buy without overthinking it."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Battery Pack With AC Outlet",
+          item: "https://www.allmetalbrake.com/best-battery-pack-with-ac-outlet/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best battery pack with an AC outlet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most people, the Anker SOLIX C300X: 288 watt-hours of LiFePO4 with a 300-watt pure sine inverter and strong USB-C output, which covers laptops, CPAPs without humidifiers, fans, routers and small TVs. If you need more than 300 watts of AC, the Bluetti EB3A or EcoFlow River 3 Plus doubles the inverter to 600 watts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What can a 300-watt portable outlet run?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Laptop chargers, CPAP machines without heated humidifiers, box fans, modems and routers, LED TVs, LED lights, camera and drone chargers and most cordless tool battery chargers. It will not run hair dryers, coffee makers, kettles, toasters, microwaves or space heaters, which draw 600 to 1,500 watts. Motors and compressors depend on their startup surge."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a battery pack with an outlet run a mini fridge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sometimes, briefly. A small fridge might run at 50 to 100 watts but spikes on compressor startup, and a 600-watt surge rating may or may not cover it. Even when it starts, a pack under 300 watt-hours will only run it for a few hours. For refrigeration through an outage, a station of 1,000 watt-hours or more is the realistic choice."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I take a battery pack with an AC outlet on a plane?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not one of the picks here. FAA rules allow spare lithium batteries up to 100 watt-hours in carry-on bags, 101 to 160 watt-hours with airline approval, and nothing above 160 watt-hours on passenger aircraft. These packs are 245 to 288 watt-hours. For flights, use a USB-C power bank under 100 watt-hours and check with your airline."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe to use a battery pack indoors?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Battery packs produce no exhaust, so they are safe in a bedroom, office or tent, unlike any fuel-burning generator, which must only run outdoors well away from the house. Keep the vents clear, do not cover the pack while charging, and keep it away from water. Never connect it to house wiring through a wall outlet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my pack die faster than the watt-hours suggest?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The inverter loses energy converting DC to AC and draws power just by being on. At light loads such as a router or a CPAP, that overhead can take a large share of the battery. Budget about 80 to 85 percent of rated capacity for AC loads, and use USB-C or the 12-volt output whenever the device allows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a power bank with an AC outlet better than a power station?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They are the same idea at different sizes. A small pack around 250 to 300 watt-hours is light enough to carry anywhere and handles one or two small AC devices. A larger station adds capacity and inverter output for fridges, longer outages and bigger loads, at several times the weight and cost. Buy the smallest size that covers your largest load."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "battery pack with ac outlet",
+      "battery pack with outlet",
+      "portable power outlet",
+      "electrical outlet portable",
+      "portable power with outlet",
+      "battery powered outlets",
+      "portable power pack",
+      "plug in battery pack"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Battery Packs With an AC Outlet</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A portable outlet is only useful if it runs the thing you plug into it. Six small battery packs with a real household outlet, sized by what 300 to 600 watts of AC can and cannot power.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#anker-solix-c300x"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            See What It Runs
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#what-it-runs" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. What 300 Watts Runs</a>
+          <a href="#at-a-glance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Comparison Table</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Six Picks</a>
+          <a href="#pure-sine" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Pure Sine Wave</a>
+          <a href="#surge" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Surge and Boost Modes</a>
+          <a href="#idle-draw" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Inverter Idle Draw</a>
+          <a href="#runtime" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Runtime Math</a>
+          <a href="#airline" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Airline Limits</a>
+          <a href="#safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Using One Safely</a>
+          <a href="#which-one" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Almost every small battery pack with an AC outlet is sold on its watt-hours. The number that decides whether it works for you is the inverter rating, and the number nobody prints on the box is how much power that inverter burns just being switched on.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="what-it-runs" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. What 100 to 300 Watts of AC Actually Runs
+          </h2>
+
+          <p>
+            A battery pack with an AC outlet is a small lithium battery, a charge controller and an inverter in one box. The inverter is what turns the battery's low-voltage DC into the 120-volt AC that comes out of a wall socket, and its continuous rating is the hard ceiling on what you can plug in. In this size class that ceiling is usually 300 watts, with a few models reaching 600. Everything in this guide is about living inside that number.
+          </p>
+
+          <p>
+            Three hundred watts covers more than people expect. A laptop charger draws somewhere between 45 and 100 watts while charging and less once the battery is full. A CPAP without its heated humidifier typically pulls 30 to 60 watts. A cable modem and Wi-Fi router together often sit around 15 to 30 watts. A 40-inch LED TV, a box fan, a string of LED lights, a camera battery charger, a drone charger and most cordless tool battery chargers all land comfortably under 150 watts. Run two or three of those at once and you are still inside a 300-watt inverter.
+          </p>
+
+          <p>
+            What it will not run is anything that makes heat with a resistive element. A hair dryer, a coffee maker, a toaster, a kettle, a space heater, an electric blanket on high, a curling iron and a microwave all draw somewhere between 600 and 1,500 watts. Plug one into a 300-watt pack and the inverter shuts off within a second, which is the protection doing its job. If heating or cooking is the point, you need a much larger station from our <a href="/best-portable-power-station/">portable power station guide</a>, and even then the battery empties quickly.
+          </p>
+
+          <p>
+            The awkward middle is motors and compressors. A mini fridge or small 12-volt-style cooler might run at 50 to 100 watts but draw several times that for a fraction of a second when the compressor starts. A small aquarium pump is easy; a sump pump is not. A blender, a shop vac and a circular saw are well beyond this class. Read the wattage on the appliance's label, and when the label lists amps, multiply by 120 to get a rough watt figure.
+          </p>
+
+          <p>
+            This is a different job from charging phones. If all you need is to top up phones and tablets during a blackout, a USB power bank is lighter and cheaper, and our guide to the <a href="/best-portable-chargers-for-power-outages/">best portable chargers for power outages</a> covers that. You buy a battery pack with an outlet because something you own only takes a plug: a CPAP, a laptop brick, a fan, a TV, a router, a medical or hobby device that was never designed to run on USB.
+          </p>
+        </div>
+
+        <div id="at-a-glance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Comparison Table
+          </h2>
+
+          <p>
+            The six packs below are all lithium iron phosphate (LiFePO4) designs with pure sine wave inverters. That narrows the field deliberately: older lithium-ion packs and modified-sine inverters are still sold, but they wear out faster and cause problems with some of the devices people most want to run. The table is built from each maker's published specifications.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Capacity</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">AC continuous</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Boost / surge</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Chemistry</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker SOLIX C300X</td>
+                    <td class="px-4 py-4 text-gray-700">288Wh</td>
+                    <td class="px-4 py-4 text-gray-700">300W</td>
+                    <td class="px-4 py-4 text-gray-700">600W surge</td>
+                    <td class="px-4 py-4 text-gray-700">LiFePO4</td>
+                    <td class="px-4 py-4 text-gray-700">Best all-rounder, strong USB-C</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">EcoFlow River 3</td>
+                    <td class="px-4 py-4 text-gray-700">245Wh</td>
+                    <td class="px-4 py-4 text-gray-700">300W</td>
+                    <td class="px-4 py-4 text-gray-700">X-Boost to 600W (resistive)</td>
+                    <td class="px-4 py-4 text-gray-700">LiFePO4</td>
+                    <td class="px-4 py-4 text-gray-700">Smallest and lightest</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Jackery Explorer 300 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">288Wh</td>
+                    <td class="px-4 py-4 text-gray-700">300W</td>
+                    <td class="px-4 py-4 text-gray-700">600W surge</td>
+                    <td class="px-4 py-4 text-gray-700">LiFePO4</td>
+                    <td class="px-4 py-4 text-gray-700">Jackery solar users</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Bluetti EB3A</td>
+                    <td class="px-4 py-4 text-gray-700">268Wh</td>
+                    <td class="px-4 py-4 text-gray-700">600W</td>
+                    <td class="px-4 py-4 text-gray-700">Power Lifting to 1,200W (resistive)</td>
+                    <td class="px-4 py-4 text-gray-700">LiFePO4</td>
+                    <td class="px-4 py-4 text-gray-700">Most AC watts in a small box</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">EcoFlow River 3 Plus</td>
+                    <td class="px-4 py-4 text-gray-700">286Wh</td>
+                    <td class="px-4 py-4 text-gray-700">600W</td>
+                    <td class="px-4 py-4 text-gray-700">X-Boost to 1,200W (resistive)</td>
+                    <td class="px-4 py-4 text-gray-700">LiFePO4</td>
+                    <td class="px-4 py-4 text-gray-700">Bigger loads, expandable</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Jackery Explorer 240 v2</td>
+                    <td class="px-4 py-4 text-gray-700">256Wh</td>
+                    <td class="px-4 py-4 text-gray-700">300W</td>
+                    <td class="px-4 py-4 text-gray-700">600W surge</td>
+                    <td class="px-4 py-4 text-gray-700">LiFePO4</td>
+                    <td class="px-4 py-4 text-gray-700">Simple budget pick</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two columns matter more than the rest. AC continuous is what you can run indefinitely until the battery is empty. Boost and surge figures are not the same thing, and the next sections explain why a 1,200-watt boost mode does not mean a 1,200-watt hair dryer will work properly.
+          </p>
+
+          <p>
+            Capacity in this class sits between roughly 245 and 290 watt-hours, which is the sweet spot for a pack you can carry in one hand. Go much higher and the weight climbs past what most people want to lug around; go lower and the inverter's own overhead eats a larger share of the battery. If you need several times this capacity, you have outgrown a portable outlet and want a full station.
+          </p>
+
+          <p>
+            Every model here also has USB-C and a 12-volt car socket. Use them whenever the device allows, because DC outputs skip the inverter and its losses entirely. The AC outlet is for the things that cannot be charged any other way.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Six Battery Packs With an AC Outlet
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications, not from hands-on testing. Capacity, inverter ratings and chemistry come from the makers' listings; real runtime depends on the load, the inverter's own draw and the temperature, so treat any runtime figure as an estimate and check the maker's current spec sheet before you buy.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="pure-sine" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Pure Sine Wave and Why Cheap Inverters Fail
+          </h2>
+
+          <p>
+            The power from a wall outlet is a smooth sine wave. A pure sine inverter recreates that shape closely. A modified sine inverter, still common in cheap no-name packs and some car inverters, approximates it with a stepped square wave. For a phone charger or an incandescent bulb, the difference rarely matters. For several of the loads people buy these packs to run, it matters a lot.
+          </p>
+
+          <p>
+            CPAP machines, laptop power supplies with active power factor correction, variable-speed fans, some battery chargers, audio gear and anything with a small AC motor can misbehave on modified sine. The symptoms range from a buzzing hum and extra heat to a device that refuses to start, chargers that run hot or never finish, and, in the worst case, a shortened life for the device. CPAP makers in particular generally recommend pure sine power for battery backup.
+          </p>
+
+          <p>
+            Every pick in this guide uses a pure sine inverter, and that is the single most important filter if you are shopping beyond this list. Look for the phrase pure sine wave in the specification, not sine wave output or clean power, and be suspicious of any AC power bank that does not say which waveform it produces. Our <a href="/best-power-inverter/">power inverter guide</a> goes deeper on the waveform question for vehicle setups.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">If the listing does not say pure sine wave, assume it is not.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Makers of pure sine packs advertise it because it costs more to build. A battery pack that hides its waveform is almost always modified sine, and modified sine is the wrong choice for CPAPs, laptop bricks and motors.</p>
+          </div>
+
+          <p>
+            Pure sine also helps with efficiency on some loads, because the device's own power supply is not fighting a distorted input. That does not make the inverter lossless. Converting battery DC to 120-volt AC typically costs somewhere around 10 to 15 percent of the energy in a good small inverter, which is one reason to use DC outputs whenever you have the choice.
+          </p>
+        </div>
+
+        <div id="surge" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Surge, Boost Modes and Motor Loads
+          </h2>
+
+          <p>
+            Two very different features hide behind the big second number on a spec sheet. One is surge capacity: the inverter's ability to deliver more than its continuous rating for a fraction of a second while a motor or compressor spins up. The other is a reduced-voltage boost mode, which EcoFlow calls X-Boost and Bluetti calls Power Lifting, that lets a high-wattage resistive load run by feeding it lower voltage than normal.
+          </p>
+
+          <p>
+            Surge is the one that matters for motors. A small fridge, a fan, a pump or a CPAP blower draws a short spike well above its running wattage when it starts. A 300-watt inverter with a 600-watt surge rating can often start a device that runs at 80 watts but spikes to 400 for an instant. Whether it actually does depends on the specific motor, and manufacturers do not publish starting current for most small appliances, so treat compressor loads as something to try at home before you depend on them.
+          </p>
+
+          <p>
+            Boost modes are a different trick. A 1,000-watt hair dryer fed reduced voltage will draw less power and the inverter will stay inside its limit, but the dryer runs cooler and weaker. A kettle takes longer to boil. That is useful for resistive heat in a pinch and useless for anything with electronics or a motor, which may not run properly at reduced voltage. The makers say as much in their own documentation: boost modes are for resistive loads only.
+          </p>
+
+          <p>
+            So when you compare the EcoFlow River 3 at 300 watts with X-Boost to 600, and the Bluetti EB3A at 600 watts with Power Lifting to 1,200, the meaningful comparison is the continuous figure: 300 versus 600. The EB3A and the River 3 Plus are the two picks in this list that can genuinely run a 400 to 500-watt load at full voltage.
+          </p>
+
+          <p>
+            A practical test before you need it: plug the device you care about into the pack at home, start it several times, and watch the display. If the output figure sits comfortably below the inverter rating after startup and it never trips, you have your answer. If it trips on start, a bigger inverter is the only fix; a bigger battery will not help.
+          </p>
+        </div>
+
+        <div id="idle-draw" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Inverter Idle Draw: The Hidden Tax
+          </h2>
+
+          <p>
+            An inverter uses power just by being on, even with nothing plugged in. In small portable stations, this no-load draw is commonly somewhere in the range of several watts to around 10 watts or more, depending on the model and settings. Manufacturers rarely publish it, and it is the main reason a pack never quite delivers the runtime its watt-hour figure implies at light loads.
+          </p>
+
+          <p>
+            At heavy loads the idle draw barely registers. At light loads it dominates. Run a 15-watt router from a 288-watt-hour pack and the inverter overhead can easily be a large fraction of the total draw, cutting runtime by a third or more compared with the simple watt-hours divided by watts calculation. That is the situation where USB-C or the 12-volt socket wins, because a router or modem can often run from DC through an inexpensive adapter cable.
+          </p>
+
+          <p>
+            Most packs also turn the AC output off automatically after a period with little or no load, to stop exactly this waste. That is good for battery life and bad for a CPAP at three in the morning if the machine drops to very low draw between breaths, or for a router that sits at a few watts. Check the app or settings for the AC auto-off timer, and turn it off when you need a low-draw device to keep running overnight.
+          </p>
+
+          <p>
+            The habit that saves the most energy is simple: switch the AC output off whenever you are not using it. The button is usually separate from the USB and DC buttons for exactly this reason. A pack left with AC on in a drawer can empty itself in a day or two without powering anything at all.
+          </p>
+        </div>
+
+        <div id="runtime" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Runtime Math in Watt-Hours
+          </h2>
+
+          <p>
+            The starting formula is capacity in watt-hours divided by load in watts. A 288-watt-hour pack running a 60-watt load lasts about 4.8 hours in theory. In practice, subtract inverter losses and idle draw, and leave the bottom of the battery alone for a cold start or a final phone charge. A realistic rule of thumb for AC loads is to use 80 to 85 percent of rated capacity before dividing.
+          </p>
+
+          <p>
+            Worked through for the common loads in this class: a CPAP without the humidifier at around 40 watts runs about five to six hours from a 288-watt-hour pack, which is usually one night but not two. A 60-watt laptop charging from empty refills a typical laptop battery three or four times. A 50-watt box fan runs a little over four hours. A 30-watt modem and router combination stays up for roughly seven or eight hours, more if you can power it from DC.
+          </p>
+
+          <p>
+            Heated humidifiers change the CPAP math completely. With humidification and a heated hose, many machines draw two or three times as much, and a pack this size may not last the night. If CPAP is the priority, turn off the humidifier during outages, use the maker's DC cable where one exists, or step up to a larger station sized for the job.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">Rough runtimes from a 288Wh pack (AC, estimates)</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">5-6 h</p>
+                <p class="text-gray-400 text-xs mt-1">CPAP, no humidifier (~40W)</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">4 h</p>
+                <p class="text-gray-400 text-xs mt-1">Box fan (~50W)</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">7-8 h</p>
+                <p class="text-gray-400 text-xs mt-1">Modem + router (~30W)</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">3-4</p>
+                <p class="text-gray-400 text-xs mt-1">Laptop recharges (~60W)</p>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            Recharging speed matters as much as capacity in a long outage. All six picks here can recharge from the wall in roughly an hour to a couple of hours, and all accept solar input. A small folding panel from our <a href="/best-portable-solar-panel/">portable solar panel guide</a> can put most of a battery this size back in over a sunny day, which turns a one-night pack into a multi-day one as long as the weather cooperates.
+          </p>
+        </div>
+
+        <div id="airline" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Airline Limits: Why None of These Fly
+          </h2>
+
+          <p>
+            The FAA rules for lithium batteries in passenger luggage are built around watt-hours. Spare batteries must go in carry-on bags, never checked. Packs up to 100 watt-hours are allowed without special permission. Packs between 101 and 160 watt-hours need airline approval and are limited to two per passenger. Anything above 160 watt-hours is not allowed on a passenger aircraft at all.
+          </p>
+
+          <p>
+            Every pick in this guide is between roughly 245 and 290 watt-hours, so none of them can go on a commercial flight in either checked or carry-on luggage. That is true of practically every battery pack with a useful AC outlet, because an inverter big enough to matter needs a battery big enough to feed it. Some airlines publish stricter rules than the FAA baseline, and international carriers follow their own regulators, so always check with the airline before you pack any lithium battery.
+          </p>
+
+          <p>
+            If you need power on a trip that involves flying, the realistic answer is a USB-C power bank under 100 watt-hours, which covers phones, tablets and any laptop that charges over USB-C. Our <a href="/best-laptop-power-bank/">laptop power bank guide</a> lists packs that clear the limit. For a CPAP, check whether the manufacturer sells an FAA-compliant battery designed for that machine; several do, and they are the only sensible choice in the air.
+          </p>
+
+          <p>
+            Driving is the opposite story. All of these packs travel happily in a car, and most can recharge from the vehicle's 12-volt socket on the way. That is where a battery pack with an outlet earns its keep: road trips, campsites, tailgates and job sites where the nearest wall socket is a long way away. For trips where you will be camped for several days, our <a href="/best-portable-power-station-for-camping/">camping power station guide</a> sizes up from here.
+          </p>
+        </div>
+
+        <div id="safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Using a Portable Outlet Safely
+          </h2>
+
+          <p>
+            Battery packs produce no exhaust, so unlike a gas generator they are safe to run indoors, in a bedroom or in a tent. Give them a little airflow around the vents, keep them off soft bedding, and do not cover them while charging, because both the charger and the inverter shed heat through a small fan.
+          </p>
+
+          <p>
+            Never connect a battery pack to your house wiring through a wall outlet. A so-called suicide cord, with a male plug on both ends, can energize the plug's exposed pins and can send power back out onto the utility line, which can injure or kill a line worker. The only safe way to feed household circuits from a backup source is through a transfer switch or interlock installed by a licensed electrician, which is the subject of our <a href="/best-generator-transfer-switch/">generator transfer switch guide</a>. A pack this small is not meant for that job anyway; run extension cords to the devices instead.
+          </p>
+
+          <p>
+            Use a proper indoor-rated extension cord or power strip if you need more outlets, and add up the wattage of everything plugged in. The pack will shut off when you overload it, but a cheap thin cord can run warm long before that point. Keep the pack and its cords away from water, and do not daisy-chain power strips.
+          </p>
+
+          <p>
+            Store the pack at partial charge in a cool, dry place if it will sit for months, and top it up every few months so it is ready when you need it. LiFePO4 holds its charge well and tolerates thousands of cycles, but no battery likes being stored hot and full. Check the maker's guidance on charging below freezing; lithium batteries of every type should not be charged when they are very cold.
+          </p>
+        </div>
+
+        <div id="which-one" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which One to Buy
+          </h2>
+
+          <p>
+            For most people who want a portable outlet that does a bit of everything, the <strong>Anker SOLIX C300X</strong> is the pick. It pairs 288 watt-hours of LiFePO4 with a 300-watt pure sine inverter and a strong USB-C side, so the laptop can charge over USB-C while the AC outlet runs the fan or router.
+          </p>
+
+          <p>
+            If weight and size come first, the <strong>EcoFlow River 3</strong> is the one to carry. It gives up a little capacity in exchange for a smaller box, and its fast switchover makes it a reasonable router or modem backup on the desk. If you already own a Jackery solar panel, the <strong>Jackery Explorer 300 Plus</strong> keeps you in one ecosystem; on a tighter budget, the <strong>Jackery Explorer 240 v2</strong> covers the same 300-watt loads with a little less battery.
+          </p>
+
+          <p>
+            If you need more AC watts than 300, skip straight to the <strong>Bluetti EB3A</strong> or the <strong>EcoFlow River 3 Plus</strong>. Both have 600-watt continuous inverters, which handles a small TV, a laptop and a fan at the same time, or a single load in the 400 to 500-watt range. The River 3 Plus is the better choice if you think you may want more capacity later, because EcoFlow sells an add-on battery for it.
+          </p>
+
+          <p>
+            And if what you really want to run is a fridge for a day, a microwave, a space heater or a well pump, none of these is the right tool. Step up to a 1,000-watt-hour-plus station from our <a href="/best-portable-power-station-for-home-backup/">home backup power station guide</a>, or a generator used outdoors, well away from the house. A battery pack with an outlet is a superb small tool, and it is at its best when you ask it to do small jobs.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying by watt-hours and ignoring the inverter</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Capacity tells you how long; the inverter rating tells you whether the device runs at all. A 300-watt inverter will not run a 900-watt coffee maker no matter how big the battery is. Check the wattage on the appliance's label against the continuous AC rating before anything else.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Choosing a modified sine pack for a CPAP or laptop</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Cheap AC power banks often use modified sine inverters and do not say so. CPAPs, laptop bricks with power factor correction, variable-speed fans and small motors can hum, run hot or refuse to start. Every pick here is pure sine; if a listing does not say pure sine, assume it is not.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Treating boost mode as real wattage</h3>
+              <p class="text-gray-700 text-sm m-0">
+                X-Boost and Power Lifting run resistive loads at reduced voltage, so a hair dryer runs cool and a kettle boils slowly. They do nothing for motors or electronics. Compare packs on continuous AC output, and treat the boost number as an emergency convenience rather than a rating.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Leaving the AC output switched on</h3>
+              <p class="text-gray-700 text-sm m-0">
+                An inverter draws power with nothing plugged in. Left on in a drawer, a small pack can drain itself in a day or two. Turn AC off whenever you are not using it, and use USB-C or the 12-volt socket for devices that can run on DC.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trying to plug the pack into the house</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Never use a cord with male plugs on both ends to feed a wall outlet. It can electrify exposed pins and send power back onto utility lines, endangering line workers. Run extension cords to devices instead, and have a licensed electrician install a transfer switch for any circuit-level backup.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best battery pack with an AC outlet?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most people, the Anker SOLIX C300X: 288 watt-hours of LiFePO4 with a 300-watt pure sine inverter and strong USB-C output, which covers laptops, CPAPs without humidifiers, fans, routers and small TVs. If you need more than 300 watts of AC, the Bluetti EB3A or EcoFlow River 3 Plus doubles the inverter to 600 watts.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What can a 300-watt portable outlet run?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Laptop chargers, CPAP machines without heated humidifiers, box fans, modems and routers, LED TVs, LED lights, camera and drone chargers and most cordless tool battery chargers. It will not run hair dryers, coffee makers, kettles, toasters, microwaves or space heaters, which draw 600 to 1,500 watts. Motors and compressors depend on their startup surge.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a battery pack with an outlet run a mini fridge?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Sometimes, briefly. A small fridge might run at 50 to 100 watts but spikes on compressor startup, and a 600-watt surge rating may or may not cover it. Even when it starts, a pack under 300 watt-hours will only run it for a few hours. For refrigeration through an outage, a station of 1,000 watt-hours or more is the realistic choice.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I take a battery pack with an AC outlet on a plane?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not one of the picks here. FAA rules allow spare lithium batteries up to 100 watt-hours in carry-on bags, 101 to 160 watt-hours with airline approval, and nothing above 160 watt-hours on passenger aircraft. These packs are 245 to 288 watt-hours. For flights, use a USB-C power bank under 100 watt-hours and check with your airline.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is it safe to use a battery pack indoors?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. Battery packs produce no exhaust, so they are safe in a bedroom, office or tent, unlike any fuel-burning generator, which must only run outdoors well away from the house. Keep the vents clear, do not cover the pack while charging, and keep it away from water. Never connect it to house wiring through a wall outlet.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Why does my pack die faster than the watt-hours suggest?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                The inverter loses energy converting DC to AC and draws power just by being on. At light loads such as a router or a CPAP, that overhead can take a large share of the battery. Budget about 80 to 85 percent of rated capacity for AC loads, and use USB-C or the 12-volt output whenever the device allows.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a power bank with an AC outlet better than a power station?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                They are the same idea at different sizes. A small pack around 250 to 300 watt-hours is light enough to carry anywhere and handles one or two small AC devices. A larger station adds capacity and inverter output for fridges, longer outages and bigger loads, at several times the weight and cost. Buy the smallest size that covers your largest load.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Portable Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Bigger stations ranked for outages, camping and CPAP use, with runtime math.</p>
+            </a>
+            <a href="/best-portable-chargers-for-power-outages/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Chargers for Power Outages</h3>
+              <p class="text-gray-500 text-sm mt-2">Power banks and stations sized for keeping phones and tablets charged.</p>
+            </a>
+            <a href="/best-laptop-power-bank/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Laptop Power Banks</h3>
+              <p class="text-gray-500 text-sm mt-2">High-output USB-C packs, including models light enough to fly with.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Buy a battery pack with an AC outlet by its continuous inverter rating, insist on pure sine, and remember the inverter costs energy just by being on. For most people that means the Anker SOLIX C300X; the EcoFlow River 3 if weight matters most; the Bluetti EB3A or EcoFlow River 3 Plus if 300 watts is not enough.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Use it for small jobs it does well: CPAPs, laptops, fans, routers and TVs. For fridges, heaters and whole-room loads, size up to a full power station, and never connect any portable battery to house wiring without a transfer switch installed by a licensed electrician.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

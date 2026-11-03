@@ -1,0 +1,939 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Home Generator for Power Outages",
+    "url": "/best-home-generator-for-power-outages/"
+  },
+  {
+    "title": "Best Gas Generator",
+    "url": "/best-gas-generator/"
+  },
+  {
+    "title": "Best Generator for Well Pump",
+    "url": "/best-generator-for-well-pump/"
+  },
+  {
+    "title": "Best Small Generator for Home",
+    "url": "/best-small-generator-for-home/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "Generator Transfer Switch Guide: Manual, Interlock and Inlet Picks";
+const description =
+  "Generator transfer switch picks for portables: manual switch kits, a furnace-only switch, inlet boxes and cords, plus interlock vs automatic and 30A vs 50A.";
+
+const PRODUCTS = [
+  {
+    "id": "reliance-31406crk",
+    "name": "Reliance Controls 31406CRK Pro/Tran Manual Transfer Switch Kit",
+    "category": "30A, 6 circuits, 120/240V, includes inlet box and cord",
+    "badge": "Best Overall Transfer Switch",
+    "amazonUrl": "",
+    "pros": [
+      "Six selectable circuits covers the essentials in most houses",
+      "Each circuit has its own Line/Off/Gen switch, so you cannot energize the utility lines by design",
+      "Kit format bundles the PB30 inlet box and a 30-amp cord",
+      "Pre-wired whip shortens the electrician's install time",
+      "Pairs with the most common portable generator outlet, the L14-30"
+    ],
+    "cons": [
+      "Six circuits fills up fast once 240-volt loads take two positions",
+      "30-amp ceiling rules out larger 50-amp generators",
+      "Still needs a licensed electrician and usually a permit"
+    ],
+    "bottomLine": "The default answer for a 5,000 to 7,500 watt portable generator with an L14-30 outlet and a short list of must-run circuits.",
+    "description": "The 31406CRK is the transfer switch most electricians reach for when a homeowner shows up with a portable generator and asks for a safe way to connect it. Reliance builds it as a small prewired panel that mounts beside your main breaker panel, with a flexible conduit whip that enters the panel through a knockout. Six chosen circuits are moved onto it, and each gets a three-position switch: Line, Off and Gen. Because every circuit is switched individually, power from the generator can only go to those circuits and never back out onto the utility lines. The CRK suffix means the kit version, which adds Reliance's PB30 outdoor power inlet box and a 30-amp generator cord, so you plug the generator into the outside wall rather than running cords through a window. It is rated for 30-amp, 120/240-volt generators with an L14-30 outlet. Six circuits is enough for a furnace, refrigerator, freezer, sump pump and a couple of lighting or outlet circuits in a typical home."
+  },
+  {
+    "id": "reliance-31410crk",
+    "name": "Reliance Controls 31410CRK Pro/Tran Manual Transfer Switch Kit",
+    "category": "30A, 10 circuits, 120/240V, includes inlet box and cord",
+    "badge": "Best for More Circuits",
+    "amazonUrl": "",
+    "pros": [
+      "Ten circuit positions leaves room for 240-volt loads like a well pump",
+      "Same per-circuit Line/Off/Gen switching as the six-circuit model",
+      "Kit includes the PB30 inlet box and a 30-amp cord",
+      "Lets you split loads across both legs of the generator more evenly",
+      "Worth the step up when the six-circuit list is already full"
+    ],
+    "cons": [
+      "More circuits does not mean more power; the generator is still the limit",
+      "Larger enclosure needs more wall space next to the panel",
+      "Easy to over-wire circuits you will never run at once"
+    ],
+    "bottomLine": "Buy it if your must-run list includes a 240-volt well pump or you simply have more than six essential circuits.",
+    "description": "The 31410CRK is the ten-circuit sibling of the 31406CRK, built the same way: a prewired switch panel that sits next to your main panel, a whip into the panel, and a separate Line/Off/Gen switch for every circuit you move across. The reason to pay more is not power. Both kits are 30-amp, 120/240-volt units, and your generator's running watts still decide how much you can run at once. The reason is positions. A 240-volt load such as a well pump uses two of them, and once you add a furnace, refrigerator, freezer, sump pump, kitchen outlets and some lighting, six positions are gone before you get to the home office or the garage door opener. Ten positions also give you more freedom to balance 120-volt loads across the two legs of the generator, which keeps one side from overloading while the other loafs. Like the six-circuit kit, the CRK version adds the PB30 inlet box and a 30-amp cord."
+  },
+  {
+    "id": "reliance-tf151w",
+    "name": "Reliance Controls TF151W Furnace Transfer Switch",
+    "category": "15A, single circuit, 120V, mounts at the furnace",
+    "badge": "Best Transfer Switch for Furnace",
+    "amazonUrl": "",
+    "pros": [
+      "Purpose-built for one job: running a gas or oil furnace on a generator",
+      "Mounts at the furnace instead of at the main panel",
+      "Simple switch between utility and generator power",
+      "Far less money and labor than a whole panel switch",
+      "Works with smaller generators and inverter generators"
+    ],
+    "cons": [
+      "Only powers one 15-amp, 120-volt circuit",
+      "Your refrigerator, sump pump and lights still need another plan",
+      "Some furnaces are fussy about generator power quality and grounding"
+    ],
+    "bottomLine": "The cheapest legitimate way to keep the heat on in an outage if the furnace is the only thing you truly need.",
+    "description": "In cold climates the most important load in an outage is usually the gas or oil furnace, which needs only a few hundred watts for its blower, inducer and controls but needs it hardwired. The TF151W exists for exactly that. It is a single-circuit, 15-amp, 120-volt transfer switch that replaces or sits beside the furnace's service switch, so the furnace can run either from its normal circuit or from a generator connected to the switch. There is no need to move circuits at the main panel and no need for a 240-volt generator, which makes it a good match for a small inverter generator. That is also its limit: it powers the furnace and nothing else. If you also want the refrigerator, freezer and sump pump, a six-circuit switch like the 31406CRK covers the furnace and those loads together, and costs less than buying several single-circuit switches. Have an electrician confirm it suits your furnace and local code."
+  },
+  {
+    "id": "reliance-pb30",
+    "name": "Reliance Controls PB30 Power Inlet Box",
+    "category": "30A, L14-30 inlet, outdoor enclosure",
+    "badge": "Best 30-Amp Generator Inlet Box",
+    "amazonUrl": "",
+    "pros": [
+      "Lets the generator plug in at an outside wall, not through a window",
+      "Standard L14-30 inlet matches most mid-size portables",
+      "Weatherproof enclosure with a hinged cover",
+      "Works with manual transfer switches and listed interlock kits alike",
+      "Same box the Reliance CRK kits include"
+    ],
+    "cons": [
+      "Only half of the system; it does nothing without a switch or interlock",
+      "Buy it separately only if your switch kit does not already include one",
+      "Needs wiring back to the switch by an electrician"
+    ],
+    "bottomLine": "The inlet to buy for a 30-amp setup, especially if you are installing an interlock rather than a Reliance kit.",
+    "description": "A power inlet box is the part of a generator hookup that lives outside: a weatherproof box on the wall with a male inlet where the generator cord plugs in. The PB30 is Reliance's 30-amp version, with an L14-30 inlet that mates with the matching connector on a standard 30-amp, four-wire generator cord. Inside the house it is wired to either a manual transfer switch or, with an interlock kit, a dedicated generator breaker in the main panel. If you buy a Reliance CRK kit you already have one, so do not buy it twice. Where it earns its own place in this list is the interlock route: interlock kits supply the panel hardware, not the inlet, so you need an inlet box regardless. Mount it where the generator can sit outdoors well away from windows, doors and vents, and keep the cord run reasonably short. The male inlet cannot be energized unless the cord is connected to a running generator, which is exactly why the inlet is male and the cord end is female."
+  },
+  {
+    "id": "reliance-pbn50",
+    "name": "Reliance Controls PBN50 Power Inlet Box",
+    "category": "50A, 125/250V California-style inlet, outdoor enclosure",
+    "badge": "Best 50-Amp Generator Inlet Box",
+    "amazonUrl": "",
+    "pros": [
+      "50-amp capacity for large portables with a CS6369 outlet",
+      "Lets an interlock or 50-amp switch use the generator's full output",
+      "Weatherproof outdoor enclosure",
+      "Same male-inlet safety logic as the 30-amp box",
+      "Future-proofs the wall if you may buy a bigger generator"
+    ],
+    "cons": [
+      "Pointless with a generator that only has an L14-30",
+      "Needs heavier wire, which means more install cost",
+      "50-amp cords are thick, heavy and expensive"
+    ],
+    "bottomLine": "Only for generators with a 50-amp, 125/250-volt outlet; for everything else the PB30 is the right box.",
+    "description": "Large portable generators, usually around 9,000 running watts and up, often carry a 50-amp, 125/250-volt California-style twist-lock outlet alongside or instead of the L14-30. The PBN50 is Reliance's inlet box for that connection. On paper a 50-amp, 240-volt circuit can carry up to 12,000 watts, which is enough to run central air on a large portable or several big loads at once, but only if the whole path is rated for it: generator outlet, cord, inlet, wiring and the switch or interlock breaker. A 50-amp inlet feeding a 30-amp switch gains you nothing. That makes the PBN50 most useful with a panel interlock, where the generator breaker can be sized to the generator, or with a 50-amp-rated transfer switch. Check the generator's outlet before buying, because a 50-amp cord will not mate with an L14-30 outlet, and adapters that change amperage are a bad idea on a circuit like this."
+  },
+  {
+    "id": "reliance-pc3020",
+    "name": "Reliance Controls PC3020 30-Amp Generator Power Cord",
+    "category": "30A, L14-30 plug to L14-30 connector, 20 ft",
+    "badge": "Best Generator Cord",
+    "amazonUrl": "",
+    "pros": [
+      "Twenty feet lets the generator sit farther from the house",
+      "L14-30 ends match the PB30 inlet and most mid-size portables",
+      "Four-wire cord carries both hots, neutral and ground",
+      "Twist-lock ends do not pull out under their own weight",
+      "Made by the same company as the inlet box"
+    ],
+    "cons": [
+      "Twenty feet may still be shorter than the safe placement you want",
+      "A heavy cord to coil and store",
+      "Redundant if your kit's cord already reaches"
+    ],
+    "bottomLine": "Worth buying when the kit cord is too short to keep the generator a safe distance from doors and windows.",
+    "description": "Most transfer switch kits include a 10-foot cord, which is often too short to put the generator where it should be: outdoors, well clear of windows, doors, vents and the garage. The PC3020 is Reliance's 20-foot, 30-amp generator cord, with an L14-30 plug at the generator end and a matching L14-30 connector at the inlet end. It is a four-conductor cord, which a 120/240-volt hookup needs, and the twist-lock ends hold firmly. A cord like this is also the honest answer to the most dangerous question in generator ownership, which is whether you can just make a cord with two male ends and plug it into a dryer outlet. You cannot. A cord with a female end at the house and a male inlet on the wall is the safe version of that idea. If you need more distance than 20 feet, ask your electrician whether a longer 30-amp cord or a relocated inlet makes more sense, because voltage drop rises with length and thin cords overheat."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Generator Transfer Switch",
+          item: "https://www.allmetalbrake.com/best-generator-transfer-switch/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Do I need a transfer switch for a portable generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You need one if you want the generator to power anything hardwired, such as a furnace, well pump or the circuits in your panel. The National Electrical Code requires a transfer switch or listed interlock for any generator connected to household wiring. If you only plan to run a refrigerator and a few lamps on extension cords plugged directly into the generator, a transfer switch is not required, but it is far more convenient and safer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between a transfer switch and an interlock kit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A manual transfer switch is a small prewired panel with its own switch for each chosen circuit, mounted beside the main panel. An interlock kit is a plate on the main panel that prevents the main breaker and a generator breaker from being on together, which makes the whole panel available. Interlocks usually cost less but must be listed for your specific panel, and you manage loads by switching breakers yourself."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I install a generator transfer switch myself?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In most places this is work for a licensed electrician, with a permit and inspection. It involves the main panel, where the incoming service conductors stay energized even with the main breaker off. Some jurisdictions allow homeowners to do electrical work on their own home with a permit, but transfer switches are a poor place to learn, because an error can backfeed the utility lines or create a fire hazard."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What size transfer switch do I need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Match the switch to your generator's largest 240-volt outlet. A generator with an L14-30 outlet pairs with a 30-amp switch, such as the Reliance 31406CRK or 31410CRK. A generator with a 50-amp, 125/250-volt outlet can use a 50-amp inlet and a switch or interlock breaker sized for it. Then choose six or ten circuits based on how many essential loads you have."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a transfer switch for just a furnace?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Single-circuit furnace transfer switches such as the Reliance TF151W mount at the furnace and let it run from either its normal circuit or a generator. They suit small or 120-volt-only generators, because a gas or oil furnace needs only a few hundred watts. Have an electrician confirm it suits your furnace, since some furnace controls are sensitive to generator grounding and polarity."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a generator inlet box?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A generator inlet box is a weatherproof box mounted on an outside wall with a male inlet where the generator cord plugs in. It is wired to the transfer switch or interlock breaker inside. The Reliance PB30 takes a 30-amp L14-30 cord and the PBN50 takes a 50-amp cord. It lets you connect the generator without running cords through a window or door, which would let exhaust indoors."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a transfer switch work with an inverter generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on the generator's outlets. Many inverter generators are 120-volt only, which cannot properly feed a standard 120/240-volt switch or run any 240-volt load. Larger inverter models with an L14-30 outlet work with a 30-amp switch like any other generator. For a small 120-volt inverter, a single-circuit furnace switch is often the better match. Ask your electrician before connecting anything."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "generator transfer switch",
+      "manual transfer switch",
+      "transfer switch for furnace",
+      "interlock kit",
+      "generator inlet box",
+      "portable generator transfer switch"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Generator Transfer Switches</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A transfer switch is what turns a portable generator into backup power for your furnace, well pump and fridge without endangering the people fixing the lines. Six parts matched to the job, plus how to choose between a switch and an interlock.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#reliance-31406crk"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Switch vs Interlock
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#what-it-does" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. What a Transfer Switch Does</a>
+          <a href="#types" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Manual vs Interlock vs Automatic</a>
+          <a href="#at-a-glance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. Comparison Table</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. The Six Picks</a>
+          <a href="#amps" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. 30A L14-30 vs 50A</a>
+          <a href="#furnace" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Furnace-Only Switches</a>
+          <a href="#loads" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Load Management</a>
+          <a href="#install" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Electrician and Permit</a>
+          <a href="#operating" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Operating It Safely</a>
+          <a href="#which-one" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Every outage season, someone plugs a generator into a dryer outlet with a homemade cord and energizes the line a utility crew is working on. A transfer switch exists so that never happens, and the right one for most homes is a modest kit plus a few hours of an electrician's time.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="what-it-does" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. What a Generator Transfer Switch Does, and Why You Need One
+          </h2>
+
+          <p>
+            A portable generator makes useful power, but it has no safe way to reach the furnace, the well pump or the refrigerator's dedicated circuit on its own. Extension cords cover a few plug-in appliances and nothing hardwired. A generator transfer switch is the piece that connects the generator to selected household circuits while guaranteeing those circuits are disconnected from the utility at the same moment. That last part is the whole point, and it is why a transfer switch or a listed interlock is required by the National Electrical Code for any generator connected to premises wiring.
+          </p>
+
+          <p>
+            The reason is simple and deadly. If generator power flows into your panel while the main breaker is on, it runs backward out to the street, through the pole transformer, and steps up to thousands of volts on the line a utility crew believes is dead. That is backfeeding, and it kills lineworkers and neighbors every year. It also lets utility power slam into your generator when the grid comes back, which can destroy the generator or start a fire. The so-called suicide cord, a cord with two male plugs used to feed a dryer or range outlet, is the classic way people do it. Never use one, under any circumstances.
+          </p>
+
+          <p>
+            A properly installed transfer switch makes that impossible by design. Each switched circuit can be connected to the utility or to the generator, never both. Manual switches do it with a physical switch per circuit; interlock kits do it with a sliding plate that blocks the main breaker and the generator breaker from being on together; automatic switches do it with a motorized mechanism. All three are legitimate when installed correctly and listed for the job. What is not legitimate is anything that relies on you remembering to flip the main breaker first.
+          </p>
+
+          <p>
+            A transfer switch also makes outages calmer. Instead of snaking cords through a cracked window, which lets exhaust in, you roll the generator out, plug one cord into an inlet box on the wall, start it, and move a few switches. Your furnace runs, your sump pump runs, your lights work on their normal switches. The generator itself still has to run outdoors, far from openings, and you still need working carbon monoxide alarms inside. A transfer switch fixes the wiring problem, not the exhaust problem.
+          </p>
+
+          <p>
+            If you have not yet chosen a generator, start with our pillar guide to the <a href="/best-home-generator-for-power-outages/">best home generators for power outages</a>, then come back here. The switch has to match the generator's outlet and output, so picking the generator first saves buying the wrong kit.
+          </p>
+        </div>
+
+        <div id="types" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Manual Transfer Switch vs Interlock Kit vs Automatic
+          </h2>
+
+          <p>
+            A manual transfer switch, the kind Reliance sells as Pro/Tran, is a small prewired subpanel that mounts beside your main panel. An electrician moves your chosen circuits onto it, and each one gets its own Line/Off/Gen switch. During an outage you plug in the generator, start it, and flip only the circuits you want onto generator power. It is the most foolproof option for owners who will use it a few times a year, because you can see exactly which circuits are on the generator and cannot accidentally feed the whole house.
+          </p>
+
+          <p>
+            An interlock kit takes a different approach. It is a metal plate or slide mounted on the main panel's cover that physically prevents the main breaker and a dedicated generator breaker from being on at the same time. The generator feeds the panel through that breaker from an outdoor inlet box. Because the whole panel becomes available, you manage loads by switching off the branch breakers you do not want and turning on the ones you do. Interlocks are usually cheaper than a manual switch and offer every circuit, but they demand more discipline during an outage.
+          </p>
+
+          <p>
+            The catch with interlocks is that they must be listed for your specific panel. Interlocks are not universal: the plate has to fit the exact panel model, breaker layout and cover, and the generator breaker must be secured as the listing requires. Panel manufacturers sell their own interlock kits for some models, and third-party kits are sold for others. An electrician will check the panel's label and the local inspector's position before installing one. Some jurisdictions are stricter about third-party interlocks than others, so ask before buying anything.
+          </p>
+
+          <p>
+            An automatic transfer switch senses the outage, starts a standby generator, and moves the load without anyone touching it. That is the right answer for permanently installed home standby generators and for people who travel or have medical equipment that cannot wait. For a portable generator that has to be wheeled out and started by hand, automatic switching mostly adds cost without adding much. If you are leaning toward a standby system, our breakdown of <a href="/generac-generator-cost/">what a Generac standby installation costs</a> includes the transfer switch in the total.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Circuits available</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical use</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Main drawback</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Manual transfer switch</td>
+                    <td class="px-4 py-4 text-gray-700">6 to 10 chosen circuits</td>
+                    <td class="px-4 py-4 text-gray-700">Portable generators, easy to operate</td>
+                    <td class="px-4 py-4 text-gray-700">Limited to the circuits you pre-select</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Interlock kit</td>
+                    <td class="px-4 py-4 text-gray-700">Whole panel</td>
+                    <td class="px-4 py-4 text-gray-700">Portables, lowest hardware cost</td>
+                    <td class="px-4 py-4 text-gray-700">Must be listed for your exact panel; you manage loads</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Automatic transfer switch</td>
+                    <td class="px-4 py-4 text-gray-700">Whole house or chosen circuits</td>
+                    <td class="px-4 py-4 text-gray-700">Standby generators</td>
+                    <td class="px-4 py-4 text-gray-700">Highest cost, overkill for most portables</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="at-a-glance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Generator Transfer Switch Picks at a Glance
+          </h2>
+
+          <p>
+            The picks below cover the parts of a typical portable generator hookup: the switch itself, the outdoor inlet box and the cord that connects them. They are described from manufacturers' published specifications and common installation practice, not from hands-on testing. All six are from Reliance Controls, which is not an accident: Reliance is the brand most electricians stock for portable generator connections, and its kits, inlets and cords are built to work together. Brands like Generac and Connecticut Electric also sell manual switches, and they are worth comparing at the counter.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Pick</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rating</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">What it does</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Reliance 31406CRK</td>
+                    <td class="px-4 py-4 text-gray-700">30A, 6 circuits</td>
+                    <td class="px-4 py-4 text-gray-700">Manual switch kit with inlet and cord</td>
+                    <td class="px-4 py-4 text-gray-700">Most homes with an L14-30 generator</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Reliance 31410CRK</td>
+                    <td class="px-4 py-4 text-gray-700">30A, 10 circuits</td>
+                    <td class="px-4 py-4 text-gray-700">Manual switch kit with inlet and cord</td>
+                    <td class="px-4 py-4 text-gray-700">Well pumps and longer essentials lists</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Reliance TF151W</td>
+                    <td class="px-4 py-4 text-gray-700">15A, 1 circuit</td>
+                    <td class="px-4 py-4 text-gray-700">Furnace-only switch</td>
+                    <td class="px-4 py-4 text-gray-700">Keeping the heat on with a small generator</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Reliance PB30</td>
+                    <td class="px-4 py-4 text-gray-700">30A L14-30</td>
+                    <td class="px-4 py-4 text-gray-700">Outdoor power inlet box</td>
+                    <td class="px-4 py-4 text-gray-700">Interlock installs and replacement inlets</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Reliance PBN50</td>
+                    <td class="px-4 py-4 text-gray-700">50A, 125/250V</td>
+                    <td class="px-4 py-4 text-gray-700">Outdoor power inlet box</td>
+                    <td class="px-4 py-4 text-gray-700">Large generators with a 50-amp outlet</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Reliance PC3020</td>
+                    <td class="px-4 py-4 text-gray-700">30A, 20 ft</td>
+                    <td class="px-4 py-4 text-gray-700">L14-30 generator cord</td>
+                    <td class="px-4 py-4 text-gray-700">Putting the generator farther from the house</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Read the table as a system, not a shopping list. Most owners need exactly one switching method, one inlet box and one cord. If you buy a CRK kit, the inlet and a cord are already in the box and you may only need a longer cord. If your electrician recommends an interlock, you need an interlock kit listed for your panel, an inlet box sized to your generator, and a cord that matches both ends.
+          </p>
+
+          <p>
+            If the six picks seem narrow, that is deliberate. A lot of what is sold as a generator transfer switch online is either a rebadged version of these or something that should not be connected to a house at all, such as unlisted adapters and plug-in devices that promise to feed a panel through an outlet. Stick to listed equipment an inspector will recognize.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. The Six Generator Transfer Switch Picks
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications and standard installation practice, not from hands-on testing. Every one of them is meant to be installed by a licensed electrician, usually with a permit and inspection. Check your generator's outlet type before choosing, because the switch, inlet and cord all have to match it.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="amps" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. 30-Amp L14-30 vs 50-Amp: Matching the Switch to the Generator
+          </h2>
+
+          <p>
+            The first spec to check on any generator transfer switch is the inlet and amperage, and that is decided by your generator's largest outlet. Most portable generators in the 5,000 to 9,000 watt range have a NEMA L14-30 outlet: a 30-amp, 120/240-volt, four-prong twist-lock. Larger portables often add a 50-amp, 125/250-volt California-style outlet, sometimes called a CS6369 outlet, that takes a cord with a CS6365 plug. Look at the generator's control panel; the outlet type is printed beside it.
+          </p>
+
+          <p>
+            The amperage sets the ceiling. A 30-amp, 240-volt connection can carry about 7,200 watts in theory, and 30-amp switch kits like Reliance's are generally marketed for generators up to about 7,500 running watts. A 50-amp, 240-volt connection can carry up to 12,000 watts. In practice you should plan to run well under the ceiling, because motor starts surge far above running watts and generators do not like sitting at their limit for hours. Buying a 50-amp inlet for a generator with only an L14-30 outlet gains you nothing.
+          </p>
+
+          <p>
+            Watch out for generators that are 120-volt only. Some smaller portables and many inverter generators have only 120-volt outlets, sometimes including an L5-30 or an RV-style TT-30. Those cannot feed both legs of a standard 120/240-volt switch the way an L14-30 can, and they cannot run any 240-volt load at all. Do not let anyone jumper the two legs together to make it work. A single-circuit furnace switch suits that kind of generator better, or talk to an electrician about what is allowed.
+          </p>
+
+          <p>
+            The cord has to match both ends. A 30-amp system uses an L14-30 plug at the generator and an L14-30 connector at the inlet, on a four-wire cord with 10-gauge conductors. A 50-amp system uses a much heavier cord. Adapters that turn a 50-amp outlet into a 30-amp cord exist, but they put you in a position where the cord and inlet are protected only by the generator's own breaker, so ask your electrician before using one.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Match the inlet to the generator's biggest 240-volt outlet.</p>
+            <p class="text-gray-300 leading-relaxed m-0">L14-30 on the generator means a 30-amp inlet and switch. A 50-amp CS6369 outlet means a 50-amp inlet is worth considering, but only if the switch or interlock breaker is sized to use it.</p>
+          </div>
+        </div>
+
+        <div id="furnace" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Transfer Switch for Furnace: The Single-Circuit Option
+          </h2>
+
+          <p>
+            If the only thing you truly need in a winter outage is heat, a transfer switch for furnace use is the simplest legitimate setup. A gas or oil furnace with a blower, inducer motor, igniter and control board typically needs a few hundred watts running, more at blower start. That is within reach of even a small inverter generator. The problem has never been power; it is that the furnace is hardwired, so there is nowhere safe to plug a generator in.
+          </p>
+
+          <p>
+            A furnace transfer switch like the Reliance TF151W solves that at the furnace itself. It replaces or sits beside the furnace's service switch, and lets you flip the furnace from its normal circuit to a generator connection. No panel work, no 240-volt generator, and a much smaller electrician bill. People sometimes ask whether they can just put a plug on the furnace and use an extension cord. Some jurisdictions allow a cord-and-plug furnace connection and many do not, and the answer depends on the furnace's installation instructions, so let an electrician decide rather than improvising.
+          </p>
+
+          <p>
+            Furnaces can be particular about generator power. Modern control boards sense the flame through a small current that depends on a solid neutral-to-ground reference, and some furnaces refuse to light on a generator with a floating neutral or with reversed polarity. Inverter generators produce clean power, which helps electronics, but the grounding question is separate. If the furnace locks out on generator power, that is an electrician's diagnosis, not a reason to start modifying cords or bonding plugs yourself.
+          </p>
+
+          <p>
+            A furnace-only switch is a narrow tool. It keeps the heat on, but the refrigerator, freezer, sump pump and lights still need another answer. If you want two or three of those as well, a six-circuit switch like the 31406CRK usually makes more sense than multiple single-circuit switches. If you are also looking at plug-in heat as a backup, our guide to the <a href="/best-indoor-heater-for-power-outage/">best indoor heaters for a power outage</a> covers what is actually safe to run inside.
+          </p>
+        </div>
+
+        <div id="loads" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Load Management: Choosing Which Circuits Go on the Generator
+          </h2>
+
+          <p>
+            A transfer switch does not make the generator any bigger. Whether you choose six circuits, ten, or the whole panel through an interlock, the generator's running watts decide what can run at the same moment. The job is to pick circuits that matter in an outage and that the generator can actually start. A furnace, refrigerator, freezer, sump pump, a few lighting circuits and the circuit that feeds your internet router cover most households.
+          </p>
+
+          <p>
+            Start with the loads that cannot wait. A sump pump in a wet basement and a well pump in a rural house come first, then refrigeration, then heat, then lighting and communications. Well pumps and many sump pumps have large starting surges, so check the motor's rating plate or ask a pump installer. Our guide to the <a href="/best-generator-for-well-pump/">best generator for a well pump</a> walks through starting-watt math for 240-volt submersibles in detail.
+          </p>
+
+          <p>
+            Leave the heavy resistive loads off. An electric water heater, electric range, electric dryer and central air conditioner can each swallow most or all of a portable generator's output. Putting them on the switch invites someone to turn them on mid-outage and trip the generator. If you want to know what your house actually draws, a whole-home monitor gives you real numbers instead of nameplate guesses; see our roundup of the <a href="/best-home-energy-monitor/">best home energy monitors</a>.
+          </p>
+
+          <p>
+            Balance the two legs. A 120/240-volt generator delivers half its capacity on each 120-volt leg, so putting the furnace, refrigerator and freezer all on the same leg can overload that side while the other runs light. Electricians plan this when they assign circuits to the switch, and it is one of the better reasons to have a professional do the layout. Before the electrician arrives, use a <a href="/best-circuit-breaker-finder/">circuit breaker finder</a> to label your panel properly, which makes the circuit-selection conversation far faster.
+          </p>
+        </div>
+
+        <div id="install" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Electrician, Permit and Inspection: How Installation Works
+          </h2>
+
+          <p>
+            Installing a generator transfer switch is panel work, and panel work belongs to a licensed electrician. The main lugs in your panel stay energized even with the main breaker off, the service conductors upstream of the main have no protection at all, and a mistake can leave a switch that looks right but backfeeds. Most jurisdictions require a permit for the work and an inspection afterward, and your homeowner's insurance may care whether you have one if anything ever goes wrong.
+          </p>
+
+          <p>
+            A typical manual switch install goes like this. The electrician mounts the switch beside the main panel, runs its whip into a knockout, moves your chosen branch circuits onto the switch, mounts the inlet box on an outside wall, and runs cable between the two. An interlock install involves fitting the listed plate, installing the generator breaker, and running cable from the inlet box to that breaker. Either way, it is commonly a half-day job for a straightforward panel, longer if the inlet is far from the panel.
+          </p>
+
+          <p>
+            Expect the electrician to ask about your generator. They need to know its outlet type, its running watts, and whether its neutral is bonded to the frame. Many portables ship with a bonded neutral, and some transfer switches do not switch the neutral, which can create a second neutral-to-ground bond and cause GFCI trips. The fix depends on the generator and the switch, and it is an electrician's call. Do not remove bonding straps or modify the generator yourself.
+          </p>
+
+          <p>
+            Some utilities also want to know you have a generator connected to your house. It costs nothing to ask, and in some areas it is required. While the electrician is there, it is worth adding a <a href="/best-whole-house-surge-protector/">whole-house surge protector</a>, since the panel is already open and generator power and grid restoration are both sources of voltage swings.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">NEVER</p>
+            <p class="text-xl font-bold text-white mb-3">Never backfeed through a dryer or range outlet.</p>
+            <p class="text-gray-300 leading-relaxed m-0">A cord with male plugs on both ends energizes the utility lines and can kill a lineworker. It also leaves exposed live prongs on the loose end. No outage is worth it. If you need power before an electrician can come, run cords to individual appliances from a generator placed safely outdoors.</p>
+          </div>
+        </div>
+
+        <div id="operating" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Operating the Switch Safely During an Outage
+          </h2>
+
+          <p>
+            The order matters, and it is worth taping a card with it inside the panel door. Set up the generator outdoors, far from windows, doors and vents, with the exhaust pointed away from the house. Connect the cord to the generator and then to the inlet box. Start the generator and let it warm up for a minute or two. Then switch circuits from Line to Gen one at a time, starting with the biggest motor load, so each start surge happens on its own instead of all at once.
+          </p>
+
+          <p>
+            With an interlock, the sequence is a bit different. Turn off the main breaker, slide the interlock plate, and turn on the generator breaker. Then turn off most branch breakers and bring circuits back on one by one, watching the generator's load. This is where interlocks need more care than a manual switch: everything in the panel is available, so it is easy to switch on a water heater or dryer circuit by habit. Some owners label the must-run breakers in a bright color.
+          </p>
+
+          <p>
+            When the grid comes back, reverse the process. Move each circuit back to Line, or turn off the generator breaker and slide the interlock back to restore the main, then shut down the generator and let it cool before unplugging. Never refuel a running or hot generator, and store fuel in approved containers away from the house. If you use a pump to move fuel from cans, our guide to the <a href="/best-fuel-transfer-pump/">best fuel transfer pumps</a> covers the types that suit gasoline.
+          </p>
+
+          <p>
+            Generator placement is not optional. Carbon monoxide from a portable generator in a garage, crawlspace or on a porch kills people every outage season, even with doors open. Keep the generator outdoors and well away from the house, and have battery-backed CO alarms on every level. If you need power for medical equipment inside, a battery system such as those in our <a href="/best-portable-power-station-for-home-backup/">portable power station for home backup</a> guide can bridge the gap safely indoors.
+          </p>
+        </div>
+
+        <div id="which-one" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which Generator Transfer Switch to Buy
+          </h2>
+
+          <p>
+            If you have a portable generator with an L14-30 outlet and a short list of essentials, buy the Reliance 31406CRK. It covers six circuits, includes the inlet box and a cord, and is the setup most electricians already know how to install. For most houses with a gas furnace, a refrigerator, a freezer and a sump pump, six positions is enough.
+          </p>
+
+          <p>
+            If your list includes a 240-volt well pump or runs past six circuits, step up to the Reliance 31410CRK. The power ceiling is the same; the extra positions are what you are paying for. If your only real need is heat and your generator is small or 120-volt only, the Reliance TF151W furnace switch is the cheapest legitimate route, as long as your furnace and local code accept it.
+          </p>
+
+          <p>
+            If your electrician recommends an interlock for your panel, buy the interlock kit listed for that exact panel, plus the Reliance PB30 inlet box for a 30-amp generator or the PBN50 for a generator with a 50-amp outlet. Add the Reliance PC3020 cord when the 10-foot kit cord does not let you place the generator safely away from the house.
+          </p>
+
+          <p>
+            Whatever you buy, budget for the electrician and permit, because they are not optional extras; they are what makes the hardware safe. And if you are still deciding on the generator, our pages on the <a href="/best-gas-generator/">best gas generators</a> and the <a href="/best-small-generator-for-home/">best small generators for home</a> cover the models that pair well with each switch. Laundry and kitchen outlets are not generator inlets; if you are dealing with a dryer outlet for its intended purpose, our guide to the <a href="/best-dryer-cord/">best dryer cord</a> covers matching cords to receptacles.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a double-male cord into a dryer outlet</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A suicide cord feeds generator power backward into the utility lines, where it can kill a lineworker, and leaves live exposed prongs on the free end. It is illegal and indefensible. If no transfer switch is installed yet, run extension cords to individual appliances instead, with the generator outdoors and well away from openings.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying an interlock not listed for your panel</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Interlock kits are panel-specific. A plate that fits a different panel model, or a universal kit an inspector will not accept, can fail inspection or fail to prevent both breakers being on. Have your electrician read the panel label and choose a kit listed for that exact panel before you order anything.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting more circuits to mean more power</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A ten-circuit switch does not make a 7,500-watt generator any stronger. The generator's running watts still decide what can run together. Choose circuits by priority, keep big resistive loads like water heaters off the switch, and stagger motor starts so the generator is not hit with every surge at once.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a 50-amp inlet for a 30-amp generator</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The inlet should match the generator's largest 240-volt outlet. If the generator only has an L14-30, a 50-amp inlet box and cord add cost and weight without adding any usable power. Buy the 30-amp PB30 setup unless the generator actually has a 50-amp outlet and the switch can use it.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping the electrician and permit</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Transfer switch installs involve the main panel, where some parts stay live even with the main off. A licensed electrician, a permit and an inspection are what make the system safe and insurable. DIY installs that look fine can still backfeed or create grounding faults that only show up during an outage.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need a transfer switch for a portable generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                You need one if you want the generator to power anything hardwired, such as a furnace, well pump or the circuits in your panel. The National Electrical Code requires a transfer switch or listed interlock for any generator connected to household wiring. If you only plan to run a refrigerator and a few lamps on extension cords plugged directly into the generator, a transfer switch is not required, but it is far more convenient and safer.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the difference between a transfer switch and an interlock kit?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A manual transfer switch is a small prewired panel with its own switch for each chosen circuit, mounted beside the main panel. An interlock kit is a plate on the main panel that prevents the main breaker and a generator breaker from being on together, which makes the whole panel available. Interlocks usually cost less but must be listed for your specific panel, and you manage loads by switching breakers yourself.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I install a generator transfer switch myself?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                In most places this is work for a licensed electrician, with a permit and inspection. It involves the main panel, where the incoming service conductors stay energized even with the main breaker off. Some jurisdictions allow homeowners to do electrical work on their own home with a permit, but transfer switches are a poor place to learn, because an error can backfeed the utility lines or create a fire hazard.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What size transfer switch do I need?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Match the switch to your generator's largest 240-volt outlet. A generator with an L14-30 outlet pairs with a 30-amp switch, such as the Reliance 31406CRK or 31410CRK. A generator with a 50-amp, 125/250-volt outlet can use a 50-amp inlet and a switch or interlock breaker sized for it. Then choose six or ten circuits based on how many essential loads you have.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is there a transfer switch for just a furnace?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. Single-circuit furnace transfer switches such as the Reliance TF151W mount at the furnace and let it run from either its normal circuit or a generator. They suit small or 120-volt-only generators, because a gas or oil furnace needs only a few hundred watts. Have an electrician confirm it suits your furnace, since some furnace controls are sensitive to generator grounding and polarity.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is a generator inlet box?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A generator inlet box is a weatherproof box mounted on an outside wall with a male inlet where the generator cord plugs in. It is wired to the transfer switch or interlock breaker inside. The Reliance PB30 takes a 30-amp L14-30 cord and the PBN50 takes a 50-amp cord. It lets you connect the generator without running cords through a window or door, which would let exhaust indoors.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a transfer switch work with an inverter generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on the generator's outlets. Many inverter generators are 120-volt only, which cannot properly feed a standard 120/240-volt switch or run any 240-volt load. Larger inverter models with an L14-30 outlet work with a 30-amp switch like any other generator. For a small 120-volt inverter, a single-circuit furnace switch is often the better match. Ask your electrician before connecting anything.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Backup Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-home-generator-for-power-outages/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Home Generators for Power Outages</h3>
+              <p class="text-gray-500 text-sm mt-2">Seven generators ranked by need, from small portables to whole-house standby.</p>
+            </a>
+            <a href="/best-generator-for-well-pump/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Generator for a Well Pump</h3>
+              <p class="text-gray-500 text-sm mt-2">Starting-watt math and picks for 240-volt submersible pumps.</p>
+            </a>
+            <a href="/best-whole-house-surge-protector/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Whole House Surge Protectors</h3>
+              <p class="text-gray-500 text-sm mt-2">Panel-mounted protection worth adding while the electrician is there.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For most homes with a portable generator and an L14-30 outlet, the Reliance 31406CRK is the right generator transfer switch: six circuits, an inlet box and a cord in one kit. Step up to the 31410CRK for a well pump or a longer list, or choose the TF151W if keeping the furnace running is all you need.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Whatever you choose, have a licensed electrician install it with a permit, keep the generator outdoors and away from openings, and never, ever backfeed through an outlet.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>
