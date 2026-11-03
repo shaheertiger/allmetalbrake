@@ -1,0 +1,952 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Portable Power Stations",
+    "url": "/best-portable-power-station/"
+  },
+  {
+    "title": "Best Charging Stations",
+    "url": "/best-charging-station/"
+  },
+  {
+    "title": "Best Laptop Power Banks",
+    "url": "/best-laptop-power-bank/"
+  },
+  {
+    "title": "Best Portable Chargers for Power Outages",
+    "url": "/best-portable-chargers-for-power-outages/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best USB-C Chargers: GaN Charging Blocks From 20W to 140W";
+const description =
+  "Eight USB-C charging blocks compared, from 20W phone bricks to 140W laptop chargers, with PD, PPS, GaN, port sharing, cable ratings and safety marks explained.";
+
+const PRODUCTS = [
+  {
+    "id": "anker-prime-100w",
+    "name": "Anker Prime 100W GaN USB-C Charger 3-Port",
+    "category": "100W total, 2 USB-C + 1 USB-A, GaN, wall plug",
+    "badge": "Best Overall",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 100 watts from a single USB-C port, per Anker",
+      "Charges a laptop, phone and earbuds from one wall plug",
+      "GaN design makes it far smaller than a typical 100W laptop brick",
+      "Covers most 14-inch laptops at full speed and 16-inch models at a useful rate",
+      "Anker's Prime line is its top tier of chargers"
+    ],
+    "cons": [
+      "Premium price band for a wall charger",
+      "100W is shared when more than one port is in use",
+      "Not enough for a 16-inch MacBook Pro's full 140W fast-charge rate"
+    ],
+    "bottomLine": "The best single charging block for most people: enough for a laptop on its own, and small enough to replace both the laptop brick and the phone brick in a bag.",
+    "description": "Anker's Prime 100W charger is the one block we would hand to someone who wants a single charger for a laptop, a phone and something small. Anker rates it at up to 100 watts from one USB-C port, which is the ceiling of standard USB Power Delivery and enough for almost every 13- and 14-inch laptop at full speed. It has two USB-C ports and one USB-A, so a phone and a pair of earbuds can charge alongside the laptop, with the 100 watts divided between them when they do. GaN components let Anker fit that output into a block much smaller than the charger that came with most 100-watt laptops. It sits in a premium price band, and a 16-inch MacBook Pro will charge more slowly than on its own 140-watt adapter. For everyone else, this is the charger that lets you leave every other brick at home. Anker's Prime line has had a few revisions, so confirm the port layout on the listing."
+  },
+  {
+    "id": "anker-735-nano-ii",
+    "name": "Anker 735 Charger Nano II 65W GaN USB-C Charger",
+    "category": "65W total, 2 USB-C + 1 USB-A, GaN II, compact wall plug",
+    "badge": "Best 65W Charger",
+    "amazonUrl": "",
+    "pros": [
+      "65 watts from a single USB-C port, per Anker, enough for most thin laptops",
+      "Three ports in a block only a little larger than a phone charger",
+      "Long-running model with a large base of owner reports",
+      "Usually priced in the mid band, below Anker's Prime chargers"
+    ],
+    "cons": [
+      "65W is shared across all three ports",
+      "Will not fast-charge a 14-inch performance laptop at its full rating",
+      "USB-A port is slow"
+    ],
+    "bottomLine": "The 65W charger to buy for a MacBook Air, thin ultrabook, tablet and phone: compact, proven and fairly priced.",
+    "description": "The Anker 735, sold as the Nano II 65W, has been one of the most commonly recommended 65-watt chargers for years, and it still earns a place. Anker rates it at 65 watts from a single USB-C port, which is what a MacBook Air, most 13-inch Windows ultrabooks, Chromebooks and the Steam Deck ship with or want. Two USB-C ports and one USB-A port let it charge a phone and earbuds at the same time, splitting the 65 watts when they do. It uses Anker's second generation GaN design, which keeps it small enough to pass for an oversized phone charger in a bag. It will not charge a 14-inch performance laptop as quickly as that laptop's own 96- to 100-watt brick, and it has been on the market long enough that newer models from Anker and UGREEN match it. As a proven, compact 65W charger, though, it is still an easy recommendation."
+  },
+  {
+    "id": "ugreen-nexode-65w",
+    "name": "UGREEN Nexode 65W USB-C GaN Charger 3-Port",
+    "category": "65W total, 2 USB-C + 1 USB-A, GaN, wall plug",
+    "badge": "Best Value 65W",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 65 watts from a single USB-C port, per UGREEN",
+      "Three ports for a laptop, phone and accessory",
+      "Often priced below comparable Anker models",
+      "UGREEN is one of the established GaN charger brands",
+      "Compact for a laptop charger"
+    ],
+    "cons": [
+      "Output drops on each port when several devices share it",
+      "No display or app, so per-port output is guesswork",
+      "Check PPS support on the listing if you have a Samsung phone"
+    ],
+    "bottomLine": "A strong, usually cheaper alternative to the Anker 735 for anyone charging a thin laptop and a phone from one block.",
+    "description": "UGREEN's Nexode 65W 3-port charger covers the same ground as the Anker 735 and is often a little cheaper. UGREEN rates it at up to 65 watts from a single USB-C port, enough for a MacBook Air, most thin Windows laptops, an iPad Pro and any phone, with two USB-C ports and one USB-A for charging several devices at once. As with every multi-port charger, the 65 watts is shared, so a laptop on one port and a phone on another each get part of it. UGREEN has become one of the more trusted names in GaN charging, and owners commonly report it runs warm but not hot under a laptop load. There is little to choose between this and the Anker 735 on paper; buy whichever is cheaper on the day, and favor the UGREEN if you want a slightly newer design. Samsung owners chasing Super Fast Charging should confirm PPS support on the specific listing."
+  },
+  {
+    "id": "ugreen-nexode-100w",
+    "name": "UGREEN Nexode 100W USB-C GaN Charger 4-Port",
+    "category": "100W total, 3 USB-C + 1 USB-A, GaN, wall plug",
+    "badge": "Most Ports",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 100 watts from a single USB-C port, per UGREEN",
+      "Four ports: three USB-C and one USB-A",
+      "Replaces a laptop brick and two or three phone chargers",
+      "Usually costs less than Anker's Prime 100W",
+      "Good travel charger for a couple sharing one outlet"
+    ],
+    "cons": [
+      "Larger and heavier than three-port 65W chargers",
+      "100W total gets thin with a laptop and three other devices",
+      "Bulky in outlets with tight spacing"
+    ],
+    "bottomLine": "The pick when you need four ports and a full 100W for a laptop, and value matters more than having the smallest block.",
+    "description": "UGREEN's Nexode 100W 4-port charger is the value alternative to Anker's Prime 100W, and it adds a fourth port. UGREEN rates a single USB-C port at up to 100 watts, the top of standard USB Power Delivery, and the charger has three USB-C ports and one USB-A. That makes it a good travel charger for two people sharing a hotel outlet, or a desk charger for a laptop plus a phone, tablet and earbuds. The 100 watts is shared, so a laptop drops well below its full rate once three other devices join, but overnight that rarely matters. It is larger than the three-port 65-watt chargers on this list and can crowd the neighboring socket in a tight duplex outlet. In exchange, it usually costs less than Anker's flagship. If you would rather have the ports on the desk than on the wall, UGREEN sells a desktop version with a cord; our charging station guide covers it."
+  },
+  {
+    "id": "belkin-boostcharge-pro-65w",
+    "name": "Belkin BoostCharge Pro Dual USB-C GaN Wall Charger 65W",
+    "category": "65W total, 2 USB-C, GaN, wall plug",
+    "badge": "Best Two-USB-C",
+    "amazonUrl": "",
+    "pros": [
+      "65 watts total across two USB-C ports, per Belkin",
+      "Two USB-C ports with no slow USB-A port to drag output down",
+      "Belkin is a long-standing accessory brand sold in Apple stores and big-box retailers",
+      "Good laptop-plus-phone charger for an all-USB-C household"
+    ],
+    "cons": [
+      "Often priced above Anker and UGREEN equivalents",
+      "Only two ports",
+      "Each port gets less when both are in use"
+    ],
+    "bottomLine": "A clean two-port 65W charger from a brand you can buy in almost any store, worth it if you want USB-C only and the price is close.",
+    "description": "Belkin's BoostCharge Pro Dual USB-C GaN Wall Charger is a 65-watt, two-port block with no USB-A port at all, which suits a household that has moved entirely to USB-C. Belkin rates it at 65 watts, enough for a MacBook Air or thin Windows laptop on its own, and when a phone joins on the second port the output is split between them. Its main advantages are availability and brand. Belkin sells through Apple stores and most big-box retailers, so this is often the best 65-watt charger you can actually buy in person on the day you leave your laptop brick in a hotel. It is usually more expensive than Anker and UGREEN chargers with similar or better specs, and two ports is the minimum we would want in a laptop-class charger. If the price is close to the Anker 735, buy whichever you prefer; if it is much higher, the Anker or UGREEN is better value."
+  },
+  {
+    "id": "anker-nano-20w",
+    "name": "Anker Nano 20W USB-C Charger",
+    "category": "20W, single USB-C, compact phone charger",
+    "badge": "Best Phone Brick",
+    "amazonUrl": "",
+    "pros": [
+      "20 watts over USB-C PD, enough to fast-charge iPhones, per Anker",
+      "Very small, about the size of the old 5W cube",
+      "Budget price band",
+      "Good spare for nightstands, cars with outlets and travel bags"
+    ],
+    "cons": [
+      "Single port",
+      "Too little for laptops",
+      "Will not reach the top charging speeds of some Android phones"
+    ],
+    "bottomLine": "The cheap, tiny phone brick to buy in multiples for every room and bag.",
+    "description": "The Anker Nano 20W is the charger most people should buy when all they need is a phone brick. Anker rates it at 20 watts over USB-C Power Delivery, which is the figure Apple itself uses for fast-charging iPhones, and it is barely larger than the old five-watt cube that used to come in the iPhone box. It has one USB-C port and no tricks. That simplicity is the point: it is inexpensive enough to buy several, one for each nightstand, the office and a travel bag, and it is from a brand with a long record in charging. It is too small for a laptop, and phones that charge at 25 or 45 watts, such as recent Samsung Galaxy S models, will charge more slowly than on a PPS charger rated for their top speed. Anker has released several Nano revisions, including higher-watt versions, so confirm you are buying the 20-watt model you want."
+  },
+  {
+    "id": "apple-20w-usb-c",
+    "name": "Apple 20W USB-C Power Adapter",
+    "category": "20W, single USB-C, iPhone and iPad charger",
+    "badge": "Best Apple Original",
+    "amazonUrl": "",
+    "pros": [
+      "Apple's own charger, designed for iPhone and iPad fast charging",
+      "Sold everywhere, from Apple stores to pharmacies",
+      "Simple and reliable",
+      "Pairs with MagSafe chargers for iPhone wireless charging"
+    ],
+    "cons": [
+      "Larger than the Anker Nano 20W",
+      "Usually costs more than equivalent third-party chargers",
+      "Counterfeits are common; buy from a trusted seller"
+    ],
+    "bottomLine": "Buy it if you want Apple's own adapter and can find it from a trustworthy seller; otherwise the Anker Nano does the same job for less.",
+    "description": "Apple's 20W USB-C Power Adapter is the charger Apple sells for iPhone and iPad fast charging, and it does exactly that. It has one USB-C port and delivers 20 watts over USB Power Delivery, which Apple says can bring a compatible iPhone to around half charge in about 30 minutes with a USB-C cable. It is larger than Anker's Nano 20W and usually costs a little more, so on paper there is no reason to prefer it. In practice some people simply want Apple's adapter, and it is available almost anywhere. The caveat is counterfeits. Fake Apple chargers are common in marketplace listings and at discount sellers, and a counterfeit charger can lack basic safety protections. Buy it from Apple, a major retailer, or a listing sold and shipped by a trusted seller. Apple's newest MagSafe charger can go faster on recent iPhones with a higher-watt adapter, so check Apple's guidance if wireless speed matters."
+  },
+  {
+    "id": "apple-140w-usb-c",
+    "name": "Apple 140W USB-C Power Adapter",
+    "category": "140W, single USB-C, USB PD 3.1 extended power range",
+    "badge": "Best for 16-inch Laptops",
+    "amazonUrl": "",
+    "pros": [
+      "140 watts over a single USB-C port using USB PD 3.1",
+      "Enables the fastest charging rate on 16-inch MacBook Pro models, per Apple",
+      "Works as a standard USB-C PD charger for other laptops, tablets and phones",
+      "Apple's own adapter, so no compatibility questions with a MacBook Pro"
+    ],
+    "cons": [
+      "Single port",
+      "Large and heavy compared to GaN multi-port chargers",
+      "Premium price band; needs a 240W-rated cable to deliver more than 100W"
+    ],
+    "bottomLine": "The right buy if you own a 16-inch MacBook Pro and want a spare charger that matches the one in the box; overkill for anything smaller.",
+    "description": "Apple's 140W USB-C Power Adapter ships with the 16-inch MacBook Pro, and it is on this list because it is one of the clearest examples of USB Power Delivery 3.1, the extended power range that allows more than 100 watts over USB-C. It has a single USB-C port that can deliver 140 watts, which Apple uses to enable the fastest charging rate on its 16-inch laptops. Over a USB-C to MagSafe 3 cable or a USB-C cable rated for 240 watts, the laptop gets the full output; over an ordinary 100-watt cable, it drops to 100 watts. It also works as a standard USB-C charger for other laptops, tablets and phones, which just draw less. The drawbacks are size, weight, a premium price and a single port. If you own a 16-inch MacBook Pro and want a second charger for the office, this is the simplest choice. If you do not, a 100-watt multi-port GaN charger is more useful."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best USB-C Chargers",
+          item: "https://www.allmetalbrake.com/best-usb-c-charger/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best USB-C charger for most people?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For one block that charges a laptop and a phone, the Anker Prime 100W is the strongest all-rounder, with the UGREEN Nexode 100W as a cheaper four-port alternative. If you only have a thin laptop, a 65-watt charger such as the Anker 735 or UGREEN Nexode 65W is enough. For phones alone, a 20-watt brick like the Anker Nano is all you need."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a 65W charger safe for my phone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. USB-C Power Delivery chargers only supply what the device asks for, so a phone on a 65-watt charger negotiates its own rate, usually 20 to 45 watts, and the charger provides no more. The same applies to earbuds and watches. A higher-watt charger is never forced into a device; the device is always in control of what it draws."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does GaN mean on a charger?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GaN stands for gallium nitride, a semiconductor material that wastes less energy as heat than silicon. It lets manufacturers build smaller, lighter chargers for the same wattage. It does not make devices charge faster; charging speed comes from wattage and protocol support. For any charger of 65 watts or more, GaN is now a baseline expectation rather than a premium feature."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a special cable for a 100W charger?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "To get more than 60 watts, yes. Basic USB-C cables are limited to 3 amps, or 60 watts at 20 volts. For 100 watts you need a 5-amp e-marked cable, and anything above 100 watts, such as 140-watt MacBook Pro charging, requires a cable rated for 240 watts. Check the rating printed on the packaging or connector."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the best charging block for an iPhone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A 20-watt USB-C charger is the sweet spot for wired iPhone charging. Apple says its 20W adapter can bring a compatible iPhone to about half charge in around 30 minutes. The Anker Nano 20W does the same job in a smaller body for less. A bigger charger will not hurt the phone, and is worth it if you also charge an iPad or MacBook."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a USB-C charger power a laptop that came with a barrel plug?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually not. Laptops with round barrel chargers do not accept USB-C power unless they also have a USB-C port that supports charging, which the manufacturer will list. Many gaming laptops have both, but USB-C charging often tops out at 100 watts and may only slow the drain under heavy use. Check the laptop's spec sheet before buying a charger for it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I buy Anker, UGREEN, Belkin or Apple?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "All four make good chargers when you buy the genuine article. Anker and UGREEN tend to offer the most ports and wattage for the money, Belkin is easy to find in stores, and Apple's adapters are simple, reliable and more expensive. Choose by the wattage and port count you need, then buy whichever reputable model is cheapest from a trustworthy seller."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best usb-c charger",
+      "anker charging block",
+      "best charging block",
+      "usb c charging block",
+      "gan charger",
+      "65w charger"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">USB-C Chargers</span> for Phones and Laptops
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          One small block can replace every charger in your bag, if you buy the right wattage. Here is how to match a charger to your laptop and phone, what PD, PPS and GaN really mean, and eight charging blocks worth buying.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#anker-prime-100w"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Jump to the Picks
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#watts" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. How Many Watts</a>
+          <a href="#pd-pps" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. PD and PPS</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Eight Picks</a>
+          <a href="#comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Comparison Table</a>
+          <a href="#gan" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. What GaN Buys You</a>
+          <a href="#sharing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Power Sharing</a>
+          <a href="#cables" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Cable Ratings</a>
+          <a href="#safety" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Safety and Fakes</a>
+          <a href="#outage" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Outage Charging</a>
+          <a href="#choosing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Buying a USB-C charger comes down to one number and one caveat. The number is the single-port wattage, which should match the charger your laptop came with. The caveat is that the big figure on a multi-port block is shared. Get those right, add a cable rated for the job, and almost any reputable GaN charger will serve you well.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="watts" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. How Many Watts Do You Actually Need?
+          </h2>
+
+          <p>
+            The best USB-C charger is the smallest one that gives your most demanding device its full rated power. That makes the first job simple: look at what you are charging. The wattage printed on your laptop's original charger is the most it will ever ask for. Phones and tablets do not print it as clearly, but their spec pages list a maximum charging rate, and that is the number to match.
+          </p>
+
+          <p>
+            Phones sit in a narrow band. Recent iPhones fast-charge from a 20-watt adapter and can briefly accept a bit more, while some Android flagships charge at 25, 45 or more watts if the charger supports the right protocol. Tablets typically want 20 to 45 watts. A 20-watt charging block is plenty for a phone on a nightstand; a 30-to-45-watt block makes sense if you also charge a tablet or want the fastest top-up for a Samsung.
+          </p>
+
+          <p>
+            Laptops are where the numbers climb. A MacBook Air, a Chromebook or a 13-inch Windows ultrabook typically ships with a 30 to 65 watt charger, which is why 65W chargers are such a popular category. A 14-inch performance laptop usually wants 65 to 100 watts. A 16-inch MacBook Pro ships with a 140-watt adapter, and gaming laptops with big graphics chips often use barrel-plug bricks of 180 watts or more that no USB-C charger replaces.
+          </p>
+
+          <p>
+            A smaller charger still works with a bigger laptop, it just charges more slowly, and under heavy use the battery may drain slowly even while plugged in. A larger charger is always safe, because USB-C devices only draw what they negotiate. That is why a 65W charger for a phone is fine and why a 100W charger is the most flexible single block for a mixed household. If you want to charge several devices from one spot on a desk, a <a href="/best-charging-station/">multi-device charging station</a> is the next step up.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Match the laptop, then add headroom for sharing.</p>
+            <p class="text-gray-300 leading-relaxed m-0">Buy a charger whose single-port maximum equals your laptop's original charger, then add 20 to 35 watts of total headroom if you plan to charge a phone from the same block at the same time.</p>
+          </div>
+        </div>
+
+        <div id="pd-pps" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. USB Power Delivery and PPS, Explained
+          </h2>
+
+          <p>
+            USB Power Delivery, almost always shortened to PD, is the standard that makes one charger work with a phone, a tablet and a laptop. When you plug in, the charger and device negotiate over the cable: the device says what it can accept, and the charger offers fixed voltage steps such as 5, 9, 15 and 20 volts. A phone might settle on 9 volts at around 2 amps, a laptop on 20 volts at 3.25 amps for 65 watts. All of this happens automatically and is why a good USB-C charger is genuinely universal.
+          </p>
+
+          <p>
+            Standard PD tops out at 20 volts and 5 amps, which is 100 watts. The PD 3.1 revision added the extended power range, with higher voltage steps of 28, 36 and 48 volts, raising the ceiling to 240 watts. That is how a 140-watt charger feeds a 16-inch MacBook Pro over USB-C. Extended power only works if the charger, the cable and the device all support it; otherwise everything falls back to standard 100-watt PD.
+          </p>
+
+          <p>
+            PPS, the programmable power supply, is an optional part of PD that lets the device ask for voltage in very fine steps instead of fixed ones. That allows a phone to move some of the charging work out of its own circuitry and into the charger, which runs cooler and faster. Samsung's Super Fast Charging at 25 and 45 watts relies on PPS, and some other Android phones use it too. iPhones do not need PPS for their fastest wired charging.
+          </p>
+
+          <p>
+            In practice, PPS support is the one spec Android owners should actively check. A charger can say 65 watts and still charge a Galaxy phone at a slower standard rate if it lacks PPS, or if its PPS range does not include what the phone wants. Good listings state PPS support on the USB-C ports; when a listing is vague about it, assume it is not there. Older proprietary protocols such as Qualcomm Quick Charge still exist on some chargers' USB-A ports but matter less every year.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. Eight USB-C Chargers, From Phone Bricks to Laptop Blocks
+          </h2>
+
+          <p>
+            These eight chargers from Anker, UGREEN, Belkin and Apple are widely sold and come from brands with long records in USB-C charging. They are described from the manufacturers' published specifications and from what owners commonly report, not from hands-on testing of our own. Chargers are revised and renamed often, so confirm the exact model, port layout and PPS support on the listing before you buy.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} reviews)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Comparison Table: The Eight Chargers Side by Side
+          </h2>
+
+          <p>
+            The table lines up the eight charging blocks by the numbers their makers publish. Max single port is what one device can get with nothing else plugged in; total is shared across ports. Price bands are broad on purpose, because charger prices change weekly: budget is roughly under twenty-five dollars, mid up to about sixty, and premium above that.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Charger</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Ports</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Max Single Port</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Price Band</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker Prime 100W</td>
+                    <td class="px-4 py-4 text-gray-700">2 USB-C, 1 USB-A</td>
+                    <td class="px-4 py-4 text-gray-700">100W</td>
+                    <td class="px-4 py-4 text-gray-700">One charger for laptop and phone</td>
+                    <td class="px-4 py-4 text-gray-700">Premium</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker 735 Nano II 65W</td>
+                    <td class="px-4 py-4 text-gray-700">2 USB-C, 1 USB-A</td>
+                    <td class="px-4 py-4 text-gray-700">65W</td>
+                    <td class="px-4 py-4 text-gray-700">Thin laptop plus phone</td>
+                    <td class="px-4 py-4 text-gray-700">Mid</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">UGREEN Nexode 65W</td>
+                    <td class="px-4 py-4 text-gray-700">2 USB-C, 1 USB-A</td>
+                    <td class="px-4 py-4 text-gray-700">65W</td>
+                    <td class="px-4 py-4 text-gray-700">Value 65W pick</td>
+                    <td class="px-4 py-4 text-gray-700">Mid</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">UGREEN Nexode 100W</td>
+                    <td class="px-4 py-4 text-gray-700">3 USB-C, 1 USB-A</td>
+                    <td class="px-4 py-4 text-gray-700">100W</td>
+                    <td class="px-4 py-4 text-gray-700">Four devices, travel</td>
+                    <td class="px-4 py-4 text-gray-700">Mid to premium</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Belkin BoostCharge Pro 65W</td>
+                    <td class="px-4 py-4 text-gray-700">2 USB-C</td>
+                    <td class="px-4 py-4 text-gray-700">65W total</td>
+                    <td class="px-4 py-4 text-gray-700">USB-C-only households</td>
+                    <td class="px-4 py-4 text-gray-700">Mid</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Anker Nano 20W</td>
+                    <td class="px-4 py-4 text-gray-700">1 USB-C</td>
+                    <td class="px-4 py-4 text-gray-700">20W</td>
+                    <td class="px-4 py-4 text-gray-700">Phone brick</td>
+                    <td class="px-4 py-4 text-gray-700">Budget</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Apple 20W USB-C</td>
+                    <td class="px-4 py-4 text-gray-700">1 USB-C</td>
+                    <td class="px-4 py-4 text-gray-700">20W</td>
+                    <td class="px-4 py-4 text-gray-700">Apple original phone brick</td>
+                    <td class="px-4 py-4 text-gray-700">Budget</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Apple 140W USB-C</td>
+                    <td class="px-4 py-4 text-gray-700">1 USB-C</td>
+                    <td class="px-4 py-4 text-gray-700">140W</td>
+                    <td class="px-4 py-4 text-gray-700">16-inch MacBook Pro</td>
+                    <td class="px-4 py-4 text-gray-700">Premium</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The pattern is clear once it is laid out. The 20-watt bricks are for phones and nothing else. The 65-watt group covers most thin laptops and is where most people should start if they own one laptop. The 100-watt group covers almost every USB-C laptop short of the largest, and is the best single block for a mixed household. The Apple 140W is a specialist, worth buying only for a 16-inch MacBook Pro.
+          </p>
+
+          <p>
+            Two things are not in the table because they vary too much by revision to state honestly: exact sharing splits and PPS ranges. Both are worth checking on the specific listing before buying, especially if you plan to charge a laptop and a Samsung phone from the same block. When a listing does not publish a sharing table, assume the laptop port drops noticeably the moment a second device is plugged in.
+          </p>
+        </div>
+
+        <div id="gan" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. What GaN Actually Buys You
+          </h2>
+
+          <p>
+            GaN stands for gallium nitride, a semiconductor material that has largely replaced silicon in good chargers. GaN transistors switch faster and waste less energy as heat than silicon ones, which lets designers use smaller components and pack more power into a smaller block. That is the entire benefit, and it is a real one: a modern GaN 65W charger is often not much larger than an old 20-watt phone brick, and a GaN 100W block is a fraction of the size of a typical 100-watt laptop charger from a few years ago.
+          </p>
+
+          <p>
+            What GaN does not do is charge your devices faster. Speed is set by the wattage and the protocols the charger supports, not by the material inside it. A silicon 65-watt charger and a GaN 65-watt charger deliver the same 65 watts. The GaN version is smaller and lighter and often runs a little cooler, which matters in a bag and in a crowded outlet, but it will not make a phone charge any quicker.
+          </p>
+
+          <p>
+            Because GaN is now the norm for name-brand laptop-class chargers, it has become a marketing label as much as a feature. Some listings put GaN in large type on chargers that are otherwise unremarkable, or use generation numbers that mean little across brands. Treat GaN as a baseline expectation for a 65-watt or larger block, not as a reason to pay more on its own.
+          </p>
+
+          <p>
+            The size benefit has one practical downside: heat density. A small block delivering 100 watts has less surface to shed heat, so it will feel warm under a sustained laptop load. That is normal. A charger that is too hot to hold, smells, or makes crackling noises is not, and should be unplugged and replaced. Owners commonly report that the better-known GaN brands stay warm rather than hot, which is one of the reasons to buy from them.
+          </p>
+        </div>
+
+        <div id="sharing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Power Sharing Across Ports
+          </h2>
+
+          <p>
+            Multi-port USB-C chargers advertise their total, and that total is almost never available on every port at once. A 65-watt three-port charger can give 65 watts to one USB-C device, but connect a phone to the second USB-C port and it will typically split into something like 45 and 20 watts. Add something to the USB-A port and the split changes again. The total stays roughly the same; it is just divided.
+          </p>
+
+          <p>
+            Every time a device is connected or removed, most chargers briefly cut power to all ports while they renegotiate. Your laptop may flash its charging indicator, and a phone may show a momentary disconnect. That is expected behavior, not a fault. It is also why a multi-port charger is a poor choice for anything that must never lose power for a second, such as an external drive mid-backup.
+          </p>
+
+          <p>
+            USB-A ports deserve a specific warning. On many chargers, using the USB-A port reduces the output of the USB-C ports more than you would expect, and the USB-A port itself is slow. If you have a choice, use USB-C cables for everything and leave the USB-A port for an old pair of earbuds or a flashlight. If you own nothing that needs USB-A, a two-port USB-C charger like the Belkin is a cleaner fit.
+          </p>
+
+          <p>
+            The practical takeaway is to size the charger for the combination you actually use. If a laptop and phone charge together every evening, buy a charger whose sharing table still gives the laptop its full rating with the phone connected. A 100-watt block generally gives a 65-watt laptop its full rate alongside a phone, while a 65-watt block gives that laptop less. For a desk with four or more devices, a <a href="/best-charging-station/">charging station</a> with a higher total is a better fit than a wall block.
+          </p>
+        </div>
+
+        <div id="cables" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Cables: 60W, 100W and 240W E-Marked
+          </h2>
+
+          <p>
+            A USB-C charger is only half of the system. The cable decides how much power can actually flow, and it is the most common reason a good charger seems slow. USB-C cables come in three practical power classes, and they look nearly identical, so it is worth knowing which ones you own before blaming the charger.
+          </p>
+
+          <p>
+            A basic USB-C cable without an electronic marker chip is limited to 3 amps. At 20 volts that is 60 watts, which is fine for phones, tablets and thin laptops on a 60- or 65-watt charger, though a 65-watt laptop may top out just under its full rate. Most cables that come in phone boxes are in this class, and many are also limited to slow USB 2.0 data speeds, which does not affect charging.
+          </p>
+
+          <p>
+            A 100-watt cable carries an e-marker chip that tells the charger it can safely handle 5 amps. You need one to get more than 60 watts out of a 100-watt charger. A 240-watt cable is rated for the extended power range and is required for anything above 100 watts, such as the Apple 140W on a 16-inch MacBook Pro. Good cables say their rating on the packaging, and many printed or molded markings now show it on the connector.
+          </p>
+
+          <p>
+            Buy cables from the same reputable brands as chargers. A cheap, unmarked cable that claims 100 watts may not have a real e-marker, and a damaged cable is a heat and fire risk regardless of its rating. Replace any cable with exposed wire, a loose connector, or a plug that gets hot. For laptop-class charging, one good 240-watt cable is a small cost that removes a whole category of slow-charging problems and lets the cable follow you to a bigger charger later.
+          </p>
+        </div>
+
+        <div id="safety" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Safety Certifications and Counterfeits
+          </h2>
+
+          <p>
+            A wall charger sits between household current and a lithium battery you keep next to your head at night, so it is not a place to save the last few dollars. Look for a listing mark from a nationally recognized testing laboratory, such as UL, ETL or CSA, on the charger or its documentation, along with the FCC mark. Major brands carry these as standard. Unbranded chargers with no marks and a too-good price are where most charger fires and failures come from.
+          </p>
+
+          <p>
+            Counterfeits are a specific problem with Apple chargers and, increasingly, popular Anker models. A fake can look nearly identical from the outside while skipping the insulation, fuses and protection circuits inside. The safest approach is to buy from the brand's own store, a major retailer, or a marketplace listing that is sold and shipped by the brand or the retailer itself. A charger that is unusually light, has blurry printing, or feels loose in the outlet is worth returning.
+          </p>
+
+          <p>
+            Good chargers include protection against over-voltage, over-current, short circuits and over-temperature, and most brands list these. Use them sensibly anyway. Keep chargers out of bedding and off couches, do not charge devices under a pillow, and unplug any charger that gets hot, buzzes, smells or has a discolored plug. Do not use a charger with a cracked case or bent prongs, and do not force a charger into a loose or damaged outlet; have a licensed electrician replace worn receptacles.
+          </p>
+
+          <p>
+            Surges are a separate issue. A charger's internal protection is not a surge protector, and lightning or utility switching can still damage it and what is connected. For a home office, plugging chargers into a quality surge-protected strip is sensible, and a <a href="/best-whole-house-surge-protector/">whole-house surge protector</a> installed at the panel by a licensed electrician protects every circuit at once.
+          </p>
+        </div>
+
+        <div id="outage" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. USB-C Chargers and Power Outages
+          </h2>
+
+          <p>
+            A USB-C charger is useless in an outage unless it has somewhere to get power, but the devices it charges are the ones you most want running. The practical plan is to know which battery will stand in for the wall. For a phone or two, a power bank is enough. For laptops and a household of phones over several days, a <a href="/best-portable-power-station/">portable power station</a> is the better tool.
+          </p>
+
+          <p>
+            Most current power stations have their own USB-C PD ports, often rated at 60 to 100 watts or more. Use those directly when you can. Plugging a wall charger into the power station's AC outlet works fine, but it means running the station's inverter to make AC, then converting it straight back to DC in the charger, and the losses add up over days. The wall charger route is still useful when you need more USB-C ports than the station has.
+          </p>
+
+          <p>
+            If you have a <a href="/best-laptop-power-bank/">laptop power bank</a>, check that its USB-C output matches your laptop the same way you would for a wall charger. A <a href="/best-battery-pack-with-ac-outlet/">battery pack with an AC outlet</a> can run a small multi-port charger for several phones. In a car, a USB-C car charger with PD lets you top up phones while the engine runs, but never run a car or generator in a closed garage to charge devices; carbon monoxide builds up quickly and kills.
+          </p>
+
+          <p>
+            Generators deserve the same caution. A portable generator belongs outdoors, far from doors, windows and vents, with a working CO alarm inside the house. Plug chargers into the generator with a properly rated outdoor extension cord, not into a wall outlet that is being fed by the generator through a homemade cable, which is backfeeding and is both illegal and deadly. A home connection needs a transfer switch or interlock installed by a licensed electrician under permit.
+          </p>
+        </div>
+
+        <div id="choosing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which USB-C Charger to Buy
+          </h2>
+
+          <p>
+            If you want one charging block that handles a laptop and a phone, buy the <a href="#anker-prime-100w">Anker Prime 100W</a>. It covers almost every USB-C laptop at full speed on its own and still charges a phone and earbuds alongside. If you need four ports, or the Prime is out of budget, the <a href="#ugreen-nexode-100w">UGREEN Nexode 100W</a> does the same job with an extra port for less money in a larger block.
+          </p>
+
+          <p>
+            If your laptop is a MacBook Air, a Chromebook or another thin machine that shipped with a 30 to 65 watt charger, a 65-watt charger is all you need. The <a href="#anker-735-nano-ii">Anker 735</a> and the <a href="#ugreen-nexode-65w">UGREEN Nexode 65W</a> are close enough that price should decide it. Choose the <a href="#belkin-boostcharge-pro-65w">Belkin BoostCharge Pro 65W</a> if you want USB-C only or need to buy one in a store today.
+          </p>
+
+          <p>
+            For phones alone, buy the <a href="#anker-nano-20w">Anker Nano 20W</a>, ideally several. The <a href="#apple-20w-usb-c">Apple 20W</a> is a fine alternative if you want Apple's own adapter and buy it from a trustworthy seller, but it is not better. Samsung owners who want the fastest wired charging should step up to a 45-watt charger with confirmed PPS support instead of either 20-watt brick.
+          </p>
+
+          <p>
+            Only buy the <a href="#apple-140w-usb-c">Apple 140W</a> if you own a 16-inch MacBook Pro and want a spare that matches the one in the box, and pair it with a 240-watt cable. Whatever you choose, buy a cable rated for the wattage, buy from a seller that cannot pass off a counterfeit, and keep a <a href="/best-portable-power-station/">power station</a> or power bank charged so your charger has something to plug into when the power goes out.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying on the total instead of the single-port rating</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 100-watt three-port charger gives 100 watts to one device only when nothing else is plugged in. Add a phone and the laptop port drops. Match the single-port maximum, with your usual combination connected, to the wattage of the charger your laptop shipped with, and treat the total as a measure of capacity.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Blaming the charger for a slow cable</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Ordinary USB-C cables without an e-marker cap out at 60 watts, and many phone-box cables are exactly that. A 100-watt charger on one of them cannot deliver more. Use a 5-amp e-marked cable for 100 watts and a 240-watt cable for anything above, from a reputable brand that prints the rating.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring PPS on a Samsung phone</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Samsung's fastest wired charging uses PPS. A big-watt charger without PPS, or with a PPS range that does not match, will charge a Galaxy at a slower standard rate. If your phone advertises Super Fast Charging, confirm the charger lists PPS on its USB-C ports before buying for that reason.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a cheap Apple lookalike</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Counterfeit Apple and Anker chargers are common in marketplace listings and can skip the insulation and protection circuits that make a charger safe. Buy from the brand, a major retailer, or a listing shipped and sold by one of them. Return anything unusually light, poorly printed or loose in the outlet.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Plugging chargers into a backfed outlet in an outage</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Feeding a generator or power station into a wall outlet with a double-ended cable to run chargers is backfeeding. It can electrocute utility workers and start fires. Plug chargers directly into the generator or power station, keep generators outdoors far from openings, and have a licensed electrician install a transfer switch for home connections.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best USB-C charger for most people?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For one block that charges a laptop and a phone, the Anker Prime 100W is the strongest all-rounder, with the UGREEN Nexode 100W as a cheaper four-port alternative. If you only have a thin laptop, a 65-watt charger such as the Anker 735 or UGREEN Nexode 65W is enough. For phones alone, a 20-watt brick like the Anker Nano is all you need.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a 65W charger safe for my phone?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. USB-C Power Delivery chargers only supply what the device asks for, so a phone on a 65-watt charger negotiates its own rate, usually 20 to 45 watts, and the charger provides no more. The same applies to earbuds and watches. A higher-watt charger is never forced into a device; the device is always in control of what it draws.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What does GaN mean on a charger?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                GaN stands for gallium nitride, a semiconductor material that wastes less energy as heat than silicon. It lets manufacturers build smaller, lighter chargers for the same wattage. It does not make devices charge faster; charging speed comes from wattage and protocol support. For any charger of 65 watts or more, GaN is now a baseline expectation rather than a premium feature.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need a special cable for a 100W charger?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                To get more than 60 watts, yes. Basic USB-C cables are limited to 3 amps, or 60 watts at 20 volts. For 100 watts you need a 5-amp e-marked cable, and anything above 100 watts, such as 140-watt MacBook Pro charging, requires a cable rated for 240 watts. Check the rating printed on the packaging or connector.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best charging block for an iPhone?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A 20-watt USB-C charger is the sweet spot for wired iPhone charging. Apple says its 20W adapter can bring a compatible iPhone to about half charge in around 30 minutes. The Anker Nano 20W does the same job in a smaller body for less. A bigger charger will not hurt the phone, and is worth it if you also charge an iPad or MacBook.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a USB-C charger power a laptop that came with a barrel plug?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Usually not. Laptops with round barrel chargers do not accept USB-C power unless they also have a USB-C port that supports charging, which the manufacturer will list. Many gaming laptops have both, but USB-C charging often tops out at 100 watts and may only slow the drain under heavy use. Check the laptop's spec sheet before buying a charger for it.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Should I buy Anker, UGREEN, Belkin or Apple?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                All four make good chargers when you buy the genuine article. Anker and UGREEN tend to offer the most ports and wattage for the money, Belkin is easy to find in stores, and Apple's adapters are simple, reliable and more expensive. Choose by the wattage and port count you need, then buy whichever reputable model is cheapest from a trustworthy seller.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Charging and Backup Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Give your chargers something to plug into when the grid goes down.</p>
+            </a>
+            <a href="/best-charging-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Charging Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">Multi-device docks and 3-in-1 stands for desks and nightstands.</p>
+            </a>
+            <a href="/best-laptop-power-bank/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#22C55E] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Laptop Power Banks</h3>
+              <p class="text-gray-500 text-sm mt-2">USB-C PD packs that charge a laptop away from the wall.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The right USB-C charger is the smallest reputable block whose single-port wattage matches your laptop's original charger, with enough total left over for the phone you charge beside it. For most people that means a 65-watt charger for a thin laptop or a 100-watt charger for everything else, and a 20-watt brick for each nightstand.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Spend a little on a cable rated for the wattage, buy from a seller that cannot hand you a counterfeit, and keep a power bank or power station charged. Then the charger in your bag works at home, on the road and through the next outage.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

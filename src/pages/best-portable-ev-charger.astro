@@ -1,0 +1,934 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Whole-House Surge Protector",
+    "url": "/best-whole-house-surge-protector/"
+  },
+  {
+    "title": "Best RV Power Adapter",
+    "url": "/best-rv-power-adapter/"
+  },
+  {
+    "title": "Best Dryer Cord",
+    "url": "/best-dryer-cord/"
+  },
+  {
+    "title": "Best Circuit Breaker Finder",
+    "url": "/best-circuit-breaker-finder/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Portable EV Chargers: Level 2 Cords and Plug-In Units for a 14-50";
+const description =
+  "Five portable and plug-in EV chargers for a NEMA 14-50 or 6-50, with Level 1 vs 2 speeds, the 80% rule, J1772 vs NACS and why a power station can't charge a car";
+
+const PRODUCTS = [
+  {
+    "id": "tesla-mobile-connector",
+    "name": "Tesla Mobile Connector EV Charger",
+    "category": "Portable, up to 32A on 14-50 adapter, NACS",
+    "badge": "Best for Tesla Owners",
+    "amazonUrl": "",
+    "pros": [
+      "Made by Tesla for Tesla vehicles",
+      "Swappable NEMA adapters set the current automatically",
+      "Covers Level 1 and Level 2 with the right adapter",
+      "Compact enough to live in the trunk",
+      "Adapter system is the best travel setup here"
+    ],
+    "cons": [
+      "NACS connector only; built for Teslas",
+      "Some adapters are sold separately",
+      "32A maximum, below a 40A wall unit"
+    ],
+    "bottomLine": "The best travel charger for a Tesla, and a capable home charger on a 14-50.",
+    "description": "Tesla's Mobile Connector is the reference design for a portable EV charger. It is a control box and cable with a NACS connector on one end and an interchangeable adapter on the other, and each adapter tells the unit what it is plugged into so it limits current automatically. On a household 15-amp outlet it charges slowly at Level 1; with the NEMA 14-50 adapter Tesla rates it at up to 32 amps, which is a full overnight refill for most daily driving. Tesla sells additional adapters for other common receptacles, including 30-amp dryer outlets, which makes it unusually flexible for travel and for visiting friends and family. Check which adapters come in the box you buy, because the bundle has changed over the years. It is designed for Tesla vehicles, so owners of other NACS-port cars should check their automaker's guidance first. For a Tesla driver who wants one charger for home and the road, this is the one."
+  },
+  {
+    "id": "lectron-32a-portable",
+    "name": "Lectron 32A Portable Level 2 EV Charger",
+    "category": "Portable, 32A, NEMA 14-50 plug, J1772",
+    "badge": "Best Portable J1772",
+    "amazonUrl": "",
+    "pros": [
+      "32A Level 2 on a standard NEMA 14-50",
+      "J1772 connector suits most non-Tesla EVs",
+      "Light enough to keep in the trunk",
+      "Stays within limits on 40A or 50A 14-50 circuits",
+      "Established EV accessory brand"
+    ],
+    "cons": [
+      "Fixed 14-50 plug limits where you can use it",
+      "No smart features or scheduling",
+      "Must not be used with extension cords"
+    ],
+    "bottomLine": "A straightforward portable Level 2 cord for J1772 cars and any 14-50.",
+    "description": "Lectron is one of the better-known names in EV charging accessories, and its 32-amp portable Level 2 charger is a simple, sensible product. Lectron lists it as a 240-volt, 32-amp charger with a NEMA 14-50 plug and a J1772 connector, which suits most non-Tesla EVs with a J1772 port and many cars that ship with a J1772 adapter. At 32 amps, it draws roughly 7.7 kilowatts, which is enough for an overnight refill of most daily driving, and it stays within the continuous-load limit on a 14-50 whether the breaker behind it is 40 or 50 amps. Because it is a portable cord rather than a wall unit, it can go in the trunk for trips to a relative's house or an RV park where EV charging is permitted. There are no scheduling or app features, so off-peak charging depends on your car's own timer. Lectron has also offered NACS versions of its chargers; choose the connector that matches your car."
+  },
+  {
+    "id": "mustart-32a-portable",
+    "name": "MUSTART 32A Portable Level 2 EV Charger",
+    "category": "Portable, 32A, NEMA 14-50 plug, J1772",
+    "badge": "Best Budget Portable",
+    "amazonUrl": "",
+    "pros": [
+      "32A Level 2 from a NEMA 14-50",
+      "J1772 connector for most non-Tesla EVs",
+      "Usually priced below brand-name rivals",
+      "Simple plug-and-charge operation",
+      "Compact for trunk storage"
+    ],
+    "cons": [
+      "Smaller brand with less track record",
+      "Check the listing mark on the unit itself",
+      "No app or scheduling"
+    ],
+    "bottomLine": "A budget portable Level 2 charger that covers the basics at 32 amps.",
+    "description": "MUSTART is a smaller brand that sells widely through online retailers, and its portable Level 2 charger is a common budget alternative to the bigger names. MUSTART lists it as a 32-amp, 240-volt portable charger with a NEMA 14-50 plug and a J1772 connector, the same basic formula as the Lectron, usually at a lower price. For a J1772 car on a correctly installed 14-50 receptacle, that means roughly 7.7 kilowatts and an overnight refill of typical daily driving. It is light enough to keep in the trunk and simple to use: plug it into the wall, plug it into the car, and charging starts. The reason it sits below the Lectron is track record rather than any specification. With any lower-cost charger, confirm a recognized safety listing mark is on the unit itself, inspect the plug and cable regularly, and never use it on an extension cord. Choose it when budget is the priority and you have confirmed the listing."
+  },
+  {
+    "id": "grizzl-e-classic",
+    "name": "Grizzl-E Classic Level 2 EV Charger",
+    "category": "Plug-in wall unit, up to 40A, NEMA 14-50 or 6-50, J1772",
+    "badge": "Best Rugged Wall Unit",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 40A, the maximum on a 50A circuit",
+      "Adjustable current to match smaller circuits",
+      "Plug-in with NEMA 14-50 or 6-50, or hardwire",
+      "Rugged enclosure rated for outdoor mounting",
+      "Long charging cable"
+    ],
+    "cons": [
+      "No Wi-Fi or app on the Classic model",
+      "Heavier wall unit, not a trunk charger",
+      "Amp setting must be configured correctly"
+    ],
+    "bottomLine": "The tough, simple garage charger for people who do not want an app.",
+    "description": "The Grizzl-E Classic, from Canadian maker United Chargers, is a plug-in wall unit rather than a trunk cord, and it is popular for one reason: it is simple and built to take abuse. United Chargers rates it at up to 40 amps, which is the most a 50-amp circuit allows for continuous charging, and the current can be set lower to suit a smaller circuit. It is offered with a NEMA 14-50 or 6-50 plug, so it can unplug and move house with you, and it can also be hardwired. The enclosure is designed for outdoor mounting, which suits a driveway or carport installation, and the cable is long enough to reach most charge ports without stretching. The Classic has no Wi-Fi, app or scheduling, which some owners see as a feature; use the car's charging timer for off-peak rates. Have the installer set the current to match the breaker before first use, and it should simply work for years."
+  },
+  {
+    "id": "chargepoint-home-flex",
+    "name": "ChargePoint Home Flex Level 2 EV Charger",
+    "category": "Plug-in or hardwired, up to 50A hardwired, J1772",
+    "badge": "Best Smart Charger",
+    "amazonUrl": "",
+    "pros": [
+      "Up to 50A when hardwired on a 60A circuit",
+      "Plug-in versions for NEMA 14-50 or 6-50",
+      "App with scheduling and usage tracking",
+      "Adjustable current for smaller circuits",
+      "Long cable with holster"
+    ],
+    "cons": [
+      "Costs more than portable cords",
+      "Plug-in version is limited below the hardwired maximum",
+      "App features need Wi-Fi in the garage"
+    ],
+    "bottomLine": "The smart, flexible choice if you want scheduling and room to grow.",
+    "description": "ChargePoint's Home Flex is the contrast to the portable cords: a full wall-mounted charger that can either plug into a NEMA 14-50 or 6-50 receptacle or be hardwired. ChargePoint rates it at up to 50 amps when hardwired on a 60-amp circuit, the most current in this guide, and the plug-in versions run at a lower maximum that suits the receptacle and circuit. The current is adjustable during setup, so the same unit fits a 40-amp, 50-amp or 60-amp circuit. Its main appeal is the ChargePoint app, which handles scheduling for off-peak utility rates, tracks energy use and sends charging notifications, and the long cable and holster make daily use tidy. It costs more than the portable cords and needs Wi-Fi to use its smart features. If you are installing a new circuit anyway, the Home Flex lets you start with a plug-in installation and move to hardwired, higher-current charging later with the same unit."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Portable EV Charger",
+          item: "https://www.allmetalbrake.com/best-portable-ev-charger/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best portable EV charger?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For Tesla owners, the Tesla Mobile Connector, thanks to its swappable adapters and travel flexibility. For J1772 cars, the Lectron 32A Portable Level 2 EV Charger is a straightforward choice for any correctly installed NEMA 14-50, with the MUSTART 32A as a budget alternative. For a charger that stays in the garage, the Grizzl-E Classic or ChargePoint Home Flex."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How fast does a portable Level 2 charger charge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A 32-amp Level 2 charger delivers about 7.7 kilowatts, which typically adds somewhere around 20 to 30 miles of range per hour depending on the car's efficiency. Your car's onboard charger may cap the rate lower. Level 1 at 12 amps on a household outlet usually adds about 3 to 5 miles per hour, which can still cover a short daily commute overnight."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I plug an EV charger into a NEMA 14-50 outlet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, that is what most portable Level 2 chargers are designed for. The 14-50 should be on a dedicated circuit installed by a licensed electrician, ideally with a heavy-duty receptacle, and any required permit and GFCI protection. A 32-amp charger is safe on a 14-50 with a 40 or 50-amp breaker; a 40-amp charger needs the 50-amp breaker."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between a 14-50 and a 6-50 for EV charging?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both are 240-volt, 50-amp receptacles. The 14-50 has four prongs including a neutral; the 6-50 has three, with no neutral. EV chargers do not use the neutral, so either works if the charger has the matching plug. The 14-50 is more common and matches RV park pedestals, which makes it the better choice for a portable cord."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I charge an EV from a dryer outlet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Possibly, at reduced current. A 30-amp dryer circuit allows 24 amps of continuous charging. Use only the charger maker's own adapter for that receptacle, which tells the charger to limit itself, never a homemade adapter, and never run the dryer and the car at the same time. A dedicated circuit installed by an electrician is the better long-term answer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a J1772 or NACS charger?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Match the port on your car. Most non-Tesla EVs built before the industry's switch use J1772, while Teslas and a growing number of newer models from other makers use NACS. Adapters work in both directions for AC charging, but use a listed adapter rated for at least the charger's current, and follow your automaker's guidance on which adapters it supports."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a portable power station charge an electric car?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not meaningfully. A large station holds 1 to 3 kilowatt-hours, while an EV battery holds roughly 50 to 100 or more, so a full station adds only a handful of miles. Many stations cannot sustain Level 1 charging, and some chargers refuse to start on them. Charge the car before a forecast storm and use public chargers during long outages."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best portable ev charger",
+      "portable ev charger",
+      "electric car portable charging station",
+      "level 2 portable charger",
+      "ev charger 14-50",
+      "nema 14-50 ev charger"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Portable EV Chargers</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          A portable EV charger is a smart cord, not a power source. It is only as fast as the outlet you plug it into, so the outlet, the circuit and the electrician matter as much as the box. Five picks, and the wiring rules that decide which one fits.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#tesla-mobile-connector"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Check Your Outlet
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#levels" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Level 1 vs Level 2</a>
+          <a href="#at-a-glance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. Comparison Table</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Five Picks</a>
+          <a href="#outlets" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. 14-50 and 6-50 Outlets</a>
+          <a href="#eighty-percent" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. The 80% Rule</a>
+          <a href="#connectors" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. J1772, NACS and Adapters</a>
+          <a href="#listing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. UL and ETL Listing</a>
+          <a href="#power-stations" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Why a Power Station Won't Do It</a>
+          <a href="#portable-vs-wall" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Portable or Plug-In Wall Unit</a>
+          <a href="#which-one" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          People shop for a portable EV charger by amps and cable length. The thing that actually sets your charging speed, and your safety, is the receptacle on the wall and the circuit behind it. Get that right first and almost any listed charger in this guide will do the job.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="levels" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. Level 1 vs Level 2: What Each Actually Delivers
+          </h2>
+
+          <p>
+            The box most people call an EV charger is, technically, electric vehicle supply equipment, or EVSE. The actual charger is inside the car. The EVSE's job is to check that the connection is safe, tell the car how much current it may draw, and switch the power on only once the plug is locked in. That is why a portable EV charger can be a fairly small box on a cord: it is a safety switch and a messenger, not a power plant.
+          </p>
+
+          <p>
+            Level 1 means 120 volts from an ordinary household outlet. Most portable Level 1 cords draw 12 amps, which is about 1.4 kilowatts and typically adds something like 3 to 5 miles of range per hour, depending on the car. Plug in at 6 p.m. and unplug at 7 a.m., and you might add 40 to 60 miles. For a short commute and a car that sits all night, that is genuinely enough, and the cord that came with many EVs already does it.
+          </p>
+
+          <p>
+            Level 2 means 240 volts, the same supply as an electric dryer or range. A portable Level 2 charger on a 50-amp circuit typically draws 32 amps, about 7.7 kilowatts, and a plug-in wall unit set to 40 amps gets you to roughly 9.6 kilowatts. Depending on the car, that is somewhere around 20 to 35 miles of range per hour, enough to refill most daily driving in a few hours and a nearly empty battery overnight.
+          </p>
+
+          <p>
+            Your car sets a ceiling too. Every EV has an onboard charger with a maximum AC rate, and many are rated somewhere around 7 to 11 kilowatts. If your car's onboard charger tops out near 7 kilowatts, a 40-amp unit will not charge it any faster than a 32-amp one. Check the AC charging rate in the owner's manual before paying for amps your car cannot use.
+          </p>
+
+          <p>
+            DC fast charging, the kind at highway stations, is a different thing altogether. It bypasses the onboard charger and feeds the battery directly at tens or hundreds of kilowatts. Nothing in this guide does that, and nothing you can install in a garage on household service will. A portable EV charger is for overnight and destination charging, which is where most EV owners do most of their charging anyway.
+          </p>
+        </div>
+
+        <div id="at-a-glance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. Comparison Table
+          </h2>
+
+          <p>
+            Three of these picks are true portable cords that you can coil up and put in the trunk. Two are plug-in wall units that hang on a bracket but unplug from a NEMA receptacle, so they can move house with you. The table is built from each maker's published specifications.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Model</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Max current</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Plug</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Connector</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best for</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Tesla Mobile Connector</td>
+                    <td class="px-4 py-4 text-gray-700">Portable cord</td>
+                    <td class="px-4 py-4 text-gray-700">32A (on 14-50 adapter)</td>
+                    <td class="px-4 py-4 text-gray-700">Swappable NEMA adapters</td>
+                    <td class="px-4 py-4 text-gray-700">NACS</td>
+                    <td class="px-4 py-4 text-gray-700">Tesla owners, travel</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Lectron 32A Portable Level 2</td>
+                    <td class="px-4 py-4 text-gray-700">Portable cord</td>
+                    <td class="px-4 py-4 text-gray-700">32A</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA 14-50</td>
+                    <td class="px-4 py-4 text-gray-700">J1772</td>
+                    <td class="px-4 py-4 text-gray-700">J1772 cars, trunk charger</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">MUSTART 32A Portable Level 2</td>
+                    <td class="px-4 py-4 text-gray-700">Portable cord</td>
+                    <td class="px-4 py-4 text-gray-700">32A</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA 14-50</td>
+                    <td class="px-4 py-4 text-gray-700">J1772</td>
+                    <td class="px-4 py-4 text-gray-700">Budget portable Level 2</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Grizzl-E Classic</td>
+                    <td class="px-4 py-4 text-gray-700">Plug-in wall unit</td>
+                    <td class="px-4 py-4 text-gray-700">40A (adjustable)</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA 14-50 or 6-50</td>
+                    <td class="px-4 py-4 text-gray-700">J1772</td>
+                    <td class="px-4 py-4 text-gray-700">Garage, outdoors, no app</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">ChargePoint Home Flex</td>
+                    <td class="px-4 py-4 text-gray-700">Plug-in or hardwired</td>
+                    <td class="px-4 py-4 text-gray-700">Up to 50A hardwired</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA 14-50 or 6-50 (plug-in)</td>
+                    <td class="px-4 py-4 text-gray-700">J1772</td>
+                    <td class="px-4 py-4 text-gray-700">Smart scheduling, app</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The max current column only matters if your circuit can supply it. A 32-amp portable on a 50-amp circuit and a 40-amp wall unit on the same circuit are both legal; a 40-amp unit on a 40-amp circuit is not. The section on the 80 percent rule below covers how that works.
+          </p>
+
+          <p>
+            Connector type is the other column to read carefully. Most non-Tesla EVs sold before the industry's switch to the NACS port use J1772 for AC charging, and newer cars from several makers are moving to NACS. Adapters exist in both directions, but buying a charger that matches your car's port natively is the simplest choice.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Five Portable and Plug-In EV Chargers
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications, not from hands-on testing. Amp ratings, plug types and connector types come from the makers' listings; your real charging speed depends on your circuit, your car's onboard charger and the battery's state, so check the current spec sheet and your vehicle's manual before you buy.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="outlets" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. NEMA 14-50 and 6-50 Outlets: Have an Electrician Install Them
+          </h2>
+
+          <p>
+            Nearly every portable Level 2 charger is built around the NEMA 14-50 receptacle: a four-prong, 50-amp, 240-volt outlet that also provides a neutral. It is the same receptacle used at RV park pedestals and for many electric ranges, which is why it became the default for EV cords. The NEMA 6-50 is its three-prong sibling, with two hots and a ground but no neutral. EV chargers do not need the neutral, so many plug-in units are offered with either plug.
+          </p>
+
+          <p>
+            Installing either one is a job for a licensed electrician, and in most places it needs a permit and an inspection. The electrician will check that your panel has capacity for a large continuous load, run the correct wire size for the breaker and the distance, and fit the receptacle in a sensible spot for the cable to reach the charge port. Many will perform a load calculation first; if your service is already near its limit, a lower-amp circuit or a load-management device may be the answer. A <a href="/best-home-energy-monitor/">home energy monitor</a> is a cheap way to see how close to that limit your house already runs.
+          </p>
+
+          <p>
+            Ask for an industrial or heavy-duty grade receptacle. EV charging pulls high current for hours at a time, every night, and that is a much harder job than a range or dryer that cycles on and off. Inexpensive receptacles and loose terminal screws have been linked to overheated and melted outlets under continuous EV loads, and Tesla, among others, recommends a high-quality receptacle for its Mobile Connector. The price difference is small compared with the cost of a scorched wall.
+          </p>
+
+          <p>
+            Ground-fault protection is the other conversation to have up front. Recent editions of the National Electrical Code require GFCI protection for receptacles used for EV charging and for many 240-volt receptacles in garages and outdoors. Most EV chargers include their own ground-fault detection, and some can nuisance-trip when paired with a GFCI breaker. Your electrician and local inspector will know what your jurisdiction requires; if nuisance tripping becomes a problem, hardwiring a wall unit is often the cleanest fix.
+          </p>
+
+          <p>
+            Two things not to do. Do not plug a portable EV charger into an extension cord; nearly every maker prohibits it, because a long cord and its plug connections become the weakest, hottest point in the circuit. And do not use a homemade or off-brand adapter to plug a 14-50 charger into a smaller dryer receptacle. If you want to use an existing 30-amp dryer outlet, use the maker's own adapter that tells the charger to limit itself to 24 amps, and never run the dryer and the car on the same circuit at once. Our <a href="/best-dryer-cord/">dryer cord guide</a> explains the 10-30 and 14-30 receptacle types.
+          </p>
+        </div>
+
+        <div id="eighty-percent" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. The 80% Continuous Rule and Amp Settings
+          </h2>
+
+          <p>
+            Electrical code treats EV charging as a continuous load, meaning one that runs three hours or more. A continuous load may only use 80 percent of the circuit's rating, or put the other way, the circuit must be sized at 125 percent of the charger's maximum current. That single rule explains every common EV charger rating on the market.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Circuit breaker</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Maximum continuous charging current</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Approx. power at 240V</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Common receptacles</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">15A (120V)</td>
+                    <td class="px-4 py-4 text-gray-700">12A</td>
+                    <td class="px-4 py-4 text-gray-700">1.4 kW at 120V</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA 5-15 (Level 1)</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">20A (120V)</td>
+                    <td class="px-4 py-4 text-gray-700">16A</td>
+                    <td class="px-4 py-4 text-gray-700">1.9 kW at 120V</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA 5-20 (Level 1)</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">30A</td>
+                    <td class="px-4 py-4 text-gray-700">24A</td>
+                    <td class="px-4 py-4 text-gray-700">5.8 kW</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA 14-30, 10-30</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">40A</td>
+                    <td class="px-4 py-4 text-gray-700">32A</td>
+                    <td class="px-4 py-4 text-gray-700">7.7 kW</td>
+                    <td class="px-4 py-4 text-gray-700">Hardwired or 14-50 on a 40A circuit*</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">50A</td>
+                    <td class="px-4 py-4 text-gray-700">40A</td>
+                    <td class="px-4 py-4 text-gray-700">9.6 kW</td>
+                    <td class="px-4 py-4 text-gray-700">NEMA 14-50, 6-50</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">60A</td>
+                    <td class="px-4 py-4 text-gray-700">48A</td>
+                    <td class="px-4 py-4 text-gray-700">11.5 kW</td>
+                    <td class="px-4 py-4 text-gray-700">Hardwired only</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The asterisk matters. A 14-50 receptacle is designed for a 50-amp circuit, and an electrician may install one on a 40-amp circuit in some situations under local rules. If that is your setup, the charger must be set to 32 amps or less. This is exactly why portable 32-amp cords are the safe default: they stay within limits on any properly wired 14-50, whether the breaker behind it is 40 or 50 amps.
+          </p>
+
+          <p>
+            Adjustable chargers like the Grizzl-E Classic and the ChargePoint Home Flex let you, or your installer, set the maximum current to match the circuit. Set it once, correctly, at installation and do not turn it up later because the car would like to charge faster. If the breaker trips or the receptacle or plug feels hot, stop using it and call the electrician; those are signs of a problem, not a charger that needs more amps.
+          </p>
+
+          <p>
+            Portable chargers with swappable adapters, such as Tesla's Mobile Connector, solve the problem a different way. Each adapter tells the charger which receptacle it is plugged into, and the charger limits its current accordingly: low on a household 15-amp outlet, higher on a 30-amp dryer outlet, highest on a 14-50. That is what makes them good travel chargers. It also means a cheap third-party adapter that misreports what it is plugged into can be genuinely dangerous.
+          </p>
+        </div>
+
+        <div id="connectors" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. J1772, NACS and Adapters
+          </h2>
+
+          <p>
+            Two AC charging connectors matter in North America. J1772 is the long-standing standard used by most non-Tesla EVs. NACS, the connector Tesla developed and which has since been standardized as SAE J3400, is now being adopted by a long list of automakers for new models. Cars with a J1772 port will be on the road for many years, and cars with a NACS port are becoming common, so the right charger depends on the car you have and the one you expect to have next.
+          </p>
+
+          <p>
+            Adapters bridge the gap for AC charging. Tesla has long supplied a J1772-to-NACS adapter so its cars can use J1772 chargers, and automakers moving to NACS ports have offered adapters so their cars can use J1772 equipment. For home charging, an adapter adds one more connection that carries full current for hours, so buy a listed adapter from a reputable brand, check that its rated current is at least the charger's output, and inspect it for heat or damage from time to time.
+          </p>
+
+          <p>
+            The cleanest home setup is a charger with the same connector as your car. If your household has one car of each type, a J1772 charger plus the adapter supplied for your NACS car, or the reverse, works well. Several makers now sell their wall units and portable cords in either connector, so check whether the model you like comes in the version you need before you settle for an adapter.
+          </p>
+
+          <p>
+            Whatever you choose, follow the vehicle maker's guidance on adapters. Some automakers specify which adapters they support, and an unsupported adapter that fails can raise warranty questions. This is an area where the inexpensive no-name option is the wrong place to save money.
+          </p>
+        </div>
+
+        <div id="listing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. UL and ETL Listing: Why It Matters More Here
+          </h2>
+
+          <p>
+            A portable EV charger handles more current, for longer, than almost anything else you plug into the wall. That makes third-party safety certification more important here than for most gadgets. In North America, look for a listing mark from a nationally recognized testing laboratory such as UL, Intertek's ETL or CSA, on the product itself, not only in the listing text. The relevant standards for EV supply equipment include UL 2594 for the charging equipment and UL 2231 for personnel protection systems, and a listed product has been evaluated against them.
+          </p>
+
+          <p>
+            Online marketplaces are full of portable EV cords with no meaningful certification, or with marks that cannot be matched to a real listing. Some are fine; some are not; and you cannot tell which from the photos. The manufacturers in this guide are established brands that publish listing information. For any portable charger, check that the mark is on the unit or its label, and if in doubt, search the testing laboratory's public directory for the model.
+          </p>
+
+          <p>
+            Listing also matters to inspectors and insurers. A permitted installation may be inspected with the charger in place, and an unlisted device on a high-current circuit can fail inspection. If a fire ever does happen, an unlisted charger is a fact you do not want in the claim. Our <a href="/best-whole-house-surge-protector/">whole-house surge protector guide</a> covers the panel-level protection worth adding when you upgrade the circuit.
+          </p>
+
+          <p>
+            Finally, look at the cable and plug with the same eye. Portable chargers live on garage floors and in trunks and get driven over, stepped on and coiled tight. Check the cable for cuts and the plug for discoloration or heat every so often, and replace a damaged unit rather than taping it.
+          </p>
+        </div>
+
+        <div id="power-stations" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Why a Power Station Cannot Meaningfully Charge an EV
+          </h2>
+
+          <p>
+            The question comes up after every big outage: can a portable power station charge an electric car? Physically, sometimes. Usefully, almost never. A typical EV battery holds somewhere between about 50 and 100 kilowatt-hours or more. A large portable power station from our <a href="/best-portable-power-station/">portable power station guide</a> holds 1 to 3 kilowatt-hours. Even a perfect transfer from a 2-kilowatt-hour station would add something like 5 to 8 miles of range, and charging losses mean the real figure is lower.
+          </p>
+
+          <p>
+            There are practical obstacles too. Level 1 charging needs about 1.4 kilowatts continuously, which many smaller stations cannot supply at all. And some EV chargers run a ground check before they will start; a source whose output is not bonded the way a household circuit is can fail that check, so the charger may simply refuse to begin. Station makers that do support EV charging say so explicitly and specify how.
+          </p>
+
+          <p>
+            The same logic runs the other way and is more useful. An EV is a very large battery on wheels, and some models can power devices or, with the right equipment, a home during an outage. That requires vehicle-to-load or vehicle-to-home features the car maker supports and, for whole-home use, a transfer switch or dedicated equipment installed by a licensed electrician. It never means plugging anything into a house outlet. Our <a href="/best-home-battery-backup/">home battery backup guide</a> covers the stationary alternatives.
+          </p>
+
+          <p>
+            If you are thinking about a generator for EV charging in a long outage, the same rules as any generator apply: run it outdoors only, well away from doors, windows and vents, never in a garage even with the door open, and connect through cords or a properly installed transfer switch. Some EV chargers will not work with some portable generators for the same grounding reason as power stations. For most owners, the better plan is to keep the car charged when a storm is forecast and drive to a public charger if needed.
+          </p>
+        </div>
+
+        <div id="portable-vs-wall" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Portable Charger or Plug-In Wall Unit?
+          </h2>
+
+          <p>
+            The word portable covers two different products. A true portable charger is a cord with a control box in the middle and a plug on the end, light enough to keep in the trunk. A plug-in wall unit is a heavier box on a wall bracket, often with a longer cable and a holster, that happens to connect with a plug rather than being hardwired. Both are useful, and many households end up with one of each.
+          </p>
+
+          <p>
+            A portable cord wins for travel and flexibility. Keep it in the car and you can charge at a relative's house with a 14-50 in the garage, at an RV park pedestal where EV charging is permitted, or from an ordinary outlet at Level 1 in an emergency. If you rent, it also leaves with you without an electrician. Ask before plugging into anyone else's receptacle, and if you are using RV park power, follow the park's rules; our <a href="/best-rv-power-adapter/">RV power adapter guide</a> explains the pedestal receptacles.
+          </p>
+
+          <p>
+            A plug-in wall unit wins for daily home use. It usually has a longer and more robust cable, a proper place to hang it, and on smart models, scheduling to charge during off-peak utility rates. It stays plugged into the receptacle instead of being plugged and unplugged every day, which is easier on the receptacle and the plug. If you are installing a new circuit anyway, ask the electrician whether hardwiring makes more sense; it removes the receptacle as a failure point and can allow a higher current.
+          </p>
+
+          <p>
+            For one EV and a garage, the most common sensible setup is a plug-in or hardwired wall unit at home and either the car's included cord or a portable 32-amp charger in the trunk. Buying two chargers sounds excessive until you realize how many trips end at a house with a perfectly good 14-50 and no charger on it.
+          </p>
+        </div>
+
+        <div id="which-one" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which One to Buy
+          </h2>
+
+          <p>
+            If you drive a Tesla, the <strong>Tesla Mobile Connector</strong> is the obvious first choice. It is built for the car, its adapter system covers everything from a household outlet to a 14-50, and it is the best travel charger in this guide for a NACS-port car.
+          </p>
+
+          <p>
+            If your car uses J1772 and you want a portable Level 2 cord to keep in the trunk or plug into a 14-50 at home, the <strong>Lectron 32A Portable Level 2 EV Charger</strong> is the pick, with the <strong>MUSTART 32A Portable Level 2 EV Charger</strong> as the budget alternative. At 32 amps, both stay within limits on any correctly installed 14-50, whether it sits on a 40 or 50-amp breaker.
+          </p>
+
+          <p>
+            For a charger that lives in the garage, the <strong>Grizzl-E Classic</strong> is the rugged, no-app choice at up to 40 amps on a 50-amp circuit, and it is built for outdoor mounting. If you want scheduling, usage tracking and the option to hardwire later at up to 50 amps, choose the <strong>ChargePoint Home Flex</strong>.
+          </p>
+
+          <p>
+            Whatever you buy, the order of operations is the same: check your car's onboard charging rate, have a licensed electrician install the right circuit with a heavy-duty receptacle and any permit your area requires, then choose a listed charger that matches the circuit and your car's connector. Skip anything unlisted, and forget about charging a car from a portable power station; it is the wrong tool for the job.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Plugging into an extension cord</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Almost every EV charger maker prohibits extension cords, and for good reason. Hours of high current turn a long cord and its plug connections into the hottest point in the circuit. If the charger does not reach, have a licensed electrician install a receptacle where you park instead of bridging the gap.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Setting the charger above 80 percent of the breaker</h3>
+              <p class="text-gray-700 text-sm m-0">
+                EV charging is a continuous load, so a 50-amp circuit allows 40 amps of charging and a 40-amp circuit allows 32. Turning an adjustable unit up past that, or using a 40-amp charger on a 14-50 wired to a 40-amp breaker, risks overheating. Match the setting to the breaker.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Using a cheap receptacle or skipping the permit</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A builder-grade 14-50 receptacle was designed for a range that cycles on and off, not hours of continuous current every night. Ask the electrician for a heavy-duty receptacle, pull the permit your area requires, and let the inspector confirm the work before you start charging every night.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying an unlisted charger to save money</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A charger that carries 32 or 40 amps for hours should carry a recognized listing mark such as UL, ETL or CSA on the unit itself. Unlisted cords may work fine or may not, and you cannot tell from photos. Spend the extra on a listed product from an established brand.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting a power station to charge the car</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 2-kilowatt-hour station adds only a handful of miles to a 60 to 100-kilowatt-hour EV battery, and some chargers will not start on it at all. Keep the car charged before forecast storms instead, and drive to a public charger if an outage runs longer than a day or two.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best portable EV charger?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For Tesla owners, the Tesla Mobile Connector, thanks to its swappable adapters and travel flexibility. For J1772 cars, the Lectron 32A Portable Level 2 EV Charger is a straightforward choice for any correctly installed NEMA 14-50, with the MUSTART 32A as a budget alternative. For a charger that stays in the garage, the Grizzl-E Classic or ChargePoint Home Flex.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How fast does a portable Level 2 charger charge?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A 32-amp Level 2 charger delivers about 7.7 kilowatts, which typically adds somewhere around 20 to 30 miles of range per hour depending on the car's efficiency. Your car's onboard charger may cap the rate lower. Level 1 at 12 amps on a household outlet usually adds about 3 to 5 miles per hour, which can still cover a short daily commute overnight.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I plug an EV charger into a NEMA 14-50 outlet?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, that is what most portable Level 2 chargers are designed for. The 14-50 should be on a dedicated circuit installed by a licensed electrician, ideally with a heavy-duty receptacle, and any required permit and GFCI protection. A 32-amp charger is safe on a 14-50 with a 40 or 50-amp breaker; a 40-amp charger needs the 50-amp breaker.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the difference between a 14-50 and a 6-50 for EV charging?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Both are 240-volt, 50-amp receptacles. The 14-50 has four prongs including a neutral; the 6-50 has three, with no neutral. EV chargers do not use the neutral, so either works if the charger has the matching plug. The 14-50 is more common and matches RV park pedestals, which makes it the better choice for a portable cord.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I charge an EV from a dryer outlet?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Possibly, at reduced current. A 30-amp dryer circuit allows 24 amps of continuous charging. Use only the charger maker's own adapter for that receptacle, which tells the charger to limit itself, never a homemade adapter, and never run the dryer and the car at the same time. A dedicated circuit installed by an electrician is the better long-term answer.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need a J1772 or NACS charger?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Match the port on your car. Most non-Tesla EVs built before the industry's switch use J1772, while Teslas and a growing number of newer models from other makers use NACS. Adapters work in both directions for AC charging, but use a listed adapter rated for at least the charger's current, and follow your automaker's guidance on which adapters it supports.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a portable power station charge an electric car?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Not meaningfully. A large station holds 1 to 3 kilowatt-hours, while an EV battery holds roughly 50 to 100 or more, so a full station adds only a handful of miles. Many stations cannot sustain Level 1 charging, and some chargers refuse to start on them. Charge the car before a forecast storm and use public chargers during long outages.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Home Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-portable-power-station/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Portable Power Stations</h3>
+              <p class="text-gray-500 text-sm mt-2">What portable batteries do well, and the loads they cannot handle.</p>
+            </a>
+            <a href="/best-home-battery-backup/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Home Battery Backup</h3>
+              <p class="text-gray-500 text-sm mt-2">Stationary batteries for whole-home and critical-circuit backup.</p>
+            </a>
+            <a href="/best-home-energy-monitor/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Home Energy Monitors</h3>
+              <p class="text-gray-500 text-sm mt-2">See how much headroom your panel has before adding an EV circuit.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            A portable EV charger is only as good as the outlet behind it. Have a licensed electrician install a dedicated 14-50 or 6-50 with a heavy-duty receptacle and the permit your area requires, respect the 80 percent rule, and buy a listed charger that matches your car's connector.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For Teslas, the Tesla Mobile Connector. For J1772 cars, the Lectron 32A portable, or the MUSTART on a budget. For a charger that stays on the garage wall, the Grizzl-E Classic for simplicity or the ChargePoint Home Flex for smart features. And leave the power station for the things it does well.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

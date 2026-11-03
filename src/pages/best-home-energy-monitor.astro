@@ -1,0 +1,923 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Whole-House Surge Protectors",
+    "url": "/best-whole-house-surge-protector/"
+  },
+  {
+    "title": "Best Home Battery Backup",
+    "url": "/best-home-battery-backup/"
+  },
+  {
+    "title": "Best Circuit Breaker Finders",
+    "url": "/best-circuit-breaker-finder/"
+  },
+  {
+    "title": "Best Generator Transfer Switches",
+    "url": "/best-generator-transfer-switch/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best Home Energy Monitors: Panel Sensors, Smart Plugs and What the Data Is Worth";
+const description =
+  "Whole-home energy monitors and energy-tracking smart plugs compared: CT clamp installs, circuit-level data, device detection, solar and sizing backup power.";
+
+const PRODUCTS = [
+  {
+    "id": "emporia-vue-3-smart-home-energy-monitor",
+    "name": "Emporia Vue 3 Smart Home Energy Monitor",
+    "category": "Panel CT monitor, 2 mains sensors, supports up to 16 circuit sensors",
+    "badge": "Best Overall Home Energy Monitor",
+    "amazonUrl": "",
+    "pros": [
+      "Supports up to 16 circuit-level sensors for hard per-circuit data",
+      "Sold alone or bundled with circuit sensors",
+      "App shows real-time and historical whole-home and circuit use",
+      "Can be configured to track solar production with extra sensors",
+      "Works with Emporia's EV charger and smart plugs in the same app"
+    ],
+    "cons": [
+      "Needs an electrician to open the panel and fit the sensors",
+      "Crowded panels may not have room for many circuit sensors",
+      "Wi-Fi at a metal panel can be weak"
+    ],
+    "bottomLine": "The monitor to buy if you want exact numbers per circuit, and the best data source for sizing backup power.",
+    "description": "Emporia's Vue 3 takes the opposite approach to Sense: rather than inferring devices from the whole-home signal, it measures them directly. Two CT clamps go on the main service conductors, and up to 16 smaller clamps go on the branch circuits you choose, so the furnace, water heater, well pump and kitchen each get their own line in the app. Emporia sells it alone or in bundles with circuit sensors, and the bundles are where it shines. That clarity makes it the best monitor here for sizing a battery or generator, catching a pump that has started short-cycling, or proving what a heat pump really costs to run. The limits are physical: an electrician has to install it, each sensor needs room to clip around its conductor, and a packed panel may not fit all 16. Plan Wi-Fi coverage at the panel before install day."
+  },
+  {
+    "id": "sense-energy-monitor",
+    "name": "Sense Energy Monitor",
+    "category": "Panel CT monitor, high-speed sampling, device detection",
+    "badge": "Best for Automatic Device Detection",
+    "amazonUrl": "",
+    "pros": [
+      "Learns individual appliances from the whole-home signal",
+      "High-speed sampling, described by Sense as a million times per second",
+      "Real-time whole-home power and always-on baseline tracking",
+      "Polished app with usage trends and notifications",
+      "Integrates with some smart plugs to fill detection gaps"
+    ],
+    "cons": [
+      "Device detection takes weeks to months and is never complete",
+      "Struggles with variable-speed loads like inverter heat pumps",
+      "Needs an electrician to install in the panel"
+    ],
+    "bottomLine": "Best for people who want the app to surface insights on its own, as long as they accept that detection is partial.",
+    "description": "Sense is the best-known whole-home energy monitor, and its appeal is that it tries to do the work for you. Two CT clamps on the mains and a high-speed sampling unit watch the entire house, and Sense's machine learning gradually picks out the signatures of individual appliances as they switch on and off. Owners commonly report that big, simple loads such as water heaters, dryers and well pumps appear first, while electronics and variable-speed equipment may stay in the unidentified bucket indefinitely. Even before detection fills in, the real-time view and the always-on baseline are genuinely useful for spotting waste. Sense recommends professional installation by an electrician, and it needs a breaker connection for power. Buy it if you want insights without labeling circuits; skip it if you need exact numbers per appliance, which the Emporia delivers more reliably."
+  },
+  {
+    "id": "sense-energy-monitor-with-solar",
+    "name": "Sense Energy Monitor with Solar",
+    "category": "Panel CT monitor with added solar sensors",
+    "badge": "Best Home Energy Monitor for Solar",
+    "amazonUrl": "",
+    "pros": [
+      "Separates solar production from household consumption",
+      "Shows net grid flow alongside production in real time",
+      "Same device detection features as the standard Sense",
+      "Helps time big loads to solar production hours",
+      "Useful data for deciding on a home battery"
+    ],
+    "cons": [
+      "Installation is more involved than the standard unit",
+      "Same detection limits as the standard Sense",
+      "Not useful extra cost if you have no solar"
+    ],
+    "bottomLine": "On a solar home, this is the Sense to buy; the standard model only sees net flow.",
+    "description": "On a house with solar panels, a monitor watching only the mains sees net flow, which hides both how much the array produced and how much you used. The Sense Energy Monitor with Solar adds a second pair of CT clamps on the solar circuit so the app can show production, consumption and grid import or export side by side in real time. That is the data you need to move laundry, dishwashing and EV charging into sunny hours, and to judge how much a home battery would actually store and discharge each day as export credits shrink. Installation is a step more involved than the standard unit because the electrician has to locate the solar conductors, which may land in the main panel or a separate subpanel. Everything said about Sense device detection applies here: helpful, gradual and never complete. If you do not have solar, the standard Sense is the one to buy."
+  },
+  {
+    "id": "rainforest-automation-eagle-3-energy-gateway",
+    "name": "Rainforest Automation EAGLE-3 Energy Gateway",
+    "category": "Smart meter reader, Zigbee link to utility meter, Wi-Fi",
+    "badge": "Best No-Install Whole Home Monitor",
+    "amazonUrl": "",
+    "pros": [
+      "No panel work and no electrician required",
+      "Reads whole-home data straight from a compatible smart meter",
+      "Many meters report both import and export",
+      "Good option for renters",
+      "Small, plugs into a wall outlet"
+    ],
+    "cons": [
+      "Only works if your utility supports and authorizes it",
+      "No circuit or device breakdown",
+      "Data detail is limited to what the meter provides"
+    ],
+    "bottomLine": "The best whole-home option with no installation, but only buy it after confirming your utility supports it.",
+    "description": "The EAGLE-3 skips the breaker panel entirely. It pairs wirelessly with your utility's smart meter, using the meter's home area network radio, and relays the meter's readings to an app and dashboard over Wi-Fi. There are no CT clamps and no electrician, which makes it the obvious whole-home option for renters and for anyone who would rather not have the panel opened. The dependency is the utility: your meter has to be a compatible model, and the utility has to support this kind of device and register it to your meter, which usually means an online enrollment or a call. Check your utility's website before you buy. What you get is whole-home consumption, and often export on solar homes, at the resolution the meter provides. You do not get circuits or individual appliances. Paired with a few smart plugs, it covers most questions without panel work."
+  },
+  {
+    "id": "kasa-hs300-smart-power-strip",
+    "name": "Kasa HS300 Smart Power Strip",
+    "category": "Six individually monitored smart outlets, USB charging ports, surge protection",
+    "badge": "Best for Desks and Entertainment Centers",
+    "amazonUrl": "",
+    "pros": [
+      "Each of the six outlets reports its own energy use",
+      "Each outlet can be switched and scheduled individually",
+      "Built-in USB charging ports",
+      "Includes surge protection",
+      "Reveals always-on standby loads"
+    ],
+    "cons": [
+      "Covers only what is plugged into it",
+      "Not suited to high-draw appliances like heaters",
+      "Surge protection is not a substitute for a whole-house device"
+    ],
+    "bottomLine": "The neatest way to see and cut the standby draw from electronics clustered in one spot.",
+    "description": "The HS300 is a surge-protected power strip whose six outlets are each a smart plug with energy monitoring. Each one reports its own power draw and history in the Kasa app, and each can be switched on, off or on a schedule independently. That makes it ideal for the places where always-on electronics pile up: a TV and game console, a desk with a computer and monitors, or a network closet. Standby loads like these are small one at a time but run all year, and they are invisible on a whole-home graph. The strip shows exactly which devices are worth cutting off overnight. Keep it to electronics and similar loads; a space heater or window air conditioner belongs on its own wall receptacle. And treat its surge protection as a second layer behind a whole-house surge protective device at the panel, not a replacement for one."
+  },
+  {
+    "id": "kasa-kp115-smart-plug-mini-energy-monitoring",
+    "name": "Kasa KP115 Smart Plug Mini with Energy Monitoring",
+    "category": "Single-outlet smart plug, 15A rated, real-time and historical energy use",
+    "badge": "Best Budget Electricity Usage Monitor",
+    "amazonUrl": "",
+    "pros": [
+      "Cheapest way to measure a single appliance",
+      "Shows real-time watts and daily and monthly kWh",
+      "15A rating covers most plug-in appliances",
+      "Compact enough not to block the second outlet",
+      "Schedules and remote control in the Kasa app"
+    ],
+    "cons": [
+      "Measures only the one appliance plugged into it",
+      "Cannot measure hardwired or 240V loads",
+      "Remote switching is risky on fridges and freezers"
+    ],
+    "bottomLine": "The cheapest honest answer to what one appliance costs to run, and a good test of whether you will use energy data at all.",
+    "description": "If your question is about one appliance, the KP115 answers it for a small fraction of what a panel monitor costs. Plug it into the wall, plug in the old garage refrigerator, a chest freezer, a dehumidifier or a sump pump, and the Kasa app shows live watts plus daily and monthly kilowatt-hours. A week of data multiplied by your electricity rate tells you whether replacing that appliance pays off. The plug is rated for 15A, the limit of a standard receptacle, and its compact body leaves the second outlet usable. It cannot see hardwired loads or 240V appliances, and it should go straight into a wall receptacle rather than a power strip or extension cord. Avoid using its schedules or remote off on a refrigerator or freezer, where a mistake costs food. For many readers, two of these are a better first purchase than any whole-home monitor."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Home Energy Monitor",
+          item: "https://www.allmetalbrake.com/best-home-energy-monitor/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "Are home energy monitors worth it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They are worth it when you use the data to change something: cutting an always-on baseline, replacing an inefficient appliance, shifting loads to solar hours, or sizing a battery or generator. Owners who only want a graph often stop checking within weeks. If you are unsure, start with an inexpensive energy-monitoring smart plug on the appliance you suspect and see whether the numbers change your behavior."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I install a Sense or Emporia Vue myself?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both makers recommend a licensed electrician, and that is the right call. Installation means removing the panel cover and working around service conductors that stay energized even with the main breaker off, then connecting the monitor to a breaker. An electrician will confirm the breaker type is listed for your panel, check permit requirements and make sure the cover closes properly afterward."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between Sense and Emporia Vue?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sense watches the whole home and uses machine learning to detect individual appliances from their electrical signatures, which happens gradually and is never complete. The Emporia Vue measures circuits directly with up to 16 circuit sensors, so you get exact numbers per circuit but must label them yourself. Sense suits people who want automatic insights; Emporia suits people who want hard data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do energy monitors work with solar panels?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They do if they have sensors on the solar circuit. Without them, the monitor sees only net flow from the grid and cannot tell how much your array produced or how much of it you used. The Sense Energy Monitor with Solar includes the extra sensors, and the Emporia Vue can be configured with sensors on the solar breaker."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can a home energy monitor help size a generator or battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, and that is one of the best reasons to own one. A month of data shows your daily kilowatt-hours and the peak draw when big loads start together. Circuit-level data lets you total only the essentials you would run in an outage. Those two numbers, energy and peak power, are what battery and generator sizing actually depend on."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate are smart plug energy monitors?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For estimating what an appliance costs to run, they are generally accurate enough, and they are far better than guessing from a nameplate rating. They are not utility-grade meters, so do not expect them to match a bill to the decimal. Measure for at least a week so the result covers cycling appliances like refrigerators and freezers through normal use."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will a smart meter reader work with my utility?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only if your meter is a compatible model and your utility runs a program that lets customers pair a device with it. Many utilities do; many do not. Look on your utility's website for a smart meter data, Green Button Connect or home area network program, or call customer service and ask whether devices like the Rainforest EAGLE-3 can be registered."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Water, Plumbing & Electrical",
+    tags: [
+      "home energy monitor",
+      "whole home energy monitor",
+      "electricity usage monitor",
+      "sense energy monitor",
+      "emporia vue",
+      "smart plug energy monitoring"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Panel Monitors, Meter Readers and Smart Plugs
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">Home Energy Monitors</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Your utility bill tells you what you spent last month. A home energy monitor tells you where it went, minute by minute. Here are six worth buying, from panel-mounted sensors to a smart plug, and what each one can and cannot see.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#emporia-vue-3-smart-home-energy-monitor"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Compare the Monitors
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#how-they-work" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. The Three Types</a>
+          <a href="#panel-install" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. CT Clamps and Installation</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. The Six Picks</a>
+          <a href="#comparison" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. Comparison Table</a>
+          <a href="#circuit-vs-whole" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Circuit-Level vs Whole-Home</a>
+          <a href="#device-detection" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. Device Detection Limits</a>
+          <a href="#solar" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Monitoring Solar</a>
+          <a href="#backup-sizing" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Sizing Backup Power</a>
+          <a href="#smart-plugs" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Smart Plugs</a>
+          <a href="#which-to-buy" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">12. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          A home energy monitor is worth buying when you want to change something: cut a bill, find a failing appliance, or size a battery or generator from real numbers instead of guesses. If you only want to look at a graph, you will stop opening the app within a month. Pick the type that answers your actual question, and have the panel sensors installed by a licensed electrician.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="how-they-work" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The Three Types of Home Energy Monitor
+          </h2>
+
+          <p>
+            There are three ways to measure electricity in a house, and they answer different questions. A panel monitor clamps sensors around the wires inside your breaker panel and measures everything the house draws in real time. A meter reader talks to the smart meter your utility already installed and reports what the meter records. A smart plug sits between one appliance and one outlet and measures only that appliance. Most shoppers compare products across these types without realizing they are not substitutes.
+          </p>
+
+          <p>
+            Panel monitors are the most capable and the most involved. The Sense and Emporia Vue units in this guide clip current transformers, usually called CT clamps, around the main service conductors and connect to a breaker for power and voltage reference. From there they can show whole-home draw second by second, and with extra sensors, individual circuits. The trade-off is that someone has to open the panel, which is a job for a licensed electrician rather than a weekend project.
+          </p>
+
+          <p>
+            Meter readers like the Rainforest EAGLE-3 involve no panel work at all. They pair wirelessly with a compatible smart meter and pull the readings the meter already takes. The catch is that your utility has to support it and has to authorize the pairing, and the data is only as detailed as the meter provides. You get whole-home use, and on many systems solar export, but never a circuit or appliance breakdown.
+          </p>
+
+          <p>
+            Smart plugs with energy monitoring, like the Kasa KP115, are the cheapest and simplest way in. Plug one into a wall, plug a refrigerator, freezer, dehumidifier or space heater into it, and the app shows that single appliance's watts and its daily kilowatt-hours. They cannot see hardwired loads like a water heater, a furnace or a central air conditioner, and they are limited to standard 120V, 15A plug-in appliances.
+          </p>
+
+          <p>
+            If you want to know your whole house, buy a panel monitor or a meter reader. If you want to know whether the old garage fridge is worth replacing, buy a smart plug. A lot of people end up with both: a whole-home monitor for the big picture and two or three smart plugs for the appliances they suspect.
+          </p>
+        </div>
+
+        <div id="panel-install" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. CT Clamps in the Panel: Why an Electrician Should Install It
+          </h2>
+
+          <p>
+            CT clamps are non-invasive in the sense that they wrap around a conductor rather than being spliced into it. That does not make installing them a beginner job. To reach the main conductors you remove the panel's dead front cover, and the service conductors and the lugs they land on stay energized even with the main breaker off. Only the utility can de-energize the wires coming from the meter. That is why Sense, Emporia and most panel monitor makers recommend a licensed electrician for installation.
+          </p>
+
+          <p>
+            Beyond the clamps, the monitor needs power and a voltage reference, which usually means connecting it to a breaker in the panel. Manufacturers specify how: some call for a dedicated double-pole 240V breaker, some allow sharing an existing one, and the breaker has to be a type listed for your panel. An electrician will also confirm there is physical room for the unit and its sensor leads, and that the panel cover goes back on cleanly. A cover that no longer closes properly is a code problem, not a cosmetic one.
+          </p>
+
+          <p>
+            Check whether your jurisdiction requires a permit for the work. Rules vary, and some areas treat adding a breaker or any device inside the panel as permit-worthy. An electrician who works locally will know. It is also worth confirming the monitor carries a listing from a recognized testing lab such as UL or ETL, since an unlisted device inside a panel can create problems with inspections and insurance.
+          </p>
+
+          <p>
+            The job itself is usually short for an electrician, often well under an hour for a whole-home unit and longer if you are adding a dozen or more circuit sensors, since each one has to be clipped onto the right branch circuit and labeled in the app. Expect a modest service-call charge on top of the hardware. If the electrician is already at the house for another job, adding the monitor is the cheapest time to do it.
+          </p>
+
+          <p>
+            Wi-Fi reach is the practical problem people forget. Panels are often in basements, garages or exterior walls, and the metal enclosure blocks signal. Check your phone's Wi-Fi strength standing at the panel before you buy. If it is weak, plan a mesh node or access point nearby, or look for a model with a wired network option, because a monitor that keeps dropping offline leaves holes in exactly the data you bought it for.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Six Picks
+          </h2>
+
+          <p>
+            These are the energy monitors we would shortlist, ordered by how many households they suit. We have not put these units through our own testing; features, ratings and installation requirements come from the manufacturers' published specs and documentation, and where owners report a pattern we say so. Check the current listing for exact sensor counts and bundles before you buy.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} reviews)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Comparison Table
+          </h2>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Monitor</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Measures</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Install</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Emporia Vue 3</td>
+                    <td class="px-4 py-4 text-gray-700">Panel CT monitor</td>
+                    <td class="px-4 py-4 text-gray-700">Whole home plus up to 16 circuits</td>
+                    <td class="px-4 py-4 text-gray-700">Electrician, in panel</td>
+                    <td class="px-4 py-4 text-gray-700">Circuit-by-circuit detail</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Sense Energy Monitor</td>
+                    <td class="px-4 py-4 text-gray-700">Panel CT monitor</td>
+                    <td class="px-4 py-4 text-gray-700">Whole home, device detection</td>
+                    <td class="px-4 py-4 text-gray-700">Electrician, in panel</td>
+                    <td class="px-4 py-4 text-gray-700">Hands-off appliance insights</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Sense Energy Monitor with Solar</td>
+                    <td class="px-4 py-4 text-gray-700">Panel CT monitor</td>
+                    <td class="px-4 py-4 text-gray-700">Consumption plus solar production</td>
+                    <td class="px-4 py-4 text-gray-700">Electrician, in panel</td>
+                    <td class="px-4 py-4 text-gray-700">Homes with solar</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Rainforest EAGLE-3</td>
+                    <td class="px-4 py-4 text-gray-700">Smart meter reader</td>
+                    <td class="px-4 py-4 text-gray-700">Whole home from utility meter</td>
+                    <td class="px-4 py-4 text-gray-700">No panel work</td>
+                    <td class="px-4 py-4 text-gray-700">Renters, no-panel option</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Kasa HS300</td>
+                    <td class="px-4 py-4 text-gray-700">Smart power strip</td>
+                    <td class="px-4 py-4 text-gray-700">Six outlets individually</td>
+                    <td class="px-4 py-4 text-gray-700">Plug in</td>
+                    <td class="px-4 py-4 text-gray-700">Desks, AV and network gear</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Kasa KP115</td>
+                    <td class="px-4 py-4 text-gray-700">Smart plug</td>
+                    <td class="px-4 py-4 text-gray-700">One plug-in appliance</td>
+                    <td class="px-4 py-4 text-gray-700">Plug in</td>
+                    <td class="px-4 py-4 text-gray-700">Testing a single appliance</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Read the table by what you need answered. The two Sense units and the Emporia Vue 3 all need panel work, but they split on philosophy. Emporia gives you hard numbers per circuit because you put a sensor on each circuit. Sense tries to infer individual devices from the shape of the whole-home signal, with optional smart plugs and add-on sensors to fill gaps. Neither approach is strictly better; they suit different people.
+          </p>
+
+          <p>
+            The EAGLE-3 is the only whole-home option with no installation, which makes it the default for renters and for anyone who does not want an electrician in the panel. Its limit is the utility, not the device. Before you buy, search your utility's website for its smart meter data program or home area network program and confirm it supports this kind of device.
+          </p>
+
+          <p>
+            The two Kasa products are not whole-home monitors at all, and we include them because for many readers they answer the real question for a fraction of the cost. If what you want to know is how much a dehumidifier or a second refrigerator costs to run, a smart plug answers it in a week.
+          </p>
+        </div>
+
+        <div id="circuit-vs-whole" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Circuit-Level vs Whole-Home Monitoring
+          </h2>
+
+          <p>
+            Whole-home monitoring measures the main service conductors and tells you the total. It is enough to see your baseline, the always-on load that runs at 3 a.m. when everyone is asleep, and the big spikes when the dryer, oven or air conditioner kicks in. For a lot of households, finding and cutting that overnight baseline is the single most valuable thing a monitor does, and whole-home data is all it takes.
+          </p>
+
+          <p>
+            Circuit-level monitoring adds a small CT on each branch circuit you care about. Emporia's Vue 3 supports up to 16 circuit sensors alongside the mains, which is enough to cover every major 240V load and the busiest 120V circuits in most homes. The payoff is certainty: the furnace blower, the well pump, the water heater and the kitchen each have their own line, and you never have to wonder whether the app guessed correctly.
+          </p>
+
+          <p>
+            The limit of circuit-level data is that a circuit is not an appliance. A bedroom circuit might feed a TV, a lamp, a phone charger and a window air conditioner, and the monitor sees only their total. Dedicated circuits, the ones that feed a single big appliance, give clean answers. Shared general-purpose circuits give useful but blended ones. That is why pairing a circuit monitor with a few smart plugs works so well.
+          </p>
+
+          <p>
+            Prioritize sensors for loads that are large, hardwired or suspicious. Electric water heaters, heat pumps, central air, electric ranges, dryers, well pumps, EV chargers and sump pumps are the usual high-value targets. A sump pump circuit is a good example of data that pays off beyond the bill: a pump that starts cycling far more often than usual is telling you something about the pump, the check valve or the groundwater before the basement does.
+          </p>
+
+          <p>
+            If your panel is crowded, has a subpanel, or uses tandem breakers, tell the electrician before the visit. Circuit sensors need physical room to clip around each conductor, and fitting 16 of them into an already packed panel is not always possible. In some cases monitoring the feeder to a subpanel with one pair of sensors is a smarter use of the hardware than chasing every individual circuit.
+          </p>
+        </div>
+
+        <div id="device-detection" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Device Detection: What It Can and Cannot Do
+          </h2>
+
+          <p>
+            Sense's headline feature is device detection. It samples the whole-home signal at very high speed, which Sense describes as a million times per second, and uses machine learning to recognize the electrical signatures of individual appliances as they turn on and off. When it works, an appliance appears in the app with its own usage history, with no sensor on its circuit at all.
+          </p>
+
+          <p>
+            It takes time and it is not complete. Sense is upfront that detection happens gradually over weeks and months, and owners commonly report that big, simple loads such as water heaters, dryers, ovens, well pumps and older refrigerators are found first. Small electronics, devices with variable-speed motors, and anything that draws a similar signature to something else may never be identified individually. They stay lumped in an 'other' bucket.
+          </p>
+
+          <p>
+            Variable-speed equipment is the hardest case. Inverter-driven heat pumps, mini-splits, modern variable-speed furnace blowers and some newer refrigerators ramp their power up and down smoothly instead of clicking on and off, which leaves no sharp signature to learn. If your biggest loads are of that kind, plan on dedicated sensors for them, through Sense's add-on options or a circuit-level monitor like Emporia, rather than waiting for detection.
+          </p>
+
+          <p>
+            Detection also mislabels. It may decide two similar loads are one device, or name something incorrectly until you correct it. Treat the device list as a helpful starting point, not a meter-grade breakdown. For the questions that need exact numbers, like whether a heat pump is short-cycling or how many kilowatt-hours the EV charger used last month, a dedicated sensor on the circuit is the right tool.
+          </p>
+
+          <p>
+            None of this makes Sense a bad buy. For a household that wants insights without labeling 16 circuits, it surfaces patterns automatically and improves over time. It just should not be bought on the expectation that every device in the house will show up by name. If that expectation matters to you, circuit sensors or smart plugs are the honest answer.
+          </p>
+        </div>
+
+        <div id="solar" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Monitoring Solar With a Home Energy Monitor
+          </h2>
+
+          <p>
+            If you have solar panels, a monitor that only watches the mains sees net flow: power coming in from the grid at night and power going out when the panels overproduce. It cannot tell you how much the array actually made or how much of that you used yourself. To separate production from consumption, the monitor needs its own sensors on the solar circuit, which is what the Sense Energy Monitor with Solar adds.
+          </p>
+
+          <p>
+            Emporia handles solar by using additional sensors on the solar breaker, and Emporia's app can show production, consumption and net flow together once it is configured. Either way, the installer has to identify the right conductors, usually where the inverter output lands on a breaker in the panel or in a separate solar subpanel. That is another reason to have an electrician, ideally one who has seen your solar layout, do the install.
+          </p>
+
+          <p>
+            Why bother when the inverter already has an app? Because the inverter app knows production but usually not consumption, and the utility knows net flow but often only hourly or daily. A whole-home monitor with solar sensors puts all three in one place in near real time. That is what lets you shift laundry, dishwashing and EV charging into the hours when the panels are producing, which matters more every year as utilities pay less for exported power.
+          </p>
+
+          <p>
+            A smart meter reader like the EAGLE-3 can often show both import and export, since many smart meters record both directions. It still cannot see production on its own. If you already have an inverter app, combining it with a meter reader gets you most of the picture without panel work.
+          </p>
+
+          <p>
+            If you are considering adding a home battery, solar monitoring becomes far more useful. Knowing how much excess production you export on a typical summer afternoon, and how much you pull from the grid after sunset, is exactly the data needed to judge how large a battery would actually fill and empty each day.
+          </p>
+        </div>
+
+        <div id="backup-sizing" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Using the Data to Size a Battery Backup or Generator
+          </h2>
+
+          <p>
+            This is where a home energy monitor quietly earns its price. Battery and generator sizing comes down to two numbers: the peak watts the loads you want to run draw at once, and the total kilowatt-hours they use over the outage you are planning for. Spec-sheet guesses are notoriously unreliable for both. A month of real data from your own house replaces them.
+          </p>
+
+          <p>
+            Start with energy. Look at your daily kilowatt-hour totals and, if you have circuit or device data, the share used by the loads you would actually keep running in an outage: refrigerator, freezer, furnace blower, well pump, sump pump, internet and a few lights. Those essentials are usually a small fraction of the whole-home total. That figure is what you need when comparing the capacity of the systems in our <a href="/best-home-battery-backup/">home battery backup guide</a> or deciding whether a portable unit can carry you through a night.
+          </p>
+
+          <p>
+            Then look at peaks. A well pump, a furnace igniter or an air conditioner compressor draws a short starting surge well above its running watts. Circuit-level data at one-second resolution shows those spikes and how they overlap. A battery inverter or generator has to handle the largest combination that can start together, not just the average, and a monitor showing several big loads switching on at once tells you to stagger them or size up.
+          </p>
+
+          <p>
+            For generators, the same logic applies to running and starting watts. Our <a href="/best-home-generator-for-power-outages/">home generator guide</a> walks through sizing, and your monitor's data makes it concrete. Whatever you choose, it must connect through a properly installed transfer switch or interlock fitted by a licensed electrician; see our <a href="/best-generator-transfer-switch/">transfer switch guide</a>. Never backfeed a house through a dryer outlet or a double-ended cord. It can energize the utility lines and kill a lineworker.
+          </p>
+
+          <p>
+            Monitoring also pairs naturally with protection. While the electrician is in the panel installing CT clamps, it is the ideal moment to discuss a whole-house surge protective device, which mounts at the same panel and guards the electronics your monitor is busy measuring. Our <a href="/best-whole-house-surge-protector/">whole-house surge protector guide</a> covers the types and ratings, and doing both in one visit saves a second service call.
+          </p>
+        </div>
+
+        <div id="smart-plugs" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Smart Plugs: The Cheap Way to Track One Appliance
+          </h2>
+
+          <p>
+            A smart plug with energy monitoring is the fastest way to answer a narrow question. Plug in the appliance, wait a week, and read off its daily kilowatt-hours. Multiply by your electricity rate and you know what it costs to run. It is the most useful tool there is for deciding whether an old refrigerator, a garage freezer or a dehumidifier is worth replacing.
+          </p>
+
+          <p>
+            Rate matters more than people think. The Kasa KP115 is rated for 15A, which is the limit of a standard household receptacle and enough for most plug-in appliances. Space heaters, window air conditioners and portable heaters run close to that limit for hours at a time, which is hard on any plug, adapter or receptacle. If you monitor a heater, check the plug's rating, check it is fully seated, and do not plug the smart plug into a power strip or extension cord.
+          </p>
+
+          <p>
+            Smart plugs also give you control: schedules, remote off, and in some apps automations that trigger on power draw. That is handy for lamps and electronics. Be careful about using it on appliances that should never be switched off remotely, like a refrigerator, freezer or medical equipment. A mistaken schedule can cost a freezer full of food.
+          </p>
+
+          <p>
+            For a desk, an entertainment center or a network closet, a multi-outlet strip like the Kasa HS300 is more practical than a handful of single plugs. Each outlet reports its own consumption, so you can see what the game console draws in standby or how much the network gear costs to keep on. Those always-on loads add up over a year, and they are invisible on a whole-home graph.
+          </p>
+
+          <p>
+            A good rule: use smart plugs for discovery and a panel monitor for the whole house. If you find one appliance using far more than it should, the plug has paid for itself. If you find yourself buying a dozen plugs to cover the house, a circuit-level panel monitor is probably the better purchase.
+          </p>
+        </div>
+
+        <div id="which-to-buy" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which Home Energy Monitor to Buy
+          </h2>
+
+          <p>
+            If you want detailed, unambiguous data and you are paying an electrician anyway, buy the Emporia Vue 3 with circuit sensors. Hard per-circuit numbers answer more questions than any inference engine, and they are what you want for sizing backup power, tracking a heat pump or catching a failing pump.
+          </p>
+
+          <p>
+            If you want insights without labeling circuits, buy the Sense Energy Monitor. It suits people who want the app to tell them things, and who are fine with detection filling in over months. If you have solar, buy the Sense Energy Monitor with Solar instead, or plan solar sensors on an Emporia, since net-only data is misleading on a solar home.
+          </p>
+
+          <p>
+            If you rent, cannot open the panel, or just want whole-home numbers with zero installation, check your utility first and then buy the Rainforest EAGLE-3. If your utility does not support it, a meter reader is not an option and you should not buy one hoping it will work.
+          </p>
+
+          <p>
+            If your question is about one or two appliances, skip the whole-home monitors and buy a Kasa KP115 or two. For a desk or entertainment center full of always-on gear, the Kasa HS300 strip is the better fit. Either one is a cheap, honest way to find out whether a home energy monitor is something you will actually use before spending more.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Installing CT clamps yourself in a live panel</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The service conductors and main lugs stay energized even with the main breaker off, and only the utility can kill them. Clipping sensors around them and connecting a breaker is work for a licensed electrician, who will also know whether your area needs a permit and how to keep the panel compliant.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Expecting device detection to name everything</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Whole-home detection finds big, simple loads first and may never identify electronics or variable-speed equipment like inverter heat pumps. If you need exact numbers for specific appliances, put a circuit sensor on them or use a smart plug instead of waiting months for an algorithm to guess.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a meter reader before checking the utility</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Smart meter readers only work if your meter is compatible and the utility supports and authorizes the pairing. Many utilities do not. Search your utility's site for its home area network or smart meter data program before you buy, or you may end up with a gateway that never connects.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Monitoring a solar home with mains sensors only</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Mains sensors on a solar home see only net flow, which can look like low usage on sunny days. Without sensors on the solar circuit you cannot separate production from consumption. Buy a solar-capable configuration or the numbers will mislead you about both the array and the house.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring Wi-Fi at the panel</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Breaker panels sit in basements, garages and exterior walls inside a metal box that blocks signal. A monitor that keeps dropping off Wi-Fi leaves gaps in exactly the data you bought it for. Check signal strength at the panel first and plan an access point or mesh node if it is weak.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Are home energy monitors worth it?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                They are worth it when you use the data to change something: cutting an always-on baseline, replacing an inefficient appliance, shifting loads to solar hours, or sizing a battery or generator. Owners who only want a graph often stop checking within weeks. If you are unsure, start with an inexpensive energy-monitoring smart plug on the appliance you suspect and see whether the numbers change your behavior.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I install a Sense or Emporia Vue myself?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Both makers recommend a licensed electrician, and that is the right call. Installation means removing the panel cover and working around service conductors that stay energized even with the main breaker off, then connecting the monitor to a breaker. An electrician will confirm the breaker type is listed for your panel, check permit requirements and make sure the cover closes properly afterward.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the difference between Sense and Emporia Vue?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Sense watches the whole home and uses machine learning to detect individual appliances from their electrical signatures, which happens gradually and is never complete. The Emporia Vue measures circuits directly with up to 16 circuit sensors, so you get exact numbers per circuit but must label them yourself. Sense suits people who want automatic insights; Emporia suits people who want hard data.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do energy monitors work with solar panels?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                They do if they have sensors on the solar circuit. Without them, the monitor sees only net flow from the grid and cannot tell how much your array produced or how much of it you used. The Sense Energy Monitor with Solar includes the extra sensors, and the Emporia Vue can be configured with sensors on the solar breaker.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can a home energy monitor help size a generator or battery?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, and that is one of the best reasons to own one. A month of data shows your daily kilowatt-hours and the peak draw when big loads start together. Circuit-level data lets you total only the essentials you would run in an outage. Those two numbers, energy and peak power, are what battery and generator sizing actually depend on.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How accurate are smart plug energy monitors?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For estimating what an appliance costs to run, they are generally accurate enough, and they are far better than guessing from a nameplate rating. They are not utility-grade meters, so do not expect them to match a bill to the decimal. Measure for at least a week so the result covers cycling appliances like refrigerators and freezers through normal use.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Will a smart meter reader work with my utility?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Only if your meter is a compatible model and your utility runs a program that lets customers pair a device with it. Many utilities do; many do not. Look on your utility's website for a smart meter data, Green Button Connect or home area network program, or call customer service and ask whether devices like the Rainforest EAGLE-3 can be registered.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Electrical and Backup Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-whole-house-surge-protector/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Pillar Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Whole-House Surge Protectors</h3>
+              <p class="text-gray-500 text-sm mt-2">Protect the panel your monitor lives in, ideally in the same electrician visit.</p>
+            </a>
+            <a href="/best-home-battery-backup/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Home Battery Backup</h3>
+              <p class="text-gray-500 text-sm mt-2">Turn your monitor's kWh and peak data into the right battery size.</p>
+            </a>
+            <a href="/best-generator-transfer-switch/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Generator Transfer Switches</h3>
+              <p class="text-gray-500 text-sm mt-2">The safe, code-compliant way to connect a generator to your panel.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            The best home energy monitor is the one that answers the question you actually have. For exact, per-circuit numbers, that is the Emporia Vue 3 with circuit sensors. For automatic insights, the Sense Energy Monitor, or the Sense with Solar on a solar home. For whole-home data with no panel work, the Rainforest EAGLE-3, if your utility supports it.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            If your question is about one appliance, a Kasa KP115 answers it for very little money, and the Kasa HS300 does the same for a cluster of electronics. Whatever you buy, have panel sensors installed by a licensed electrician, and put the data to work: on your bill, on your baseline, and on sizing backup power from real numbers.
+          </p>
+        </div>
+
+        <MoreInCategory category="Water, Plumbing & Electrical" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

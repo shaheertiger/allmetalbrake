@@ -1,0 +1,954 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Home Generators for Power Outages",
+    "url": "/best-home-generator-for-power-outages/"
+  },
+  {
+    "title": "Best RV Generators",
+    "url": "/best-rv-generator/"
+  },
+  {
+    "title": "Best Lithium RV Batteries",
+    "url": "/best-lithium-rv-battery/"
+  },
+  {
+    "title": "Best Whole-House Surge Protectors",
+    "url": "/best-whole-house-surge-protector/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-03", modified: "2026-11-03" });
+const title = "The Best RV Power Adapters: Dogbones and Surge Protectors That Fit";
+const description =
+  "Six RV power adapters and surge protectors, from Camco dogbones to Progressive EMS units, with TT-30, 14-50 and 5-15 plugs and generator bonding explained.";
+
+const PRODUCTS = [
+  {
+    "id": "camco-powergrip-15m-30f-dogbone-adapter",
+    "name": "Camco PowerGrip 15M/30F Dogbone Electrical Adapter",
+    "category": "NEMA 5-15 male to TT-30 female, 15A maximum",
+    "badge": "Best 30 Amp to 110 Adapter",
+    "amazonUrl": "",
+    "pros": [
+      "Lets a 30-amp RV plug into a standard household outlet",
+      "Short dogbone design avoids stressing the outlet with the weight of the RV cord",
+      "PowerGrip handle makes it easier to pull out by the body, not the cord",
+      "Inexpensive and widely stocked at RV dealers and online",
+      "Ideal for driveway battery charging and pre-trip prep"
+    ],
+    "cons": [
+      "Limited to 15 amps, about 1,800 watts and less for continuous loads",
+      "Will not reliably run a rooftop air conditioner with anything else",
+      "Can overheat in a worn household receptacle"
+    ],
+    "bottomLine": "The 30 amp to 110 adapter every 30-amp RV owner should own, for light loads only.",
+    "description": "This is the adapter most people mean when they search for a 30 amp to 110 adapter. The male end is a standard 15-amp household plug, and the female end accepts your RV's TT-30 cord. Camco's PowerGrip design uses a short pigtail rather than a rigid block, so the heavy RV cord does not lever on the wall outlet, and a molded handle gives you something to grip when unplugging. It is the right tool for keeping house batteries charged in the driveway, running lights and the fridge while you load up, or using a campsite that only offers a household outlet. It does not create 30 amps from a 15-amp circuit, and the household breaker and wiring still set the limit. Keep the air conditioner off or run it alone, turn the electric water heater element off, and feel the plug after the first hour. If the plug or outlet gets hot, stop and have the receptacle checked by an electrician."
+  },
+  {
+    "id": "camco-powergrip-50m-30f-dogbone-adapter",
+    "name": "Camco PowerGrip 50M/30F Dogbone Electrical Adapter",
+    "category": "NEMA 14-50 male to TT-30 female, 30A on one leg",
+    "badge": "Best Dogbone Adapter",
+    "amazonUrl": "",
+    "pros": [
+      "Lets a 30-amp RV use a campground's 50-amp receptacle",
+      "50-amp pedestal outlets are often in better condition than worn 30-amp ones",
+      "Heavy-gauge pigtail with PowerGrip handles",
+      "Common enough to replace at most RV stores",
+      "Delivers full 30-amp capacity on one leg of the 50-amp supply"
+    ],
+    "cons": [
+      "Still limited to 30 amps; it does not upgrade your RV",
+      "Bulky to store compared with a block adapter",
+      "No surge or wiring protection on its own"
+    ],
+    "bottomLine": "The adapter 30-amp owners use most at campgrounds, and the first one to buy after a protector.",
+    "description": "Most campground pedestals have a 50-amp receptacle beside the 30-amp one, and the 30-amp outlet is often the more worn of the two because it gets plugged and unplugged more. Camco's 50M/30F dogbone lets a 30-amp RV use the 50-amp receptacle, taking one leg of the 50-amp supply and delivering it to your TT-30 cord at up to 30 amps. Nothing about your RV changes: the rig's own 30-amp breaker still limits the load, and you get the same 3,600 watts or so you always had. The benefit is a tighter, cleaner connection and the flexibility to use whichever receptacle is in better shape. A 30-amp portable protector cannot plug into a 50-amp pedestal, so this adapter goes first, with the protector after it. Check the blades for discoloration before each trip, and turn the pedestal breaker off before plugging or unplugging. As with every dogbone, it adapts plug shapes only and provides no protection."
+  },
+  {
+    "id": "camco-powergrip-30m-15f-dogbone-adapter",
+    "name": "Camco PowerGrip 30M/15F Dogbone Electrical Adapter",
+    "category": "TT-30 male to NEMA 5-15 female, 15A maximum",
+    "badge": "Best for Small Loads",
+    "amazonUrl": "",
+    "pros": [
+      "Lets you plug a household cord or 15-amp device into a TT-30 receptacle",
+      "Useful with generators whose largest outlet is a TT-30",
+      "Handy for tools, heaters or chargers at an RV pedestal",
+      "Short dogbone construction with a grip handle",
+      "Inexpensive and easy to store"
+    ],
+    "cons": [
+      "Limited to 15 amps; it is not a way to power a 30-amp RV",
+      "Easy to confuse with the 15M/30F in the store",
+      "Gives no indication of overload"
+    ],
+    "bottomLine": "A useful small-load adapter for generators and pedestals, not for powering the RV itself.",
+    "description": "The 30M/15F does the reverse of the more common 15M/30F: its male end plugs into a TT-30 receptacle and its female end accepts an ordinary household plug. That makes it handy in a few situations. Many portable and inverter generators have a TT-30 receptacle as their largest outlet, and this adapter lets you run a household extension cord from it. At a campground or storage lot with an RV pedestal but no regular outlet, it lets you plug in a tool, a battery charger or a small heater. It is limited to 15 amps, so the load on the household cord should stay within what that cord and device are rated for. It is not for powering an RV, and it should never be used as part of a cord to push power into a house; that is backfeeding and it is dangerous. Read the male and female markings carefully before buying, because this and the 15M/30F look almost identical on the shelf."
+  },
+  {
+    "id": "progressive-industries-ems-pt30x-portable-surge-protector",
+    "name": "Progressive Industries EMS-PT30X Portable RV Surge Protector",
+    "category": "30A portable EMS with surge protection and display",
+    "badge": "Best RV Surge Protector",
+    "amazonUrl": "",
+    "pros": [
+      "Full EMS: disconnects on high or low voltage, open neutral, open ground, reverse polarity and frequency faults",
+      "Delays reconnection after an outage to protect AC compressors",
+      "Built-in display shows voltage, current draw and error codes",
+      "Weather-resistant housing with a lock hasp for pedestal mounting",
+      "Long warranty, per Progressive's published terms"
+    ],
+    "cons": [
+      "Costs several times a surge-only unit",
+      "Will report an open ground on many portable generators without a bonding plug",
+      "Pedestal-mounted, so it needs to be locked against theft"
+    ],
+    "bottomLine": "The portable EMS most 30-amp owners should buy, and the single best electrical upgrade for any RV.",
+    "description": "The EMS-PT30X is Progressive Industries' portable energy management system for 30-amp RVs and one of the best-known RV surge protectors on the market. It plugs into the pedestal, and your cord or adapter plugs into it. Beyond absorbing surges, it watches the incoming power and disconnects the RV when voltage climbs too high or sags too low, when neutral or ground is missing, when polarity is reversed, or when frequency drifts, then waits a set delay before reconnecting so an air conditioner compressor does not restart under pressure. The display shows line voltage, amps drawn and a code explaining why it disconnected, which is useful both for protecting the RV and for managing loads on a 15-amp hookup. Progressive also makes a hardwired version and a 50-amp EMS-PT50X. The main complaint owners report is that it will not pass power from many generators until a neutral-ground bonding plug is fitted; that is a feature, not a fault. Lock it to the pedestal."
+  },
+  {
+    "id": "progressive-industries-ssp-30xl-surge-protector",
+    "name": "Progressive Industries SSP-30XL RV Surge Protector",
+    "category": "30A portable surge-only protector with wiring indicators",
+    "badge": "Best Budget Protector",
+    "amazonUrl": "",
+    "pros": [
+      "Absorbs voltage spikes before they reach the RV",
+      "Indicator lights show common pedestal wiring faults before you connect",
+      "Much cheaper than a full EMS",
+      "Same weather-resistant pedestal form factor as Progressive's EMS units",
+      "Simple to use with no settings"
+    ],
+    "cons": [
+      "Does not disconnect on high or low voltage or an open neutral",
+      "No current or voltage display",
+      "Surge capacity is used up over time and must be checked"
+    ],
+    "bottomLine": "A sensible stopgap for a small trailer, but most owners are better off saving for an EMS.",
+    "description": "The SSP-30XL is Progressive Industries' surge-only protector for 30-amp RVs. It shares the pedestal-mounted design of the company's EMS units but omits the disconnect relay and display, which makes it considerably cheaper. Its job is to absorb voltage spikes, from lightning or utility switching, and to show via indicator lights whether the pedestal is wired correctly before you connect. That is genuinely useful, because a miswired pedestal is easy to spot this way. What it cannot do is cut power when voltage sags on a crowded campground or when an open neutral sends the wrong voltage down the line. Those are the faults that most often damage air conditioners, converters and refrigerator controls, and only an EMS guards against them. For a small trailer with simple loads, or as a temporary measure, it is far better than nothing. For any RV with an expensive air conditioner or residential refrigerator, spend the extra on the EMS-PT30X or an EMS-equipped Power Watchdog."
+  },
+  {
+    "id": "hughes-power-watchdog-30a-smart-surge-protector",
+    "name": "Hughes Power Watchdog 30A Smart Surge Protector",
+    "category": "30A portable protector with Bluetooth monitoring; EMS on EPO versions",
+    "badge": "Best Smart Protector",
+    "amazonUrl": "",
+    "pros": [
+      "Bluetooth app shows voltage, amps and power use on your phone",
+      "EPO (emergency power off) versions disconnect on high or low voltage and wiring faults",
+      "Replaceable surge module on many versions, per Hughes",
+      "Pedestal-mounted with a weather-resistant housing",
+      "Event log helps diagnose campground power problems"
+    ],
+    "cons": [
+      "Several versions with different protection levels, which makes shopping confusing",
+      "App features depend on keeping your phone paired",
+      "Surge-only base version does not offer EMS-style disconnect"
+    ],
+    "bottomLine": "The pick for owners who want to watch their power from inside the RV, as long as you buy the EMS-equipped version.",
+    "description": "Hughes Autoformers, better known for its voltage-boosting Autoformer units, makes the Power Watchdog line of smart RV surge protectors. The appeal is the Bluetooth app: instead of walking out to read a display on the pedestal, you see line voltage, current and power use on your phone, along with a log of events. That makes load management on a weak campground supply much easier, and the log is helpful when you need to show a campground host what their pedestal is doing. The important detail is which version you buy. The base models are primarily surge protectors, while the EPO versions add the emergency power-off relay that disconnects the RV on high or low voltage and wiring faults, which is the EMS function we recommend. Hughes says many versions have a replaceable surge module, so the unit does not have to be thrown away after a big surge. A 50-amp version is available for larger rigs. Like any EMS, it may need a bonding plug on generators."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best RV Power Adapters",
+          item: "https://www.allmetalbrake.com/best-rv-power-adapter/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best RV power adapter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most 30-amp RVs, the best RV power adapter setup is the Camco PowerGrip 50M/30F dogbone for 50-amp pedestals and the 15M/30F for household outlets, used behind an EMS protector such as the Progressive Industries EMS-PT30X. Adapters only change plug shapes, so the protector is the part that actually keeps the RV safe. Fifty-amp owners need the 50-amp equivalents."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I plug my 30 amp RV into a regular outlet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, with a 15M/30F 30 amp to 110 adapter, but you are limited to the outlet's 15 amps, or 20 on a 20-amp circuit. That runs lights, the fridge, the water pump and battery charging comfortably. A rooftop air conditioner may run alone on a good circuit but usually not with anything else. Avoid extension cords on the 15-amp side and check the plug for heat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a dogbone adapter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A dogbone adapter is a short, flexible pigtail with a plug on one end and a receptacle on the other, named for its shape. It converts between RV plug types, such as a 50-amp pedestal to a 30-amp RV cord. Compared with a rigid block adapter, it keeps the weight of the RV cord from levering on the receptacle, which reduces loose connections and heat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an RV surge protector?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Campground power is often unreliable: overloaded pedestals sag in voltage, miswired outlets show up regularly, and lightning surges happen. An RV surge protector is inexpensive compared with a replacement converter, air conditioner or refrigerator board. We recommend an EMS model that disconnects on low or high voltage and wiring faults, not just a surge-only unit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my EMS show an open ground on my generator?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many portable and inverter generators have a floating neutral, meaning neutral and ground are not bonded inside the generator. An EMS expects to see them bonded and reports an open ground. When the generator powers the RV directly, a neutral-ground bonding plug inserted in a spare outlet usually fixes it. Follow your generator's manual, and remove the plug before connecting that generator to a house transfer switch."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use a 50 amp RV on a 30 amp outlet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, with a 30M/50F dogbone, but both legs of the RV share one 30-amp, 120-volt supply. You are limited to about 3,600 watts in total, which usually means one air conditioner and careful use of other big loads. Your 50-amp EMS still protects the RV, and the RV's energy management panel, if it has one, can help shed loads automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a TT-30 outlet the same as a dryer outlet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. A TT-30 is a 120-volt, 30-amp RV receptacle with one hot, one neutral and one ground. Dryer outlets, NEMA 10-30 and 14-30, supply 240 volts and may lack a separate ground. They look similar but are not interchangeable, and adapting between them incorrectly can damage the RV or create a shock hazard. Have a licensed electrician install a proper RV receptacle."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Power & Generators",
+    tags: [
+      "best rv power adapter",
+      "30 amp to 110 adapter",
+      "30 amp rv plug adapter",
+      "rv adapter",
+      "dogbone adapter",
+      "rv surge protector",
+      "rv ems"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <div class="bg-gray-900 py-16 lg:py-24 relative overflow-hidden">
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 20%, #38BDF8 0, transparent 45%), radial-gradient(circle at 80% 60%, #FF4500 0, transparent 40%);"></div>
+      <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        <div class="flex justify-center mb-6">
+          <TrustBadge />
+        </div>
+        <div class="flex justify-center gap-3 mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
+            Buyer's Guide
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 text-green-400 text-xs font-bold uppercase tracking-widest border border-green-500/20">
+            Updated November 2026
+          </span>
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-black text-white leading-tight mb-8">
+          The Best <span class="text-[#38BDF8]">RV Power Adapters</span>
+        </h1>
+        <p class="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
+          Six dogbone adapters and pedestal protectors for 30- and 50-amp rigs, plus the plug, amperage, dryer-outlet and generator-bonding rules that decide whether any of them is safe to use.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#camco-powergrip-15m-30f-dogbone-adapter"
+            class="px-8 py-4 bg-[#FF4500] hover:bg-[#E63E00] text-white font-black rounded-xl shadow-lg transition-all no-underline"
+          >
+            See Our #1 Pick
+          </a>
+          <a
+            href="#top-picks"
+            class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/10 no-underline"
+          >
+            Match Your Plug
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author & Meta -->
+    <div class="max-w-3xl mx-auto px-4 pt-12">
+      <div class="flex items-center gap-6 border-b border-gray-100 pb-8">
+        <div class="flex items-center gap-3">
+          <AuthorAvatar size={48} />
+          <div>
+            <p class="text-sm font-bold text-gray-900">Alex Rivers</p>
+            <p class="text-xs text-gray-500 uppercase tracking-widest">Home Improvement Editor</p>
+          </div>
+        </div>
+        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+        <div class="hidden sm:block">
+          <p class="text-sm font-bold text-gray-900">Last Updated</p>
+          <p class="text-xs text-gray-500">{dates.display}</p>
+        </div>
+        <div class="hidden sm:block ml-auto">
+          <SocialProof users="" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 py-10">
+      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 lg:p-8">
+        <h2 class="text-lg font-black text-gray-900 mb-4 flex items-center gap-2">
+          In This Guide
+        </h2>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <a href="#at-a-glance" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">1. Adapters at a Glance</a>
+          <a href="#top-picks" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">2. The Six Picks</a>
+          <a href="#plugs" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">3. TT-30 vs 14-50 vs 5-15</a>
+          <a href="#thirty-to-fifteen" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">4. The 30A-to-15A Limit</a>
+          <a href="#dryer" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">5. Dryer Outlets and Home Hookups</a>
+          <a href="#ems" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">6. EMS vs Surge-Only</a>
+          <a href="#generators" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">7. Generators and Bonding</a>
+          <a href="#compare" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">8. Comparison Table</a>
+          <a href="#which" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">9. Which One to Buy</a>
+          <a href="#mistakes" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">10. Common Mistakes</a>
+          <a href="#faq" class="text-sm text-gray-600 hover:text-[#1E90FF] no-underline py-1 font-medium">11. FAQ</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          An RV power adapter changes the shape of a plug. It does not change how much power the outlet can supply, and it does not protect anything. Those two facts explain almost every RV electrical problem we hear about.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="at-a-glance" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The RV Adapters at a Glance
+          </h2>
+
+          <p>
+            Shore power in North America comes in three common shapes. Campground pedestals usually offer a TT-30 receptacle for 30-amp RVs, a NEMA 14-50 for 50-amp RVs, and an ordinary 5-15 or 5-20 household-style outlet. Your RV's power cord ends in one of the first two. Whenever the plug on your cord does not match the receptacle in front of you, you need an RV adapter, and the short, heavy-duty pigtail style most campers use is called a dogbone adapter because of its shape.
+          </p>
+
+          <p>
+            That is the first category in this guide. The second is the RV surge protector, which plugs into the pedestal before your cord and either blocks voltage spikes or, in the more capable versions called energy management systems (EMS), disconnects the RV when the pedestal's wiring or voltage is wrong. If you buy only one piece of RV electrical gear beyond the cord, buy the protector. Adapters are cheap; a fried converter, refrigerator board or air conditioner is not.
+          </p>
+
+          <p>
+            We picked six widely sold products to cover both jobs: three Camco PowerGrip dogbones for the conversions most owners need, Progressive Industries' portable EMS and surge-only protectors, and Hughes' Power Watchdog. These picks are based on published specifications and documentation, not on our own bench testing, and where we say how a product behaves we attribute it to the maker or to what owners commonly report.
+          </p>
+
+          <p>
+            Before you plug anything in, check the pedestal breaker is off, look at the receptacle for scorch marks or loose fit, and plug in with the breaker off before turning it on. Reverse the order when you leave. Making and breaking a 30- or 50-amp connection under load is what pits and burns plug blades, and burned blades are the most common reason adapters and cords overheat.
+          </p>
+
+          <p>
+            If you are setting up power at home rather than at a campground, read the dryer-outlet section before buying anything, and plan on a licensed electrician. A properly installed RV receptacle is not expensive, and it is the only arrangement we recommend for regular use. For outage planning, the RV itself is not a backup generator for the house; our <a href="/best-home-generator-for-power-outages/">home generator guide</a> covers the right ways to do that.
+          </p>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. The Six RV Power Adapters and Protectors
+          </h2>
+
+          <p>
+            These picks are described from manufacturers' published specifications and documentation, not from hands-on testing. Cord lengths, joule ratings, display features and warranty terms change between versions, so confirm the details on the listing you buy from, and always size an adapter to the smaller of the two connections it joins.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
+              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
+                      {index + 1}
+                    </span>
+                    {productImages[product.id] && (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        loading="lazy"
+                        width="40"
+                        height="40"
+                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
+                      />
+                    )}
+                    <div>
+                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
+                      <p class="text-gray-400 text-xs">{product.category}</p>
+                    </div>
+                  </div>
+                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
+                    {product.badge}
+                  </span>
+                </div>
+                <div class="p-6">
+                  {product.rating && product.reviewCount && (
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <svg
+                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
+                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings)</span>
+                  </div>
+                  )}
+
+                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-green-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
+                      <ul class="space-y-2">
+                        {product.pros.map((pro) => (
+                          <li class="flex items-start gap-2 text-sm text-green-800">
+                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div class="bg-red-50 rounded-xl p-4">
+                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
+                      <ul class="space-y-2">
+                        {product.cons.map((con) => (
+                          <li class="flex items-start gap-2 text-sm text-red-800">
+                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
+                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
+                  </div>
+
+                  <a
+                    href={amazonLink(product.amazonUrl, product.name, product.id)}
+                    target="_blank"
+                    rel="sponsored nofollow noopener"
+                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
+                  >
+                    Check Price &rarr;
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div id="plugs" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. TT-30 vs 14-50 vs 5-15: Know Your Plugs
+          </h2>
+
+          <p>
+            A TT-30 is a 120-volt, 30-amp, three-prong receptacle: one hot, one neutral and one ground. It is the standard for most travel trailers, smaller fifth wheels and Class C motorhomes, and it can supply up to about 3,600 watts. The TT stands for travel trailer. It looks a little like a dryer outlet, but it is wired completely differently, which is the source of the most dangerous mistake in RV electrical work.
+          </p>
+
+          <p>
+            A NEMA 14-50 is a 50-amp, four-prong receptacle with two hot legs, a neutral and a ground. It supplies 120 volts on each leg and 240 volts between them. A 50-amp RV uses the two legs as two separate 120-volt, 50-amp supplies, which is why it can run two air conditioners plus a long list of appliances: up to about 12,000 watts total. The same receptacle is used for many electric ranges and for <a href="/best-portable-ev-charger/">portable EV chargers</a>, which is why it is increasingly common in garages.
+          </p>
+
+          <p>
+            A NEMA 5-15 is the ordinary household outlet, rated for 15 amps at 120 volts, or about 1,800 watts, and much less than that for continuous loads. A 5-20, with one T-shaped slot, is the 20-amp version, good for about 2,400 watts. A 5-15 plug fits a 5-20 receptacle, but not the other way around. Most of the confusion in the adapter aisle comes from people trying to connect a 30- or 50-amp RV to one of these.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Receptacle</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Voltage</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Amps</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Approx. max watts</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Typical use</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">NEMA 5-15</td>
+                    <td class="px-4 py-4 text-gray-700">120V</td>
+                    <td class="px-4 py-4 text-gray-700">15A</td>
+                    <td class="px-4 py-4 text-gray-700">1,800W</td>
+                    <td class="px-4 py-4 text-gray-700">Household outlet, pedestal convenience outlet</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">NEMA 5-20</td>
+                    <td class="px-4 py-4 text-gray-700">120V</td>
+                    <td class="px-4 py-4 text-gray-700">20A</td>
+                    <td class="px-4 py-4 text-gray-700">2,400W</td>
+                    <td class="px-4 py-4 text-gray-700">Garage and kitchen circuits, some pedestals</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">TT-30</td>
+                    <td class="px-4 py-4 text-gray-700">120V</td>
+                    <td class="px-4 py-4 text-gray-700">30A</td>
+                    <td class="px-4 py-4 text-gray-700">3,600W</td>
+                    <td class="px-4 py-4 text-gray-700">30-amp RVs, campground pedestals</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">NEMA 14-50</td>
+                    <td class="px-4 py-4 text-gray-700">120/240V</td>
+                    <td class="px-4 py-4 text-gray-700">50A per leg</td>
+                    <td class="px-4 py-4 text-gray-700">12,000W</td>
+                    <td class="px-4 py-4 text-gray-700">50-amp RVs, ranges, EV chargers</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">NEMA 14-30 / 10-30</td>
+                    <td class="px-4 py-4 text-gray-700">120/240V</td>
+                    <td class="px-4 py-4 text-gray-700">30A</td>
+                    <td class="px-4 py-4 text-gray-700">Dryer circuit</td>
+                    <td class="px-4 py-4 text-gray-700">Clothes dryers; not an RV outlet</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            The adapter you need is always named male first, female second: the male end goes into the outlet, the female end takes your RV's cord. A 50M/30F dogbone lets a 30-amp RV use a 50-amp pedestal. A 15M/30F lets a 30-amp RV plug into a household outlet, which is the "30 amp to 110 adapter" most people search for. A 30M/50F lets a 50-amp RV use a 30-amp pedestal at reduced capacity. Get the direction wrong in the store and the adapter will not fit, which is the safe kind of mistake.
+          </p>
+        </div>
+
+        <div id="thirty-to-fifteen" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Why a 30A-to-15A Adapter Limits You to 15 Amps
+          </h2>
+
+          <p>
+            The most common 30 amp RV plug adapter is the 15M/30F, which lets you plug the RV into a house outlet. It works, and it is fine for what it is for: keeping the batteries charged, running lights, the water pump, the furnace fan and the refrigerator on electric while the rig sits in the driveway. What it does not do is turn a 15-amp household circuit into a 30-amp supply. You are still limited by the outlet, the wire behind it and the breaker in your panel.
+          </p>
+
+          <p>
+            In practice, that means roughly 1,440 watts of continuous load if you follow the common 80 percent rule for continuous use. A rooftop air conditioner alone can pull most of that once it is running and spike much higher when the compressor starts. Add the converter charging a low battery, an electric water heater element or a microwave, and the household breaker will trip. If the breaker does not trip because it is worn or the wiring is undersized, the outlet and the adapter heat up instead.
+          </p>
+
+          <p>
+            Heat is the real danger. Household receptacles, especially older back-stabbed ones, are not designed for hours of current near their limit, and the adapter's thin 15-amp blades can loosen and overheat in a worn receptacle. Never plug the adapter into a household extension cord, which is usually even lighter, and never plug it into a power strip. If you must run a cord, use a 30-amp RV extension cord from the adapter to the RV, keep the 15-amp leg as short as possible, and feel the plug after an hour of use. Warm is acceptable; hot is a reason to stop.
+          </p>
+
+          <p>
+            Turn off the big loads before you connect. Switch the water heater to propane or off, set the refrigerator to gas if it has that option, leave the air conditioner off or run it alone, and use the microwave only with everything else off. Many RVs have an energy-management panel or a load-shed setting that can help, and a portable EMS with a display shows exactly how many amps you are drawing, which makes this much easier to manage.
+          </p>
+
+          <p>
+            If you want to run the air conditioner at home routinely, the answer is a dedicated circuit, not a bigger adapter. A licensed electrician can install a TT-30 or 14-50 receptacle on its own correctly sized breaker and wire, with a permit and inspection where your local code requires it. That is the setup to plan for if the RV doubles as a guest room or if you prep for trips in the heat.
+          </p>
+        </div>
+
+        <div id="dryer" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. Dryer Outlets and Home Hookups: Read This First
+          </h2>
+
+          <p>
+            Sooner or later, someone looks at the 30-amp dryer outlet in the laundry room and wonders why they cannot just adapt the RV to it. The short answer is that a dryer outlet supplies 240 volts across its two hot terminals, and a TT-30 RV expects 120 volts. A homemade or mislabeled adapter that connects a 30-amp RV's hot and neutral across the two hot legs of a dryer circuit will put 240 volts into 120-volt appliances. That can destroy the converter, the refrigerator board, the microwave and anything else plugged in, in seconds.
+          </p>
+
+          <p>
+            Older homes add a second hazard. Many dryer outlets installed before the 1996 code change are the three-prong NEMA 10-30 type, which has no separate equipment ground; the neutral does double duty. Using one to feed an RV removes the ground path that protects you if a fault energizes the RV's metal skin. Commercial adapters that take one leg of a four-prong 14-30 to a TT-30 do exist, but they still depend on the dryer circuit being wired exactly to code, and they leave a 30-amp dryer receptacle feeding a vehicle sitting on wet ground.
+          </p>
+
+          <p>
+            Adapting a 50-amp RV to a dryer outlet is worse, not better. A 14-30 dryer circuit is protected by a 30-amp breaker, so even when an adapter is wired correctly you get 30 amps per leg, not 50. The RV's own 50-amp main breaker cannot protect wiring sized for 30 amps, and you are relying entirely on the house breaker and on the adapter being built correctly. Never adapt 50A to a dryer outlet unless you, or better an electrician, have confirmed exactly how that circuit is wired and the adapter is purpose-made for it.
+          </p>
+
+          <p>
+            Our recommendation is plain: if you want to power an RV at home, have a licensed electrician install a dedicated TT-30 or 14-50 receptacle, outdoors and weather-rated, on its own breaker, with GFCI protection where your local code requires it. It is a routine job, it is inspected, and it removes every guesswork adapter from the picture. If you need a heavy appliance cord for an actual dryer, our <a href="/best-dryer-cord/">dryer cord guide</a> explains the three- versus four-prong question.
+          </p>
+
+          <p>
+            One more rule that is not negotiable: never use an RV, a generator or a homemade double-male cord to push power back into a house through an outlet. That is backfeeding, it can energize utility lines and kill line workers, and it can start fires inside your walls. If you want a generator to feed the house during an outage, the correct route is a <a href="/best-generator-transfer-switch/">transfer switch</a> or interlock installed by a licensed electrician.
+          </p>
+        </div>
+
+        <div id="ems" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. EMS vs Surge-Only RV Surge Protectors
+          </h2>
+
+          <p>
+            A surge-only RV surge protector contains metal-oxide varistors that absorb voltage spikes, usually with indicator lights that show whether the pedestal is wired correctly. It is better than nothing, and it will catch a lightning-induced or switching surge up to its joule rating. What it cannot do is protect you from the problems that actually damage RVs most often: low voltage on a crowded campground, high voltage from a miswired pedestal, or an open neutral that sends unpredictable voltage to each leg.
+          </p>
+
+          <p>
+            An energy management system, or EMS, adds a relay that disconnects power when voltage is too high or too low, when the frequency is wrong, when ground or neutral is missing, or when polarity is reversed. It then waits a set time after power is restored before reconnecting, which protects air-conditioner compressors from restarting against high pressure. Progressive Industries' EMS units and Hughes' Power Watchdog in its EMS-equipped versions both work this way. Low voltage is the quiet killer, because motors draw more current and run hotter as voltage sags.
+          </p>
+
+          <p>
+            An EMS costs more, often roughly two to three times a surge-only unit, and that price premium is the whole argument. A single brownout weekend on a busy holiday can cost more in air-conditioner and appliance damage than the difference between the two. If your RV has an expensive air conditioner, a residential refrigerator or an inverter-charger, buy EMS. A surge-only unit makes sense mainly as a budget stopgap on a small trailer with simple loads.
+          </p>
+
+          <p>
+            Portable units sit on the pedestal and can be stolen, which is why many come with a lock hasp. Hardwired EMS units, such as Progressive's hardwired line, mount inside the RV between the shore cord and the panel. They cannot walk away, they are always in the circuit, and they often have a remote display. The trade-off is installation, which belongs to someone comfortable working inside the RV's distribution panel.
+          </p>
+
+          <p>
+            Surge components wear out. Every surge they absorb uses up some of their capacity, and once it is gone, many units keep passing power with no protection at all. Check the indicator lights or display regularly, and replace any surge-protective unit after a known lightning strike nearby. The same principle applies at home, where a <a href="/best-whole-house-surge-protector/">whole-house surge protector</a> guards the panel; the RV unit guards the rig.
+          </p>
+        </div>
+
+        <div id="generators" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Generators, Neutral-Ground Bonding and EMS Faults
+          </h2>
+
+          <p>
+            The most common EMS complaint is that it refuses to pass power from a portable generator. The protector is usually doing its job correctly. Many portable and inverter generators have what is called a floating neutral, meaning the neutral is not bonded to the frame or ground inside the generator. Many EMS and pedestal analyzers look for a relationship between neutral and ground, and when they cannot find it, they report an open ground and refuse to connect.
+          </p>
+
+          <p>
+            Floating neutrals are deliberate. Generators designed to feed a building through a transfer switch should not be bonded, because the house already bonds neutral and ground at its main panel, and a second bond creates parallel paths for current on the ground wire. When a generator powers an RV directly through its own receptacle, though, the RV has no main-panel bond, and the generator becomes the source. That is the situation in which a bond at the generator is appropriate.
+          </p>
+
+          <p>
+            The common fix is a neutral-ground bonding plug: a small plug that goes into one of the generator's unused 120-volt receptacles and connects neutral to ground inside the generator's outlet. With it installed, the EMS sees a proper ground and connects. Follow your generator manufacturer's guidance first, because some models offer a bonding option and some say clearly whether they are bonded. Never use a bonding plug on a generator that is also feeding a house through a transfer switch, and remove it before you do.
+          </p>
+
+          <p>
+            Generators also trip EMS units on frequency and voltage. A small or heavily loaded generator can sag below the low-voltage threshold when an air conditioner starts, and an open-frame contractor generator may drift in frequency under changing load. Inverter generators usually produce cleaner power and are the better match. Size the generator for the air conditioner's starting surge, not just its running watts; our <a href="/best-rv-generator/">RV generator guide</a> covers sizing in detail.
+          </p>
+
+          <p>
+            And the obvious safety rule bears repeating: run any generator outdoors, well away from the RV's windows, doors and vents, with the exhaust pointed away from your rig and your neighbors'. Never run a generator inside an RV storage bay, a garage or an enclosed space. Make sure the RV's carbon monoxide alarm works and is not past its replacement date. A generator that is too loud to run outside is a generator to replace, not to move closer.
+          </p>
+        </div>
+
+        <div id="compare" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Comparison Table
+          </h2>
+
+          <p>
+            The table below lays out what each pick does. Note that the three dogbones only change plug shapes and are rated for the smaller of the two ends they connect, while the protectors guard the RV but do not adapt anything. Most owners end up with one protector and two or three adapters, and the protector always goes first in the chain, plugged into the pedestal.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Product</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Plugs into</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">RV cord</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Protection</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Camco PowerGrip 15M/30F Dogbone</td>
+                    <td class="px-4 py-4 text-gray-700">Adapter</td>
+                    <td class="px-4 py-4 text-gray-700">5-15 household outlet</td>
+                    <td class="px-4 py-4 text-gray-700">30A (TT-30)</td>
+                    <td class="px-4 py-4 text-gray-700">None; limited to 15A</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Camco PowerGrip 50M/30F Dogbone</td>
+                    <td class="px-4 py-4 text-gray-700">Adapter</td>
+                    <td class="px-4 py-4 text-gray-700">14-50 pedestal</td>
+                    <td class="px-4 py-4 text-gray-700">30A (TT-30)</td>
+                    <td class="px-4 py-4 text-gray-700">None; 30A one leg</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Camco PowerGrip 30M/15F Dogbone</td>
+                    <td class="px-4 py-4 text-gray-700">Adapter</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30 pedestal or generator</td>
+                    <td class="px-4 py-4 text-gray-700">15A cord or device</td>
+                    <td class="px-4 py-4 text-gray-700">None; limited to 15A</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Progressive Industries EMS-PT30X</td>
+                    <td class="px-4 py-4 text-gray-700">Portable EMS</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30 pedestal</td>
+                    <td class="px-4 py-4 text-gray-700">30A</td>
+                    <td class="px-4 py-4 text-gray-700">Surge, voltage, wiring faults, frequency</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Progressive Industries SSP-30XL</td>
+                    <td class="px-4 py-4 text-gray-700">Portable surge-only</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30 pedestal</td>
+                    <td class="px-4 py-4 text-gray-700">30A</td>
+                    <td class="px-4 py-4 text-gray-700">Surge and wiring indicators</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Hughes Power Watchdog 30A</td>
+                    <td class="px-4 py-4 text-gray-700">Portable smart protector</td>
+                    <td class="px-4 py-4 text-gray-700">TT-30 pedestal</td>
+                    <td class="px-4 py-4 text-gray-700">30A</td>
+                    <td class="px-4 py-4 text-gray-700">Surge; voltage cutoff on EMS versions</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Order of connection matters. The pedestal feeds the protector, the protector feeds the adapter if you need one, and the adapter feeds the RV cord. Putting the adapter between the pedestal and the protector also works for most combinations, but a 30-amp protector cannot plug directly into a 50-amp pedestal, so the 50M/30F dogbone goes first in that case. Either way, the protector still sees the RV's load and supply voltage.
+          </p>
+
+          <p>
+            Fifty-amp owners should buy the 50-amp versions of these protectors, such as Progressive's EMS-PT50X and the 50-amp Power Watchdog, because a 30-amp unit cannot pass two-leg power. If your 50-amp RV must use a 30-amp pedestal with a 30M/50F adapter, both legs share one 30-amp supply, so you are limited to about 3,600 watts total and one air conditioner at most.
+          </p>
+
+          <p>
+            Inspect every adapter before each trip. Look for discoloration around the blades, a loose fit in the receptacle, cracked housings or melted plastic. Any of those is a reason to throw it away. Dogbones are cheap compared with the damage a heat-failed connection can do, and the PowerGrip-style handles exist to let you pull the plug out by the body rather than the cord.
+          </p>
+        </div>
+
+        <div id="which" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Which RV Adapter Should You Buy?
+          </h2>
+
+          <p>
+            <strong>Every 30-amp RV owner</strong> should carry the Camco PowerGrip 50M/30F dogbone, because many campground pedestals offer 50-amp receptacles and their 30-amp outlets are often the most worn. Add the 15M/30F for driveway use and campsites with only household outlets. That pair, plus a protector, covers almost every hookup you will meet.
+          </p>
+
+          <p>
+            <strong>For protection, buy the Progressive Industries EMS-PT30X</strong> if your budget allows. It is the reference portable EMS for 30-amp rigs, it disconnects for the low-voltage, high-voltage and open-neutral problems that cause real damage, and the display tells you what the pedestal is doing. If you prefer to monitor from your phone, the Hughes Power Watchdog in an EMS-equipped version is the alternative. If money is very tight, the Progressive SSP-30XL is a reasonable surge-only start, but plan to upgrade.
+          </p>
+
+          <p>
+            <strong>For powering small loads from a generator or pedestal,</strong> the Camco PowerGrip 30M/15F lets you plug a household cord or a 15-amp device into a TT-30 receptacle. It is handy for running a space heater in a workshop from a generator's RV outlet, or a tool at a site with only an RV hookup, but it is limited to 15 amps, so treat it as a small-load adapter.
+          </p>
+
+          <p>
+            <strong>For home hookups,</strong> skip clever adapters entirely. A licensed electrician can install a TT-30 or 14-50 receptacle on a dedicated breaker in an afternoon, and it is the only setup we recommend for regular use, especially if you want to run the air conditioner. Do not adapt the RV to a dryer outlet unless an electrician has verified the circuit and the adapter is purpose-built, and never backfeed a house from an RV or generator.
+          </p>
+
+          <p>
+            <strong>For 50-amp rigs,</strong> mirror the list: a 50-amp EMS, a 30M/50F dogbone for 30-amp sites and a 15M/50F adapter for driveway charging. If you also want backup power for the RV or the house, start with our <a href="/best-home-generator-for-power-outages/">home generator guide</a> and the <a href="/best-rv-generator/">RV generator picks</a>, and remember the bonding plug for direct generator-to-RV connections. The best RV power adapter setup is the boring one: the right shapes, a working EMS, and no surprises at the pedestal.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            10. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Thinking an adapter adds capacity</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A 15M/30F adapter lets a 30-amp RV plug into a house outlet, but you still only have 15 amps. Running the air conditioner with the microwave or water heater will trip the breaker, or worse, overheat a worn outlet. Manage loads, and have an electrician install a dedicated RV receptacle if you need more.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Adapting an RV to a dryer outlet</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A dryer outlet supplies 240 volts across its hot legs, and older 10-30 outlets lack a separate ground. A wrong adapter can put 240 volts into 120-volt appliances or remove your shock protection. Do not use a dryer outlet unless an electrician has verified the circuit, and prefer a dedicated TT-30 or 14-50.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying a surge-only protector and calling it done</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Surge-only units absorb spikes, but they do not disconnect on low voltage, high voltage or an open neutral, which are the faults that most often damage RV air conditioners and electronics. If your rig has expensive appliances, buy an EMS such as the Progressive EMS-PT30X or an EMS-equipped Power Watchdog.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Blaming the EMS when it rejects a generator</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many portable generators have a floating neutral, so an EMS reads an open ground and refuses to connect. That is correct behavior. When the generator powers the RV directly, a neutral-ground bonding plug usually solves it; follow the generator maker's guidance, and never use one on a generator feeding a house.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Plugging in with the pedestal breaker on</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Connecting or disconnecting a 30- or 50-amp plug under load creates an arc that pits and burns the blades, and burned blades overheat later. Switch the pedestal breaker off, connect the protector, adapter and cord, then switch it on. Reverse the order when leaving, and replace any discolored adapter.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best RV power adapter?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most 30-amp RVs, the best RV power adapter setup is the Camco PowerGrip 50M/30F dogbone for 50-amp pedestals and the 15M/30F for household outlets, used behind an EMS protector such as the Progressive Industries EMS-PT30X. Adapters only change plug shapes, so the protector is the part that actually keeps the RV safe. Fifty-amp owners need the 50-amp equivalents.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I plug my 30 amp RV into a regular outlet?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, with a 15M/30F 30 amp to 110 adapter, but you are limited to the outlet's 15 amps, or 20 on a 20-amp circuit. That runs lights, the fridge, the water pump and battery charging comfortably. A rooftop air conditioner may run alone on a good circuit but usually not with anything else. Avoid extension cords on the 15-amp side and check the plug for heat.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is a dogbone adapter?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                A dogbone adapter is a short, flexible pigtail with a plug on one end and a receptacle on the other, named for its shape. It converts between RV plug types, such as a 50-amp pedestal to a 30-amp RV cord. Compared with a rigid block adapter, it keeps the weight of the RV cord from levering on the receptacle, which reduces loose connections and heat.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Do I need an RV surge protector?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes. Campground power is often unreliable: overloaded pedestals sag in voltage, miswired outlets show up regularly, and lightning surges happen. An RV surge protector is inexpensive compared with a replacement converter, air conditioner or refrigerator board. We recommend an EMS model that disconnects on low or high voltage and wiring faults, not just a surge-only unit.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Why does my EMS show an open ground on my generator?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Many portable and inverter generators have a floating neutral, meaning neutral and ground are not bonded inside the generator. An EMS expects to see them bonded and reports an open ground. When the generator powers the RV directly, a neutral-ground bonding plug inserted in a spare outlet usually fixes it. Follow your generator's manual, and remove the plug before connecting that generator to a house transfer switch.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I use a 50 amp RV on a 30 amp outlet?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, with a 30M/50F dogbone, but both legs of the RV share one 30-amp, 120-volt supply. You are limited to about 3,600 watts in total, which usually means one air conditioner and careful use of other big loads. Your 50-amp EMS still protects the RV, and the RV's energy management panel, if it has one, can help shed loads automatically.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is a TT-30 outlet the same as a dryer outlet?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. A TT-30 is a 120-volt, 30-amp RV receptacle with one hot, one neutral and one ground. Dryer outlets, NEMA 10-30 and 14-30, supply 240 volts and may lack a separate ground. They look similar but are not interchangeable, and adapting between them incorrectly can damage the RV or create a shock hazard. Have a licensed electrician install a proper RV receptacle.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Power Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-home-generator-for-power-outages/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Home Generators for Power Outages</h3>
+              <p class="text-gray-500 text-sm mt-2">Standby, portable and inverter generators, and how to connect them to a house safely.</p>
+            </a>
+            <a href="/best-rv-generator/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#1E90FF] font-black text-xs uppercase tracking-widest mb-2">Generators</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best RV Generators</h3>
+              <p class="text-gray-500 text-sm mt-2">Inverter generators sized for the rooftop AC, with the bonding question answered.</p>
+            </a>
+            <a href="/best-generator-transfer-switch/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#10B981] font-black text-xs uppercase tracking-widest mb-2">Transfer Switches</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Generator Transfer Switches</h3>
+              <p class="text-gray-500 text-sm mt-2">The safe, code-compliant way to feed a house from a generator, without backfeeding.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            For a 30-amp RV, the best RV power adapter kit is short and inexpensive: the Camco PowerGrip 50M/30F dogbone for campground pedestals, the 15M/30F for household outlets, and a Progressive Industries EMS-PT30X or an EMS-equipped Hughes Power Watchdog in front of both. Fifty-amp owners need the 50-amp versions of the same idea.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Remember what each piece does. Adapters change plug shapes and never add capacity; the EMS protects the rig; a bonding plug sorts out most generator faults; and a licensed electrician, not a dryer-outlet adapter, is the right way to power an RV at home. Get those right and the pedestal stops being a gamble.
+          </p>
+        </div>
+
+        <MoreInCategory category="Power & Generators" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>
