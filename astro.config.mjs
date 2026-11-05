@@ -6,6 +6,12 @@ import sitemap from '@astrojs/sitemap';
 // Buyer's guides that target high-volume search terms. They get a higher
 // sitemap priority than the 0.5 default so crawlers reach them sooner.
 const priorityGuides = new Set([
+  // November 2026: mold-killer and dehumidifier money pages (RMR-141, Frigidaire Wi-Fi).
+  'best-50-pint-dehumidifier',
+  'rmr-141-review',
+  'crawl-space-mold-removal',
+  'does-bleach-kill-mold',
+  'does-vinegar-kill-mold',
   // November 2026: every guide on the site (fresh rewrites of the 124 THR pages with clicks).
   'best-asphalt-driveway-sealer-reviews',
   'best-driveway-sealer',
