@@ -1,0 +1,974 @@
+---
+import Layout from "../layouts/Layout.astro";
+import MoreInCategory from "../components/MoreInCategory.astro";
+import { authorSchema, authorName } from "../data/authors";
+import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import ProductCard from "../components/ProductCard.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
+import TrustBadge from "../components/TrustBadge.astro";
+import SocialProof from "../components/SocialProof.astro";
+import productImages from "../data/product-images.json";
+import { pageDates } from "../data/dates";
+
+const moreInCategory = [
+  {
+    "title": "Best Water Filtration Systems for Home",
+    "url": "/best-water-filtration-system-for-home/"
+  },
+  {
+    "title": "Best Under-Sink Water Filters",
+    "url": "/best-under-sink-water-filter/"
+  },
+  {
+    "title": "Best Water Filter Pitchers",
+    "url": "/best-water-filter-pitcher/"
+  }
+];
+const dates = pageDates(Astro.url.pathname, { published: "2026-11-10", modified: "2026-11-10" });
+const title = "The 6 Best Reverse Osmosis Systems: Tankless, Tank and Countertop Picks";
+const description =
+  "The best reverse osmosis systems for drinking water, compared on GPD, drain ratio, NSF/ANSI 58 certification and filter cost, from tankless to countertop.";
+
+const PRODUCTS = [
+  {
+    "id": "waterdrop-g3p800",
+    "name": "Waterdrop G3P800 Tankless Reverse Osmosis System",
+    "category": "800 GPD tankless RO with UV and a TDS smart faucet",
+    "badge": "Best Overall",
+    "amazonUrl": "#",
+    "specs": [
+      [
+        "Rated Output",
+        "800 gallons per day"
+      ],
+      [
+        "Pure-to-Drain Ratio",
+        "3:1"
+      ],
+      [
+        "Certification",
+        "NSF/ANSI 58 and 372 (IAPMO R&T)"
+      ],
+      [
+        "Storage",
+        "Tankless, with built-in UV"
+      ],
+      [
+        "Faucet",
+        "Smart faucet with TDS readout"
+      ],
+      [
+        "Dimensions",
+        "About 18.1 x 5.7 x 17.7 in"
+      ]
+    ],
+    "pros": [
+      "800 GPD rating means a glass or a pot fills almost as fast as the tap",
+      "3:1 pure-to-drain ratio wastes far less water than older tank systems",
+      "Tankless cabinet footprint frees most of the space under the sink",
+      "Smart faucet shows TDS so you know when the membrane is fading",
+      "Certified by IAPMO R&T against NSF/ANSI 58 for TDS reduction"
+    ],
+    "cons": [
+      "Needs an outlet under the sink for the booster pump and UV",
+      "Proprietary twist-in cartridges, so filters only come from Waterdrop",
+      "Stage count and certification list vary between Waterdrop's own listings"
+    ],
+    "bottomLine": "The RO system to buy if you want fast, low-waste water and have an outlet under the sink.",
+    "description": "The G3P800 is the system that made tankless RO mainstream, and it is still the one to beat. Waterdrop rates it at 800 gallons per day with a 3:1 pure-to-drain ratio, which in practice means it fills a glass in a few seconds and sends roughly one cup to the drain for every three it makes. A conventional 50-75 GPD tank system typically wastes three or four times that. There is no storage tank: an internal pump pushes water through the membrane on demand, and a UV stage treats the water on the way out. The smart faucet shows a live TDS reading, which is the most useful feature in the box because it tells you when the membrane is due rather than leaving you to guess. Retail listings describe it as certified by IAPMO R&T against NSF/ANSI 58 for TDS reduction and 372 for lead-free materials; some also list 42 and 53, so check the performance data sheet if a specific contaminant matters to you. You will need a 120V outlet in the sink cabinet."
+  },
+  {
+    "id": "waterdrop-g3p600",
+    "name": "Waterdrop G3P600 Tankless Reverse Osmosis System",
+    "category": "600 GPD tankless RO, 2:1 pure-to-drain",
+    "badge": "Best Value Tankless",
+    "amazonUrl": "#",
+    "specs": [
+      [
+        "Rated Output",
+        "600 gallons per day"
+      ],
+      [
+        "Flow Rate",
+        "About 0.42 GPM"
+      ],
+      [
+        "Pure-to-Drain Ratio",
+        "2:1"
+      ],
+      [
+        "Certification",
+        "NSF/ANSI 58 and 372"
+      ],
+      [
+        "Storage",
+        "Tankless"
+      ]
+    ],
+    "pros": [
+      "Most of the G3P800's speed and footprint at a lower price",
+      "Around 0.42 GPM, or roughly eight seconds for an 8 oz glass",
+      "2:1 drain ratio is still far better than a classic tank system",
+      "Same quick-twist cartridge format as the rest of the G3 line",
+      "Certified against NSF/ANSI 58 for TDS reduction"
+    ],
+    "cons": [
+      "No UV stage, unlike the G3P800",
+      "Wastes more water than the G3P800 at 2:1",
+      "Still needs an outlet under the sink"
+    ],
+    "bottomLine": "The tankless RO to buy when the G3P800's UV and extra efficiency are not worth the premium to you.",
+    "description": "The G3P600 is the sensible step down from the G3P800, and for many households it is the better buy. Waterdrop rates it at 600 gallons per day, and retail listings put the flow at about 0.42 gallons per minute, which is roughly eight seconds for an eight-ounce glass. That is fast enough that you stop thinking about the filter, which is the whole point of tankless RO. The pure-to-drain ratio is 2:1, so it wastes about one gallon for every two it makes: worse than the G3P800's 3:1, but still a fraction of what an old 1:4 tank unit sends down the drain. Listings describe NSF/ANSI 58 certification for TDS reduction and NSF/ANSI 372 for lead-free materials. What you give up is the UV stage and the slightly better efficiency. Waterdrop's own pages disagree on whether it is a seven- or eight-stage system, which matters less than it sounds; the membrane is doing the heavy lifting either way. Like any pumped tankless unit, it needs power in the cabinet."
+  },
+  {
+    "id": "ispring-rcc7ak",
+    "name": "iSpring RCC7AK 75 GPD 6-Stage Reverse Osmosis System",
+    "category": "Classic tank RO with an alkaline remineralization stage",
+    "badge": "Best Tank System",
+    "amazonUrl": "#",
+    "specs": [
+      [
+        "Rated Output",
+        "75 gallons per day"
+      ],
+      [
+        "Stages",
+        "6, including alkaline remineralization"
+      ],
+      [
+        "Certification",
+        "NSF/ANSI 58 (TDS reduction)"
+      ],
+      [
+        "Storage",
+        "Pressurized storage tank"
+      ],
+      [
+        "Feed Pressure",
+        "45-70 psi"
+      ],
+      [
+        "Feed Temperature",
+        "40-100 F"
+      ]
+    ],
+    "pros": [
+      "No electricity needed, so it installs in any sink cabinet",
+      "Standard-size 10-inch filters are cheap and sold by many brands",
+      "Alkaline stage adds back minerals for a less flat taste",
+      "Certified against NSF/ANSI 58 for TDS reduction",
+      "Long-running, well-documented design with a large owner base"
+    ],
+    "cons": [
+      "Tank takes up a big chunk of cabinet space",
+      "Slow refill once the tank is drained by a big pot or a party",
+      "Wastes considerably more water than a tankless system"
+    ],
+    "bottomLine": "The no-power, cheap-filter tank system for homes with good water pressure and a roomy sink cabinet.",
+    "description": "The RCC7AK is the classic under-sink RO layout done well, and it remains the default answer for people who do not want a pump or an outlet involved. Three pre-filters (sediment, a carbon GAC/KDF stage and a carbon block) protect a 75 GPD membrane, a post-carbon polishes the taste, and a sixth alkaline stage adds calcium and magnesium back so the water tastes less flat. iSpring lists certification to NSF/ANSI 58 for TDS reduction. Because the membrane is slow, water collects in a pressurized tank and the faucet draws from that, so the first few gallons come out quickly and then flow tapers as the tank empties. The housings take standard 10-inch cartridges, so replacement filters are inexpensive and you are never locked to one supplier. The main requirement is pressure: iSpring specifies 45 to 70 psi feed pressure, and below about 40 psi RO output and efficiency both drop sharply. Do not confuse it with the RCC7AK-UV, which is a separate seven-stage model."
+  },
+  {
+    "id": "apec-roes50",
+    "name": "APEC ROES-50 Essence Under-Sink Reverse Osmosis",
+    "category": "50 GPD five-stage tank RO, WQA Gold Seal",
+    "badge": "Best Budget",
+    "amazonUrl": "#",
+    "specs": [
+      [
+        "Rated Output",
+        "50 gallons per day"
+      ],
+      [
+        "Stages",
+        "5"
+      ],
+      [
+        "Certification",
+        "WQA Gold Seal"
+      ],
+      [
+        "Storage",
+        "4-gallon pressurized tank"
+      ],
+      [
+        "Operating Pressure",
+        "40-85 psi"
+      ]
+    ],
+    "pros": [
+      "Simple, proven five-stage design with nothing to plug in",
+      "WQA Gold Seal certified, an independent third-party mark",
+      "Fits standard 3/8-inch under-sink supply lines",
+      "Standard-size replacement filters keep running costs low",
+      "US-based support with clear installation guides"
+    ],
+    "cons": [
+      "50 GPD membrane is the slowest on this list",
+      "No remineralization stage on the base model",
+      "Tank and five housings fill most of a standard cabinet"
+    ],
+    "bottomLine": "The plain, dependable tank RO for drinking and coffee water on a budget.",
+    "description": "APEC's ROES-50 is the RO system people have been recommending to each other for over a decade, and the reason is that it does the basic job reliably and cheaply. It is a five-stage layout: sediment, two carbon blocks, a 50 GPD membrane and a carbon polishing filter, feeding a four-gallon pressurized tank. APEC's certification is through the Water Quality Association's Gold Seal program rather than NSF, which is a legitimate independent certifier for RO; check the WQA listing if you need contaminant-by-contaminant data. The 50 GPD membrane is slow, but with a tank in front of it that rarely matters for drinking water, coffee and cooking. Where it shows is when you drain the tank filling a big pot and then wait an hour or more for it to recover. APEC lists an operating range of 40 to 85 psi, and the filters are standard sizes, so annual running costs stay low. If you want the water to taste less flat, APEC sells a version with an alkaline mineral stage."
+  },
+  {
+    "id": "home-master-tmafc",
+    "name": "Home Master TMAFC Artesian Full Contact Reverse Osmosis System",
+    "category": "Seven-stage tank RO with two-pass remineralization",
+    "badge": "Best for Taste",
+    "amazonUrl": "#",
+    "specs": [
+      [
+        "Stages",
+        "7"
+      ],
+      [
+        "Membrane",
+        "50 GPD"
+      ],
+      [
+        "Remineralization",
+        "Two-pass, 30-60 mg/L calcium and magnesium"
+      ],
+      [
+        "Operating Pressure",
+        "40-95 psi"
+      ],
+      [
+        "Warranty",
+        "5-year limited"
+      ]
+    ],
+    "pros": [
+      "Two-pass remineralization gives the best-tasting water of the tank systems here",
+      "Modular filter cartridges swap without touching the tubing",
+      "Wide 40-95 psi operating range",
+      "Five-year limited warranty is long for the category",
+      "Permeate pump available as an upgrade (TMAFC-ERP) to cut waste"
+    ],
+    "cons": [
+      "Proprietary modular filters cost more than standard 10-inch cartridges",
+      "Not designed for iron-rich or microbially unsafe water",
+      "Bulkier than the iSpring once the tank is counted"
+    ],
+    "bottomLine": "The tank RO to buy if taste is why you want reverse osmosis in the first place.",
+    "description": "Plenty of people buy RO, dislike how flat and slightly sour the water tastes, and go back to a pitcher. The Artesian Full Contact is built for them. Home Master passes the water through its remineralization filter twice, once before the tank and once after, and lists a target of 30 to 60 mg/L of calcium and magnesium in the finished water. Owners commonly describe the result as tasting like decent bottled spring water rather than distilled. The system is seven stages around a 50 GPD membrane, and the filters are modular cartridges that clip into the manifold, so changes are quick and you never have to cut or re-seat tubing. Home Master lists an operating range of 40 to 95 psi and a five-year limited warranty, longer than most rivals. The ERP version adds a non-electric permeate pump, which improves efficiency and fills the tank faster, and is worth paying for if your water pressure is marginal. The manual is clear that it is not built for iron-rich water or microbially unsafe sources."
+  },
+  {
+    "id": "aquatru-classic",
+    "name": "AquaTru Classic Countertop Reverse Osmosis Water Purifier",
+    "category": "Four-stage countertop RO, no plumbing",
+    "badge": "Best Countertop / Renters",
+    "amazonUrl": "#",
+    "specs": [
+      [
+        "Stages",
+        "4 (pre/carbon, RO, VOC carbon)"
+      ],
+      [
+        "Certification",
+        "NSF/ANSI 42, 53, 58, 401 and P473 (IAPMO)"
+      ],
+      [
+        "Tap Water Tank",
+        "1 gallon"
+      ],
+      [
+        "Clean Water Tank",
+        "0.75 gallon"
+      ],
+      [
+        "Installation",
+        "None, plugs into an outlet"
+      ]
+    ],
+    "pros": [
+      "No drilling, no plumbing, no landlord conversation",
+      "Broad certification list including NSF/ANSI 58, 53 and 401",
+      "Moves between apartments with you",
+      "Waste water stays in the tap tank for refiltering rather than going down a drain",
+      "Filters are twist-off and need no tools"
+    ],
+    "cons": [
+      "Small tanks mean frequent refilling for a household",
+      "Takes counter space and makes pump noise while filtering",
+      "Per-gallon filter cost is higher than under-sink tank systems"
+    ],
+    "bottomLine": "The RO system for renters and anyone who cannot or will not plumb under the sink.",
+    "description": "AquaTru solves the biggest objection to reverse osmosis, which is installation. You fill the one-gallon tap tank at the sink, set it on the base, and a pump pushes it through four stages into a 0.75-gallon clean tank in a few minutes. No drain saddle, no feed valve, no hole in the countertop. AquaTru lists certification by IAPMO to NSF/ANSI 42, 53, 58 and 401 plus P473, which covers chlorine, lead, TDS, a range of emerging contaminants and PFOA/PFOS. That is a broader certificate than most under-sink systems carry. The concentrate does not go down a drain; it returns to the tap tank, and you empty it when the unit tells you to. The trade-offs are capacity and counter space. Three-quarters of a gallon goes quickly for a family that cooks with filtered water, and you will be refilling the tap tank several times a day. For one or two people, a renter, or a dorm, nothing else on this list is as easy to live with."
+  }
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.allmetalbrake.com/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Best Lists",
+          item: "https://www.allmetalbrake.com/best-of/",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Best Reverse Osmosis System",
+          item: "https://www.allmetalbrake.com/best-reverse-osmosis-system/",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          "name": "What is the best reverse osmosis system for home use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most homes with an outlet under the kitchen sink, the Waterdrop G3P800 is the best reverse osmosis system: 800 GPD, a 3:1 pure-to-drain ratio, NSF/ANSI 58 certification and a TDS faucet. Without an outlet, the iSpring RCC7AK is the best tank system. Renters should look at the AquaTru Classic countertop unit, which needs no plumbing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is tankless reverse osmosis better than a tank system?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For most kitchens, yes. Tankless systems make water on demand, so flow never tapers, they waste far less water thanks to a built-in pump, and they free up cabinet space. The trade-offs are that they need a 120V outlet under the sink and use proprietary filters that cost more. Tank systems remain the better choice where power is unavailable."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much water does a reverse osmosis system waste?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on the design. High-efficiency tankless systems publish ratios of 2:1 or 3:1, meaning one gallon of concentrate per two or three gallons of drinking water. Conventional tank systems running on line pressure commonly waste three to four gallons per gallon made. A permeate pump or higher feed pressure improves a tank system's ratio."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does reverse osmosis remove fluoride and PFAS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Reverse osmosis is one of the few home technologies that reliably reduces fluoride, and certified systems also reduce many PFAS compounds, including PFOA and PFOS. Check the system's performance data sheet for the specific claim, because certification covers only the contaminants listed. The AquaTru Classic, for example, lists P473 certification for PFOA and PFOS reduction."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is reverse osmosis water bad for you because it removes minerals?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Reverse osmosis water is safe to drink, and the minerals your body needs come overwhelmingly from food rather than water. RO water can taste flat, which is why many systems add a remineralization stage. Choose one because you prefer the taste, not because RO water is unhealthy without it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often do you change reverse osmosis filters?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pre-filters usually last six to twelve months, post-filters and mineral cartridges about a year, and the membrane two to four years, depending on water hardness and chlorine levels. The most reliable signal for the membrane is a TDS reading: when the RO water's TDS rises noticeably relative to the tap, the membrane is due."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I install a reverse osmosis system myself?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, most people can install an under-sink RO system in two to three hours with basic tools. You connect a feed valve to the cold line, fit a drain saddle, mount the faucet and run tubing. Drilling a faucet hole through stone or quartz is the step most people hand to a pro. Countertop units like the AquaTru need no installation at all."
+          }
+        }
+      ],
+    },
+    {
+      "@type": "Article",
+      headline: title,
+      author: authorSchema(Astro.url.pathname),
+      datePublished: dates.published,
+      dateModified: dates.modified,
+      publisher: { "@type": "Organization", name: "All Metal Brake" },
+    },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
+  ],
+};
+---
+
+<Layout
+  title={title}
+  description={description}
+  ogType="article"
+  article={{
+    publishedTime: dates.published,
+    modifiedTime: dates.modified,
+    author: authorName(Astro.url.pathname),
+    section: "Water, Plumbing & Electrical",
+    tags: [
+      "best reverse osmosis system",
+      "reverse osmosis water filter",
+      "ro system",
+      "tankless reverse osmosis system",
+      "countertop reverse osmosis",
+      "nsf 58 certified ro"
+    ],
+  }}
+  jsonLd={schema}
+>
+  <article class="relative overflow-hidden">
+    <!-- Hero Section -->
+    <header data-hero class="bg-[#F4F6F8] border-b border-gray-200">
+      <div class="max-w-3xl mx-auto px-4 pt-10 pb-8 lg:pt-14 lg:pb-10">
+        <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold uppercase tracking-widest m-0 mb-4">
+          <span class="text-[#D93A00]">Buyer's Guide</span>
+          <span class="text-gray-300" aria-hidden="true">&bull;</span>
+          <span class="text-gray-500">Updated {dates.display}</span>
+        </p>
+        <h1 class="text-[2.1rem] leading-[1.15] sm:text-5xl font-black tracking-tight text-gray-900 m-0">
+          The Best Reverse Osmosis Systems
+        </h1>
+        <p class="text-lg lg:text-xl text-gray-600 leading-relaxed mt-5 mb-0">
+          Six RO systems worth putting under a sink or on a counter, sorted by how they make water, how much they waste and what they certify to. The Waterdrop G3P800 is the pick for most kitchens.
+        </p>
+        <!-- Author & Meta -->
+        <div class="flex items-center gap-3 mt-7">
+          <AuthorAvatar size={40} />
+          <div class="min-w-0">
+            <p class="text-sm text-gray-600 m-0">Written by <a href="/authors/alex-rivers/" class="font-bold text-gray-900 no-underline hover:underline">Alex Rivers</a></p>
+            <p class="text-xs text-gray-500 m-0">Home Improvement Editor &middot; Updated {dates.display}</p>
+          </div>
+          <SocialProof users="" />
+        </div>
+        <div class="flex items-center gap-4 mt-6">
+          <TrustBadge />
+          <span class="flex-1 h-px bg-gray-300"></span>
+        </div>
+        <p class="text-sm text-gray-600 leading-relaxed mt-3 mb-0">
+          We judge every product on its spec sheet, its label and what owners report over time, not on the marketing. No paid placements, and commission never sets a ranking. <a href="/how-we-test/" class="font-bold text-gray-900 underline">Read how we pick</a>
+        </p>
+      </div>
+    </header>
+
+    <!-- Table of Contents -->
+    <div class="max-w-3xl mx-auto px-4 pt-8">
+      <details open class="group bg-white border border-gray-200 rounded-2xl px-5 pt-4 pb-2">
+        <summary class="flex items-center gap-3 pb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01" /></svg>
+          <span class="font-bold text-gray-900">In This Guide</span>
+          <span class="text-xs font-semibold text-gray-400">12 sections</span>
+          <svg class="w-5 h-5 ml-auto text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 15l6-6 6 6" /></svg>
+        </summary>
+        <nav class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+              <a href="#quick-answer" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">1.</span><span>The Quick Answer</span></a>
+              <a href="#how-ro-works" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">2.</span><span>How Reverse Osmosis Works</span></a>
+              <a href="#top-picks" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">3.</span><span>The Six Picks</span></a>
+              <a href="#comparison" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">4.</span><span>Comparison Table</span></a>
+              <a href="#specs-that-matter" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">5.</span><span>The Specs That Matter</span></a>
+              <a href="#tank-vs-tankless" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">6.</span><span>Tank vs Tankless vs Countertop</span></a>
+              <a href="#remineralization" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">7.</span><span>Alkaline and Remineralization Stages</span></a>
+              <a href="#install" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">8.</span><span>Installation and Space</span></a>
+              <a href="#running-costs" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">9.</span><span>Filters and Running Costs</span></a>
+              <a href="#which-to-buy" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">10.</span><span>Which One to Buy</span></a>
+              <a href="#mistakes" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">11.</span><span>Common Mistakes</span></a>
+              <a href="#faq" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">12.</span><span>FAQ</span></a>
+        </nav>
+      </details>
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
+      <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
+        <p class="text-2xl font-medium text-gray-900 mb-8 italic">
+          Reverse osmosis is the one home filter type that removes almost everything dissolved in water, from lead and nitrate to the fluoride and PFAS that carbon struggles with. The catch is that RO systems vary far more than their marketing suggests: some fill a glass in eight seconds and some take a minute, some send four gallons down the drain for every one you drink, and some carry a real NSF/ANSI 58 certificate while others carry a logo. This guide sorts six systems on the specs that decide which one you will actually live with.
+        </p>
+
+        <QuickPicks products={PRODUCTS} />
+
+        <div id="quick-answer" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The Quick Answer
+          </h2>
+
+          <p>
+            If you have an outlet under the kitchen sink and want reverse osmosis water that feels like a normal tap, buy the <strong>Waterdrop G3P800</strong>. Its 800 GPD rating and 3:1 pure-to-drain ratio make it the fastest and least wasteful system here, and the TDS faucet tells you when to change the membrane. If that outlet does not exist, or the budget is tighter, the <strong>iSpring RCC7AK</strong> is the best conventional tank system: no power needed, cheap standard filters, and an NSF/ANSI 58 certificate.
+          </p>
+
+          <p>
+            Renters should skip the plumbing entirely and look at the <strong>AquaTru Classic</strong>, which sits on the counter and carries the broadest certification list of any system on this page. People who have tried RO before and hated the flat taste should go straight to the <strong>Home Master TMAFC Artesian Full Contact</strong>, whose two-pass remineralization is the best answer to that complaint.
+          </p>
+
+          <p>
+            Reverse osmosis is the finishing step for drinking and cooking water, not a whole-house solution. If you are still deciding what kind of filtration your home needs at all, start with our guide to the <a href="/best-water-filtration-system-for-home/">best water filtration system for home</a>, which covers whole-house carbon, softeners and well treatment alongside RO. If a simpler carbon unit under the sink would do the job, compare it against our <a href="/best-under-sink-water-filter/">best under-sink water filter</a> picks before committing to a membrane.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-3">THE RULE</p>
+            <p class="text-xl font-bold text-white mb-3">Buy for the drain ratio and the certificate, not the stage count.</p>
+            <p class="text-gray-300 leading-relaxed m-0">A ten-stage system with a 1:4 drain ratio and no NSF/ANSI 58 certificate is worse than a four-stage system with a 2:1 ratio and a real certificate. Stage counts are marketing; the membrane and the paperwork are the product.</p>
+          </div>
+        </div>
+
+        <div id="how-ro-works" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            2. How Reverse Osmosis Works, and What It Removes
+          </h2>
+
+          <p>
+            A reverse osmosis membrane is a sheet of thin-film composite wound into a cartridge, with pores so small that water molecules pass and most dissolved salts, metals and larger organic molecules do not. Household water pressure pushes water across the membrane. Clean water, called permeate, comes out one side; the rejected minerals and contaminants leave in a continuous stream of concentrate that goes to the drain. That drain stream is not a defect. It is how the membrane keeps itself from clogging.
+          </p>
+
+          <p>
+            Because the membrane works on dissolved solids rather than adsorption, RO handles contaminants that carbon alone struggles with: nitrate, fluoride, arsenic, hexavalent chromium, many PFAS compounds and total dissolved solids generally. The carbon pre-filters in front of the membrane take out chlorine, which would otherwise attack the thin-film membrane, and the carbon post-filter catches any taste or odor that slips through. Sediment pre-filters protect everything downstream from grit.
+          </p>
+
+          <p>
+            What RO does not do is make unsafe water safe. Manufacturers say it plainly in their manuals: these systems are for use on water that is already microbiologically safe, such as municipal water or a tested well. A UV stage, like the one on the G3P800, adds a layer of protection, but it is not a substitute for proper well treatment. If you are on a private well with bacteria or high iron, fix that first at the point of entry and use RO as the drinking-water polish.
+          </p>
+
+          <p>
+            The single most useful thing you can do before buying is to know what is in your water. Municipal customers can read their utility's annual Consumer Confidence Report. Well owners should send a sample to a certified lab. If the report shows high nitrate, arsenic, fluoride you want gone, or PFAS, RO is the right tool. If it shows only chlorine taste, a carbon filter is cheaper, wastes no water, and will make you just as happy.
+          </p>
+
+          <div class="bg-gray-900 text-white rounded-2xl p-6 lg:p-8 my-8">
+            <p class="text-xs font-black uppercase tracking-widest text-[#38BDF8] mb-4">What the Spec Sheets Say</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p class="text-3xl font-black text-white">800</p>
+                <p class="text-gray-400 text-xs mt-1">GPD, G3P800 rating</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">3:1</p>
+                <p class="text-gray-400 text-xs mt-1">Best pure-to-drain ratio here</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-white">40-95</p>
+                <p class="text-gray-400 text-xs mt-1">psi, widest operating range (TMAFC)</p>
+              </div>
+              <div>
+                <p class="text-3xl font-black text-[#38BDF8]">0.75 gal</p>
+                <p class="text-gray-400 text-xs mt-1">AquaTru clean-water tank</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            3. The Six Best Reverse Osmosis Systems
+          </h2>
+
+          <p>
+            Every system below is a current model sold on Amazon in the US. Specs come from the manufacturer's listing or certification paperwork; where the maker publishes conflicting numbers we say so rather than pick the flattering one. Ratings and prices move constantly, so check today's price on the listing before you buy.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <ProductCard product={product} index={index} ratingLabel="ratings on Amazon" />
+          ))}
+        </div>
+
+        <div id="comparison" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            4. Reverse Osmosis Systems Compared
+          </h2>
+
+          <p>
+            The table below puts the numbers that decide day-to-day life side by side. GPD is the membrane's rated production under the manufacturer's test conditions; your real output will be lower at lower pressure and in cold water. The drain ratio is purified water to concentrate where the maker publishes it. Certification is listed as the manufacturer or its retailers describe it, and we flag the one system certified through WQA rather than an NSF-standard lab.
+          </p>
+
+          <div class="overflow-hidden border border-gray-200 rounded-2xl my-8">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">System</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Type</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Rated Output</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Drain Ratio</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Certification</th>
+                    <th class="px-4 py-4 font-bold text-gray-600 text-sm">Power Needed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Waterdrop G3P800</td>
+                    <td class="px-4 py-4 text-gray-700">Tankless</td>
+                    <td class="px-4 py-4 text-gray-700">800 GPD</td>
+                    <td class="px-4 py-4 text-gray-700">3:1</td>
+                    <td class="px-4 py-4 text-gray-700">NSF/ANSI 58, 372</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Waterdrop G3P600</td>
+                    <td class="px-4 py-4 text-gray-700">Tankless</td>
+                    <td class="px-4 py-4 text-gray-700">600 GPD</td>
+                    <td class="px-4 py-4 text-gray-700">2:1</td>
+                    <td class="px-4 py-4 text-gray-700">NSF/ANSI 58, 372</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">iSpring RCC7AK</td>
+                    <td class="px-4 py-4 text-gray-700">Tank</td>
+                    <td class="px-4 py-4 text-gray-700">75 GPD</td>
+                    <td class="px-4 py-4 text-gray-700">Not published</td>
+                    <td class="px-4 py-4 text-gray-700">NSF/ANSI 58</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">APEC ROES-50</td>
+                    <td class="px-4 py-4 text-gray-700">Tank</td>
+                    <td class="px-4 py-4 text-gray-700">50 GPD</td>
+                    <td class="px-4 py-4 text-gray-700">Not published</td>
+                    <td class="px-4 py-4 text-gray-700">WQA Gold Seal</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                  </tr>
+                  <tr class="bg-white border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">Home Master TMAFC</td>
+                    <td class="px-4 py-4 text-gray-700">Tank</td>
+                    <td class="px-4 py-4 text-gray-700">50 GPD membrane</td>
+                    <td class="px-4 py-4 text-gray-700">Not published (better with ERP pump)</td>
+                    <td class="px-4 py-4 text-gray-700">Not listed</td>
+                    <td class="px-4 py-4 text-gray-700">No</td>
+                  </tr>
+                  <tr class="bg-gray-50 border-b border-gray-100">
+                    <td class="px-4 py-4 font-black text-gray-900">AquaTru Classic</td>
+                    <td class="px-4 py-4 text-gray-700">Countertop</td>
+                    <td class="px-4 py-4 text-gray-700">Batch, 0.75 gal tank</td>
+                    <td class="px-4 py-4 text-gray-700">Concentrate recirculated</td>
+                    <td class="px-4 py-4 text-gray-700">NSF/ANSI 42, 53, 58, 401, P473</td>
+                    <td class="px-4 py-4 text-gray-700">Yes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p>
+            Two patterns jump out. First, the tankless systems are dramatically more efficient. A pumped tankless unit runs the membrane at a consistent high pressure, which is what lets Waterdrop publish 2:1 and 3:1 ratios. Conventional tank systems run on line pressure that drops as the tank fills, and the back-pressure from the tank makes the membrane less efficient as it goes; that is why their makers tend not to publish a ratio at all, and why owners commonly report three to four gallons of concentrate per gallon of permeate.
+          </p>
+
+          <p>
+            Second, the tank systems win on simplicity and running cost. Nothing to plug in, nothing to fail electrically, and three of them use standard-size cartridges you can buy from any filter brand. If your sink cabinet has the room and your house has 50 psi or more, that is a perfectly good way to get RO water, and it is still how most RO systems in American kitchens work.
+          </p>
+
+          <p>
+            Treat the certification column as the most important one. NSF/ANSI 58 is the standard written specifically for reverse osmosis drinking water systems and covers structural integrity, materials safety and TDS reduction, plus any extra contaminant claims the maker chooses to certify. A system that claims to remove PFAS or lead should have those claims listed on its performance data sheet, which you can request from the manufacturer or find on the certifier's website.
+          </p>
+        </div>
+
+        <div id="specs-that-matter" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            5. The Specs That Actually Matter
+          </h2>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">GPD rating</h3>
+
+          <p>
+            Gallons per day is measured at a standard test pressure and temperature, typically around 60 psi and 77 F. Real kitchens are rarely that friendly. Cold winter water and 45 psi can cut a membrane's output by a third or more. On a tank system that mostly shows up as a slower refill. On a tankless system the pump compensates, which is one reason tankless ratings hold up better in use. For a tank system, a 50 or 75 GPD membrane is plenty for drinking and cooking; nobody needs 75 gallons a day of drinking water.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Pure-to-drain ratio</h3>
+
+          <p>
+            This is the number that shows up on your water bill. At 3:1, making a gallon of drinking water sends a third of a gallon to the drain. At 1:4, the same gallon costs four gallons of waste. For a family drinking and cooking with three gallons a day, that difference is roughly a thousand gallons a year on a typical tank system versus a few hundred on a high-efficiency tankless one. In drought-restricted areas, a published ratio of 2:1 or better is worth paying for.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Certification</h3>
+
+          <p>
+            Look for NSF/ANSI 58 from an accredited certifier: NSF itself, IAPMO R&T, or the Water Quality Association's Gold Seal program. Then look at what the certificate covers. Some systems are certified for TDS reduction only; others list lead, arsenic, nitrate, fluoride or PFOA/PFOS. Marketing that says a system is tested to NSF standards is not the same as certified. A certified system appears in the certifier's public database under the exact model number.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Feed pressure</h3>
+
+          <p>
+            Check your house pressure before buying a tank system. A cheap gauge on an outdoor hose bib tells you in thirty seconds. Most tank systems want at least 40 to 45 psi; below that, output collapses and waste climbs. If your pressure is low, buy a pumped tankless system or add a permeate pump to a tank system. The Home Master's ERP version builds that pump in, and it needs no electricity.
+          </p>
+
+          <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Faucet and filter format</h3>
+
+          <p>
+            Every under-sink RO needs its own dedicated faucet, which means either an existing sprayer hole, a soap dispenser hole you can repurpose, or drilling the countertop. Filter format matters for running cost: standard 10-inch housings accept generic cartridges, while quick-twist and modular systems tie you to the maker's cartridges in exchange for cleaner, faster changes.
+          </p>
+        </div>
+
+        <div id="tank-vs-tankless" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            6. Tank vs Tankless vs Countertop RO
+          </h2>
+
+          <p>
+            Tank systems are the traditional design. A slow membrane fills a pressurized storage tank, usually three to four gallons of usable water, and the faucet draws from it. Upsides: no power, low cost, cheap filters, and a reserve that still works during a power cut. Downsides: the tank eats half the sink cabinet, flow slows as it empties, waste is high, and stored water sitting in a tank can pick up a slight plastic or stale taste if the system is not used daily. A final carbon stage after the tank exists precisely to fix that.
+          </p>
+
+          <p>
+            Tankless systems put a pump in front of the membrane and make water on demand. They need a 120V outlet under the sink, and they make a quiet hum when running. In exchange, they fill a glass in seconds, never run out, take up roughly the footprint of a shoebox lying on its side, and waste much less water. They also tend to use proprietary twist-in cartridges, which are easier to change and more expensive to buy. For most kitchens with an outlet, tankless is now the better choice.
+          </p>
+
+          <p>
+            Countertop RO units, like the AquaTru, are batch systems. You fill a tank by hand, the unit filters it into a second tank, and you pour from that. They need no installation at all and are the only realistic RO option for most renters. The limits are capacity and convenience: three-quarters of a gallon goes fast, and refilling a tap tank several times a day gets old for a family. They also take up counter space you may not have to spare.
+          </p>
+
+          <p>
+            A simple way to decide: if you own the home and have an outlet under the sink, go tankless. If you own the home but adding an outlet is a hassle, go tank. If you rent, live alone or in a pair, or simply refuse to drill your countertop, go countertop. Water chemistry does not change the decision much, because all three use the same kind of thin-film membrane.
+          </p>
+        </div>
+
+        <div id="remineralization" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            7. Alkaline and Remineralization Stages: Worth It?
+          </h2>
+
+          <p>
+            RO strips calcium, magnesium and bicarbonate along with the contaminants, and the result is water with very low TDS and a slightly acidic pH, usually somewhere around 6 to 6.5. It is perfectly safe to drink; the minerals you need come from food, not water. But many people find it tastes flat or faintly sour, especially if they are used to hard municipal water or spring water.
+          </p>
+
+          <p>
+            A remineralization stage adds a small amount of calcium and magnesium back after the membrane, raising pH and giving the water some body. Single-pass alkaline cartridges, like the one on the iSpring RCC7AK, make a noticeable difference. Home Master's two-pass design goes further, and its stated target of 30 to 60 mg/L of minerals lands the water in roughly the range of a mild spring water. If taste is why you are buying RO, this is the feature to pay attention to.
+          </p>
+
+          <p>
+            Be skeptical of health claims attached to alkaline water. The amount of mineral added is small, and stomach acid neutralizes any modest pH difference within seconds. Buy a remineralization stage because you prefer the taste, or because you want RO water that is a little less aggressive toward copper fittings and kettles, not because a listing promises antioxidant benefits.
+          </p>
+
+          <p>
+            If you already own a basic RO system and dislike the taste, you do not need to replace it. Inline remineralization cartridges are available for most standard systems and plug into the line between the post-carbon and the faucet. That is a cheap test of whether minerals fix the problem for you before you spend money on a different system.
+          </p>
+        </div>
+
+        <div id="install" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            8. Installation, Space and Plumbing
+          </h2>
+
+          <p>
+            Under-sink RO installation is a two-to-three hour job for a confident DIYer, and every system on this list ships with the parts. You tee into the cold supply line with a feed valve, clamp a drain saddle onto the sink drain above the trap, mount the faucet, run tubing, and either position the tank or mount the tankless unit. The steps that cause trouble are the faucet hole on stone or quartz countertops, which may need a diamond core bit or a professional, and getting the drain saddle positioned so concentrate does not back up.
+          </p>
+
+          <p>
+            Measure the cabinet before you order. A tank system needs room for a tank roughly 11 inches wide and 15 inches tall plus a filter manifold about 15 inches wide, and it all has to share space with the disposal, the trash can and the cleaning supplies. The G3P800 lists dimensions of about 18 by 6 by 18 inches, standing upright, with nothing else to place. If your disposal and drain plumbing already crowd the cabinet, tankless is often the only system that fits.
+          </p>
+
+          <p>
+            Tankless systems need power. If there is a disposal or dishwasher outlet under the sink, you are set; if not, adding a receptacle is a job for an electrician in most jurisdictions. Do not run an extension cord through the cabinet wall, and do not plug a pumped RO into a switched disposal outlet, because the unit will lose power every time the switch is off.
+          </p>
+
+          <p>
+            Some households also run an RO line to the refrigerator's water dispenser and ice maker. All of these systems can do it with a tee kit, but expect lower pressure at the fridge from a tank system, and check the fridge maker's minimum inlet pressure. Pumped tankless systems handle a fridge line better. Use PEX or the supplied polyethylene tubing; copper is not a good match for low-TDS RO water over the long term.
+          </p>
+        </div>
+
+        <div id="running-costs" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            9. Filters, Membranes and Running Costs
+          </h2>
+
+          <p>
+            The purchase price is the smaller part of what an RO system costs over five years. Pre-filters typically need changing every six to twelve months, post-filters and remineralization cartridges about once a year, and the membrane every two to four years depending on water hardness and chlorine levels. Before you buy, price a year of filters for the exact model, and compare that figure across systems rather than the sticker price.
+          </p>
+
+          <p>
+            Standard 10-inch cartridges, used by the iSpring and APEC, are the cheapest route, with generic sets widely available. Quick-twist and modular formats, used by Waterdrop, Home Master and AquaTru, cost more per change but take seconds to swap and avoid wet hands and stuck housings. Which you prefer depends on whether money or convenience matters more. Either way, change them on schedule: a spent carbon pre-filter lets chlorine through, and chlorine destroys the membrane, which is the expensive part.
+          </p>
+
+          <p>
+            Watch the TDS number. A cheap handheld TDS meter, or the built-in readout on the G3P800 faucet, compares the tap water to the RO water. A healthy membrane removes the large majority of dissolved solids. When the rejection rate starts slipping noticeably, it is time for a new membrane, regardless of what the calendar says. This is the most reliable way to stop paying for filters you do not need yet, or drinking water from one that has quietly failed.
+          </p>
+
+          <p>
+            Do not forget the water itself. On a tank system wasting four gallons per gallon made, a household using three gallons a day sends thousands of gallons down the drain each year. On metered water, especially with sewer charges added, that cost is real, and it is the strongest financial argument for a tankless system with a published 2:1 or 3:1 ratio.
+          </p>
+        </div>
+
+        <div id="which-to-buy" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            10. Which Reverse Osmosis System Should You Buy?
+          </h2>
+
+          <p>
+            <strong>Most kitchens:</strong> the Waterdrop G3P800. It is fast, efficient, compact and transparent about when it needs service. If the UV stage and the 3:1 ratio are not worth the premium to you, the G3P600 gives you most of the experience for less.
+          </p>
+
+          <p>
+            <strong>No outlet, or a tight budget:</strong> the iSpring RCC7AK. It needs no power, its filters are cheap and universal, and the alkaline stage softens the flat RO taste. The APEC ROES-50 is the plainer, cheaper alternative if you do not care about remineralization and just want reliable drinking and coffee water.
+          </p>
+
+          <p>
+            <strong>Taste above all:</strong> the Home Master TMAFC Artesian Full Contact. Its two-pass remineralization is the best fix for people who have tried RO and disliked it. Spend the extra on the ERP permeate-pump version if your water pressure is under 50 psi.
+          </p>
+
+          <p>
+            <strong>Renters and small households:</strong> the AquaTru Classic. No plumbing, the broadest certification list here, and it moves with you. For a family of four that cooks with filtered water, it will feel small; for one or two people, it is the easiest RO system to live with.
+          </p>
+
+          <p>
+            Whichever you choose, confirm the certification on the certifier's database, check your water pressure, and price a year of filters before you click buy. And if your water test shows problems throughout the house rather than just at the tap, revisit our <a href="/best-water-filtration-system-for-home/">whole-home water filtration guide</a> first: an RO system at the sink cannot fix hard water in the shower or iron in the laundry.
+          </p>
+        </div>
+
+        <!-- Common Mistakes -->
+        <div id="mistakes" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            11. Common Mistakes to Avoid
+          </h2>
+
+          <div class="space-y-6 my-8">
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Buying RO when a carbon filter would do</h3>
+              <p class="text-gray-700 text-sm m-0">
+                If your water report shows only chlorine taste and odor, reverse osmosis is overkill. A good carbon block filter costs less, wastes no water and needs no drain connection. Save RO for nitrate, fluoride, arsenic, PFAS or high TDS, which carbon cannot reliably remove. Test first and buy the filter that matches what is actually in your water.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Ignoring water pressure on a tank system</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Tank RO systems depend on line pressure. Below about 40 to 45 psi, output drops sharply, the tank never fills properly and the waste ratio gets worse. Check your pressure with a gauge on a hose bib before ordering. If it is low, buy a pumped tankless system or add a permeate pump rather than blaming the membrane later.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Trusting the stage count</h3>
+              <p class="text-gray-700 text-sm m-0">
+                A ten-stage label often means two extra carbon cartridges and a mineral stage padded out with marketing. What matters is the membrane, the drain ratio and the certificate. Compare the NSF/ANSI 58 listing and the published efficiency, not the number of housings, and do not pay extra just because a system has more of them.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Skipping pre-filter changes</h3>
+              <p class="text-gray-700 text-sm m-0">
+                The carbon pre-filter is there to stop chlorine from reaching the membrane. Let it run past its life and chlorine breaks through, damaging the thin-film membrane, which is the costliest part of the system. Put the change dates in your calendar on install day and keep a spare set on the shelf so you are never tempted to stretch them.
+              </p>
+            </div>
+            <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
+              <h3 class="text-lg font-bold text-red-900 mt-0 mb-2">Plugging a tankless unit into a switched outlet</h3>
+              <p class="text-gray-700 text-sm m-0">
+                Many sink cabinets have a single outlet controlled by the disposal switch. Plug a pumped RO into it and the system only works while the disposal switch is on. Use an always-on receptacle, have an electrician add one if needed, and never run an extension cord through the back of the cabinet.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <PlanTheJob />
+
+        <!-- FAQ -->
+        <div id="faq" class="scroll-mt-24 mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">
+            12. Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">What is the best reverse osmosis system for home use?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most homes with an outlet under the kitchen sink, the Waterdrop G3P800 is the best reverse osmosis system: 800 GPD, a 3:1 pure-to-drain ratio, NSF/ANSI 58 certification and a TDS faucet. Without an outlet, the iSpring RCC7AK is the best tank system. Renters should look at the AquaTru Classic countertop unit, which needs no plumbing.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is tankless reverse osmosis better than a tank system?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                For most kitchens, yes. Tankless systems make water on demand, so flow never tapers, they waste far less water thanks to a built-in pump, and they free up cabinet space. The trade-offs are that they need a 120V outlet under the sink and use proprietary filters that cost more. Tank systems remain the better choice where power is unavailable.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How much water does a reverse osmosis system waste?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                It depends on the design. High-efficiency tankless systems publish ratios of 2:1 or 3:1, meaning one gallon of concentrate per two or three gallons of drinking water. Conventional tank systems running on line pressure commonly waste three to four gallons per gallon made. A permeate pump or higher feed pressure improves a tank system's ratio.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Does reverse osmosis remove fluoride and PFAS?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Reverse osmosis is one of the few home technologies that reliably reduces fluoride, and certified systems also reduce many PFAS compounds, including PFOA and PFOS. Check the system's performance data sheet for the specific claim, because certification covers only the contaminants listed. The AquaTru Classic, for example, lists P473 certification for PFOA and PFOS reduction.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Is reverse osmosis water bad for you because it removes minerals?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                No. Reverse osmosis water is safe to drink, and the minerals your body needs come overwhelmingly from food rather than water. RO water can taste flat, which is why many systems add a remineralization stage. Choose one because you prefer the taste, not because RO water is unhealthy without it.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">How often do you change reverse osmosis filters?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Pre-filters usually last six to twelve months, post-filters and mineral cartridges about a year, and the membrane two to four years, depending on water hardness and chlorine levels. The most reliable signal for the membrane is a TDS reading: when the RO water's TDS rises noticeably relative to the tap, the membrane is due.
+              </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">Can I install a reverse osmosis system myself?</h3>
+              <p class="text-gray-700 text-sm leading-relaxed">
+                Yes, most people can install an under-sink RO system in two to three hours with basic tools. You connect a feed valve to the cold line, fit a drain saddle, mount the faucet and run tubing. Drilling a faucet hole through stone or quartz is the step most people hand to a pro. Countertop units like the AquaTru need no installation at all.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Related Guides -->
+        <div class="mt-16">
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Related Water Filtration Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <a href="/best-water-filtration-system-for-home/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#FF4500] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Water Filtration Systems for Home</h3>
+              <p class="text-gray-500 text-sm mt-2">Whole-house, under-sink and well systems, and how to pick the right type for your water report.</p>
+            </a>
+            <a href="/best-under-sink-water-filter/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-[#38BDF8] font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Under-Sink Water Filters</h3>
+              <p class="text-gray-500 text-sm mt-2">Carbon and multi-stage under-sink filters for when you want cleaner tap water without a membrane.</p>
+            </a>
+            <a href="/best-water-filter-pitcher/" class="bg-gray-50 border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow no-underline group">
+              <p class="text-green-600 font-black text-xs uppercase tracking-widest mb-2">Buyer's Guide</p>
+              <h3 class="text-gray-900 font-bold text-lg group-hover:text-[#1E90FF] transition-colors">Best Water Filter Pitchers</h3>
+              <p class="text-gray-500 text-sm mt-2">The no-install option for chlorine taste and certified lead reduction on a budget.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Closing -->
+        <div class="mt-16 bg-gray-900 text-white rounded-2xl p-8">
+          <h2 class="text-2xl font-black text-white mb-4">The Bottom Line</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Reverse osmosis is the most thorough drinking-water treatment you can put in a kitchen, and the modern tankless systems have fixed most of what people used to dislike about it: slow flow, cabinet clutter and wasted water. The Waterdrop G3P800 is the one to buy if you can give it an outlet.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            If you cannot, a well-certified tank system like the iSpring RCC7AK still does the job for less, and the AquaTru Classic brings RO to people who cannot touch the plumbing at all. Test your water first, confirm the certificate, and price a year of filters before you choose.
+          </p>
+        </div>
+
+        <MoreInCategory category="Water, Plumbing & Electrical" links={moreInCategory} />
+
+        <AuthorBio />
+      </div>
+    </div>
+  </article>
+</Layout>

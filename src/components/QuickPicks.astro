@@ -1,6 +1,7 @@
 ---
 import { amazonLink } from "../data/affiliate";
 import AdUnit from "./AdUnit.astro";
+import productImages from "../data/product-images.json";
 
 interface Product {
   id: string;
@@ -14,44 +15,85 @@ interface Props {
   products: Product[];
   heading?: string;
 }
-const { products, heading = "Our Picks at a Glance" } = Astro.props;
+const { products, heading = "Our Top Picks" } = Astro.props;
 const top = products[0];
+const IMAGES = productImages as Record<string, string>;
 ---
 
-<div id="quick-picks" class="bg-gray-50 border border-gray-200 rounded-2xl p-5 lg:p-8 my-8 not-prose">
-  <p class="text-xs font-black uppercase tracking-widest text-[#FF4500] mb-4">{heading}</p>
-  {top?.bottomLine && (
-    <div class="mb-4 pb-4 border-b border-gray-200">
-      <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Short Answer</p>
-      <p class="text-sm text-gray-800 leading-relaxed m-0">
-        <strong class="text-gray-900">{top.name}</strong>{top.badge ? ` (${top.badge})` : ""}. {top.bottomLine}
-      </p>
+<div id="quick-picks" class="my-10 not-prose" data-qp>
+  <div class="flex items-end justify-between gap-4 mb-4">
+    <h2 class="text-2xl font-black text-gray-900 m-0">{heading}</h2>
+    {top && <a href={`#${top.id}`} class="text-sm font-bold text-[#1E90FF] no-underline hover:underline whitespace-nowrap">See full reviews</a>}
+  </div>
+  <div data-qp-track class="flex gap-3 overflow-x-auto snap-x snap-mandatory pt-3 pb-2 -mx-4 px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    {products.map((product, index) => {
+      const thumb = IMAGES[product.id];
+      const href = amazonLink(product.amazonUrl, product.name, product.id);
+      return (
+        <div class={`relative snap-start shrink-0 w-[82%] sm:w-[calc(50%-6px)] flex flex-col bg-white rounded-2xl p-4 ${index === 0 ? "border-2 border-[#FACC15]" : "border border-gray-200"}`}>
+          {index === 0 && (
+            <span class="absolute -top-3 left-4 bg-[#FACC15] text-gray-900 text-[10px] font-black uppercase tracking-[0.14em] px-2.5 py-1 rounded-md">Our #1 Pick</span>
+          )}
+          <a href={`#${product.id}`} class="text-sm text-gray-700 underline decoration-gray-300 underline-offset-2 hover:text-[#1E90FF] mt-1">{index + 1}. {product.name}</a>
+          {product.badge && <p class="text-lg font-black text-gray-900 mt-1 mb-0">{product.badge}</p>}
+          {product.bottomLine && <p class="text-sm text-gray-600 leading-relaxed mt-2 mb-0 line-clamp-3">{product.bottomLine}</p>}
+          <div class="flex items-end justify-between gap-3 mt-auto pt-4">
+            <div>
+              <a href={href} target="_blank" rel="sponsored nofollow noopener" class="inline-block bg-[#FF4500] hover:bg-[#E63E00] text-white text-sm font-black px-4 py-2.5 rounded-lg no-underline whitespace-nowrap">Check Price</a>
+              <p class="text-[11px] text-gray-500 mt-1.5 mb-0">On Amazon</p>
+            </div>
+            {thumb && (
+              <a href={href} target="_blank" rel="sponsored nofollow noopener" class="shrink-0 w-16 h-16 bg-white border border-gray-200 rounded-xl p-1.5 flex items-center justify-center">
+                <img src={thumb} alt="" loading="lazy" width="56" height="56" class="max-w-full max-h-full object-contain" />
+              </a>
+            )}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+  {products.length > 1 && (
+    <div class="flex items-center justify-center gap-3 mt-3">
+      <button type="button" data-qp-prev aria-label="Previous picks" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center border-0 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6" /></svg>
+      </button>
+      <div class="flex items-center gap-1.5 bg-gray-100 rounded-full px-3 py-2" aria-hidden="true">
+        {products.map((_, i) => <span data-qp-dot class={`h-1.5 rounded-full transition-all ${i === 0 ? "w-4 bg-gray-900" : "w-1.5 bg-gray-300"}`}></span>)}
+      </div>
+      <button type="button" data-qp-next aria-label="Next picks" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center border-0 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6" /></svg>
+      </button>
     </div>
   )}
-  <ul class="list-none p-0 m-0 divide-y divide-gray-200">
-    {products.map((product) => (
-      <li class="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
-        <div class="min-w-0 flex-1 text-sm text-gray-700">
-          {product.badge && <span class="block text-xs font-black uppercase tracking-wide text-gray-900">{product.badge}</span>}
-          <a href={`#${product.id}`} class="text-[#1E90FF] font-bold no-underline hover:underline">{product.name}</a>
-          {product.category && <span class="text-gray-500"> — {product.category}</span>}
-        </div>
-        <a
-          href={amazonLink(product.amazonUrl, product.name, product.id)}
-          target="_blank"
-          rel="sponsored nofollow noopener"
-          class="shrink-0 bg-[#FF4500] hover:bg-[#E63E00] text-white text-xs font-black uppercase tracking-wide px-4 py-3 rounded-lg no-underline whitespace-nowrap"
-        >
-          Check Price
-        </a>
-      </li>
-    ))}
-  </ul>
   <p class="text-xs text-gray-500 mt-4 mb-0">
     We may earn a commission when you buy through these links, at no extra cost to you.
-    <a href="/how-we-test/" class="text-gray-600 font-bold underline">How we test</a>
   </p>
 </div>
+
+<script is:inline>
+  (function () {
+    var box = document.currentScript && document.currentScript.previousElementSibling;
+    if (!box || !box.matches("[data-qp]")) return;
+    var track = box.querySelector("[data-qp-track]");
+    var dots = box.querySelectorAll("[data-qp-dot]");
+    function step(dir) {
+      var card = track.firstElementChild;
+      var w = card ? card.getBoundingClientRect().width + 12 : track.clientWidth;
+      track.scrollBy({ left: dir * w, behavior: "smooth" });
+    }
+    var prev = box.querySelector("[data-qp-prev]"), next = box.querySelector("[data-qp-next]");
+    if (prev) prev.addEventListener("click", function () { step(-1); });
+    if (next) next.addEventListener("click", function () { step(1); });
+    track.addEventListener("scroll", function () {
+      var card = track.firstElementChild;
+      if (!card) return;
+      var i = Math.round(track.scrollLeft / (card.getBoundingClientRect().width + 12));
+      dots.forEach(function (d, k) {
+        d.className = "h-1.5 rounded-full transition-all " + (k === i ? "w-4 bg-gray-900" : "w-1.5 bg-gray-300");
+      });
+    }, { passive: true });
+  })();
+</script>
 
 <!-- On phones the layout's top ad sat above the headline and pushed the picks
      several screens down. Pages with a picks box hide it below md and show the

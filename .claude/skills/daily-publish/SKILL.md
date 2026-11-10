@@ -153,12 +153,20 @@ Then confirm the site builds:
 npm run build
 ```
 
+### Page template
+
+Both scaffolders finish by running `scripts/apply-editorial-header.py` on the new
+page, which writes the editorial header (kicker + updated date, H1, lede, "Written
+by" byline, How We Pick strip) and the collapsible numbered "In This Guide" box.
+The format gate checks for it (`<header data-hero`). If you hand-edit a page's hero,
+re-run the script on it rather than writing the markup yourself.
+
 ### Roundup product cards
 
-Roundups render each product with `src/components/ProductCard.astro` (gold "#1 pick"
-frame, large photo, badge chip, pros/cons rows, key-specs table, two Check Price
-buttons). Give every product a `specs` array of 4-6 `[label, value]` pairs taken from
-the maker's spec sheet — it fills the Key Specs table. Omit `rating`/`reviewCount`
+Roundups render the swipeable "Our Top Picks" row with `QuickPicks.astro` and each
+product with `src/components/ProductCard.astro` (gold "#1 pick" frame, badge chip,
+large photo, Check Price button, spec list, Our Take / Pros & Cons tabs, bottom line). Give every product a `specs` array of 4-6 `[label, value]` pairs taken from
+the maker's spec sheet — it fills the spec list. Omit `rating`/`reviewCount`
 unless you have seen the real figures; the card hides the stars without them.
 
 ## 5b. Affiliate links for any new products

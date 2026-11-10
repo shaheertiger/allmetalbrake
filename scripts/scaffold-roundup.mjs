@@ -12,6 +12,7 @@
 // needs 8-9 body sections of real prose to clear 2,500 words, not the 7 an
 // informational article needs.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { AUTHORS, authorForPath } from '../src/data/authors.ts';
 
@@ -308,56 +309,6 @@ ${before}
           {PRODUCTS.map((product, index) => (
             <ProductCard product={product} index={index} ratingLabel=${q(spec.ratingLabel || "ratings on Amazon")} />
           ))}
-                    </div>
-                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
-                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ${spec.ratingLabel})</span>
-                  </div>
-                  )}
-
-                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
-
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <div class="bg-green-50 rounded-xl p-4">
-                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
-                      <ul class="space-y-2">
-                        {product.pros.map((pro) => (
-                          <li class="flex items-start gap-2 text-sm text-green-800">
-                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            {pro}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div class="bg-red-50 rounded-xl p-4">
-                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
-                      <ul class="space-y-2">
-                        {product.cons.map((con) => (
-                          <li class="flex items-start gap-2 text-sm text-red-800">
-                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            {con}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
-                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
-                  </div>
-
-                  <a
-                    href={amazonLink(product.amazonUrl, product.name, product.id)}
-                    target="_blank"
-                    rel="sponsored nofollow noopener"
-                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
-                  >
-                    Check Price &rarr;
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
 
 ${after}
@@ -422,5 +373,7 @@ if (import.meta.filename === process.argv[1]) {
     process.exit(1);
   }
   writeFileSync(out, render(spec));
+  // Convert the generic hero and contents into the site's editorial header.
+  execFileSync('python3', [join(import.meta.dirname, 'apply-editorial-header.py'), out], { cwd: join(import.meta.dirname, '..'), stdio: 'inherit' });
   console.log(`Wrote src/pages/${spec.slug}.astro`);
 }

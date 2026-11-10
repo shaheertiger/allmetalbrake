@@ -53,13 +53,10 @@ const pickPillar = (TOP_PICKS.spokes as Record<string, string>)[pageSlug];
 const spokePick = pickPillar
   ? (TOP_PICKS.pillars as Record<string, { id: string; name: string; badge?: string; amazonUrl?: string }>)[pickPillar]
   : undefined;
-// On a guide itself, the bar offers the page's own #1 pick, labelled with its badge.
-const ownPick = spokePick
-  ? undefined
-  : (TOP_PICKS.pillars as Record<string, { id: string; name: string; badge?: string; amazonUrl?: string }>)[pageSlug];
-const stickyPick = spokePick ?? ownPick;
-const stickyHref = spokePick ? `/${pickPillar}/` : ownPick ? `#${ownPick.id}` : "";
-const stickyLabel = ownPick?.badge || "Our #1 Pick";
+// (A guide's own #1-pick bar comes from QuickPicks.astro.)
+const stickyPick = spokePick;
+const stickyHref = `/${pickPillar}/`;
+const stickyLabel = "Our #1 Pick";
 ---
 
 <!doctype html>
@@ -90,6 +87,21 @@ const stickyLabel = ownPick?.badge || "Our #1 Pick";
       jsonLd={jsonLd}
       noindex={noindex}
     />
+    <style is:global>
+      /* Article body typography (no typography plugin is installed, so the
+         "prose" class on article bodies is styled here). Components marked
+         not-prose (product cards, the picks row) opt out. */
+      .prose { font-size: 1.0625rem; line-height: 1.8; color: #374151; }
+      @media (min-width: 1024px) { .prose { font-size: 1.125rem; } }
+      .prose :where(p):not(:where(.not-prose, .not-prose *)) { margin: 0 0 1.25em; }
+      .prose :where(ul, ol):not(:where(.not-prose, .not-prose *, nav *)) { margin: 0 0 1.25em; padding-left: 1.4em; }
+      .prose :where(ul):not(:where(.not-prose, .not-prose *, nav *)) { list-style: disc; }
+      .prose :where(ol):not(:where(.not-prose, .not-prose *, nav *)) { list-style: decimal; }
+      .prose :where(li):not(:where(.not-prose *, nav *)) { margin: 0.35em 0; }
+      .prose :where(a):not(:where(.not-prose *, [class*="no-underline"], [class*="bg-"])) { color: #1E66D0; text-decoration: underline; text-underline-offset: 2px; }
+      .prose :where(strong) { color: #111827; }
+      .prose :where(h3):not(:where(.not-prose *)) { line-height: 1.3; }
+    </style>
   </head>
   <body
     class="bg-white text-[#333333] selection:bg-[#FF4500] selection:text-white font-sans"
@@ -153,7 +165,11 @@ const stickyLabel = ownPick?.badge || "Our #1 Pick";
                   </div>
                 </div>
               ))}
-
+              <a
+                href="/best-of/"
+                class="bg-[#FF4500] hover:bg-[#E63E00] text-white font-bold text-sm px-4 py-2.5 rounded-lg no-underline whitespace-nowrap"
+                >Top Picks</a
+              >
             </nav>
 
             <!-- Mobile menu (React island) -->
@@ -271,8 +287,9 @@ const stickyLabel = ownPick?.badge || "Our #1 Pick";
             <div class="col-span-1 md:col-span-2">
               <h2 class="text-xl font-bold mb-4">All Metal Brake</h2>
               <p class="text-gray-600 max-w-sm mb-6 leading-relaxed">
-                Our mission is to cut through the marketing noise and provide
-                genuine, expert-led reviews that help you save time and money.
+                We read the spec sheet so you do not have to: what the job
+                really needs, what each product is rated for, who has certified
+                it, and what owners report. Then we tell you which one to buy.
               </p>
               <div
                 class="bg-[#1E90FF]/10 p-4 rounded-lg border border-[#1E90FF]/20"

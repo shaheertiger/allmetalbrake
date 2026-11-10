@@ -8,6 +8,7 @@
 // `format-audit` passes by construction. See .claude/skills/daily-publish/SKILL.md
 // for the spec fields and an example.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import { AUTHORS, authorForPath } from '../src/data/authors.ts';
 
@@ -322,5 +323,7 @@ if (import.meta.filename === process.argv[1]) {
     process.exit(1);
   }
   writeFileSync(out, render(spec));
+  // Convert the generic hero and contents into the site's editorial header.
+  execFileSync('python3', [join(import.meta.dirname, 'apply-editorial-header.py'), out], { cwd: join(import.meta.dirname, '..'), stdio: 'inherit' });
   console.log(`Wrote src/pages/${spec.slug}.astro`);
 }

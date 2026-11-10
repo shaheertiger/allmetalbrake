@@ -6,6 +6,17 @@ import sitemap from '@astrojs/sitemap';
 // Buyer's guides that target high-volume search terms. They get a higher
 // sitemap priority than the 0.5 default so crawlers reach them sooner.
 const priorityGuides = new Set([
+  // November 2026: Amazon buyer's guides spun off the top-traffic pages.
+  'best-under-sink-water-filter',
+  'best-reverse-osmosis-system',
+  'best-shower-head-filter',
+  'best-cordless-drill',
+  'best-impact-driver',
+  'best-dual-fuel-generator',
+  'best-inverter-generator',
+  'best-garage-floor-mats',
+  'best-magsafe-power-bank',
+  'best-hand-crank-radio',
   // November 2026: mold-killer and dehumidifier money pages (RMR-141, Frigidaire Wi-Fi).
   'best-50-pint-dehumidifier',
   'rmr-141-review',

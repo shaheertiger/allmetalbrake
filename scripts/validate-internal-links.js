@@ -10,11 +10,15 @@ const SRC_DIR = join(import.meta.dirname, '..', 'src');
 const PAGES_DIR = join(SRC_DIR, 'pages');
 const SITE = 'https://www.allmetalbrake.com';
 
-const pages = new Set(
-  readdirSync(PAGES_DIR)
-    .filter((f) => f.endsWith('.astro'))
-    .map((f) => f.replace(/\.astro$/, ''))
-);
+// Every .astro route, including nested ones such as authors/alex-rivers.
+// (Defined before walk() is declared below, so walk the tree inline.)
+const listPages = (dir, prefix = '') =>
+  readdirSync(dir).flatMap((entry) => {
+    const path = join(dir, entry);
+    if (statSync(path).isDirectory()) return listPages(path, `${prefix}${entry}/`);
+    return entry.endsWith('.astro') && !entry.startsWith('[') ? [`${prefix}${entry.replace(/\.astro$/, '')}`] : [];
+  });
+const pages = new Set(listPages(PAGES_DIR));
 pages.delete('index'); // the home page is referenced as "/"
 
 function walk(dir) {

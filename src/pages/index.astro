@@ -2,13 +2,24 @@
 import Layout from '../layouts/Layout.astro';
 import TrustBadge from '../components/TrustBadge.astro';
 import { NAV_GROUPS } from '../data/nav';
+import TOP_PICKS from '../data/top-picks.json';
+import { amazonLink } from '../data/affiliate';
+import productImages from '../data/product-images.json';
 
 // Most-read guides, in order of reader traffic.
 const byUrl = new Map(NAV_GROUPS.flatMap((g) => g.links).map((l) => [l.url, l]));
 const POPULAR = [
-  '/best-asphalt-driveway-sealer-reviews/', '/best-garage-floor-epoxy/', '/best-home-generator-for-power-outages/',
-  '/how-much-does-it-cost-to-seal-a-driveway/', '/best-basement-wall-sealer/', '/best-self-propelled-lawn-mower/',
-].map((url) => byUrl.get(url)!);
+  '/best-solar-power-bank/', '/best-water-filtration-system-for-home/', '/milwaukee-vs-dewalt/',
+  '/how-to-get-oil-out-of-concrete/', '/best-home-generator-for-power-outages/', '/best-garage-floor-epoxy/',
+].map((url) => byUrl.get(url)).filter(Boolean) as { url: string; title: string; blurb: string }[];
+
+// The #1 pick of each most-read guide, for the picks table.
+const PILLARS = TOP_PICKS.pillars as Record<string, { id: string; name: string; badge?: string; guide: string; amazonUrl?: string }>;
+const TOP_TABLE = [
+  'best-solar-power-bank', 'best-water-filtration-system-for-home', 'best-home-generator-for-power-outages',
+  'best-garage-floor-epoxy', 'best-50-pint-dehumidifier', 'best-mold-remover', 'best-portable-power-station',
+  'best-oil-stain-remover-for-concrete', 'best-stud-finder', 'best-shop-vac',
+].filter((slug) => PILLARS[slug]).map((slug) => ({ slug, ...PILLARS[slug], thumb: (productImages as Record<string, string>)[PILLARS[slug].id] }));
 
 const siteSchema = {
   '@context': 'https://schema.org',
@@ -53,36 +64,39 @@ const siteSchema = {
           </div>
           <div class="mt-16 lg:mt-0 relative">
             <div class="absolute -top-12 -right-12 w-64 h-64 bg-[#1E90FF]/10 rounded-full blur-3xl"></div>
-            <a href="/best-home-generator-for-power-outages/" class="relative block bg-white p-2 rounded-2xl shadow-2xl border border-gray-100 overflow-hidden no-underline">
-              <img
-                src="/og-default.png"
-                alt="All Metal Brake buying guides"
-                class="w-full h-auto rounded-xl object-cover"
-                width="1200"
-                height="630"
-                loading="eager"
-                decoding="async"
-              />
-              <div class="absolute bottom-6 left-6 right-6">
-                <div class="bg-white/90 backdrop-blur p-4 rounded-xl border border-white/50 shadow-lg flex items-center justify-between">
-                  <div>
-                    <p class="text-xs font-bold text-[#1E90FF] uppercase">#1 Guide</p>
-                    <h2 class="font-bold text-gray-900">Best Home Generators for Power Outages</h2>
-                  </div>
-                </div>
-              </div>
-            </a>
+            <div class="relative bg-gray-900 rounded-3xl p-8 lg:p-10 shadow-2xl">
+              <p class="text-xs font-black uppercase tracking-[0.18em] text-[#38BDF8] mb-6">What we check on every product</p>
+              <ul class="space-y-5 list-none p-0 m-0">
+                {[
+                  ['The spec sheet', 'output, capacity and ratings, read from the maker'],
+                  ['Certifications', 'UL, NSF, EPA and Energy Star, looked up, not assumed'],
+                  ['Real-world fit', 'what the job actually needs, not the biggest number'],
+                  ['Owner reports', 'how it holds up after the first season'],
+                  ['The catch', 'every pick gets a cons list'],
+                ].map(([title, note]) => (
+                  <li class="flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-[#FF4500] text-white flex items-center justify-center shrink-0 mt-0.5">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    </span>
+                    <span>
+                      <span class="block font-bold text-white">{title}</span>
+                      <span class="block text-sm text-gray-400">{note}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Trending Categories -->
+    <!-- Browse by Category -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between mb-10">
         <h2 class="text-3xl font-bold flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#1E90FF]"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
-          Trending Categories
+          Browse by Category
         </h2>
         <a href="/best-of/" class="text-[#1E90FF] font-bold hover:underline flex items-center gap-1 no-underline">
           See all
@@ -116,96 +130,100 @@ const siteSchema = {
         </a>
       </div>
 
-      <!-- Featured Guide Card: Home Generators -->
-      <a href="/best-home-generator-for-power-outages/" class="block no-underline bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl overflow-hidden shadow-2xl border border-gray-700">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
-
-          <!-- Left: Content -->
-          <div class="p-10 lg:p-14 flex flex-col justify-between">
-            <div>
-              <div class="flex flex-wrap items-center gap-3 mb-6">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">
-                  #1 Guide — Backup Power
-                </span>
-              </div>
-
-              <h3 class="text-3xl lg:text-4xl font-black text-white leading-tight mb-4">
-                7 Best Home Generators for Power Outages:<br/>
-                <span class="text-[#1E90FF]">Tested &amp; Ranked</span>
-              </h3>
-
-              <p class="text-gray-400 text-lg leading-relaxed mb-8">
-                Standby, portable, inverter and battery backup put through simulated multi-day outages. Only 7 earned a spot.
-              </p>
-
-              <!-- Stats row -->
-              <div class="grid grid-cols-3 gap-4 mb-8">
-                <div class="text-center bg-white/5 rounded-2xl p-4 border border-white/10">
-                  <p class="text-2xl font-black text-[#1E90FF]">10+</p>
-                  <p class="text-gray-500 text-xs mt-1">Generators Tested</p>
-                </div>
-                <div class="text-center bg-white/5 rounded-2xl p-4 border border-white/10">
-                  <p class="text-2xl font-black text-[#1E90FF]">4</p>
-                  <p class="text-gray-500 text-xs mt-1">Fuel Types</p>
-                </div>
-                <div class="text-center bg-white/5 rounded-2xl p-4 border border-white/10">
-                  <p class="text-2xl font-black text-[#1E90FF]">7</p>
-                  <p class="text-gray-500 text-xs mt-1">Top Picks</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Right: Product picks preview -->
-          <div class="bg-white/5 border-l border-white/10 p-10 lg:p-14 flex flex-col justify-center gap-4">
-            <p class="text-gray-400 text-xs font-black uppercase tracking-widest mb-2">Our Top Picks</p>
-
-            {[
-              { rank: 1, name: 'Generac Guardian 22kW Standby', badge: 'Best Overall' },
-              { rank: 2, name: 'Champion 9200-Watt Dual Fuel', badge: 'Best Portable for Essentials' },
-              { rank: 3, name: 'Honda EU2200i Inverter', badge: 'Best Quiet Backup' },
-              { rank: 4, name: 'EcoFlow Delta Pro', badge: 'Best Indoor-Safe Option' }
-            ].map((pick) => (
-              <div class="flex items-center gap-4 bg-white/5 rounded-2xl p-4 border border-white/10">
-                <span class={`text-2xl font-black shrink-0 ${pick.rank === 1 ? 'text-[#FF4500]' : 'text-gray-600'}`}>
-                  #{pick.rank}
-                </span>
-                <div class="flex-1 min-w-0">
-                  <p class="font-bold text-white text-sm truncate">{pick.name}</p>
-                  <span class="text-xs text-[#1E90FF] font-bold">{pick.badge}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
+      <!-- Featured Guide -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl overflow-hidden shadow-2xl border border-gray-700">
+        <div class="p-10 lg:p-14">
+          <span class="inline-flex px-3 py-1.5 rounded-full bg-[#FF4500]/20 text-[#FF4500] text-xs font-black uppercase tracking-widest border border-[#FF4500]/30">#1 Guide</span>
+          <h3 class="text-3xl lg:text-4xl font-black text-white leading-tight mt-6 mb-4">
+            The Best Solar Power Banks:<br/>
+            <span class="text-[#1E90FF]">What Actually Charges From the Sun</span>
+          </h3>
+          <p class="text-gray-400 text-lg leading-relaxed mb-8">
+            A solar cell on the lid adds a few percent a day. Here is what really keeps a phone alive off-grid, and the picks worth buying to do it.
+          </p>
+          <a href="/best-solar-power-bank/" class="inline-flex items-center gap-2 bg-[#FF4500] hover:bg-[#E63E00] text-white px-8 py-4 rounded-xl font-black no-underline shadow-lg">
+            Read the Full Guide
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </a>
         </div>
-      </a>
+        <div class="bg-white/5 border-t lg:border-t-0 lg:border-l border-white/10 p-10 lg:p-14 flex flex-col justify-center gap-3">
+          <p class="text-gray-400 text-xs font-black uppercase tracking-widest mb-2">More Buying Guides</p>
+          {POPULAR.filter((g) => g.url !== '/best-solar-power-bank/').map((g) => (
+            <a href={g.url} class="flex items-center gap-4 bg-white/5 hover:bg-white/10 rounded-2xl px-5 py-4 border border-white/10 no-underline">
+              <span class="flex-1 min-w-0">
+                <span class="block font-bold text-white text-sm">{g.title}</span>
+                <span class="block text-xs text-[#38BDF8] font-semibold truncate">{g.blurb}</span>
+              </span>
+              <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6" /></svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Top Picks Table -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p class="text-xs font-black uppercase tracking-[0.18em] text-[#D93A00] mb-2">Our #1 Picks</p>
+      <h2 class="text-3xl font-black text-gray-900 mb-2">The Product We'd Buy, Guide by Guide</h2>
+      <p class="text-gray-600 mb-8 max-w-2xl">The top pick from each of our most-read buying guides. Open the guide for the runners-up, the specs and the cons.</p>
+      <div class="border border-gray-200 rounded-2xl overflow-x-auto">
+        <table class="w-full text-left min-w-[640px]">
+          <thead class="bg-gray-50 border-b border-gray-200">
+            <tr class="text-xs font-black uppercase tracking-wider text-gray-500">
+              <th class="px-4 py-3 w-10">#</th>
+              <th class="px-4 py-3">Guide</th>
+              <th class="px-4 py-3">Our #1 Pick</th>
+              <th class="px-4 py-3">Why</th>
+              <th class="px-4 py-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {TOP_TABLE.map((row, i) => (
+              <tr class="border-b border-gray-100 last:border-0">
+                <td class="px-4 py-4 text-gray-400 font-semibold">{i + 1}</td>
+                <td class="px-4 py-4"><a href={`/${row.slug}/`} class="font-bold text-gray-900 no-underline hover:text-[#1E90FF]">{row.guide}</a></td>
+                <td class="px-4 py-4">
+                  <span class="flex items-center gap-3">
+                    {row.thumb && (
+                      <img src={row.thumb} alt="" width="40" height="40" loading="lazy" class="w-10 h-10 object-contain shrink-0" />
+                    )}
+                    <span class="text-sm text-gray-800">{row.name}</span>
+                  </span>
+                </td>
+                <td class="px-4 py-4"><span class="inline-block text-xs font-bold text-green-800 bg-green-50 border border-green-100 rounded-md px-2 py-1">{row.badge}</span></td>
+                <td class="px-4 py-4 text-right">
+                  <a href={amazonLink(row.amazonUrl, row.name, row.id)} target="_blank" rel="sponsored nofollow noopener" class="inline-block bg-[#FF4500] hover:bg-[#E63E00] text-white text-xs font-black px-3 py-2 rounded-lg no-underline whitespace-nowrap">Check Price</a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <!-- Stats Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-gray-900 rounded-3xl p-10 lg:p-14 text-white">
         <div class="text-center mb-10">
-          <h2 class="text-3xl font-black mb-3">Trusted by Real Buyers</h2>
-          <p class="text-gray-400 max-w-xl mx-auto">Our reviews are backed by hands-on testing and verified community data from Reddit, Amazon, and expert forums.</p>
+          <h2 class="text-3xl font-black mb-3">Built on the Spec Sheet, Not the Marketing</h2>
+          <p class="text-gray-400 max-w-xl mx-auto">The rules every guide on this site follows.</p>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
             <p class="text-4xl font-black text-[#FF4500]">{NAV_GROUPS.reduce((n, g) => n + g.links.length, 0)}</p>
-            <p class="text-gray-400 text-sm mt-1">In-Depth Guides</p>
+            <p class="text-gray-400 text-sm mt-1">In-depth guides</p>
           </div>
           <div>
-            <p class="text-4xl font-black text-[#1E90FF]">{NAV_GROUPS.length}</p>
-            <p class="text-gray-400 text-sm mt-1">Home Categories</p>
+            <p class="text-4xl font-black text-[#1E90FF]">100%</p>
+            <p class="text-gray-400 text-sm mt-1">Of picks get a cons list</p>
           </div>
           <div>
-            <p class="text-4xl font-black text-[#FF4500]">2,500+</p>
-            <p class="text-gray-400 text-sm mt-1">Words per Guide</p>
+            <p class="text-4xl font-black text-[#FF4500]">Sourced</p>
+            <p class="text-gray-400 text-sm mt-1">Specs from the maker, not the listing</p>
           </div>
           <div>
             <p class="text-4xl font-black text-[#1E90FF]">$0</p>
-            <p class="text-gray-400 text-sm mt-1">Free Samples Accepted</p>
+            <p class="text-gray-400 text-sm mt-1">Paid placements accepted</p>
           </div>
         </div>
       </div>
@@ -215,91 +233,37 @@ const siteSchema = {
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-12">
         <h2 class="text-3xl font-bold">How We're Different From Other Review Sites</h2>
-        <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Most "review" sites never touch the products they recommend. We're not most sites.</p>
+        <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Most "reviews" rewrite the front of the box. We start from the spec sheet on the back of it.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="relative bg-white rounded-3xl border border-gray-200 p-8 hover:shadow-xl transition-shadow overflow-hidden">
-          <img
-            src="/images/guides/hands-on-testing.png"
-            alt="Hands-on product testing in our review lab"
-            class="w-full h-40 object-cover rounded-2xl mb-6"
-            loading="lazy"
-          />
-          <h3 class="font-bold text-xl mb-3">We Buy Everything</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Every product on our site was purchased with our own money at full retail price. No manufacturer samples, no sponsored placements. This eliminates the unconscious bias that comes with free products.
-          </p>
-        </div>
-        <div class="relative bg-white rounded-3xl border border-gray-200 p-8 hover:shadow-xl transition-shadow overflow-hidden">
-          <img
-            src="/images/guides/data-analysis.png"
-            alt="Data-driven analysis of product performance metrics"
-            class="w-full h-40 object-cover rounded-2xl mb-6"
-            loading="lazy"
-          />
-          <h3 class="font-bold text-xl mb-3">Data Over Opinions</h3>
-          <p class="text-gray-600 leading-relaxed">
-            We measure, time, and quantify everything. Sealer coverage in square feet per gallon. Generator runtime in actual hours. Real-world performance metrics that you can compare objectively — not vague "feels great" language.
-          </p>
-        </div>
-        <div class="relative bg-white rounded-3xl border border-gray-200 p-8 hover:shadow-xl transition-shadow overflow-hidden">
-          <img
-            src="/images/guides/community-reviews.png"
-            alt="Community-verified reviews from Reddit and forums"
-            class="w-full h-40 object-cover rounded-2xl mb-6"
-            loading="lazy"
-          />
-          <h3 class="font-bold text-xl mb-3">Community Verified</h3>
-          <p class="text-gray-600 leading-relaxed">
-            We cross-reference our findings with thousands of Reddit threads, Amazon verified reviews, and specialty forums. If the community disagrees with our testing, we investigate why — and update our rankings accordingly.
-          </p>
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          ['🧮', 'We Do the Maths', 'Watts against your actual load, square feet against real coverage, cost per year of use. We size the job before we name a product.'],
+          ['🔬', 'Verification Over Claims', 'EPA registrations, UL and NSF listings and Energy Star certifications are looked up in the certifier’s own database, not taken from the box.'],
+          ['🙅', 'We Tell You When to Skip It', 'If a cheaper product, a repair or nothing at all is the better answer, the guide says so before it shows you anything to buy.'],
+        ].map(([icon, title, body]) => (
+          <div class="bg-white rounded-3xl border border-gray-200 p-8 hover:shadow-xl transition-shadow">
+            <span class="text-4xl block mb-5" aria-hidden="true">{icon}</span>
+            <h3 class="font-bold text-xl mb-3">{title}</h3>
+            <p class="text-gray-600 leading-relaxed m-0">{body}</p>
+          </div>
+        ))}
       </div>
     </section>
 
-    <!-- Featured Blog Content -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Most-Read Guides -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
       <h2 class="text-3xl font-bold mb-10 flex items-center gap-3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#1E90FF]"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#1E90FF]" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
         Most-Read Guides
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {POPULAR.map((guide) => (
           <a href={guide.url} class="block bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[#1E90FF]/30 transition-all group no-underline">
+            <span class="inline-block text-[10px] font-black uppercase tracking-widest text-[#D93A00] bg-[#FF4500]/10 rounded-md px-2 py-1 mb-3">{guide.url.startsWith('/best-') ? 'Buying Guide' : 'How-To'}</span>
             <h3 class="text-lg font-black text-gray-900 group-hover:text-[#1E90FF] transition-colors mb-2">{guide.title}</h3>
-            <p class="text-gray-500 text-sm leading-relaxed">{guide.blurb}</p>
+            <p class="text-gray-500 text-sm leading-relaxed m-0">{guide.blurb}</p>
           </a>
         ))}
-      </div>
-    </section>
-
-    <!-- Trust Builders -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-[#1E90FF] rounded-[3rem] p-12 lg:p-20 relative overflow-hidden text-white">
-        <div class="absolute top-0 right-0 p-8 opacity-10">
-          <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path></svg>
-        </div>
-        <div class="max-w-3xl relative z-10">
-          <h2 class="text-4xl lg:text-5xl font-black mb-8 leading-tight">Our Integrity is Our Only Inventory.</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div>
-              <h3 class="font-bold text-xl mb-2">100% In-House Testing</h3>
-              <p class="text-white/80 leading-relaxed">We buy every product we review. No freebies, no bias, just raw data and real experience.</p>
-            </div>
-            <div>
-              <h3 class="font-bold text-xl mb-2">A Named Editor</h3>
-              <p class="text-white/80 leading-relaxed">Every guide is overseen by Alex Rivers, who spent over a decade maintaining residential and light commercial property.</p>
-            </div>
-            <div>
-              <h3 class="font-bold text-xl mb-2">Reddit Cross-Referenced</h3>
-              <p class="text-white/80 leading-relaxed">Every recommendation is validated against thousands of Reddit threads and community discussions to ensure real-world accuracy.</p>
-            </div>
-            <div>
-              <h3 class="font-bold text-xl mb-2">Corrected When Wrong</h3>
-              <p class="text-white/80 leading-relaxed">Guides are revisited when a product is replaced or readers report a problem, and corrections are made openly.</p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   </div>
