@@ -4,6 +4,7 @@ import MoreInCategory from "../components/MoreInCategory.astro";
 import { authorSchema, authorName } from "../data/authors";
 import AuthorAvatar from "../components/AuthorAvatar.astro";
 import QuickPicks from "../components/QuickPicks.astro";
+import ProductCard from "../components/ProductCard.astro";
 import PlanTheJob from "../components/PlanTheJob.astro";
 import AuthorBio from "../components/AuthorBio.astro";
 import { amazonLink } from "../data/affiliate";
@@ -432,95 +433,7 @@ const schema = {
           </p>
 
           {PRODUCTS.map((product, index) => (
-            <div id={product.id} class="scroll-mt-24 mt-12 first:mt-8">
-              <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <div class="bg-gray-900 px-6 py-4 flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <span class="bg-[#FF4500] text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-black">
-                      {index + 1}
-                    </span>
-                    {productImages[product.id] && (
-                      <img
-                        src={productImages[product.id]}
-                        alt={product.name}
-                        loading="lazy"
-                        width="40"
-                        height="40"
-                        class="w-10 h-10 rounded-lg bg-white object-contain p-1 shrink-0"
-                      />
-                    )}
-                    <div>
-                      <h3 class="text-white font-black text-lg leading-snug m-0"><span class="block text-[#38BDF8] text-xs font-bold uppercase tracking-wide mb-1 sm:hidden">{product.badge}</span>{product.name}</h3>
-                      <p class="text-gray-400 text-xs">{product.category}</p>
-                    </div>
-                  </div>
-                  <span class="bg-[#38BDF8]/20 text-[#38BDF8] px-3 py-1 rounded-full text-xs font-bold hidden sm:block">
-                    {product.badge}
-                  </span>
-                </div>
-                <div class="p-6">
-                  {product.rating && product.reviewCount && (
-                  <div class="flex items-center gap-2 mb-4">
-                    <div class="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <svg
-                          class={`w-4 h-4 ${i < Math.floor(product.rating) ? "fill-current" : "text-gray-200"}`}
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-                    <span class="text-gray-500 text-sm font-bold">{product.rating}</span>
-                    <span class="text-gray-400 text-xs">({product.reviewCount.toLocaleString()} ratings on Amazon)</span>
-                  </div>
-                  )}
-
-                  <p class="text-gray-700 leading-relaxed mb-6">{product.description}</p>
-
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <div class="bg-green-50 rounded-xl p-4">
-                      <p class="text-xs font-black uppercase tracking-widest text-green-700 mb-3">Pros</p>
-                      <ul class="space-y-2">
-                        {product.pros.map((pro) => (
-                          <li class="flex items-start gap-2 text-sm text-green-800">
-                            <svg class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            {pro}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div class="bg-red-50 rounded-xl p-4">
-                      <p class="text-xs font-black uppercase tracking-widest text-red-700 mb-3">Cons</p>
-                      <ul class="space-y-2">
-                        {product.cons.map((con) => (
-                          <li class="flex items-start gap-2 text-sm text-red-800">
-                            <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            {con}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                    <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-1">The Bottom Line</p>
-                    <p class="text-gray-900 font-bold">{product.bottomLine}</p>
-                  </div>
-
-                  <a
-                    href={amazonLink(product.amazonUrl, product.name, product.id)}
-                    target="_blank"
-                    rel="sponsored nofollow noopener"
-                    class="mt-6 block bg-[#FF4500] hover:bg-[#E63E00] text-white text-center py-4 rounded-xl font-black no-underline transition-colors uppercase tracking-widest text-sm"
-                  >
-                    Check Price &rarr;
-                  </a>
-                </div>
-              </div>
-            </div>
+            <ProductCard product={product} index={index} />
           ))}
         </div>
 

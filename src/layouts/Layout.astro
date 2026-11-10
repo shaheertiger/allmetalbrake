@@ -53,6 +53,13 @@ const pickPillar = (TOP_PICKS.spokes as Record<string, string>)[pageSlug];
 const spokePick = pickPillar
   ? (TOP_PICKS.pillars as Record<string, { id: string; name: string; badge?: string; amazonUrl?: string }>)[pickPillar]
   : undefined;
+// On a guide itself, the bar offers the page's own #1 pick, labelled with its badge.
+const ownPick = spokePick
+  ? undefined
+  : (TOP_PICKS.pillars as Record<string, { id: string; name: string; badge?: string; amazonUrl?: string }>)[pageSlug];
+const stickyPick = spokePick ?? ownPick;
+const stickyHref = spokePick ? `/${pickPillar}/` : ownPick ? `#${ownPick.id}` : "";
+const stickyLabel = ownPick?.badge || "Our #1 Pick";
 ---
 
 <!doctype html>
@@ -153,7 +160,24 @@ const spokePick = pickPillar
             <MobileNav client:load groups={NAV_GROUPS} />
           </div>
         </div>
+        <div data-read-progress class="absolute left-0 bottom-0 h-[3px] w-full origin-left bg-[#FF4500]" style="transform: scaleX(0)"></div>
       </header>
+      <script is:inline>
+        (function () {
+          var bar = document.querySelector("[data-read-progress]");
+          if (!bar) return;
+          var ticking = false;
+          function update() {
+            var max = document.documentElement.scrollHeight - window.innerHeight;
+            bar.style.transform = "scaleX(" + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ")";
+            ticking = false;
+          }
+          window.addEventListener("scroll", function () {
+            if (!ticking) { ticking = true; requestAnimationFrame(update); }
+          }, { passive: true });
+          update();
+        })();
+      </script>
 
       <!-- Main Content -->
       <main class="flex-grow">
@@ -168,19 +192,19 @@ const spokePick = pickPillar
 
       <!-- Mobile Sticky CTA -->
       {
-        spokePick && (
+        stickyPick && (
           <div
             data-pick-sticky
             hidden
             class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]"
           >
             <div class="flex items-center gap-3">
-              <a href={`/${pickPillar}/`} class="min-w-0 flex-1 no-underline">
-                <p class="text-[10px] font-black uppercase tracking-widest text-[#FF4500] m-0">Our #1 Pick</p>
-                <p class="text-sm font-bold text-gray-900 m-0 truncate">{spokePick.name}</p>
+              <a href={stickyHref} class="min-w-0 flex-1 no-underline">
+                <p class="text-[11px] font-black uppercase tracking-widest text-[#FF4500] m-0">{stickyLabel}</p>
+                <p class="text-base font-black text-gray-900 m-0 truncate">{stickyPick.name}</p>
               </a>
               <a
-                href={amazonLink(spokePick.amazonUrl, spokePick.name, spokePick.id)}
+                href={amazonLink(stickyPick.amazonUrl, stickyPick.name, stickyPick.id)}
                 target="_blank"
                 rel="sponsored nofollow noopener"
                 class="shrink-0 bg-[#FF4500] hover:bg-[#E63E00] text-white text-sm font-black px-5 py-3 rounded-xl no-underline whitespace-nowrap"
@@ -192,7 +216,7 @@ const spokePick = pickPillar
         )
       }
       {
-        spokePick && (
+        stickyPick && (
           <script is:inline>
             (function () {
               var bar = document.querySelector("[data-pick-sticky]");
@@ -206,7 +230,7 @@ const spokePick = pickPillar
         )
       }
       {
-        stickyCta && !spokePick && (
+        stickyCta && !stickyPick && (
           <div data-layout-sticky class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
             <a
               href={stickyCta.link}

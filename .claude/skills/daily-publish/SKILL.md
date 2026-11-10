@@ -153,6 +153,14 @@ Then confirm the site builds:
 npm run build
 ```
 
+### Roundup product cards
+
+Roundups render each product with `src/components/ProductCard.astro` (gold "#1 pick"
+frame, large photo, badge chip, pros/cons rows, key-specs table, two Check Price
+buttons). Give every product a `specs` array of 4-6 `[label, value]` pairs taken from
+the maker's spec sheet — it fills the Key Specs table. Omit `rating`/`reviewCount`
+unless you have seen the real figures; the card hides the stars without them.
+
 ## 5b. Affiliate links for any new products
 
 If the batch added a roundup with a `PRODUCTS` array, its products have no direct
