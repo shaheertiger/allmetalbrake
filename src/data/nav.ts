@@ -258,6 +258,16 @@ export const NAV_GROUPS: NavGroup[] = [
       l('best-small-microwave', 'Best Small Microwaves', 'RVs, dorms and off-grid power'),
     ],
   },
+  {
+    label: 'Sleep & Mattresses',
+    icon: '🛏️',
+    links: [
+      l('best-mattress', 'Top Rated Mattresses', 'The 7 best mattresses by sleeper'),
+      l('best-mattress-for-side-sleepers', 'Best Mattresses for Side Sleepers', 'Shoulder and hip pressure relief'),
+      l('best-mattress-for-seniors', 'Best Mattresses for Seniors', 'Firm edges, the right height'),
+      l('best-mattress-topper', 'Best Mattress Toppers', 'Fix a bed you already own'),
+    ],
+  },
 ];
 
 export const HEADER_GROUPS = NAV_GROUPS.filter((g) => g.header);

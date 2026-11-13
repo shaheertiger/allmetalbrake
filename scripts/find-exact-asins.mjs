@@ -4,6 +4,7 @@
 // never product-asins.json. Apply accepted rows with scripts/apply-exact-asins.mjs.
 //
 //   node --env-file-if-exists=.env scripts/find-exact-asins.mjs
+//   node --env-file-if-exists=.env scripts/find-exact-asins.mjs --file best-mattress   # only pages whose file matches
 //
 // Why it exists: the old fetcher accepted any result whose title contained the
 // brand, and on Nov 13, 2026 all 228 of its new matches were the wrong product or
@@ -84,8 +85,11 @@ async function search(keywords, attempts = 4) {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
+  const fileArg = process.argv.indexOf('--file');
+  const fileFilter = fileArg !== -1 ? process.argv[fileArg + 1] : null;
   const seen = new Set();
   const targets = products.filter((p) => {
+    if (fileFilter && !p.file.includes(fileFilter)) return false;
     if (seen.has(p.id)) return false;
     seen.add(p.id);
     return (!asins[p.id] || quarantine[p.id]) && !similar[p.id];

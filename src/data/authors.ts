@@ -75,7 +75,7 @@ export const DEFAULT_AUTHOR = 'alex-rivers';
 // coatings, garage floors, lawn and tools). Generator and deck pages stay with
 // Alex even when they mention a water heater or a sealant.
 const SHAHEER_TOPICS =
-  /refrigerat|fridge|freezer|space-heater|caulk|adhesive|silicone|gutter-sealant|vacuum|shop-vac|dust-extractor|dishwasher|induction|cookware|cooktop|rice-cooker|kettle|air-purifier|dehumidifier|water-filter|filtration|softener|water-heater|tankless|mini-split|brita|hepa|ozone/;
+  /mattress|refrigerat|fridge|freezer|space-heater|caulk|adhesive|silicone|gutter-sealant|vacuum|shop-vac|dust-extractor|dishwasher|induction|cookware|cooktop|rice-cooker|kettle|air-purifier|dehumidifier|water-filter|filtration|softener|water-heater|tankless|mini-split|brita|hepa|ozone/;
 const ALEX_FIRST = /generator|power-station|pressure-washer|leaf|deck|driveway|paver|garage-floor/;
 
 export function authorForPath(path = ''): string {

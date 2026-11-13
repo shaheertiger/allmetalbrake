@@ -39,6 +39,15 @@ Judge every change by **Bing Webmaster Tools** data, not Google.
   FAQ (7), Mistakes (5), Everything Else, Related, Bottom Line. 2,500+ words.
 - **Internal links:** pillar + two siblings out; pillar and top-traffic neighbour in.
 
+## Owner override: mattresses (Nov 13, 2026)
+
+The owner chose to publish a mattress cluster (indexed) despite the off-topic rule,
+based on a Bing keyword export ("top rated mattresses", "best mattress for back pain",
+"best mattress topper"...). Do not noindex or remove it. Judge it like any cluster in
+Bing Webmaster Tools after 2-3 weeks; if it draws impressions without clicks, raise it
+with the owner before changing anything. Pages: best-mattress (pillar),
+best-mattress-for-side-sleepers, best-mattress-for-seniors, best-mattress-topper.
+
 ## Trust rules
 
 - Never invent a test, measurement, price, spec or result. Most guides are built

@@ -10,6 +10,11 @@ const GIT_DATES = readGitDates();
 // Buyer's guides that target high-volume search terms. They get a higher
 // sitemap priority than the 0.5 default so crawlers reach them sooner.
 const priorityGuides = new Set([
+  // November 2026: mattress cluster (Bing keyword export: top rated mattresses).
+  'best-mattress',
+  'best-mattress-for-side-sleepers',
+  'best-mattress-for-seniors',
+  'best-mattress-topper',
   // November 2026: Amazon buyer's guides spun off the top-traffic pages.
   'best-under-sink-water-filter',
   'best-reverse-osmosis-system',
