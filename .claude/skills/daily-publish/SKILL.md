@@ -197,11 +197,17 @@ Amazon links yet — they fall back to a tagged search until matched.
 npm run images:status
 ```
 
-- **Credentials present** — run `npm run images:fetch:all`, then `npm run images:review`.
-  Read the low-confidence list and delete any match pointing at a materially
-  different product from both `src/data/product-asins.json` and
-  `src/data/product-images.json`. A tagged search for the right product beats a
-  confident link to the wrong one. Commit the two JSON files with the batch.
+- **Credentials present** — do not use `images:fetch:all` for new matches: it
+  accepts any result containing the brand, and on Nov 13, 2026 all 228 of its
+  matches were wrong. Instead:
+  1. `npm run affiliate:find` proposes listings only where brand and model number
+     both match (writes `scripts/exact-asin-candidates.json`, changes nothing).
+  2. Read every proposal. Reject accessories ("fit for", parts, add-ons), other
+     sizes and variants (Gen 2, Alkaline, kit vs bare tool when the page names the
+     bare tool). Then `npm run affiliate:apply -- <id> <id> ...` for the exact ones.
+  3. `npm run affiliate:verify` then `npm run affiliate:quarantine`.
+  A tagged search for the right product beats a confident link to the wrong one.
+  Commit the changed JSON files in `src/data/` with the batch.
 - **No credentials** — skip it and say so in the run report. Links still work and
   still pay; they are just worth less. Never block a publish on this.
 
