@@ -41,6 +41,12 @@ const PILLAR_OVERRIDES = {
 // Pages too unlike the rest of the site in wording for the model to place, linked
 // from the pages a reader would actually come from (host -> targets).
 const MANUAL_LINKS = {
+  'best-portable-power-station-for-home-backup': ['best-chest-freezer'],
+  'best-home-generator-for-power-outages': ['best-chest-freezer'],
+  'best-indoor-heater-for-power-outage': ['best-chest-freezer'],
+  'best-brick-sealer-reviews': ['best-chimney-sealer'],
+  'best-exterior-caulk': ['best-chimney-sealer'],
+  'best-cinder-block-sealer-reviews': ['best-chimney-sealer'],
   'best-sauna': ['best-cold-plunge'],
   'best-hot-tub': ['best-cold-plunge', 'best-sauna'],
   'best-home-gym-equipment-on-a-budget': ['best-cold-plunge', 'best-sauna', 'best-weight-bench'],

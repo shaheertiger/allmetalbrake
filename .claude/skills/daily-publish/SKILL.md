@@ -22,6 +22,18 @@ If the brief names a pillar that is a genuinely bad fit (a discontinued product,
 topic with no search demand), skip it with `npm run topics -- --json --skip 1` and
 say so in the run report.
 
+### If a Bing Webmaster Tools export is present
+
+This is a Bing site (98.5% of search visitors). `content/bing/` may hold keyword
+and page exports. Read them first; they outrank everything else:
+
+- High impressions, low CTR for the position: fix the title and meta description
+  before writing anything new. It is the cheapest traffic on the site.
+- Pages at position 2-5 on a "best" query: improve them to reach #1 (CTR jumps to
+  19-77% at #1) before adding pages.
+- Keywords outside home improvement and outdoor power are not topics, however
+  large the impressions.
+
 ### If a Search Console export is present
 
 `content/search-console/` may hold recent exports. When it does, run
@@ -48,8 +60,15 @@ For each of the five intents, decide the actual title, slug and angle. Rules:
 - **Check the slug does not exist** in `src/pages/` before writing.
 - **No two articles in a batch may target the same primary keyword.** The first
   entry in `tags` is the primary keyword and the gate checks it against every page.
-- Titles follow the house pattern: a plain question or statement, then a colon and
-  the promise. No year in the title unless the topic is genuinely annual.
+- Titles follow `docs/bing-playbook.md`, 50-65 characters, leading with the query:
+  buying guide `<N> Best <Product> in 2026: <deciding factor>`, how-to
+  `How to <task>: <the promise>`. Every buying-guide title carries the year
+  ("best … 2026" queries click at 2.5x the rate). Never "Tested" in a title.
+- Meta description 110-160 characters, written as ad copy: the answer or the
+  deciding factor, plus who it is for. `npm run validate:seo` fails anything else.
+- **Home improvement and outdoor power only.** Off-topic pages (grooming, gifts,
+  fitness, kitchen gadgets) pull impressions with no clicks and blur what Bing
+  thinks the site is about. Never build a page for a bare brand or store name.
 
 ## 3. Write the spec and scaffold it
 
@@ -66,8 +85,8 @@ Spec fields (all required):
   "slug": "shop-vac-losing-suction",
   "published": "2026-09-12",                 // today
   "crumb": "Shop Vac Losing Suction",
-  "title": "Shop Vac Losing Suction? The Five Causes, in Order",
-  "description": "One sentence, 150-160 chars, says what the page settles.",
+  "title": "Shop Vac Losing Suction? The Five Causes, in Order",  // 50-65 chars
+  "description": "One sentence, 110-160 chars, says what the page settles.",
   "section": "Tools & Equipment",            // match the pillar's section
   "tags": ["shop vac losing suction", "..."],// first tag = primary keyword
   "ctaText": "See Our Top Shop Vac Picks",
@@ -142,7 +161,7 @@ shared word (deck cleaner and carpet cleaner), add the pair both ways to
 npm run validate:all
 ```
 
-That is word count, internal links, canonical format, and the new-page gates
+That is word count, the Bing title/description gate, internal links, canonical format, and the new-page gates
 (duplicate titles, keyword cannibalisation, orphans, pillar link). **Fix until all
 four pass.** Do not weaken a validator to get a page through — if an article cannot
 reach 2,500 honest words, the topic was too thin and should be replaced.

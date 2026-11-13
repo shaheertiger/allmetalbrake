@@ -35,7 +35,7 @@ def find_region(s):
         return None
     return start, m2.end(), m.group(1)
 
-def build(region, indent):
+def build(region, indent, has_products=False):
     pre_h1, h1_and_after = region.split('<h1', 1)
     kicker = re.search(r'<span[^>]*>\s*([^<]+?)\s*</span>', pre_h1)
     kicker = kicker.group(1).strip() if kicker else 'Buyer&#39;s Guide'
@@ -53,6 +53,7 @@ def build(region, indent):
     author_slug = re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
     author_href = f'/authors/{author_slug}/' if os.path.exists(f'src/pages/authors/{author_slug}.astro') else '/about/'
     i = indent
+    quick = f'\n{i}    <QuickAnswer products={{PRODUCTS}} />' if has_products else ''
     toc_links = '\n'.join(
         f'{i}          <a href="#{a}" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">{n}.</span><span>{l}</span></a>'
         for n, (a, l) in enumerate(items, 1))
@@ -66,7 +67,7 @@ def build(region, indent):
 {i}    </p>
 {i}    <h1 class="text-[2.1rem] leading-[1.15] sm:text-5xl font-black tracking-tight text-gray-900 m-0">
 {i}      {h1}
-{i}    </h1>
+{i}    </h1>{quick}
 {i}    <p class="text-lg lg:text-xl text-gray-600 leading-relaxed mt-5 mb-0">
 {i}      {lede}
 {i}    </p>
@@ -105,7 +106,7 @@ def build(region, indent):
 {i}</div>
 '''
 
-KNOWN = {'TrustBadge', 'AuthorAvatar', 'SocialProof'}
+KNOWN = {'TrustBadge', 'AuthorAvatar', 'SocialProof', 'QuickAnswer'}
 changed, skipped = 0, []
 for f in files:
     s = open(f).read()
@@ -121,11 +122,13 @@ for f in files:
     extra = set(re.findall(r'<([A-Z]\w+)', region)) - KNOWN
     if extra or '<img' in region:
         skipped.append((f, f'extra content {extra or "img"}')); continue
-    new = build(region, indent)
+    # Answer first: a guide names its #1 pick right under the H1 (QuickAnswer.astro).
+    has_products = 'const PRODUCTS' in s
+    new = build(region, indent, has_products)
     if DRY:
         changed += 1; continue
     s = s[:a] + new + s[b:]
-    for comp in ('TrustBadge', 'AuthorAvatar', 'SocialProof'):
+    for comp in ('TrustBadge', 'AuthorAvatar', 'SocialProof') + (('QuickAnswer',) if has_products else ()):
         if f'import {comp} ' not in s:
             s = s.replace('import Layout from "../layouts/Layout.astro";',
                           f'import Layout from "../layouts/Layout.astro";\nimport {comp} from "../components/{comp}.astro";', 1)

@@ -6,6 +6,8 @@ import AdUnit from "../components/AdUnit.astro";
 import { amazonLink } from "../data/affiliate";
 import TOP_PICKS from "../data/top-picks.json";
 import { NAV_GROUPS, HEADER_GROUPS, HEADER_LINKS, groupId } from "../data/nav";
+// @ts-ignore: plain ESM list shared with astro.config.mjs and the build scripts
+import { NOINDEX_SLUGS } from "../../scripts/noindex.mjs";
 
 interface Props {
   title?: string;
@@ -28,15 +30,18 @@ interface Props {
 
 const {
   title = "All Metal Brake | Expert Product Guides & Comparisons",
-  description = "Unbiased, expert-led product reviews to help you make the best buying decisions. We test so you don't have to.",
+  description = "Unbiased, expert-led product reviews to help you make the best buying decisions. Ranked on specs, labels and owner reports.",
   stickyCta,
   ogImage,
   ogType,
   article,
   jsonLd,
-  noindex,
+  noindex: noindexProp,
   aiSummary,
 } = Astro.props;
+
+// Off-topic pages are noindexed centrally (scripts/noindex.mjs).
+const noindex = noindexProp || NOINDEX_SLUGS.has(Astro.url.pathname.replace(/^\/|\/$/g, ""));
 
 // Markdown copy of this page, written by scripts/build-markdown.mjs after the build.
 // Noindex and error pages get no copy, so they get no link.
@@ -74,6 +79,11 @@ const stickyLabel = "Our #1 Pick";
     <link rel="sitemap" href="/sitemap-index.xml" />
     {markdownHref && <link rel="alternate" type="text/markdown" href={markdownHref} />}
     {!noindex && <meta name="ai-summary" content={aiSummary ?? description} />}
+    {/* Bing Webmaster Tools: set PUBLIC_BING_SITE_VERIFICATION in Vercel to the
+        msvalidate.01 code, or verify by DNS and leave it unset. */}
+    {import.meta.env.PUBLIC_BING_SITE_VERIFICATION && (
+      <meta name="msvalidate.01" content={import.meta.env.PUBLIC_BING_SITE_VERIFICATION} />
+    )}
     <meta name="google-adsense-account" content="ca-pub-2963693328827195">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2963693328827195"
      crossorigin="anonymous"></script>
@@ -327,7 +337,7 @@ const stickyLabel = "Our #1 Pick";
                   <a
                     href="/how-we-test/"
                     class="hover:text-[#1E90FF] no-underline text-gray-600"
-                    >How We Test</a>
+                    >How We Pick</a>
                 </li>
                 <li>
                   <a

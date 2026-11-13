@@ -20,11 +20,11 @@ export const AUTHORS: Record<string, Author> = {
     role: 'Home Improvement Editor',
     initials: 'AR',
     short:
-      'Alex has spent over a decade working on residential and light commercial property maintenance, and now tests every tool, coating and machine that appears in these guides personally.',
+      'Alex has spent over a decade working on residential and light commercial property maintenance, and now writes the guides to outdoor power, backup power, driveway, garage and masonry products.',
     bio: [
-      'Alex Rivers is the Home Improvement Editor at All Metal Brake, where he runs the testing programme for outdoor power equipment, driveway and masonry coatings, garage flooring, and household tools.',
+      'Alex Rivers is the Home Improvement Editor at All Metal Brake, where he covers outdoor power equipment, home backup power, driveway and masonry coatings, garage flooring, and household tools.',
       'Before joining the site he spent more than a decade maintaining residential and light commercial properties — sealing driveways, coating garage floors, running pressure washers hard enough to kill several of them, and learning which products fail in the second season rather than the first. Most of the strong opinions in these guides come from that period rather than from a spec sheet.',
-      'He tests products on real surfaces and real jobs, keeps machines long enough to see how they age, and returns or buys what he tests. He does not accept payment for coverage, and manufacturers do not see a guide before it is published.',
+      'He ranks products on the specifications that predict failure, their labels and data sheets, and what owners report after a season or two, and each guide says what its picks are based on. He does not accept payment for coverage, and manufacturers do not see a guide before it is published.',
     ],
     beat: [
       'Outdoor power equipment',
@@ -37,14 +37,14 @@ export const AUTHORS: Record<string, Author> = {
   'shaheer-ali-khan': {
     slug: 'shaheer-ali-khan',
     name: 'Shaheer Ali Khan',
-    role: 'Consumer Product Testing & Materials Performance Specialist',
+    role: 'Materials & Product Performance Specialist',
     initials: 'SK',
     short:
-      'Shaheer Ali Khan holds a PhD in Materials Science and Engineering from Georgia Tech and is an ASQ Certified Quality Engineer and Certified Reliability Engineer. He leads testing for household appliances, vacuums, cleaning products, and caulks, adhesives and sealants.',
+      'Shaheer Ali Khan holds a PhD in Materials Science and Engineering from Georgia Tech and is an ASQ Certified Quality Engineer and Certified Reliability Engineer. He covers household appliances, water treatment, cleaning products, and caulks, adhesives and sealants.',
     bio: [
       'Shaheer Ali Khan specializes in evaluating household appliances, cleaning products, building materials, and everyday home improvement solutions.',
       'His product evaluation approach focuses on measurable performance, durability, material compatibility, ease of use, and overall value. He holds a PhD in Materials Science and Engineering from the Georgia Institute of Technology, an MS in Mechanical Engineering from the University of Michigan and a BS in Mechanical Engineering from Purdue University, and is certified by the American Society for Quality as a Quality Engineer and a Reliability Engineer.',
-      'His areas of coverage include vacuum cleaners, fabric softeners, laundry detergents, caulking products, adhesives, sealants, and household maintenance equipment. Through comparative analysis and structured testing methods, he provides practical insights to help consumers make informed purchasing decisions.',
+      'His areas of coverage include vacuum cleaners, fabric softeners, laundry detergents, caulking products, adhesives, sealants, and household maintenance equipment. Through comparative analysis of specifications, certifications and long-term owner reports, he provides practical insights to help consumers make informed purchasing decisions.',
     ],
     beat: [
       'Vacuum cleaners and household appliances',

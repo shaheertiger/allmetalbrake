@@ -9,8 +9,8 @@ import productImages from '../data/product-images.json';
 // Most-read guides, in order of reader traffic.
 const byUrl = new Map(NAV_GROUPS.flatMap((g) => g.links).map((l) => [l.url, l]));
 const POPULAR = [
-  '/best-solar-power-bank/', '/best-water-filtration-system-for-home/', '/milwaukee-vs-dewalt/',
-  '/how-to-get-oil-out-of-concrete/', '/best-home-generator-for-power-outages/', '/best-garage-floor-epoxy/',
+  '/best-home-generator-for-power-outages/', '/how-to-get-oil-out-of-concrete/', '/best-gas-water-heater/',
+  '/best-water-filter-pitcher/', '/best-vinyl-plank-flooring/', '/best-solar-power-bank/',
 ].map((url) => byUrl.get(url)).filter(Boolean) as { url: string; title: string; blurb: string }[];
 
 // The #1 pick of each most-read guide, for the picks table.
@@ -21,6 +21,16 @@ const TOP_TABLE = [
   'best-oil-stain-remover-for-concrete', 'best-stud-finder', 'best-shop-vac',
 ].filter((slug) => PILLARS[slug]).map((slug) => ({ slug, ...PILLARS[slug], thumb: (productImages as Record<string, string>)[PILLARS[slug].id] }));
 
+// Seasonal guides, refreshed about four weeks before their season so Bing has
+// recrawled them when demand arrives. Swap the list each season:
+//   Nov-Feb  outages, heat, ice      Mar-May  lawn, deck, driveway prep
+//   Jun-Aug  sealing, AC, camping    Sep-Oct  leaves, gutters, generators
+const SEASON_LABEL = 'Get Ready for Winter Storms and Outages';
+const SEASONAL = [
+  '/best-home-generator-for-power-outages/', '/best-indoor-heater-for-power-outage/', '/best-portable-power-station-for-home-backup/',
+  '/best-ice-melt-for-concrete/', '/best-generator-transfer-switch/', '/best-dual-fuel-generator/',
+].map((url) => byUrl.get(url)).filter(Boolean) as { url: string; title: string; blurb: string }[];
+
 const siteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -30,6 +40,8 @@ const siteSchema = {
 };
 ---
 <Layout
+  title="Home Improvement Buying Guides: Generators, Driveways and More"
+  description="Honest buying guides for home generators, power stations, driveway sealers, garage floors, basements, water filters, yard equipment and tools, updated for 2026."
   jsonLd={siteSchema}
   aiSummary="Home page of All Metal Brake, an independent home-improvement review site. It links to the site's buying guides, comparisons and how-to articles on driveways, garage floors, basements, generators, lawn equipment and tools."
 >
@@ -58,7 +70,7 @@ const siteSchema = {
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
               </a>
               <a href="/how-we-test/" class="bg-white hover:bg-gray-50 text-[#333333] border-2 border-gray-200 px-8 py-4 rounded-xl font-bold text-lg shadow-sm no-underline text-center">
-                How We Test
+                How We Pick
               </a>
             </div>
           </div>
@@ -88,6 +100,20 @@ const siteSchema = {
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Seasonal -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-black text-gray-900 mb-2">{SEASON_LABEL}</h2>
+      <p class="text-gray-500 mb-8">The guides readers need most this time of year.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {SEASONAL.map((g) => (
+          <a href={g.url} class="block bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md hover:border-[#1E90FF]/40 transition-all no-underline group">
+            <h3 class="text-lg font-black text-gray-900 group-hover:text-[#1E90FF] m-0">{g.title}</h3>
+            <p class="text-sm text-gray-500 mt-2 mb-0">{g.blurb}</p>
+          </a>
+        ))}
       </div>
     </section>
 
