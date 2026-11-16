@@ -201,6 +201,7 @@ export const NAV_GROUPS: NavGroup[] = [
       l('best-weed-eater', 'Best Weed Eaters', 'Gas and cordless trimmers'),
       l('best-weed-killer', 'Best Weed Killers', 'Selective, non-selective, organic'),
       l('best-cordless-leaf-blower', 'Best Cordless Leaf Blowers', 'Battery power that keeps up'),
+      l('best-leaf-vacuum', 'Best Leaf Vacuums', 'Vacuum, mulch and bag leaves'),
       l('best-chainsaw', 'Best Chainsaws', 'Gas and battery saws'),
       l('best-log-splitter', 'Best Log Splitters', 'Electric, gas and manual'),
       l('best-hookaroon-reviews', 'Best Hookaroons', 'Move logs without bending'),
