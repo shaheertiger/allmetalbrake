@@ -1,4 +1,5 @@
 ---
+import NOINDEX_PAGES from "../data/noindex-pages.json";
 import SEO from "../components/SEO.astro";
 import MobileNav from "../components/MobileNav";
 import Analytics from "@vercel/analytics/astro";
@@ -28,15 +29,19 @@ interface Props {
 
 const {
   title = "All Metal Brake | Expert Product Guides & Comparisons",
-  description = "Unbiased, expert-led product reviews to help you make the best buying decisions. We test so you don't have to.",
+  description = "Home-improvement buying guides for driveways, concrete, decks, basements and backup power, built from spec sheets, labels and owner reports.",
   stickyCta,
   ogImage,
   ogType,
   article,
   jsonLd,
-  noindex,
+  noindex: noindexProp,
   aiSummary,
 } = Astro.props;
+
+// Off-topic pages listed in src/data/noindex-pages.json stay online but out of the index.
+const noindex =
+  noindexProp || NOINDEX_PAGES.slugs.includes(Astro.url.pathname.replace(/^\/|\/$/g, ""));
 
 // Markdown copy of this page, written by scripts/build-markdown.mjs after the build.
 // Noindex and error pages get no copy, so they get no link.
@@ -327,7 +332,7 @@ const stickyLabel = "Our #1 Pick";
                   <a
                     href="/how-we-test/"
                     class="hover:text-[#1E90FF] no-underline text-gray-600"
-                    >How We Test</a>
+                    >How We Pick</a>
                 </li>
                 <li>
                   <a

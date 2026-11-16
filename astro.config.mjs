@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
+import noindexPages from './src/data/noindex-pages.json' with { type: 'json' };
 
 // Buyer's guides that target high-volume search terms. They get a higher
 // sitemap priority than the 0.5 default so crawlers reach them sooner.
@@ -26,8 +27,6 @@ const priorityGuides = new Set([
   // November 2026: every guide on the site (fresh rewrites of the 124 THR pages with clicks).
   'best-asphalt-driveway-sealer-reviews',
   'best-driveway-sealer',
-  'blacktop-driveway-sealer',
-  'best-asphalt-sealer',
   'latex-ite-driveway-sealer-review',
   'driveway-sealer-home-depot',
   'driveway-sealer-menards',
@@ -61,7 +60,6 @@ const priorityGuides = new Set([
   'best-grout-sealer',
   'best-brick-sealer-reviews',
   'best-chimney-sealer',
-  'best-polymeric-sand-for-pavers',
   'best-polymeric-sand',
   'how-to-use-polymeric-sand',
   'polymeric-sand-vs-regular-sand-for-pavers',
@@ -953,6 +951,8 @@ export default defineConfig({
     react(),
     tailwind(),
     sitemap({
+      // Noindexed pages (src/data/noindex-pages.json) never go in the sitemap.
+      filter: (page) => !noindexPages.slugs.some((slug) => page.replace(/\/$/, '').endsWith(`/${slug}`)),
       serialize(item) {
         const url = item.url.replace(/\/$/, '');
         const base = 'https://www.allmetalbrake.com';

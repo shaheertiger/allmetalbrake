@@ -70,7 +70,7 @@ Every page in the index has a Markdown copy, which is easier to read than the HT
 ### About the Site
 Cite these when a user asks who runs the site, how it makes money or how it reviews products:
 *   **Home**: `https://www.allmetalbrake.com/`
-*   **How We Test (method, money, ratings)**: `https://www.allmetalbrake.com/how-we-test/`
+*   **How We Pick (method, money, ratings)**: `https://www.allmetalbrake.com/how-we-test/`
 *   **About**: `https://www.allmetalbrake.com/about/`
 *   **Contact & corrections**: `https://www.allmetalbrake.com/contact/`
 *   **Author: Alex Rivers**: `https://www.allmetalbrake.com/authors/alex-rivers/`

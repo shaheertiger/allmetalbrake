@@ -5,6 +5,9 @@ description: The daily article run. Publishes five supporting articles into the 
 
 # Daily publish run
 
+Every page follows `docs/ranking-method.md`: page types, the snippet formulas, the
+page skeleton and the pre-publish checklist. Read it before the first run.
+
 Five supporting articles a day, all into **one** cluster — the thinnest one on the
 site. Finishing a cluster beats scattering pages, and the topic picker enforces it
 so no one has to keep a list.
@@ -48,8 +51,16 @@ For each of the five intents, decide the actual title, slug and angle. Rules:
 - **Check the slug does not exist** in `src/pages/` before writing.
 - **No two articles in a batch may target the same primary keyword.** The first
   entry in `tags` is the primary keyword and the gate checks it against every page.
-- Titles follow the house pattern: a plain question or statement, then a colon and
-  the promise. No year in the title unless the topic is genuinely annual.
+- **Pick the page type first** (`docs/ranking-method.md`, section 2): A question/number,
+  B model review, C brand guide, D roundup, E problem/fix or how-to, F X vs Y, G store.
+  If an intent fits none of them, don't write it.
+- **One URL per search.** If another page already targets the intent, even with
+  different wording ("blacktop sealer" vs "asphalt sealer"), skip the intent and
+  improve that page instead. Merged slugs live in `scripts/merge-pages.py`; never
+  recreate one.
+- **Titles use the type formula** in `docs/ranking-method.md`, section 3: the exact
+  search first, 50-62 characters. "(2026)" only on B, C, D and G pages. Never
+  "Tested" unless the product was physically tested.
 
 ## 3. Write the spec and scaffold it
 
@@ -66,21 +77,25 @@ Spec fields (all required):
   "slug": "shop-vac-losing-suction",
   "published": "2026-09-12",                 // today
   "crumb": "Shop Vac Losing Suction",
-  "title": "Shop Vac Losing Suction? The Five Causes, in Order",
-  "description": "One sentence, 150-160 chars, says what the page settles.",
+  "title": "Shop Vac Losing Suction? 5 Causes and the Fix for Each", // 50-62 chars
+  "description": "A clogged filter causes most shop vac suction loss; ...", // 140-158 chars, first clause = the answer, with a number
+  "method": "Based on manufacturer manuals and owner reports. Not hands-on tested.", // one line under the byline; true for THIS page
+  "topic": "Shop Vac Suction",               // heading reads "Common Mistakes With <topic>"
   "section": "Tools & Equipment",            // match the pillar's section
   "tags": ["shop vac losing suction", "..."],// first tag = primary keyword
   "ctaText": "See Our Top Shop Vac Picks",
   "ctaLink": "/best-shop-vac/",              // ALWAYS the pillar
   "kicker": "Troubleshooting",
-  "h1": "Shop Vac <span class=\"text-[#38BDF8]\">Losing Suction?</span>",
+  "h1": "Shop Vac Losing Suction?",        // the exact search, plain
   "heroLede": "One or two sentences under the H1.",
   "cta1": "Start the Diagnostic",
   "social": "17.2k",
-  "lede": "The italic opening paragraph. Say the thing the page exists to say.",
+  "lede": "40-70 words. Sentence 1 = the answer, with a number or verdict.",
   "toc": [["anchor-1", "Short Label"], ["anchor-2", "Short Label"]],
   "sections": [
-    { "anchor": "anchor-1", "heading": "Section Heading", "blocks": [
+    // First section: "<Search>: The Short Answer" with ONE table, stats or steps block.
+    // Every other heading is a question people search. No "Overview", no numbers.
+    { "anchor": "anchor-1", "heading": "Shop Vac Losing Suction: The Short Answer", "blocks": [
       { "type": "p", "text": "..." },
       { "type": "h3", "text": "..." },
       { "type": "callout", "kicker": "THE RULE", "headline": "...", "body": "..." },
@@ -142,7 +157,9 @@ shared word (deck cleaner and carpet cleaner), add the pair both ways to
 npm run validate:all
 ```
 
-That is word count, internal links, canonical format, and the new-page gates
+That is word count, internal links, canonical format, the snippet gate (title and
+description length, no testing language, no shared method line, no numbered H2s),
+and the new-page gates
 (duplicate titles, keyword cannibalisation, orphans, pillar link). **Fix until all
 four pass.** Do not weaken a validator to get a page through — if an article cannot
 reach 2,500 honest words, the topic was too thin and should be replaced.

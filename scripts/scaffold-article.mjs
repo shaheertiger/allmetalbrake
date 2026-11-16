@@ -67,7 +67,7 @@ export function render(spec) {
   const sections = spec.sections.map((s, i) =>
 `        <div id="${s.anchor}" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            ${i + 1}. ${s.heading}
+            ${s.heading}
           </h2>
 
 ${renderBlocks(s.blocks)}        </div>
@@ -267,7 +267,7 @@ ${sections}
         <!-- Common Mistakes -->
         <div id="mistakes" class="scroll-mt-24 mt-16">
           <h2 class="text-3xl font-black text-gray-900 mb-6">
-            ${n + 1}. Common Mistakes to Avoid
+            Common Mistakes With ${spec.topic}
           </h2>
 
           <div class="space-y-6 my-8">
@@ -278,7 +278,7 @@ ${mistakesHtml}
         <!-- FAQ -->
         <div id="faq" class="scroll-mt-24 mt-16">
           <h2 class="text-3xl font-black text-gray-900 mb-6">
-            ${n + 2}. Frequently Asked Questions
+            Frequently Asked Questions
           </h2>
 
           <div class="space-y-6">
@@ -317,6 +317,9 @@ if (import.meta.filename === process.argv[1]) {
     process.exit(1);
   }
   const spec = JSON.parse(readFileSync(specPath, 'utf8'));
+  for (const field of ['method', 'topic']) {
+    if (!spec[field]) { console.error(`Spec is missing "${field}" (see .claude/skills/daily-publish/SKILL.md)`); process.exit(1); }
+  }
   const out = join(PAGES_DIR, `${spec.slug}.astro`);
   if (existsSync(out) && !process.argv.includes('--force')) {
     console.error(`Refusing to overwrite existing page: ${spec.slug}.astro (pass --force to replace)`);
@@ -325,5 +328,12 @@ if (import.meta.filename === process.argv[1]) {
   writeFileSync(out, render(spec));
   // Convert the generic hero and contents into the site's editorial header.
   execFileSync('python3', [join(import.meta.dirname, 'apply-editorial-header.py'), out], { cwd: join(import.meta.dirname, '..'), stdio: 'inherit' });
+  // The header script writes a generic method sentence; every page states its own
+  // (docs/ranking-method.md, section 1c). validate-snippets fails the generic one.
+  const page = readFileSync(out, 'utf8');
+  writeFileSync(out, page.replace(
+    'We judge every product on its spec sheet, its label and what owners report over time, not on the marketing. No paid placements, and commission never sets a ranking.',
+    `${spec.method.replace(/\.?$/, '.')} No paid placements.`,
+  ));
   console.log(`Wrote src/pages/${spec.slug}.astro`);
 }
