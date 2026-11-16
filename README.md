@@ -7,6 +7,9 @@ article template (hero, quick picks, product cards, buying guide, mistakes, FAQ,
 guides, bottom line, author bio). Old allmetalbrake.com URLs that no longer exist are
 301-redirected to the closest guide in `vercel.json`.
 
+Search strategy lives in [`docs/bing-playbook.md`](docs/bing-playbook.md): the site is
+judged by Bing Webmaster Tools data, and the build enforces its title and description rules.
+
 ## Commands
 
 | Command                  | Action                                                        |
@@ -14,7 +17,7 @@ guides, bottom line, author bio). Old allmetalbrake.com URLs that no longer exis
 | `npm install`            | Install dependencies                                          |
 | `npm run dev`            | Dev server                                                    |
 | `npm run build`          | Content gates + `astro build` + Markdown copies to `dist/`    |
-| `npm run validate:all`   | Word count (2,500 min), internal links, format, new-page gate |
+| `npm run validate:all`   | Word count (2,500 min), Bing title/description gate, internal links, format, new-page gate |
 | `npm run indexnow`       | Submit sitemap URLs to IndexNow                               |
 
 ## Where things live

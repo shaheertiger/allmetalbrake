@@ -72,7 +72,7 @@ export function render(spec) {
   const section = (s, i) =>
 `        <div id="${s.anchor}" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            ${s.heading}
+            ${i + 1}. ${s.heading}
           </h2>
 
 ${renderBlocks(s.blocks)}        </div>
@@ -299,7 +299,7 @@ ${before}
         <!-- Picks -->
         <div id="top-picks" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            ${spec.picksHeading}
+            ${picksIndex + 1}. ${spec.picksHeading}
           </h2>
 
           <p>
@@ -315,7 +315,7 @@ ${after}
         <!-- Common Mistakes -->
         <div id="mistakes" class="scroll-mt-24 mt-16">
           <h2 class="text-3xl font-black text-gray-900 mb-6">
-            Common Mistakes With ${spec.topic}
+            ${n + 2}. Common Mistakes With ${spec.topic}
           </h2>
 
           <div class="space-y-6 my-8">
@@ -328,7 +328,7 @@ ${mistakesHtml}
         <!-- FAQ -->
         <div id="faq" class="scroll-mt-24 mt-16">
           <h2 class="text-3xl font-black text-gray-900 mb-6">
-            Frequently Asked Questions
+            ${n + 3}. Frequently Asked Questions
           </h2>
 
           <div class="space-y-6">

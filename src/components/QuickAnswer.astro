@@ -1,0 +1,24 @@
+---
+// Answer first. The first two sentences after a guide's H1 name the #1 pick and
+// say who it suits, because Bing, Copilot and other AI answers lift short,
+// self-contained statements from the top of a page. Built from the guide's own
+// PRODUCTS data (the first entry is the #1 pick, as in build-top-picks.mjs), so
+// it can never disagree with the cards below.
+interface Product {
+  name: string;
+  badge?: string;
+  bottomLine?: string;
+}
+interface Props {
+  products: Product[];
+}
+const { products } = Astro.props;
+const pick = products[0];
+const line = (pick?.bottomLine ?? "").trim().replace(/([^.!?])$/, "$1.");
+---
+
+{pick && (
+  <p data-quick-answer class="text-base lg:text-lg text-gray-900 leading-relaxed mt-5 mb-0">
+    <strong>Short answer:</strong> the {pick.name} is our #1 pick{pick.badge && !/^#?1\b/.test(pick.badge) ? ` (${pick.badge.toLowerCase()})` : ""}. {line}
+  </p>
+)}

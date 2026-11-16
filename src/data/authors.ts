@@ -20,11 +20,11 @@ export const AUTHORS: Record<string, Author> = {
     role: 'Home Improvement Editor',
     initials: 'AR',
     short:
-      'Alex has spent over a decade working on residential and light commercial property maintenance, and now researches every tool, coating and machine in these guides from data sheets, labels, manuals and long-run owner reports.',
+      'Alex has spent over a decade working on residential and light commercial property maintenance, and now writes the guides to outdoor power, backup power, driveway, garage and masonry products.',
     bio: [
-      'Alex Rivers is the Home Improvement Editor at All Metal Brake, where he leads coverage of outdoor power equipment, driveway and masonry coatings, garage flooring, and household tools.',
+      'Alex Rivers is the Home Improvement Editor at All Metal Brake, where he covers outdoor power equipment, home backup power, driveway and masonry coatings, garage flooring, and household tools.',
       'Before joining the site he spent more than a decade maintaining residential and light commercial properties — sealing driveways, coating garage floors, running pressure washers hard enough to kill several of them, and learning which products fail in the second season rather than the first. Most of the strong opinions in these guides come from that period rather than from a spec sheet.',
-      'He builds each guide from manufacturer data sheets, labels, manuals and warranty terms, plus patterns in long-run owner reports, and each guide says which of those it relied on. Anything he has handled or measured himself is labelled as such. He does not accept payment for coverage, and manufacturers do not see a guide before it is published.',
+      'He ranks products on the specifications that predict failure, their labels and data sheets, and what owners report after a season or two, and each guide says what its picks are based on. He does not accept payment for coverage, and manufacturers do not see a guide before it is published.',
     ],
     beat: [
       'Outdoor power equipment',
@@ -37,14 +37,14 @@ export const AUTHORS: Record<string, Author> = {
   'shaheer-ali-khan': {
     slug: 'shaheer-ali-khan',
     name: 'Shaheer Ali Khan',
-    role: 'Consumer Product Testing & Materials Performance Specialist',
+    role: 'Materials & Product Performance Specialist',
     initials: 'SK',
     short:
-      'Shaheer Ali Khan holds a PhD in Materials Science and Engineering from Georgia Tech and is an ASQ Certified Quality Engineer and Certified Reliability Engineer. He leads coverage of household appliances, cleaning products, and caulks, adhesives and sealants.',
+      'Shaheer Ali Khan holds a PhD in Materials Science and Engineering from Georgia Tech and is an ASQ Certified Quality Engineer and Certified Reliability Engineer. He covers household appliances, water treatment, cleaning products, and caulks, adhesives and sealants.',
     bio: [
       'Shaheer Ali Khan specializes in evaluating household appliances, cleaning products, building materials, and everyday home improvement solutions.',
       'His product evaluation approach focuses on measurable performance, durability, material compatibility, ease of use, and overall value. He holds a PhD in Materials Science and Engineering from the Georgia Institute of Technology, an MS in Mechanical Engineering from the University of Michigan and a BS in Mechanical Engineering from Purdue University, and is certified by the American Society for Quality as a Quality Engineer and a Reliability Engineer.',
-      'His areas of coverage include vacuum cleaners, fabric softeners, laundry detergents, caulking products, adhesives, sealants, and household maintenance equipment. Through comparative analysis of published specifications, material data and owner-reported failure patterns, he provides practical insights to help consumers make informed purchasing decisions.',
+      'His areas of coverage include vacuum cleaners, fabric softeners, laundry detergents, caulking products, adhesives, sealants, and household maintenance equipment. Through comparative analysis of specifications, certifications and long-term owner reports, he provides practical insights to help consumers make informed purchasing decisions.',
     ],
     beat: [
       'Vacuum cleaners and household appliances',
@@ -75,7 +75,7 @@ export const DEFAULT_AUTHOR = 'alex-rivers';
 // coatings, garage floors, lawn and tools). Generator and deck pages stay with
 // Alex even when they mention a water heater or a sealant.
 const SHAHEER_TOPICS =
-  /refrigerat|fridge|freezer|space-heater|caulk|adhesive|silicone|gutter-sealant|vacuum|shop-vac|dust-extractor|dishwasher|induction|cookware|cooktop|rice-cooker|kettle|air-purifier|dehumidifier|water-filter|filtration|softener|water-heater|tankless|mini-split|brita|hepa|ozone/;
+  /mattress|refrigerat|fridge|freezer|space-heater|caulk|adhesive|silicone|gutter-sealant|vacuum|shop-vac|dust-extractor|dishwasher|induction|cookware|cooktop|rice-cooker|kettle|air-purifier|dehumidifier|water-filter|filtration|softener|water-heater|tankless|mini-split|brita|hepa|ozone/;
 const ALEX_FIRST = /generator|power-station|pressure-washer|leaf|deck|driveway|paver|garage-floor/;
 
 export function authorForPath(path = ''): string {

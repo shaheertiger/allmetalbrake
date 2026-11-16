@@ -12,7 +12,7 @@
 // or when the real Amazon title shares too little vocabulary with our product name
 // to believe it is the same item. KEEP holds the ones a human confirmed are fine
 // despite a low score, usually because the brand trades under another name.
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const root = join(import.meta.dirname, '..');
@@ -47,6 +47,8 @@ const KEEP = new Set([
   'twp-1500',                    // TWP 1501 is the 1500 Series Cedartone
   'fahrenheat-fuh54-garage-heater', // listed as FUH5-4
   'scotchblue-delicate-2080el-tape',
+  'victron-phoenix-12-1200-inverter', // 12V 1200VA Phoenix, title omits the model name
+  'culligan-wsh-c125',           // the wall-mount filtered showerhead (140 gal filter)
 ]);
 
 // The reverse of KEEP: scores at or above the threshold but checked by hand and
@@ -64,6 +66,14 @@ const FORCE = {
     'silky-hayauchi-179-39', 'ecoflow-blade', 'kohler-20rca', 'porter-cable-690lr',
     'toro-titan-max', 'ariens-ikon-xd-52', 'spartan-rz-hd', 'toro-snowmaster-824-qxe',
     'cub-cadet-2x-26',
+    // Nov 13 2026 exact-model review: blades, cartridges, cutters, a battery, a car part.
+    'wen-pl1326',
+    'ego-power-plus-cs1800',
+    'craftsman-m115',
+    'trafficmaster-lifeproof-laminate',
+    'lifeproof-rigid-core',
+    'centric-air-3-5',
+    'springwell-cf1',
   ].map((id) => [id, accessory])),
   ...Object.fromEntries([
     'champion-9200-dual-fuel', 'generac-gp8000e-df', 'westinghouse-igen4500df', 'duromax-xp9000ih',
@@ -81,17 +91,63 @@ const FORCE = {
     // Hand-checked on main: breaker bar, 20V drill, other wrench, 46-piece set, Ryobi kit, Gen 2.
     'tekton-24335-click', 'dewalt-12v-max-drill-driver', 'tekton-torque-wrench',
     'tekton-socket-ratchet-set', 'ryobi-inflator', 'anker-solix-c1000',
+    // Nov 13 2026 exact-model review: model number in our name is not the listing's
+    // (or the listing is a variant we cannot confirm). A tagged search beats a wrong product.
+    'ge-aper50lz-pump',
+    'bluetti-eb3a',
+    'dewalt-dce040',
+    'ghostshield-wet-look',
+    'frigidaire-ffad5033w1',
+    'sperry-instruments-cs61200',
+    'gpi-m-180s-ef',
+    'enphase-iq-battery-5p',
+    'ryobi-pblid02-impact-driver',
+    'lasko-754200-ceramic-heater',
+    'huepar-903cg',
+    'bosch-gll55',
+    'worx-landroid-wr147',
+    'husqvarna-ts-242xd',
+    'ridgid-hd1400-nxt',
+    'zircon-multiscanner-x85',
+    'waterdrop-n1-countertop',
+    'kaito-ka500',
+    'frizzlife-sk99-new',
+    'ispring-wgb32b',
   ].map((id) => [id, otherModel])),
   ...Object.fromEntries([
     'rapid-set-cement-all', 'tsunami-seal-garage-threshold', 'green-mount-thumb-control-nozzle',
     'honda-hss724aat', 'behr-porch-patio-low-luster',
+    // Nov 13 2026 exact-model review.
+    'diehard-platinum-agm-battery',
+    'eagle-natural-seal',
+    'eagle-armor-seal',
+    'leggari-polyaspartic',
+    'behr-porch-floor-paint',
+    'sense-energy-monitor',
+    'sense-energy-monitor-with-solar',
+    'stihl-hookaroon',
+    'gutter-glove-ultra-micro-mesh',
+    'dakota-lithium-12v-100ah-lifepo4-battery',
+    'superdeck-penetrating-oil',
+    'behr-basement-masonry',
+    'sherwin-williams-porch-floor',
+    'lectron-32a-portable',
+    'nekteck-21w-solar-charger',
+    'eagle-sealer-eu1',
   ].map((id) => [id, otherBrand])),
 };
+
+// FORCE is a verdict on one listing, not on the product: once a product gets a
+// new, exact-model ASIN (scripts/find-exact-asins.mjs), the old verdict must not
+// block it. So FORCE applies only to the ASIN it was first recorded against.
+const QFILE = join(root, 'src', 'data', 'asin-quarantine.json');
+const previous = existsSync(QFILE) ? JSON.parse(readFileSync(QFILE, 'utf8')) : {};
+const forced = (r) => FORCE[r.id] && (!previous[r.id] || previous[r.id].asin === r.asin);
 
 const quarantine = {};
 for (const r of report) {
   if (KEEP.has(r.id)) continue;
-  if (FORCE[r.id] && r.status === 'resolved') {
+  if (forced(r) && r.status === 'resolved') {
     const note = `${FORCE[r.id]}: "${String(r.amazonTitle).slice(0, 90)}"`;
     quarantine[r.id] = { asin: r.asin, reason: 'mismatch', note, score: Number(r.score.toFixed(2)), file: r.file };
   } else if (r.status === 'unresolved') {

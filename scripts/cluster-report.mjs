@@ -7,15 +7,12 @@
 //   node scripts/cluster-report.mjs --json     # machine-readable, for the daily job
 //   node scripts/cluster-report.mjs --top 5    # just the five thinnest clusters
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { NOINDEX_SLUGS } from './noindex.mjs';
 import { join } from 'node:path';
 
 const PAGES_DIR = join(import.meta.dirname, '..', 'src', 'pages');
 
 // Pages that are not articles, and the index page, never count either way.
-// Off-topic pages kept out of the index (src/data/noindex-pages.json) are left out of
-// clusters, interlinks and top picks, so no indexed page is built around them.
-const NOINDEX = new Set(JSON.parse(readFileSync(join(import.meta.dirname, '..', 'src', 'data', 'noindex-pages.json'), 'utf8')).slugs);
-
 const NON_ARTICLE = new Set([
   'index', 'best-of', '404', 'about', 'contact', 'how-we-test',
   'privacy-policy', 'terms', 'sand-calculator',
@@ -25,7 +22,9 @@ export function loadPages() {
   return readdirSync(PAGES_DIR)
     .filter((f) => f.endsWith('.astro'))
     .map((f) => f.replace(/\.astro$/, ''))
-    .filter((slug) => !NON_ARTICLE.has(slug) && !NOINDEX.has(slug))
+    .filter((slug) => !NON_ARTICLE.has(slug))
+    // Off-topic pages kept live but noindexed: no generated links to or from them.
+    .filter((slug) => !NOINDEX_SLUGS.has(slug))
     .map((slug) => ({ slug, source: readFileSync(join(PAGES_DIR, `${slug}.astro`), 'utf8') }));
 }
 

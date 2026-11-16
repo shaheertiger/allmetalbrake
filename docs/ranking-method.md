@@ -3,6 +3,16 @@
 Adapted from the method built for treadmillreviewsusa.com (same publisher, same
 template family) and applied to this site on 2026-11-16.
 
+**Read with `docs/bing-playbook.md`.** That playbook is measured on this site: 98.5% of
+search visitors come through Bing-powered engines. Where the two documents differ, the
+Bing playbook wins. In practice that means:
+- H2s stay **numbered questions**, because converted pages gained 93–265% on Bing;
+- the noindex list is `scripts/noindex.mjs`;
+- the mattress cluster stays indexed (owner override).
+
+This document adds what the playbook doesn't cover: one URL per search, page types,
+answer-first descriptions, page-specific method lines, and the keyword map.
+
 **Built from:**
 - the source of all 193 pages in `src/pages/` (184 articles before this pass)
 - the 330 redirects in `vercel.json`, which show which topics the site used to have
@@ -28,8 +38,8 @@ holds it back on Google, in order:
 1. **Pages compete for the same search.** 3 merges were needed (section 1a), plus 9
    pairs to watch.
 2. **Every page read the same.** The method sentence under the byline was identical
-   on all 184 articles, and every page had the same numbered "N. Common Mistakes to
-   Avoid / N. Frequently Asked Questions" skeleton.
+   on all 184 articles, and every mistakes section was headed "Common Mistakes to
+   Avoid".
 3. **Snippets weren't built to win the click.**
    - 51 of 184 titles were outside 50–62 characters, and 33 didn't lead with the
      search they target.
@@ -100,19 +110,21 @@ alternating between the two URLs). If it does, merge the weaker into the stronge
 
 ### 1b. Topical focus (done)
 
-These pages stay online but are **noindexed** through `src/data/noindex-pages.json`:
+These pages stay online but are **noindexed** through `scripts/noindex.mjs` (the Bing
+pass): `buzz-cut-guide`, `best-mens-back-shavers`, `best-heated-lunch-box`,
+`best-portable-blender`, `best-usb-c-charger` and `best-car-battery`.
 
-`best-mens-back-shavers`, `buzz-cut-guide`, `best-portable-blender`,
-`best-heated-lunch-box`, `best-small-microwave`, `best-magsafe-power-bank`,
-`best-usb-c-charger`, `best-charging-station`, `best-laptop-power-bank`,
-`best-car-battery`
+That list controls:
+- `noindex, follow` on the pages;
+- the sitemap, nav, `/best-of/`, `llms.txt` and the generated links, which all skip them.
 
-What that list controls:
-- `Layout.astro` adds `noindex, follow` to those pages.
-- The sitemap drops them.
-- The nav, `/best-of/` and the interlink and top-pick generators skip them.
+This pass had also proposed noindexing `best-small-microwave`, `best-magsafe-power-bank`,
+`best-charging-station` and `best-laptop-power-bank`. They stay indexed because the
+Bing-data pass kept them. Re-check them in Bing Webmaster Tools: impressions with no
+clicks means add them to `noindex.mjs`.
 
-To restore a page, delete its slug from the JSON.
+**Owner override:** the mattress cluster (`best-mattress` and 3 spokes) is indexed on
+purpose. See `docs/bing-playbook.md`.
 
 **Kept on purpose:**
 - The backup-power cluster, the second pillar (outages are a home problem).
@@ -128,14 +140,14 @@ they get impressions but no clicks, noindex them too.
 
 - The byline method line is page-specific. It says what that page was built from
   (data sheets, EPA labels, NEC, owner reports), and "Not hands-on tested" where true.
-- H2s are no longer numbered (the contents box still numbers them).
 - "Common Mistakes to Avoid" is now "Common Mistakes With <the page's topic>".
+- H2s stay numbered, per the Bing data.
 
 **Still to do per page** (as each page is touched in section 7):
 - write a unique lede that answers in sentence one;
 - write page-specific mistakes and FAQs;
-- turn the remaining label-style H2s ("Prep That Decides Whether It Lasts") into searched
-  questions ("How Do You Prep a Driveway for Sealer?").
+- turn the remaining label-style H2s ("6. Prep That Decides Whether It Lasts") into
+  numbered searched questions ("6. How Do You Prep a Driveway for Sealer?").
 
 ### 1d. Honesty signals (done)
 
@@ -213,8 +225,10 @@ title; retitle instead. Change a URL only when merging, with `merge-pages.py`.
 - no testing language;
 - "(2026)" placement;
 - no shared method line;
-- no numbered H2s;
 - the topic-named mistakes heading.
+
+`npm run validate:seo` (the Bing gate) also runs. It checks title length 50–65, the
+year on buying guides, description length 110–160 and exactly one H1.
 
 ---
 
@@ -233,7 +247,8 @@ H2 1        "<Search>: The Short Answer"
             (type E) or the top-pick cards (types B, D, G).
 
 H2 2–8      Each H2 = a question people search (keyword export, "People also ask",
-            Bing keyword report). Never "Overview" or "Background", never numbered.
+            Bing keyword report), numbered ("3. How Long Does It Take to Dry?").
+            Never "Overview" or "Background".
             Answer in sentence 1, then 3–4 paragraphs of reasons, numbers, caveats.
 
 H2          Common Mistakes With <Topic> (5, page-specific, 40–60 words each)
@@ -333,7 +348,7 @@ not only as an HTML table.
 7. Specific over broad. "best driveway sealer" and "best generator" take months; win the
    long-tail rows first, because they pass authority up to the hubs.
 
-**Bing adds:**
+**Bing adds** (Bing is 98.5% of this site's search traffic, so start here):
 1. The answer in the description, which Bing shows verbatim more often.
 2. The exact query in the title, H1 and one H2.
 3. IndexNow on every publish (the `postbuild` hook already does this) and the sitemap
@@ -437,7 +452,7 @@ Re-run this match every month: a fresh keyword export, KD ≤ 40, and a check of
 - [ ] Description 140–158 chars, first clause = the answer with a number
 - [ ] H1 = the search; the lede answers it in sentence one
 - [ ] "<Search>: The Short Answer" first, with one table, stats row or steps block
-- [ ] Every other H2 is a searched question, unnumbered
+- [ ] Every other H2 is a numbered, searched question
 - [ ] No testing language unless testing happened; the method line is true for this page
 - [ ] Sourced spec table (B, C, D, F) with the date checked
 - [ ] One original visual with alt text
@@ -451,7 +466,7 @@ Re-run this match every month: a fresh keyword export, KD ≤ 40, and a check of
 
 | Week | Do |
 |---|---|
-| Done (2026-11-16) | Merges and 301s (1a); noindex off-topic pages (1b); method line, H2 numbering and mistakes headings (1c); honesty fixes (1d); every indexed title, description and H1 rewritten to section 3; snippet gate added |
+| Done (2026-11-16) | Merges and 301s (1a); page-specific method lines and mistakes headings (1c); every indexed title, description and H1 rewritten to section 3 (answer and number first); snippet gate added. The Bing pass had already done the noindexing (1b) and the honesty fixes (1d) |
 | 1 | Search Console export + Semrush volumes into section 7; first watch-list check |
 | 2–3 | 7a rows 1–8: full rewrite to the skeleton (question H2s, Short Answer block, original chart) |
 | 4–5 | 7a rows 9–15; the first two 7b pages with the strongest demand |

@@ -6,7 +6,7 @@
 snippets.json maps slug -> {type, title, description, h1, topic, method}. For each
 page it sets the <title>/meta description consts, the editorial H1, the one-line
 method note under the byline (replacing the sentence that used to be identical on
-every page), drops "N." prefixes from H2s, names the mistakes section after the
+every page), names the mistakes section after the
 page's topic, and syncs the page's card description on /best-of/.
 See docs/ranking-method.md, sections 1c and 3.
 """
@@ -42,9 +42,9 @@ for slug, d in data.items():
     method = d['method'].strip()
     if not method.endswith('.'): method += '.'
     s = s.replace(SHARED, html.escape(method, quote=False) + ' No paid placements.')
-    # H2s: no "N." prefixes; a page-specific mistakes heading
-    s = re.sub(r'(<h2[^>]*>\s*)\d{1,2}\.\s+', r'\1', s)
-    s = re.sub(r'(<h2[^>]*>\s*)Common Mistakes to Avoid(\s*</h2>)',
+    # A page-specific mistakes heading. H2 numbers stay: on this site's Bing data,
+    # numbered question H2s lifted converted pages 93-265% (docs/bing-playbook.md).
+    s = re.sub(r'(<h2[^>]*>\s*(?:\d{1,2}\.\s+)?)Common Mistakes to Avoid(\s*</h2>)',
                lambda m: f'{m.group(1)}Common Mistakes With {html.escape(d["topic"], quote=False)}{m.group(2)}', s)
     if s != o:
         changed += 1

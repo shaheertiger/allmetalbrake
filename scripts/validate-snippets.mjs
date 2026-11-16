@@ -4,19 +4,18 @@
 //   - has a <title> outside 50-62 characters or a description outside 140-158,
 //   - makes a testing claim in its title, description or H1,
 //   - carries "(2026)" on a page that is not a review, brand, roundup or store page,
-//   - still prints the method sentence that used to be identical on every page,
-//   - numbers its H2s ("11. Common Mistakes to Avoid"), or
+//   - still prints the method sentence that used to be identical on every page, or
 //   - uses the generic "Common Mistakes to Avoid" heading instead of naming its topic.
 //
 //   node scripts/validate-snippets.mjs           # fail on problems
 //   node scripts/validate-snippets.mjs --report  # list problems, exit 0
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { NOINDEX_SLUGS as NOINDEX } from './noindex.mjs';
 
 const ROOT = join(import.meta.dirname, '..');
 const PAGES_DIR = join(ROOT, 'src', 'pages');
 const REPORT = process.argv.includes('--report');
-const NOINDEX = new Set(JSON.parse(readFileSync(join(ROOT, 'src', 'data', 'noindex-pages.json'), 'utf8')).slugs);
 const NON_ARTICLE = new Set([
   'index', 'best-of', 'sand-calculator', '404', 'about', 'contact', 'how-we-test', 'privacy-policy', 'terms',
 ]);
@@ -55,8 +54,7 @@ for (const slug of slugs) {
   }
   if (/\(20\d\d\)/.test(title) && !YEAR_OK(slug)) fail('"(year)" in the title of a question, how-to or vs page');
   if (src.includes(SHARED_METHOD)) fail('still prints the shared method sentence; write a page-specific one');
-  if (/<h2[^>]*>\s*\d{1,2}\.\s/.test(src)) fail('numbered H2 heading');
-  if (/<h2[^>]*>\s*Common Mistakes to Avoid\s*</.test(src)) fail('generic "Common Mistakes to Avoid" heading; name the topic');
+  if (/<h2[^>]*>\s*(?:\d{1,2}\.\s+)?Common Mistakes to Avoid\s*</.test(src)) fail('generic "Common Mistakes to Avoid" heading; name the topic');
 }
 
 if (!problems.length) {
