@@ -22,6 +22,7 @@ export const NAV_GROUPS: NavGroup[] = [
       l('best-home-generator-for-power-outages', 'Best Home Generators for Outages', 'Standby, portable and inverter picks'),
       l('best-dual-fuel-generator', 'Best Dual Fuel Generators', 'Gas and propane in one machine'),
       l('best-inverter-generator', 'Best Inverter Generators', 'Quiet, clean power'),
+      l('best-dual-fuel-inverter-generator', 'Best Dual Fuel Inverter Generators', 'Quiet power on gas or propane'),
       l('best-portable-power-station', 'Best Portable Power Stations', 'Battery backup without the fumes'),
       l('best-solar-power-bank', 'Best Solar Power Banks', 'What really charges from the sun'),
       l('best-magsafe-power-bank', 'Best MagSafe Power Banks', 'Qi2 speed, real capacity'),
