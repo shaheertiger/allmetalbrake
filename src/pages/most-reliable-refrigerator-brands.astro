@@ -1,12 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import QuickAnswer from "../components/QuickAnswer.astro";
 import MoreInCategory from "../components/MoreInCategory.astro";
-import AuthorBio from "../components/AuthorBio.astro";
 import { authorSchema, authorName } from "../data/authors";
 import AuthorAvatar from "../components/AuthorAvatar.astro";
+import QuickPicks from "../components/QuickPicks.astro";
+import ProductCard from "../components/ProductCard.astro";
+import PlanTheJob from "../components/PlanTheJob.astro";
+import AuthorBio from "../components/AuthorBio.astro";
+import { amazonLink } from "../data/affiliate";
 import TrustBadge from "../components/TrustBadge.astro";
 import SocialProof from "../components/SocialProof.astro";
-import TopPick from "../components/TopPick.astro";
+import productImages from "../data/product-images.json";
 import { pageDates } from "../data/dates";
 
 const moreInCategory = [
@@ -28,6 +33,267 @@ const title = "Most Reliable Refrigerator Brands in 2026: 6 Ranked by Design";
 const description =
   "Whirlpool and GE are the most reliable refrigerator brands for most homes; a top-freezer with no door ice maker outlasts any French door, whatever the badge.";
 
+const PRODUCTS = [
+  {
+    "id": "whirlpool-wrb329dmbm",
+    "name": "Whirlpool WRB329DMBM",
+    "category": "18.5 cu ft bottom-freezer, stainless",
+    "badge": "Most Reliable Overall",
+    "amazonUrl": "",
+    "specs": [
+      [
+        "Type",
+        "Bottom-freezer, single fresh-food door"
+      ],
+      [
+        "Capacity",
+        "18.5 cu ft (per listing)"
+      ],
+      [
+        "Ice maker",
+        "Inside the freezer drawer, not the door"
+      ],
+      [
+        "Efficiency",
+        "ENERGY STAR qualified (per listing)"
+      ],
+      [
+        "Defrost",
+        "Adaptive Defrost (per listing)"
+      ]
+    ],
+    "pros": [
+      "Fresh food at eye level with no door dispenser to fail",
+      "Ice maker sits inside the freezer, the low-risk location",
+      "Whirlpool has the largest parts and repair network in the US",
+      "Parts are shared across Whirlpool, Maytag and Amana",
+      "ENERGY STAR qualified, per the listing"
+    ],
+    "cons": [
+      "Freezer drawer slides are one more wear part than a top-freezer",
+      "Stainless finish costs more than white",
+      "Basic features next to French door models"
+    ],
+    "bottomLine": "The pick for most kitchens: a simple bottom-freezer from the brand that is easiest to get repaired.",
+    "description": "The WRB329DMBM is the configuration this guide recommends, built by the brand with the deepest repair bench. It is a 30-inch bottom-freezer with a single fresh-food door, so the shelves you use most sit at eye level, and the listing puts the ice maker inside the freezer drawer rather than in the door, where ice makers fail least. There is no screen, no Wi-Fi board and no dispenser, which leaves the sealed system, a few fans and the defrost circuit as the main things that can go wrong. Whirlpool's listing describes Adaptive Defrost, which runs defrost cycles only when needed, and the model is ENERGY STAR qualified. Because Whirlpool shares designs and parts with Maytag and Amana, a technician can usually fix it from stock. Check the cut-out height and door swing before ordering; bottom-freezers are taller than most top-freezers of the same capacity."
+  },
+  {
+    "id": "ge-gte18gtnrww",
+    "name": "GE GTE18GTNRWW",
+    "category": "About 17.5 cu ft top-freezer, white",
+    "badge": "Best Top-Freezer",
+    "amazonUrl": "",
+    "specs": [
+      [
+        "Type",
+        "Top-freezer"
+      ],
+      [
+        "Capacity",
+        "About 17.5 cu ft (per GE)"
+      ],
+      [
+        "Finish",
+        "White"
+      ],
+      [
+        "Dispenser",
+        "None"
+      ],
+      [
+        "Service",
+        "GE Appliances factory service network"
+      ]
+    ],
+    "pros": [
+      "Top-freezer: the style with the fewest repairs",
+      "No dispenser, screen or Wi-Fi board to fail",
+      "Backed by GE's own factory service network",
+      "Inexpensive to buy and to run",
+      "Fits the standard 30-inch opening in most older kitchens"
+    ],
+    "cons": [
+      "Freezer at eye level, crisper drawers at the bottom",
+      "White finish only on this model number",
+      "No ice maker as delivered; check GE's listing for add-on kits"
+    ],
+    "bottomLine": "The simplest refrigerator here, and the one to buy if repairs worry you more than looks.",
+    "description": "GE's GTE18GTNRWW is a plain top-freezer, the style that breaks down least, from a brand with its own factory service network covering most of the country. It has no door dispenser, no screen and no smart board, so its parts list is short and its failure points are the ones every refrigerator shares: the compressor, the fans and the defrost circuit. GE lists it at about 17.5 cubic feet, enough for a household of two to four, and it fits the standard 30-inch opening in most older kitchens. The trade-offs are the ones that come with any top-freezer: you bend to reach the crisper drawers, and the look is utilitarian. If you want a refrigerator that runs for fifteen years with as little attention as possible, this is the template. Confirm the current model letter and any ice maker kit on GE's site before buying, since GE updates suffixes from year to year."
+  },
+  {
+    "id": "bosch-b36cl80sns",
+    "name": "Bosch 800 Series B36CL80SNS",
+    "category": "36-inch counter-depth French door, stainless",
+    "badge": "Best Counter-Depth French Door",
+    "amazonUrl": "",
+    "specs": [
+      [
+        "Type",
+        "Counter-depth French door"
+      ],
+      [
+        "Width",
+        "36 inches"
+      ],
+      [
+        "Series",
+        "Bosch 800 Series"
+      ],
+      [
+        "Finish",
+        "Stainless steel"
+      ],
+      [
+        "Dispenser",
+        "No through-the-door dispenser"
+      ]
+    ],
+    "pros": [
+      "French door layout without a door dispenser",
+      "Counter-depth styling that sits flush with cabinets",
+      "Bosch keeps feature lists restrained",
+      "Placed among the more reliable brands in Yale Appliance's service reports",
+      "Strong choice for a remodel"
+    ],
+    "cons": [
+      "Much more expensive than a top- or bottom-freezer",
+      "Counter-depth means less capacity than a standard-depth fridge",
+      "Parts stocked less widely than Whirlpool or GE"
+    ],
+    "bottomLine": "The French door to buy if you want the look without the in-door ice maker that causes most French door repairs.",
+    "description": "If the kitchen calls for a French door, the most reliable way to get one is to skip the through-the-door dispenser, and that is the point of this Bosch. The 800 Series B36CL80SNS is a 36-inch counter-depth French door with a clean front, so the water line, valve and ice chute that fail on so many French door models are not in the door. Bosch builds a narrower range than the big American brands and keeps features restrained, and Boston retailer Yale Appliance, which publishes service-call rates from its own sales, has placed Bosch among its more reliable refrigerator brands in several years. The costs are real: it sells for several times the price of a basic top-freezer, counter-depth cabinets hold less than standard-depth ones, and Bosch parts are stocked less widely than Whirlpool or GE parts. Check the nearest authorized Bosch service provider before you buy."
+  },
+  {
+    "id": "frigidaire-fftr1835vw",
+    "name": "Frigidaire FFTR1835VW",
+    "category": "About 18 cu ft top-freezer, white",
+    "badge": "Best Budget",
+    "amazonUrl": "",
+    "specs": [
+      [
+        "Type",
+        "Top-freezer"
+      ],
+      [
+        "Capacity",
+        "About 18 cu ft (per Frigidaire)"
+      ],
+      [
+        "Finish",
+        "White"
+      ],
+      [
+        "Dispenser",
+        "None"
+      ],
+      [
+        "Brand owner",
+        "Electrolux"
+      ]
+    ],
+    "pros": [
+      "One of the cheapest full-size refrigerators sold",
+      "Simple top-freezer with nothing extra to fail",
+      "Easy and inexpensive to repair",
+      "Standard 30-inch width",
+      "Widely stocked at big-box stores"
+    ],
+    "cons": [
+      "Basic shelving and drawers",
+      "Thinner service coverage than Whirlpool or GE in some areas",
+      "White only on this model number"
+    ],
+    "bottomLine": "The cheapest way to get a reliable refrigerator: a simple box with nothing extra to break.",
+    "description": "Frigidaire's FFTR1835VW is the budget pick because it is a simple top-freezer at one of the lowest prices for a full-size refrigerator. Frigidaire, owned by Electrolux, gets mixed owner reports on its Gallery and Professional French door lines, mostly about ice makers, but its basic top-freezers avoid that problem by not having one in the door. You get about 18 cubic feet, a standard 30-inch width, glass shelves and crisper drawers, and very little else, which is exactly what makes it durable and cheap to repair. It is a sensible choice for a rental, a garage-adjacent second fridge in a conditioned space, or a buyer who wants to spend as little as possible on a box that keeps food cold. Check the rated ambient temperature range in the manual before putting any refrigerator in an unheated garage."
+  },
+  {
+    "id": "lg-ltcs20020s",
+    "name": "LG LTCS20020S",
+    "category": "About 20 cu ft top-freezer, stainless",
+    "badge": "Best LG",
+    "amazonUrl": "",
+    "specs": [
+      [
+        "Type",
+        "Top-freezer"
+      ],
+      [
+        "Capacity",
+        "About 20 cu ft (per LG)"
+      ],
+      [
+        "Finish",
+        "Stainless steel"
+      ],
+      [
+        "Dispenser",
+        "None"
+      ],
+      [
+        "Compressor warranty",
+        "Per LG's warranty card; long coverage is usually parts only"
+      ]
+    ],
+    "pros": [
+      "LG's efficiency in the simplest, most reliable style",
+      "No door ice maker or dispenser",
+      "Larger capacity than most top-freezers",
+      "Stainless finish at a top-freezer price",
+      "LG advertises long compressor coverage"
+    ],
+    "cons": [
+      "LG's compressor history means registering it and keeping the receipt",
+      "Long compressor warranties usually exclude labor",
+      "Service coverage varies by area"
+    ],
+    "bottomLine": "If you want an LG, this is the safest one to buy: the top-freezer layout avoids the parts behind most LG complaints.",
+    "description": "LG makes efficient, quiet refrigerators, and the LTCS20020S puts that engineering into the style that fails least. It is a top-freezer of about 20 cubic feet, roomier than most in its class, with a stainless finish and no door ice maker or dispenser. LG's past trouble, the class-action lawsuits filed from 2019 over linear compressors and the complaints about in-door ice makers on French door models, is the reason it ranks below Whirlpool and GE. A simple top-freezer removes the ice-maker risk entirely. For the compressor, read LG's warranty card for this model: LG advertises long compressor coverage, but it usually covers the part, not the labor. Register the fridge on delivery, keep the receipt, and look up the nearest authorized LG service provider before you buy."
+  },
+  {
+    "id": "amana-art318ffds",
+    "name": "Amana ART318FFDS",
+    "category": "18.2 cu ft top-freezer, stainless",
+    "badge": "Best Value Stainless",
+    "amazonUrl": "",
+    "specs": [
+      [
+        "Type",
+        "Top-freezer"
+      ],
+      [
+        "Capacity",
+        "18.2 cu ft (per listing)"
+      ],
+      [
+        "Finish",
+        "Stainless steel"
+      ],
+      [
+        "Dispenser",
+        "None"
+      ],
+      [
+        "Built by",
+        "Whirlpool Corporation"
+      ]
+    ],
+    "pros": [
+      "Whirlpool-built, so it shares the biggest parts network",
+      "Simple top-freezer with no door dispenser",
+      "Stainless finish at a budget price",
+      "18.2 cubic feet suits most families of three or four",
+      "Easy to get serviced almost anywhere"
+    ],
+    "cons": [
+      "Very basic interior",
+      "Fewer configuration choices than Whirlpool's own range",
+      "Freezer at eye level, crispers low"
+    ],
+    "bottomLine": "A Whirlpool-built top-freezer in stainless for less money, with the same repair network behind it.",
+    "description": "Amana is Whirlpool Corporation's value brand, which is why it earns a place here despite not appearing in the brand ranking above. The ART318FFDS is an 18.2 cubic foot top-freezer in stainless steel, per its listing, with no dispenser and none of the electronics that cause most repair calls. Because Whirlpool builds it, it draws on the same parts supply and service network as Whirlpool and Maytag, so a technician can usually fix it from stock. It is the pick for a buyer who wants the stainless look of a pricier fridge with the reliability profile of the simplest style. The interior is basic, with fixed bins and fewer adjustable shelves than step-up models, and like every top-freezer it puts the crisper drawers low. For most families of three or four, it is all the refrigerator they need."
+  }
+];
+
 const schema = {
   "@context": "https://schema.org",
   "@graph": [
@@ -43,7 +309,7 @@ const schema = {
         {
           "@type": "ListItem",
           position: 2,
-          name: "Guides",
+          name: "Best Lists",
           item: "https://www.allmetalbrake.com/best-of/",
         },
         {
@@ -118,12 +384,31 @@ const schema = {
     {
       "@type": "Article",
       headline: title,
-      description: description,
       author: authorSchema(Astro.url.pathname),
       datePublished: dates.published,
       dateModified: dates.modified,
       publisher: { "@type": "Organization", name: "All Metal Brake" },
     },
+    {
+      "@type": "ItemList",
+      name: title,
+      numberOfItems: PRODUCTS.length,
+      itemListElement: PRODUCTS.map((product, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: product.name,
+        url: new URL(`#${product.id}`, Astro.url).toString(),
+      })),
+    },
+    ...PRODUCTS.map((product) => ({
+      "@type": "Product",
+      name: product.name,
+      description: product.description,
+      brand: {
+        "@type": "Brand",
+        name: product.name.split(" ")[0],
+      },
+    })),
   ],
 };
 ---
@@ -147,23 +432,20 @@ const schema = {
     ],
   }}
   jsonLd={schema}
-  stickyCta={{
-    text: "See Our Chest Freezer Picks",
-    link: "/best-chest-freezer/",
-  }}
 >
   <article class="relative overflow-hidden">
     <!-- Hero Section -->
     <header data-hero class="bg-[#F4F6F8] border-b border-gray-200">
       <div class="max-w-3xl mx-auto px-4 pt-10 pb-8 lg:pt-14 lg:pb-10">
         <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold uppercase tracking-widest m-0 mb-4">
-          <span class="text-[#D93A00]">Brand Reliability</span>
+          <span class="text-[#D93A00]">Buyer's Guide</span>
           <span class="text-gray-300" aria-hidden="true">&bull;</span>
           <span class="text-gray-500">Updated {dates.display}</span>
         </p>
         <h1 class="text-[2.1rem] leading-[1.15] sm:text-5xl font-black tracking-tight text-gray-900 m-0">
-          Most Reliable Refrigerator Brands in 2026
+          The 6 Most Reliable Refrigerator Brands in 2026
         </h1>
+        <QuickAnswer products={PRODUCTS} />
         <p class="text-lg lg:text-xl text-gray-600 leading-relaxed mt-5 mb-0">
           Whirlpool and GE top the list for most homes. The style you choose matters even more than the brand: the simpler the fridge, the less there is to break.
         </p>
@@ -192,37 +474,54 @@ const schema = {
         <summary class="flex items-center gap-3 pb-3 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
           <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01" /></svg>
           <span class="font-bold text-gray-900">In This Guide</span>
-          <span class="text-xs font-semibold text-gray-400">11 sections</span>
+          <span class="text-xs font-semibold text-gray-400">12 sections</span>
           <svg class="w-5 h-5 ml-auto text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 15l6-6 6 6" /></svg>
         </summary>
         <nav class="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
-              <a href="#short-answer" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">1.</span><span>The Short Answer</span></a>
-              <a href="#what-makes-reliable" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">2.</span><span>What Makes a Fridge Reliable</span></a>
-              <a href="#which-style" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">3.</span><span>Which Style Breaks Least</span></a>
-              <a href="#brand-by-brand" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">4.</span><span>Brand by Brand</span></a>
-              <a href="#problem-brands" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">5.</span><span>Brands With Known Problems</span></a>
-              <a href="#how-long" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">6.</span><span>How Long a Fridge Lasts</span></a>
-              <a href="#warranty" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">7.</span><span>Warranty and Service</span></a>
-              <a href="#make-it-last" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">8.</span><span>Make Any Fridge Last</span></a>
-              <a href="#how-we-ranked" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">9.</span><span>How We Ranked</span></a>
-              <a href="#mistakes" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">10.</span><span>Common Mistakes</span></a>
-              <a href="#faq" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">11.</span><span>FAQ</span></a>
+              <a href="#top-picks" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">1.</span><span>The 6 Picks</span></a>
+              <a href="#short-answer" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">2.</span><span>The Short Answer</span></a>
+              <a href="#what-makes-reliable" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">3.</span><span>What Makes a Fridge Reliable</span></a>
+              <a href="#which-style" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">4.</span><span>Which Style Breaks Least</span></a>
+              <a href="#brand-by-brand" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">5.</span><span>Brand by Brand</span></a>
+              <a href="#problem-brands" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">6.</span><span>Brands With Known Problems</span></a>
+              <a href="#how-long" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">7.</span><span>How Long a Fridge Lasts</span></a>
+              <a href="#warranty" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">8.</span><span>Warranty and Service</span></a>
+              <a href="#make-it-last" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">9.</span><span>Make Any Fridge Last</span></a>
+              <a href="#how-we-ranked" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">10.</span><span>How We Ranked</span></a>
+              <a href="#mistakes" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">11.</span><span>Common Mistakes</span></a>
+              <a href="#faq" class="flex items-baseline gap-3 py-2.5 border-t border-gray-100 text-[15px] text-gray-700 hover:text-[#1E90FF] no-underline"><span class="w-6 shrink-0 text-gray-400 font-semibold">12.</span><span>FAQ</span></a>
         </nav>
       </details>
     </div>
 
-    <!-- Body -->
+    <!-- Content -->
     <div class="max-w-3xl mx-auto px-4 pb-16 lg:pb-24">
       <div class="prose prose-lg prose-blue max-w-none text-gray-700 leading-relaxed">
         <p class="text-2xl font-medium text-gray-900 mb-8 italic">
-          Whirlpool and GE are the most reliable refrigerator brands for most homes, because their simple top- and bottom-freezer models have few parts to fail and the widest repair networks behind them. The style matters as much as the badge: a door ice maker and dispenser is the part most likely to fail on any brand. This guide ranks six brands and explains why.
+          Whirlpool and GE are the most reliable refrigerator brands for most homes, because their simple top- and bottom-freezer models have few parts to fail and the widest repair networks behind them. The style matters as much as the badge: a door ice maker and dispenser is the part most likely to fail on any brand. Below are six picks, one per brand, then the reasons behind the ranking.
         </p>
 
-        <TopPick />
+        <QuickPicks products={PRODUCTS} />
+
+
+        <!-- Picks -->
+        <div id="top-picks" class="scroll-mt-24">
+          <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
+            1. The 6 Most Reliable Refrigerators in 2026, One per Brand
+          </h2>
+
+          <p>
+            One simple, widely sold model from each brand, chosen for the configuration that breaks least: top-freezer or bottom-freezer where the brand offers one, and no door ice maker. Specifications come from the makers' and retailers' listings; we did not test these refrigerators, and we show no star ratings because we could not verify them.
+          </p>
+
+          {PRODUCTS.map((product, index) => (
+            <ProductCard product={product} index={index} ratingLabel="ratings on Amazon" />
+          ))}
+        </div>
 
         <div id="short-answer" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            1. Most Reliable Refrigerator Brands: The Short Answer
+            2. Most Reliable Refrigerator Brands: The Short Answer
           </h2>
 
           <p>
@@ -289,7 +588,7 @@ const schema = {
 
         <div id="what-makes-reliable" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            2. 1. What Makes a Refrigerator Reliable?
+            3. What Makes a Refrigerator Reliable?
           </h2>
 
           <p>
@@ -317,7 +616,7 @@ const schema = {
 
         <div id="which-style" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            3. 2. Which Refrigerator Style Breaks Down the Least?
+            4. Which Refrigerator Style Breaks Down the Least?
           </h2>
 
           <p>
@@ -386,7 +685,7 @@ const schema = {
 
         <div id="brand-by-brand" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            4. 3. Which Refrigerator Brand Is the Most Reliable, Brand by Brand?
+            5. Which Refrigerator Brand Is the Most Reliable, Brand by Brand?
           </h2>
 
           <h3 class="text-2xl font-bold text-gray-900 mt-10 mb-4">Whirlpool, Maytag and Amana</h3>
@@ -432,7 +731,7 @@ const schema = {
 
         <div id="problem-brands" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            5. 4. Which Refrigerator Brands Have the Most Repair Problems?
+            6. Which Refrigerator Brands Have the Most Repair Problems?
           </h2>
 
           <p>
@@ -454,7 +753,7 @@ const schema = {
 
         <div id="how-long" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            6. 5. How Long Should a Refrigerator Last?
+            7. How Long Should a Refrigerator Last?
           </h2>
 
           <p>
@@ -498,7 +797,7 @@ const schema = {
 
         <div id="warranty" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            7. 6. What Warranty Should a Reliable Refrigerator Come With?
+            8. What Warranty Should a Reliable Refrigerator Come With?
           </h2>
 
           <p>
@@ -520,7 +819,7 @@ const schema = {
 
         <div id="make-it-last" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            8. 7. How Do You Make Any Refrigerator Last Longer?
+            9. How Do You Make Any Refrigerator Last Longer?
           </h2>
 
           <p>
@@ -542,7 +841,7 @@ const schema = {
 
         <div id="how-we-ranked" class="scroll-mt-24">
           <h2 class="text-3xl font-black text-gray-900 mt-16 mb-6">
-            9. 8. How We Ranked These Refrigerator Brands
+            10. How We Ranked These Refrigerator Brands
           </h2>
 
           <p>
@@ -561,7 +860,7 @@ const schema = {
         <!-- Common Mistakes -->
         <div id="mistakes" class="scroll-mt-24 mt-16">
           <h2 class="text-3xl font-black text-gray-900 mb-6">
-            10. Common Mistakes With Refrigerator Reliability
+            11. Common Mistakes With Refrigerator Reliability
           </h2>
 
           <div class="space-y-6 my-8">
@@ -598,10 +897,12 @@ const schema = {
           </div>
         </div>
 
+        <PlanTheJob />
+
         <!-- FAQ -->
         <div id="faq" class="scroll-mt-24 mt-16">
           <h2 class="text-3xl font-black text-gray-900 mb-6">
-            11. Frequently Asked Questions
+            12. Frequently Asked Questions
           </h2>
 
           <div class="space-y-6">

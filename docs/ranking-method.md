@@ -242,7 +242,9 @@ Byline      Author · "Updated <date>" · 1-line method note, true for this page
 LEDE        40–70 words. Sentence 1 = the answer, with a number or verdict.
             Sentence 2 = what changes the answer. Sentence 3 = what the page covers.
 
-H2 1        "<Search>: The Short Answer"
+H2 1        Roundups (D): the product cards, "The <N> Best <X> in 2026, Ranked"
+            (owner decision Nov 18, 2026; see the Bing playbook). Other types:
+H2 1/2      "<Search>: The Short Answer"
             50–90 words + ONE scannable block: a table, a stats row, numbered steps
             (type E) or the top-pick cards (types B, D, G).
 

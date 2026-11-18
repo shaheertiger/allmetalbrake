@@ -30,7 +30,17 @@ Judge every change by **Bing Webmaster Tools** data, not Google.
   How-to: `How to <task>: <the promise>`.
   Head term with no "best": `Basement Waterproofing: Best Systems, DIY Fixes and Costs (2026)`.
   Never "Tested" unless the test happened.
-- **One H1** that repeats the title's query words.
+- **One H1** that repeats the title's query words. Buying guides use the sister
+  site's winning form: `The <N> Best <Product> in 2026` (a "reviews" query keeps its
+  word: `Laser Level Reviews: The 7 Best Laser Levels in 2026`).
+- **Guide order (owner decision, Nov 18, 2026, copied from The Honest Reviewers):**
+  H1 → Short Answer box (`QuickAnswer`) → picks row → **H2 1 = the product cards**
+  (`The <N> Best <Product> in 2026, Ranked`) → H2 2 = `<Search>: The Short Answer`
+  → the numbered question H2s. New roundups: `picksAfter: 0` in the scaffold spec.
+- **Not copied from the sister site:** "Tested & Ranked" headings and test
+  measurements (nothing was tested), and star ratings/review counts. The Amazon
+  Creators API returns `customerReviews` as empty for this account (checked Nov 18,
+  2026), so there are no real figures to show; cards stay without stars.
 - **Meta description, 110-160 chars**, written as ad copy: the answer or deciding
   factor plus who it is for. Bing shows it as written.
 - **Answer first.** Guides render `QuickAnswer.astro` under the H1: the #1 pick and
