@@ -10,6 +10,10 @@ const GIT_DATES = readGitDates();
 // Buyer's guides that target high-volume search terms. They get a higher
 // sitemap priority than the 0.5 default so crawlers reach them sooner.
 const priorityGuides = new Set([
+  'flex-seal-review',
+  'are-ryobi-tools-brushless',
+  'how-to-seal-stamped-concrete',
+  'how-to-seal-redwood',
   'how-to-waterproof-cinder-block-walls',
   // November 2026: mattress cluster (Bing keyword export: top rated mattresses).
   'best-mattress',
