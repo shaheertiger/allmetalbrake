@@ -10,6 +10,7 @@ const GIT_DATES = readGitDates();
 // Buyer's guides that target high-volume search terms. They get a higher
 // sitemap priority than the 0.5 default so crawlers reach them sooner.
 const priorityGuides = new Set([
+  'black-jack-vs-latex-ite-driveway-sealer',
   'flex-seal-review',
   'are-ryobi-tools-brushless',
   'how-to-seal-stamped-concrete',
