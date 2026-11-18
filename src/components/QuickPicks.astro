@@ -10,6 +10,7 @@ interface Product {
   category?: string;
   bottomLine?: string;
   amazonUrl?: string;
+  specs?: [string, string][];
 }
 interface Props {
   products: Product[];
@@ -63,6 +64,38 @@ const IMAGES = productImages as Record<string, string>;
       <button type="button" data-qp-next aria-label="Next picks" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center border-0 cursor-pointer">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6" /></svg>
       </button>
+    </div>
+  )}
+  {products.length > 1 && (
+    <div class="mt-8">
+      <h3 class="text-xl font-black text-gray-900 m-0 mb-3">Quick Comparison Table</h3>
+      <div class="overflow-x-auto border border-gray-200 rounded-2xl">
+        <table class="w-full text-left text-sm m-0">
+          <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th class="px-3 py-3 font-bold text-gray-600">#</th>
+              <th class="px-3 py-3 font-bold text-gray-600">Product</th>
+              <th class="px-3 py-3 font-bold text-gray-600">Best For</th>
+              <th class="px-3 py-3 font-bold text-gray-600">Key Spec</th>
+              <th class="px-3 py-3 font-bold text-gray-600"><span class="sr-only">Price</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product, index) => {
+              const spec = product.specs && product.specs[0];
+              return (
+                <tr class={`border-b border-gray-100 ${index % 2 ? "bg-gray-50" : "bg-white"}`}>
+                  <td class="px-3 py-3 font-black text-gray-900">{index + 1}</td>
+                  <td class="px-3 py-3 font-bold"><a href={`#${product.id}`} class="text-gray-900 hover:text-[#1E90FF] no-underline">{product.name}</a></td>
+                  <td class="px-3 py-3 text-gray-700">{product.badge ?? ""}</td>
+                  <td class="px-3 py-3 text-gray-700">{spec ? `${spec[0]}: ${spec[1]}` : (product.category ?? "")}</td>
+                  <td class="px-3 py-3"><a href={amazonLink(product.amazonUrl, product.name, product.id)} target="_blank" rel="sponsored nofollow noopener" class="text-[#FF4500] font-black no-underline whitespace-nowrap">Check Price</a></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   )}
   <p class="text-xs text-gray-500 mt-4 mb-0">
