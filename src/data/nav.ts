@@ -250,6 +250,7 @@ export const NAV_GROUPS: NavGroup[] = [
     icon: '🏠',
     links: [
       l('best-chest-freezer', 'Best Chest Freezers', 'Garage-ready, outage-proof'),
+      l('most-reliable-refrigerator-brands', 'Most Reliable Refrigerator Brands', '6 brands ranked by design'),
       l('best-small-window-air-conditioner', 'Best Small Window ACs', 'Bedrooms and narrow windows'),
       l('best-portable-washer', 'Best Portable Washers', 'Twin tub vs automatic'),
       l('best-portable-dryer', 'Best Portable Dryers', '120V compact dryers'),

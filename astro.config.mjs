@@ -120,6 +120,7 @@ const priorityGuides = new Set([
   'best-miter-saw-stand',
   'best-jobsite-table-saw',
   'best-chest-freezer',
+  'most-reliable-refrigerator-brands',
   'best-small-microwave',
   'best-heated-lunch-box',
   'best-portable-blender',

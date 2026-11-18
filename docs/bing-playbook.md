@@ -48,6 +48,38 @@ Bing Webmaster Tools after 2-3 weeks; if it draws impressions without clicks, ra
 with the owner before changing anything. Pages: best-mattress (pillar),
 best-mattress-for-side-sleepers, best-mattress-for-seniors, best-mattress-topper.
 
+## Sister-site keyword map (Nov 18, 2026)
+
+Source: `content/bing/thehonestreviewers-keywords-2026-11-18.csv` (the site these
+guides came from) against `content/bing/allmetalbrake-keywords-2026-11-18.csv` (ours).
+Rule: **copy what earns clicks there, not what earns impressions.** Every query below
+clicked on the sister site; each now has an owner page here that carries its wording.
+
+| Winning query there (clicks, CTR, position) | Owner page here | Done |
+| --- | --- | --- |
+| home generators for power outages (21, 7.3%, #1.7) + 8 variants | `best-home-generator-for-power-outages` | Already matched |
+| best solar power bank (9, 12.9%, #1.4), solar charger power bank | `best-solar-power-bank` | H1 adds "Solar Charger" |
+| best gas water heaters 2026 (7, 41%, #1.4), water heaters gas | `best-gas-water-heater` | Already matched |
+| most reliable refrigerator brand(s) 2026 (6 across 3 variants, 20-37%) | `most-reliable-refrigerator-brands` | **New page** |
+| best zero turn mowers 2026 (4, 20%, #1) | `best-zero-turn-mower` | Already matched |
+| cost to install generac whole house generator, cost of generac generator installed | `generac-generator-cost` | Title/H1/description add "Installed" and "Whole House" |
+| moss killer for driveways (2, 40%, #1.2) | `how-to-remove-moss-from-asphalt-driveway` | Description adds "moss killer for driveways" |
+| is ryobi a good brand, ryobi tools vs milwaukee | `ryobi-tools-review` | H1 asks "Is Ryobi a Good Brand?" (we sit at #9 for "are ryobi tools good") |
+| laser level reviews (1, #2.4) | `best-laser-level` | Title and H1 lead with "Laser Level Reviews" |
+| best mould remover, mold remover for walls, best mold removal | `best-mold-remover` | H1 adds "for Walls, Wood and Grout" |
+| water filtration system for home, best water filter pitcher, best ceiling paint, best shop vac, garage floor epoxy/tiles, basement floor paint, floor paint for concrete, oil remover for concrete, best wall stud finder 2026, best self propelled lawn mowers 2026, best weed killer spray, best indoor heater without electricity, silane vs siloxane, latex-ite vs black jack, best drain snake, log splitter comparison, best circuit breaker finder | existing guides of the same name | Already matched |
+
+**Not copied, on purpose** (impressions without clicks there, or off-topic):
+"water filtration and storage" (1,243 impr. at #1.1, 0 clicks), "whole house generator
+cost" (448, #8.9, 0 clicks; covered by `generac-generator-cost` wording anyway),
+"buzz cut", "basement waterproofing" (bare head term, 0 clicks at #2.8), "most reliable
+radiator heaters" (516, #5.2, 0 clicks), "ceiling fan direction", "diy garden
+landscaping ideas".
+
+**Next candidates if they keep clicking there:** how long should a dishwasher last
+(1 click), cordless snow blowers/shovels (EGO and Greenworks comparisons, 2 clicks; in
+season now), best jigsaw, best drill press (1 click each).
+
 ## Trust rules
 
 - Never invent a test, measurement, price, spec or result. Most guides are built
