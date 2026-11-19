@@ -9,10 +9,6 @@
 // Add a slug here instead of deleting a page that still gets traffic; delete the
 // page (and add a 301 in vercel.json) once it gets none.
 export const NOINDEX_SLUGS = new Set([
-  'buzz-cut-guide',
-  'best-mens-back-shavers',
-  'best-heated-lunch-box',
-  'best-portable-blender',
-  'best-usb-c-charger',
-  'best-car-battery',
+  // Empty: the Nov 19, 2026 backup-power refocus deleted and 301-redirected every
+  // off-topic page instead.
 ]);

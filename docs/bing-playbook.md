@@ -23,6 +23,43 @@ Judge every change by **Bing Webmaster Tools** data, not Google.
 | Fighting the season | Driveway sealer clicks halve in autumn | Refresh seasonal pages 4 weeks before the season |
 | Automatic Amazon matching | 228 of 228 matches wrong | Exact-model check on every link |
 
+## Cross-site evidence (Nov 19, 2026 keyword exports)
+
+Bing keyword reports from four sister review sites (thehonestreviewers.com,
+treadmillreviewsusa.com, hairgrowthreviews.com, best-proteinpowder.com; 5,600 queries)
+point the same way as this site's own data. CTR by query type:
+
+| Query type | Honest Reviewers | Treadmill | Hair | Protein | Rule |
+| --- | --- | --- | --- | --- | --- |
+| Question ("is/does/can/should …") | 40.5% | 15.9% | 20.3% | 3.3% | Answer the question in the H1 and first sentence |
+| "How long does X last / take" | 36.0% | 22.0% | 22.2% | — | A lifespan page beside each big pillar |
+| How-to | 19.4% | 21.1% | — | — | Keep pairing a how-to with each guide |
+| "X vs Y" | 8.2% | 21.1% | 12.5% | 30.8% | Write the head-to-heads buyers search |
+| "best … 2026" | 11.4% | 17.4% | 8.0% | — | Year stays in every guide title |
+| Cost / price (top 3) | — | 11.7% | — | — | "How much does a treadmill cost" is that site's #1 page (45 of 351 clicks) |
+| Black Friday / deals | — | 13.3% | — | — | Timing pages get clicks in November; never invent prices |
+| Bare "best X" head terms at #5-9 | 1.1% | 4.2% | — | — | 48k impressions on "best portable power stations" at #5 = 1 click: push to #1-2 |
+
+Applied Nov 19: `how-long-does-a-generator-last` and `best-time-to-buy-a-generator`
+(Black Friday is Nov 27); "whole house generator cost" (878 impr. at #9) moved into the
+Generac cost title. Check these in 2-3 weeks.
+
+## One topic: backup power (owner decision, Nov 19, 2026)
+
+The owner chose to focus the whole site on its biggest winner, backup power
+("home generators for power outages" 128 clicks, "best portable power stations" 48k
+impressions). 154 off-topic pages were deleted and 301-redirected (`vercel.json`): driveway
+and concrete sealing, garage floors, basements and mold, water, deck and exterior, yard and
+lawn, tools, appliances, mattresses and gadget pages. This replaces the earlier
+"home improvement and outdoor power" scope and the mattress override below.
+
+- New pages must be about backup power: generators, power stations, home batteries,
+  solar for backup, transfer switches, surge protection, and outage essentials.
+- Grow depth around the pillars (`best-home-generator-for-power-outages`,
+  `best-portable-power-station`) with question, cost, lifespan and "X vs Y" pages;
+  those query types click at 15-40% across all five sites.
+- Do not recreate a deleted slug; its 301 is live.
+
 ## On-page rules (enforced by `npm run validate:seo` in the build)
 
 - **Title, 50-65 chars, leading with the query.**
@@ -39,7 +76,7 @@ Judge every change by **Bing Webmaster Tools** data, not Google.
   FAQ (7), Mistakes (5), Everything Else, Related, Bottom Line. 2,500+ words.
 - **Internal links:** pillar + two siblings out; pillar and top-traffic neighbour in.
 
-## Owner override: mattresses (Nov 13, 2026)
+## Owner override: mattresses (Nov 13, 2026) — superseded Nov 19: pages deleted
 
 The owner chose to publish a mattress cluster (indexed) despite the off-topic rule,
 based on a Bing keyword export ("top rated mattresses", "best mattress for back pain",

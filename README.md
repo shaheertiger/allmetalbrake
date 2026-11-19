@@ -1,11 +1,12 @@
 # All Metal Brake — allmetalbrake.com
 
-Home-improvement buying guides, built with [Astro](https://astro.build/) and deployed on Vercel.
+Backup power buying guides (home generators, portable power stations, home batteries,
+transfer switches and outage gear), built with [Astro](https://astro.build/) and deployed on Vercel.
 
-The site carries the 30 best-performing articles from The Honest Reviewers, all using its
-article template (hero, quick picks, product cards, buying guide, mistakes, FAQ, related
-guides, bottom line, author bio). Old allmetalbrake.com URLs that no longer exist are
-301-redirected to the closest guide in `vercel.json`.
+On Nov 19, 2026 the site was cut to this one topic: every off-topic page (driveways,
+concrete, garage floors, basements, water, yard, tools, mattresses and more) was deleted and
+301-redirected in `vercel.json`, to the closest backup-power guide where one exists and to
+the home page otherwise.
 
 Search strategy lives in [`docs/bing-playbook.md`](docs/bing-playbook.md): the site is
 judged by Bing Webmaster Tools data, and the build enforces its title and description rules.

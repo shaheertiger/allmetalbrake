@@ -35,7 +35,7 @@ and page exports. Read them first; they outrank everything else:
   before writing anything new. It is the cheapest traffic on the site.
 - Pages at position 2-5 on a "best" query: improve them to reach #1 (CTR jumps to
   19-77% at #1) before adding pages.
-- Keywords outside home improvement and outdoor power are not topics, however
+- Keywords outside backup power (generators, power stations, home batteries, outage gear) are not topics, however
   large the impressions.
 
 ### If a Search Console export is present
@@ -80,7 +80,7 @@ For each of the five intents, decide the actual title, slug and angle. Rules:
   number** taken from the page ("The Anker 737 is the best laptop power bank for most:
   140W from one USB-C port…"). `npm run validate:seo` and `validate:snippets` fail
   anything else.
-- **Home improvement and outdoor power only.** Off-topic pages (grooming, gifts,
+- **Backup power only** (owner decision, Nov 19, 2026; see docs/bing-playbook.md). Off-topic pages (driveways, tools, grooming, gifts,
   fitness, kitchen gadgets) pull impressions with no clicks and blur what Bing
   thinks the site is about. Never build a page for a bare brand or store name.
 
