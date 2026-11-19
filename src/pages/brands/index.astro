@@ -1,0 +1,21 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { brands, productsByBrand, brandUrl, articles } from '../../lib/data';
+import { CATEGORY_LABELS } from '../../data/site';
+import { breadcrumbs, graph, itemList } from '../../lib/schema';
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Brands', url: '/brands/' }];
+const rows = brands.map((b) => { const ps = productsByBrand(b); return { b, count: ps.length, avg: Math.round(ps.reduce((s, p) => s + p.score, 0) / ps.length), cats: [...new Set(ps.map((p) => CATEGORY_LABELS[p.category]))].join(', '), review: articles.find((a) => a.brand === b) }; }).sort((x, y) => y.count - x.count || y.avg - x.avg);
+---
+<Base title={`Backup Power Brands: ${brands.length} Brands Rated by Product Score`} description={`Every backup power brand we track: Honda, Generac, Champion, EcoFlow, Jackery, Anker, Bluetti, Westinghouse and more. See each brand's lineup, average AMB Score and best model.`} schema={graph(breadcrumbs(crumbs), itemList(rows.map((r) => ({ name: r.b, url: brandUrl(r.b) }))))}>
+  <PageHeader h1="Backup Power Brands" crumbs={crumbs} eyebrow="Database" intro="Who makes what, how their products score, and where to start with each brand." />
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {rows.map((r) => (
+      <a href={brandUrl(r.b)} class="block rounded-xl border border-slate-200 p-4 hover:border-brand-500 hover:shadow-sm no-underline">
+        <div class="flex justify-between items-start gap-3"><h2 class="font-bold text-ink text-lg">{r.b}</h2><span class="text-xs font-bold rounded bg-slate-100 px-2 py-1">avg {r.avg}</span></div>
+        <p class="mt-1 text-sm text-slate-500">{r.count} product{r.count > 1 ? 's' : ''} · {r.cats}</p>
+        {r.review && <p class="mt-2 text-xs font-semibold text-brand-600">Full brand review →</p>}
+      </a>
+    ))}
+  </div>
+</Base>

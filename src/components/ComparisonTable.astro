@@ -1,0 +1,34 @@
+---
+import type { Product } from '../lib/types';
+import { productUrl } from '../lib/data';
+import { amazonUrl, AFFILIATE_REL } from '../lib/amazon';
+interface Props { products: Product[]; specs: string[]; awards?: string[] }
+const { products, specs, awards } = Astro.props;
+---
+<div class="not-prose relative my-6 overflow-x-auto rounded-xl border border-slate-200">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50 text-left">
+      <tr>
+        <th class="px-3 py-2.5 font-semibold text-slate-700 min-w-[150px]">Product</th>
+        <th class="px-3 py-2.5 font-semibold text-slate-700">Score</th>
+        <th class="px-3 py-2.5 font-semibold text-slate-700">Price</th>
+        {specs.map((s) => <th class="px-3 py-2.5 font-semibold text-slate-700 whitespace-nowrap">{s}</th>)}
+        <th class="px-3 py-2.5"><span class="sr-only">Buy</span></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+      {products.map((p, i) => (
+        <tr class="hover:bg-slate-50/60">
+          <td class="px-3 py-2.5 min-w-[150px]">
+            <a href={productUrl(p)} class="font-semibold text-ink hover:text-brand-600 no-underline">{p.name}</a>
+            {awards?.[i] && <span class="block text-[11px] text-gold-dark font-semibold">{awards[i]}</span>}
+          </td>
+          <td class="px-3 py-2.5 font-bold">{p.score}</td>
+          <td class="px-3 py-2.5 whitespace-nowrap">{p.priceBand}</td>
+          {specs.map((s) => <td class="px-3 py-2.5 text-slate-700">{p.specs[s] ?? '—'}</td>)}
+          <td class="px-3 py-2.5"><a href={amazonUrl(p)} rel={AFFILIATE_REL} target="_blank" class="text-xs font-bold text-brand-600 whitespace-nowrap">Amazon →</a></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { glossary } from '../../data/glossary';
+import { breadcrumbs, graph } from '../../lib/schema';
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Glossary', url: '/glossary/' }];
+const terms = [...glossary].sort((a, b) => a.term.localeCompare(b.term));
+const schema = graph(breadcrumbs(crumbs), { '@type': 'DefinedTermSet', name: 'Backup Power Glossary', hasDefinedTerm: terms.map((t) => ({ '@type': 'DefinedTerm', name: t.term, description: t.short, url: `https://www.allmetalbrake.com/glossary/${t.slug}/` })) });
+---
+<Base title="Backup Power Glossary: Running Watts, LiFePO4, Interlocks Explained" description="Backup power terms in plain English: running vs starting watts, THD, inverter, LiFePO4, watt-hours, pass-through, transfer switch, interlock, NEMA plugs and more." schema={schema}>
+  <PageHeader h1="Backup Power Glossary" crumbs={crumbs} eyebrow="Database" intro="The spec-sheet terms that actually change what you should buy, explained with worked examples." />
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <dl class="divide-y divide-slate-200 border-y border-slate-200">
+      {terms.map((t) => (<div class="py-4"><dt><a href={`/glossary/${t.slug}/`} class="font-bold text-ink hover:text-brand-600 text-lg no-underline">{t.term}</a></dt><dd class="mt-1 text-slate-600">{t.short}</dd></div>))}
+    </dl>
+  </div>
+</Base>

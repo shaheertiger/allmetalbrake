@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import RelatedCards from '../components/RelatedCards.astro';
+import { articles } from '../lib/data';
+import { breadcrumbs, graph, itemList } from '../lib/schema';
+const items = articles.filter((a) => a.kind === 'review');
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Brand Reviews', url: '/reviews/' }];
+---
+<Base title="Backup Power Brand Reviews: EcoFlow, Jackery, Anker SOLIX" description="Candid power station brand reviews: which EcoFlow, Jackery and Anker SOLIX models are worth buying for outages and camping, and which to skip for your loads." schema={graph(breadcrumbs(crumbs), itemList(items.map((a) => ({ name: a.h1, url: `/${a.slug}/` }))))}>
+  <PageHeader h1="Backup Power Brand Reviews" crumbs={crumbs} eyebrow="Brand Reviews" intro="What each brand does well, where it falls short, and the specific models worth your money." />
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"><RelatedCards articles={items} /><p class="mt-8 text-sm text-slate-600">Looking for a brand we haven't reviewed yet? Every brand we track is on the <a href="/brands/" class="underline text-brand-600">brands page</a>.</p></div>
+</Base>

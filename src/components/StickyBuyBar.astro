@@ -1,0 +1,121 @@
+---
+/**
+ * Floating Amazon CTA. Full-width bottom bar on phones, floating card on desktop.
+ * - mode "track": one item per pick; the bar follows whichever pick (#pick-N) is on screen.
+ * - mode "single": one product (product pages).
+ * - mode "pair": two products side by side (compare pages).
+ * Appears once `trigger` has scrolled out of view, hides over the footer, dismissible per session.
+ */
+import { AFFILIATE_REL } from '../lib/amazon';
+
+interface Item { slug: string; name: string; label?: string; url: string; image: string | null; target?: string }
+interface Props { items: Item[]; trigger: string; mode?: 'track' | 'single' | 'pair' }
+const { items, trigger, mode = 'single' } = Astro.props;
+---
+{items.length > 0 && (
+  <div
+    id="buybar"
+    data-trigger={trigger}
+    data-mode={mode}
+    role="complementary"
+    aria-label="Check price on Amazon"
+    class="buybar fixed inset-x-0 bottom-0 z-40 lg:inset-x-auto lg:right-6 lg:bottom-6 lg:w-[400px]"
+  >
+    <div class="relative bg-white/95 backdrop-blur border-t border-slate-200 shadow-[0_-6px_24px_rgba(15,23,42,0.12)] lg:border lg:rounded-2xl lg:shadow-2xl px-3 pt-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] lg:p-3">
+      <button type="button" data-close class="absolute -top-3 right-3 lg:-top-2.5 lg:-right-2.5 w-7 h-7 rounded-full bg-white border border-slate-200 shadow text-slate-500 hover:text-ink text-base leading-none flex items-center justify-center" aria-label="Hide this bar">×</button>
+      {mode === 'pair' ? (
+        <div class="grid grid-cols-2 gap-2">
+          {items.map((it) => (
+            <a href={it.url} rel={AFFILIATE_REL} target="_blank" data-product={it.slug} class="flex flex-col gap-1.5 rounded-xl border border-slate-200 p-2 no-underline hover:border-amber-400">
+              <span class="text-xs font-semibold text-ink leading-tight line-clamp-2 min-h-[2rem]">{it.name}</span>
+              <span class="btn-amazon !py-1.5 !px-2 !text-[13px] w-full">Check Price</span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        items.map((it, i) => (
+          <div data-item={i} data-target={it.target} class={`flex items-center gap-3 ${i > 0 ? 'hidden' : ''}`}>
+            {it.image ? (
+              <img src={it.image} alt="" width="48" height="48" loading="lazy" decoding="async" class="w-12 h-12 shrink-0 rounded-lg object-contain bg-white border border-slate-100" />
+            ) : (
+              <span class="w-12 h-12 shrink-0 rounded-lg bg-slate-100" aria-hidden="true"></span>
+            )}
+            <div class="min-w-0 flex-1">
+              {it.label && <p class="text-[10.5px] font-bold uppercase tracking-wide text-gold-dark truncate">{it.label}</p>}
+              <p class="text-sm font-semibold text-ink leading-snug truncate">{it.name}</p>
+            </div>
+            <a href={it.url} rel={AFFILIATE_REL} target="_blank" data-product={it.slug} class="btn-amazon !py-2.5 !px-3.5 !text-sm shrink-0">
+              Check Price
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" /></svg>
+            </a>
+          </div>
+        ))
+      )}
+    </div>
+  </div>
+)}
+
+<style>
+  .buybar { transform: translateY(calc(100% + 2rem)); opacity: 0; pointer-events: none; transition: transform 0.28s ease, opacity 0.2s ease; }
+  .buybar.is-visible { transform: none; opacity: 1; pointer-events: auto; }
+  @media (prefers-reduced-motion: reduce) { .buybar { transition: none; } }
+</style>
+
+<script>
+  const bar = document.getElementById('buybar');
+  if (bar) {
+    const KEY = 'amb-buybar-hidden';
+    let dismissed = false;
+    try { dismissed = sessionStorage.getItem(KEY) === '1'; } catch {}
+    const trigger = document.querySelector(bar.dataset.trigger || '');
+    const footer = document.querySelector('footer');
+    const mobile = window.matchMedia('(max-width: 1023px)');
+    let pastTrigger = !trigger;
+    let overFooter = false;
+
+    const apply = () => {
+      const show = !dismissed && pastTrigger && !overFooter;
+      // Keep page content clear of the bar on phones.
+      const pad = show && mobile.matches ? `${bar.offsetHeight}px` : '';
+      if (document.body.style.paddingBottom !== pad) document.body.style.paddingBottom = pad;
+      if (show === bar.classList.contains('is-visible') && bar.hasAttribute('aria-hidden')) return;
+      bar.classList.toggle('is-visible', show);
+      bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+      bar.querySelectorAll('a,button').forEach((el) => el.setAttribute('tabindex', show ? '0' : '-1'));
+    };
+
+    // Position check on scroll (rAF-throttled). Observers miss fast jumps past the trigger.
+    let ticking = false;
+    const check = () => {
+      ticking = false;
+      pastTrigger = !trigger || trigger.getBoundingClientRect().bottom < 0;
+      overFooter = !!footer && footer.getBoundingClientRect().top < window.innerHeight;
+      apply();
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(check); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    // Track mode: show the pick currently on screen.
+    if (bar.dataset.mode === 'track') {
+      const rows = Array.from(bar.querySelectorAll<HTMLElement>('[data-item]'));
+      const byTarget = new Map(rows.map((r) => [r.dataset.target, r]));
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const row = byTarget.get(e.target.id);
+          if (row) rows.forEach((r) => r.classList.toggle('hidden', r !== row));
+        }
+      }, { rootMargin: '-35% 0px -55% 0px' });
+      byTarget.forEach((_, id) => { const el = id && document.getElementById(id); if (el) io.observe(el); });
+    }
+
+    bar.querySelector('[data-close]')?.addEventListener('click', () => {
+      dismissed = true;
+      try { sessionStorage.setItem(KEY, '1'); } catch {}
+      apply();
+    });
+    mobile.addEventListener?.('change', apply);
+    check();
+  }
+</script>

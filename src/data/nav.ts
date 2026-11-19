@@ -1,83 +1,80 @@
-// Site navigation: every article on the site, grouped the way the header,
-// mobile menu, footer, home page and /best-of/ present them.
-//
-// `header: true` groups get a dropdown in the desktop header, which shows the
-// first HEADER_LINKS links and an "all guides" link to the group's section on
-// /best-of/. Every group is listed in full on /best-of/ and in the mobile menu.
-export interface NavLink { title: string; url: string; blurb: string }
-export interface NavGroup { label: string; icon: string; header?: boolean; links: NavLink[] }
+export interface NavLink { title: string; blurb: string; icon: string; url: string }
+export interface NavGroup { label: string; links: NavLink[] }
 
-export const HEADER_LINKS = 6;
-
-export const groupId = (label: string) => label.toLowerCase().replace(/[^a-z]+/g, '-');
-
-const l = (url: string, title: string, blurb: string): NavLink => ({ title, url: `/${url}/`, blurb });
-
-export const NAV_GROUPS: NavGroup[] = [
+export const NAV: NavGroup[] = [
   {
     label: 'Generators',
-    icon: '⚡',
-    header: true,
     links: [
-      l('best-home-generator-for-power-outages', 'Best Home Generators for Outages', 'Standby, portable and inverter picks'),
-      l('best-dual-fuel-generator', 'Best Dual Fuel Generators', 'Gas and propane in one machine'),
-      l('best-inverter-generator', 'Best Inverter Generators', 'Quiet, clean power'),
-      l('best-dual-fuel-inverter-generator', 'Best Dual Fuel Inverter Generators', 'Quiet power on gas or propane'),
-      l('best-small-generator-for-home', 'Best Small Generators for Home', 'Quiet, compact backup power'),
-      l('best-gas-generator', 'Best Gas Generators', 'Gasoline portables compared'),
-      l('best-generator-for-well-pump', 'Best Generators for Well Pumps', '240V picks sized by horsepower'),
-      l('generac-generator-cost', 'Whole House Generator Cost', 'Generac unit, install and upkeep'),
-      l('how-long-does-a-generator-last', 'How Long a Generator Lasts', 'Run hours and years by type'),
-      l('best-time-to-buy-a-generator', 'Best Time to Buy a Generator', 'Black Friday vs storm week'),
-      l('best-generator-transfer-switch', 'Best Generator Transfer Switches', 'Manual, interlock and inlet picks'),
-      l('best-fuel-transfer-pump', 'Best Fuel Transfer Pumps', 'Refuel generators safely'),
-      l('best-whole-house-surge-protector', 'Best Whole-House Surge Protectors', 'Panel-mounted protection'),
+      { title: 'Best Home Generators for Outages', blurb: 'Standby, portable and inverter picks', icon: '⚡', url: '/best-home-generator-for-power-outages/' },
+      { title: 'Best Inverter Generators', blurb: 'Quiet, clean power', icon: '🔇', url: '/best-inverter-generator/' },
+      { title: 'Best Dual Fuel Generators', blurb: 'Gas and propane in one machine', icon: '⛽', url: '/best-dual-fuel-generator/' },
+      { title: 'Best Small Generators for Home', blurb: 'Compact backup for essentials', icon: '🏠', url: '/best-small-generator-for-home/' },
+      { title: 'Best Gas Generators', blurb: 'Gasoline portables compared', icon: '🛢️', url: '/best-gas-generator/' },
+      { title: 'Best Generators for Well Pumps', blurb: '240V picks sized by horsepower', icon: '💧', url: '/best-generator-for-well-pump/' },
+      { title: 'Generator Wattage Calculator', blurb: 'Size it to your loads', icon: '🧮', url: '/tools/generator-wattage-calculator/' },
     ],
   },
   {
-    label: 'Power Stations & Batteries',
-    icon: '🔋',
-    header: true,
+    label: 'Power Stations',
     links: [
-      l('best-portable-power-station', 'Best Portable Power Stations', 'Battery backup without the fumes'),
-      l('best-portable-power-station-for-home-backup', 'Best Power Stations for Home Backup', 'Sized by the loads you keep on'),
-      l('best-home-battery-backup', 'Best Home Battery Backup', 'Whole-house and plug-in systems'),
-      l('best-solar-generator', 'Best Solar Generators', 'Power stations matched to panels'),
-      l('best-portable-solar-panel', 'Best Portable Solar Panels', 'Connectors, Voc limits, real output'),
-      l('best-ecoflow-power-station', 'Best EcoFlow Power Stations', 'Every model by job'),
-      l('best-jackery-power-station', 'Best Jackery Power Stations', 'Explorer v2 and Plus by use'),
-      l('best-anker-solix-power-station', 'Best Anker SOLIX Power Stations', 'Every SOLIX model sorted'),
-      l('ecoflow-vs-jackery', 'EcoFlow vs Jackery', 'Which brand to buy'),
-      l('ecoflow-vs-bluetti', 'EcoFlow vs Bluetti', 'Class-by-class comparison'),
-      l('best-ups-battery-backup', 'Best UPS Battery Backups', 'Computers, routers, home office'),
-      l('best-battery-pack-with-ac-outlet', 'Best Battery Packs With AC Outlet', 'What 300 watts really runs'),
-      l('best-power-inverter', 'Best Power Inverters', '12V picks for cars, trucks, RVs'),
+      { title: 'Best Portable Power Stations', blurb: 'Battery backup without the fumes', icon: '🔋', url: '/best-portable-power-station/' },
+      { title: 'Best Power Stations for Home Backup', blurb: 'Sized by the loads you keep on', icon: '🏠', url: '/best-portable-power-station-for-home-backup/' },
+      { title: 'Best Home Battery Backup', blurb: 'Whole-house and plug-in systems', icon: '🏡', url: '/best-home-battery-backup/' },
+      { title: 'Best Solar Generators', blurb: 'Power stations matched to panels', icon: '☀️', url: '/best-solar-generator/' },
+      { title: 'EcoFlow vs Jackery', blurb: 'Which brand to buy', icon: '⚖️', url: '/ecoflow-vs-jackery/' },
+      { title: 'Power Station Runtime Calculator', blurb: 'How long will it run?', icon: '⏱️', url: '/tools/power-station-runtime-calculator/' },
     ],
   },
   {
-    label: 'Outage Essentials',
-    icon: '🔦',
-    header: true,
+    label: 'Outage Gear',
     links: [
-      l('best-battery-backup-for-cpap', 'Best Battery Backup for CPAP', 'Sized by nights of sleep'),
-      l('best-indoor-heater-for-power-outage', 'Best Indoor Heaters for Outages', 'Safe emergency heat'),
-      l('best-portable-chargers-for-power-outages', 'Best Portable Chargers for Outages', 'Power banks to stations'),
-      l('best-solar-power-bank', 'Best Solar Power Banks', 'What really charges from the sun'),
-      l('best-hand-crank-radio', 'Best Hand Crank Radios', 'NOAA alerts for outages'),
-      l('best-emergency-lantern', 'Best Emergency Lanterns', 'Outage lights that last'),
-      l('best-battery-powered-fan', 'Best Battery Powered Fans', 'Runtime by battery size'),
+      { title: 'Best Generator Transfer Switches', blurb: 'Manual, interlock and inlet picks', icon: '🔌', url: '/best-generator-transfer-switch/' },
+      { title: 'Best Battery Backup for CPAP', blurb: 'Sized by nights of sleep', icon: '😴', url: '/best-battery-backup-for-cpap/' },
+      { title: 'Best Indoor Heaters for Outages', blurb: 'Safe emergency heat', icon: '🔥', url: '/best-indoor-heater-for-power-outage/' },
+      { title: 'Best Portable Chargers for Outages', blurb: 'Power banks to stations', icon: '📱', url: '/best-portable-chargers-for-power-outages/' },
+      { title: 'Best Emergency Lanterns', blurb: 'Outage lights that last', icon: '🔦', url: '/best-emergency-lantern/' },
+      { title: 'Best Hand Crank Radios', blurb: 'NOAA alerts for outages', icon: '📻', url: '/best-hand-crank-radio/' },
     ],
   },
   {
-    label: 'Camping & RV Power',
-    icon: '🏕️',
-    header: true,
+    label: 'Guides',
     links: [
-      l('best-portable-power-station-for-camping', 'Best Power Stations for Camping', 'Sized by trip'),
-      l('best-generator-for-camping', 'Best Generators for Camping', 'Quiet inverters that pack small'),
-      l('best-rv-generator', 'Best RV Generators', 'Sized for the rooftop AC'),
+      { title: 'Whole House Generator Cost', blurb: 'Generac unit, install and upkeep', icon: '💲', url: '/generac-generator-cost/' },
+      { title: 'How Long Does a Generator Last?', blurb: 'Run hours and years by type', icon: '⏳', url: '/how-long-does-a-generator-last/' },
+      { title: 'Best Time to Buy a Generator', blurb: 'Black Friday vs storm week', icon: '📅', url: '/best-time-to-buy-a-generator/' },
+      { title: 'EcoFlow vs Bluetti', blurb: 'Class-by-class comparison', icon: '⚖️', url: '/ecoflow-vs-bluetti/' },
+      { title: 'All Guides', blurb: 'Costs, lifespans, comparisons', icon: '🧭', url: '/guides/' },
+    ],
+  },
+  {
+    label: 'Database',
+    links: [
+      { title: 'All Backup Power Gear', blurb: 'Every product, one table', icon: '📋', url: '/gear/' },
+      { title: 'Brands', blurb: 'Every brand, every product', icon: '🏷️', url: '/brands/' },
+      { title: 'Compare Two Products', blurb: 'Spec sheets side by side', icon: '⚖️', url: '/compare/' },
+      { title: 'Glossary', blurb: 'Running watts, LiFePO4, interlock…', icon: '📖', url: '/glossary/' },
+      { title: 'How We Score', blurb: 'The AMB Score method', icon: '🧮', url: '/how-we-test/' },
     ],
   },
 ];
 
-export const HEADER_GROUPS = NAV_GROUPS.filter((g) => g.header);
+export const FOOTER_CATEGORIES = [
+  { title: 'Home Generators', url: '/best-home-generator-for-power-outages/' },
+  { title: 'Inverter Generators', url: '/best-inverter-generator/' },
+  { title: 'Portable Power Stations', url: '/best-portable-power-station/' },
+  { title: 'Home Battery Backup', url: '/best-home-battery-backup/' },
+  { title: 'Transfer Switches', url: '/best-generator-transfer-switch/' },
+  { title: 'Solar Generators', url: '/best-solar-generator/' },
+  { title: 'All Best Lists', url: '/best-of/' },
+];
+
+export const FOOTER_COMPANY = [
+  { title: 'About Us', url: '/about/' },
+  { title: 'How We Score', url: '/how-we-test/' },
+  { title: 'Editorial Policy', url: '/editorial-policy/' },
+  { title: 'Affiliate Disclosure', url: '/affiliate-disclosure/' },
+  { title: 'Privacy Policy', url: '/privacy-policy/' },
+  { title: 'Terms', url: '/terms/' },
+  { title: 'Contact', url: '/contact/' },
+  { title: 'Sitemap', url: '/sitemap/' },
+];

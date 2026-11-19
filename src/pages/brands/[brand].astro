@@ -1,0 +1,53 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ProductImage from '../../components/ProductImage.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Score from '../../components/Score.astro';
+import { brands, productsByBrand, brandSlug, productUrl, articles, articleUrl } from '../../lib/data';
+import { CATEGORY_LABELS } from '../../data/site';
+import { breadcrumbs, graph, itemList } from '../../lib/schema';
+export function getStaticPaths() { return brands.map((b) => ({ params: { brand: brandSlug(b) }, props: { brand: b } })); }
+const { brand } = Astro.props as { brand: string };
+const ps = productsByBrand(brand);
+const best = ps[0];
+const review = articles.find((a) => a.brand === brand);
+const featuredIn = articles.filter((a) => a.picks?.some((pk) => ps.some((p) => p.slug === pk.product)) && a.slug !== review?.slug);
+const byCat = [...new Set(ps.map((p) => p.category))].map((c) => ({ c, items: ps.filter((p) => p.category === c) }));
+const url = `/brands/${brandSlug(brand)}/`;
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Brands', url: '/brands/' }, { name: brand, url }];
+const avg = Math.round(ps.reduce((s, p) => s + p.score, 0) / ps.length);
+---
+<Base title={`${brand} Backup Power Products: ${ps.length} Models Rated`} description={`Every ${brand} backup power product we track, rated: ${ps.slice(0, 3).map((p) => p.name).join(', ')} and more. Best ${brand} pick: ${best.name} (${best.score}/100).`.slice(0, 158)} schema={graph(breadcrumbs(crumbs), itemList(ps.map((p) => ({ name: p.name, url: productUrl(p), product: p })), `${brand} products`))}>
+  <PageHeader h1={`${brand} Backup Power Products`} crumbs={crumbs} eyebrow="Brand" intro={`We track ${ps.length} ${brand} product${ps.length > 1 ? 's' : ''} with an average AMB Score of ${avg}/100. Our highest-rated ${brand} model is the <a href="${productUrl(best)}" class="underline">${best.name}</a>.`} />
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    {review && (
+      <a href={articleUrl(review)} class="mt-6 flex items-center justify-between gap-4 rounded-xl bg-brand-50 border border-brand-100 p-4 no-underline">
+        <span><span class="block text-xs font-bold uppercase tracking-wider text-brand-700">Full brand review</span><span class="font-bold text-ink">{review.h1}</span></span><span class="text-brand-600 font-bold">→</span>
+      </a>
+    )}
+    {byCat.map((g) => (
+      <section class="mt-10">
+        <h2 class="text-xl font-extrabold text-ink">{brand} {CATEGORY_LABELS[g.c]}</h2>
+        <ul class="mt-4 space-y-3">
+          {g.items.map((p) => (
+            <li class="flex flex-col sm:flex-row sm:items-center gap-4 rounded-xl border border-slate-200 p-4">
+              <ProductImage product={p} size={160} class="w-20 h-20 shrink-0 rounded-lg" />
+              <div class="flex-1 min-w-0">
+                <a href={productUrl(p)} class="font-bold text-ink hover:text-brand-600 no-underline">{p.name}</a>
+                <p class="mt-1 text-sm text-slate-600">{p.summary}</p>
+                <p class="mt-1 text-xs text-slate-500 flex items-center gap-2"><Score score={p.score} /> {p.priceBand} · Best for {p.bestFor.charAt(0).toLowerCase() + p.bestFor.slice(1)}</p>
+              </div>
+              <AmazonButton product={p} label="Check Price" class="!text-sm shrink-0" />
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    {featuredIn.length > 0 && (
+      <section class="mt-12"><h2 class="text-xl font-extrabold text-ink">{brand} in Our Best Lists</h2>
+        <ul class="mt-3 list-disc pl-5 space-y-1.5 text-[15px]">{featuredIn.map((a) => <li><a href={articleUrl(a)} class="text-brand-600 underline">{a.h1}</a></li>)}</ul>
+      </section>
+    )}
+  </div>
+</Base>

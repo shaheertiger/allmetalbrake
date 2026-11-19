@@ -1,0 +1,13 @@
+---
+import Base from './Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { breadcrumbs, graph } from '../lib/schema';
+import { SITE } from '../data/site';
+interface Props { title: string; description: string; h1: string; intro?: string; path: string; noindex?: boolean; pageType?: string }
+const { title, description, h1, intro, path, noindex, pageType = 'WebPage' } = Astro.props;
+const crumbs = [{ name: 'Home', url: '/' }, { name: h1, url: path }];
+---
+<Base title={title} description={description} noindex={noindex} schema={graph(breadcrumbs(crumbs), { '@type': pageType, name: h1, url: `${SITE.url}${path}`, description })}>
+  <PageHeader h1={h1} crumbs={crumbs} intro={intro} />
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8"><div class="prose mt-6"><slot /></div></div>
+</Base>

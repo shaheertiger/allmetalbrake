@@ -8,23 +8,31 @@ concrete, garage floors, basements, water, yard, tools, mattresses and more) was
 301-redirected in `vercel.json`, to the closest backup-power guide where one exists and to
 the home page otherwise.
 
-Search strategy lives in [`docs/bing-playbook.md`](docs/bing-playbook.md): the site is
-judged by Bing Webmaster Tools data, and the build enforces its title and description rules.
+The site uses the same structure as [besthometheatre](https://github.com/shaheertiger/besthometheatre):
+best lists, brand reviews and guides rendered from JSON, plus a product database (`/gear/`),
+head-to-head comparisons (`/compare/`), brand pages, a glossary and calculators. Writing rules
+are in [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md); search strategy in
+[`docs/bing-playbook.md`](docs/bing-playbook.md).
 
 ## Commands
 
-| Command                  | Action                                                        |
-| ------------------------ | ------------------------------------------------------------- |
-| `npm install`            | Install dependencies                                          |
-| `npm run dev`            | Dev server                                                    |
-| `npm run build`          | Content gates + `astro build` + Markdown copies to `dist/`    |
-| `npm run validate:all`   | Word count (2,500 min), Bing title/description gate, internal links, format, new-page gate |
-| `npm run indexnow`       | Submit sitemap URLs to IndexNow                               |
+| Command | Action |
+| --- | --- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Dev server |
+| `npm run qa` | Content gates: format, 2,500 words, 5 mistakes, 7 FAQs, links, duplicate keywords |
+| `npm run build` | `qa` + `astro build` + post-build audit (broken links, JSON-LD, titles, H1s) |
+| `npm run topics` | The two thinnest clusters and the intents they are missing (daily run) |
+| `npm run images:fetch` | Amazon Creators API product photos and ASINs (strict matching) |
+| `npm run indexnow` | Submit sitemap URLs to IndexNow |
 
 ## Where things live
 
-- `src/pages/` — one `.astro` file per page
-- `src/layouts/Layout.astro` — header, footer, ads, sticky CTA
-- `src/data/nav.ts` — header, mobile menu, footer, home and best-of categories
-- `src/data/site.ts` — site name, URL and contact email
-- `scripts/` — build gates, interlink and top-pick generators, IndexNow
+- `src/content/articles/*.json` — every article (`kind`: roundup, review, guide)
+- `src/content/products/<category>.json` — the product database
+- `src/data/site.ts` — site name, Amazon tag, AdSense ID, category labels
+- `src/data/nav.ts` — header, mobile menu and footer
+- `src/data/compares.ts`, `src/data/glossary.ts` — comparison pairs and glossary terms
+- `src/pages/` — one template per page type
+- `scripts/` — content QA, build audit, topic picker, Amazon image fetch, IndexNow
+- `.claude/skills/daily-publish/` — the ten-articles-a-day run

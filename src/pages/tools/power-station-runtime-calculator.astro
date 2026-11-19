@@ -1,0 +1,72 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import FAQ from '../../components/FAQ.astro';
+import { breadcrumbs, faqPage, graph } from '../../lib/schema';
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Tools', url: '/guides/' }, { name: 'Power Station Runtime Calculator', url: '/tools/power-station-runtime-calculator/' }];
+const faqs = [
+  { q: 'How long will a 1,000Wh power station run a refrigerator?', a: 'A full-size fridge typically uses about 1 to 2 kWh per day, or roughly 40 to 80 watts on average as the compressor cycles. With about 85% of 1,000Wh usable through the inverter, that is roughly 10 to 20 hours. Check your fridge\'s yellow EnergyGuide label for its yearly kWh and divide by 365.' },
+  { q: 'Why is the runtime lower than capacity divided by watts?', a: 'Turning battery DC into household AC costs energy in the inverter, typically 10 to 15%, and the station also draws a little power itself. The calculator uses 85% by default; you can change it.' },
+  { q: 'How long will a power station run a CPAP?', a: 'A CPAP without the heated humidifier often draws 30 to 60 watts; with the humidifier and heated tube it can be 90 watts or more. Running it from the station\'s DC output with the maker\'s DC cable avoids inverter losses and can add hours.' },
+  { q: 'Does solar charging extend the runtime?', a: 'Yes. Add the panel\'s realistic output (often 50 to 80% of its rating in good sun) multiplied by sun hours to the energy available each day.' },
+];
+const schema = graph(breadcrumbs(crumbs), { '@type': 'SoftwareApplication', name: 'Power Station Runtime Calculator', applicationCategory: 'UtilitiesApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }, faqPage(faqs));
+---
+<Base title="Power Station Runtime Calculator: How Long Will It Run?" description="Estimate how long a portable power station or home battery runs your loads: enter capacity in Wh and the watts you plan to draw, with inverter losses included." schema={schema}>
+  <PageHeader h1="Power Station Runtime Calculator" crumbs={crumbs} eyebrow="Tools" intro="Enter the battery capacity and what you plan to run. The calculator allows for inverter losses and shows hours of runtime, plus how much solar you'd need to keep up." />
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <form class="grid sm:grid-cols-2 gap-4 rounded-2xl border border-slate-200 p-5 shadow-sm" onsubmit="return false">
+      <label class="block text-sm font-medium">Battery capacity (Wh)<input id="cap" type="number" min="100" step="10" value="1024" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+      <label class="block text-sm font-medium">Usable after inverter losses (%)<input id="eff" type="number" min="50" max="100" value="85" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+      <label class="block text-sm font-medium">Average load (watts)<input id="load" type="number" min="1" step="5" value="150" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+      <label class="block text-sm font-medium">Solar panel rating (W, optional)<input id="solar" type="number" min="0" step="10" value="0" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2" /></label>
+    </form>
+    <div class="mt-5 rounded-2xl bg-slate-50 border border-slate-200 p-5" aria-live="polite">
+      <p class="text-lg font-bold text-ink">Estimated runtime: <span id="hrs"></span></p>
+      <p id="solarOut" class="mt-2 text-sm text-slate-700"></p>
+    </div>
+    <div class="prose mt-8">
+      <h2>Typical Average Loads</h2>
+      <table>
+        <thead><tr><th>Load</th><th>Typical average draw</th></tr></thead>
+        <tbody>
+          <tr><td>Full-size refrigerator (compressor cycling)</td><td>40–80 W (1–2 kWh/day)</td></tr>
+          <tr><td>Chest freezer</td><td>20–40 W</td></tr>
+          <tr><td>CPAP without humidifier / with humidifier</td><td>30–60 W / 90 W+</td></tr>
+          <tr><td>Internet modem + router</td><td>15–30 W</td></tr>
+          <tr><td>Laptop charging</td><td>40–90 W</td></tr>
+          <tr><td>LED bulb</td><td>8–10 W each</td></tr>
+          <tr><td>Box fan (medium)</td><td>40–75 W</td></tr>
+        </tbody>
+      </table>
+      <p>Figures are typical ranges; your device's label or a plug-in watt meter is more accurate. Cycling appliances such as fridges are best estimated from their daily kWh (EnergyGuide label ÷ 365).</p>
+      <h2>The Formula</h2>
+      <p>Runtime (hours) = capacity (Wh) × usable % ÷ average load (W). Solar adds roughly panel watts × 0.65 (a typical real-world factor) × 5 peak sun hours per day.</p>
+      <h2>Related Guides</h2>
+      <ul>
+        <li><a href="/best-portable-power-station/">Best portable power stations</a> and <a href="/best-portable-power-station-for-home-backup/">power stations for home backup</a></li>
+        <li><a href="/best-solar-generator/">Best solar generators</a> and <a href="/best-portable-solar-panel/">portable solar panels</a></li>
+        <li><a href="/best-battery-backup-for-cpap/">Battery backup for CPAP</a></li>
+        <li>Glossary: <a href="/glossary/watt-hours/">watt-hours</a>, <a href="/glossary/lifepo4/">LiFePO4</a></li>
+      </ul>
+      <h2>FAQ</h2>
+    </div>
+    <FAQ faqs={faqs} />
+  </div>
+  <script is:inline>
+    (function () {
+      const $ = (id) => document.getElementById(id);
+      function render() {
+        const cap = +$('cap').value || 0, eff = (+$('eff').value || 85) / 100, load = +$('load').value || 1, solar = +$('solar').value || 0;
+        const h = (cap * eff) / load;
+        $('hrs').textContent = h >= 48 ? `${(h / 24).toFixed(1)} days (${Math.round(h)} hours)` : `${h.toFixed(1)} hours`;
+        if (solar > 0) {
+          const day = solar * 0.65 * 5, use = load * 24;
+          $('solarOut').textContent = `${solar} W of panels adds about ${Math.round(day).toLocaleString()} Wh on a sunny day, against ${Math.round(use).toLocaleString()} Wh of daily use: ${day >= use ? 'enough to keep up indefinitely in good sun.' : `you'd still draw down about ${Math.round(use - day).toLocaleString()} Wh a day.`}`;
+        } else $('solarOut').textContent = 'Add a solar panel rating to see whether it can keep up.';
+      }
+      ['cap', 'eff', 'load', 'solar'].forEach((id) => $(id).addEventListener('input', render));
+      render();
+    })();
+  </script>
+</Base>

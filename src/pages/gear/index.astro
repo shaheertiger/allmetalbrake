@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { products, productUrl, brandUrl } from '../../lib/data';
+import { CATEGORY_LABELS } from '../../data/site';
+import { breadcrumbs, graph } from '../../lib/schema';
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'All Gear', url: '/gear/' }];
+const cats = Object.keys(CATEGORY_LABELS).filter((c) => products.some((p) => p.category === c));
+---
+<Base title={`All ${products.length} Backup Power Products Ranked by AMB Score`} description={`Every backup power product we track, ${products.length} in all: generators, power stations, home batteries, transfer switches and outage gear, sortable by score and category.`} schema={graph(breadcrumbs(crumbs))}>
+  <PageHeader h1="All Backup Power Gear, Ranked" crumbs={crumbs} eyebrow="Database" intro={`${products.length} products, one table. Filter by category, sort by score, and open any product for the full spec sheet.`} />
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+      <button data-cat="" class="cat-btn text-sm rounded-full border px-3 py-1 bg-ink text-white border-ink">All</button>
+      {cats.map((c) => <button data-cat={c} id={c} class="cat-btn text-sm rounded-full border border-slate-300 px-3 py-1 hover:border-brand-500">{CATEGORY_LABELS[c]}</button>)}
+    </div>
+    <div class="mt-5 overflow-x-auto rounded-xl border border-slate-200">
+      <table class="w-full text-sm" id="gear">
+        <thead class="bg-slate-50 text-left"><tr>
+          <th class="px-3 py-2.5"><button data-sort="name" class="font-semibold">Product ↕</button></th>
+          <th class="px-3 py-2.5">Category</th>
+          <th class="px-3 py-2.5">Brand</th>
+          <th class="px-3 py-2.5"><button data-sort="score" class="font-semibold">Score ↕</button></th>
+          <th class="px-3 py-2.5"><button data-sort="tier" class="font-semibold">Price ↕</button></th>
+        </tr></thead>
+        <tbody class="divide-y divide-slate-100">
+          {products.map((p) => (
+            <tr data-cat={p.category} data-name={p.name} data-score={p.score} data-tier={p.priceTier}>
+              <td class="px-3 py-2.5"><a href={productUrl(p)} class="font-semibold text-ink hover:text-brand-600 no-underline">{p.name}</a></td>
+              <td class="px-3 py-2.5 text-slate-600">{CATEGORY_LABELS[p.category]}</td>
+              <td class="px-3 py-2.5"><a href={brandUrl(p.brand)} class="text-slate-600 hover:text-brand-600 no-underline">{p.brand}</a></td>
+              <td class="px-3 py-2.5 font-bold">{p.score}</td>
+              <td class="px-3 py-2.5 whitespace-nowrap text-slate-600">{p.priceBand}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      const tbody = document.querySelector('#gear tbody');
+      const rows = [...tbody.rows];
+      const btns = document.querySelectorAll('.cat-btn');
+      function filter(cat) {
+        rows.forEach((r) => (r.style.display = !cat || r.dataset.cat === cat ? '' : 'none'));
+        btns.forEach((b) => { const on = b.dataset.cat === cat; b.classList.toggle('bg-ink', on); b.classList.toggle('text-white', on); b.classList.toggle('border-ink', on); });
+      }
+      btns.forEach((b) => b.addEventListener('click', () => { filter(b.dataset.cat); history.replaceState(null, '', b.dataset.cat ? '#' + b.dataset.cat : location.pathname); }));
+      let dir = -1;
+      document.querySelectorAll('[data-sort]').forEach((b) => b.addEventListener('click', () => {
+        const k = b.dataset.sort; dir = -dir;
+        rows.sort((a, c) => (k === 'name' ? a.dataset.name.localeCompare(c.dataset.name) : a.dataset[k] - c.dataset[k]) * dir).forEach((r) => tbody.appendChild(r));
+      }));
+      if (location.hash) filter(location.hash.slice(1));
+    })();
+  </script>
+</Base>

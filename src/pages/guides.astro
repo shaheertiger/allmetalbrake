@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import RelatedCards from '../components/RelatedCards.astro';
+import { articles } from '../lib/data';
+import { glossary } from '../data/glossary';
+import { breadcrumbs, graph, itemList } from '../lib/schema';
+const items = articles.filter((a) => a.kind === 'guide');
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guides/' }];
+---
+<Base title="Backup Power Guides: Costs, Lifespans and Comparisons" description="Plain-English backup power guides: whole house generator cost, how long generators last, the best time to buy, and EcoFlow vs Jackery vs Bluetti, with numbers." schema={graph(breadcrumbs(crumbs), itemList(items.map((a) => ({ name: a.h1, url: `/${a.slug}/` }))))}>
+  <PageHeader h1="Backup Power Guides" crumbs={crumbs} eyebrow="Guides" intro="What it costs, how long it lasts, when to buy and which brand fits. Start here before you price a generator or power station." />
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <RelatedCards articles={items} />
+    <section class="mt-12"><h2 class="text-xl font-extrabold text-ink">Tools</h2>
+      <div class="mt-4 grid sm:grid-cols-2 gap-4">
+        <a href="/tools/generator-wattage-calculator/" class="block rounded-xl border border-slate-200 p-4 hover:border-brand-500 no-underline"><p class="font-bold text-ink">🧮 Generator Wattage Calculator</p><p class="text-sm text-slate-500 mt-1">Running and starting watts for your outage loads.</p></a>
+        <a href="/tools/power-station-runtime-calculator/" class="block rounded-xl border border-slate-200 p-4 hover:border-brand-500 no-underline"><p class="font-bold text-ink">⏱️ Power Station Runtime Calculator</p><p class="text-sm text-slate-500 mt-1">How long a battery runs your fridge, CPAP or router.</p></a>
+      </div>
+    </section>
+    <section class="mt-12"><h2 class="text-xl font-extrabold text-ink">Glossary</h2>
+      <p class="mt-2 flex flex-wrap gap-2">{glossary.map((g) => <a href={`/glossary/${g.slug}/`} class="text-sm rounded-full border border-slate-200 px-3 py-1 hover:border-brand-500 no-underline text-slate-700">{g.term}</a>)}</p>
+    </section>
+  </div>
+</Base>

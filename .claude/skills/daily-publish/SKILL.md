@@ -1,283 +1,107 @@
 ---
 name: daily-publish
-description: The daily article run. Publishes ten backup-power articles (five into each of the two thinnest clusters), wires them into the pillar and the index, runs every gate, and pushes to main. Use when the daily publishing Routine fires, or when asked to run the daily batch manually.
+description: The daily article run. Publishes ten backup-power articles as JSON (five into each of the two thinnest clusters), links them in, runs every gate, and pushes to main. Use when the daily publishing Routine fires, or when asked to run the daily batch manually.
 ---
 
 # Daily publish run
 
-Every page follows `docs/bing-playbook.md` (this site's own Bing data) and
-`docs/ranking-method.md` (page types, snippet formulas, skeleton, checklist). Where
-they differ, the Bing playbook wins: it is measured on this site.
+The site runs on the besthometheatre template: every article is a JSON file in
+`src/content/articles/`, rendered by `src/pages/[slug].astro`. Read
+`docs/CONTENT_GUIDE.md` (field-by-field format) and `docs/bing-playbook.md` (why) first.
+Backup power only: generators, power stations, home batteries, solar for backup,
+transfer switches, surge protection and outage essentials.
 
-Ten articles a day (owner, Nov 19, 2026): **five into the thinnest cluster and five
-into the second thinnest.** Finishing clusters beats scattering pages, and the topic
-picker enforces it so no one has to keep a list. Backup power only.
+Ten articles a day (owner, Nov 19, 2026): **five into the thinnest cluster and five into
+the second thinnest.**
 
 ## 0. The proven format (Bing data from this site and four sister sites)
 
-Pick page types in proportion to what clicks. Across ~5,600 queries on five sites:
-question pages ("is/does/can/should…") clicked at 16-40%, "how long does X last"
-22-36%, how-to 19-21%, "X vs Y" 8-31%, "best … 2026" 11-17%, cost pages at the top
-11.7%. Bare "best X" head terms at #5-9 clicked at 1-4%. So each day's ten should be
-mostly **A (question / cost / lifespan / timing), E (how-to / problem-fix) and F (X vs Y)**,
-with at most one or two new D roundups when a real "best X for Y" gap exists.
+Question pages ("is/does/can/should…") clicked at 16-40%, "how long does X last" 22-36%,
+how-to 19-21%, "X vs Y" 8-31%, "best … 2026" 11-17%, cost pages at the top 11.7%. Bare
+"best X" head terms at #5-9 clicked at 1-4%. So the ten are mostly **guides**
+(`kind: "guide"`): question, lifespan, cost, how-to, X vs Y, sizing, timing, problem/fix.
+Add a roundup only for a real "best X for Y" gap, with real products.
 
-Every page, whatever the type (the scaffolder and gates enforce most of it):
-- **Title = the exact query first**, 50-62 chars, then the answer in brief. Year only on
-  buying guides, reviews, brand and cost pages ("(2026)" or "in 2026").
-- **H1 = the exact query.** The hero lede and the first sentence of section 1 give the
-  answer **with a number**. Section 1 is headed `<Query>: The Short Answer` (or
-  `<Query>? The Short Answer`) and holds the answer table.
-- **Meta description 140-158 chars**, answer + number first, then who it is for.
-- **Numbered question H2s** (the follow-up queries people type), H3s inside, at least
-  one table, 5 mistakes, 7 FAQs in the exact words people search (FAQPage schema),
-  related cards, bottom line, 2,500+ words.
-- **Google as well as Bing:** visible author byline and date (from git), honest method
-  line, no testing claims that did not happen, sources named for every figure, one
-  page per search intent, 3+ in-body links in and out. These are the same things
-  Google's helpful-content and E-E-A-T guidance rewards, so no separate format.
+Every article (the `qa` gate enforces most of it):
+- `keyword` = the exact query. It leads the `title` (50-62 chars, then the answer in brief;
+  year only on roundups, reviews and cost pages), is the `h1`, opens `intro`, and the first
+  section is headed `<Query>: The Short Answer` / `<Query>? The Short Answer` with a table.
+- `metaDescription` 140-158 chars, answer with a number first.
+- 7-10 `sections` headed by the follow-up questions people type, `###` subheads inside,
+  no numbers in headings (the template numbers them).
+- Exactly 5 `mistakes`, 7 `faqs` in searchers' words, `related` (3 slugs), `bottomLine`.
+- 2,500+ words of prose. Aim for 2,800-3,200 so the first draft clears the gate.
+- **Google as well as Bing:** honest method (never "we tested"), sources named for every
+  figure, no invented specs, prices, tests or studies, one page per intent, 3+ in-body links
+  in and out. That is what Google's helpful-content / E-E-A-T guidance rewards too.
 
 ## 1. Get the brief
 
 ```bash
-npm run topics -- --json            # cluster 1 (thinnest)
-npm run topics -- --json --skip 1   # cluster 2 (second thinnest)
+npm run topics -- --json            # cluster 1
+npm run topics -- --json --skip 1   # cluster 2
 ```
 
-Each returns the target pillar, the intents it is still missing, its existing spokes,
-and the pages to link out to. Work those two pillars and nothing else today. If one is
-a bad fit, move on with `--skip 2` (and so on) and say so in the run report.
+Each returns the cluster, its pillar, existing articles, its products and five intents
+it is still missing. If one is a bad fit, use `--skip 2` (and so on) and say so in the report.
 
-If the brief names a pillar that is a genuinely bad fit (a discontinued product, a
-topic with no search demand), skip it with `npm run topics -- --json --skip 1` and
-say so in the run report.
-
-### If a Bing Webmaster Tools export is present
-
-This is a Bing site (98.5% of search visitors). `content/bing/` may hold keyword
-and page exports. Read them first; they outrank everything else:
-
-- High impressions, low CTR for the position: fix the title and meta description
-  before writing anything new. It is the cheapest traffic on the site.
-- Pages at position 2-5 on a "best" query: improve them to reach #1 (CTR jumps to
-  19-77% at #1) before adding pages.
-- Keywords outside backup power (generators, power stations, home batteries, outage gear) are not topics, however
-  large the impressions.
-
-### If a Search Console export is present
-
-`content/search-console/` may hold recent exports. When it does, run
-`npm run gsc` before writing and read the report, because it changes what the day
-is worth spending on:
-
-- Anything in **IMPROVE FIRST** (position 5-20, real impressions) beats writing a
-  new article. If today's pillar or one of its spokes appears there, improving that
-  page is the better use of one of the five slots — do it, and say so in the report.
-- **REWRITE TITLE/META** items are five-minute fixes with real upside. Doing one or
-  two alongside the batch is free value.
-- **QUERIES WITH NO PAGE** are candidates for the batch, but verify each against
-  existing slugs first — the matcher is generous and some are already covered.
-
-The topic picker already accounts for demand if `demand.json` exists, so you do not
-need to second-guess which cluster it chose.
+If `content/bing/` has a newer keyword export, read it first: fix titles/descriptions for
+high-impression, low-CTR queries, and turn queries with no page into today's topics.
 
 ## 2. Turn each intent into a real article
 
-For each of the ten intents (five per cluster), decide the actual title, slug and angle. Rules:
+- Decide the exact query, slug (the query's words) and angle. Check the slug does not exist
+  in `src/content/articles/` and is not a redirect source in `vercel.json`.
+- No two articles may share a `keyword` (the gate checks every page).
+- `hub: "guides"` and `topic: "<cluster key>"` for guides; `hub: "<cluster key>"` for roundups.
+- `published` and `updated` = today.
+- Link to the pillar, to product pages `/gear/<slug>/` from the brief's product list, to the
+  tools (`/tools/generator-wattage-calculator/`, `/tools/power-station-runtime-calculator/`)
+  and glossary terms (`src/data/glossary.ts`).
 
-- **Search intent, not a rephrasing of the pillar.** `shop-vac-losing-suction` is a
-  spoke; `best-shop-vacs-reviewed` is a second pillar and must not be written.
-- **Check the slug does not exist** in `src/pages/` before writing.
-- **No two articles in a batch may target the same primary keyword.** The first
-  entry in `tags` is the primary keyword and the gate checks it against every page.
-- **Pick the page type first** (`docs/ranking-method.md`, section 2): A question/number,
-  B product review, C brand guide, D roundup, E problem/fix or how-to, F X vs Y,
-  G store. If an intent fits none of them, don't write it.
-- **One URL per search.** If another page already targets the intent, even with
-  different wording ("blacktop sealer" vs "asphalt sealer"), skip the intent and
-  improve that page instead. Merged slugs live in `scripts/merge-pages.py`; never
-  recreate one.
-- **Titles: 50-62 characters, the exact query first**, using the type formula in
-  `docs/ranking-method.md`, section 3. Buying guide `<N> Best <Product> (2026): <how
-  ranked>` ("in 2026" also passes); how-to `How to <task>: <the promise>`; question
-  `<Question>? <the answer in brief>`. The year goes on B, C, D and G pages only
-  ("best … 2026" queries click at 2.5x the rate). Never "Tested".
-- **Meta description: 140-158 characters, and the first clause is the answer, with a
-  number** taken from the page ("The Anker 737 is the best laptop power bank for most:
-  140W from one USB-C port…"). `npm run validate:seo` and `validate:snippets` fail
-  anything else.
-- **Backup power only** (owner decision, Nov 19, 2026; see docs/bing-playbook.md). Off-topic pages (driveways, tools, grooming, gifts,
-  fitness, kitchen gadgets) pull impressions with no clicks and blur what Bing
-  thinks the site is about. Never build a page for a bare brand or store name.
+Write with parallel subagents, two or three articles each. Give each subagent this skill's
+section 0, `docs/CONTENT_GUIDE.md`, one existing article as a model
+(`src/content/articles/how-long-does-a-generator-last.json` for guides,
+`best-inverter-generator.json` for roundups), its intents and the cluster brief. Subagents
+only write the JSON files.
 
-## 3. Write the spec and scaffold it
+## 3. Link them in
 
-Write content as JSON, then let the scaffolder produce the markup:
+1. Add each new slug to the `related` list or an in-body link of at least 3 older articles in
+   the same cluster, including the pillar.
+2. Add the strongest one or two to `src/data/nav.ts` if the cluster has a nav group.
+3. New head-to-head product pairs go in `src/data/compares.ts`; new terms in `glossary.ts`.
 
-```bash
-node scripts/scaffold-article.mjs /tmp/spec-1.json
-```
-
-Spec fields (all required):
-
-```jsonc
-{
-  "slug": "shop-vac-losing-suction",
-  "published": "2026-09-12",                 // today
-  "crumb": "Shop Vac Losing Suction",
-  "title": "Shop Vac Losing Suction? 5 Causes and the Fix for Each", // 50-62 chars
-  "description": "A clogged filter causes most shop vac suction loss; ...", // 140-158 chars, answer + number first
-  "method": "Based on manufacturer manuals and owner reports. Not hands-on tested.", // one line under the byline, true for THIS page
-  "topic": "Shop Vac Suction",               // heading reads "N. Common Mistakes With <topic>"
-  "section": "Tools & Equipment",            // match the pillar's section
-  "tags": ["shop vac losing suction", "..."],// first tag = primary keyword
-  "ctaText": "See Our Top Shop Vac Picks",
-  "ctaLink": "/best-shop-vac/",              // ALWAYS the pillar
-  "kicker": "Troubleshooting",
-  "h1": "Shop Vac Losing Suction?",        // the exact query, plain
-  "heroLede": "One or two sentences under the H1.",
-  "cta1": "Start the Diagnostic",
-  "social": "17.2k",
-  "lede": "40-70 words. Sentence 1 = the answer, with a number or verdict.",
-  "toc": [["anchor-1", "Short Label"], ["anchor-2", "Short Label"]],
-  "sections": [
-    { "anchor": "anchor-1", "heading": "Section Heading", "blocks": [
-      { "type": "p", "text": "..." },
-      { "type": "h3", "text": "..." },
-      { "type": "callout", "kicker": "THE RULE", "headline": "...", "body": "..." },
-      { "type": "stats", "kicker": "What We Measured",
-        "stats": [{ "value": "15 ms", "label": "Fastest transfer" }] },
-      { "type": "table", "headers": ["A", "B"], "rows": [["a1", "b1"]] }
-    ]}
-  ],
-  "mistakes": [["Heading", "Body"]],          // exactly 5
-  "faq": [["Question?", "Answer."]],          // exactly 7
-  "relatedHeading": "Related Shop Vac Guides",
-  "related": [{ "url": "/best-shop-vac/", "color": "text-[#FF4500]",
-                "kicker": "Buyer's Guide", "name": "Best Shop Vacs", "blurb": "..." }],
-  "moreInCategory": [{ "title": "...", "url": "/..." }],
-  "closing": ["Bottom line paragraph one.", "Paragraph two."]
-}
-```
-
-### Length is a hard gate
-
-`validate:words` fails below **2,500 words of body prose**. Aim for **2,700-2,900** so a draft clears the floor on the first pass — landing on 2,48x and topping up wastes a cycle every time. Frontmatter, tables and
-markup do not count. What reliably clears it: **7 sections of 4-5 real paragraphs**,
-plus 7 FAQ answers of 50-70 words and 5 mistakes of 45-60 words. Tables and callouts
-are for scannability, not word count — they contribute almost nothing.
-
-Write to the site's established voice: direct, specific, willing to say when
-something is not worth buying. Concrete numbers beat adjectives. Every section should
-tell the reader something they could act on.
-
-**Only describe testing that actually happened.** Results, measurements and test
-durations in an article must come from the lab's real test records for that product.
-Never invent a number, a test, or a result; where no test data exists for a point,
-attribute it instead ("rated for", "the label specifies", "owners commonly report").
-
-## 4. Wire the batch in
-
-An unlinked page is an orphan and the gate will fail it. For every article:
-
-1. **Pillar → spoke.** Add a card to the pillar's cluster grid (the
-   "Everything Else About …" block; create it before the `<!-- Related Guides -->`
-   comment if the pillar has none yet) and refresh the pillar's `moreInCategory`.
-2. **Spoke → pillar.** Handled by `ctaLink` plus at least one body link.
-3. **Spoke → siblings.** Each article links to at least two other pages, including
-   at least one from the same batch.
-4. **Index.** Add a row to the matching category in `src/pages/best-of.astro`.
-5. **Sitemap priority.** Add each slug to `priorityGuides` in `astro.config.mjs`.
-
-The "More in …" block at the foot of every page is generated at build time by
-`scripts/build-interlinks.mjs`: guide first, then the closest pages by topic, and on a
-guide a list of every spoke it does not already link to. New pages join it
-automatically, so a spec's `moreInCategory` is a preference, not the final list. Run
-`npm run interlinks` to see what it decided. If it pairs two unrelated pages on a
-shared word (deck cleaner and carpet cleaner), add the pair both ways to
-`scripts/link-blocklist.json` rather than editing the generated file.
-
-## 5. Run every gate
-
-```bash
-npm run validate:all
-```
-
-That is word count, the Bing title/description gate, the snippet gate (page-specific
-method line, topic-named mistakes heading, no testing language in title, description
-or H1), internal links, canonical format, and the new-page gates
-(duplicate titles, keyword cannibalisation, orphans, pillar link). **Fix until all
-four pass.** Do not weaken a validator to get a page through — if an article cannot
-reach 2,500 honest words, the topic was too thin and should be replaced.
-
-Then confirm the site builds:
+## 4. Run every gate
 
 ```bash
 npm run build
 ```
 
-### Page template
+That runs `qa` (format, words, links, duplicate keywords), the Astro build and the post-build
+audit (broken links, JSON-LD, titles, H1s). Fix until it passes. Never weaken a gate. If an
+article cannot honestly reach 2,500 words, replace the topic.
 
-Both scaffolders finish by running `scripts/apply-editorial-header.py` on the new
-page, which writes the editorial header (kicker + updated date, H1, lede, "Written
-by" byline, How We Pick strip) and the collapsible numbered "In This Guide" box.
-The format gate checks for it (`<header data-hero`). If you hand-edit a page's hero,
-re-run the script on it rather than writing the markup yourself.
-
-### Roundup product cards
-
-Roundups render the swipeable "Our Top Picks" row with `QuickPicks.astro` and each
-product with `src/components/ProductCard.astro` (gold "#1 pick" frame, badge chip,
-large photo, Check Price button, spec list, Our Take / Pros & Cons tabs, bottom line). Give every product a `specs` array of 4-6 `[label, value]` pairs taken from
-the maker's spec sheet — it fills the spec list. Omit `rating`/`reviewCount`
-unless you have seen the real figures; the card hides the stars without them.
-
-## 5b. Affiliate links for any new products
-
-If the batch added a roundup with a `PRODUCTS` array, its products have no direct
-Amazon links yet — they fall back to a tagged search until matched.
-
-```bash
-npm run images:status
-```
-
-- **Credentials present** — do not use `images:fetch:all` for new matches: it
-  accepts any result containing the brand, and on Nov 13, 2026 all 228 of its
-  matches were wrong. Instead:
-  1. `npm run affiliate:find` proposes listings only where brand and model number
-     both match (writes `scripts/exact-asin-candidates.json`, changes nothing).
-  2. Read every proposal. Reject accessories ("fit for", parts, add-ons), other
-     sizes and variants (Gen 2, Alkaline, kit vs bare tool when the page names the
-     bare tool). Then `npm run affiliate:apply -- <id> <id> ...` for the exact ones.
-  3. `npm run affiliate:verify` then `npm run affiliate:quarantine`.
-  A tagged search for the right product beats a confident link to the wrong one.
-  Commit the changed JSON files in `src/data/` with the batch.
-- **No credentials** — skip it and say so in the run report. Links still work and
-  still pay; they are just worth less. Never block a publish on this.
-
-## 6. Publish
+## 5. Publish
 
 ```bash
 git add -A
 git commit -m "Add ten articles: <cluster 1> and <cluster 2>"   # + the standard trailers
+git fetch origin main && git merge --no-edit origin/main
 git push origin main
 ```
 
-Straight to `main`; Vercel deploys and the `postbuild` hook submits the new URLs to
-IndexNow automatically. No PR — that is the configured workflow.
+Straight to `main`; Vercel deploys and `postbuild` submits the sitemap to IndexNow. Never
+force-push.
 
-## 7. Report
+## 6. Report
 
-End the run with: the two clusters worked, the ten slugs published, the gate results,
-and anything skipped and why. If the run failed, say exactly which gate and what is
-needed — never push a partial batch.
+The two clusters, the ten URLs with titles, page types and target queries, gate results,
+the merge commit, and anything skipped and why. If a gate failed, push nothing and say which.
 
 ## Guardrails
 
-- **Ten articles, two clusters (five each). Never more.** If a batch finishes early, stop.
-- **Never touch an existing article's content** except to add links to the new ones.
-- **Never edit a validator to make a page pass.**
-- **Never invent a product that does not exist**, a price that cannot be checked, or
-  a specification you cannot source. Product claims in roundups must be checkable.
-- If the same cluster comes up two days running because yesterday's push failed,
-  investigate the push rather than writing the same articles again.
+- Ten articles, two clusters (five each). Never more.
+- Never touch an existing article's content except to add links to the new ones.
+- Never edit a gate to make a page pass.
+- Never invent a product, price, specification, test or source.

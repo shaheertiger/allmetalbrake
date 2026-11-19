@@ -1,0 +1,131 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductImage from '../../components/ProductImage.astro';
+import AmazonButton from '../../components/AmazonButton.astro';
+import Score from '../../components/Score.astro';
+import ProsCons from '../../components/ProsCons.astro';
+import FAQ from '../../components/FAQ.astro';
+import StickyBuyBar from '../../components/StickyBuyBar.astro';
+import { amazonUrl, amazonImage } from '../../lib/amazon';
+import { productMap, productUrl, compareSlug, articlesForProduct, articleUrl, shortName } from '../../lib/data';
+import { compares } from '../../data/compares';
+import { CATEGORY_LABELS } from '../../data/site';
+import { md } from '../../lib/md';
+import { breadcrumbs, faqPage, graph, itemList, articleSchema } from '../../lib/schema';
+import type { Product } from '../../lib/types';
+
+export function getStaticPaths() {
+  return compares
+    .filter(([a, b]) => productMap.has(a) && productMap.has(b))
+    .map(([a, b]) => {
+      const [x, y] = [productMap.get(a)!, productMap.get(b)!].sort((m, n) => m.slug.localeCompare(n.slug));
+      return { params: { slug: compareSlug(a, b) }, props: { a: x, b: y } };
+    });
+}
+const { a, b } = Astro.props as { a: Product; b: Product };
+const url = `/compare/${compareSlug(a.slug, b.slug)}/`;
+const winner = a.score === b.score ? null : a.score > b.score ? a : b;
+const loser = winner ? (winner === a ? b : a) : null;
+const cheaper = !a.priceTier || !b.priceTier || a.priceTier === b.priceTier ? null : a.priceTier < b.priceTier ? a : b;
+const keys = [...new Set([...Object.keys(a.specs), ...Object.keys(b.specs)])];
+const shared = keys.filter((k) => a.specs[k] && b.specs[k]);
+const differs = shared.filter((k) => a.specs[k] !== b.specs[k]);
+const catLabel = CATEGORY_LABELS[a.category] ?? a.category;
+const h1 = `${a.name} vs ${b.name}`;
+const sh = `${shortName(a.name)} vs ${shortName(b.name)}`;
+const title = sh.length <= 34 ? `${sh}: Specs, Scores & Which to Buy` : sh.length <= 50 ? `${sh}: Which to Buy?` : sh.length <= 62 ? `${sh} Compared` : sh;
+const quick = winner
+  ? `The **${winner.name}** scores higher (${winner.score} vs ${loser!.score}/100)${cheaper && cheaper !== winner ? `, but the **${cheaper.name}** costs less (${cheaper.priceBand} vs ${(cheaper === a ? b : a).priceBand})` : cheaper === winner ? ` and also costs less (${winner.priceBand})` : ''}. Pick the ${a.name} if you want ${a.bestFor.charAt(0).toLowerCase() + a.bestFor.slice(1)}; pick the ${b.name} for ${b.bestFor.charAt(0).toLowerCase() + b.bestFor.slice(1)}.`
+  : `They tie on our score (${a.score}/100). Choose the ${a.name} for ${a.bestFor.charAt(0).toLowerCase() + a.bestFor.slice(1)}, or the ${b.name} for ${b.bestFor.charAt(0).toLowerCase() + b.bestFor.slice(1)}.`;
+const description = `${a.name} vs ${b.name} compared side by side: ${shared.slice(0, 3).map((k) => k.toLowerCase()).join(', ')}, price and our verdict. ${winner ? `${winner.name} scores higher.` : 'They tie on score.'}`.slice(0, 158);
+const faqs = [
+  { q: `Which is better, the ${a.name} or the ${b.name}?`, a: quick },
+  { q: `What is the main difference between the ${a.name} and ${b.name}?`, a: differs.length ? differs.slice(0, 3).map((k) => `**${k}:** ${a.name} ${a.specs[k]} vs ${b.name} ${b.specs[k]}.`).join(' ') : `On paper they are very close; the real difference is current price and who each suits.` },
+  { q: `Which is cheaper, the ${a.name} or the ${b.name}?`, a: cheaper ? `The ${cheaper.name} usually sells for less (${cheaper.priceBand} vs ${(cheaper === a ? b : a).priceBand}). Prices move often, so check the current price before you buy.` : `Prices on both move often with sales and stock, so we do not quote them. Check both current prices before you buy, and compare on running watts, capacity and features first.` },
+  { q: `Who should skip the ${a.name}?`, a: `Skip it if ${a.skipIf.charAt(0).toLowerCase() + a.skipIf.slice(1)}. ${b.name}: skip it if ${b.skipIf.charAt(0).toLowerCase() + b.skipIf.slice(1)}.` },
+];
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Compare', url: '/compare/' }, { name: h1, url }];
+const fakeArticle = { title, metaDescription: description, published: '2026-11-17', updated: '2026-11-17', hub: a.category, keywords: [`${a.name} vs ${b.name}`.toLowerCase(), `${b.name} vs ${a.name}`.toLowerCase()] } as any;
+const schema = graph(breadcrumbs(crumbs), articleSchema(fakeArticle, url), itemList([a, b].map((p) => ({ name: p.name, url: productUrl(p), product: p }))), faqPage(faqs));
+const related = [...new Map([...articlesForProduct(a.slug), ...articlesForProduct(b.slug)].map((x) => [x.slug, x])).values()].slice(0, 4);
+const others = compares.filter(([x, y]) => [x, y].some((s) => s === a.slug || s === b.slug) && compareSlug(x, y) !== compareSlug(a.slug, b.slug)).filter(([x, y]) => productMap.has(x) && productMap.has(y));
+---
+<Base title={title} description={description} type="article" schema={schema}>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+    <Breadcrumbs items={crumbs} />
+    <p class="mt-5 text-xs font-bold uppercase tracking-wider text-brand-600">{catLabel} comparison</p>
+    <h1 class="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight text-ink leading-tight">{h1}</h1>
+    <p class="mt-3 text-sm text-slate-500">Updated November 17, 2026 · Based on manufacturer spec sheets and our <a href="/how-we-test/" class="underline">AMB Score</a>. We may earn a commission from links.</p>
+
+    <div id="compare-top" class="mt-6 grid grid-cols-2 gap-3 sm:gap-5">
+      {[a, b].map((p) => (
+        <div class={`rounded-2xl border p-3 sm:p-5 text-center ${winner === p ? 'border-emerald-400 ring-2 ring-emerald-100' : 'border-slate-200'}`}>
+          {winner === p && <p class="text-[11px] font-bold uppercase text-emerald-700 mb-1">Higher score</p>}
+          <ProductImage product={p} size={300} class="w-28 h-28 sm:w-36 sm:h-36 mx-auto rounded-xl" eager />
+          <a href={productUrl(p)} class="mt-2 block font-bold text-ink leading-snug hover:text-brand-600 no-underline">{p.name}</a>
+          <p class="mt-1 flex justify-center items-center gap-2 text-xs text-slate-500"><Score score={p.score} /> {p.priceBand}</p>
+          <AmazonButton product={p} label="Check Price" class="mt-3 !text-sm !px-3 w-full" />
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-6 rounded-xl bg-brand-50 border border-brand-100 p-4 sm:p-5">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-brand-700">Quick answer</h2>
+      <div class="prose mt-1 text-[1rem]" set:html={md(quick)} />
+    </div>
+
+    <div class="prose"><h2 id="specs">Specs Side by Side</h2></div>
+    <div class="not-prose mt-4 overflow-x-auto rounded-xl border border-slate-200">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50"><tr><th class="px-3 py-2.5 text-left w-1/4">Spec</th><th class="px-3 py-2.5 text-left">{a.name}</th><th class="px-3 py-2.5 text-left">{b.name}</th></tr></thead>
+        <tbody class="divide-y divide-slate-100">
+          <tr><th class="px-3 py-2.5 text-left font-medium text-slate-600 bg-slate-50/50">AMB Score</th><td class="px-3 py-2.5 font-bold">{a.score}/100</td><td class="px-3 py-2.5 font-bold">{b.score}/100</td></tr>
+          <tr><th class="px-3 py-2.5 text-left font-medium text-slate-600 bg-slate-50/50">Price band</th><td class="px-3 py-2.5">{a.priceBand}</td><td class="px-3 py-2.5">{b.priceBand}</td></tr>
+          {keys.map((k) => <tr class={differs.includes(k) ? 'bg-amber-50/40' : ''}><th class="px-3 py-2.5 text-left font-medium text-slate-600 bg-slate-50/50">{k}</th><td class="px-3 py-2.5">{a.specs[k] ?? '—'}</td><td class="px-3 py-2.5">{b.specs[k] ?? '—'}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-2 text-xs text-slate-500">Highlighted rows are where the two differ.</p>
+
+    {differs.length > 0 && (
+      <div class="prose"><h2 id="differences">Where They Differ</h2>
+        <ul>{differs.map((k) => <li><strong>{k}:</strong> the {a.name} has {a.specs[k]}; the {b.name} has {b.specs[k]}.</li>)}</ul>
+      </div>
+    )}
+
+    <div class="prose"><h2 id="scores">How They Score</h2></div>
+    <div class="not-prose mt-4 grid sm:grid-cols-2 gap-5">
+      {[a, b].map((p) => (
+        <div class="rounded-xl border border-slate-200 p-4">
+          <p class="font-bold text-ink">{p.name}: {p.score}/100</p>
+          <div class="mt-3 space-y-2">{(p.scores ?? []).map((s) => (<div><div class="flex justify-between text-xs"><span>{s.label}</span><span class="font-semibold">{s.value}</span></div><div class="mt-1 h-1.5 rounded-full bg-slate-100"><div class="h-1.5 rounded-full bg-brand-600" style={`width:${s.value}%`}></div></div></div>))}</div>
+        </div>
+      ))}
+    </div>
+
+    {[a, b].map((p) => (
+      <div>
+        <div class="prose"><h2 id={p.slug}>Buy the {p.name} If…</h2>
+          <p>You want <strong>{p.bestFor.charAt(0).toLowerCase() + p.bestFor.slice(1)}</strong>. {p.summary}</p>
+          <p>Skip it if {p.skipIf.charAt(0).toLowerCase() + p.skipIf.slice(1)}.</p>
+        </div>
+        <ProsCons pros={p.pros} cons={p.cons} />
+      </div>
+    ))}
+
+    <div class="prose"><h2 id="faq">FAQ</h2></div>
+    <FAQ faqs={faqs} />
+
+    {(related.length > 0 || others.length > 0) && (
+      <div class="prose"><h2 id="related">Related</h2>
+        <ul>
+          {related.map((r) => <li><a href={articleUrl(r)}>{r.h1}</a></li>)}
+          {others.map(([x, y]) => <li><a href={`/compare/${compareSlug(x, y)}/`}>{productMap.get(x)!.name} vs {productMap.get(y)!.name}</a></li>)}
+          <li><a href={productUrl(a)}>{a.name} full specs</a> · <a href={productUrl(b)}>{b.name} full specs</a></li>
+        </ul>
+      </div>
+    )}
+  </div>
+  <StickyBuyBar items={[a, b].map((p) => ({ slug: p.slug, name: p.name, url: amazonUrl(p), image: amazonImage(p, 160) }))} trigger="#compare-top" mode="pair" />
+</Base>

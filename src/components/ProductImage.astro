@@ -1,0 +1,16 @@
+---
+import type { Product } from '../lib/types';
+import { amazonImage } from '../lib/amazon';
+import { CATEGORY_ICONS } from '../data/site';
+interface Props { product: Product; size?: number; class?: string; eager?: boolean }
+const { product, size = 400, class: cls = 'w-40 h-40', eager = false } = Astro.props;
+const src = amazonImage(product, size);
+---
+{src ? (
+  <img src={src} alt={product.name} width={size} height={size} loading={eager ? 'eager' : 'lazy'} decoding="async" class={`${cls} object-contain bg-white`} referrerpolicy="no-referrer-when-downgrade" />
+) : (
+  <div class={`${cls} flex flex-col items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 text-center p-2`} role="img" aria-label={product.name}>
+    <span class="text-4xl" aria-hidden="true">{CATEGORY_ICONS[product.category] ?? '🎬'}</span>
+    <span class="mt-1 text-[11px] font-semibold text-slate-600 leading-tight">{product.brand}</span>
+  </div>
+)}
