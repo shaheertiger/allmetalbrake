@@ -1,6 +1,6 @@
 ---
 name: daily-publish
-description: The daily article run. Publishes five supporting articles into the thinnest cluster on the site, wires them into the pillar and the index, runs every gate, and pushes to main. Use when the daily publishing Routine fires, or when asked to run the daily batch manually.
+description: The daily article run. Publishes ten backup-power articles (five into each of the two thinnest clusters), wires them into the pillar and the index, runs every gate, and pushes to main. Use when the daily publishing Routine fires, or when asked to run the daily batch manually.
 ---
 
 # Daily publish run
@@ -9,18 +9,44 @@ Every page follows `docs/bing-playbook.md` (this site's own Bing data) and
 `docs/ranking-method.md` (page types, snippet formulas, skeleton, checklist). Where
 they differ, the Bing playbook wins: it is measured on this site.
 
-Five supporting articles a day, all into **one** cluster — the thinnest one on the
-site. Finishing a cluster beats scattering pages, and the topic picker enforces it
-so no one has to keep a list.
+Ten articles a day (owner, Nov 19, 2026): **five into the thinnest cluster and five
+into the second thinnest.** Finishing clusters beats scattering pages, and the topic
+picker enforces it so no one has to keep a list. Backup power only.
+
+## 0. The proven format (Bing data from this site and four sister sites)
+
+Pick page types in proportion to what clicks. Across ~5,600 queries on five sites:
+question pages ("is/does/can/should…") clicked at 16-40%, "how long does X last"
+22-36%, how-to 19-21%, "X vs Y" 8-31%, "best … 2026" 11-17%, cost pages at the top
+11.7%. Bare "best X" head terms at #5-9 clicked at 1-4%. So each day's ten should be
+mostly **A (question / cost / lifespan / timing), E (how-to / problem-fix) and F (X vs Y)**,
+with at most one or two new D roundups when a real "best X for Y" gap exists.
+
+Every page, whatever the type (the scaffolder and gates enforce most of it):
+- **Title = the exact query first**, 50-62 chars, then the answer in brief. Year only on
+  buying guides, reviews, brand and cost pages ("(2026)" or "in 2026").
+- **H1 = the exact query.** The hero lede and the first sentence of section 1 give the
+  answer **with a number**. Section 1 is headed `<Query>: The Short Answer` (or
+  `<Query>? The Short Answer`) and holds the answer table.
+- **Meta description 140-158 chars**, answer + number first, then who it is for.
+- **Numbered question H2s** (the follow-up queries people type), H3s inside, at least
+  one table, 5 mistakes, 7 FAQs in the exact words people search (FAQPage schema),
+  related cards, bottom line, 2,500+ words.
+- **Google as well as Bing:** visible author byline and date (from git), honest method
+  line, no testing claims that did not happen, sources named for every figure, one
+  page per search intent, 3+ in-body links in and out. These are the same things
+  Google's helpful-content and E-E-A-T guidance rewards, so no separate format.
 
 ## 1. Get the brief
 
 ```bash
-npm run topics -- --json
+npm run topics -- --json            # cluster 1 (thinnest)
+npm run topics -- --json --skip 1   # cluster 2 (second thinnest)
 ```
 
-Returns the target pillar, the intents it is still missing, its existing spokes, and
-the pages to link out to. Work that pillar and nothing else today.
+Each returns the target pillar, the intents it is still missing, its existing spokes,
+and the pages to link out to. Work those two pillars and nothing else today. If one is
+a bad fit, move on with `--skip 2` (and so on) and say so in the run report.
 
 If the brief names a pillar that is a genuinely bad fit (a discontinued product, a
 topic with no search demand), skip it with `npm run topics -- --json --skip 1` and
@@ -57,7 +83,7 @@ need to second-guess which cluster it chose.
 
 ## 2. Turn each intent into a real article
 
-For each of the five intents, decide the actual title, slug and angle. Rules:
+For each of the ten intents (five per cluster), decide the actual title, slug and angle. Rules:
 
 - **Search intent, not a rephrasing of the pillar.** `shop-vac-losing-suction` is a
   spoke; `best-shop-vacs-reviewed` is a second pillar and must not be written.
@@ -233,7 +259,7 @@ npm run images:status
 
 ```bash
 git add -A
-git commit -m "Add five <cluster> cluster articles"   # + the standard trailers
+git commit -m "Add ten articles: <cluster 1> and <cluster 2>"   # + the standard trailers
 git push origin main
 ```
 
@@ -242,13 +268,13 @@ IndexNow automatically. No PR — that is the configured workflow.
 
 ## 7. Report
 
-End the run with: the cluster worked, the five slugs published, the gate results,
+End the run with: the two clusters worked, the ten slugs published, the gate results,
 and anything skipped and why. If the run failed, say exactly which gate and what is
 needed — never push a partial batch.
 
 ## Guardrails
 
-- **Five articles. One cluster. Never more.** If a batch finishes early, stop.
+- **Ten articles, two clusters (five each). Never more.** If a batch finishes early, stop.
 - **Never touch an existing article's content** except to add links to the new ones.
 - **Never edit a validator to make a page pass.**
 - **Never invent a product that does not exist**, a price that cannot be checked, or
