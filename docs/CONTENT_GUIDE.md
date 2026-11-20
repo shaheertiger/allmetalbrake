@@ -46,21 +46,36 @@ roundup only for a real "best X for Y" gap.
 9. **Honesty = E-E-A-T** (it is what Google's helpful-content guidance rewards too). We have not
    bench-tested products. Never write "we tested", "in our testing", "we measured", "our lab".
    Write "rated for", "the spec sheet lists", "owners report". Never invent a spec, price, test or source.
-10. **No prices.** Leave `priceBand` empty; the site shows "See current price". Cost guides may give
+10. **No prices.** Leave `priceBand` empty and set `priceTier` (1 budget, 2 mid-range, 3 upper mid-range,
+    4 premium, relative to the category); the site shows the tier label. Cost guides may give
     typical installed ranges with attribution ("dealers commonly quote").
 11. **Dates:** `published` and `updated` = today (YYYY-MM-DD).
 12. **Style:** plain US English, short paragraphs, second person, specific numbers, no fluff, no emojis.
 
 ## Product JSON (`src/content/products/<category>.json`, an array)
 
-Fields: `slug`, `name`, `brand` (must match across products), `category` (a key of `CATEGORY_LABELS`
-in `src/data/site.ts`), `score` (AMB Score: our editorial ranking, 93 for a category's #1 pick, falling
-by rank; never a measurement), `summary` (one sentence), `verdict` (markdown, 150-300 words), `bestFor`,
-`skipIf`, `pros`, `cons`, `specs` (key → value from the maker's spec sheet; use the same keys across a
-category), `keySpecs` (3-4 keys), optional `asin`, `imageId`, `amazonQuery`, `faqs`, `atAGlance`.
+Gear pages are the page type that wins on besthometheaterreview.com (Search Console, Nov 2026: 121 `/gear/`
+pages ranking, two thirds of clicks, Product snippets in Google, for "<model> review" and bare "<model>"
+queries). Every product record matches that site's record depth:
 
-Product photos and ASINs: `npm run images:fetch` (Amazon Creators API, strict brand + model matching),
-then `npm run images:review`. Wrong matches go in `src/data/asin-quarantine.json`.
+- `slug` (never change a live one), `name` = short "Brand Model" as people search it ("Westinghouse WGen7500DF"),
+  `brand` (same spelling everywhere), `category` (a key of `CATEGORY_LABELS` in `src/data/site.ts`).
+- `released` (year, only when certain), `priceBand` "" and `priceTier` 1-4 (see rule 10).
+- `score`: AMB Score, our editorial ranking (93 for a category's #1 pick, falling by rank; never a measurement).
+- `scores`: 4 sub-scores with the same 4 labels across a category, roughly averaging to `score`.
+- `summary`: one sentence quick answer. `verdict`: markdown, 180-300 words, opening verdict sentence, then
+  2-3 paragraphs with a **bold lead-in.** each, spec numbers and sizing math, a closing "owners report" line,
+  and 3-6 internal links (glossary, sibling `/gear/` pages, the roundup, tools).
+- `bestFor`, `skipIf`, `pros` (4-5), `cons` (2-3).
+- `specs`: 6-9 rows from the maker's spec sheet, same keys and order across a category; omit a row rather
+  than guess. Never drop a key an article's `comparisonSpecs` uses. `keySpecs`: 3-4 of them.
+- `faqs`: exactly 2 product-specific questions ("Can the X run a well pump?", "X vs <sibling>?"); the template
+  adds "Is X worth it?" and "cheaper alternative" automatically.
+- `atAGlance` (one line, used in articles), `amazonQuery`, optional `asin`, `imageId`.
+
+Product photos and ASINs: add the product to `docs/product-catalog.txt`, run `npm run images:fetch`
+(Amazon Creators API, strict brand + model matching), then `npm run images:review`. Wrong matches go in
+`src/data/asin-quarantine.json`.
 
 ## Article JSON (`src/content/articles/<slug>.json`)
 

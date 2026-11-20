@@ -35,14 +35,17 @@ function applyOverride(base: Product): Product {
   return { ...p, ...(asin ? { asin } : {}), ...(imageId ? { imageId } : {}) };
 }
 
+const TIER_LABELS: Record<number, string> = { 1: 'Budget', 2: 'Mid-range', 3: 'Upper mid-range', 4: 'Premium' };
+
 const productFiles = import.meta.glob<{ default: Product[] }>('../content/products/*.json', { eager: true });
 const articleFiles = import.meta.glob<{ default: Article }>('../content/articles/*.json', { eager: true });
 
 export const products: Product[] = Object.values(productFiles)
   .flatMap((m) => m.default)
   .map(applyOverride)
-  // No price bands are published on this site (prices move too fast to state honestly).
-  .map((p) => ({ ...p, priceBand: p.priceBand || 'See current price' }))
+  // No dollar prices are published on this site (prices move too fast to state honestly);
+  // the price tier (relative to the category) is shown as a label instead.
+  .map((p) => ({ ...p, priceBand: p.priceBand || TIER_LABELS[p.priceTier ?? 0] || 'See current price' }))
   .sort((a, b) => b.score - a.score);
 
 export const productMap = new Map(products.map((p) => [p.slug, p]));
