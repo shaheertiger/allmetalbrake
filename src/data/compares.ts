@@ -88,4 +88,17 @@ export const compares: [string, string][] = [
   ['fill-rite-fr1210g', 'fill-rite-fr1614'],
   ['dewalt-20v-max-jobsite-fan', 'milwaukee-m18-packout-fan'],
   ['ryobi-one-plus-whisperseries-fan', 'makita-dcf102z'],
+  // Standby, dual fuel, home batteries and transfer switches
+  ['generac-guardian-22kw', 'generac-guardian-24kw'],
+  ['generac-guardian-22kw', 'kohler-20rescl'],
+  ['generac-guardian-14kw', 'champion-14kw-axis'],
+  ['generac-guardian-18kw', 'generac-guardian-22kw'],
+  ['generac-guardian-24kw', 'generac-guardian-26kw'],
+  ['generac-gp8000e', 'firman-p08004'],
+  ['generac-gp8000e', 'generac-gp6500'],
+  ['westinghouse-wgen6000dfc', 'westinghouse-wgen7500df'],
+  ['tesla-powerwall-3', 'tesla-powerwall-2'],
+  ['enphase-iq-battery-5p', 'enphase-iq-battery-10c'],
+  ['tesla-powerwall-3', 'enphase-iq-battery-10c'],
+  ['reliance-31406crk', 'generac-6853'],
 ];
