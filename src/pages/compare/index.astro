@@ -1,20 +1,28 @@
 ---
 import Base from '../../layouts/Base.astro';
-import PageHeader from '../../components/PageHeader.astro';
-import { productMap, compareSlug } from '../../lib/data';
+import Crumbs from '../../components/Crumbs.astro';
+import { SITE, SCORE_NAME } from '../../data/site';
+import { CATEGORIES } from '../../data/categories';
 import { compares } from '../../data/compares';
-import { CATEGORY_LABELS } from '../../data/site';
+import { productMap, compareSlug, shortName } from '../../lib/data';
 import { breadcrumbs, graph, itemList } from '../../lib/schema';
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'Compare', url: '/compare/' }];
 const valid = compares.filter(([a, b]) => productMap.has(a) && productMap.has(b)).map(([a, b]) => ({ a: productMap.get(a)!, b: productMap.get(b)!, slug: compareSlug(a, b) }));
-const cats = [...new Set(valid.map((v) => v.a.category))];
+const groups = CATEGORIES.map((c) => ({ c, list: valid.filter((v) => v.a.category === c.key) })).filter((g) => g.list.length);
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Comparisons', url: '/compare/' }];
+const schema = graph(breadcrumbs(crumbs), { '@type': 'CollectionPage', name: 'Backup power comparisons', url: `${SITE.url}/compare/` }, itemList(valid.map((v) => ({ name: `${v.a.name} vs ${v.b.name}`, url: `/compare/${v.slug}/` }))));
 ---
-<Base title="Compare Backup Power Gear: Head-to-Head Spec Comparisons" description={`${valid.length} head-to-head comparisons of popular generators, inverter generators, power stations and home batteries, with spec sheets side by side and a clear pick.`} schema={graph(breadcrumbs(crumbs), itemList(valid.map((v) => ({ name: `${v.a.name} vs ${v.b.name}`, url: `/compare/${v.slug}/` }))))}>
-  <PageHeader h1="Compare Two Products" crumbs={crumbs} eyebrow="Database" intro="The matchups people search for most, with spec sheets side by side and a clear answer on which to buy." />
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    {cats.map((c) => (
-      <section class="mt-10"><h2 class="text-xl font-extrabold text-ink">{CATEGORY_LABELS[c]}</h2>
-        <ul class="mt-3 grid sm:grid-cols-2 gap-3">{valid.filter((v) => v.a.category === c).map((v) => <li><a href={`/compare/${v.slug}/`} class="block rounded-lg border border-slate-200 px-4 py-3 hover:border-brand-500 no-underline text-ink font-medium">{v.a.name} <span class="text-slate-500">vs</span> {v.b.name}</a></li>)}</ul>
+<Base title={`Backup Power Comparisons: ${valid.length} Head-to-Heads (2026)`} description={`${valid.length} head-to-head comparisons of popular generators, inverter generators, power stations and home batteries, with spec sheets side by side and a clear pick.`} schema={schema}>
+  <div class="wrap hub">
+    <Crumbs items={crumbs} />
+    <h1 class="hub-title">Backup Power Comparisons</h1>
+    <p class="hub-dek">Two products, one table, one verdict. Every comparison lines up the spec sheets, the {SCORE_NAME} and who should buy which.</p>
+    <nav class="chips" aria-label="Categories">{groups.map((g) => <a href={`#${g.c.key}`}>{g.c.label}</a>)}</nav>
+    {groups.map((g) => (
+      <section id={g.c.key}>
+        <h2 class="section-title">{g.c.label}</h2>
+        <ul class="vs-list">
+          {g.list.map((v) => <li><a href={`/compare/${v.slug}/`}><strong>{shortName(v.a.name)}</strong> vs <strong>{shortName(v.b.name)}</strong></a><span>{v.a.score} vs {v.b.score}</span></li>)}
+        </ul>
       </section>
     ))}
   </div>

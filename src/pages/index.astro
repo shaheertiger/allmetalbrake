@@ -1,98 +1,131 @@
 ---
+// Home page in the enthusiastreview.com order: hero → quick answer → browse by category →
+// picks by need → top 10 → spec-sheet promise → how we're different → latest → identity.
 import Base from '../layouts/Base.astro';
-import ProductImage from '../components/ProductImage.astro';
 import Score from '../components/Score.astro';
-import RelatedCards from '../components/RelatedCards.astro';
-import { SITE, CATEGORY_LABELS } from '../data/site';
-import { NAV } from '../data/nav';
-import { products, articles, articleMap, productUrl, brands } from '../lib/data';
+import NavIcon from '../components/NavIcon.astro';
+import ProductImage from '../components/ProductImage.astro';
+import { SITE, SCORE_NAME } from '../data/site';
+import { CATEGORIES, categoryOf } from '../data/categories';
+import { NAV_GROUPS } from '../data/nav';
+import { md } from '../lib/md';
+import { products, articles, articleMap, productMap, productUrl, articleUrl, brands, brandUrl, hubLabel, shortName, cap } from '../lib/data';
 import { itemList, graph } from '../lib/schema';
 
-const goalPicks = [
-  { slug: 'best-home-generator-for-power-outages', label: 'Whole-home outages' },
-  { slug: 'best-portable-power-station', label: 'Battery backup' },
-  { slug: 'best-inverter-generator', label: 'Quiet power' },
-  { slug: 'best-dual-fuel-generator', label: 'Gas or propane' },
-  { slug: 'best-home-battery-backup', label: 'Home batteries' },
-  { slug: 'best-generator-transfer-switch', label: 'Connect it safely' },
-  { slug: 'best-solar-generator', label: 'Solar backup' },
-  { slug: 'best-battery-backup-for-cpap', label: 'Medical devices' },
-].map((g) => ({ ...g, a: articleMap.get(g.slug) })).filter((g) => g.a);
-const top = products.filter((p) => ['generator', 'inverter', 'dual-fuel', 'power-station', 'home-battery', 'solar'].includes(p.category)).slice(0, 10);
-const guides = articles.filter((a) => a.kind !== 'roundup').slice(0, 6);
-const schema = graph(itemList(goalPicks.map((g) => ({ name: g.a!.h1, url: `/${g.slug}/` })), 'Best backup power gear'));
+const hero = articleMap.get('best-home-generator-for-power-outages');
+const featured = CATEGORIES.map((c) => articleMap.get(c.hero)).filter((a, i, all) => a && all.indexOf(a) === i).slice(0, 8);
+const top10 = products.filter((p) => ['generator', 'inverter', 'dual-fuel', 'power-station', 'home-battery', 'solar'].includes(p.category)).slice(0, 10);
+const latest = [...articles].filter((a) => !featured.includes(a)).sort((x, y) => y.updated.localeCompare(x.updated) || x.slug.localeCompare(y.slug)).slice(0, 6);
+const browse = NAV_GROUPS.filter((g) => g.home).slice(0, 4);
+const schema = graph(itemList(featured.map((a) => ({ name: a!.h1, url: articleUrl(a!) })), 'Best backup power guides'));
 ---
 <Base title="Backup Power Buying Guides: Generators and Power Stations (2026)" description={SITE.description} schema={schema}>
-  <section class="bg-[#0b1120] text-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
-      <p class="text-xs font-bold uppercase tracking-[0.2em] text-gold">Independent · Spec-sheet first · No paid rankings</p>
-      <h1 class="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.1] max-w-3xl">Read the Spec Sheet. Keep the Lights On.</h1>
-      <p class="mt-5 text-lg text-slate-300 max-w-2xl">We match generators, power stations and home batteries to the loads you need to run and the outages you actually get, and we show the maths behind every pick. {products.length} products from {brands.length} brands, scored.</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="/best-home-generator-for-power-outages/" class="rounded-xl bg-gold text-ink font-bold px-5 py-3 no-underline hover:brightness-95">Best Home Generators</a>
-        <a href="/best-portable-power-station/" class="rounded-xl border border-white/30 font-semibold px-5 py-3 no-underline hover:bg-white/10">Best Power Stations</a>
-      </div>
+  <section class="home-hero">
+    <div class="wrap">
+      <p class="kicker">Backup power, researched</p>
+      <h1>Read the Spec Sheet. Keep the Lights On.</h1>
+      <p class="hub-dek">We match generators, power stations and home batteries to the loads you need to run and the outages you actually get, and we show the maths behind every pick. {products.length} products from {brands.length} brands, scored.</p>
+      <div class="hero-cta"><a class="buy" href="/best-home-generator-for-power-outages/">Best Home Generators</a><a class="btn-ghost dark" href="/best-portable-power-station/">Best Power Stations</a></div>
+      <p class="hero-trust">Independent · Spec-sheet first · No paid rankings</p>
     </div>
   </section>
 
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <section class="mt-14">
-      <h2 class="text-2xl font-extrabold text-ink">Browse by Category</h2>
-      <div class="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {NAV.slice(0, 4).map((g) => (
-          <div class="rounded-2xl border border-slate-200 p-5">
-            <h3 class="font-bold text-ink">{g.label}</h3>
-            <ul class="mt-3 space-y-2 text-sm">{g.links.slice(0, 5).map((l) => <li><a href={l.url} class="text-slate-600 hover:text-brand-600 no-underline"><span aria-hidden="true">{l.icon}</span> {l.title}</a></li>)}</ul>
+  <div class="wrap">
+    {hero?.quickAnswer && (
+      <section class="home-answer">
+        <p class="mini">Quick answer</p>
+        <h2>What Is the Best Home Generator for Power Outages?</h2>
+        <Fragment set:html={md(cap(hero.quickAnswer))} />
+        <p><a href={articleUrl(hero)}>See all {hero.picks?.length} picks in our best home generator guide →</a></p>
+      </section>
+    )}
+
+    <section>
+      <h2 class="section-title">Browse by Category</h2>
+      <div class="browse">
+        {browse.map((grp) => (
+          <div class="browse-col">
+            <h3>{grp.label}</h3>
+            <ul>{grp.items.map((it) => <li><a href={it.href}><NavIcon icon={it.icon} size={28} />{it.label}</a></li>)}</ul>
           </div>
         ))}
       </div>
     </section>
 
-    <section class="mt-14">
-      <h2 class="text-2xl font-extrabold text-ink">Best Backup Power Gear: Picks by Need</h2>
-      <div class="mt-5 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {goalPicks.map((g) => {
-          const first = g.a!.picks?.[0];
-          const p = first ? products.find((x) => x.slug === first.product) : undefined;
+    <section>
+      <h2 class="section-title">Best Backup Power Gear: Picks by Need</h2>
+      <div class="grid grid-4">
+        {featured.map((a) => {
+          const p = a!.picks?.[0] ? productMap.get(a!.picks[0].product) : undefined;
           return (
-            <a href={`/${g.slug}/`} class="group rounded-2xl border border-slate-200 p-5 hover:border-brand-500 hover:shadow-sm no-underline">
-              <p class="text-xs font-bold uppercase tracking-wider text-gold-dark">{g.label}</p>
-              <h3 class="mt-1 font-bold text-ink group-hover:text-brand-600 leading-snug">{g.a!.h1}</h3>
-              {p && <p class="mt-2 text-sm text-slate-500">Top pick: <span class="font-semibold text-slate-700">{p.name}</span></p>}
+            <a class="card" href={articleUrl(a!)}>
+              {p && <ProductImage p={p} size={96} />}
+              <span class="card-k">{hubLabel(a!.hub)}</span>
+              <h3>{a!.h1}</h3>
+              {p && <span class="card-sub">Top pick: {shortName(p.name)} · {p.score}/100</span>}
             </a>
           );
         })}
       </div>
     </section>
 
-    <section class="mt-14">
-      <h2 class="text-2xl font-extrabold text-ink">The {products.length} Products We Track: Top 10 by AMB Score</h2>
-      <ol class="mt-5 grid md:grid-cols-2 gap-3">
-        {top.map((p, i) => (
-          <li class="min-w-0"><a href={productUrl(p)} class="flex items-center gap-3 sm:gap-4 rounded-xl border border-slate-200 p-3 hover:border-brand-500 no-underline">
-            <span class="w-6 sm:w-7 shrink-0 text-center font-extrabold text-slate-500">{i + 1}</span>
-            <ProductImage product={p} size={160} class="w-14 h-14 shrink-0 rounded-lg" />
-            <span class="min-w-0 flex-1"><span class="block font-semibold text-ink leading-snug break-words">{p.name}</span><span class="text-xs text-slate-500">{CATEGORY_LABELS[p.category]}</span></span>
-            <Score score={p.score} />
-          </a></li>
+    <section>
+      <h2 class="section-title">The {products.length} Products We Track: Top 10 by {SCORE_NAME}</h2>
+      <ol class="rank-list">
+        {top10.map((p, i) => (
+          <li>
+            <span class="rk-n">{i + 1}</span>
+            <ProductImage p={p} size={64} />
+            <span class="rk-main"><a href={productUrl(p)}>{p.name}</a><small>{categoryOf(p.category).label} · {p.priceBand}</small></span>
+            <Score value={p.score} />
+          </li>
         ))}
       </ol>
-      <p class="mt-4"><a href="/gear/" class="font-semibold text-brand-600">See all {products.length} products ranked →</a></p>
+      <p class="fine"><a href="/gear/">See all {products.length} products ranked →</a></p>
     </section>
 
-    <section class="mt-16 rounded-3xl bg-slate-50 border border-slate-200 p-6 sm:p-10">
-      <h2 class="text-2xl font-extrabold text-ink">Built on the Spec Sheet, Not the Marketing</h2>
-      <p class="mt-3 text-slate-600 max-w-3xl">"9,500 watts" is usually the starting surge, not what it runs. "1,000Wh" is rarely all usable once the inverter takes its cut. We read past the headline numbers, convert them into what they mean in your outage, and say plainly who should skip a product.</p>
-      <h2 class="mt-10 text-2xl font-extrabold text-ink">How We're Different From Other Review Sites</h2>
-      <div class="mt-5 grid md:grid-cols-3 gap-6">
-        <div><h3 class="font-bold text-ink">We Do the Maths</h3><p class="mt-2 text-sm text-slate-600">Running and starting watts for your appliances, runtime for your power station, fuel for your outage. Try the <a href="/tools/generator-wattage-calculator/" class="underline">wattage calculator</a>.</p></div>
-        <div><h3 class="font-bold text-ink">Loads First, Product Second</h3><p class="mt-2 text-sm text-slate-600">Every pick says who it suits and who should skip it, by load, fuel, noise and budget.</p></div>
-        <div><h3 class="font-bold text-ink">No Paid Placements</h3><p class="mt-2 text-sm text-slate-600">Brands can't buy a spot or a score. <a href="/how-we-test/" class="underline">See how we score</a>.</p></div>
+    <section class="home-prose">
+      <h2 class="section-title">Built on the Spec Sheet, Not the Marketing</h2>
+      <p>"9,500 watts" is usually the starting surge, not what it runs. "1,000Wh" is rarely all usable once the inverter takes its cut. Every product on this site has a page with its full spec sheet, a research-based {SCORE_NAME} out of 100 and a plain verdict: who it suits, who should skip it and what to buy instead. We read past the headline numbers, convert them into what they mean in your outage, and say so plainly. We do not run a test lab, and we say that on every page.</p>
+    </section>
+
+    <section>
+      <h2 class="section-title">How We're Different From Other Review Sites</h2>
+      <div class="diff-grid">
+        <div>
+          <h3>We Do the Maths</h3>
+          <p>Running and starting watts for your appliances, runtime for your power station, fuel for your outage. Our <a href="/tools/generator-wattage-calculator/">wattage</a> and <a href="/tools/power-station-runtime-calculator/">runtime</a> calculators do the sums for you.</p>
+        </div>
+        <div>
+          <h3>Loads First, Product Second</h3>
+          <p>Every pick says who it suits and who should skip it, by load, fuel, noise and budget, so the best generator for a well pump is not the best one for a campsite.</p>
+        </div>
+        <div>
+          <h3>No Paid Placements</h3>
+          <p>Brands can't buy a spot or a score, and affiliate commissions never change a ranking. <a href="/how-we-test/">How we score</a>.</p>
+        </div>
       </div>
     </section>
 
-    {guides.length > 0 && (
-      <section class="mt-14"><h2 class="text-2xl font-extrabold text-ink">Latest Guides &amp; Brand Reviews</h2><RelatedCards articles={guides} /></section>
-    )}
+    <section>
+      <h2 class="section-title">Latest Guides and Brand Reviews</h2>
+      <div class="grid grid-3">
+        {latest.map((a) => (
+          <a class="card" href={articleUrl(a)}>
+            <span class="card-k">{hubLabel(a.hub)}</span>
+            <h3>{a.h1}</h3>
+            <span class="card-sub">{a.metaDescription}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="home-id">
+      <h2 class="section-title">{SITE.name}</h2>
+      <p>{SITE.description}</p>
+      <p class="mini">Brands we track</p>
+      <p class="term-cloud">{brands.map((b) => <a href={brandUrl(b)}>{b}</a>)}</p>
+      <p class="fine">As an Amazon Associate we earn from qualifying purchases. Rankings are never sold. <a href="/affiliate-disclosure/">How we make money</a></p>
+    </section>
   </div>
 </Base>
