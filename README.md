@@ -14,6 +14,16 @@ head-to-head comparisons (`/compare/`), brand pages, a glossary and calculators.
 are in [`docs/CONTENT_GUIDE.md`](docs/CONTENT_GUIDE.md); search strategy in
 [`docs/bing-playbook.md`](docs/bing-playbook.md).
 
+## Design
+
+The look, page skeletons and SEO head copy [enthusiastreview.com](https://www.enthusiastreview.com)
+(repo `shaheertiger/enthusiastreview`): black topbar, centred logo, a nav strip with a "Best Lists"
+mega menu, Barlow Semi Condensed headings, Lora body text, Inter for UI and tables, and a teal accent.
+Styles are plain CSS in `src/styles/global.css` (no Tailwind). Templates:
+`src/components/GuidePage.astro` (best lists and brand reviews), `src/components/ArticlePage.astro`
+(guides), `src/pages/gear/[slug].astro`, `src/pages/compare/[slug].astro`. Category icons live in
+`src/data/categories.ts`; the menu in `src/data/nav.ts`.
+
 ## Commands
 
 | Command | Action |

@@ -1,26 +1,42 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import { SITE } from '../../data/site';
 import { glossary, type Term } from '../../data/glossary';
 import { md } from '../../lib/md';
+import { formatDate } from '../../lib/data';
 import { breadcrumbs, graph } from '../../lib/schema';
 export function getStaticPaths() { return glossary.map((t) => ({ params: { slug: t.slug }, props: { t } })); }
 const { t } = Astro.props as { t: Term };
-const url = `/glossary/${t.slug}/`;
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'Glossary', url: '/glossary/' }, { name: t.term, url }];
+const path = `/glossary/${t.slug}/`;
+const updated = '2026-11-19';
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Glossary', url: '/glossary/' }, { name: t.term, url: path }];
 const others = glossary.filter((x) => x.slug !== t.slug);
-const schema = graph(breadcrumbs(crumbs), { '@type': 'DefinedTerm', name: t.term, description: t.short, inDefinedTermSet: 'https://www.allmetalbrake.com/glossary/' });
 const short = t.term.replace(/ \(.*\)$/, '');
+const schema = graph(
+  { '@type': 'DefinedTerm', name: t.term, description: t.short, url: `${SITE.url}${path}`, inDefinedTermSet: { '@type': 'DefinedTermSet', name: `${SITE.name} Backup Power Glossary`, url: `${SITE.url}/glossary/` } },
+  breadcrumbs(crumbs),
+);
 ---
 <Base title={`What Is ${short}? Backup Power Glossary`} description={t.short.slice(0, 158)} schema={schema}>
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-    <Breadcrumbs items={crumbs} />
-    <p class="mt-5 text-xs font-bold uppercase tracking-wider text-brand-600">Glossary</p>
-    <h1 class="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight text-ink">What Is {short}?</h1>
-    <div class="mt-5 rounded-xl bg-brand-50 border border-brand-100 p-4"><p class="text-xs font-bold uppercase tracking-wider text-brand-700">Short answer</p><p class="mt-1 text-slate-800">{t.short}</p></div>
-    <div class="prose mt-6" set:html={md(t.body)} />
-    <div class="prose"><h2>Related</h2><ul>{t.related.map((r) => <li><a href={r.url}>{r.title}</a></li>)}</ul></div>
-    <div class="prose"><h2>More Terms</h2></div>
-    <p class="mt-3 flex flex-wrap gap-2">{others.map((o) => <a href={`/glossary/${o.slug}/`} class="text-sm rounded-full border border-slate-200 px-3 py-1 hover:border-brand-500 no-underline text-slate-700">{o.term}</a>)}</p>
-  </div>
+  <article class="article">
+    <header class="col a-head">
+      <Crumbs items={crumbs} />
+      <div class="kicker">Backup Power Glossary</div>
+      <h1 class="a-title">What Is {short}?</h1>
+      <p class="dek">{t.short}</p>
+      <div class="byline">By <a href="/about/">{SITE.author}</a> · Updated <time datetime={updated}>{formatDate(updated)}</time></div>
+    </header>
+    <div class="col body">
+      <Fragment set:html={md(t.body)} />
+      {t.related.length > 0 && (
+        <>
+          <h2 id="related">Related</h2>
+          <ul class="link-list">{t.related.map((r) => <li><a href={r.url}>{r.title}</a></li>)}</ul>
+        </>
+      )}
+      <h2 id="more">More Terms</h2>
+      <p class="term-cloud">{others.map((o) => <a href={`/glossary/${o.slug}/`}>{o.term}</a>)}</p>
+    </div>
+  </article>
 </Base>

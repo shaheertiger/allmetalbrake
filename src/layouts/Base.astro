@@ -1,11 +1,12 @@
 ---
-import '@fontsource-variable/inter/wght.css';
+// Page shell in the enthusiastreview.com structure: SEO head, topbar + centred-logo header,
+// nav strip with the Best Lists mega menu, footer. Organization + WebSite JSON-LD on every page.
 import '../styles/global.css';
-import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
-import { SITE } from '../data/site';
-import { NAV, FOOTER_CATEGORIES, FOOTER_COMPANY } from '../data/nav';
-import { organization, website } from '../lib/schema';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import Analytics from '@vercel/analytics/astro';
+import { SITE } from '../data/site';
+import { organization, website } from '../lib/schema';
 
 interface Props {
   title: string;
@@ -18,136 +19,66 @@ interface Props {
   tags?: string[];
   noindex?: boolean;
   mdAlternate?: string;
+  /** Absolute image URL for og:image (a product photo); falls back to the site card. */
+  ogImage?: string;
   preloadImage?: string;
 }
-const { title, description, type = 'website', schema, published, updated, section, tags = [], noindex = false, mdAlternate, preloadImage } = Astro.props;
+const { title, description, type = 'website', schema, published, updated, section, tags = [], noindex = false, mdAlternate, ogImage, preloadImage } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).toString();
-const ogImage = new URL(SITE.ogImage, SITE.url).toString();
+// Bing truncates titles at roughly 60-70 characters and matches the query words it reads
+// first. Append the site name only when it still fits in 65, so the page's own words show.
+const withName = `${title} | ${SITE.name}`;
+const fullTitle = title.includes(SITE.name) || withName.length > 65 ? title : withName;
+const og = ogImage ?? new URL(SITE.ogImage, SITE.url).toString();
 const schemas = [organization(), website(), ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])];
-const path = Astro.url.pathname;
+const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex ? <meta name="robots" content="noindex, follow" /> : <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
-    {SITE.adsenseId && <meta name="google-adsense-account" content={SITE.adsenseId} />}
-    {SITE.googleSiteVerification && <meta name="google-site-verification" content={SITE.googleSiteVerification} />}
-    {/* Bing Webmaster Tools: set PUBLIC_BING_SITE_VERIFICATION in Vercel, or verify by DNS. */}
-    {import.meta.env.PUBLIC_BING_SITE_VERIFICATION && <meta name="msvalidate.01" content={import.meta.env.PUBLIC_BING_SITE_VERIFICATION} />}
-    {SITE.adsenseId && <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${SITE.adsenseId}`} crossorigin="anonymous"></script>}
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/logo.png" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
-    {mdAlternate && <link rel="alternate" type="text/markdown" href={mdAlternate} />}
-    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+    {mdAlternate && <link rel="alternate" type="text/markdown" href={new URL(mdAlternate, SITE.url).toString()} />}
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
     <link rel="preconnect" href="https://m.media-amazon.com" crossorigin />
-    <meta name="theme-color" content="#0b1120" />
     {preloadImage && <link rel="preload" as="image" href={preloadImage} />}
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:site_name" content={SITE.name} />
     <meta property="og:type" content={type} />
-    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
     <meta property="og:locale" content={SITE.locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
     {published && <meta property="article:published_time" content={published} />}
     {updated && <meta property="article:modified_time" content={updated} />}
     {type === 'article' && <meta property="article:author" content={SITE.author} />}
     {section && <meta property="article:section" content={section} />}
     {tags.map((t) => <meta property="article:tag" content={t} />)}
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    {SITE.googleSiteVerification && <meta name="google-site-verification" content={SITE.googleSiteVerification} />}
+    {bing && <meta name="msvalidate.01" content={bing} />}
+    {SITE.adsenseId && <meta name="google-adsense-account" content={SITE.adsenseId} />}
+    {SITE.adsenseId && <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${SITE.adsenseId}`} crossorigin="anonymous"></script>}
     {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
   </head>
-  <body class="antialiased">
-    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white p-2 rounded z-50">Skip to content</a>
-    <div class="min-h-screen flex flex-col">
-      <header class="sticky top-0 z-40 bg-[#0b1120] text-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center h-14 md:h-16">
-            <a href="/" class="flex items-center gap-2 no-underline" aria-label={`${SITE.name} home`}>
-              <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#f5a524"/><path d="M18 5 9 18h6l-2 9 10-14h-6z" fill="#0b1120"/></svg>
-              <span class="font-extrabold tracking-tight whitespace-nowrap text-[13px] min-[380px]:text-[15px] md:text-base">ALL METAL <span class="text-gold">BRAKE</span></span>
-            </a>
-            <nav class="hidden lg:flex items-center gap-6" aria-label="Main">
-              <a href="/best-of/" class="text-slate-200 hover:text-gold font-medium text-sm no-underline">Best Lists</a>
-              {NAV.map((g, gi) => (
-                <div class="relative group">
-                  <button class="flex items-center gap-1 text-slate-200 group-hover:text-gold font-medium text-sm" aria-haspopup="true">
-                    {g.label}
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-                  </button>
-                  <div class={`invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition absolute top-full pt-3 w-80 ${gi === NAV.length - 1 ? 'right-0' : 'left-1/2 -translate-x-1/2'}`}>
-                    <div class="bg-white text-ink rounded-xl shadow-xl ring-1 ring-black/5 p-2">
-                      {g.links.map((l) => (
-                        <a href={l.url} class="flex gap-3 items-start p-2.5 rounded-lg hover:bg-slate-50 no-underline">
-                          <span class="text-xl shrink-0" aria-hidden="true">{l.icon}</span>
-                          <span><span class="block text-sm font-semibold text-ink">{l.title}</span><span class="block text-xs text-slate-500 mt-0.5">{l.blurb}</span></span>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </nav>
-            <details class="lg:hidden relative" id="mobile-menu">
-              <summary class="list-none cursor-pointer p-2.5 -mr-2.5" aria-label="Open menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
-              </summary>
-              <div class="fixed left-0 right-0 top-14 bottom-0 overflow-y-auto overscroll-contain bg-white text-ink px-4 pb-[calc(2.5rem+env(safe-area-inset-bottom))] pt-2 shadow-xl">
-                <a href="/best-of/" class="block py-3 font-semibold border-b border-slate-100 no-underline text-ink">🏆 All Best Lists</a>
-                {NAV.map((g) => (
-                  <div class="py-3 border-b border-slate-100">
-                    <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">{g.label}</p>
-                    {g.links.map((l) => <a href={l.url} class="block py-2 text-[15px] text-ink no-underline"><span aria-hidden="true">{l.icon}</span> {l.title}</a>)}
-                  </div>
-                ))}
-              </div>
-            </details>
-          </div>
-        </div>
-      </header>
-
-      <main id="main" class="flex-1">
-        <slot />
-      </main>
-
-      <footer class="bg-[#0b1120] text-slate-300 mt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid gap-10 md:grid-cols-4">
-          <div class="md:col-span-2">
-            <h2 class="text-white font-extrabold text-lg">{SITE.name}</h2>
-            <p class="mt-3 text-sm leading-relaxed max-w-md">{SITE.description}</p>
-            <p class="mt-4 text-xs text-slate-400 max-w-md">As an Amazon Associate we earn from qualifying purchases. Rankings are never sold. <a href="/affiliate-disclosure/" class="underline">How we make money</a>.</p>
-          </div>
-          <div>
-            <h3 class="text-white font-semibold text-sm">Categories</h3>
-            <ul class="mt-3 space-y-2 text-sm">{FOOTER_CATEGORIES.map((l) => <li><a href={l.url} class="hover:text-gold no-underline">{l.title}</a></li>)}</ul>
-          </div>
-          <div>
-            <h3 class="text-white font-semibold text-sm">Company</h3>
-            <ul class="mt-3 space-y-2 text-sm">{FOOTER_COMPANY.map((l) => <li><a href={l.url} class="hover:text-gold no-underline">{l.title}</a></li>)}</ul>
-          </div>
-        </div>
-        <div class="border-t border-white/10">
-          <p class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 text-xs text-slate-400">© {new Date().getFullYear()} {SITE.name}. Product details and availability can change; check the retailer before you buy.</p>
-        </div>
-      </footer>
-    </div>
+  <body>
+    <Header />
+    <main id="main"><slot /></main>
+    <Footer />
     <Analytics />
-    <script>
-      const menu = document.getElementById('mobile-menu') as HTMLDetailsElement | null;
-      if (menu) {
-        menu.addEventListener('toggle', () => document.documentElement.classList.toggle('overflow-hidden', menu.open));
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.open) menu.open = false; });
-        menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => (menu.open = false)));
-      }
-    </script>
   </body>
 </html>

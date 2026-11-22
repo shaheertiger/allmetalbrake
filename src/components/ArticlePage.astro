@@ -1,0 +1,124 @@
+---
+// Guides: costs, lifespans, timing and brand-vs-brand articles (kind "guide").
+// enthusiastreview.com article skeleton: H1 → Short Answer (first H2, the Bing rule) → lede →
+// On this page → question sections → mistakes → bottom line → FAQ → sources → related.
+import Base from '../layouts/Base.astro';
+import Crumbs from './Crumbs.astro';
+import CatIcon from './CatIcon.astro';
+import ProductImage from './ProductImage.astro';
+import FaqList from './FaqList.astro';
+import { SITE } from '../data/site';
+import { categoryOf } from '../data/categories';
+import { md, slugify } from '../lib/md';
+import { articleSchema, breadcrumbs, faqPage, graph } from '../lib/schema';
+import { articles, articleMap, productMap, hubLabel, readMinutes, formatDate, articleUrl, shortName, topicOf, cap } from '../lib/data';
+import type { Article } from '../lib/types';
+
+interface Props { a: Article }
+const { a } = Astro.props;
+const url = articleUrl(a);
+const topic = topicOf(a);
+const cat = categoryOf(topic);
+const kindLabel = /\bvs\b/i.test(a.h1) ? 'Head to Head' : /cost/i.test(a.slug) ? 'Costs' : 'Explainer';
+
+// The Short Answer: an article section headed "... Short Answer" if there is one, opened by the
+// intro's first paragraph in the answer box.
+const isShort = (h: string) => /short answer/i.test(h);
+const shortSec = a.sections.find((s) => isShort(s.heading));
+const rest = a.sections.filter((s) => s !== shortSec);
+const paras = (a.quickAnswer ? [a.quickAnswer] : []).concat(a.intro.split(/\n\s*\n/));
+const [answer, ...lede] = paras;
+const shortH = shortSec?.heading ?? `${a.h1.replace(/\?$/, '')}: The Short Answer`;
+
+const outline: [string, string][] = [
+  ['short-answer', shortH],
+  ...rest.map((s) => [slugify(s.heading), s.heading] as [string, string]),
+  ...(a.mistakes?.length ? [['mistakes', 'Common Mistakes to Avoid'] as [string, string]] : []),
+  ['bottom-line', 'The Bottom Line'],
+  ['faq', 'Frequently Asked Questions'],
+  ['sources', 'Sources'],
+];
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guides/' }, { name: a.h1, url }];
+const related = a.related.map((s) => articleMap.get(s)).filter((x): x is Article => Boolean(x));
+const more = articles.filter((x) => x.slug !== a.slug && x.kind === 'guide' && !related.includes(x));
+const schema = graph(articleSchema(a, url), breadcrumbs(crumbs), faqPage(a.faqs));
+---
+<Base title={a.title} description={a.metaDescription} type="article" schema={schema} published={a.published} updated={a.updated} section={hubLabel(a.hub)} tags={a.keywords.slice(0, 5)} mdAlternate={`/${a.slug}.md`}>
+  <article class="article">
+    <header class="a-head col">
+      <Crumbs items={crumbs} />
+      <div class="kicker">{topic ? cat.label : 'Guides'} · {kindLabel}</div>
+      <h1 class="a-title">{a.h1}</h1>
+      <p class="dek">{a.metaDescription}</p>
+      <div class="byline">
+        By <a href="/about/">{SITE.author}</a> · Updated <time datetime={a.updated}>{formatDate(a.updated)}</time> · {readMinutes(a)} min read
+      </div>
+    </header>
+
+    <div class="col body numbered">
+      <h2 id="short-answer">{shortH}</h2>
+      <div class="answer-box" set:html={md(cap(answer))} />
+      {lede.map((t) => <Fragment set:html={md(t)} />)}
+      {shortSec && <Fragment set:html={md(shortSec.body)} />}
+    </div>
+
+    <div class="col">
+      <nav class="toc" aria-label="On this page">
+        <p class="mini">On this page</p>
+        <ol>{outline.map(([id, h]) => <li><a href={`#${id}`}>{h}</a></li>)}</ol>
+      </nav>
+    </div>
+
+    <div class="col body numbered">
+      {rest.map((s) => (
+        <>
+          <h2 id={slugify(s.heading)}>{s.heading}</h2>
+          <Fragment set:html={md(s.body)} />
+        </>
+      ))}
+
+      {a.mistakes?.length && (
+        <>
+          <h2 id="mistakes">Common Mistakes to Avoid</h2>
+          {a.mistakes.map((m) => (
+            <>
+              <h3>{m.title}</h3>
+              <Fragment set:html={md(m.body)} />
+            </>
+          ))}
+        </>
+      )}
+
+      <h2 id="bottom-line">The Bottom Line</h2>
+      <Fragment set:html={md(a.bottomLine)} />
+
+      <h2 id="faq">Frequently Asked Questions</h2>
+      <FaqList faqs={a.faqs} />
+
+      <h2 id="sources">Sources</h2>
+      <ul>
+        <li>Manufacturer spec sheets, owner's manuals and published warranty terms for the products and brands named on this page.</li>
+        <li>Published installation and ownership cost ranges, cross-checked against each other rather than taken from a single quote.</li>
+        <li>Owner reviews and forum reports for long-term reliability and support experience.</li>
+      </ul>
+      <p class="fine">Figures checked against current manufacturer and retailer information as of <time datetime={a.updated}>{formatDate(a.updated)}</time>. Spotted a change? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+    </div>
+
+    <aside class="wrap related">
+      <h2 class="section-title">Related</h2>
+      <div class="grid grid-3">
+        {[...related, ...more].slice(0, 6).map((r) => {
+          const rp = r.picks?.[0] ? productMap.get(r.picks[0].product) : undefined;
+          return (
+            <a class="card" href={articleUrl(r)}>
+              {rp ? <ProductImage p={rp} size={72} /> : <CatIcon cat={topicOf(r) ?? r.hub} size={44} />}
+              <span class="card-k">{hubLabel(r.hub)}</span>
+              <h3>{r.h1}</h3>
+              {rp && <span class="card-sub">Top pick: {shortName(rp.name)}</span>}
+            </a>
+          );
+        })}
+      </div>
+    </aside>
+  </article>
+</Base>
