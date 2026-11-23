@@ -1,120 +1,14 @@
 ---
-import Base from '../layouts/Base.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
-import Byline from '../components/Byline.astro';
-import QuickPicks from '../components/QuickPicks.astro';
-import PickBlock from '../components/PickBlock.astro';
-import ComparisonTable from '../components/ComparisonTable.astro';
-import FAQ from '../components/FAQ.astro';
-import TOC from '../components/TOC.astro';
-import RelatedCards from '../components/RelatedCards.astro';
-import StickyBuyBar from '../components/StickyBuyBar.astro';
-import { articles, articleMap, getProduct, hubLabel, readMinutes, articleUrl, brandUrl, productsByBrand } from '../lib/data';
-import { md, slugify } from '../lib/md';
-import { articleSchema, breadcrumbs, faqPage, graph, itemList } from '../lib/schema';
-import { amazonImage, amazonUrl } from '../lib/amazon';
+// Root-level pages: best lists and brand reviews (/best-inverter-generator/, /best-ecoflow-power-station/)
+// and guides (/generac-generator-cost/). Source: src/content/articles/*.json.
+import GuidePage from '../components/GuidePage.astro';
+import ArticlePage from '../components/ArticlePage.astro';
+import { articles } from '../lib/data';
 import type { Article } from '../lib/types';
 
 export function getStaticPaths() {
-  return articles.map((a) => ({ params: { slug: a.slug }, props: { article: a } }));
+  return articles.map((a) => ({ params: { slug: a.slug }, props: { a } }));
 }
-
-const { article: a } = Astro.props as { article: Article };
-const url = articleUrl(a);
-const picks = a.picks ?? [];
-const pickProducts = picks.map((p) => getProduct(p.product));
-const before = a.sections.filter((s) => s.position === 'before');
-// Comparison columns: keep specs most picks actually have; top up from shared key specs.
-const coverage = (k: string) => pickProducts.filter((p) => p.specs[k]).length / Math.max(1, pickProducts.length);
-const columns = (a.comparisonSpecs ?? []).filter((k) => coverage(k) >= 0.5);
-for (const k of [...new Set(pickProducts.flatMap((p) => p.keySpecs ?? []))].sort((x, y) => coverage(y) - coverage(x))) {
-  if (columns.length >= 4) break;
-  if (!columns.includes(k) && coverage(k) >= 0.6) columns.push(k);
-}
-const after = a.sections.filter((s) => s.position !== 'before');
-
-// Numbered H2 outline, same pattern as our proven templates.
-type H2 = { id: string; label: string };
-const outline: H2[] = [];
-let n = 0;
-const num = (label: string, id?: string) => { n += 1; const h = { id: id ?? slugify(label), label: `${n}. ${label}` }; outline.push(h); return h; };
-const beforeH = before.map((s) => num(s.heading));
-// Product noun from the H1: "The 7 Best Inverter Generators in 2026" -> "Inverter Generators".
-const noun = a.h1.replace(/^The \d+ /, '').replace(/^Best /, '').replace(/\s+(in|for) 20\d\d$/, '').replace(/\s*\(20\d\d\)$/, '');
-const picksH = picks.length ? num(a.picksHeading ?? `The Best ${noun}`, 'the-picks') : null;
-const tableH = picks.length > 1 ? num(`${noun} Side by Side`, 'side-by-side') : null;
-const afterH = after.map((s) => num(s.heading));
-const mistakesH = a.mistakes?.length ? num('Common Mistakes to Avoid', 'mistakes') : null;
-const faqH = num('Frequently Asked Questions', 'faq');
-
-const related = a.related.map((s) => articleMap.get(s)).filter(Boolean) as Article[];
-const sameHub = articles.filter((x) => x.hub === a.hub && x.slug !== a.slug && !a.related.includes(x.slug)).slice(0, 6);
-const crumbs = [
-  { name: 'Home', url: '/' },
-  { name: a.kind === 'review' ? 'Brand Reviews' : a.kind === 'guide' ? 'Guides' : 'Best Lists', url: a.kind === 'review' ? '/reviews/' : a.kind === 'guide' ? '/guides/' : '/best-of/' },
-  { name: a.h1, url },
-];
-const schema = graph(
-  breadcrumbs(crumbs),
-  faqPage(a.faqs),
-  articleSchema(a, url),
-  ...(picks.length ? [itemList(pickProducts.map((p) => ({ name: p.name, url: `/gear/${p.slug}/`, product: p })), a.h1)] : []),
-);
-const firstImg = pickProducts[0] ? amazonImage(pickProducts[0], 160) ?? undefined : undefined;
-const brandProducts = a.brand ? productsByBrand(a.brand) : [];
-const barItems = picks.map((pk, i) => { const p = pickProducts[i]; return { slug: p.slug, name: p.name, label: `#${i + 1} · ${pk.award}`, url: amazonUrl(p), image: amazonImage(p, 160), target: `pick-${i + 1}` }; });
+const { a } = Astro.props as { a: Article };
 ---
-<Base title={a.title} description={a.metaDescription} type="article" schema={schema} published={a.published} updated={a.updated} section={hubLabel(a.hub)} tags={a.keywords.slice(0, 5)} mdAlternate={`/${a.slug}.md`} preloadImage={firstImg}>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-    <Breadcrumbs items={crumbs} />
-    <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-12 mt-4">
-      <article class="max-w-3xl">
-        <p class="text-xs font-bold uppercase tracking-wider text-brand-600">{hubLabel(a.hub)}</p>
-        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-ink leading-tight">{a.h1}</h1>
-        <Byline updated={a.updated} published={a.published} minutes={readMinutes(a)} />
-        <div class="prose mt-6" set:html={md(a.intro)} />
-        {picks.length > 0 && <QuickPicks picks={picks} />}
-        {a.quickAnswer && (
-          <div class="not-prose my-6 rounded-xl bg-brand-50 border border-brand-100 p-4 sm:p-5">
-            <p class="text-xs font-bold uppercase tracking-wider text-brand-700">Quick answer</p>
-            <div class="prose mt-1 text-[1rem]" set:html={md(a.quickAnswer)} />
-          </div>
-        )}
-        <TOC items={outline} variant="mobile" />
-        <div class="prose">
-          {before.map((s, i) => (<><h2 id={beforeH[i].id}>{beforeH[i].label}</h2><Fragment set:html={md(s.body)} /></>))}
-          {picksH && <h2 id={picksH.id}>{picksH.label}</h2>}
-        </div>
-        {picks.map((pk, i) => <PickBlock pick={pk} index={i + 1} />)}
-        {tableH && (
-          <div class="prose"><h2 id={tableH.id}>{tableH.label}</h2></div>
-          <ComparisonTable products={pickProducts} specs={columns} awards={picks.map((p) => p.award)} />
-        )}
-        <div class="prose">
-          {after.map((s, i) => (<><h2 id={afterH[i].id}>{afterH[i].label}</h2><Fragment set:html={md(s.body)} /></>))}
-          {mistakesH && (
-            <>
-              <h2 id={mistakesH.id}>{mistakesH.label}</h2>
-              {a.mistakes!.map((m) => (<><h3>{m.title}</h3><Fragment set:html={md(m.body)} /></>))}
-            </>
-          )}
-          <h2 id={faqH.id}>{faqH.label}</h2>
-        </div>
-        <FAQ faqs={a.faqs} />
-        {brandProducts.length > 0 && (
-          <div class="prose"><h2 id="every-product">Every {a.brand} Product We Track</h2>
-            <p>See the full <a href={brandUrl(a.brand!)}>{a.brand} brand page</a> for spec sheets and scores on all {brandProducts.length} models.</p>
-          </div>
-        )}
-        {related.length > 0 && (<div class="prose"><h2 id="related">Related Guides</h2></div><RelatedCards articles={related} />)}
-        <div class="prose">
-          <h2 id="bottom-line">The Bottom Line</h2>
-          <Fragment set:html={md(a.bottomLine)} />
-        </div>
-        {sameHub.length > 0 && (<div class="prose"><h2 id="more">More in {hubLabel(a.hub)}</h2></div><RelatedCards articles={sameHub} />)}
-      </article>
-      <aside class="hidden lg:block"><TOC items={outline} variant="desktop" /></aside>
-    </div>
-  </div>
-  {barItems.length > 0 && <StickyBuyBar items={barItems} trigger="#quick-picks" mode="track" />}
-</Base>
+{a.kind === 'guide' ? <ArticlePage a={a} /> : <GuidePage a={a} />}

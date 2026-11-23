@@ -1,8 +1,7 @@
 ---
-interface Props { score: number; size?: 'sm' | 'lg' }
-const { score, size = 'sm' } = Astro.props;
-const color = score >= 85 ? 'bg-emerald-700' : score >= 75 ? 'bg-brand-700' : score >= 65 ? 'bg-amber-700' : 'bg-slate-600';
+import { SCORE_NAME } from '../data/site';
+interface Props { value: number; size?: 'sm' | 'lg' }
+const { value, size = 'sm' } = Astro.props;
+const tier = value >= 88 ? 'top' : value >= 80 ? 'good' : value >= 72 ? 'ok' : 'low';
 ---
-<span class={`inline-flex items-center gap-1 rounded-lg text-white font-bold ${color} ${size === 'lg' ? 'px-3 py-1.5 text-lg' : 'px-2 py-0.5 text-xs'}`} title="AMB Score out of 100 (editorial ranking)">
-  {score}<span class="font-medium text-[0.75em]">/100</span>
-</span>
+<span class={`score score-${size} score-${tier}`} title={`${SCORE_NAME}: our research score out of 100`}><b>{value}</b><small>/100</small></span>

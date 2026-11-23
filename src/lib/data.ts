@@ -126,3 +126,24 @@ export function shortName(name: string) {
   }
   return n;
 }
+
+/** "#3 of 29" within its category, by score. */
+export function rankOf(p: Product) {
+  const list = productsByCategory(p.category);
+  return { rank: list.findIndex((x) => x.slug === p.slug) + 1, of: list.length };
+}
+
+/** The product category an article belongs to: its hub when that is a category, else its topic, else its picks' category. */
+export function topicOf(a: Article): string | undefined {
+  if (productsByCategory(a.hub).length) return a.hub;
+  if (a.topic) return a.topic;
+  const counts = new Map<string, number>();
+  for (const pk of a.picks ?? []) { const c = productMap.get(pk.product)?.category; if (c) counts.set(c, (counts.get(c) ?? 0) + 1); }
+  return [...counts.entries()].sort((x, y) => y[1] - x[1])[0]?.[0];
+}
+
+/** Lower-case the first letter and drop a trailing full stop, for mid-sentence use. */
+export const lc = (s: string) => s.replace(/\.$/, '').replace(/^./, (c) => c.toLowerCase());
+
+/** Capitalise the first letter of a Markdown string (skips leading ** or _). */
+export const cap = (s: string) => s.replace(/^(\s*[*_]*)([a-z])/, (_m, a, b) => a + b.toUpperCase());
