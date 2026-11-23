@@ -29,7 +29,9 @@ const INTENTS = [
   { intent: 'problem', test: /won-t|not-|problem|fix|troubleshoot/, brief: 'The common failure and its fix (won\'t start, surging, not charging)' },
 ];
 
-const clusters = Object.keys(labels).map((key) => {
+// Revived guide hubs (Nov 23, 2026) are kept, not grown: the daily run stays on backup power.
+const REVIVED = new Set(['driveway', 'garage-floor', 'basement', 'deck-exterior', 'yard', 'tools', 'home-systems', 'grooming']);
+const clusters = Object.keys(labels).filter((key) => !REVIVED.has(key)).map((key) => {
   const members = arts.filter((a) => a.hub === key || a.topic === key);
   const pillar = arts.find((a) => a.hub === key && a.kind === 'roundup') ?? members[0];
   const covered = new Set(INTENTS.filter((i) => members.some((a) => i.test.test(a.slug))).map((i) => i.intent));

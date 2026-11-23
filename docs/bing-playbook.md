@@ -60,6 +60,21 @@ lawn, tools, appliances, mattresses and gadget pages. This replaces the earlier
   those query types click at 15-40% across all five sites.
 - Do not recreate a deleted slug; its 301 is live.
 
+## Revival of 64 old URLs (owner decision, Nov 23, 2026)
+
+The owner asked to bring back the deleted URLs that still earn traffic. Bing Webmaster API
+pulled for all 34 sites on the account (`GetPageStats`, `GetQueryStats`, `GetPageQueryStats`):
+64 of the 153 deleted slugs had clicks on thehonestreviewers.com in the week of Nov 14-20,
+2026 (best-gas-water-heater 55, best-water-filtration-system-for-home 48, milwaukee-vs-dewalt
+43 … down to 2). Those 64 redirects were removed and the pages rebuilt as `kind: "guide"` JSON
+in the structure that wins on thehonestreviewers.com and enthusiastreview.com: query-first title
+with "in 2026" on best- pages, Short Answer table first, ranked product H3s (Amazon search links,
+no product records), numbered question H2s, 5 mistakes, Bottom Line, 7 FAQs. Text is rewritten,
+not copied, because the sister site ranks with the same slugs. Hubs: driveway, garage-floor,
+basement, deck-exterior, yard, tools, home-systems, grooming (`src/data/site.ts`).
+Page-type CTR across the content sites that week: question 7.1%, X vs Y 4.7%, cost 4.1%,
+best- 3.7% (but 20k of 29k clicks). The other 89 deleted slugs stay redirected.
+
 ## On-page rules (enforced by `npm run qa` in the build; field format in `docs/CONTENT_GUIDE.md`)
 
 - **Title, 50-65 chars, leading with the query.**

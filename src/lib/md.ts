@@ -6,7 +6,9 @@ marked.setOptions({ gfm: true, breaks: false });
 export function md(src: string | undefined): string {
   if (!src) return '';
   const html = marked.parse(src, { async: false }) as string;
-  return html.replace(/<a href="(https?:\/\/[^"]+)"/g, '<a href="$1" target="_blank" rel="noopener"');
+  return html
+    .replace(/<a href="(https?:\/\/(?:www\.)?amazon\.com[^"]*)"/g, '<a href="$1" target="_blank" rel="sponsored nofollow noopener"')
+    .replace(/<a href="(https?:\/\/(?!(?:www\.)?amazon\.com)[^"]+)"/g, '<a href="$1" target="_blank" rel="noopener"');
 }
 
 /** Render inline markdown (no wrapping <p>). */

@@ -44,10 +44,20 @@ export const CATEGORY_LABELS: Record<string, string> = {
   fan: 'Battery Powered Fans',
   heater: 'Outage Heaters',
   'fuel-pump': 'Fuel Transfer Pumps',
+  // Revived guide hubs (Nov 23, 2026): old URLs that still earn Bing clicks on the sister site.
+  driveway: 'Driveway & Concrete Sealing',
+  'garage-floor': 'Garage Floors',
+  basement: 'Basement & Mold',
+  'deck-exterior': 'Deck, Fence & Exterior',
+  yard: 'Lawn & Yard Equipment',
+  tools: 'Tools & Workshop',
+  'home-systems': 'Water Heaters, Water & Flooring',
+  grooming: 'Grooming',
 };
 
 export const CATEGORY_ICONS: Record<string, string> = {
   generator: '⚡', 'dual-fuel': '⛽', inverter: '🔇', 'camping-rv': '🏕️', 'power-station': '🔋', 'home-battery': '🏠',
   solar: '☀️', 'transfer-switch': '🔌', surge: '🛡️', ups: '💻', cpap: '😴', 'power-inverter': '🚗', 'power-bank': '📱',
   lantern: '🔦', radio: '📻', fan: '🌀', heater: '🔥', 'fuel-pump': '🛢️',
+  driveway: '🛣️', 'garage-floor': '🚗', basement: '🏚️', 'deck-exterior': '🪵', yard: '🌿', tools: '🔧', 'home-systems': '🚿', grooming: '💈',
 };
