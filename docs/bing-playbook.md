@@ -73,7 +73,12 @@ no product records), numbered question H2s, 5 mistakes, Bottom Line, 7 FAQs. Tex
 not copied, because the sister site ranks with the same slugs. Hubs: driveway, garage-floor,
 basement, deck-exterior, yard, tools, home-systems, grooming (`src/data/site.ts`).
 Page-type CTR across the content sites that week: question 7.1%, X vs Y 4.7%, cost 4.1%,
-best- 3.7% (but 20k of 29k clicks). The other 89 deleted slugs stay redirected.
+best- 3.7% (but 20k of 29k clicks).
+
+Round 2 (same day): 46 more deleted slugs revived, chosen as every one with 2+ clicks on the
+sister site in the last 28 days, plus four with 50+ clicks all-time (seasonal). Same format;
+`topic` left unset. The 43 remaining deleted slugs had no Bing clicks on either site (mattresses,
+camping fridge, small appliances, EV charger, etc.) and stay redirected.
 
 ## On-page rules (enforced by `npm run qa` in the build; field format in `docs/CONTENT_GUIDE.md`)
 
