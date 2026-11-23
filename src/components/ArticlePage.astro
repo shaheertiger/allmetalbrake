@@ -8,7 +8,8 @@ import CatIcon from './CatIcon.astro';
 import ProductImage from './ProductImage.astro';
 import FaqList from './FaqList.astro';
 import { SITE } from '../data/site';
-import { categoryOf } from '../data/categories';
+import { categoryOf, CATEGORY } from '../data/categories';
+const CATEGORY_KEYS = new Set(Object.keys(CATEGORY));
 import { md, slugify } from '../lib/md';
 import { articleSchema, breadcrumbs, faqPage, graph } from '../lib/schema';
 import { articles, articleMap, productMap, hubLabel, readMinutes, formatDate, articleUrl, shortName, topicOf, cap } from '../lib/data';
@@ -47,7 +48,7 @@ const schema = graph(articleSchema(a, url), breadcrumbs(crumbs), faqPage(a.faqs)
   <article class="article">
     <header class="a-head col">
       <Crumbs items={crumbs} />
-      <div class="kicker">{topic ? cat.label : 'Guides'} · {kindLabel}</div>
+      <div class="kicker">{topic && CATEGORY_KEYS.has(topic) ? cat.label : hubLabel(a.hub)} · {kindLabel}</div>
       <h1 class="a-title">{a.h1}</h1>
       <p class="dek">{a.metaDescription}</p>
       <div class="byline">
