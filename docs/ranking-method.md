@@ -26,12 +26,10 @@ the sections after it are this site's own history and keyword map.
 | **One URL per search; no testing claims.** | `scripts/qa-content.mjs` |
 | **Audit at any time:** `npm run build && npm run audit:seo`. | `scripts/seo-audit.mjs` (same script as enthusiastreview.com) |
 
-Audit on 24 Nov 2026 after the switch: 0 titles over 65, 0 article titles outside 50-62, 0
-descriptions outside 140-158 or 110-160, 0 pages whose first H2 is not the Short Answer, one H1
-everywhere, FAQPage on every article. The remaining flag is "description without the answer
-first" (a number in the first clause) on 43 hand-written descriptions that already lead with the
-answer ("X is the best Y for most Z"); enthusiastreview.com carries 13 of the same. Fix them as
-each page is next edited.
+Audit on 24 Nov 2026 after the switch: every check at 0. No title over 65, no article title outside
+50-62, no description outside 140-158, every description with the answer and a number in its first
+clause, the Short Answer as the first H2 everywhere, one H1, FAQPage on every article. Keep it at 0:
+`npm run build && npm run audit:seo` before every push.
 
 **Author:** Justin Lee, the same named author as enthusiastreview.com and besthometheaterreview.com
 (owner's instruction, 24 Nov 2026): Person schema with `alumniOf`, `hasCredential`, `knowsAbout` and
