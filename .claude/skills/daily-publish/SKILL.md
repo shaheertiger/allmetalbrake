@@ -25,7 +25,9 @@ Add a roundup only for a real "best X for Y" gap, with real products.
 Every article (the `qa` gate enforces most of it):
 - `keyword` = the exact query. It leads the `title` (50-62 chars, then the answer in brief;
   year only on roundups, reviews and cost pages), is the `h1`, opens `intro`, and the first
-  section is headed `<Query>: The Short Answer` / `<Query>? The Short Answer` with a table.
+  section is a "Short Answer" section with a table (the template heads it
+  `<H1>: The Short Answer`, the enthusiastreview.com rule; roundups also get `How We Ranked`,
+  `<H1>: Our N Picks`, `Spec Sheets Side by Side` and `Notable Mentions` automatically).
 - `metaDescription` 140-158 chars, answer with a number first.
 - 7-10 `sections` headed by the follow-up questions people type, `###` subheads inside,
   no numbers in headings (the template numbers them).
@@ -54,7 +56,8 @@ high-impression, low-CTR queries, and turn queries with no page into today's top
   in `src/content/articles/` and is not a redirect source in `vercel.json`.
 - No two articles may share a `keyword` (the gate checks every page).
 - `hub: "guides"` and `topic: "<cluster key>"` for guides; `hub: "<cluster key>"` for roundups.
-- `published` and `updated` = today.
+- `published` and `updated` = today. The page's shown date comes from git
+  (`scripts/page-dates.mjs`), so it moves only when the JSON really changes.
 - Link to the pillar, to product pages `/gear/<slug>/` from the brief's product list, to the
   tools (`/tools/generator-wattage-calculator/`, `/tools/power-station-runtime-calculator/`)
   and glossary terms (`src/data/glossary.ts`).
@@ -76,10 +79,13 @@ only write the JSON files.
 
 ```bash
 npm run build
+npm run audit:seo
 ```
 
-That runs `qa` (format, words, links, duplicate keywords), the Astro build and the post-build
-audit (broken links, JSON-LD, titles, H1s). Fix until it passes. Never weaken a gate. If an
+`build` runs page dates, `qa` (format, words, links, duplicate keywords), the Astro build, the
+post-build audit (broken links, JSON-LD, titles, H1s) and the Markdown twins. `audit:seo` is the
+enthusiastreview.com on-page audit (`docs/ranking-method.md`): new pages must add nothing to
+its title, description or Short Answer counts. Fix until both pass. Never weaken a gate. If an
 article cannot honestly reach 2,500 words, replace the topic.
 
 ## 5. Publish

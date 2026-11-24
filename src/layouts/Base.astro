@@ -32,6 +32,9 @@ const fullTitle = title.includes(SITE.name) || withName.length > 65 ? title : wi
 const og = ogImage ?? new URL(SITE.ogImage, SITE.url).toString();
 const schemas = [organization(), website(), ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])];
 const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
+// Markdown twin of every indexable page (Dualmark), written by scripts/build-markdown.mjs.
+const mdPath = Astro.url.pathname.replace(/\/+$/, '');
+const markdownHref = noindex ? undefined : mdAlternate ? new URL(mdAlternate, SITE.url).toString() : `${SITE.url}${mdPath || '/index'}.md`;
 ---
 <!doctype html>
 <html lang="en">
@@ -45,8 +48,8 @@ const bing = import.meta.env.PUBLIC_BING_SITE_VERIFICATION;
     {!noindex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/logo.png" />
-    {mdAlternate && <link rel="alternate" type="text/markdown" href={new URL(mdAlternate, SITE.url).toString()} />}
-    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    {markdownHref && <link rel="alternate" type="text/markdown" href={markdownHref} />}
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />

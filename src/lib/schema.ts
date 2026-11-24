@@ -2,7 +2,7 @@ import { SITE } from '../data/site';
 import type { Article, FAQ, Product } from './types';
 import { amazonImage } from './amazon';
 import { plain } from './md';
-import { productUrl, hubLabel } from './data';
+import { productUrl, hubLabel, productUpdated } from './data';
 
 const abs = (path: string) => new URL(path, SITE.url).toString();
 
@@ -57,7 +57,7 @@ export function articleSchema(a: Pick<Article, 'title' | 'metaDescription' | 'pu
     datePublished: a.published,
     dateModified: a.updated,
     author: author(),
-    publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url + '/', logo: { '@type': 'ImageObject', url: abs('/logo.png') } },
+    publisher: orgRef,
     mainEntityOfPage: { '@type': 'WebPage', '@id': abs(url) },
     image: image ?? abs(SITE.ogImage),
     articleSection: hubLabel(a.hub),
@@ -84,7 +84,7 @@ export function productSchema(p: Product, withReview = true) {
       name: `${p.name} review`,
       author: author(),
       publisher: orgRef,
-      datePublished: '2026-11-17',
+      datePublished: productUpdated(p),
       reviewBody: plain(p.verdict).slice(0, 500),
       reviewRating: { '@type': 'Rating', ratingValue: p.score, bestRating: 100, worstRating: 0 },
       positiveNotes: { '@type': 'ItemList', itemListElement: p.pros.map((x, i) => ({ '@type': 'ListItem', position: i + 1, name: x })) },

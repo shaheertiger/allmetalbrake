@@ -2,7 +2,7 @@ import type { Article, Product } from './types';
 import overrides from '../data/amazon-links.json';
 import fetchedImages from '../data/product-images.json';
 import fetchedAsins from '../data/product-asins.json';
-import { CATEGORY_LABELS } from '../data/site';
+import { CATEGORY_LABELS, SCORE_NAME } from '../data/site';
 import { slugify } from './md';
 
 type Override = string | { asin?: string; imageId?: string; url?: string; image?: string };
@@ -50,9 +50,28 @@ export const products: Product[] = Object.values(productFiles)
 
 export const productMap = new Map(products.map((p) => [p.slug, p]));
 
+// Real last-modified dates from git (scripts/page-dates.mjs, run first in `npm run build`), the
+// enthusiastreview.com method: a page's date moves only when its content file really changes.
+const gitDates: Record<string, string> =
+  Object.values(import.meta.glob<Record<string, string>>('../data/git-dates.json', { eager: true, import: 'default' }))[0] ?? {};
+/** Date of the last site-wide content refresh, used when git has no date for a file. */
+export const LAUNCH = '2026-11-19';
+const gitDate = (key: string) => gitDates[key];
+
 export const articles: Article[] = Object.values(articleFiles)
   .map((m) => m.default)
+  .map((a) => {
+    const updated = gitDate(`articles/${a.slug}`) ?? a.updated;
+    return { ...a, updated, published: a.published > updated ? updated : a.published };
+  })
   .sort((a, b) => a.slug.localeCompare(b.slug));
+
+export const productUpdated = (p: Pick<Product, 'category'>) => gitDate(`products/${p.category}`) ?? LAUNCH;
+export const compareUpdated = () => gitDate('compares') ?? LAUNCH;
+export const glossaryUpdated = () => gitDate('glossary') ?? LAUNCH;
+/** Newest content date on the site (home page, hubs, sitemap). */
+export const latestDate = () =>
+  [LAUNCH, ...articles.map((a) => a.updated), ...products.map(productUpdated), compareUpdated(), glossaryUpdated()].reduce((m, d) => (d > m ? d : m), '');
 
 export const articleMap = new Map(articles.map((a) => [a.slug, a]));
 
@@ -147,3 +166,134 @@ export const lc = (s: string) => s.replace(/\.$/, '').replace(/^./, (c) => c.toL
 
 /** Capitalise the first letter of a Markdown string (skips leading ** or _). */
 export const cap = (s: string) => s.replace(/^(\s*[*_]*)([a-z])/, (_m, a, b) => a + b.toUpperCase());
+
+/* ------------------------------------------------------------------ */
+/* Answer-first difference headings for comparisons (the              */
+/* enthusiastreview.com / best-proteinpowder.com method). Comparison  */
+/* pages rank at positions 1-9 with H2s that state the answer         */
+/* ("Running watts: the WGen9500DF delivers 1,500 W more"). Built     */
+/* from the spec data, so every comparison gets them and they never  */
+/* drift from the spec sheet.                                         */
+/* ------------------------------------------------------------------ */
+
+type DiffRule = { label: string; topic?: string; more?: string; less?: string; unit?: string };
+const GEN_RULES: DiffRule[] = [
+  { label: 'Running Watts', more: 'delivers {d} more running watts', unit: 'W' },
+  { label: 'Running Watts (Gas / Propane)', topic: 'Running watts', more: 'delivers {d} more running watts on gas', unit: 'W' },
+  { label: 'Running / Starting Watts', topic: 'Running watts', more: 'delivers {d} more running watts', unit: 'W' },
+  { label: 'Starting Watts', more: 'has {d} more starting watts', unit: 'W' },
+  { label: 'Peak Watts (Gas / Propane)', topic: 'Starting watts', more: 'has {d} more starting watts on gas', unit: 'W' },
+  { label: 'Run Time at 50% Load', topic: 'Run time', more: 'runs about {d} hour{s} longer at half load', unit: 'hr' },
+  { label: 'Run Time', more: 'runs about {d} hour{s} longer', unit: 'hr' },
+  { label: 'Rated Noise', topic: 'Noise', less: 'is rated {d} dBA quieter', unit: 'dBA' },
+  { label: 'Weight', less: 'is {d} lb lighter', unit: 'lb' },
+];
+const BATTERY_RULES: DiffRule[] = [
+  { label: 'Battery', topic: 'Capacity', more: 'stores {d} Wh more', unit: 'Wh' },
+  { label: 'AC Output', more: 'puts out {d} W more continuous AC', unit: 'W' },
+  { label: 'Continuous Power', more: 'delivers {d} W more continuous power', unit: 'W' },
+  { label: 'Solar Input', more: 'takes {d} W more solar', unit: 'W' },
+  { label: 'AC Recharge', topic: 'Wall charging', more: 'charges from the wall at {d} W more', unit: 'W' },
+  { label: 'Weight', less: 'is {d} lb lighter', unit: 'lb' },
+  { label: 'Warranty', more: 'has a {d}-year longer warranty', unit: 'year' },
+];
+const DIFF_RULES: Record<string, DiffRule[]> = {
+  generator: GEN_RULES,
+  'dual-fuel': GEN_RULES,
+  inverter: GEN_RULES,
+  'camping-rv': GEN_RULES,
+  'power-station': BATTERY_RULES,
+  'home-battery': BATTERY_RULES,
+  solar: [
+    { label: 'Rated Power', more: 'is rated {d} W higher', unit: 'W' },
+    { label: 'Weight', less: 'is {d} lb lighter', unit: 'lb' },
+  ],
+  'power-bank': [
+    { label: 'Battery', topic: 'Capacity', more: 'holds {d} mAh more', unit: 'mAh' },
+    { label: 'Max Output', more: 'puts out {d} W more', unit: 'W' },
+  ],
+  'power-inverter': [
+    { label: 'Continuous Power', more: 'delivers {d} W more continuous power', unit: 'W' },
+    { label: 'Peak Power', more: 'has {d} W more surge', unit: 'W' },
+  ],
+  ups: [
+    { label: 'Capacity', more: 'is rated {d} VA higher', unit: 'VA' },
+    { label: 'Weight', less: 'is {d} lb lighter', unit: 'lb' },
+  ],
+  cpap: [{ label: 'Battery', topic: 'Capacity', more: 'stores {d} Wh more', unit: 'Wh' }],
+  'transfer-switch': [
+    { label: 'Amp Rating', more: 'is rated {d} A higher', unit: 'A' },
+    { label: 'Max Generator Size', more: 'handles a generator {d} W bigger', unit: 'W' },
+  ],
+  surge: [
+    { label: 'Surge Current', more: 'absorbs {d} kA more surge current', unit: 'kA' },
+    { label: 'Warranty', more: 'has a {d}-year longer warranty', unit: 'year' },
+  ],
+  heater: [{ label: 'Heat Output', more: 'puts out {d} BTU more heat', unit: 'BTU' }],
+  fan: [
+    { label: 'Runtime', more: 'runs about {d} hour{s} longer', unit: 'hr' },
+    { label: 'Blade Size', more: 'has a {d}-inch bigger blade', unit: 'in' },
+  ],
+  lantern: [{ label: 'Brightness', more: 'is {d} lumens brighter', unit: 'lumen' }],
+  'fuel-pump': [{ label: 'Flow Rate', more: 'moves {d} GPM more', unit: 'GPM' }],
+};
+
+// Unit spellings found in the spec sheets, mapped to the rule's unit.
+const UNIT_ALIASES: Record<string, string> = {
+  w: 'W', watt: 'W', watts: 'W', wh: 'Wh', kwh: 'kWh', lb: 'lb', lbs: 'lb', pound: 'lb', pounds: 'lb', dba: 'dBA', db: 'dBA',
+  hr: 'hr', hrs: 'hr', hour: 'hr', hours: 'hr', h: 'hr', mah: 'mAh', va: 'VA', a: 'A', amp: 'A', amps: 'A', ka: 'kA',
+  btu: 'BTU', in: 'in', inch: 'in', inches: 'in', '"': 'in', lumen: 'lumen', lumens: 'lumen', lm: 'lumen', gpm: 'GPM',
+  year: 'year', years: 'year', yr: 'year', yrs: 'year',
+};
+
+/** First number in a spec value and the unit right after it ("1,800W (3,600W surge)" → 1800 W). */
+function specNum(s: string | undefined, unit?: string): number | undefined {
+  const m = s?.replace(/(\d),(\d{3})/g, '$1$2').match(/(\d+(?:\.\d+)?)\s*-?\s*([A-Za-z"]+)?/);
+  if (!m) return undefined;
+  let n = Number(m[1]);
+  let u = UNIT_ALIASES[(m[2] ?? '').toLowerCase()];
+  if (u === 'kWh' && unit === 'Wh') { n *= 1000; u = 'Wh'; }
+  // A different unit than the rule's (mAh vs Wh, minutes vs hours) is not comparable.
+  if (unit && u !== unit) return undefined;
+  return n;
+}
+const fmtNum = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 1 });
+
+/** Up to six "<Topic>: the <winner> <difference>" headings, each with both values underneath. */
+export function compareDiffs(a: Product, b: Product): { h: string; text: string }[] {
+  const out: { h: string; text: string }[] = [];
+  const [sa, sb] = [shortName(a.name), shortName(b.name)];
+  const sn = (p: Product) => (p === a ? sa : sb);
+  const both = (va: string, vb: string) => `${sa}: ${va}. ${sb}: ${vb}.`;
+
+  // No dollar prices on this site, so price is compared by tier.
+  if (a.priceTier && b.priceTier && a.priceTier !== b.priceTier) {
+    const cheap = a.priceTier < b.priceTier ? a : b;
+    out.push({ h: `Price: the ${sn(cheap)} usually costs less`, text: `${both(a.priceBand ?? '', b.priceBand ?? '')} Prices move often with sales and storm season, so check the live listing.` });
+  }
+
+  const topics = new Set<string>();
+  for (const r of DIFF_RULES[a.category] ?? []) {
+    const topic = r.topic ?? r.label;
+    if (topics.has(topic.toLowerCase())) continue;
+    const [va, vb] = [a.specs[r.label], b.specs[r.label]];
+    const [na, nb] = [specNum(va, r.unit), specNum(vb, r.unit)];
+    if (na === undefined || nb === undefined || na === nb) continue;
+    const d = Math.abs(na - nb);
+    // "more" rules credit the higher number; "less" rules credit the lower one.
+    const w = r.more ? (na > nb ? a : b) : na < nb ? a : b;
+    const phrase = (r.more ?? r.less)!.replace('{d}', fmtNum(d)).replace('{s}', d === 1 ? '' : 's');
+    topics.add(topic.toLowerCase());
+    out.push({ h: `${topic}: the ${sn(w)} ${phrase}`, text: both(va, vb) });
+  }
+
+  if (a.score !== b.score) {
+    const w = a.score > b.score ? a : b;
+    const l = w === a ? b : a;
+    out.push({
+      h: `${SCORE_NAME}: the ${sn(w)} scores higher, ${w.score} to ${l.score}`,
+      text: `The ${SCORE_NAME} weighs the spec sheet against the price tier and owner reports. A higher score does not make it the right pick for every home; the short answer above says who each one suits.`,
+    });
+  }
+  return out.filter((x) => x.h.length <= 110).slice(0, 6);
+}

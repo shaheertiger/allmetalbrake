@@ -38,7 +38,8 @@ function collectLocs(xml, urls) {
 
 async function extractUrlsFromSitemaps() {
   if (!existsSync(DIST)) return [];
-  const files = (await readdir(DIST)).filter((f) => f.startsWith('sitemap-') && f.endsWith('.xml'));
+  // One sitemap (src/pages/sitemap.xml.ts); older builds wrote sitemap-*.xml chunks.
+  const files = (await readdir(DIST)).filter((f) => /^sitemap(-.+)?\.xml$/.test(f));
   const urls = new Set();
   for (const file of files) {
     collectLocs(await readFile(join(DIST, file), 'utf8'), urls);
@@ -53,12 +54,8 @@ async function fetchXml(url) {
 }
 
 async function extractUrlsFromLiveSitemaps() {
-  const index = await fetchXml(`${SITE}/sitemap-index.xml`);
-  const sitemaps = [...index.matchAll(/<loc>([^<]+\.xml)<\/loc>/g)].map((m) => m[1].trim());
   const urls = new Set();
-  for (const sitemap of sitemaps) {
-    collectLocs(await fetchXml(sitemap), urls);
-  }
+  collectLocs(await fetchXml(`${SITE}/sitemap.xml`), urls);
   return [...urls];
 }
 
@@ -81,7 +78,7 @@ try {
   const urls = LIVE ? await extractUrlsFromLiveSitemaps() : await extractUrlsFromSitemaps();
   if (urls.length === 0) {
     throw new Error(
-      LIVE ? `No URLs found in ${SITE}/sitemap-index.xml.` : 'No URLs found. Run `astro build` first.'
+      LIVE ? `No URLs found in ${SITE}/sitemap.xml.` : 'No URLs found. Run `astro build` first.'
     );
   }
 

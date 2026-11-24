@@ -11,7 +11,7 @@ export const glossary: Term[] = [
   {
     slug: 'running-watts',
     term: 'Running Watts',
-    short: 'The power a generator can deliver continuously, hour after hour. It is the number to size a generator by.',
+    short: 'The power a generator can deliver continuously, hour after hour. It is lower than the starting (peak) figure on the box, and it is the number to size by.',
     body: `**Running watts** (also called rated or continuous watts) is the output a generator can sustain for as long as it has fuel. It is always lower than the headline **starting** or **peak** figure printed in large type on the box.
 
 To size a generator, add up the running watts of everything you want on at the same time, then make sure the largest single motor's extra starting surge also fits under the starting rating. A refrigerator might run on 150 to 200 watts but need several times that for a second or two when its compressor starts.
@@ -143,7 +143,7 @@ Store LFP stations partly charged and top them up every few months.`,
   {
     slug: 'nmc-battery',
     term: 'NMC Battery',
-    short: 'Lithium nickel manganese cobalt cells, lighter than LiFePO4 but typically rated for fewer charge cycles.',
+    short: 'Lithium nickel manganese cobalt cells: lighter than LiFePO4 but typically rated for fewer charge cycles. Still common in power banks and older power stations.',
     body: `**NMC** (nickel manganese cobalt) lithium-ion cells pack more energy into less weight than LiFePO4, which is why they still appear in some compact and older power stations and in most power banks.
 
 The trade-off is cycle life: NMC packs are commonly rated for roughly 500 to 1,000 cycles to 80% capacity, versus 3,000 or more for LFP. For a station you carry often and cycle rarely, NMC's weight advantage can matter. For home backup that may be cycled through many outages, LFP usually wins.`,
@@ -194,7 +194,7 @@ Every current power station of note has a built-in MPPT controller, so the spec 
   {
     slug: 'co-shutoff',
     term: 'CO Shutoff',
-    short: 'A carbon monoxide sensor on a generator that shuts the engine down if CO builds up around it.',
+    short: 'A carbon monoxide sensor on a generator that shuts the engine down if CO builds up around it, such as Honda CO-MINDER, Champion CO Shield and Generac COsense.',
     body: `Generator exhaust contains carbon monoxide, which kills hundreds of people in the US every year, many after storms. **CO shutoff** systems such as Honda CO-MINDER, Champion CO Shield, Generac COsense and Westinghouse CO Sensor monitor CO around the generator and stop the engine when levels rise.
 
 They are a backup, not permission to run a generator indoors, in a garage, or near windows. Run any generator outdoors, at least 20 feet from the house with the exhaust pointed away, and keep battery CO alarms on every floor of the home.
@@ -225,7 +225,7 @@ It is easily confused with the **L14-30** (30-amp, 120/240V twist-lock) used for
   {
     slug: 'surge-protective-device',
     term: 'Surge Protective Device (SPD)',
-    short: 'A whole-house surge protector mounted at the main panel or meter that diverts voltage spikes to ground.',
+    short: 'A whole-house surge protector mounted at the main panel or meter that diverts voltage spikes to ground. UL 1449 sorts them into Type 1 and Type 2.',
     body: `A **surge protective device** at the panel limits voltage spikes from lightning, utility switching and power restoration after an outage. UL 1449 classifies them by location: **Type 1** can mount on the line side ahead of the main breaker (often at the meter), **Type 2** mounts on the load side in or beside the panel.
 
 Look for the UL 1449 listing, a surge current rating (kA) per mode, and a status indicator. A panel SPD handles large surges; plug-in strips at sensitive electronics catch what remains.

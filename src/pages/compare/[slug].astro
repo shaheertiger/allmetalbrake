@@ -14,7 +14,7 @@ import { compares } from '../../data/compares';
 import { amazonUrl, amazonImage, AFFILIATE_REL } from '../../lib/amazon';
 import { md } from '../../lib/md';
 import { articleSchema, breadcrumbs, faqPage, graph, itemList } from '../../lib/schema';
-import { productMap, productUrl, compareSlug, articlesForProduct, articleUrl, shortName, lc, formatDate } from '../../lib/data';
+import { compareDiffs, compareUpdated, productMap, productUrl, compareSlug, articlesForProduct, articleUrl, shortName, lc, formatDate } from '../../lib/data';
 import type { Product } from '../../lib/types';
 
 export function getStaticPaths() {
@@ -28,7 +28,7 @@ export function getStaticPaths() {
 const { a, b } = Astro.props as { a: Product; b: Product };
 const path = `/compare/${compareSlug(a.slug, b.slug)}/`;
 const cat = categoryOf(a.category);
-const updated = '2026-11-19';
+const updated = compareUpdated();
 const [sa, sb] = [shortName(a.name), shortName(b.name)];
 const winner = a.score === b.score ? null : a.score > b.score ? a : b;
 const loser = winner ? (winner === a ? b : a) : null;
@@ -40,16 +40,45 @@ const sn = (p: Product) => (p === a ? sa : sb);
 const quick = winner
   ? `The **${winner.name}** scores higher (${winner.score} vs ${loser!.score}/100)${cheaper && cheaper !== winner ? `, but the **${cheaper.name}** costs less (${cheaper.priceBand} vs ${(cheaper === a ? b : a).priceBand})` : cheaper === winner ? ` and also costs less (${winner.priceBand})` : ''}. Pick the ${sa} if you want ${lc(a.bestFor)}; pick the ${sb} for ${lc(b.bestFor)}.`
   : `They tie on our ${SCORE_NAME} (${a.score}/100). Choose the ${sa} for ${lc(a.bestFor)}, or the ${sb} for ${lc(b.bestFor)}.`;
-// Answer-first difference H2s: the headline spec gaps, each stated as an answer.
-const diffs = [
-  ...(cheaper ? [{ h: `Price: the ${sn(cheaper)} usually costs less`, text: `${sa}: ${a.priceBand}. ${sb}: ${b.priceBand}. Prices move often with sales and storm season, so check the live listing.` }] : []),
-  ...(winner ? [{ h: `${SCORE_NAME}: the ${sn(winner)} scores ${winner.score - loser!.score} point${winner.score - loser!.score === 1 ? '' : 's'} higher`, text: `${sa}: ${a.score}/100. ${sb}: ${b.score}/100. ${winner.summary}` }] : []),
-  ...differs.slice(0, 3).map((k) => ({ h: `${k}: ${sa} ${a.specs[k]} vs ${sb} ${b.specs[k]}`, text: `The ${sa} lists ${a.specs[k]} for ${k.toLowerCase()}; the ${sb} lists ${b.specs[k]}. Both figures are from the manufacturers' spec sheets.` })),
-].filter((d) => d.h.length <= 110);
-const description = `${a.name} vs ${b.name} compared side by side: ${shared.slice(0, 3).map((k) => k.toLowerCase()).join(', ')}, price and our verdict. ${winner ? `${shortName(winner.name)} scores higher.` : 'They tie on score.'}`;
-const desc = description.length <= 158 ? description : `${description.slice(0, description.lastIndexOf(' ', 155))}…`;
-const h = `${sa} vs ${sb}`;
-const title = h.length <= 34 ? `${h}: Specs, Scores & Which to Buy` : h.length <= 50 ? `${h}: Which to Buy?` : h.length <= 62 ? `${h} Compared` : h;
+// Answer-first difference H2s built from the spec data (compareDiffs, the enthusiastreview.com method).
+const diffs = compareDiffs(a, b);
+// Description: the answer and a number first, then the biggest spec gaps, 140-158 characters.
+const gaps = diffs.filter((d) => !/^(Price|AMB Score):/.test(d.h)).map((d) => d.h.replace(/^[^:]+:\s*/, ''));
+// "Mr. Heater …" would end the first clause at the abbreviation, so those lead with the score.
+const lead = !winner
+  ? `The ${sa} and ${sb} tie at ${a.score}/100 on our ${SCORE_NAME}.`
+  : /\./.test(sn(winner))
+    ? `${winner.score} vs ${loser!.score}/100: the ${sn(winner)} scores higher.`
+    : `The ${sn(winner)} scores higher, ${winner.score} to ${loser!.score}/100.`;
+// Biggest gap among the AMB Score parts, e.g. "It leads on charging speed, 92 to 85."
+const partGap = (() => {
+  const rows = (a.scores ?? []).map((x) => ({ label: x.label, va: x.value, vb: b.scores?.find((y) => y.label === x.label)?.value }))
+    .filter((r) => r.vb !== undefined && r.va !== r.vb)
+    .sort((x, y) => Math.abs(y.va - y.vb!) - Math.abs(x.va - x.vb!));
+  const r = rows[0];
+  if (!r) return undefined;
+  const [hi, lo, who] = r.va > r.vb! ? [r.va, r.vb!, sa] : [r.vb!, r.va, sb];
+  return `The ${who} leads on ${r.label.toLowerCase().replace(/&/g, 'and')}, ${hi} to ${lo}.`;
+})();
+const extras = [
+  ...gaps.slice(0, 2).map((g) => `${g.charAt(0).toUpperCase()}${g.slice(1)}.`),
+  ...(cheaper ? [`The ${sn(cheaper)} usually costs less.`] : []),
+  ...(partGap ? [partGap] : []),
+  `Pick the ${sa} for ${lc(a.bestFor)}.`,
+  `Pick the ${sb} for ${lc(b.bestFor)}.`,
+];
+const closers = ['Specs side by side, the key differences and who should buy each.', 'Specs, differences and who should buy each.', 'Specs and who should buy each.', 'Specs side by side.', 'Full specs.'];
+// Greedy fill: add sentences in order while they fit in 158, then the longest closer that fits.
+let rawDesc = lead;
+for (const e of extras) if (`${rawDesc} ${e}`.length <= 158) rawDesc = `${rawDesc} ${e}`;
+const closer = closers.find((c) => `${rawDesc} ${c}`.length <= 158);
+if (closer) rawDesc = `${rawDesc} ${closer}`;
+const desc = rawDesc;
+// Title: the search first, the year (comparisons change by model year), 50-62 characters where possible.
+const model = (p: Product) => [p.brand, ...shortName(p.name).split(' ').slice(1).filter((w) => /\d/.test(w))].join(' ');
+const h = `${sa} vs ${sb}`.length <= 55 ? `${sa} vs ${sb}` : `${model(a)} vs ${model(b)}`;
+const titleOptions = [`${h} (2026): Which Should You Buy?`, `${h} (2026): Which to Buy?`, `${h} (2026): Which Wins?`, `${h} (2026): Specs Compared`, `${h} (2026)`, h];
+const title = titleOptions.find((t) => t.length >= 50 && t.length <= 62) ?? titleOptions.find((t) => t.length <= 62) ?? h;
 const faqs = [
   { q: `Which is better, the ${sa} or the ${sb}?`, a: quick },
   { q: `What is the main difference between the ${sa} and ${sb}?`, a: differs.length ? differs.slice(0, 3).map((k) => `**${k}:** ${sa} ${a.specs[k]} vs ${sb} ${b.specs[k]}.`).join(' ') : 'On paper they are very close; the real difference is current price and who each suits.' },

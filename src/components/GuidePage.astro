@@ -12,13 +12,14 @@ import ProductImage from './ProductImage.astro';
 import FaqList from './FaqList.astro';
 import { SITE, SCORE_NAME } from '../data/site';
 import { categoryOf } from '../data/categories';
+import { RANKING, RANK_SOURCES } from '../data/ranking';
 import { compares } from '../data/compares';
 import { amazonUrl, amazonImage, AFFILIATE_REL } from '../lib/amazon';
 import { md, mdInline, slugify } from '../lib/md';
 import { articleSchema, breadcrumbs, faqPage, graph, itemList } from '../lib/schema';
 import {
   articles, articleMap, getProduct, productMap, productsByCategory, productsByBrand, hubLabel, readMinutes, formatDate,
-  articleUrl, productUrl, brandUrl, compareSlug, shortName, topicOf, cap,
+  articleUrl, productUrl, brandUrl, compareSlug, shortName, topicOf, cap, lc,
 } from '../lib/data';
 import type { Article } from '../lib/types';
 
@@ -49,10 +50,18 @@ for (const k of [...new Set(picks.flatMap((x) => x.p.keySpecs ?? []))].sort((x, 
   if (!columns.includes(k) && coverage(k) >= 0.6) columns.push(k);
 }
 
+// How We Ranked: the article's own criteria, else the four parts of this category's AMB Score.
+const rankCriteria = a.ranking?.criteria ?? RANKING[topic ?? ''] ?? RANKING[picks[0]?.p.category ?? ''] ?? [];
+const rankIntro = a.ranking?.intro ?? `We ranked these ${isBrand && a.brand ? `${a.brand} products` : cat.plural} using ${RANK_SOURCES}. None of them were hands-on tested by us. Each pick's ${SCORE_NAME} (0–100) weighs that evidence in four parts, and the order below follows the score adjusted for who each product suits:`;
+// Notable Mentions: the best-scoring products we track in this category that did not make the list.
+const mentions = tracked.filter((p) => !pickIds.has(p.slug)).sort((x, y) => y.score - x.score).slice(0, 3);
+// H2 wording is the enthusiastreview.com guide skeleton, word for word.
 const H = {
-  short: shortSec?.heading ?? `${noun}: The Short Answer`,
-  picks: a.picksHeading ?? (isBrand && a.brand ? `The ${a.brand} Lineup, Ranked` : `${noun}: Our ${picks.length} Picks`),
+  short: `${a.h1}: The Short Answer`,
+  how: `How We Ranked ${isBrand && a.brand ? `the ${a.brand} Lineup` : `These ${cat.label}`}`,
+  picks: isBrand && a.brand ? `The ${a.brand} Lineup, Ranked` : `${a.h1}: Our ${picks.length} Picks`,
   specs: 'Spec Sheets Side by Side',
+  mentions: 'Notable Mentions',
   mistakes: 'Common Mistakes to Avoid',
   bottom: 'The Bottom Line',
   faq: 'Frequently Asked Questions',
@@ -62,8 +71,10 @@ const H = {
 const outline = [
   ['short-answer', H.short],
   ...before.map((s) => [slugify(s.heading), s.heading]),
+  ...(picks.length ? [['how-we-ranked', H.how]] : []),
   ...(picks.length ? [['picks', H.picks]] : []),
   ...(picks.length > 1 ? [['specs', H.specs]] : []),
+  ...(mentions.length ? [['mentions', H.mentions]] : []),
   ...after.map((s) => [slugify(s.heading), s.heading]),
   ...(a.mistakes?.length ? [['mistakes', H.mistakes]] : []),
   ['bottom-line', H.bottom],
@@ -173,8 +184,12 @@ const quick = a.quickAnswer ? cap(a.quickAnswer) : (top ? `The **${top.p.name}**
 
       {picks.length > 0 && (
         <>
-          <h2 id="picks">{num('picks')}{H.picks}</h2>
+          <h2 id="how-we-ranked">{num('how-we-ranked')}{H.how}</h2>
+          <p>{rankIntro}</p>
+          {rankCriteria.length > 0 && <ul class="criteria">{rankCriteria.map(([k, v]) => <li><strong>{k}.</strong> {v}</li>)}</ul>}
           <p class="fine">We track {tracked.length || picks.length} {isBrand && a.brand ? `${a.brand} products` : cat.plural}; {picks.length} made this list. Scores are research scores, not lab results. <a href="/how-we-test/">How the {SCORE_NAME} works</a>.</p>
+
+          <h2 id="picks">{num('picks')}{H.picks}</h2>
         </>
       )}
     </div>
@@ -229,6 +244,22 @@ const quick = a.quickAnswer ? cap(a.quickAnswer) : (top ? `The **${top.p.name}**
               </tbody>
             </table>
           </div>
+        </>
+      )}
+
+      {mentions.length > 0 && (
+        <>
+          <h2 id="mentions">{num('mentions')}{H.mentions}</h2>
+          {mentions.map((mp) => (
+            <div class={`mention${mp.imageId ? ' has-thumb' : ''}`}>
+              {mp.imageId && <ProductImage p={mp} size={72} />}
+              <div class="mention-main">
+                <h3><a href={productUrl(mp)}>{mp.name}</a></h3>
+                <p class="mention-meta"><Score value={mp.score} /> · {mp.priceBand}</p>
+                <p>{mp.summary} Best for {lc(mp.bestFor)}. Skip it if {lc(mp.skipIf)}.</p>
+              </div>
+            </div>
+          ))}
         </>
       )}
 

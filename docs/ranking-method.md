@@ -1,5 +1,48 @@
 # allmetalbrake.com: the method to rank on Google and Bing
 
+**Since 24 Nov 2026 this site runs the enthusiastreview.com ranking method** (repo
+`shaheertiger/enthusiastreview`, `docs/ranking-method.md`), mechanism for mechanism. That method is
+copied from the sister sites whose Search Console data show what ranks: comparisons (avg position
+6.6 on best-proteinpowder.com), brand reviews and model pages first, long-tail guides before head
+terms, Product and Review rich results on every product a page shows. Section A is the checklist;
+the sections after it are this site's own history and keyword map.
+
+## A. The enthusiastreview.com method, as applied here
+
+| Rule | Where it lives |
+|---|---|
+| **Titles lead with the search, 50-62 characters.** `(2026)` only on guides, brand pages and comparisons, never on how-tos and fixes. Site name appended only when the whole title still fits in 65. | `src/layouts/Base.astro`, article JSON `title`, `src/pages/compare/[slug].astro` |
+| **Product titles:** `<Model> Review: Specs, Score & Verdict (NN/100)` when it fits in 65. | `src/pages/gear/[slug].astro` |
+| **Product descriptions are generated:** `<Model> at a glance:` up to three specs, then the verdict line, cut at a word at 158. | `src/pages/gear/[slug].astro` |
+| **Descriptions 140-158 characters, answer and a number first.** Comparisons are generated: winner and score first, then the biggest spec gaps. Glossary terms top up the definition from the entry. | article JSON `metaDescription`, compare and glossary templates |
+| **First H2 is "<H1>: The Short Answer"** on guides, articles and comparisons. | `GuidePage.astro`, `ArticlePage.astro`, compare template |
+| **Guide skeleton, numbered H2s:** 1. Short Answer (picks table) → How We Ranked These … → <H1>: Our N Picks → Spec Sheets Side by Side → Notable Mentions → topic sections (searched questions) → Common Mistakes → Bottom Line → FAQ → Sources and Recent Updates → All … We Track → Head-to-Head Comparisons → Related Guides. | `src/components/GuidePage.astro`; criteria in `src/data/ranking.ts` (the four AMB Score parts per category; an article can override with `ranking`) |
+| **Comparison H2s state the answer**, generated from the spec data: "Running watts: the WGen9500DF delivers 1,500 more running watts", "AMB Score: the Honda EU2200i scores higher, 93 to 90". | `compareDiffs()` in `src/lib/data.ts` |
+| **Real dates.** Every page's `updated`, `dateModified`, Review `datePublished` and sitemap `<lastmod>` is the date of the last git commit that changed its content file. Mechanical commits carry the trailer `Page-Dates: skip`. | `scripts/page-dates.mjs` (first step of `npm run build`) → `src/data/git-dates.json` |
+| **Schema:** Organization (`#organization`, 512 px logo) + WebSite on every page; Article + BreadcrumbList + ItemList of full Product + Review nodes + FAQPage on guides; Product + Review + FAQPage on product pages; Article + 2-Product ItemList + FAQPage on comparisons; DefinedTerm on glossary pages; WebApplication on tools. | `src/lib/schema.ts` |
+| **One sitemap**, `/sitemap.xml`, with product photos as image entries and real `<lastmod>`. Old `/sitemap-index.xml` and chunk URLs 301 to it. | `src/pages/sitemap.xml.ts`, `vercel.json` |
+| **IndexNow on every production deploy.** | `scripts/submit-indexnow.js` (postbuild) |
+| **Markdown twins and llms.txt** for AI search (Dualmark): every indexable page at `<path>.md`, `llms.txt`, `llms-full.txt`, `ai.txt`, `md-catalog.json`, served to AI bots and `Accept: text/markdown` by the middleware. | `scripts/build-markdown.mjs`, `middleware.js` |
+| **One URL per search; no testing claims.** | `scripts/qa-content.mjs` |
+| **Audit at any time:** `npm run build && npm run audit:seo`. | `scripts/seo-audit.mjs` (same script as enthusiastreview.com) |
+
+Audit on 24 Nov 2026 after the switch: 0 titles over 65, 0 article titles outside 50-62, 0
+descriptions outside 140-158 or 110-160, 0 pages whose first H2 is not the Short Answer, one H1
+everywhere, FAQPage on every article. The remaining flag is "description without the answer
+first" (a number in the first clause) on 43 hand-written descriptions that already lead with the
+answer ("X is the best Y for most Z"); enthusiastreview.com carries 13 of the same. Fix them as
+each page is next edited.
+
+**Not copied:** the named author. enthusiastreview.com bylines a real person (Person schema with
+`alumniOf`, `hasCredential`, `sameAs`, and an `/authors/<slug>/` ProfilePage). This site still
+bylines the All Metal Brake Editorial Team, because only facts from a real author's own profile
+may go in the schema. Add the author in `src/lib/schema.ts` and an `/authors/` page once the
+owner names one, and remove the `/authors/:slug` redirect in `vercel.json`.
+
+---
+
+## History (before the 24 Nov 2026 switch)
+
 Adapted from the method built for treadmillreviewsusa.com (same publisher, same
 template family) and applied to this site on 2026-11-16.
 

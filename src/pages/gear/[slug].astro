@@ -13,7 +13,7 @@ import { compares } from '../../data/compares';
 import { amazonUrl, amazonImage, AFFILIATE_REL } from '../../lib/amazon';
 import { md } from '../../lib/md';
 import { breadcrumbs, faqPage, graph, productSchema } from '../../lib/schema';
-import { products, productsByCategory, productsByBrand, articlesForProduct, productUrl, brandUrl, articleUrl, compareSlug, shortName, rankOf, lc, formatDate } from '../../lib/data';
+import { productUpdated, products, productsByCategory, productsByBrand, articlesForProduct, productUrl, brandUrl, articleUrl, compareSlug, shortName, rankOf, lc, formatDate } from '../../lib/data';
 import type { Product, FAQ } from '../../lib/types';
 
 export function getStaticPaths() {
@@ -24,7 +24,7 @@ const path = productUrl(p);
 const cat = categoryOf(p.category);
 const sn = shortName(p.name);
 const { rank, of } = rankOf(p);
-const updated = '2026-11-19';
+const updated = productUpdated(p);
 const featured = articlesForProduct(p.slug);
 const myCompares = compares.filter(([a, b]) => a === p.slug || b === p.slug).map(([a, b]) => ({ slug: compareSlug(a, b), other: products.find((x) => x.slug === (a === p.slug ? b : a)) })).filter((c): c is { slug: string; other: Product } => Boolean(c.other));
 // Alternatives, the sister-site way: "Cheaper options" first (same category, lower price tier, best
@@ -63,7 +63,7 @@ const img = amazonImage(p, 500) ?? undefined;
 const schema = graph(productSchema(p), breadcrumbs(crumbs), faqPage(faqs));
 const keys = (p.keySpecs?.length ? p.keySpecs : Object.keys(p.specs)).filter((k) => p.specs[k]).slice(0, 4);
 ---
-<Base title={title} description={description} type="article" schema={schema} ogImage={img} preloadImage={amazonImage(p, 440) ?? undefined} section={cat.label}>
+<Base title={title} description={description} type="article" schema={schema} ogImage={img} preloadImage={amazonImage(p, 440) ?? undefined} section={cat.label} published={updated} updated={updated}>
   <article class="article gear">
     <header class="col a-head">
       <Crumbs items={crumbs} />

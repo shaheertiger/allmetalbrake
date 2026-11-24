@@ -76,6 +76,8 @@ export interface Article {
   bottomLine: string;
   /** Product category a guide belongs to (for 'More in' links). */
   topic?: string;
+  /** "How We Ranked" section; defaults to the category's AMB Score parts (src/data/ranking.ts). */
+  ranking?: { intro: string; criteria: [string, string][] };
   /** Brand this review covers (for kind === 'review'). */
   brand?: string;
 }
