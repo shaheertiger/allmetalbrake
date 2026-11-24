@@ -1,4 +1,5 @@
 import { SITE } from '../data/site';
+import { authorSchema } from '../data/authors';
 import type { Article, FAQ, Product } from './types';
 import { amazonImage } from './amazon';
 import { plain } from './md';
@@ -47,7 +48,8 @@ export function faqPage(faqs: FAQ[]) {
   };
 }
 
-const author = () => ({ '@type': 'Organization', name: SITE.author, url: abs('/about/') });
+// The named author (Person with alumniOf, hasCredential, sameAs), as on enthusiastreview.com.
+const author = () => authorSchema();
 
 export function articleSchema(a: Pick<Article, 'title' | 'metaDescription' | 'published' | 'updated' | 'hub' | 'keywords'>, url: string, image?: string) {
   return {

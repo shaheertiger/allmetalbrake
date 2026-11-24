@@ -10,7 +10,8 @@ export const SITE = {
   description:
     'Independent backup power reviews: home and portable generators, power stations, home batteries, transfer switches and outage gear, checked against the spec sheet and your real loads. No paid placements.',
   locale: 'en_US',
-  author: 'All Metal Brake Editorial Team',
+  /** Byline on every page; full profile in src/data/authors.ts (/authors/justin-lee/). */
+  author: 'Justin Lee',
   email: 'editors@allmetalbrake.com',
   ogImage: '/og-default.png',
   /** Amazon Associates tracking ID used on every Amazon link. */

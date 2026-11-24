@@ -33,11 +33,10 @@ first" (a number in the first clause) on 43 hand-written descriptions that alrea
 answer ("X is the best Y for most Z"); enthusiastreview.com carries 13 of the same. Fix them as
 each page is next edited.
 
-**Not copied:** the named author. enthusiastreview.com bylines a real person (Person schema with
-`alumniOf`, `hasCredential`, `sameAs`, and an `/authors/<slug>/` ProfilePage). This site still
-bylines the All Metal Brake Editorial Team, because only facts from a real author's own profile
-may go in the schema. Add the author in `src/lib/schema.ts` and an `/authors/` page once the
-owner names one, and remove the `/authors/:slug` redirect in `vercel.json`.
+**Author:** Justin Lee, the same named author as enthusiastreview.com and besthometheaterreview.com
+(owner's instruction, 24 Nov 2026): Person schema with `alumniOf`, `hasCredential`, `knowsAbout` and
+`sameAs` LinkedIn on every Article and Review, a linked byline on every page, and the
+`/authors/justin-lee/` ProfilePage. Only facts from his real profile go in `src/data/authors.ts`.
 
 ---
 

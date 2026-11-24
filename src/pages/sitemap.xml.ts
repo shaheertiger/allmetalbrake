@@ -33,6 +33,7 @@ export function GET() {
     ...glossary.map((t) => ({ loc: `/glossary/${t.slug}/`, lastmod: glossaryUpdated() })),
     ...brands.map((b) => ({ loc: brandUrl(b), lastmod: latest, images: products.filter((p) => p.brand === b).flatMap(photo) })),
     ...['/tools/generator-wattage-calculator/', '/tools/power-station-runtime-calculator/'].map((loc) => ({ loc, lastmod: LAUNCH })),
+    { loc: '/authors/justin-lee/', lastmod: latest },
     ...['/about/', '/how-we-test/', '/editorial-policy/', '/contact/', '/affiliate-disclosure/', '/privacy-policy/', '/terms/'].map((loc) => ({ loc, lastmod: LAUNCH })),
   ];
   const body =

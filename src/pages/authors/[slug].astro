@@ -1,0 +1,43 @@
+---
+// Author profile, the enthusiastreview.com / besthometheaterreview.com structure: who he is,
+// background, how he works, every article he wrote. ProfilePage + Person schema.
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import { SITE } from '../../data/site';
+import { AUTHORS, authorSchema, type Author } from '../../data/authors';
+import { articles, articleUrl, formatDate } from '../../lib/data';
+import { breadcrumbs, graph } from '../../lib/schema';
+export function getStaticPaths() {
+  return Object.values(AUTHORS).map((a) => ({ params: { slug: a.slug }, props: { a } }));
+}
+const { a } = Astro.props as { a: Author };
+const path = `/authors/${a.slug}/`;
+const list = [...articles].sort((x, y) => y.updated.localeCompare(x.updated) || x.h1.localeCompare(y.h1));
+const crumbs = [{ name: 'Home', url: '/' }, { name: 'About', url: '/about/' }, { name: a.name, url: path }];
+const schema = graph(breadcrumbs(crumbs), { '@type': 'ProfilePage', url: `${SITE.url}${path}`, name: `${a.name}, ${SITE.name}`, mainEntity: authorSchema(a.slug) });
+---
+<Base title={`${a.name}: ${a.role} at ${SITE.name}`} description={a.short.length > 158 ? a.short.slice(0, a.short.lastIndexOf(' ', 155)).replace(/[,;:]$/, '') + '.' : a.short} schema={schema}>
+  <div class="col hub">
+    <Crumbs items={crumbs} />
+    <h1 class="hub-title">{a.name}</h1>
+    <p class="kicker">{a.role}, {SITE.name}</p>
+    <div class="body">
+      {a.bio.slice(0, 2).map((b) => <p>{b}</p>)}
+      {a.background?.length && (
+        <>
+          <h2>Background</h2>
+          <ul>{a.background.map(([org, role, place]) => <li><strong>{org}</strong>, {role}{place && `, ${place}`}</li>)}</ul>
+        </>
+      )}
+      {a.sameAs?.length && <p>Profile: <a href={a.sameAs[0]} rel="me noopener" target="_blank">LinkedIn</a></p>}
+      <h2>How He Works</h2>
+      {a.bio.slice(2).map((b) => <p>{b}</p>)}
+      <p>Every guide follows our published <a href="/how-we-test/">scoring method</a>.</p>
+      <h2>Covers</h2>
+      <ul>{a.beat.map((b) => <li>{b}</li>)}</ul>
+      <h2>Articles by {a.name}</h2>
+      <ul class="link-list">{list.map((g) => <li><a href={articleUrl(g)}>{g.h1}</a> <span class="tag">updated {formatDate(g.updated)}</span></li>)}</ul>
+      <p class="fine">Spotted an error? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+    </div>
+  </div>
+</Base>
