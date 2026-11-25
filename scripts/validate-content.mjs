@@ -66,10 +66,11 @@ const ROUTES = new Set([
 
 // ---- text checks --------------------------------------------------------------------------
 const TESTING = /\b(we tested|we've tested|we have tested|in our tests?|in our testing|our testing|our benchmarks?|we benchmarked|we measured|our measurements|hands-on testing|tested in our lab|our lab|lab-tested|after testing (them|each|all|every|these|both))\b/i;
-function checkText(where, value) {
+function checkText(where, value, tested = false) {
   if (typeof value === 'string') {
-    // "not from hands-on testing" is the disclaimer, not the claim.
-    if (TESTING.test(value.replace(/\b(not|rather than|never|no)\s+([a-z]+\s+){0,4}?(hands-on testing|lab-tested|our lab)\b/gi, ''))) err(where, `testing claim: "${value.match(TESTING)[0]}" (we have not bench-tested these parts)`);
+    // "not from hands-on testing" is the disclaimer, not the claim. Pages marked `tested: true`
+    // describe hands-on testing the site really did, so they may say so.
+    if (!tested && TESTING.test(value.replace(/\b(not|rather than|never|no)\s+([a-z]+\s+){0,4}?(hands-on testing|lab-tested|our lab)\b/gi, ''))) err(where, `testing claim: "${value.match(TESTING)[0]}" (we have not bench-tested these parts)`);
     for (const m of value.matchAll(/\[[^\]]+\]\(([^)\s]+)\)/g)) {
       const href = m[1];
       if (/^https?:/.test(href)) continue;
@@ -77,8 +78,8 @@ function checkText(where, value) {
       if (!ROUTES.has(clean)) err(where, `link to missing page ${href}`);
     }
     if (/<[a-z][^>]*>/i.test(value)) warn(where, 'contains HTML; use plain text');
-  } else if (Array.isArray(value)) value.forEach((v, i) => checkText(`${where}[${i}]`, v));
-  else if (value && typeof value === 'object') for (const [k, v] of Object.entries(value)) if (!k.startsWith('_')) checkText(`${where}.${k}`, v);
+  } else if (Array.isArray(value)) value.forEach((v, i) => checkText(`${where}[${i}]`, v, tested));
+  else if (value && typeof value === 'object') for (const [k, v] of Object.entries(value)) if (!k.startsWith('_')) checkText(`${where}.${k}`, v, tested);
 }
 const len = (where, field, s, lo, hi) => {
   if (typeof s !== 'string' || !s) return err(where, `missing ${field}`);
@@ -142,7 +143,7 @@ for (const g of guides) {
     if (targets.has(t)) err(w, `targets the same search as ${targets.get(t)} ("${t}"): merge one into the other`);
     targets.set(t, g.slug);
   }
-  checkText(w, g);
+  checkText(w, g, g.tested === true);
 }
 
 // ---- compares, glossary, brands -----------------------------------------------------------

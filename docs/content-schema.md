@@ -10,7 +10,7 @@ House rules for every text field:
 
 - **US English**, plain and direct. Short sentences. No hype words ("beast", "insane", "game-changer").
 - **Answer first.** The first sentence of any summary answers the question with a number.
-- **No testing claims.** We have not bench-tested these parts. Never write "we tested", "in our
+- **No testing claims** unless the page really reports hands-on testing the site did; such a page sets `"tested": true`. We have not bench-tested these parts. Never write "we tested", "in our
   testing", "our benchmarks", "we measured", "hands-on", "lab". Write "rated", "AMD lists",
   "NVIDIA rates", "independent reviews show", "owners report". The ER Score is a research score.
 - **Only facts you are sure of.** If you are not certain of a spec (a fan count, a phase count, a

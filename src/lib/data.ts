@@ -111,6 +111,8 @@ export interface Guide {
   /** Last content change, used only when git has no date for the file (e.g. a bulk migration). */
   updated?: string;
   noindex?: boolean;
+  /** The page reports hands-on testing the site really did (lets the validator accept test wording). */
+  tested?: boolean;
 }
 
 export interface Compare {

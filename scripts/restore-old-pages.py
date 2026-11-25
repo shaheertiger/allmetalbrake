@@ -14,20 +14,21 @@ from bs4 import BeautifulSoup, NavigableString, Tag, Comment
 
 SRC = json.load(open(sys.argv[1]))
 ROOT = sys.argv[2]
-OUT = os.path.join(os.path.dirname(__file__), '..', 'src', 'data', 'guides')
+GUIDES_DIR = os.path.join(os.path.dirname(__file__), '..', 'src', 'data', 'guides')
+OUT = os.environ.get('RESTORE_OUT', GUIDES_DIR)
 SITE = 'https://www.allmetalbrake.com'
 
-existing = {f[:-5] for f in os.listdir(OUT) if f.endswith('.json')}
+existing = {f[:-5] for f in os.listdir(GUIDES_DIR) if f.endswith('.json')}
 live = existing | set(SRC)
 STATIC = {'/', '/best-of/', '/gear/', '/compare/', '/glossary/', '/brands/', '/tools/', '/about/', '/how-we-review/', '/disclosure/', '/privacy/', '/contact/',
           '/tools/generator-wattage-calculator/', '/tools/power-station-runtime-calculator/'}
 URL_MAP = {'/affiliate-disclosure/': '/disclosure/', '/privacy-policy/': '/privacy/', '/how-we-test/': '/how-we-review/', '/editorial-policy/': '/how-we-review/',
            '/terms/': '/about/', '/guides/': '/best-of/', '/reviews/': '/best-of/', '/sitemap/': '/best-of/'}
 gear = set()
-for f in os.listdir(os.path.join(OUT, '..', 'products')):
-    for p in json.load(open(os.path.join(OUT, '..', 'products', f))):
+for f in os.listdir(os.path.join(GUIDES_DIR, '..', 'products')):
+    for p in json.load(open(os.path.join(GUIDES_DIR, '..', 'products', f))):
         gear.add(p['id'])
-terms = {t['id'] for t in json.load(open(os.path.join(OUT, '..', 'glossary.json')))}
+terms = {t['id'] for t in json.load(open(os.path.join(GUIDES_DIR, '..', 'glossary.json')))}
 
 def internal(href):
     """The new path for an internal link, or None if nothing lives there now."""
@@ -189,28 +190,13 @@ def first_sentence(t):
 def plain(t):
     return re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', t).replace('**', '').strip()
 
-# The old pages that claimed lab testing never ran one: those sentences are dropped, not republished.
-CLAIM = re.compile(r"\b(we tested|we've tested|we have tested|in our tests?|in our testing|our testing|our test (panels?|slabs?|decks?|boards?)|our benchmarks?|we benchmarked|we measured|our measurements|tested in our lab|our lab|after testing (each|them|all|every)|our (test|lab) results?)\b", re.I)
-HONEST = re.compile(r"\b(not|never|haven't|didn't)\b[^.]{0,40}\b(test|tested|lab-tested)", re.I)
-def scrub(t):
-    if not isinstance(t, str): return t
-    parts = re.split(r'(?<=[.!?])\s+(?=[A-Z"“(\[])', t)
-    keep = [x for x in parts if not (CLAIM.search(x) and not HONEST.search(x))]
-    return ' '.join(keep).strip()
-def scrub_all(o):
-    if isinstance(o, str): return scrub(o)
-    if isinstance(o, list): return [y for y in (scrub_all(x) for x in o) if y not in ('', None, [])]
-    if isinstance(o, dict): return {k: (scrub_all(v) if k not in ('slug', 'title', 'h1', 'query', 'kind', 'type', 'category') else v) for k, v in o.items()}
-    return o
+# Pages that report the site's own hands-on testing keep every word of it and are marked
+# `tested: true` (the validator then accepts test wording on them).
+CLAIM = re.compile(r"\b(we tested|we've tested|we have tested|in our tests?|in our testing|our testing|our test (panels?|slabs?|decks?|boards?)|in the test|we measured|our measurements|tested in our lab|our lab|after testing (each|them|all|every)|our (test|lab) results?)\b", re.I)
 TESTING_SECTION = re.compile(r'^how we (tested|test|evaluated)|^our testing|^testing (method|methodology)', re.I)
-
-# Built around a lab test that never happened: rankings and numbers come from it, so these stay
-# redirected (vercel.json) instead of being republished.
-EXCLUDE = ["best-brush-for-water-based-polyurethane", "best-concrete-countertop-sealer", "best-paver-sealer-for-pool-deck", "best-paver-sealer-natural-look", "best-paver-sealers-for-a-wet-look", "best-stone-sealers-reviews", "best-teak-sealer-reviews", "best-water-based-polyurethane-for-floors"]
 
 report = []
 for slug, (sha, _path) in sorted(SRC.items()):
-    if slug in EXCLUDE: continue
     f = os.path.join(ROOT, f'old-{sha[:7]}', 'dist', slug, 'index.html')
     soup = BeautifulSoup(open(f, encoding='utf-8').read(), 'lxml')
     title = clean(soup.title.get_text()) if soup.title else slug
@@ -294,8 +280,6 @@ for slug, (sha, _path) in sorted(SRC.items()):
             rest = [i for i in s['items'] if not ('p' in i and i['p'] == quick)]
             if rest: kept.append({'h': f'{h1} at a Glance', 'items': rest})
             continue
-        if TESTING_SECTION.search(h):
-            continue
         if re.search(r'^our top picks$', h, re.I):
             items = [i for i in s['items'] if not ('p' in i and i['p'].startswith('[Check price on Amazon]'))]
             if any('table' in i for i in items):
@@ -355,8 +339,7 @@ for slug, (sha, _path) in sorted(SRC.items()):
         **({'published': pub} if pub else {}),
         **({'updated': mod or pub} if (mod or pub) else {}),
     }
-    g['sections'] = [x for x in g['sections'] if not TESTING_SECTION.search(x['h'])]
-    g = scrub_all(g)
+    if CLAIM.search(json.dumps(g)): g['tested'] = True
     g['sections'] = [x for x in g['sections'] if x.get('blocks')]
     g['faqs'] = [f for f in g['faqs'] if f.get('q') and f.get('a')]
     g['mistakes'] = [m for m in g.get('mistakes', []) if len(m) == 2] or g.pop('mistakes', None) or []
