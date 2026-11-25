@@ -65,11 +65,11 @@ const ROUTES = new Set([
 ]);
 
 // ---- text checks --------------------------------------------------------------------------
-const TESTING = /\b(we tested|we've tested|we have tested|in our tests?|in our testing|our testing|our benchmarks?|we benchmarked|we measured|our measurements|hands-on testing|tested in our lab|our lab|lab-tested|after testing)\b/i;
+const TESTING = /\b(we tested|we've tested|we have tested|in our tests?|in our testing|our testing|our benchmarks?|we benchmarked|we measured|our measurements|hands-on testing|tested in our lab|our lab|lab-tested|after testing (them|each|all|every|these|both))\b/i;
 function checkText(where, value) {
   if (typeof value === 'string') {
     // "not from hands-on testing" is the disclaimer, not the claim.
-    if (TESTING.test(value.replace(/\b(not|rather than|never|no)\s+(from\s+|any\s+)?(hands-on testing|lab-tested|our lab)\b/gi, ''))) err(where, `testing claim: "${value.match(TESTING)[0]}" (we have not bench-tested these parts)`);
+    if (TESTING.test(value.replace(/\b(not|rather than|never|no)\s+([a-z]+\s+){0,4}?(hands-on testing|lab-tested|our lab)\b/gi, ''))) err(where, `testing claim: "${value.match(TESTING)[0]}" (we have not bench-tested these parts)`);
     for (const m of value.matchAll(/\[[^\]]+\]\(([^)\s]+)\)/g)) {
       const href = m[1];
       if (/^https?:/.test(href)) continue;

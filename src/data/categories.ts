@@ -40,6 +40,8 @@ export const CATEGORIES: CategoryInfo[] = [
   { key: 'tools', label: 'Tools & Workshop', singular: 'tool', plural: 'tools and workshop gear', group: 'Home & Yard', hero: 'best-shop-vac', blurb: 'Shop tools, testers and sprayers.', icon: 'M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z' },
   { key: 'home-systems', label: 'Water Heaters, Water & Flooring', singular: 'home system', plural: 'water heaters, water and flooring', group: 'Home & Yard', hero: 'best-gas-water-heater', blurb: 'Water heaters, filters, flooring and paint.', icon: 'M8 3h8v18H8zM8 8h8M12 12v4' },
   { key: 'grooming', label: 'Grooming', singular: 'grooming tool', plural: 'grooming tools', group: 'Home & Yard', hero: 'best-mens-back-shavers', blurb: 'Grooming tools.', icon: 'M6 3l12 12M14 3l-8 8M9 18a3 3 0 1 1-6 0a3 3 0 0 1 6 0z' },
+  { key: 'sleep', label: 'Sleep & Mattresses', singular: 'mattress', plural: 'mattresses', group: 'Home & Yard', hero: 'best-mattress', blurb: 'Mattresses and toppers by sleep position.', icon: 'M3 18v-6h18v6M3 14h18M6 12V9h5v3M3 18v2M21 18v2' },
+  { key: 'home-kitchen', label: 'Home & Kitchen', singular: 'appliance', plural: 'home and kitchen products', group: 'Home & Yard', hero: 'best-small-microwave', blurb: 'Small appliances, water filters and laundry.', icon: 'M3 6h18v12H3zM15 6v12M18 10v2' },
 ];
 
 export const CATEGORY = Object.fromEntries(CATEGORIES.map((c) => [c.key, c])) as Record<string, CategoryInfo>;
