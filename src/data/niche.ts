@@ -54,10 +54,10 @@ export const HUBS = {
   },
   gear: {
     title: (n: number, score: string) => `All Backup Power Gear We Track: ${n} Products Rated by ${score}`,
-    description: (n: number, score: string) => `Every one of the ${n} backup power products we track, ranked by ${score} within its category: generators, power stations, home batteries, transfer switches and outage gear.`,
+    description: (n: number, score: string) => `All ${n} backup power products we track, ranked by ${score} in each category: generators, power stations, home batteries, switches and outage gear.`,
   },
   brands: {
-    description: (score: string) => `Every backup power brand we track, from Honda, Generac and Champion to EcoFlow, Jackery, Anker and Bluetti: each brand's lineup, average ${score} and best model.`,
+    description: (score: string) => `Every backup power brand we track, from Honda, Generac and Champion to EcoFlow, Jackery and Bluetti: each lineup, its average ${score} and best model.`,
   },
   compare: {
     description: (n: number) => `${n} head-to-head backup power comparisons: Honda EU2200i vs Yamaha EF2200iS, EcoFlow Delta 2 vs Jackery 1000 v2 and more, with specs, scores and a verdict.`,
@@ -81,7 +81,7 @@ export const HOME = {
   /** Guide whose #1 pick is the home page's quick answer. */
   hero: 'best-home-generator-for-power-outages',
   title: (name: string) => `${name}: Independent Backup Power Reviews and Guides`,
-  description: (n: number) => `Independent backup power reviews: ${n} generators, power stations, home batteries, transfer switches and outage gear checked against the spec sheet. No paid placements.`,
+  description: (n: number) => `Independent backup power reviews: ${n} generators, power stations, home batteries and outage gear checked against the spec sheet. No paid placements.`,
   kicker: 'Backup power, researched',
   h1: 'Read the Spec Sheet. Keep the Lights On.',
   dek: (n: number, brands: number) => `We match every generator, power station and home battery to the loads it suits: what you need to run, your fuel and the outages you actually get. ${n} products from ${brands} brands, scored.`,

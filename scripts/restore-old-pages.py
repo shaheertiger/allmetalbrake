@@ -204,8 +204,13 @@ def scrub_all(o):
     return o
 TESTING_SECTION = re.compile(r'^how we (tested|test|evaluated)|^our testing|^testing (method|methodology)', re.I)
 
+# Built around a lab test that never happened: rankings and numbers come from it, so these stay
+# redirected (vercel.json) instead of being republished.
+EXCLUDE = ["best-brush-for-water-based-polyurethane", "best-concrete-countertop-sealer", "best-paver-sealer-for-pool-deck", "best-paver-sealer-natural-look", "best-paver-sealers-for-a-wet-look", "best-stone-sealers-reviews", "best-teak-sealer-reviews", "best-water-based-polyurethane-for-floors"]
+
 report = []
 for slug, (sha, _path) in sorted(SRC.items()):
+    if slug in EXCLUDE: continue
     f = os.path.join(ROOT, f'old-{sha[:7]}', 'dist', slug, 'index.html')
     soup = BeautifulSoup(open(f, encoding='utf-8').read(), 'lxml')
     title = clean(soup.title.get_text()) if soup.title else slug
