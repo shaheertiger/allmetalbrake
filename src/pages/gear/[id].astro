@@ -1,0 +1,199 @@
+---
+// One page per product: /gear/<id>/. Ranks for "<model> review" and "<model> specs" searches.
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Score from '../../components/Score.astro';
+import BuyButton from '../../components/BuyButton.astro';
+import CatIcon from '../../components/CatIcon.astro';
+import ProductImage from '../../components/ProductImage.astro';
+import FaqList from '../../components/FaqList.astro';
+import { SITE } from '../../data/site';
+import { listingNote, NICHE } from '../../data/niche';
+import { amazonLink } from '../../data/affiliate';
+import { productSchema } from '../../lib/schema';
+import {
+  PRODUCTS, getBrand, categoryOf, productsIn, productsOfBrand, rankOf, guidesFeaturing, comparesFor, guidesFor, equivalentsFor, categoryGuidesFor, mustProduct,
+  productPath, guidePath, comparePath, brandPath, productUpdated, fmtDate, priceBand, productTitle, productDescription, priceRank, newCtx, inline, plain, type Product,
+} from '../../lib/data';
+
+export function getStaticPaths() {
+  return PRODUCTS.map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+const { p } = Astro.props as { p: Product };
+const path = productPath(p);
+const ctx = newCtx(path);
+const cat = categoryOf(p.category);
+const brand = getBrand(p.brand);
+const { rank, of } = rankOf(p);
+const updated = productUpdated(p);
+const featured = guidesFeaturing(p.id);
+const compares = comparesFor(p.id);
+// Guides built around this part (best GPU / RAM / cooler / board for this CPU, best PSU for this card)
+// and the equivalents chart that maps it to rivals: this site's best-performing page type.
+const builtFor = guidesFor(p.id);
+const equiv = equivalentsFor(p);
+const featuredGuides = featured.map((f) => f.guide);
+const catGuides = categoryGuidesFor(p, [...featuredGuides, ...builtFor], 6);
+// Alternatives, the sister-site way: "Cheaper options" first (same category, lower price band, best
+// score first); for the cheapest parts, fall back to higher-scoring ones, then to anything else we track.
+const others = productsIn(p.category).filter((x) => x.id !== p.id);
+const cheaper = others.filter((x) => !x.price === !p.price && priceRank(x) > 0 && priceRank(x) < priceRank(p)).sort((a, b) => b.score.overall - a.score.overall).slice(0, 3);
+const higher = others.filter((x) => x.score.overall > p.score.overall).slice(-3).reverse();
+const [altHead, alts] = cheaper.length ? ['Cheaper options', cheaper] : higher.length ? ['Higher-scoring options', higher] : [`Other ${cat.plural} we track`, others.slice(0, 3)];
+const sameBrand = productsOfBrand(p.brand).filter((x) => x.id !== p.id).slice(0, 4);
+const worth = {
+  q: `Is the ${p.name} worth it?`,
+  a: `${plain(p.quick)} It scores ${p.score.overall}/100 on our ${SITE.score}, ranking #${rank} of the ${of} ${cat.plural} we track. It is best for ${p.bestFor.replace(/\.$/, '').replace(/^./, (c) => c.toLowerCase())}; skip it if ${p.skipIf.replace(/\.$/, '').replace(/^./, (c) => c.toLowerCase())}.`,
+};
+const faqs = [...p.faqs, worth];
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'All Gear', href: '/gear/' },
+  { name: cat.label, href: `/gear/#${cat.key}` },
+  { name: p.name, href: path },
+];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    productSchema(p),
+    { '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE.url}${c.href}` })) },
+    { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: plain(f.a) } })) },
+  ],
+};
+---
+<Base title={productTitle(p)} description={productDescription(p)} ogImage={p.image} ogType="article" article={{ published: updated, modified: updated, section: cat.label }} jsonLd={jsonLd}>
+  <article class="article gear">
+    <header class="col a-head">
+      <Crumbs items={crumbs} />
+      <div class="kicker"><a href={brandPath(brand)}>{brand.name}</a> · <a href={`/gear/#${cat.key}`}>{cat.label}</a></div>
+      <h1 class="a-title">{p.name}</h1>
+      <div class="gear-meta">
+        <Score value={p.score.overall} size="lg" />
+        <span>By <a href="/authors/justin-lee/">Justin Lee</a> · #{rank} of {of} {cat.plural} · {priceBand(p)}{p.released && <> · Released {p.released}</>} · Updated <time datetime={updated}>{fmtDate(updated)}</time></span>
+      </div>
+    </header>
+
+    <div class="col">
+      <section class="quick-card">
+        {p.image ? (
+          <div class="qc-hero">
+            <figure class="qc-photo">
+              <ProductImage p={p} size={220} buy eager />
+              {p.listing && <figcaption>Amazon listing: {p.listing.length > 90 ? `${p.listing.slice(0, p.listing.lastIndexOf(' ', 88))}…` : p.listing}{listingNote(p)}</figcaption>}
+            </figure>
+            <div>
+              <h2 class="mini">Quick answer</h2>
+              <p set:html={inline(p.quick, ctx)} />
+            </div>
+          </div>
+        ) : (
+          <div class="qc-top">
+            <CatIcon cat={p.category} size={72} />
+            <div>
+              <h2 class="mini">Quick answer</h2>
+              <p set:html={inline(p.quick, ctx)} />
+            </div>
+          </div>
+        )}
+        <dl class="qc-fit">
+          <div><dt>Best for</dt><dd>{p.bestFor}</dd></div>
+          <div><dt>Skip it if</dt><dd>{p.skipIf}</dd></div>
+        </dl>
+        <dl class="keyspecs">{p.specs.slice(0, 4).map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+        <div class="pick-cta"><BuyButton p={p} /><a class="more" href="#specs">All {p.short} specs ↓</a></div>
+      </section>
+    </div>
+
+    <div class="col body">
+      <h2 id="specs">{p.name} Specs</h2>
+      <div class="table-wrap">
+        <table class="spec-table kv">
+          <tbody>{p.specs.map(([k, v]) => <tr><th scope="row">{k}</th><td>{v}</td></tr>)}<tr><th scope="row">Street price</th><td>{priceBand(p)} (typical band; check the live price)</td></tr></tbody>
+        </table>
+      </div>
+      <p class="fine">Specs from {brand.name}'s published spec sheet and product listings. The {p.short} has not been bench-tested by us: its score comes from {NICHE.scoreBasis}. <a href="/how-we-review/">How we score</a>.</p>
+
+      <h2 id="score">{SITE.score}: {p.score.overall}/100</h2>
+      <p>The {SITE.score} weighs the spec sheet against the price band and what owners report over time.</p>
+      <div class="bars">
+        {p.score.parts.map(([k, v]) => (
+          <div class="bar"><span class="bar-k">{k}</span><span class="bar-track"><span class="bar-fill" style={`width:${v}%`} /></span><span class="bar-v">{v}</span></div>
+        ))}
+      </div>
+
+      <h2 id="verdict">Our Verdict</h2>
+      {p.verdict.map((t) => <p set:html={inline(t, ctx)} />)}
+      <div class="proscons">
+        <div class="pros"><h3>Pros</h3><ul>{p.pros.map((t) => <li>{t}</li>)}</ul></div>
+        <div class="cons"><h3>Cons</h3><ul>{p.cons.map((t) => <li>{t}</li>)}</ul></div>
+      </div>
+
+      {p.equivalent && (
+        <>
+          <h2 id="equivalent">{p.equivalent.heading}</h2>
+          {p.equivalent.body.map((t) => <p set:html={inline(t, ctx)} />)}
+        </>
+      )}
+
+      {p.extra && (
+        <>
+          <h2 id="extra">{p.extra.heading.includes(p.short) ? p.extra.heading : `${p.short} ${p.extra.heading}`}</h2>
+          {(p.extra.body ?? []).map((t) => <p set:html={inline(t, ctx)} />)}
+          {p.extra.steps?.length && <ol class="steps">{p.extra.steps.map(([k, v]) => <li><strong>{k}:</strong> <span set:html={inline(v, ctx)} /></li>)}</ol>}
+        </>
+      )}
+
+      <h2 id="alternatives">Alternatives to the {p.name}</h2>
+      <h3>{altHead}</h3>
+      <div class="alt-cards">
+        {alts.map((x) => <a class="alt-card" href={productPath(x)}><ProductImage p={x} size={64} /><span><strong>{x.name}</strong><small><Score value={x.score.overall} /> · {priceBand(x)}</small></span></a>)}
+      </div>
+      {sameBrand.length > 0 && (
+        <>
+          <h3>More from {brand.name}</h3>
+          <div class="alt-cards">{sameBrand.map((x) => <a class="alt-card" href={productPath(x)}><ProductImage p={x} size={64} /><span><strong>{x.name}</strong><small><Score value={x.score.overall} /> · {priceBand(x)}</small></span></a>)}</div>
+        </>
+      )}
+
+      {compares.length > 0 && (
+        <>
+          <h2 id="compare">Compare the {p.short}</h2>
+          <ul class="link-list">
+            {compares.map((c) => {
+              const o = mustProduct(c.a === p.id ? c.b : c.a);
+              return <li><a href={comparePath(c)}>{p.short} vs {o.short}</a></li>;
+            })}
+          </ul>
+        </>
+      )}
+
+      {(builtFor.length > 0 || equiv || catGuides.length > 0) && (
+        <>
+          <h2 id="guides-for">Guides for the {p.short}</h2>
+          <ul class="link-list">
+            {builtFor.map((x) => <li><a href={guidePath(x)}>{x.h1}</a></li>)}
+            {equiv && <li><a href={guidePath(equiv)}>{p.short} equivalents: {equiv.h1}</a></li>}
+            {catGuides.map((x) => <li><a href={guidePath(x)}>{x.h1}</a></li>)}
+          </ul>
+        </>
+      )}
+
+      <h2 id="faq">{p.name} FAQ</h2>
+      <FaqList faqs={faqs} ctx={ctx} />
+
+      {featured.length > 0 && (
+        <>
+          <h2 id="featured">Featured In</h2>
+          <ul class="link-list">{featured.map((f) => <li><a href={guidePath(f.guide)}>{f.guide.h1}</a> <span class="tag">{f.label}</span></li>)}</ul>
+        </>
+      )}
+    </div>
+
+    <div class="sticky-buy" aria-label="Price">
+      <ProductImage p={p} size={40} />
+      <span class="sb-text"><span class="sb-k">{SITE.score} {p.score.overall}/100 · {priceBand(p)}</span><strong>{p.name}</strong></span>
+      <a class="buy buy-sm" href={amazonLink(p)} rel="sponsored nofollow noopener" target="_blank">Check Price</a>
+      <button class="sb-close" type="button" aria-label="Dismiss" onclick="this.parentElement.hidden=true">×</button>
+    </div>
+  </article>
+</Base>

@@ -1,26 +1,30 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
-import { SITE, SCORE_NAME } from '../../data/site';
-import { categoryOf } from '../../data/categories';
-import { brands, productsByBrand, brandUrl, productUrl, articles, articleUrl } from '../../lib/data';
-import { breadcrumbs, graph, itemList } from '../../lib/schema';
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'Brands', url: '/brands/' }];
-const rows = brands.map((b) => { const list = productsByBrand(b); return { b, list, avg: Math.round(list.reduce((s, p) => s + p.score, 0) / list.length), review: articles.find((a) => a.brand === b) }; }).sort((x, y) => y.list.length - x.list.length || y.avg - x.avg);
-const schema = graph(breadcrumbs(crumbs), { '@type': 'CollectionPage', name: 'Backup power brands', url: `${SITE.url}/brands/` }, itemList(rows.map((r) => ({ name: r.b, url: brandUrl(r.b) }))));
+import { SITE } from '../../data/site';
+import { HUBS, NICHE } from '../../data/niche';
+import { BRANDS, productsOfBrand, brandPath, productPath, avgScore, categoryOf } from '../../lib/data';
+const rows = BRANDS.map((b) => ({ b, list: productsOfBrand(b.key) })).sort((x, y) => y.list.length - x.list.length || avgScore(y.list) - avgScore(x.list));
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Brands', href: '/brands/' }];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${NICHE.lower} brands`,
+  url: `${SITE.url}/brands/`,
+  mainEntity: { '@type': 'ItemList', itemListElement: rows.map((r, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE.url}${brandPath(r.b)}`, name: r.b.name })) },
+};
 ---
-<Base title={`Backup Power Brands: ${brands.length} Brands Rated by Product Score`} description={`${brands.length} backup power brands rated: Honda, Generac, Champion, EcoFlow, Jackery, Anker, Bluetti and more, each with its lineup, average ${SCORE_NAME} and best model.`} schema={schema}>
+<Base title={`${NICHE.title} Brands: ${BRANDS.length} Brands Rated by Product Score`} description={HUBS.brands.description(SITE.score)} jsonLd={jsonLd}>
   <div class="wrap hub">
     <Crumbs items={crumbs} />
-    <h1 class="hub-title">Backup Power Brands</h1>
-    <p class="hub-dek">Each brand's lineup on this site, its average {SCORE_NAME} and its best-scoring model.</p>
+    <h1 class="hub-title">{NICHE.title} Brands</h1>
+    <p class="hub-dek">Each brand's lineup on this site, its average {SITE.score} and its best-scoring model.</p>
     <div class="brand-grid">
-      {rows.map(({ b, list, avg, review }) => (
+      {rows.map(({ b, list }) => (
         <section class="brand-card">
-          <h2><a href={brandUrl(b)}>{b}</a></h2>
-          <p class="fine">{list.length} product{list.length === 1 ? '' : 's'} · Average score {avg} · {[...new Set(list.map((p) => categoryOf(p.category).label))].join(', ')}</p>
-          <p>Best model: <a href={productUrl(list[0])}>{list[0].name}</a> ({list[0].score}/100)</p>
-          {review && <p><a href={articleUrl(review)}>Full brand review →</a></p>}
+          <h2><a href={brandPath(b)}>{b.name}</a></h2>
+          <p class="fine">{list.length} product{list.length === 1 ? '' : 's'} · Average score {avgScore(list)} · {[...new Set(list.map((p) => categoryOf(p.category).label))].join(', ')}</p>
+          <p>Best model: <a href={productPath(list[0])}>{list[0].name}</a> ({list[0].score.overall}/100)</p>
         </section>
       ))}
     </div>

@@ -2,23 +2,27 @@
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
 import { SITE } from '../../data/site';
-import { glossary } from '../../data/glossary';
-import { breadcrumbs, graph } from '../../lib/schema';
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'Glossary', url: '/glossary/' }];
-const terms = [...glossary].sort((a, b) => a.term.localeCompare(b.term));
-const letter = (t: string) => (/^[a-z]/i.test(t) ? t[0].toUpperCase() : '#');
-const groups = [...new Set(terms.map((t) => letter(t.term)))].map((l) => ({ l, terms: terms.filter((t) => letter(t.term) === l) }));
-const schema = graph(breadcrumbs(crumbs), { '@type': 'DefinedTermSet', name: `${SITE.name} Backup Power Glossary`, url: `${SITE.url}/glossary/`, hasDefinedTerm: terms.map((t) => ({ '@type': 'DefinedTerm', name: t.term, description: t.short, url: `${SITE.url}/glossary/${t.slug}/` })) });
+import { HUBS, NICHE } from '../../data/niche';
+import { TERMS, termPath } from '../../lib/data';
+const groups = [...new Set(TERMS.map((t) => (/^[a-z]/i.test(t.term) ? t.term[0].toUpperCase() : '#')))].map((l) => ({ l, terms: TERMS.filter((t) => (/^[a-z]/i.test(t.term) ? t.term[0].toUpperCase() : '#') === l) }));
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Glossary', href: '/glossary/' }];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  name: `${SITE.name} ${NICHE.title} Glossary`,
+  url: `${SITE.url}/glossary/`,
+  hasDefinedTerm: TERMS.map((t) => ({ '@type': 'DefinedTerm', name: t.term, url: `${SITE.url}${termPath(t)}` })),
+};
 ---
-<Base title={`Backup Power Glossary: ${glossary.length} Terms in Plain English`} description={`${glossary.length} backup power terms in plain English: running vs starting watts, THD, LiFePO4, watt-hours, pass-through, transfer switches, interlocks and NEMA plugs.`} schema={schema}>
+<Base title={`${NICHE.title} Glossary: ${TERMS.length} Terms Explained in Plain English`} description={HUBS.glossary.description(TERMS.length)} jsonLd={jsonLd}>
   <div class="wrap hub">
     <Crumbs items={crumbs} />
-    <h1 class="hub-title">Backup Power Glossary</h1>
-    <p class="hub-dek">The spec-sheet terms that actually change what you should buy, each with a worked example.</p>
+    <h1 class="hub-title">{NICHE.title} Glossary</h1>
+    <p class="hub-dek">{HUBS.glossary.dek}</p>
     {groups.map((g) => (
       <section class="az">
         <h2>{g.l}</h2>
-        <ul class="term-list">{g.terms.map((t) => <li><a href={`/glossary/${t.slug}/`}><strong>{t.term}</strong></a> <span>{t.short}</span></li>)}</ul>
+        <ul class="term-list">{g.terms.map((t) => <li><a href={termPath(t)}><strong>{t.term}</strong></a> <span>{t.short}</span></li>)}</ul>
       </section>
     ))}
   </div>

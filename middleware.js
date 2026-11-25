@@ -1,20 +1,22 @@
 /**
- * Vercel Routing Middleware (copied from enthusiastreview.com).
+ * Vercel Routing Middleware.
  *
- * Dualmark / AEO (https://dualmark.dev, AEO spec 1.0): every page has a Markdown twin,
- * written into dist/ by scripts/build-markdown.mjs.
- *   GET /best/x.md                            -> Markdown of /best/x/
- *   GET /best/x/ + Accept: text/markdown      -> Markdown (q-values respected)
- *   GET /best/x/ from a known AI bot          -> Markdown, unless its Accept prefers HTML
- *   GET /best/x/ + Accept: application/json   -> 406 Not Acceptable
- *   GET /api/md/best/x                        -> Markdown of /best/x/, always
- *   GET /api/md/_catalog                      -> JSON list of every Markdown page
- * HTML responses get Vary: Accept and a Link header pointing at their Markdown twin.
- * Browsers, curl and link previews (wildcard or missing Accept) always get HTML.
- * Old URLs are 301'd in vercel.json, which runs before this.
+ * 1. Old URLs: site-specific 301s and 410s live in legacy-routes.js (most 301s are in vercel.json).
+ *
+ * 2. Dualmark / AEO (https://dualmark.dev, AEO spec 1.0): every page has a Markdown twin,
+ *    written into dist/ by scripts/build-markdown.mjs.
+ *      GET /best/x.md                            -> Markdown of /best/x/
+ *      GET /best/x/ + Accept: text/markdown      -> Markdown (q-values respected)
+ *      GET /best/x/ from a known AI bot          -> Markdown, unless its Accept prefers HTML
+ *      GET /best/x/ + Accept: application/json   -> 406 Not Acceptable
+ *      GET /api/md/best/x                        -> Markdown of /best/x/, always
+ *      GET /api/md/_catalog                      -> JSON list of every Markdown page
+ *    HTML responses get Vary: Accept and a Link header pointing at their Markdown twin.
+ *    Browsers, curl and link previews (wildcard or missing Accept) always get HTML.
  */
 import { AEO_SPEC_VERSION, detectAIBot, negotiateFormat } from '@dualmark/core';
 import { next } from '@vercel/functions';
+import { legacyRoute } from './legacy-routes.js';
 
 export const config = {
   runtime: 'nodejs',
@@ -81,6 +83,9 @@ export default async function middleware(request) {
   if (request.headers.get(INTERNAL)) return next();
   const { pathname } = new URL(request.url);
   const { method } = request;
+
+  const legacy = legacyRoute(pathname, method);
+  if (legacy) return legacy;
 
   const direct = pathname === '/api/md' || pathname.startsWith('/api/md/');
   const suffix = !direct && pathname.endsWith('.md');

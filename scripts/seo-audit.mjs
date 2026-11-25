@@ -1,4 +1,4 @@
-// Bing playbook audit of the built site (copied from enthusiastreview.com). Report only: it never fails the build.
+// Bing playbook audit of the built site. Report only: it never fails the build.
 //
 //   npm run build && npm run audit:seo            summary
 //   node scripts/seo-audit.mjs --list             summary plus every offending URL
@@ -74,7 +74,7 @@ for (const file of files) {
   const titleCore = title.replace(/\s+[|–—]\s+[^|–—]+$/, '');
   const h2s = [...html.matchAll(/<h2(?![^>]*p-name)[^>]*>([\s\S]*?)<\/h2>/g)].map((m) => decode(m[1].replace(/<[^>]+>/g, '')).trim().replace(/^\d+\.\s+/, '')); // guides number their H2s
   // Template H2s that every article carries; they don't count toward the question share.
-  const fixed = /^(how we ranked|spec sheets side by side|specs side by side|notable mentions|common mistakes|the bottom line|frequently asked questions|sources and recent updates|all .* we track|every .* we track|head-to-head|where they differ|how they score|buy the |related|who .* is$|.*: our \d+ picks$|.* lineup, ranked$|.* faq$)/i;
+  const fixed = /^(how we ranked|spec sheets side by side|specs side by side|notable mentions|common mistakes|the bottom line|frequently asked questions|sources and recent updates|all .* we track|every .* we track|head-to-head|where they differ|how they score|buy the |related|who .* is$|.*: our \d+ picks$|.* lineup, ranked$|.* faq$|more |best .* for other |rgb software for other|graphics cards by budget|is it a good brand|(build )?guides for |best parts for the rest)/i;
   const bodyH2s = h2s.slice(1).filter((h) => !fixed.test(h));
   const firstClause = desc.split(/[.;:—]/)[0];
   rows.push({

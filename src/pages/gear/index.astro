@@ -3,38 +3,37 @@ import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
 import CatIcon from '../../components/CatIcon.astro';
 import ProductImage from '../../components/ProductImage.astro';
-import { SITE, SCORE_NAME } from '../../data/site';
+import { SITE } from '../../data/site';
 import { CATEGORIES } from '../../data/categories';
-import { products, productsByCategory, productUrl, brandUrl } from '../../lib/data';
-import { breadcrumbs, graph } from '../../lib/schema';
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'All Gear', url: '/gear/' }];
-const cats = CATEGORIES.filter((c) => productsByCategory(c.key).length);
-const schema = graph(breadcrumbs(crumbs), {
+import { HUBS, NICHE } from '../../data/niche';
+import { PRODUCTS, productsIn, getBrand, productPath, priceBand } from '../../lib/data';
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'All Gear', href: '/gear/' }];
+const jsonLd = {
+  '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Every backup power product we track',
+  name: `Every ${NICHE.partLower} we track`,
   url: `${SITE.url}/gear/`,
-  mainEntity: { '@type': 'ItemList', numberOfItems: products.length, itemListElement: products.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE.url}${productUrl(p)}`, name: p.name })) },
-});
+  mainEntity: { '@type': 'ItemList', numberOfItems: PRODUCTS.length, itemListElement: PRODUCTS.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE.url}${productPath(p)}`, name: p.name })) },
+};
 ---
-<Base title={`All ${products.length} Backup Power Products Ranked by ${SCORE_NAME}`} description={`${products.length} backup power products ranked by ${SCORE_NAME}: generators, power stations, home batteries, transfer switches and outage gear, best first in each category.`} schema={schema}>
+<Base title={HUBS.gear.title(PRODUCTS.length, SITE.score)} description={HUBS.gear.description(PRODUCTS.length, SITE.score)} jsonLd={jsonLd}>
   <div class="wrap hub">
     <Crumbs items={crumbs} />
     <h1 class="hub-title">All Gear</h1>
-    <p class="hub-dek">{products.length} products, each with a spec sheet, a research-based {SCORE_NAME} and a verdict. Sorted by score within each category.</p>
-    <nav class="chips" aria-label="Categories">{cats.map((c) => <a href={`#${c.key}`}>{c.label}</a>)}</nav>
-    {cats.map((c) => {
-      const list = productsByCategory(c.key);
-      return (
+    <p class="hub-dek">{PRODUCTS.length} {NICHE.parts}, each with a spec sheet, a research-based {SITE.score} and a verdict. Sorted by score within each category.</p>
+    <nav class="chips" aria-label="Categories">{CATEGORIES.map((c) => <a href={`#${c.key}`}>{c.label}</a>)}</nav>
+    {CATEGORIES.map((c) => {
+      const list = productsIn(c.key);
+      return list.length > 0 && (
         <section id={c.key}>
           <h2 class="section-title"><CatIcon cat={c.key} size={34} /> {c.label}</h2>
           <div class="table-wrap">
             <table class="tracked">
               <thead><tr><th>#</th><th>Product</th><th>Brand</th><th>Key spec</th><th>Score</th><th>Price</th></tr></thead>
               <tbody>
-                {list.map((p, i) => {
-                  const k = (p.keySpecs?.[0] && p.specs[p.keySpecs[0]]) ? p.keySpecs[0] : Object.keys(p.specs)[0];
-                  return <tr><td>{i + 1}</td><td class="with-thumb"><ProductImage p={p} size={40} /><a href={productUrl(p)}>{p.name}</a></td><td><a href={brandUrl(p.brand)}>{p.brand}</a></td><td>{k && p.specs[k]}</td><td>{p.score}</td><td class="nowrap">{p.priceBand}</td></tr>;
-                })}
+                {list.map((p, i) => (
+                  <tr><td>{i + 1}</td><td class="with-thumb"><ProductImage p={p} size={40} /><a href={productPath(p)}>{p.name}</a></td><td>{getBrand(p.brand).name}</td><td>{p.specs[0]?.[1]}</td><td>{p.score.overall}</td><td class="nowrap">{priceBand(p)}</td></tr>
+                ))}
               </tbody>
             </table>
           </div>

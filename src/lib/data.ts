@@ -1,299 +1,528 @@
-import type { Article, Product } from './types';
-import overrides from '../data/amazon-links.json';
-import fetchedImages from '../data/product-images.json';
-import fetchedAsins from '../data/product-asins.json';
-import { CATEGORY_LABELS, SCORE_NAME } from '../data/site';
-import { slugify } from './md';
+/* ------------------------------------------------------------------ */
+/* Content model and loaders. Schema: docs/content-schema.md.          */
+/* ------------------------------------------------------------------ */
+import { CATEGORIES, CATEGORY } from '../data/categories';
+import { SITE } from '../data/site';
+import { NICHE, ACRONYMS, PRODUCT_NOUNS, DIFF_RULES, SERIES, SUBJECT_RE, SUBJECT_SKIP, EQUIVALENTS_RE, equivalentsSlug, type Series } from '../data/niche';
 
-type Override = string | { asin?: string; imageId?: string; url?: string; image?: string };
+export type { Series };
+export { SERIES };
 
-/** Pull an ASIN out of any Amazon product URL (dp/, gp/product/, amzn links with /dp/). */
-export function asinFromUrl(url: string): string | undefined {
-  const m = url.match(/(?:\/dp\/|\/gp\/product\/|\/gp\/aw\/d\/|\/exec\/obidos\/asin\/)([A-Z0-9]{10})/i);
-  return m ? m[1].toUpperCase() : undefined;
+export type Spec = [string, string];
+export interface FAQ { q: string; a: string }
+
+export interface Product {
+  id: string;
+  name: string;
+  short: string;
+  brand: string;
+  category: string;
+  released?: string;
+  /** Street-price band in USD. Products without one show their `tier` instead. */
+  price?: [number, number];
+  /** Price tier within the category, 1 (budget) to 4 (premium), for products with no `price` band. */
+  tier?: 1 | 2 | 3 | 4;
+  amazon?: string;
+  asin?: string;
+  url?: string;
+  /** Official Amazon photo, from src/data/catalog.json (scripts/fetch-product-images.mjs). */
+  image?: string;
+  /** Title of the Amazon listing the photo and direct link come from. */
+  listing?: string;
+  description: string;
+  quick: string;
+  bestFor: string;
+  skipIf: string;
+  specs: Spec[];
+  score: { overall: number; parts: [string, number][] };
+  verdict: string[];
+  pros: string[];
+  cons: string[];
+  extra?: { heading: string; body?: string[]; steps?: [string, string][] };
+  /** "<model> <rival brand> equivalent" answer, linking to the equivalents charts. */
+  equivalent?: { heading: string; body: string[] };
+  faqs: FAQ[];
 }
 
-/** "https://m.media-amazon.com/images/I/41Txa4w1RXL._SL500_.jpg" → "41Txa4w1RXL" */
-export function imageIdFromUrl(url: string | undefined): string | undefined {
-  return url?.match(/\/images\/I\/([^._/]+)\./)?.[1];
+export interface Pick {
+  id: string;
+  label: string;
+  bestFor?: string;
+  skipIf?: string;
+  writeup: string[];
+  pros?: string[];
+  cons?: string[];
 }
 
-/** Merge Amazon data: Creators API results first, then hand-entered amazon-links.json wins. */
-function applyOverride(base: Product): Product {
-  let p = base;
-  const fa = (fetchedAsins as Record<string, string>)[p.slug];
-  const fi = imageIdFromUrl((fetchedImages as Record<string, string>)[p.slug]);
-  if (fa || fi) p = { ...p, ...(fa ? { asin: fa } : {}), ...(fi ? { imageId: fi } : {}) };
-  const o = (overrides as Record<string, Override>)[p.slug];
-  if (!o) return p;
-  if (typeof o === 'string') {
-    const asin = /^[A-Z0-9]{10}$/i.test(o) ? o.toUpperCase() : asinFromUrl(o);
-    return asin ? { ...p, asin } : p;
-  }
-  const asin = o.asin || (o.url ? asinFromUrl(o.url) : undefined);
-  const imageId = o.imageId || imageIdFromUrl((o as { image?: string }).image);
-  return { ...p, ...(asin ? { asin } : {}), ...(imageId ? { imageId } : {}) };
+export interface Table { caption?: string; head: string[]; rows: string[][] }
+/** One block of a section written in order: sub-heading, paragraph, list or table. */
+export type Block = { h3: string } | { p: string } | { ul: string[] } | { ol: string[] } | { table: Table };
+
+export interface Section {
+  h: string;
+  body?: string[];
+  list?: string[];
+  table?: Table;
+  /** Ordered blocks; when set, they replace body, list and table. */
+  blocks?: Block[];
 }
 
-const TIER_LABELS: Record<number, string> = { 1: 'Budget', 2: 'Mid-range', 3: 'Upper mid-range', 4: 'Premium' };
+/** Every piece of text in a section, for word counts and term matching. */
+export const sectionText = (s: Section): string[] =>
+  s.blocks
+    ? s.blocks.flatMap((b) => ('h3' in b ? [b.h3] : 'p' in b ? [b.p] : 'ul' in b ? b.ul : 'ol' in b ? b.ol : []))
+    : [...(s.body ?? []), ...(s.list ?? [])];
 
-const productFiles = import.meta.glob<{ default: Product[] }>('../content/products/*.json', { eager: true });
-const articleFiles = import.meta.glob<{ default: Article }>('../content/articles/*.json', { eager: true });
+export interface Guide {
+  slug: string;
+  type: 'roundup' | 'brand' | 'article';
+  /** Articles only: how-to, fix, explainer or X vs Y. */
+  kind?: 'howto' | 'fix' | 'explainer' | 'versus';
+  category: string;
+  brand?: string;
+  author?: string;
+  title: string;
+  h1: string;
+  query?: string;
+  /** Extra search wording for the Article schema `keywords` (variants of `query`). */
+  keywords?: string[];
+  description: string;
+  dek: string;
+  intro: string[];
+  quickAnswer: string;
+  /** Roundups and brand pages. */
+  picks?: Pick[];
+  tableSpecs?: string[];
+  ranking?: { intro: string; criteria: [string, string][]; why?: string };
+  /** Articles: the main procedure. */
+  steps?: { h: string; body: string[] }[];
+  stepsHeading?: string;
+  /** Articles: products shown under "Parts mentioned". */
+  products?: string[];
+  mentions?: { id?: string; name?: string; text: string }[];
+  sections: Section[];
+  mistakes?: [string, string][];
+  bottomLine: string;
+  faqs: FAQ[];
+  sources: string[];
+  related?: string[];
+  about?: string[];
+  published?: string;
+  /** Last content change, used only when git has no date for the file (e.g. a bulk migration). */
+  updated?: string;
+  noindex?: boolean;
+}
 
-export const products: Product[] = Object.values(productFiles)
-  .flatMap((m) => m.default)
-  .map(applyOverride)
-  // No dollar prices are published on this site (prices move too fast to state honestly);
-  // the price tier (relative to the category) is shown as a label instead.
-  .map((p) => ({ ...p, priceBand: p.priceBand || TIER_LABELS[p.priceTier ?? 0] || 'See current price' }))
-  .sort((a, b) => b.score - a.score);
+export interface Compare {
+  a: string;
+  b: string;
+  title: string;
+  description: string;
+  quick: string;
+  differ: [string, string][];
+  buyA: string[];
+  buyB: string[];
+  faqs?: FAQ[];
+}
 
-export const productMap = new Map(products.map((p) => [p.slug, p]));
+export interface Term {
+  id: string;
+  term: string;
+  title: string;
+  short: string;
+  body: string[];
+  aliases?: string[];
+  related?: string[];
+  guides?: string[];
+}
 
-// Real last-modified dates from git (scripts/page-dates.mjs, run first in `npm run build`), the
-// enthusiastreview.com method: a page's date moves only when its content file really changes.
-const gitDates: Record<string, string> =
-  Object.values(import.meta.glob<Record<string, string>>('../data/git-dates.json', { eager: true, import: 'default' }))[0] ?? {};
-/** Date of the last site-wide content refresh, used when git has no date for a file. */
-export const LAUNCH = '2026-11-19';
-const gitDate = (key: string) => gitDates[key];
+export interface Brand {
+  key: string;
+  name: string;
+  founded?: string;
+  hq?: string;
+  blurb: string;
+  review?: string;
+}
 
-export const articles: Article[] = Object.values(articleFiles)
-  .map((m) => m.default)
-  .map((a) => {
-    const updated = gitDate(`articles/${a.slug}`) ?? a.updated;
-    return { ...a, updated, published: a.published > updated ? updated : a.published };
+/* ---------------------------- loading ----------------------------- */
+
+const one = <T,>(m: Record<string, unknown>): T | undefined => Object.values(m)[0] as T | undefined;
+
+const productFiles = import.meta.glob('../data/products/*.json', { eager: true, import: 'default' }) as Record<string, Product[]>;
+const guideFiles = import.meta.glob('../data/guides/*.json', { eager: true, import: 'default' }) as Record<string, Guide>;
+const compareFile = one<Compare[]>(import.meta.glob('../data/compares.json', { eager: true, import: 'default' })) ?? [];
+const glossaryFile = one<Term[]>(import.meta.glob('../data/glossary.json', { eager: true, import: 'default' })) ?? [];
+const brandFile = one<Record<string, Omit<Brand, 'key'>>>(import.meta.glob('../data/brands.json', { eager: true, import: 'default' })) ?? {};
+/** Verified Amazon listings: { id: { asin, image, title, checked } } (scripts/fetch-product-images.mjs). */
+const catalogFile = one<Record<string, { asin: string; image: string; title: string; checked?: string }>>(import.meta.glob('../data/catalog.json', { eager: true, import: 'default' })) ?? {};
+/** Last real content change per file, from git (scripts/page-dates.mjs). */
+const gitDates = one<Record<string, string>>(import.meta.glob('../data/git-dates.json', { eager: true, import: 'default' })) ?? {};
+
+const catOrder = (k: string) => CATEGORIES.findIndex((c) => c.key === k);
+
+export const PRODUCTS: Product[] = Object.values(productFiles)
+  .flat()
+  .map((p) => {
+    const c = catalogFile[p.id];
+    // A hand-set asin or url on the product wins; the catalog fills the photo and direct link.
+    return c && !p.url && (!p.asin || p.asin === c.asin) ? { ...p, asin: c.asin, image: p.image ?? c.image, listing: c.title } : p;
   })
-  .sort((a, b) => a.slug.localeCompare(b.slug));
+  .sort((a, b) => catOrder(a.category) - catOrder(b.category) || b.score.overall - a.score.overall || a.name.localeCompare(b.name));
+const PRODUCT_BY_ID = new Map(PRODUCTS.map((p) => [p.id, p]));
 
-export const productUpdated = (p: Pick<Product, 'category'>) => gitDate(`products/${p.category}`) ?? LAUNCH;
+export const ALL_GUIDES: Guide[] = Object.values(guideFiles).sort((a, b) => catOrder(a.category) - catOrder(b.category) || a.slug.localeCompare(b.slug));
+export const GUIDES = ALL_GUIDES.filter((g) => !g.noindex);
+const GUIDE_BY_SLUG = new Map(ALL_GUIDES.map((g) => [g.slug, g]));
+
+export const COMPARES: Compare[] = compareFile.filter((c) => PRODUCT_BY_ID.has(c.a) && PRODUCT_BY_ID.has(c.b));
+export const TERMS: Term[] = [...glossaryFile].sort((a, b) => a.term.localeCompare(b.term));
+const TERM_BY_ID = new Map(TERMS.map((t) => [t.id, t]));
+
+export const BRANDS: Brand[] = Object.entries(brandFile)
+  .map(([key, b]) => ({ key, ...b }))
+  .filter((b) => PRODUCTS.some((p) => p.brand === b.key));
+const BRAND_BY_KEY = new Map(BRANDS.map((b) => [b.key, b]));
+
+/* ---------------------------- lookups ----------------------------- */
+
+export const getProduct = (id: string) => PRODUCT_BY_ID.get(id);
+export const mustProduct = (id: string) => {
+  const p = PRODUCT_BY_ID.get(id);
+  if (!p) throw new Error(`Unknown product id "${id}"`);
+  return p;
+};
+export const getGuide = (slug: string) => GUIDE_BY_SLUG.get(slug);
+/** The equivalents charts ("<model> <rival brand> equivalent" searches), hub at /equivalents/. */
+export const EQUIVALENTS = () => GUIDES.filter((g) => !g.noindex && EQUIVALENTS_RE.test(g.slug));
+export const getTerm = (id: string) => TERM_BY_ID.get(id);
+export const getBrand = (key: string) => BRAND_BY_KEY.get(key) ?? { key, name: key, blurb: '' };
+export const categoryOf = (key: string) => CATEGORY[key];
+
+export const productPath = (p: Product | string) => `/gear/${typeof p === 'string' ? p : p.id}/`;
+export const guidePath = (g: Guide | string) => `/${typeof g === 'string' ? g : g.slug}/`;
+export const comparePath = (c: Compare) => `/compare/${c.a}-vs-${c.b}/`;
+export const termPath = (t: Term | string) => `/glossary/${typeof t === 'string' ? t : t.id}/`;
+export const brandPath = (b: Brand | string) => `/brands/${typeof b === 'string' ? b : b.key}/`;
+
+export const productsIn = (cat: string) => PRODUCTS.filter((p) => p.category === cat);
+export const productsOfBrand = (brand: string) => PRODUCTS.filter((p) => p.brand === brand).sort((a, b) => b.score.overall - a.score.overall);
+
+/** "#3 of 10 graphics cards" */
+export function rankOf(p: Product) {
+  const list = productsIn(p.category);
+  return { rank: list.findIndex((x) => x.id === p.id) + 1, of: list.length };
+}
+
+/** Guides that pick this product, with the label they give it. */
+export function guidesFeaturing(id: string) {
+  return GUIDES.filter((g) => !g.noindex).flatMap((g) => [
+    ...(g.picks ?? []).filter((pk) => pk.id === id).map((pk) => ({ guide: g, label: pk.label })),
+    // Notable mentions link back too, so a model page lists every guide that discusses it.
+    ...(g.mentions ?? []).filter((m) => m.id === id).map(() => ({ guide: g, label: 'Notable Mention' })),
+  ]);
+}
+export const comparesFor = (id: string) => COMPARES.filter((c) => c.a === id || c.b === id);
+
+/* ----------------------------- dates ------------------------------ */
+
+const LAUNCH = SITE.launch;
+const gitDate = (key: string) => gitDates[key];
+export const guideUpdated = (g: Guide) => gitDate(`guides/${g.slug}`) ?? g.updated ?? LAUNCH;
+export const guidePublished = (g: Guide) => g.published ?? LAUNCH;
+export const productUpdated = (p: Product) => gitDate(`products/${p.category}`) ?? LAUNCH;
 export const compareUpdated = () => gitDate('compares') ?? LAUNCH;
 export const glossaryUpdated = () => gitDate('glossary') ?? LAUNCH;
-/** Newest content date on the site (home page, hubs, sitemap). */
 export const latestDate = () =>
-  [LAUNCH, ...articles.map((a) => a.updated), ...products.map(productUpdated), compareUpdated(), glossaryUpdated()].reduce((m, d) => (d > m ? d : m), '');
+  [SITE.updated, ...GUIDES.map(guideUpdated), ...PRODUCTS.map(productUpdated), compareUpdated(), glossaryUpdated()].reduce((m, d) => (d > m ? d : m), '');
 
-export const articleMap = new Map(articles.map((a) => [a.slug, a]));
+export const fmtDate = (iso: string) =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 
-export function getProduct(slug: string): Product {
-  const p = productMap.get(slug);
-  if (!p) throw new Error(`Unknown product slug: ${slug}`);
-  return p;
+/* ---------------------------- helpers ----------------------------- */
+
+const usd = (n: number) => `$${n.toLocaleString('en-US')}`;
+const TIER_LABELS = ['', 'Budget', 'Mid-range', 'Upper mid-range', 'Premium'];
+export const priceBand = (p: Product) =>
+  !p.price ? TIER_LABELS[p.tier ?? 0] || 'See current price' : p.price[0] === p.price[1] ? usd(p.price[0]) : `${usd(p.price[0])}–${usd(p.price[1])}`;
+/** A number to order products by price: the band's low end, or the tier when there is no band. */
+export const priceRank = (p: Product) => (p.price ? p.price[0] : p.tier ?? 0);
+/** The cheaper of two products, or undefined when they price the same or cannot be compared. */
+export function cheaperOf(a: Product, b: Product): Product | undefined {
+  if (!a.price !== !b.price) return undefined;
+  const [ra, rb] = [priceRank(a), priceRank(b)];
+  return !ra || !rb || ra === rb ? undefined : ra < rb ? a : b;
+}
+export const spec = (p: Product, label: string) => p.specs.find(([k]) => k.toLowerCase() === label.toLowerCase())?.[1];
+export const avgScore = (list: Product[]) => (list.length ? Math.round(list.reduce((s, p) => s + p.score.overall, 0) / list.length) : 0);
+
+/** Search wording the guide targets (lowercase), used for the Short Answer heading. */
+export const guideQuery = (g: Guide) => g.query ?? g.h1.toLowerCase();
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+export const shortAnswerHeading = (query: string) => `${cap(query).replace(ACRONYMS, (m) => m.toUpperCase())}: The Short Answer`;
+
+/** Product <title>: the model name first, 50–62 characters where possible. */
+export function productTitle(p: Product) {
+  const cat = CATEGORY[p.category];
+  const noun = cat.singular === cat.singular.toLowerCase() ? cat.singular.replace(/\b\w/g, (c) => c.toUpperCase()) : cat.singular;
+  const named = new RegExp(`\\b(${noun.split(' ').pop()}|${PRODUCT_NOUNS})\\b`, 'i').test(p.name) ? p.name : `${p.name} ${noun}`;
+  const options = [
+    `${p.name} Review: Specs, Score & Verdict`,
+    `${named} Review: Specs, Score & Verdict`,
+    `${named} Review: Specs, ${SITE.score} & Verdict`,
+    `${p.name} Review: Specs & ${SITE.score}`,
+    `${p.name} Review and Specs`,
+    `${p.short} Review: Specs, Score & Verdict`,
+    `${p.short} Review: Specs & Score`,
+  ];
+  const base = options.find((t) => t.length >= 50 && t.length <= 62) ?? options.find((t) => t.length <= 62) ?? options[options.length - 1];
+  // Sister-site pattern ("KEF LS50 Wireless II Review: Specs, Score & Verdict (88/100)"): show the
+  // score in the title when it still fits in 65 characters.
+  const scored = `${base} (${p.score.overall}/100)`;
+  return scored.length <= 65 ? scored : base;
 }
 
-export const brandSlug = (b: string) => slugify(b);
-
-export const brands = [...new Set(products.map((p) => p.brand))].sort((a, b) => a.localeCompare(b));
-
-export function productsByCategory(cat: string) {
-  return products.filter((p) => p.category === cat);
-}
-
-export function productsByBrand(brand: string) {
-  return products.filter((p) => p.brand === brand);
-}
-
-/** Articles that feature a product in their picks. */
-export function articlesForProduct(slug: string) {
-  return articles.filter((a) => a.picks?.some((pk) => pk.product === slug));
-}
-
-export function articleUrl(a: Pick<Article, 'slug'>) {
-  return `/${a.slug}/`;
-}
-export const productUrl = (p: Pick<Product, 'slug'>) => `/gear/${p.slug}/`;
-export const brandUrl = (brand: string) => `/brands/${brandSlug(brand)}/`;
-
-export function hubLabel(hub: string) {
-  if (hub === 'guides') return 'Guides';
-  if (hub === 'brands') return 'Brand Reviews';
-  return CATEGORY_LABELS[hub] ?? hub;
-}
-
-export function readMinutes(a: Article) {
-  const text = [a.intro, a.quickAnswer, ...(a.picks ?? []).map((p) => p.body), ...a.sections.map((s) => s.body), ...(a.mistakes ?? []).map((m) => m.body), ...a.faqs.map((f) => f.a), a.bottomLine].join(' ');
-  return Math.max(3, Math.round(text.split(/\s+/).length / 230));
-}
-
-export function formatDate(d: string) {
-  return new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
-}
-
-/** Compare pairs: [a, b] product slugs, a < b alphabetically. */
-export function compareSlug(a: string, b: string) {
-  const [x, y] = [a, b].sort();
-  return `${x}-vs-${y}`;
-}
-
-const SUFFIXES = [
-  ' Super Quiet Inverter Generator', ' Remote Start Inverter Generator', ' Portable Inverter Generator', ' Open Frame Inverter Generator',
-  ' Dual Fuel Inverter Generator', ' Dual Fuel Portable Generator', ' Inverter Generator', ' Portable Generator', ' Standby Generator', ' Generator',
-  ' Portable Power Station', ' Expandable Power Station', ' Lithium Power Station', ' Compact Power Station', ' Power Station',
-  ' Manual Transfer Switch Kit', ' Transfer Switch Kit', ' Transfer Switch', ' Power Inlet Box', ' Whole House Surge Protector', ' Surge Protector',
-  ' Surge Protective Device', ' Surge Device', ' Fuel Transfer Pump', ' Emergency Crank Weather Radio', ' Battery Backup', ' Solar Panel', ' Power Bank', ' Propane Heater', ' Lantern', ' Weather Alert Radio', ' Radio',
-];
-/** Shorter product name for titles, e.g. "Honda EU2200i". */
-export function shortName(name: string) {
-  // Drop trailing model codes in brackets and "with …" feature clauses first.
-  let n = name.replace(/\s*\([^)]*\)\s*$/, '').replace(/\s+with\s+.*$/i, '').trim();
-  for (const s of SUFFIXES) if (n.endsWith(s) && n.length - s.length > 8) { n = n.slice(0, -s.length); break; }
-  // Still long: keep the brand and the model tokens (words containing a digit).
-  if (n.length > 32) {
-    const words = n.split(' ');
-    const model = words.slice(1).filter((w) => /\d/.test(w) && !/-Watt$|^\d[\d,]*W$/i.test(w));
-    if (model.length) n = [words[0], ...model].join(' ');
+/**
+ * Product meta description, sister-site format: "<Model> at a glance: <spec> <value>, ... <summary>".
+ * Leads with the spec sheet because model pages are found by "<model> specs", "<model> dimensions"
+ * and "<model> review" searches. Up to three specs, then the verdict line, cut at a word at 158 characters.
+ */
+export function productDescription(p: Product, max = 158) {
+  const lead = `${p.short} at a glance: `;
+  const specs: string[] = [];
+  for (const [k, v] of p.specs) {
+    const next = [...specs, `${/^[A-Z][a-z]/.test(k) ? k.charAt(0).toLowerCase() + k.slice(1) : k} ${v.replace(/\s*\([^)]*\)/g, '').replace(/;.*$/, '').trim()}`];
+    if ((lead + next.join(', ')).length > 100 || next.length > 3) break;
+    specs.splice(0, specs.length, ...next);
   }
-  return n;
+  if (!specs.length) return p.description;
+  // Then the hand-written verdict line, cut at a word boundary like a SERP snippet.
+  const out = `${lead}${specs.join(', ')}. ${plain(p.description)}`;
+  if (out.length <= max) return out;
+  const cut = out.slice(0, out.lastIndexOf(' ', max - 1)).replace(/[\s,;:–—-]+$/, '');
+  return `${cut}…`;
 }
 
-/** "#3 of 29" within its category, by score. */
-export function rankOf(p: Product) {
-  const list = productsByCategory(p.category);
-  return { rank: list.findIndex((x) => x.slug === p.slug) + 1, of: list.length };
+/** "4 min read" for a list of strings. */
+export const readMinutes = (texts: string[]) => Math.max(1, Math.round(texts.join(' ').split(/\s+/).length / 230));
+
+export function guideText(g: Guide): string[] {
+  return [
+    g.dek, ...g.intro, g.quickAnswer, ...(g.about ?? []), g.ranking?.intro ?? '', ...(g.ranking?.criteria ?? []).flat(),
+    ...(g.picks ?? []).flatMap((p) => p.writeup), ...(g.mentions ?? []).map((m) => m.text),
+    ...(g.steps ?? []).flatMap((s) => [s.h, ...s.body]),
+    ...g.sections.flatMap((s) => [s.h, ...sectionText(s)]),
+    ...(g.mistakes ?? []).flat(), g.bottomLine, ...g.faqs.flatMap((f) => [f.q, f.a]),
+  ];
 }
-
-/** The product category an article belongs to: its hub when that is a category, else its topic, else its picks' category. */
-export function topicOf(a: Article): string | undefined {
-  if (productsByCategory(a.hub).length) return a.hub;
-  if (a.topic) return a.topic;
-  const counts = new Map<string, number>();
-  for (const pk of a.picks ?? []) { const c = productMap.get(pk.product)?.category; if (c) counts.set(c, (counts.get(c) ?? 0) + 1); }
-  return [...counts.entries()].sort((x, y) => y[1] - x[1])[0]?.[0];
-}
-
-/** Lower-case the first letter and drop a trailing full stop, for mid-sentence use. */
-export const lc = (s: string) => s.replace(/\.$/, '').replace(/^./, (c) => c.toLowerCase());
-
-/** Capitalise the first letter of a Markdown string (skips leading ** or _). */
-export const cap = (s: string) => s.replace(/^(\s*[*_]*)([a-z])/, (_m, a, b) => a + b.toUpperCase());
 
 /* ------------------------------------------------------------------ */
-/* Answer-first difference headings for comparisons (the              */
-/* enthusiastreview.com / best-proteinpowder.com method). Comparison  */
-/* pages rank at positions 1-9 with H2s that state the answer         */
-/* ("Running watts: the WGen9500DF delivers 1,500 W more"). Built     */
-/* from the spec data, so every comparison gets them and they never  */
-/* drift from the spec sheet.                                         */
+/* Inline text: [links](/path/) and **bold**, plus automatic links to  */
+/* the first mention of each product and glossary term on a page.      */
 /* ------------------------------------------------------------------ */
 
-type DiffRule = { label: string; topic?: string; more?: string; less?: string; unit?: string };
-const GEN_RULES: DiffRule[] = [
-  { label: 'Running Watts', more: 'delivers {d} more running watts', unit: 'W' },
-  { label: 'Running Watts (Gas / Propane)', topic: 'Running watts', more: 'delivers {d} more running watts on gas', unit: 'W' },
-  { label: 'Running / Starting Watts', topic: 'Running watts', more: 'delivers {d} more running watts', unit: 'W' },
-  { label: 'Starting Watts', more: 'has {d} more starting watts', unit: 'W' },
-  { label: 'Peak Watts (Gas / Propane)', topic: 'Starting watts', more: 'has {d} more starting watts on gas', unit: 'W' },
-  { label: 'Run Time at 50% Load', topic: 'Run time', more: 'runs about {d} hour{s} longer at half load', unit: 'hr' },
-  { label: 'Run Time', more: 'runs about {d} hour{s} longer', unit: 'hr' },
-  { label: 'Rated Noise', topic: 'Noise', less: 'is rated {d} dBA quieter', unit: 'dBA' },
-  { label: 'Weight', less: 'is {d} lb lighter', unit: 'lb' },
-];
-const BATTERY_RULES: DiffRule[] = [
-  { label: 'Battery', topic: 'Capacity', more: 'stores {d} Wh more', unit: 'Wh' },
-  { label: 'AC Output', more: 'puts out {d} W more continuous AC', unit: 'W' },
-  { label: 'Continuous Power', more: 'delivers {d} W more continuous power', unit: 'W' },
-  { label: 'Solar Input', more: 'takes {d} W more solar', unit: 'W' },
-  { label: 'AC Recharge', topic: 'Wall charging', more: 'charges from the wall at {d} W more', unit: 'W' },
-  { label: 'Weight', less: 'is {d} lb lighter', unit: 'lb' },
-  { label: 'Warranty', more: 'has a {d}-year longer warranty', unit: 'year' },
-];
-const DIFF_RULES: Record<string, DiffRule[]> = {
-  generator: GEN_RULES,
-  'dual-fuel': GEN_RULES,
-  inverter: GEN_RULES,
-  'camping-rv': GEN_RULES,
-  'power-station': BATTERY_RULES,
-  'home-battery': BATTERY_RULES,
-  solar: [
-    { label: 'Rated Power', more: 'is rated {d} W higher', unit: 'W' },
-    { label: 'Weight', less: 'is {d} lb lighter', unit: 'lb' },
-  ],
-  'power-bank': [
-    { label: 'Battery', topic: 'Capacity', more: 'holds {d} mAh more', unit: 'mAh' },
-    { label: 'Max Output', more: 'puts out {d} W more', unit: 'W' },
-  ],
-  'power-inverter': [
-    { label: 'Continuous Power', more: 'delivers {d} W more continuous power', unit: 'W' },
-    { label: 'Peak Power', more: 'has {d} W more surge', unit: 'W' },
-  ],
-  ups: [
-    { label: 'Capacity', more: 'is rated {d} VA higher', unit: 'VA' },
-    { label: 'Weight', less: 'is {d} lb lighter', unit: 'lb' },
-  ],
-  cpap: [{ label: 'Battery', topic: 'Capacity', more: 'stores {d} Wh more', unit: 'Wh' }],
-  'transfer-switch': [
-    { label: 'Amp Rating', more: 'is rated {d} A higher', unit: 'A' },
-    { label: 'Max Generator Size', more: 'handles a generator {d} W bigger', unit: 'W' },
-  ],
-  surge: [
-    { label: 'Surge Current', more: 'absorbs {d} kA more surge current', unit: 'kA' },
-    { label: 'Warranty', more: 'has a {d}-year longer warranty', unit: 'year' },
-  ],
-  heater: [{ label: 'Heat Output', more: 'puts out {d} BTU more heat', unit: 'BTU' }],
-  fan: [
-    { label: 'Runtime', more: 'runs about {d} hour{s} longer', unit: 'hr' },
-    { label: 'Blade Size', more: 'has a {d}-inch bigger blade', unit: 'in' },
-  ],
-  lantern: [{ label: 'Brightness', more: 'is {d} lumens brighter', unit: 'lumen' }],
-  'fuel-pump': [{ label: 'Flow Rate', more: 'moves {d} GPM more', unit: 'GPM' }],
-};
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// Unit spellings found in the spec sheets, mapped to the rule's unit.
-const UNIT_ALIASES: Record<string, string> = {
-  w: 'W', watt: 'W', watts: 'W', wh: 'Wh', kwh: 'kWh', lb: 'lb', lbs: 'lb', pound: 'lb', pounds: 'lb', dba: 'dBA', db: 'dBA',
-  hr: 'hr', hrs: 'hr', hour: 'hr', hours: 'hr', h: 'hr', mah: 'mAh', va: 'VA', a: 'A', amp: 'A', amps: 'A', ka: 'kA',
-  btu: 'BTU', in: 'in', inch: 'in', inches: 'in', '"': 'in', lumen: 'lumen', lumens: 'lumen', lm: 'lumen', gpm: 'GPM',
-  year: 'year', years: 'year', yr: 'year', yrs: 'year',
-};
-
-/** First number in a spec value and the unit right after it ("1,800W (3,600W surge)" → 1800 W). */
-function specNum(s: string | undefined, unit?: string): number | undefined {
-  const m = s?.replace(/(\d),(\d{3})/g, '$1$2').match(/(\d+(?:\.\d+)?)\s*-?\s*([A-Za-z"]+)?/);
-  if (!m) return undefined;
-  let n = Number(m[1]);
-  let u = UNIT_ALIASES[(m[2] ?? '').toLowerCase()];
-  if (u === 'kWh' && unit === 'Wh') { n *= 1000; u = 'Wh'; }
-  // A different unit than the rule's (mAh vs Wh, minutes vs hours) is not comparable.
-  if (unit && u !== unit) return undefined;
-  return n;
+interface AutoTerm { phrase: string; href: string; ci: boolean }
+let AUTO: { terms: AutoTerm[]; re: RegExp } | undefined;
+function autoTerms() {
+  if (AUTO) return AUTO;
+  const terms: AutoTerm[] = [];
+  for (const p of PRODUCTS) {
+    terms.push({ phrase: p.name, href: productPath(p), ci: false });
+    if (p.short !== p.name && p.short.length >= 6) terms.push({ phrase: p.short, href: productPath(p), ci: false });
+  }
+  for (const t of TERMS) {
+    for (const a of [t.term, ...(t.aliases ?? [])]) if (a.length >= 3) terms.push({ phrase: a, href: termPath(t), ci: true });
+  }
+  // Longest first so "RTX 5070 Ti" wins over "RTX 5070" at the same position.
+  terms.sort((a, b) => b.phrase.length - a.phrase.length);
+  const seen = new Set<string>();
+  const uniq = terms.filter((t) => (seen.has(t.phrase.toLowerCase()) ? false : (seen.add(t.phrase.toLowerCase()), true)));
+  const alt = uniq.map((t) => t.phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+')).join('|');
+  AUTO = { terms: uniq, re: new RegExp(`(?<![\\w/-])(${alt})(?![\\w-])`, 'gi') };
+  return AUTO;
 }
-const fmtNum = (n: number) => n.toLocaleString('en-US', { maximumFractionDigits: 1 });
+
+export interface LinkCtx {
+  /** hrefs already linked on this page (each target is linked once). */
+  linked: Set<string>;
+  /** The page's own path: never linked to itself. */
+  self: string;
+  max: number;
+}
+export const newCtx = (self: string, max = 30): LinkCtx => ({ linked: new Set([self]), self, max });
+
+function autolink(text: string, ctx?: LinkCtx): string {
+  if (!ctx || !TERMS.length && !PRODUCTS.length) return esc(text);
+  const { terms, re } = autoTerms();
+  let out = '';
+  let last = 0;
+  re.lastIndex = 0;
+  for (let m; (m = re.exec(text)); ) {
+    const hit = m[1];
+    const t = terms.find((x) => (x.ci ? x.phrase.toLowerCase() === hit.toLowerCase().replace(/\s+/g, ' ') : x.phrase === hit.replace(/\s+/g, ' ')));
+    if (!t || ctx.linked.has(t.href) || ctx.linked.size > ctx.max) continue;
+    ctx.linked.add(t.href);
+    out += esc(text.slice(last, m.index)) + `<a href="${t.href}">${esc(hit)}</a>`;
+    last = m.index + hit.length;
+  }
+  return out + esc(text.slice(last));
+}
+
+/** Render one text field to inline HTML. Pass a LinkCtx to auto-link first mentions. */
+export function inline(text: string, ctx?: LinkCtx): string {
+  const parts = text.split(/(\[[^\]]+\]\([^)\s]+\))/g);
+  return parts
+    .map((part) => {
+      const m = part.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
+      if (m) {
+        const external = /^https?:/.test(m[2]);
+        if (!external) ctx?.linked.add(m[2]);
+        return `<a href="${esc(m[2])}"${external ? ' rel="nofollow noopener" target="_blank"' : ''}>${esc(m[1])}</a>`;
+      }
+      return autolink(part, ctx);
+    })
+    .join('')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+}
+
+/** Plain text (links unwrapped), for meta tags and JSON-LD. */
+export const plain = (text: string) => text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*([^*]+)\*\*/g, '$1');
+
+export const slugify = (s: string) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+/* ------------------------------------------------------------------ */
+/* Answer-first difference headings for comparisons.                  */
+/* best-proteinpowder.com's comparison pages rank at positions 1-9    */
+/* with H2s that state the answer ("Price: Gold Standard is 32%       */
+/* cheaper per gram of protein"). These are built from the spec data  */
+/* the same way, so every comparison gets them and they never drift.  */
+/* ------------------------------------------------------------------ */
+
+const firstNum = (s?: string) => {
+  const m = s?.replace(/(\d),(\d{3})/g, '$1$2').match(/\d+(\.\d+)?/);
+  return m ? Number(m[0]) : undefined;
+};
+const fmtNum = (n: number, dp = 0) => n.toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp });
 
 /** Up to six "<Topic>: the <winner> <difference>" headings, each with both values underneath. */
 export function compareDiffs(a: Product, b: Product): { h: string; text: string }[] {
   const out: { h: string; text: string }[] = [];
-  const [sa, sb] = [shortName(a.name), shortName(b.name)];
-  const sn = (p: Product) => (p === a ? sa : sb);
-  const both = (va: string, vb: string) => `${sa}: ${va}. ${sb}: ${vb}.`;
+  const both = (va: string, vb: string) => `${a.short}: ${va}. ${b.short}: ${vb}.`;
 
-  // No dollar prices on this site, so price is compared by tier.
-  if (a.priceTier && b.priceTier && a.priceTier !== b.priceTier) {
-    const cheap = a.priceTier < b.priceTier ? a : b;
-    out.push({ h: `Price: the ${sn(cheap)} usually costs less`, text: `${both(a.priceBand ?? '', b.priceBand ?? '')} Prices move often with sales and storm season, so check the live listing.` });
+  const mid = (p: Product) => (p.price![0] + p.price![1]) / 2;
+  const gap = a.price && b.price ? Math.round(Math.abs(mid(a) - mid(b)) / 10) * 10 : 0;
+  const tierCheap = !a.price && !b.price ? cheaperOf(a, b) : undefined;
+  if (tierCheap) {
+    out.push({ h: `Price: the ${tierCheap.short} usually costs less`, text: `${both(priceBand(a), priceBand(b))} Street prices move often, so check the live listing.` });
+  } else if (gap >= 10) {
+    const cheap = mid(a) < mid(b) ? a : b;
+    const dear = cheap === a ? b : a;
+    const pct = Math.round((1 - mid(cheap) / mid(dear)) * 100);
+    out.push({
+      h: `Price: the ${cheap.short} costs about $${fmtNum(gap)} less (${pct}% cheaper)`,
+      text: `${both(priceBand(a), priceBand(b))} Street prices move often, so check the live listing.`,
+    });
   }
 
-  const topics = new Set<string>();
   for (const r of DIFF_RULES[a.category] ?? []) {
-    const topic = r.topic ?? r.label;
-    if (topics.has(topic.toLowerCase())) continue;
-    const [va, vb] = [a.specs[r.label], b.specs[r.label]];
-    const [na, nb] = [specNum(va, r.unit), specNum(vb, r.unit)];
+    const sa = spec(a, r.label);
+    const sb = spec(b, r.label);
+    if (!sa || !sb) continue;
+    if (r.kind) {
+      const read = (s: string) => Number((r.kind === 'lanes' ? s.match(/x(\d+)/) : s.match(/(\d)\.0/))?.[1]);
+      const [na, nb] = [read(sa), read(sb)];
+      if (!na || !nb || na === nb) continue;
+      const w = na > nb ? a : b;
+      const topic = r.kind === 'lanes' ? 'PCIe link' : r.label;
+      out.push({ h: `${topic}: the ${w.short} ${r.more!.replace('{v}', `${Math.max(na, nb)}.0`)}`, text: both(sa, sb) });
+      continue;
+    }
+    const [na, nb] = [firstNum(sa), firstNum(sb)];
     if (na === undefined || nb === undefined || na === nb) continue;
     const d = Math.abs(na - nb);
     // "more" rules credit the higher number; "less" rules credit the lower one.
     const w = r.more ? (na > nb ? a : b) : na < nb ? a : b;
-    const phrase = (r.more ?? r.less)!.replace('{d}', fmtNum(d)).replace('{s}', d === 1 ? '' : 's');
-    topics.add(topic.toLowerCase());
-    out.push({ h: `${topic}: the ${sn(w)} ${phrase}`, text: both(va, vb) });
+    const phrase = (r.more ?? r.less)!.replace('{d}', fmtNum(d, r.dp ?? (Number.isInteger(d) ? 0 : 1))).replace('{s}', d === 1 ? '' : 's');
+    out.push({ h: `${r.topic ?? r.label}: the ${w.short} ${phrase}`, text: both(sa, sb) });
   }
 
-  if (a.score !== b.score) {
-    const w = a.score > b.score ? a : b;
+  if (a.score.overall !== b.score.overall) {
+    const w = a.score.overall > b.score.overall ? a : b;
     const l = w === a ? b : a;
     out.push({
-      h: `${SCORE_NAME}: the ${sn(w)} scores higher, ${w.score} to ${l.score}`,
-      text: `The ${SCORE_NAME} weighs the spec sheet against the price tier and owner reports. A higher score does not make it the right pick for every home; the short answer above says who each one suits.`,
+      h: `${SITE.score}: the ${w.short} scores higher, ${w.score.overall} to ${l.score.overall}`,
+      text: `The ${SITE.score} weighs the spec sheet against the price band and owner reports. A higher score does not make it the right pick for every ${NICHE.use}; the short answer above says which ${NICHE.use} suits each.`,
     });
   }
-  return out.filter((x) => x.h.length <= 110).slice(0, 6);
+  return out.slice(0, 6);
+}
+
+// ---------------------------------------------------------------------------
+// Interlinking: series and subjects.
+// The best-performing pages here (the equivalents charts) all link every sibling in their series.
+// These helpers give every other page family the same block, and tie together pages built
+// around the same part (best GPU / RAM / cooler / motherboard for the 9800X3D, best PSU for the
+// RTX 5070, its compare pages and its /gear/ page).
+
+/** The series a guide belongs to (first match) and its other members. */
+const seriesKey = (slug: string) => SERIES.find((s) => s.re.test(slug));
+export function seriesOf(g: Guide): { series: Series; items: Guide[] } | undefined {
+  const series = seriesKey(g.slug);
+  if (!series) return undefined;
+  const items = GUIDES.filter((x) => x.slug !== g.slug && !x.noindex && seriesKey(x.slug) === series);
+  return items.length ? { series, items } : undefined;
+}
+
+/** Parts a "best <x> for <part>" guide is built around: best-cpu-cooler-for-ryzen-9-3900x-and-3950x → both CPUs. */
+export function subjectKeys(slug: string): string[] {
+  const m = slug.match(SUBJECT_RE);
+  if (!m || SUBJECT_SKIP.includes(m[1])) return [];
+  const [first, ...rest] = m[1].split('-and-');
+  return [first, ...rest.map((x) => (/^\d/.test(x) ? first.replace(/[^-]+$/, '') + x : x))];
+}
+
+/** Other guides built around the same part (different series), e.g. every 9800X3D build guide. */
+export function sameSubject(g: Guide): Guide[] {
+  const keys = subjectKeys(g.slug);
+  if (!keys.length) return [];
+  const own = seriesOf(g)?.series.key;
+  return GUIDES.filter((x) => x.slug !== g.slug && !x.noindex && subjectKeys(x.slug).some((k) => keys.includes(k)) && seriesKey(x.slug)?.key !== own);
+}
+
+/** Guides built around this part: best GPU / RAM / cooler / motherboard for a CPU, best PSU for a GPU. */
+export const guidesFor = (id: string) => GUIDES.filter((g) => !g.noindex && subjectKeys(g.slug).includes(id));
+
+/** The equivalents chart that maps this part to its rivals. */
+export function equivalentsFor(p: Product): Guide | undefined {
+  const slug = equivalentsSlug(p);
+  return slug ? getGuide(slug) : undefined;
+}
+
+/** Every guide covering this part's category that does not already pick it (gear pages link these too). */
+export function categoryGuidesFor(p: Product, exclude: Guide[] = [], max = 6): Guide[] {
+  return GUIDES.filter((g) => !g.noindex && g.category === p.category && !exclude.includes(g) && !subjectKeys(g.slug).length)
+    .concat(GUIDES.filter((g) => !g.noindex && g.category === p.category && !exclude.includes(g) && subjectKeys(g.slug).length > 0))
+    .slice(0, max);
+}
+
+/** Guides that pick, mention or review a brand's products. */
+export function guidesForBrand(key: string): Guide[] {
+  const ids = new Set(PRODUCTS.filter((p) => p.brand === key).map((p) => p.id));
+  return GUIDES.filter((g) => !g.noindex && (g.brand === key || (g.picks ?? []).some((pk) => ids.has(pk.id)) || (g.mentions ?? []).some((m) => m.id && ids.has(m.id)) || (g.products ?? []).some((id) => ids.has(id))));
+}
+
+/** Guides whose text uses a glossary term (or one of its aliases), most uses first. */
+export function guidesUsingTerm(t: Term, max = 8): Guide[] {
+  const words = [t.term, ...(t.aliases ?? [])].map((w) => w.toLowerCase());
+  return GUIDES.filter((g) => !g.noindex)
+    .map((g) => {
+      const text = guideText(g).join(' ').toLowerCase();
+      return { g, n: words.reduce((n, w) => n + (text.split(w).length - 1), 0) };
+    })
+    .filter((x) => x.n > 0)
+    .sort((a, b) => b.n - a.n)
+    .slice(0, max)
+    .map((x) => x.g);
 }

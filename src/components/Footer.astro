@@ -1,36 +1,39 @@
 ---
-// Footer in the enthusiastreview.com structure: identity block with the affiliate line,
-// then Categories, Database and Company columns, then the copyright line.
+// Footer in the sister-site structure: identity block with the affiliate line,
+// then Categories and Company columns, then the copyright line.
 import LogoMark from './LogoMark.astro';
 import { SITE } from '../data/site';
 import { CATEGORIES } from '../data/categories';
-import { FOOTER_COMPANY } from '../data/nav';
+import { productsIn } from '../lib/data';
+import { NICHE, TOOLS } from '../data/niche';
 const year = new Date().getFullYear();
-const footerCats = CATEGORIES.filter((c) => ['generator', 'inverter', 'dual-fuel', 'power-station', 'home-battery', 'solar', 'transfer-switch', 'surge'].includes(c.key));
 ---
 <footer class="site-footer">
   <div class="wrap">
     <div class="f-top">
       <div class="f-about">
-        <a class="logo" href="/"><LogoMark /><span class="logo-text">All Metal <span>Brake</span></span></a>
-        <p>{SITE.tagline}. Every generator, power station and battery is matched to the loads it suits, scored against the spec sheet, safety features and owner reports.</p>
-        <p>As an Amazon Associate we earn from qualifying purchases. Rankings are never sold. <a href="/affiliate-disclosure/">How we make money</a></p>
+        <a class="logo" href="/"><LogoMark /><span class="logo-text">{SITE.logo[0]}<span>{SITE.logo[1]}</span></span></a>
+        <p>{SITE.tagline}. {NICHE.footerAbout}</p>
+        <p>As an Amazon Associate we earn from qualifying purchases. Rankings are never sold. <a href="/disclosure/">How we make money</a></p>
       </div>
       <div><h4>Categories</h4><ul>
-        {footerCats.map((c) => <li><a href={`/${c.hero}/`}>{c.label}</a></li>)}
+        {CATEGORIES.filter((c) => productsIn(c.key).length).map((c) => <li><a href={`/${c.hero}/`}>{c.label}</a></li>)}
         <li><a href="/best-of/">All Best Lists</a></li>
       </ul></div>
       <div><h4>Database</h4><ul>
-        <li><a href="/gear/">All Backup Power Gear</a></li>
+        <li><a href="/gear/">All {NICHE.gear}</a></li>
         <li><a href="/brands/">Brands</a></li>
         <li><a href="/compare/">Compare Two Products</a></li>
         <li><a href="/glossary/">Glossary</a></li>
-        <li><a href="/guides/">Guides</a></li>
-        <li><a href="/tools/generator-wattage-calculator/">Wattage Calculator</a></li>
-        <li><a href="/tools/power-station-runtime-calculator/">Runtime Calculator</a></li>
+        {TOOLS.map((t) => <li><a href={t.href}>{t.label}</a></li>)}
       </ul></div>
       <div><h4>Company</h4><ul>
-        {FOOTER_COMPANY.map((l) => <li><a href={l.url}>{l.title}</a></li>)}
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/how-we-review/">How We Score</a></li>
+        <li><a href="/disclosure/">Affiliate Disclosure</a></li>
+        <li><a href="/privacy/">Privacy Policy</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
       </ul></div>
     </div>
     <div class="f-bottom">

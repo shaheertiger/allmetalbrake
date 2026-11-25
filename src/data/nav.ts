@@ -1,7 +1,7 @@
-// The "Best Lists" menu, in the enthusiastreview.com structure: groups of entries with an icon,
+// The "Best Lists" menu (same structure as enthusiastreview.com): groups of entries with an icon,
 // a label and a one-line tagline. Used by the header mega menu, the mobile drawer and the home
 // page's "Browse by Category". Guide entries name a slug; the build fails if that page is gone.
-import { articleMap } from '../lib/data';
+import { GUIDES } from '../lib/data';
 
 export interface NavItem {
   label: string;
@@ -32,9 +32,9 @@ export const EXTRA_ICONS: Record<string, string> = {
 };
 
 const guide = (slug: string, label: string, tagline: string, icon?: string): NavItem => {
-  const a = articleMap.get(slug);
-  if (!a) throw new Error(`src/data/nav.ts: no article "${slug}"`);
-  return { label, href: `/${slug}/`, tagline, icon: icon ?? a.topic ?? a.hub };
+  const g = GUIDES.find((x) => x.slug === slug);
+  if (!g) throw new Error(`src/data/nav.ts: no guide "${slug}"`);
+  return { label, href: `/${slug}/`, tagline, icon: icon ?? g.category };
 };
 
 export const NAV_GROUPS: NavGroup[] = [
@@ -92,7 +92,7 @@ export const NAV_GROUPS: NavGroup[] = [
       guide('how-long-does-a-generator-last', 'How Long Does a Generator Last?', 'Run hours and years by type', 'clock'),
       guide('best-time-to-buy-a-generator', 'Best Time to Buy a Generator', 'Black Friday vs storm week', 'clock'),
       guide('ecoflow-vs-bluetti', 'EcoFlow vs Bluetti', 'Class-by-class comparison', 'compare'),
-      { label: 'All Guides', href: '/guides/', tagline: 'Costs, lifespans, comparisons', icon: 'guide' },
+      { label: 'All Guides', href: '/best-of/#guides', tagline: 'Costs, lifespans, comparisons', icon: 'guide' },
     ],
   },
   {
@@ -104,30 +104,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: 'Compare Two Products', href: '/compare/', tagline: 'Head-to-head spec sheets', icon: 'compare' },
       { label: 'Glossary', href: '/glossary/', tagline: 'Running watts, LiFePO4, interlocks', icon: 'glossary' },
       { label: 'Calculators', href: '/tools/', tagline: 'Wattage and runtime tools', icon: 'tool' },
-      { label: 'How We Score', href: '/how-we-test/', tagline: 'What the AMB Score weighs', icon: 'score' },
+      { label: 'How We Score', href: '/how-we-review/', tagline: 'What the AMB Score weighs', icon: 'score' },
     ],
   },
-];
-
-/** Thin nav strip under the header (enthusiastreview.com's QUICK links). */
-export const QUICK_LINKS = [
-  { label: 'Generators', href: '/best-home-generator-for-power-outages/' },
-  { label: 'Inverter', href: '/best-inverter-generator/' },
-  { label: 'Power Stations', href: '/best-portable-power-station/' },
-  { label: 'Home Batteries', href: '/best-home-battery-backup/' },
-  { label: 'Transfer Switches', href: '/best-generator-transfer-switch/' },
-  { label: 'All Gear', href: '/gear/' },
-  { label: 'Compare', href: '/compare/' },
-  { label: 'Tools', href: '/tools/' },
-];
-
-export const FOOTER_COMPANY = [
-  { title: 'About Us', url: '/about/' },
-  { title: 'How We Score', url: '/how-we-test/' },
-  { title: 'Editorial Policy', url: '/editorial-policy/' },
-  { title: 'Affiliate Disclosure', url: '/affiliate-disclosure/' },
-  { title: 'Privacy Policy', url: '/privacy-policy/' },
-  { title: 'Terms', url: '/terms/' },
-  { title: 'Contact', url: '/contact/' },
-  { title: 'Sitemap', url: '/sitemap/' },
 ];

@@ -1,7 +1,6 @@
-import type { APIRoute } from 'astro';
 import { SITE } from '../data/site';
-export const GET: APIRoute = () =>
-  new Response(
+export function GET() {
+  return new Response(
     [
       'User-agent: *',
       'Allow: /',
@@ -17,3 +16,4 @@ export const GET: APIRoute = () =>
     ].join('\n'),
     { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
   );
+}

@@ -23,7 +23,7 @@ the sections after it are this site's own history and keyword map.
 | **One sitemap**, `/sitemap.xml`, with product photos as image entries and real `<lastmod>`. Old `/sitemap-index.xml` and chunk URLs 301 to it. | `src/pages/sitemap.xml.ts`, `vercel.json` |
 | **IndexNow on every production deploy.** | `scripts/submit-indexnow.js` (postbuild) |
 | **Markdown twins and llms.txt** for AI search (Dualmark): every indexable page at `<path>.md`, `llms.txt`, `llms-full.txt`, `ai.txt`, `md-catalog.json`, served to AI bots and `Accept: text/markdown` by the middleware. | `scripts/build-markdown.mjs`, `middleware.js` |
-| **One URL per search; no testing claims.** | `scripts/qa-content.mjs` |
+| **One URL per search; no testing claims.** | `scripts/validate-content.mjs` |
 | **Audit at any time:** `npm run build && npm run audit:seo`. | `scripts/seo-audit.mjs` (same script as enthusiastreview.com) |
 
 Audit on 24 Nov 2026 after the switch: every check at 0. No title over 65, no article title outside

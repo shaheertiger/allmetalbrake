@@ -1,11 +1,10 @@
-// Real last-modified dates for every page, from git history (copied from enthusiastreview.com).
+// Real last-modified dates for every guide, from git history.
 //
 //   node scripts/page-dates.mjs        (runs first in `npm run build`)
 //
 // Writes src/data/git-dates.json: { "<key>": "YYYY-MM-DD" }, the author date of the last commit
-// that changed each content file. Keys: "articles/<slug>" (src/content/articles/<slug>.json),
-// "products/<category>" (src/content/products/<category>.json), "compares" (src/data/compares.ts),
-// "glossary" (src/data/glossary.ts).
+// that changed each content file. Keys: "guides/<slug>" (src/data/guides/<slug>.json),
+// "products/<category>" (src/data/products/<category>.json), "compares", "glossary".
 // src/lib/data.ts uses it as the page's `updated` date, so the date on the page,
 // in the Article JSON-LD and in the sitemap <lastmod> moves when the content really changes
 // and never otherwise. Bing uses dateModified/lastmod as a freshness signal and learns to
@@ -26,11 +25,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const PATHS = ['src/content/articles', 'src/content/products', 'src/data/compares.ts', 'src/data/glossary.ts'];
+const PATHS = ['src/data/guides', 'src/data/products', 'src/data/compares.json', 'src/data/glossary.json'];
 const keyOf = (file) =>
-  file.match(/^src\/content\/(articles\/.+)\.json$/)?.[1] ??
-  file.match(/^src\/content\/(products\/.+)\.json$/)?.[1] ??
-  file.match(/^src\/data\/(compares|glossary)\.ts$/)?.[1];
+  file.match(/^src\/data\/(guides\/.+)\.json$/)?.[1] ??
+  file.match(/^src\/data\/(products\/.+)\.json$/)?.[1] ??
+  file.match(/^src\/data\/(compares|glossary)\.json$/)?.[1];
 const OUT = path.join(ROOT, 'src/data/git-dates.json');
 
 const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
@@ -65,7 +64,7 @@ try {
   }
   dates = Object.fromEntries(Object.entries(dates).filter(([, d]) => d));
 } catch (e) {
-  console.warn(`page-dates: git unavailable (${String(e.message).split('\n')[0]}); using the dates in the content files`);
+  console.warn(`page-dates: git unavailable (${String(e.message).split('\n')[0]}); using the launch dates`);
   dates = {};
 }
 

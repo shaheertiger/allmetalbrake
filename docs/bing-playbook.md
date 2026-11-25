@@ -80,7 +80,7 @@ sister site in the last 28 days, plus four with 50+ clicks all-time (seasonal). 
 `topic` left unset. The 43 remaining deleted slugs had no Bing clicks on either site (mattresses,
 camping fridge, small appliances, EV charger, etc.) and stay redirected.
 
-## On-page rules (enforced by `npm run qa` in the build; field format in `docs/CONTENT_GUIDE.md`)
+## On-page rules (enforced by `scripts/validate-content.mjs` in the build; field format in `docs/content-schema.md`)
 
 - **Title, 50-65 chars, leading with the query.**
   Buying guide: `<N> Best <Product> in 2026: <deciding factor>`.
@@ -161,7 +161,7 @@ season now), best jigsaw, best drill press (1 click each).
 
 | Item | Status |
 | --- | --- |
-| Content | JSON in `src/content/articles/` and `src/content/products/`, one template per page type |
+| Content | JSON in `src/data/guides/` and `src/data/products/`, one template per page type |
 | Page types | Best lists, brand reviews, guides, `/gear/` product pages, `/compare/`, `/brands/`, `/glossary/`, `/tools/` |
 | Page dates / sitemap lastmod | `published` / `updated` in each article JSON |
 | Sitemaps | `/sitemap-index.xml`, split per template (pages, gear, compare, brands, glossary), with product images |

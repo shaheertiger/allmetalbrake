@@ -1,27 +1,33 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
-import { SITE, SCORE_NAME } from '../../data/site';
+import { SITE } from '../../data/site';
 import { CATEGORIES } from '../../data/categories';
-import { compares } from '../../data/compares';
-import { productMap, compareSlug, shortName } from '../../lib/data';
-import { breadcrumbs, graph, itemList } from '../../lib/schema';
-const valid = compares.filter(([a, b]) => productMap.has(a) && productMap.has(b)).map(([a, b]) => ({ a: productMap.get(a)!, b: productMap.get(b)!, slug: compareSlug(a, b) }));
-const groups = CATEGORIES.map((c) => ({ c, list: valid.filter((v) => v.a.category === c.key) })).filter((g) => g.list.length);
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'Comparisons', url: '/compare/' }];
-const schema = graph(breadcrumbs(crumbs), { '@type': 'CollectionPage', name: 'Backup power comparisons', url: `${SITE.url}/compare/` }, itemList(valid.map((v) => ({ name: `${v.a.name} vs ${v.b.name}`, url: `/compare/${v.slug}/` }))));
+import { HUBS, NICHE } from '../../data/niche';
+import { COMPARES, mustProduct, comparePath } from '../../lib/data';
+const groups = CATEGORIES.map((c) => ({ c, list: COMPARES.filter((x) => mustProduct(x.a).category === c.key) })).filter((g) => g.list.length);
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Comparisons', href: '/compare/' }];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${NICHE.title} Comparisons`,
+  url: `${SITE.url}/compare/`,
+  mainEntity: { '@type': 'ItemList', itemListElement: COMPARES.map((x, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE.url}${comparePath(x)}` })) },
+};
 ---
-<Base title={`Backup Power Comparisons: ${valid.length} Head-to-Heads (2026)`} description={`${valid.length} head-to-head comparisons of popular generators, inverter generators, power stations and home batteries, with spec sheets side by side and a clear pick.`} schema={schema}>
+<Base title={`${NICHE.title} Comparisons: ${COMPARES.length} Head-to-Heads (2026)`} description={HUBS.compare.description(COMPARES.length)} jsonLd={jsonLd}>
   <div class="wrap hub">
     <Crumbs items={crumbs} />
-    <h1 class="hub-title">Backup Power Comparisons</h1>
-    <p class="hub-dek">Two products, one table, one verdict. Every comparison lines up the spec sheets, the {SCORE_NAME} and who should buy which.</p>
-    <nav class="chips" aria-label="Categories">{groups.map((g) => <a href={`#${g.c.key}`}>{g.c.label}</a>)}</nav>
+    <h1 class="hub-title">{NICHE.title} Comparisons</h1>
+    <p class="hub-dek">Two {NICHE.parts}, one table, one verdict. Every comparison lines up the spec sheets, the {SITE.score} and who should buy which.</p>
     {groups.map((g) => (
       <section id={g.c.key}>
         <h2 class="section-title">{g.c.label}</h2>
         <ul class="vs-list">
-          {g.list.map((v) => <li><a href={`/compare/${v.slug}/`}><strong>{shortName(v.a.name)}</strong> vs <strong>{shortName(v.b.name)}</strong></a><span>{v.a.score} vs {v.b.score}</span></li>)}
+          {g.list.map((x) => {
+            const a = mustProduct(x.a), b = mustProduct(x.b);
+            return <li><a href={comparePath(x)}><strong>{a.short}</strong> vs <strong>{b.short}</strong></a><span>{a.score.overall} vs {b.score.overall}</span></li>;
+          })}
         </ul>
       </section>
     ))}

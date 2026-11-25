@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import { SITE } from '../../data/site';
+import { NICHE } from '../../data/niche';
+import { TERMS, getTerm, getGuide, guidesUsingTerm, termPath, guidePath, glossaryUpdated, fmtDate, newCtx, inline, type Term } from '../../lib/data';
+
+export function getStaticPaths() {
+  return TERMS.map((t) => ({ params: { id: t.id }, props: { t } }));
+}
+const { t } = Astro.props as { t: Term };
+const path = termPath(t);
+const ctx = newCtx(path, 12);
+const updated = glossaryUpdated();
+const related = (t.related ?? []).map(getTerm).filter((x): x is Term => Boolean(x));
+// Hand-picked guides first, then the guides that use the term most.
+const guides = [...new Set([...(t.guides ?? []).map(getGuide).filter((g) => g && !g.noindex), ...guidesUsingTerm(t)])].slice(0, 10);
+const others = TERMS.filter((x) => x.id !== t.id && !related.includes(x));
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Glossary', href: '/glossary/' }, { name: t.term, href: path }];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'DefinedTerm',
+      name: t.term,
+      description: t.short,
+      url: `${SITE.url}${path}`,
+      inDefinedTermSet: { '@type': 'DefinedTermSet', name: `${SITE.name} ${NICHE.title} Glossary`, url: `${SITE.url}/glossary/` },
+    },
+    { '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE.url}${c.href}` })) },
+  ],
+};
+---
+<Base title={t.title} description={t.short} jsonLd={jsonLd}>
+  <article class="article">
+    <header class="col a-head">
+      <Crumbs items={crumbs} />
+      <div class="kicker">{NICHE.title} Glossary</div>
+      <h1 class="a-title">{t.title.split(/[?:]/)[0]}{t.title.includes('?') ? '?' : ''}</h1>
+      <p class="dek">{t.short}</p>
+      <div class="byline">By <a href="/authors/justin-lee/">Justin Lee</a> · Updated <time datetime={updated}>{fmtDate(updated)}</time></div>
+    </header>
+    <div class="col body">
+      {t.body.map((p) => <p set:html={inline(p, ctx)} />)}
+      {(related.length > 0 || guides.length > 0) && (
+        <>
+          <h2 id="related">Related</h2>
+          <ul class="link-list">
+            {related.map((r) => <li><a href={termPath(r)}>{r.term}</a></li>)}
+            {guides.map((g) => g && <li><a href={guidePath(g)}>{g.h1}</a></li>)}
+          </ul>
+        </>
+      )}
+      <h2 id="more">More Terms</h2>
+      <p class="term-cloud">{others.map((o) => <a href={termPath(o)}>{o.term}</a>)}</p>
+    </div>
+  </article>
+</Base>

@@ -1,14 +1,13 @@
 ---
-// Root-level pages: best lists and brand reviews (/best-inverter-generator/, /best-ecoflow-power-station/)
-// and guides (/generac-generator-cost/). Source: src/content/articles/*.json.
+// Root-level pages: buyer's guides and brand reviews (/best-graphics-card/, /corsair-review/)
+// and articles (/how-to-update-nvidia-drivers/, /amd-vs-intel/). Source: src/data/guides/*.json.
 import GuidePage from '../components/GuidePage.astro';
 import ArticlePage from '../components/ArticlePage.astro';
-import { articles } from '../lib/data';
-import type { Article } from '../lib/types';
+import { ALL_GUIDES, type Guide } from '../lib/data';
 
 export function getStaticPaths() {
-  return articles.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+  return ALL_GUIDES.map((g) => ({ params: { slug: g.slug }, props: { g } }));
 }
-const { a } = Astro.props as { a: Article };
+const { g } = Astro.props as { g: Guide };
 ---
-{a.kind === 'guide' ? <ArticlePage a={a} /> : <GuidePage a={a} />}
+{g.type === 'article' ? <ArticlePage g={g} /> : <GuidePage g={g} />}

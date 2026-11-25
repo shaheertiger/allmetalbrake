@@ -1,66 +1,101 @@
 ---
-// Guides: costs, lifespans, timing and brand-vs-brand articles (kind "guide").
-// enthusiastreview.com article skeleton: H1 → Short Answer (first H2, the Bing rule) → lede →
-// On this page → question sections → mistakes → bottom line → FAQ → sources → related.
+// How-tos, fixes, explainers and X-vs-Y articles (type "article" in src/data/guides/).
+// Skeleton: H1 → Short Answer (first H2, the Bing rule) → lede → steps → question sections
+// → mistakes → bottom line → FAQ → sources → parts mentioned → related.
 import Base from '../layouts/Base.astro';
 import Crumbs from './Crumbs.astro';
 import CatIcon from './CatIcon.astro';
 import ProductImage from './ProductImage.astro';
+import Score from './Score.astro';
+import BuyButton from './BuyButton.astro';
 import FaqList from './FaqList.astro';
+import SectionBody from './SectionBody.astro';
 import { SITE } from '../data/site';
-import { categoryOf, CATEGORY } from '../data/categories';
-const CATEGORY_KEYS = new Set(Object.keys(CATEGORY));
-import { md, slugify } from '../lib/md';
-import { articleSchema, breadcrumbs, faqPage, graph } from '../lib/schema';
-import { articles, articleMap, productMap, hubLabel, readMinutes, formatDate, articleUrl, shortName, topicOf, cap } from '../lib/data';
-import type { Article } from '../lib/types';
+import { NICHE } from '../data/niche';
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+import { amazonLink } from '../data/affiliate';
+import { publisherRef } from '../lib/schema';
+import { getAuthor, authorSchema } from '../data/authors';
+import {
+  GUIDES, getGuide, seriesOf, getProduct, categoryOf, guidePath, productPath, guideUpdated, guidePublished, fmtDate, priceBand,
+  readMinutes, guideText, guideQuery, newCtx, inline, plain, slugify, type Guide, type Product,
+} from '../lib/data';
 
-interface Props { a: Article }
-const { a } = Astro.props;
-const url = articleUrl(a);
-const topic = topicOf(a);
-const cat = categoryOf(topic);
-const kindLabel = /^best-/.test(a.slug) ? 'Best List' : /\bvs\b/i.test(a.h1) ? 'Head to Head' : /cost/i.test(a.slug) ? 'Costs' : 'Explainer';
-
-// The Short Answer: an article section headed "... Short Answer" if there is one, opened by the
-// intro's first paragraph in the answer box.
-const isShort = (h: string) => /short answer/i.test(h);
-const shortSec = a.sections.find((s) => isShort(s.heading));
-const rest = a.sections.filter((s) => s !== shortSec);
-const paras = (a.quickAnswer ? [a.quickAnswer] : []).concat(a.intro.split(/\n\s*\n/));
-const [answer, ...lede] = paras;
-const shortH = `${a.h1.replace(/\?$/, '')}: The Short Answer`;
-
+interface Props { g: Guide }
+const { g } = Astro.props;
+const path = guidePath(g);
+const ctx = newCtx(path);
+const cat = categoryOf(g.category);
+const author = getAuthor(g.author);
+const updated = guideUpdated(g);
+const published = guidePublished(g);
+const products = (g.products ?? []).map(getProduct).filter((p): p is Product => Boolean(p));
+const related = (g.related ?? []).map(getGuide).filter((x): x is Guide => Boolean(x && !x.noindex));
+// Series siblings (every BIOS guide, every RGB app, every equivalents chart...) as an in-content block,
+// the pattern the equivalents charts use; Related then adds same-category pages outside the series.
+const series = seriesOf(g);
+const siblings = series?.items ?? [];
+const more = GUIDES.filter((x) => x.slug !== g.slug && x.category === g.category && !related.includes(x) && !siblings.includes(x))
+  .concat(GUIDES.filter((x) => x.slug !== g.slug && x.type === 'article' && !related.includes(x) && !siblings.includes(x)))
+  .filter((x, i, a) => a.indexOf(x) === i).slice(0, 6);
+const kindLabel = { howto: 'How-To', fix: 'Fix', explainer: 'Explainer', versus: 'Head to Head' }[g.kind ?? 'explainer'];
+const stepsHeading = g.stepsHeading ?? `${g.h1}, Step by Step`;
 const outline: [string, string][] = [
-  ['short-answer', shortH],
-  ...rest.map((s) => [slugify(s.heading), s.heading] as [string, string]),
-  ...(a.mistakes?.length ? [['mistakes', 'Common Mistakes to Avoid'] as [string, string]] : []),
+  ['short-answer', `${g.h1}: The Short Answer`],
+  ...(g.steps?.length ? [['steps', stepsHeading] as [string, string]] : []),
+  ...g.sections.map((s) => [slugify(s.h), s.h] as [string, string]),
+  ...(g.mistakes?.length ? [['mistakes', 'Common Mistakes to Avoid'] as [string, string]] : []),
+  ...(series ? [[`more-${series.series.key}`, series.series.heading] as [string, string]] : []),
   ['bottom-line', 'The Bottom Line'],
   ['faq', 'Frequently Asked Questions'],
   ['sources', 'Sources'],
 ];
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guides/' }, { name: a.h1, url }];
-const related = a.related.map((s) => articleMap.get(s)).filter((x): x is Article => Boolean(x));
-const more = articles.filter((x) => x.slug !== a.slug && x.kind === 'guide' && !related.includes(x));
-const schema = graph(articleSchema(a, url), breadcrumbs(crumbs), faqPage(a.faqs));
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Guides', href: '/best-of/#guides' },
+  { name: g.h1, href: path },
+];
+const OG_IMAGE = products[0]?.image;
+// Mobile sticky Amazon bar: the first part listed in the article's `products`.
+const stickyP = products[0];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: g.title,
+      description: g.description,
+      datePublished: published,
+      dateModified: updated,
+      author: authorSchema(g.author),
+      publisher: publisherRef(),
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE.url}${path}` },
+      ...(OG_IMAGE ? { image: OG_IMAGE } : {}),
+      articleSection: cat.label,
+      keywords: [...new Set([guideQuery(g), g.h1.toLowerCase(), ...(g.keywords ?? [])])].join(', '),
+      inLanguage: 'en-US',
+    },
+    { '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE.url}${c.href}` })) },
+    { '@type': 'FAQPage', mainEntity: g.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: plain(f.a) } })) },
+  ],
+};
 ---
-<Base title={a.title} description={a.metaDescription} type="article" schema={schema} published={a.published} updated={a.updated} section={hubLabel(a.hub)} tags={a.keywords.slice(0, 5)} mdAlternate={`/${a.slug}.md`}>
+<Base title={g.title} description={g.description} ogImage={products[0]?.image} ogType="article" article={{ published, modified: updated, section: cat.label }} jsonLd={jsonLd} noindex={g.noindex}>
   <article class="article">
     <header class="a-head col">
       <Crumbs items={crumbs} />
-      <div class="kicker">{topic && CATEGORY_KEYS.has(topic) ? cat.label : hubLabel(a.hub)} · {kindLabel}</div>
-      <h1 class="a-title">{a.h1}</h1>
-      <p class="dek">{a.metaDescription}</p>
+      <div class="kicker">{cat.label} · {kindLabel}</div>
+      <h1 class="a-title">{g.h1}</h1>
+      <p class="dek" set:html={inline(g.dek)} />
       <div class="byline">
-        By <a href="/authors/justin-lee/" rel="author">{SITE.author}</a> · Updated <time datetime={a.updated}>{formatDate(a.updated)}</time> · {readMinutes(a)} min read
+        By <a href={`/authors/${author.slug}/`}>{author.name}</a> · Updated <time datetime={updated}>{fmtDate(updated)}</time> · {readMinutes(guideText(g))} min read
       </div>
     </header>
 
     <div class="col body numbered">
-      <h2 id="short-answer">{shortH}</h2>
-      <div class="answer-box" set:html={md(cap(answer))} />
-      {lede.map((t) => <Fragment set:html={md(t)} />)}
-      {shortSec && <Fragment set:html={md(shortSec.body)} />}
+      <h2 id="short-answer">{g.h1}: The Short Answer</h2>
+      <div class="answer-box"><p set:html={inline(g.quickAnswer, ctx)} /></div>
+      {g.intro.map((t) => <p set:html={inline(t, ctx)} />)}
     </div>
 
     <div class="col">
@@ -71,55 +106,92 @@ const schema = graph(articleSchema(a, url), breadcrumbs(crumbs), faqPage(a.faqs)
     </div>
 
     <div class="col body numbered">
-      {rest.map((s) => (
+      {g.steps?.length && (
         <>
-          <h2 id={slugify(s.heading)}>{s.heading}</h2>
-          <Fragment set:html={md(s.body)} />
+          <h2 id="steps">{stepsHeading}</h2>
+          <ol class="howto-steps">
+            {g.steps.map((s) => (
+              <li>
+                <h3>{s.h}</h3>
+                {s.body.map((t) => <p set:html={inline(t, ctx)} />)}
+              </li>
+            ))}
+          </ol>
+        </>
+      )}
+
+      {g.sections.map((s) => (
+        <>
+          <h2 id={slugify(s.h)}>{s.h}</h2>
+          <SectionBody s={s} ctx={ctx} />
         </>
       ))}
 
-      {a.mistakes?.length && (
+      {g.mistakes?.length && (
         <>
           <h2 id="mistakes">Common Mistakes to Avoid</h2>
-          {a.mistakes.map((m) => (
+          {g.mistakes.map(([k, v]) => (
             <>
-              <h3>{m.title}</h3>
-              <Fragment set:html={md(m.body)} />
+              <h3>{k}</h3>
+              <p set:html={inline(v, ctx)} />
             </>
           ))}
         </>
       )}
 
+      {series && (
+        <>
+          <h2 id={`more-${series.series.key}`}>{series.series.heading}</h2>
+          <ul class="link-list">{siblings.map((x) => <li><a href={guidePath(x)}>{x.h1}</a></li>)}{series.series.hub && <li><a href={series.series.hub.href}>{series.series.hub.text}</a></li>}</ul>
+        </>
+      )}
+
       <h2 id="bottom-line">The Bottom Line</h2>
-      <Fragment set:html={md(a.bottomLine)} />
+      <p set:html={inline(g.bottomLine, ctx)} />
 
       <h2 id="faq">Frequently Asked Questions</h2>
-      <FaqList faqs={a.faqs} />
+      <FaqList faqs={g.faqs} ctx={ctx} />
 
       <h2 id="sources">Sources</h2>
-      <ul>
-        <li>Manufacturer spec sheets, owner's manuals and published warranty terms for the products and brands named on this page.</li>
-        <li>Published installation and ownership cost ranges, cross-checked against each other rather than taken from a single quote.</li>
-        <li>Owner reviews and forum reports for long-term reliability and support experience.</li>
-      </ul>
-      <p class="fine">Figures checked against current manufacturer and retailer information as of <time datetime={a.updated}>{formatDate(a.updated)}</time>. Spotted a change? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+      {g.sources.length > 0 && <ul>{g.sources.map((s) => <li set:html={inline(s)} />)}</ul>}
+      <p class="fine">{NICHE.articleChecked} <time datetime={updated}>{fmtDate(updated)}</time>. Spotted a change? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
     </div>
+
+    {products.length > 0 && (
+      <div class="col">
+        <h2 class="section-title" id="parts">{cap(NICHE.parts)} Mentioned</h2>
+        <div class="mentioned">
+          {products.map((p) => (
+            <div class="mentioned-row">
+              <ProductImage p={p} size={64} />
+              <div><a href={productPath(p)}>{p.name}</a><span class="fine"> · {priceBand(p)}</span></div>
+              <Score value={p.score.overall} />
+              <BuyButton p={p} label="Price" small />
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
 
     <aside class="wrap related">
       <h2 class="section-title">Related</h2>
       <div class="grid grid-3">
-        {[...related, ...more].slice(0, 6).map((r) => {
-          const rp = r.picks?.[0] ? productMap.get(r.picks[0].product) : undefined;
-          return (
-            <a class="card" href={articleUrl(r)}>
-              {rp ? <ProductImage p={rp} size={72} /> : <CatIcon cat={topicOf(r) ?? r.hub} size={44} />}
-              <span class="card-k">{hubLabel(r.hub)}</span>
-              <h3>{r.h1}</h3>
-              {rp && <span class="card-sub">Top pick: {shortName(rp.name)}</span>}
-            </a>
-          );
-        })}
+        {[...related, ...more].slice(0, 6).map((r) => (
+          <a class="card" href={guidePath(r)}>
+            <CatIcon cat={r.category} size={44} />
+            <span class="card-k">{r.type === 'article' ? 'Guide' : r.type === 'brand' ? 'Brand Review' : categoryOf(r.category).label}</span>
+            <h3>{r.h1}</h3>
+          </a>
+        ))}
       </div>
     </aside>
+
+    {stickyP && (
+      <div class="sticky-buy sb-mobile" aria-label={`Featured ${NICHE.part}`}>
+        <span class="sb-text"><span class="sb-k">{SITE.score} {stickyP.score.overall}/100 · {priceBand(stickyP)}</span><strong>{stickyP.name}</strong></span>
+        <a class="buy buy-sm" href={amazonLink(stickyP)} rel="sponsored nofollow noopener" target="_blank">Check Price</a>
+        <button class="sb-close" type="button" aria-label="Dismiss" onclick="this.parentElement.hidden=true">×</button>
+      </div>
+    )}
   </article>
 </Base>

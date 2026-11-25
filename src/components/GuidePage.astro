@@ -1,8 +1,5 @@
 ---
-// Best lists and brand reviews (kind "roundup" and "review"), in the enthusiastreview.com guide
-// skeleton: H1 → dek → byline → disclosure → intro → shortlist → On this page → numbered H2s:
-// Short Answer (picks table) → sections before the picks → picks → spec sheets side by side →
-// sections after → mistakes → bottom line → FAQ → sources and updates → all we track → related.
+// Buyer's guide and brand review body (rendered by src/pages/[slug].astro).
 import Base from '../layouts/Base.astro';
 import Crumbs from './Crumbs.astro';
 import Score from './Score.astro';
@@ -10,140 +7,150 @@ import BuyButton from './BuyButton.astro';
 import CatIcon from './CatIcon.astro';
 import ProductImage from './ProductImage.astro';
 import FaqList from './FaqList.astro';
-import { SITE, SCORE_NAME } from '../data/site';
-import { categoryOf } from '../data/categories';
-import { RANKING, RANK_SOURCES } from '../data/ranking';
-import { compares } from '../data/compares';
-import { amazonUrl, amazonImage, AFFILIATE_REL } from '../lib/amazon';
-import { md, mdInline, slugify } from '../lib/md';
-import { articleSchema, breadcrumbs, faqPage, graph, itemList } from '../lib/schema';
+import SectionBody from './SectionBody.astro';
+import { SITE } from '../data/site';
+import { NICHE } from '../data/niche';
+import { getAuthor, authorSchema } from '../data/authors';
+import { amazonLink } from '../data/affiliate';
+import { publisherRef, productItemList } from '../lib/schema';
 import {
-  articles, articleMap, getProduct, productMap, productsByCategory, productsByBrand, hubLabel, readMinutes, formatDate,
-  articleUrl, productUrl, brandUrl, compareSlug, shortName, topicOf, cap, lc,
+  GUIDES, getGuide, seriesOf, sameSubject, subjectKeys, getProduct as findProduct, getProduct, mustProduct, getBrand, categoryOf, productsIn, productsOfBrand, comparesFor,
+  guidePath, productPath, comparePath, brandPath, guideUpdated, guidePublished, fmtDate, priceBand, spec,
+  readMinutes, guideText, guideQuery, newCtx, inline, plain, slugify, type Guide,
 } from '../lib/data';
-import type { Article } from '../lib/types';
 
-interface Props { a: Article }
-const { a } = Astro.props;
-const url = articleUrl(a);
-const isBrand = a.kind === 'review';
-const topic = topicOf(a);
-const cat = categoryOf(topic);
-const picks = (a.picks ?? []).map((pk) => ({ ...pk, p: getProduct(pk.product) }));
+const { g } = Astro.props as { g: Guide };
+const path = guidePath(g);
+const ctx = newCtx(path);
+const cat = categoryOf(g.category);
+const brand = g.brand ? getBrand(g.brand) : undefined;
+const author = getAuthor(g.author);
+const updated = guideUpdated(g);
+const published = guidePublished(g);
+const picks = (g.picks ?? []).map((pk) => ({ ...pk, p: mustProduct(pk.id) }));
 const top = picks[0];
-const pickIds = new Set(picks.map((x) => x.p.slug));
-const tracked = isBrand && a.brand ? productsByBrand(a.brand) : topic ? productsByCategory(topic) : [];
+const isBrand = g.type === 'brand';
+const tracked = isBrand && brand ? productsOfBrand(brand.key) : productsIn(g.category);
+const pickIds = new Set(picks.map((x) => x.id));
+const related = (g.related ?? []).map(getGuide).filter((x): x is Guide => Boolean(x && !x.noindex));
+const series = seriesOf(g);
+const subjectGuides = sameSubject(g);
+// The part this guide is built around (best GPU for the 9800X3D → the 9800X3D): its gear page and compare pages.
+const subject = subjectKeys(g.slug).map(findProduct).find((x): x is NonNullable<typeof x> => Boolean(x));
+const subjectCompares = subject ? comparesFor(subject.id) : [];
+const sameCat = [...subjectGuides, ...GUIDES.filter((x) => x.slug !== g.slug && x.category === g.category && !related.includes(x))]
+  .filter((x, i, a) => !related.includes(x) && a.indexOf(x) === i).slice(0, 3);
+const shownRelated = [...related, ...sameCat].slice(0, 6);
+const moreInCat = GUIDES.filter((x) => x.slug !== g.slug && x.category === g.category && !x.noindex && !shownRelated.includes(x));
+const headToHead = [...new Map(picks.flatMap((x) => comparesFor(x.id)).map((c) => [comparePath(c), c])).values()].filter((c) => pickIds.has(c.a) && pickIds.has(c.b));
 
-// Sections: a "Short Answer" section written in the article becomes the Short Answer H2 itself.
-const isShort = (h: string) => /short answer/i.test(h);
-const shortSec = a.sections.find((s) => s.position === 'before' && isShort(s.heading));
-const before = a.sections.filter((s) => s.position === 'before' && s !== shortSec);
-const after = a.sections.filter((s) => s.position !== 'before');
-
-// Product noun from the H1: "The 7 Best Inverter Generators in 2026" -> "Inverter Generators".
-const noun = a.h1.replace(/^The \d+ /, '').replace(/^Best /, '').replace(/\s+(in|for) 20\d\d$/, '').replace(/\s*\(20\d\d\)$/, '');
-// Spec columns: keep specs most picks actually have; top up from shared key specs.
-const coverage = (k: string) => picks.filter((x) => x.p.specs[k]).length / Math.max(1, picks.length);
-const columns = (a.comparisonSpecs ?? []).filter((k) => coverage(k) >= 0.5);
-for (const k of [...new Set(picks.flatMap((x) => x.p.keySpecs ?? []))].sort((x, y) => coverage(y) - coverage(x))) {
-  if (columns.length >= 4) break;
-  if (!columns.includes(k) && coverage(k) >= 0.6) columns.push(k);
-}
-
-// How We Ranked: the article's own criteria, else the four parts of this category's AMB Score.
-const rankCriteria = a.ranking?.criteria ?? RANKING[topic ?? ''] ?? RANKING[picks[0]?.p.category ?? ''] ?? [];
-const rankIntro = a.ranking?.intro ?? `We ranked these ${isBrand && a.brand ? `${a.brand} products` : cat.plural} using ${RANK_SOURCES}. None of them were hands-on tested by us. Each pick's ${SCORE_NAME} (0–100) weighs that evidence in four parts, and the order below follows the score adjusted for who each product suits:`;
-// Notable Mentions: the best-scoring products we track in this category that did not make the list.
-const mentions = tracked.filter((p) => !pickIds.has(p.slug)).sort((x, y) => y.score - x.score).slice(0, 3);
-// H2 wording is the enthusiastreview.com guide skeleton, word for word.
+// Numbered H2 outline (Short Answer first, the Bing rule; then the sister sites' order).
 const H = {
-  short: `${a.h1}: The Short Answer`,
-  how: `How We Ranked ${isBrand && a.brand ? `the ${a.brand} Lineup` : `These ${cat.label}`}`,
-  picks: isBrand && a.brand ? `The ${a.brand} Lineup, Ranked` : `${a.h1}: Our ${picks.length} Picks`,
+  short: `${g.h1}: The Short Answer`,
+  about: brand ? `Who ${brand.name} Is` : '',
+  how: `How We Ranked ${isBrand && brand ? `the ${brand.name} Lineup` : `These ${cat.label}`}`,
+  picks: isBrand && brand ? `The ${brand.name} Lineup, Ranked` : `${g.h1}: Our ${g.picks.length} Picks`,
   specs: 'Spec Sheets Side by Side',
   mentions: 'Notable Mentions',
   mistakes: 'Common Mistakes to Avoid',
   bottom: 'The Bottom Line',
   faq: 'Frequently Asked Questions',
   sources: 'Sources and Recent Updates',
-  tracked: isBrand && a.brand ? `Every ${a.brand} Product We Track` : `All ${cat.label} We Track`,
+  tracked: isBrand && brand ? `Every ${brand.name} Product We Track` : `All ${cat.label} We Track`,
 };
 const outline = [
   ['short-answer', H.short],
-  ...before.map((s) => [slugify(s.heading), s.heading]),
-  ...(picks.length ? [['how-we-ranked', H.how]] : []),
-  ...(picks.length ? [['picks', H.picks]] : []),
-  ...(picks.length > 1 ? [['specs', H.specs]] : []),
-  ...(mentions.length ? [['mentions', H.mentions]] : []),
-  ...after.map((s) => [slugify(s.heading), s.heading]),
-  ...(a.mistakes?.length ? [['mistakes', H.mistakes]] : []),
+  ...(g.about?.length ? [['who', H.about]] : []),
+  ['how-we-ranked', H.how],
+  ['picks', H.picks],
+  ['specs', H.specs],
+  ...(g.mentions?.length ? [['mentions', H.mentions]] : []),
+  ...g.sections.map((s) => [slugify(s.h), s.h]),
+  ['mistakes', H.mistakes],
   ['bottom-line', H.bottom],
   ['faq', H.faq],
   ['sources', H.sources],
-  ...(tracked.length ? [['tracked', H.tracked]] : []),
+  ['tracked', H.tracked],
 ] as [string, string][];
-// H2s carry their number ("1. ..."), matching the On this page list.
+// Sister-site H2s carry their number ("1. Compare the Picks at a Glance"), matching the On this page list.
 const num = (id: string) => `${outline.findIndex(([x]) => x === id) + 1}. `;
-const pickAnchor = (i: number) => `pick-${i + 1}`;
-
-const related = a.related.map((s) => articleMap.get(s)).filter((x): x is Article => Boolean(x));
-const sameHub = articles.filter((x) => x.slug !== a.slug && (x.hub === a.hub || (topic && topicOf(x) === topic)) && !related.includes(x));
-const shownRelated = [...related, ...sameHub].slice(0, 6);
-const moreInCat = sameHub.filter((x) => !shownRelated.includes(x));
-const headToHead = compares.filter(([x, y]) => pickIds.has(x) && pickIds.has(y)).map(([x, y]) => ({ slug: compareSlug(x, y), a: productMap.get(x)!, b: productMap.get(y)! }));
+const words = readMinutes(guideText(g));
+const pickAnchor = (id: string) => `pick-${id}`;
 
 const crumbs = [
-  { name: 'Home', url: '/' },
-  isBrand ? { name: 'Brand Reviews', url: '/reviews/' } : { name: 'Best Lists', url: '/best-of/' },
-  { name: a.h1, url },
+  { name: 'Home', href: '/' },
+  isBrand ? { name: 'Brand Reviews', href: '/best-of/#brand-reviews' } : { name: 'Best Lists', href: '/best-of/' },
+  { name: g.h1, href: path },
 ];
-const topImg = top ? amazonImage(top.p, 500) ?? undefined : undefined;
-const schema = graph(
-  articleSchema(a, url, topImg),
-  breadcrumbs(crumbs),
-  ...(picks.length ? [itemList(picks.map((x) => ({ name: x.p.name, url: productUrl(x.p), product: x.p })), a.h1)] : []),
-  faqPage(a.faqs),
-);
-const quick = a.quickAnswer ? cap(a.quickAnswer) : (top ? `The **${top.p.name}** is our top pick. ${top.p.summary}` : '');
+const OG_IMAGE = top?.p.image;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: g.title,
+      description: g.description,
+      datePublished: published,
+      dateModified: updated,
+      author: authorSchema(g.author),
+      publisher: publisherRef(),
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE.url}${path}` },
+      ...(OG_IMAGE ? { image: OG_IMAGE } : {}),
+      articleSection: cat.label,
+      keywords: [...new Set([guideQuery(g), g.h1.toLowerCase(), ...(g.keywords ?? [])])].join(', '),
+      inLanguage: 'en-US',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE.url}${c.href}` })),
+    },
+    // Each pick is a full Product + Review (the sister sites' "Product snippets" pattern).
+    { ...productItemList(picks.map((x) => x.p), g.h1, g.author) },
+    {
+      '@type': 'FAQPage',
+      mainEntity: g.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: plain(f.a) } })),
+    },
+  ],
+};
 ---
-<Base title={a.title} description={a.metaDescription} type="article" schema={schema} published={a.published} updated={a.updated} section={hubLabel(a.hub)} tags={a.keywords.slice(0, 5)} mdAlternate={`/${a.slug}.md`} ogImage={topImg} preloadImage={top ? amazonImage(top.p, 192) ?? undefined : undefined}>
+<Base title={g.title} description={g.description} ogImage={top.p.image} ogType="article" article={{ published, modified: updated, section: cat.label }} jsonLd={jsonLd} noindex={g.noindex}>
   <article class="article">
     <header class="a-head col">
       <Crumbs items={crumbs} />
-      <div class="kicker">{isBrand && a.brand ? <a href={brandUrl(a.brand)}>{a.brand} · Brand Review</a> : cat.label}</div>
-      <h1 class="a-title">{a.h1}</h1>
-      <p class="dek">{a.metaDescription}</p>
+      <div class="kicker">{isBrand && brand ? `${brand.name} · Brand Review` : cat.label}</div>
+      <h1 class="a-title">{g.h1}</h1>
+      <p class="dek" set:html={inline(g.dek)} />
       <div class="byline">
-        By <a href="/authors/justin-lee/" rel="author">{SITE.author}</a> · Updated <time datetime={a.updated}>{formatDate(a.updated)}</time> · {readMinutes(a)} min read
-        {a.published !== a.updated && <> · First published <time datetime={a.published}>{formatDate(a.published)}</time></>}
+        By <a href={`/authors/${author.slug}/`}>{author.name}</a> · Updated <time datetime={updated}>{fmtDate(updated)}</time> · {words} min read
+        {published !== updated && <> · First published <time datetime={published}>{fmtDate(published)}</time></>}
       </div>
       <p class="disclosure">
-        These picks are researched against manufacturer spec sheets and manuals, certifications and owner reports; we have not bench-tested them ourselves. When you buy through our links we may earn a commission, at no cost to you. <a href="/how-we-test/">How we score</a> · <a href="/affiliate-disclosure/">Disclosure</a>
+        These picks are researched against {NICHE.pickBasis}; we have not bench-tested them ourselves. When you buy through our links we may earn a commission, at no cost to you. <a href="/how-we-review/">How we score</a> · <a href="/disclosure/">Disclosure</a>
       </p>
     </header>
 
-    <div class="col body lede"><Fragment set:html={md(a.intro)} /></div>
+    <div class="col body lede">
+      {g.intro.map((t) => <p set:html={inline(t, ctx)} />)}
+    </div>
 
     <div class="col">
-      {picks.length > 0 && (
-        <section class="shortlist" aria-label="Shortlist">
-          <p class="mini">Shortlist: which pick suits you</p>
-          <ol>
-            {picks.map((x, i) => (
-              <li class={x.p.imageId ? 'has-thumb' : undefined}>
-                <span class="sl-n">{i + 1}</span>
-                {x.p.imageId && <ProductImage p={x.p} size={52} class="sl-thumb" eager={i < 3} />}
-                <div class="sl-main">
-                  <div class="sl-label">{x.award}</div>
-                  <a class="sl-name" href={`#${pickAnchor(i)}`}>{x.p.name}</a>
-                  <div class="sl-for">{x.p.bestFor}</div>
-                </div>
-                <div class="sl-side"><Score value={x.p.score} /><span class="sl-price">{x.p.priceBand}</span><a class="sl-view" href={amazonUrl(x.p)} rel={AFFILIATE_REL} target="_blank">View</a></div>
-              </li>
-            ))}
-          </ol>
-        </section>
-      )}
+      <section class="shortlist" aria-label="Shortlist">
+        <p class="mini">Shortlist: which pick suits you</p>
+        <ol>
+          {picks.map((x, i) => (
+            <li class={x.p.image ? 'has-thumb' : undefined}>
+              <span class="sl-n">{i + 1}</span>
+              {x.p.image && <ProductImage p={x.p} size={52} class="sl-thumb" />}
+              <div class="sl-main">
+                <div class="sl-label">{x.label}</div>
+                <a class="sl-name" href={`#${pickAnchor(x.id)}`}>{x.p.name}</a>
+                <div class="sl-for">{x.bestFor ?? x.p.bestFor}</div>
+              </div>
+              <div class="sl-side"><Score value={x.p.score.overall} /><span class="sl-price">{priceBand(x.p)}</span><a class="sl-view" href={amazonLink(x.p)} rel="sponsored nofollow noopener" target="_blank">View</a></div>
+            </li>
+          ))}
+        </ol>
+      </section>
 
       <nav class="toc" aria-label="On this page">
         <p class="mini">On this page</p>
@@ -153,220 +160,218 @@ const quick = a.quickAnswer ? cap(a.quickAnswer) : (top ? `The **${top.p.name}**
 
     <div class="col body">
       <h2 id="short-answer">{num('short-answer')}{H.short}</h2>
-      {quick && <div class="answer-box" set:html={md(quick)} />}
-      {picks.length > 0 && (
-        <div class="table-wrap">
-          <table class="picks-table">
-            <caption>{a.h1}: picks compared</caption>
-            <thead><tr><th>Pick</th><th>Best for</th><th>Skip it if</th><th>Score</th><th>Price</th></tr></thead>
-            <tbody>
-              {picks.map((x, i) => (
-                <tr>
-                  <td><span class="tag">{x.award}</span><a href={`#${pickAnchor(i)}`}>{x.p.name}</a></td>
-                  <td>{x.p.bestFor}</td>
-                  <td>{x.p.skipIf}</td>
-                  <td><Score value={x.p.score} /></td>
-                  <td class="nowrap">{x.p.priceBand}<br /><a class="cell-link" href={productUrl(x.p)}>Specs</a></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-      {shortSec && <Fragment set:html={md(shortSec.body)} />}
+      <div class="answer-box"><p set:html={inline(g.quickAnswer, ctx)} /></div>
+      <div class="table-wrap">
+        <table class="picks-table">
+          <caption>{g.h1}: picks compared</caption>
+          <thead><tr><th>Pick</th><th>Best for</th><th>Skip it if</th><th>Score</th><th>Price</th></tr></thead>
+          <tbody>
+            {picks.map((x) => (
+              <tr>
+                <td><span class="tag">{x.label}</span><a href={`#${pickAnchor(x.id)}`}>{x.p.name}</a></td>
+                <td>{x.bestFor ?? x.p.bestFor}</td>
+                <td>{x.skipIf ?? x.p.skipIf}</td>
+                <td><Score value={x.p.score.overall} /></td>
+                <td class="nowrap">{priceBand(x.p)}<br /><a class="cell-link" href={productPath(x.p)}>Specs</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      {before.map((s) => (
+      {g.about?.length && brand && (
         <>
-          <h2 id={slugify(s.heading)}>{num(slugify(s.heading))}{s.heading}</h2>
-          <Fragment set:html={md(s.body)} />
-        </>
-      ))}
-
-      {picks.length > 0 && (
-        <>
-          <h2 id="how-we-ranked">{num('how-we-ranked')}{H.how}</h2>
-          <p>{rankIntro}</p>
-          {rankCriteria.length > 0 && <ul class="criteria">{rankCriteria.map(([k, v]) => <li><strong>{k}.</strong> {v}</li>)}</ul>}
-          <p class="fine">We track {tracked.length || picks.length} {isBrand && a.brand ? `${a.brand} products` : cat.plural}; {picks.length} made this list. Scores are research scores, not lab results. <a href="/how-we-test/">How the {SCORE_NAME} works</a>.</p>
-
-          <h2 id="picks">{num('picks')}{H.picks}</h2>
+          <h2 id="who">{num('who')}{H.about}</h2>
+          {g.about.map((t) => <p set:html={inline(t, ctx)} />)}
+          <p class="fine">{[brand.founded && `Founded ${brand.founded}`, brand.hq && `Headquarters: ${brand.hq}`].filter(Boolean).join(' · ')} · <a href={brandPath(brand)}>All {brand.name} products we track</a></p>
         </>
       )}
+
+      <h2 id="how-we-ranked">{num('how-we-ranked')}{H.how}</h2>
+      <p set:html={inline(g.ranking!.intro, ctx)} />
+      <ul class="criteria">
+        {g.ranking!.criteria.map(([k, v]) => <li><strong>{k}.</strong> <span set:html={inline(v, ctx)} /></li>)}
+      </ul>
+      {g.ranking!.why && <p set:html={inline(g.ranking!.why, ctx)} />}
+      <p class="fine">We track {tracked.length} {isBrand && brand ? `${brand.name} products` : cat.plural}; {picks.length} made this list. Scores are research scores, not lab results. <a href="/how-we-review/">How the {SITE.score} works</a>.</p>
+
+      <h2 id="picks">{num('picks')}{H.picks}</h2>
     </div>
 
     <div class="col">
-      {picks.map((x, i) => {
-        const keys = (x.p.keySpecs?.length ? x.p.keySpecs : Object.keys(x.p.specs)).filter((k) => x.p.specs[k]).slice(0, 4);
-        return (
-          <section class="pick" id={pickAnchor(i)}>
-            <div class="pick-head">
-              <ProductImage p={x.p} size={96} buy eager={i === 0} />
-              <div>
-                <div class="pick-label">{x.award}</div>
-                <h3>{i + 1}. {x.p.name}</h3>
-                <div class="pick-meta">{x.p.priceBand} · Best for: {x.p.bestFor}</div>
-              </div>
-              <Score value={x.p.score} size="lg" />
+      {picks.map((x, i) => (
+        <section class="pick" id={pickAnchor(x.id)}>
+          <div class="pick-head">
+            <ProductImage p={x.p} size={96} buy />
+            <div>
+              <div class="pick-label">{x.label}</div>
+              <h3>{i + 1}. {x.p.name}</h3>
+              <div class="pick-meta">{priceBand(x.p)} · Best for: {x.bestFor ?? x.p.bestFor}</div>
             </div>
-            <dl class="keyspecs">
-              {keys.map((k) => <div><dt>{k}</dt><dd>{x.p.specs[k]}</dd></div>)}
-            </dl>
-            <p class="skip-if"><strong>Skip it if:</strong> {x.p.skipIf}</p>
-            <div class="pick-cta"><BuyButton p={x.p} /><a class="more" href={productUrl(x.p)}>Full specs &amp; score →</a></div>
-            <div class="body"><Fragment set:html={md(x.body)} /></div>
-            <div class="proscons">
-              <div class="pros"><h4>Pros</h4><ul>{(x.pros?.length ? x.pros : x.p.pros).map((t) => <li>{t}</li>)}</ul></div>
-              <div class="cons"><h4>Cons</h4><ul>{(x.cons?.length ? x.cons : x.p.cons).map((t) => <li>{t}</li>)}</ul></div>
-            </div>
-          </section>
-        );
-      })}
+            <Score value={x.p.score.overall} size="lg" />
+          </div>
+          <dl class="keyspecs">
+            {x.p.specs.slice(0, 4).map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+          </dl>
+          <p class="skip-if"><strong>Skip it if:</strong> {x.skipIf ?? x.p.skipIf}</p>
+          <div class="pick-cta"><BuyButton p={x.p} /><a class="more" href={productPath(x.p)}>Full specs &amp; score →</a></div>
+          <div class="body">{x.writeup.map((t) => <p set:html={inline(t, ctx)} />)}</div>
+          <div class="proscons">
+            <div class="pros"><h4>Pros</h4><ul>{(x.pros?.length ? x.pros : x.p.pros).map((t) => <li>{t}</li>)}</ul></div>
+            <div class="cons"><h4>Cons</h4><ul>{(x.cons?.length ? x.cons : x.p.cons).map((t) => <li>{t}</li>)}</ul></div>
+          </div>
+        </section>
+      ))}
     </div>
 
     <div class="col body">
-      {picks.length > 1 && (
-        <>
-          <h2 id="specs">{num('specs')}{H.specs}</h2>
-          <div class="table-wrap">
-            <table class="spec-table">
-              <caption>Key specs for every pick, from the manufacturers' spec sheets</caption>
-              <thead><tr><th>Model</th>{columns.map((s) => <th>{s}</th>)}<th>Score</th><th>Price</th><th>Buy</th></tr></thead>
-              <tbody>
-                {picks.map((x) => (
-                  <tr>
-                    <td><a href={productUrl(x.p)}>{shortName(x.p.name)}</a></td>
-                    {columns.map((s) => <td>{x.p.specs[s] ?? '—'}</td>)}
-                    <td>{x.p.score}</td>
-                    <td class="nowrap">{x.p.priceBand}</td>
-                    <td class="nowrap"><a class="cell-link" href={amazonUrl(x.p)} rel={AFFILIATE_REL} target="_blank">Amazon →</a></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
+      <h2 id="specs">{num('specs')}{H.specs}</h2>
+      <div class="table-wrap">
+        <table class="spec-table">
+          <caption>Key specs for every pick, from the manufacturers' spec sheets</caption>
+          <thead><tr><th>Model</th>{(g.tableSpecs ?? []).map((s) => <th>{s}</th>)}<th>Score</th><th>Price</th><th>Buy</th></tr></thead>
+          <tbody>
+            {picks.map((x) => (
+              <tr>
+                <td><a href={productPath(x.p)}>{x.p.short}</a></td>
+                {(g.tableSpecs ?? []).map((s) => <td>{spec(x.p, s) ?? '—'}</td>)}
+                <td>{x.p.score.overall}</td>
+                <td class="nowrap">{priceBand(x.p)}</td>
+                <td class="nowrap"><a class="cell-link" href={amazonLink(x.p)} rel="sponsored nofollow noopener" target="_blank">Amazon →</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      {mentions.length > 0 && (
+      {g.mentions?.length && (
         <>
           <h2 id="mentions">{num('mentions')}{H.mentions}</h2>
-          {mentions.map((mp) => (
-            <div class={`mention${mp.imageId ? ' has-thumb' : ''}`}>
-              {mp.imageId && <ProductImage p={mp} size={72} />}
-              <div class="mention-main">
-                <h3><a href={productUrl(mp)}>{mp.name}</a></h3>
-                <p class="mention-meta"><Score value={mp.score} /> · {mp.priceBand}</p>
-                <p>{mp.summary} Best for {lc(mp.bestFor)}. Skip it if {lc(mp.skipIf)}.</p>
+          {g.mentions.map((m) => {
+            const mp = m.id ? getProduct(m.id) : undefined;
+            return (
+              <div class={`mention${mp ? ' has-thumb' : ''}`}>
+                {mp && <ProductImage p={mp} size={72} />}
+                <div class="mention-main">
+                  <h3>{mp ? <a href={productPath(mp)}>{mp.name}</a> : m.name}</h3>
+                  {mp && <p class="mention-meta"><Score value={mp.score.overall} /> · {priceBand(mp)}</p>}
+                  <p set:html={inline(m.text, ctx)} />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </>
       )}
 
-      {after.map((s) => (
+      {g.sections.map((s) => (
         <>
-          <h2 id={slugify(s.heading)}>{num(slugify(s.heading))}{s.heading}</h2>
-          <Fragment set:html={md(s.body)} />
+          <h2 id={slugify(s.h)}>{num(slugify(s.h))}{s.h}</h2>
+          <SectionBody s={s} ctx={ctx} />
         </>
       ))}
 
-      {a.mistakes?.length && (
+      <h2 id="mistakes">{num('mistakes')}{H.mistakes}</h2>
+      {(g.mistakes ?? []).map(([k, v]) => (
         <>
-          <h2 id="mistakes">{num('mistakes')}{H.mistakes}</h2>
-          {a.mistakes.map((m) => (
-            <>
-              <h3>{m.title}</h3>
-              <Fragment set:html={md(m.body)} />
-            </>
-          ))}
+          <h3>{k}</h3>
+          <p set:html={inline(v, ctx)} />
         </>
-      )}
+      ))}
 
       <h2 id="bottom-line">{num('bottom-line')}{H.bottom}</h2>
-      <Fragment set:html={md(a.bottomLine)} />
-      {top && <p><BuyButton p={top.p} label={`Check the ${shortName(top.p.name)} on Amazon`} /></p>}
+      <p set:html={inline(g.bottomLine, ctx)} />
+      <p><BuyButton p={top.p} label={`Check the ${top.p.short} on Amazon`} /></p>
 
       <h2 id="faq">{num('faq')}{H.faq}</h2>
-      <FaqList faqs={a.faqs} />
+      <FaqList faqs={g.faqs} ctx={ctx} />
 
       <h2 id="sources">{num('sources')}{H.sources}</h2>
       <h3>Recent updates</h3>
-      <ul><li><time datetime={a.updated}>{formatDate(a.updated)}</time>: picks, specs and availability rechecked.</li>{a.published !== a.updated && <li><time datetime={a.published}>{formatDate(a.published)}</time>: first published.</li>}</ul>
-      <h3>What this page is based on</h3>
-      <ul>
-        <li>Manufacturer spec sheets and owner's manuals for every product listed{picks.length ? ` (${[...new Set(picks.map((x) => x.p.brand))].join(', ')})` : ''}.</li>
-        <li>Product listings and certifications: UL listings, CARB and EPA compliance and CO-shutoff features where they apply.</li>
-        <li>Owner reviews and forum reports, read in bulk for recurring failures, hard starts and support problems.</li>
-        <li>Our own load and runtime maths, the same formulas as the <a href="/tools/generator-wattage-calculator/">wattage</a> and <a href="/tools/power-station-runtime-calculator/">runtime</a> calculators.</li>
-      </ul>
-      <p class="fine">Spotted a spec that changed or a product that went out of stock? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
-
-      {tracked.length > 0 && (
+      <ul><li><time datetime={updated}>{fmtDate(updated)}</time>: picks, prices and specs rechecked.</li></ul>
+      {g.sources.length > 0 && (
         <>
-          <h2 id="tracked">{num('tracked')}{H.tracked}</h2>
-          <div class="table-wrap">
-            <table class="tracked">
-              <thead><tr><th>Product</th><th>{isBrand ? 'Category' : 'Brand'}</th><th>Score</th><th>Price</th><th></th></tr></thead>
-              <tbody>
-                {tracked.map((p) => (
-                  <tr class={pickIds.has(p.slug) ? 'is-pick' : undefined}>
-                    <td><a href={productUrl(p)}>{p.name}</a>{pickIds.has(p.slug) && <span class="tag">On this list</span>}</td>
-                    <td>{isBrand ? categoryOf(p.category).label : <a href={brandUrl(p.brand)}>{p.brand}</a>}</td>
-                    <td>{p.score}</td>
-                    <td class="nowrap">{p.priceBand}</td>
-                    <td><a href={amazonUrl(p)} rel={AFFILIATE_REL} target="_blank">Price</a></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <h3>What this page is based on</h3>
+          <ul>{g.sources.map((s) => <li set:html={inline(s)} />)}</ul>
         </>
       )}
+      <p class="fine">Spotted a spec that changed or a {NICHE.part} that went out of stock? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+
+      <h2 id="tracked">{num('tracked')}{H.tracked}</h2>
+      <div class="table-wrap">
+        <table class="tracked">
+          <thead><tr><th>Product</th><th>{isBrand ? 'Category' : 'Brand'}</th><th>Score</th><th>Price</th><th></th></tr></thead>
+          <tbody>
+            {tracked.map((p) => (
+              <tr class={pickIds.has(p.id) ? 'is-pick' : undefined}>
+                <td><a href={productPath(p)}>{p.name}</a>{pickIds.has(p.id) && <span class="tag">On this list</span>}</td>
+                <td>{isBrand ? categoryOf(p.category).label : <a href={brandPath(p.brand)}>{getBrand(p.brand).name}</a>}</td>
+                <td>{p.score.overall}</td>
+                <td class="nowrap">{priceBand(p)}</td>
+                <td><a href={amazonLink(p)} rel="sponsored nofollow noopener" target="_blank">Price</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {headToHead.length > 0 && (
         <>
           <h2 class="plain" id="head-to-head">Head-to-Head Comparisons</h2>
-          <ul class="link-list">{headToHead.map((c) => <li><a href={`/compare/${c.slug}/`}>{shortName(c.a.name)} vs {shortName(c.b.name)}</a></li>)}</ul>
+          <ul class="link-list">{headToHead.map((c) => <li><a href={comparePath(c)}>{mustProduct(c.a).short} vs {mustProduct(c.b).short}</a></li>)}</ul>
+        </>
+      )}
+
+      {(subject || subjectGuides.length > 0) && (
+        <>
+          <h2 class="plain" id="more-for-subject">More for the {subject ? subject.short : g.h1.replace(/^.* for /, '')}</h2>
+          <ul class="link-list">
+            {subject && <li><a href={productPath(subject)}>{subject.name}: specs, score and price</a></li>}
+            {subjectGuides.map((x) => <li><a href={guidePath(x)}>{x.h1}</a></li>)}
+            {subjectCompares.map((c) => <li><a href={comparePath(c)}>{mustProduct(c.a).short} vs {mustProduct(c.b).short}</a></li>)}
+          </ul>
+        </>
+      )}
+
+      {series && (
+        <>
+          <h2 class="plain" id={`more-${series.series.key}`}>{series.series.heading}</h2>
+          <ul class="link-list">{series.items.map((x) => <li><a href={guidePath(x)}>{x.h1}</a></li>)}{series.series.hub && <li><a href={series.series.hub.href}>{series.series.hub.text}</a></li>}</ul>
         </>
       )}
     </div>
 
-    {shownRelated.length > 0 && (
-      <aside class="wrap related">
-        <h2 class="section-title">Related Guides</h2>
-        <div class="grid grid-3">
-          {shownRelated.map((r) => {
-            const rp = r.picks?.[0] ? productMap.get(r.picks[0].product) : undefined;
-            return (
-              <a class="card" href={articleUrl(r)}>
-                {rp ? <ProductImage p={rp} size={72} /> : <CatIcon cat={topicOf(r) ?? r.hub} size={44} />}
-                <span class="card-k">{hubLabel(r.hub)}</span>
-                <h3>{r.h1}</h3>
-                <span class="card-sub" set:html={mdInline(r.metaDescription)} />
-                {rp && <span class="card-sub">Top pick: {shortName(rp.name)}</span>}
-              </a>
-            );
-          })}
-        </div>
-        {moreInCat.length > 0 && (
-          <div class="more-in">
-            <p class="mini">More in {hubLabel(a.hub)}</p>
-            <div class="chips">
-              {moreInCat.map((r) => <a href={articleUrl(r)}>{r.h1}</a>)}
-              {topic && <a href={`/gear/#${topic}`}>All {cat.plural} we track</a>}
-            </div>
-          </div>
-        )}
-      </aside>
-    )}
-
-    {top && (
-      <div class="sticky-buy" id="sticky-buy" aria-label="Top pick">
-        <ProductImage p={top.p} size={40} />
-        <span class="sb-text"><span class="sb-k">{top.award} · {SCORE_NAME} {top.p.score}/100 · {top.p.priceBand}</span><strong>{top.p.name}</strong></span>
-        <a class="buy buy-sm" href={amazonUrl(top.p)} rel={AFFILIATE_REL} target="_blank">Check Price</a>
-        <button class="sb-close" type="button" aria-label="Dismiss" onclick="this.parentElement.hidden=true">×</button>
+    <aside class="wrap related">
+      <h2 class="section-title">Related Guides</h2>
+      <div class="grid grid-3">
+        {shownRelated.map((r) => {
+          const rp = r.picks?.[0] ? getProduct(r.picks[0].id) : getProduct(r.products?.[0] ?? '');
+          return (
+            <a class="card" href={guidePath(r)}>
+              {rp ? <ProductImage p={rp} size={72} /> : <CatIcon cat={r.category} size={44} />}
+              <span class="card-k">{r.type === 'brand' ? 'Brand Review' : r.type === 'article' ? 'Guide' : categoryOf(r.category).label}</span>
+              <h3>{r.h1}</h3>
+              <span class="card-sub">{r.dek}</span>
+              {rp && r.picks?.length && <span class="card-sub">Top pick: {rp.short}</span>}
+            </a>
+          );
+        })}
       </div>
-    )}
+      {moreInCat.length > 0 && (
+        <div class="more-in">
+          <p class="mini">More in {cat.label}</p>
+          <div class="chips">
+            {moreInCat.map((r) => <a href={guidePath(r)}>{r.h1}</a>)}
+            <a href={`/gear/#${cat.key}`}>All {cat.plural} we track</a>
+          </div>
+        </div>
+      )}
+    </aside>
+
+    <div class="sticky-buy" id="sticky-buy" aria-label="Top pick">
+      <ProductImage p={top.p} size={40} />
+      <span class="sb-text"><span class="sb-k">{top.label} · {SITE.score} {top.p.score.overall}/100 · {priceBand(top.p)}</span><strong>{top.p.name}</strong></span>
+      <a class="buy buy-sm" href={amazonLink(top.p)} rel="sponsored nofollow noopener" target="_blank">Check Price</a>
+      <button class="sb-close" type="button" aria-label="Dismiss" onclick="this.parentElement.hidden=true">×</button>
+    </div>
   </article>
 </Base>

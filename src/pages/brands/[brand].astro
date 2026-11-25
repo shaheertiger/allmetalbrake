@@ -1,56 +1,57 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
-import { SITE, SCORE_NAME } from '../../data/site';
-import { categoryOf } from '../../data/categories';
-import { compares } from '../../data/compares';
-import { amazonUrl, AFFILIATE_REL } from '../../lib/amazon';
-import { brands, productsByBrand, brandSlug, productUrl, articles, articleUrl, productMap, compareSlug, shortName } from '../../lib/data';
-import { breadcrumbs, graph, itemList } from '../../lib/schema';
-export function getStaticPaths() { return brands.map((b) => ({ params: { brand: brandSlug(b) }, props: { brand: b } })); }
-const { brand } = Astro.props as { brand: string };
-const list = productsByBrand(brand);
-const best = list[0];
-const ids = new Set(list.map((p) => p.slug));
-const review = articles.find((a) => a.brand === brand);
-const featuredIn = articles.filter((a) => a.picks?.some((pk) => ids.has(pk.product)) && a.slug !== review?.slug);
-const brandCompares = compares.filter(([a, b]) => (ids.has(a) || ids.has(b)) && productMap.has(a) && productMap.has(b));
+import { SITE } from '../../data/site';
+import { amazonLink } from '../../data/affiliate';
+import { BRANDS, guidesForBrand, productsOfBrand, getGuide, comparesFor, mustProduct, brandPath, productPath, guidePath, comparePath, priceBand, avgScore, categoryOf, type Brand } from '../../lib/data';
+
+export function getStaticPaths() {
+  return BRANDS.map((b) => ({ params: { brand: b.key }, props: { b } }));
+}
+const { b } = Astro.props as { b: Brand };
+const list = productsOfBrand(b.key);
+const review = b.review ? getGuide(b.review) : undefined;
+const compares = [...new Map(list.flatMap((p) => comparesFor(p.id)).map((c) => [comparePath(c), c])).values()];
+const guides = guidesForBrand(b.key).filter((g) => g !== review);
 const cats = [...new Set(list.map((p) => categoryOf(p.category).plural))];
-const avg = Math.round(list.reduce((s, p) => s + p.score, 0) / list.length);
-const path = `/brands/${brandSlug(brand)}/`;
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'Brands', url: '/brands/' }, { name: brand, url: path }];
-const title = [`${brand} Review: ${list.length} ${brand} Products Rated (2026)`, `${brand}: ${list.length} Products Rated by ${SCORE_NAME}`, `${brand} Backup Power Products: ${list.length} Models Rated`].find((t) => t.length <= 62) ?? `${brand} Products Rated`;
-const desc = `${best.name} is the best-scoring ${brand} product we track at ${best.score}/100. See all ${list.length} ${brand} ${cats.join(' and ')} with specs, scores and prices.`;
-const schema = graph(
-  { '@type': 'Brand', name: brand, url: `${SITE.url}${path}` },
-  itemList(list.map((p) => ({ name: p.name, url: productUrl(p), product: p })), `${brand} products`),
-  breadcrumbs(crumbs),
-);
+const path = brandPath(b);
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Brands', href: '/brands/' }, { name: b.name, href: path }];
+const title = [`${b.name} Review: ${list.length} ${b.name} Products Rated (2026)`, `${b.name}: ${list.length} Products Rated by ${SITE.score}`].find((t) => t.length <= 62) ?? `${b.name} Products Rated`;
+const best = list[0];
+const desc = `${best.name} is the best-scoring ${b.name} product we track at ${best.score.overall}/100. See all ${list.length} ${b.name} ${cats.join(' and ')} with specs, scores and prices.`;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Brand', name: b.name, url: `${SITE.url}${path}`, description: b.blurb },
+    { '@type': 'ItemList', name: `${b.name} products`, itemListElement: list.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: p.name, url: `${SITE.url}${productPath(p)}` })) },
+    { '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE.url}${c.href}` })) },
+  ],
+};
 ---
-<Base title={title} description={desc.length > 158 ? desc.slice(0, desc.lastIndexOf(' ', 155)) + '.' : desc} schema={schema}>
+<Base title={title} description={desc.length > 158 ? desc.slice(0, desc.lastIndexOf(' ', 155)) + '.' : desc} jsonLd={jsonLd}>
   <div class="col hub">
     <Crumbs items={crumbs} />
-    <h1 class="hub-title">{brand}</h1>
-    <p class="hub-dek">Every {brand} product we track, with its spec sheet, {SCORE_NAME} and price band. Our highest-rated {brand} model is the <a href={productUrl(best)}>{best.name}</a>.</p>
-    <p class="fine">{list.length} product{list.length === 1 ? '' : 's'} tracked · average {SCORE_NAME} {avg} · {[...new Set(list.map((p) => categoryOf(p.category).label))].join(', ')}</p>
-    {review && <p class="answer-box">Read our full brand review: <a href={articleUrl(review)}>{review.h1}</a>.</p>}
-    <h2 class="section-title">Every {brand} Product We Track</h2>
+    <h1 class="hub-title">{b.name}</h1>
+    <p class="hub-dek">{b.blurb}</p>
+    <p class="fine">{[b.founded && `Founded ${b.founded}`, b.hq && `Headquarters: ${b.hq}`, `${list.length} products tracked`, `average ${SITE.score} ${avgScore(list)}`].filter(Boolean).join(' · ')}</p>
+    {review && <p class="answer-box">Read our full brand review: <a href={guidePath(review)}>{review.h1}</a>.</p>}
+    <h2 class="section-title">Every {b.name} Product We Track</h2>
     <div class="table-wrap">
       <table class="tracked">
         <thead><tr><th>Product</th><th>Category</th><th>Score</th><th>Price</th><th></th></tr></thead>
-        <tbody>{list.map((p) => <tr><td><a href={productUrl(p)}>{p.name}</a></td><td>{categoryOf(p.category).label}</td><td>{p.score}</td><td class="nowrap">{p.priceBand}</td><td><a href={amazonUrl(p)} rel={AFFILIATE_REL} target="_blank">Price</a></td></tr>)}</tbody>
+        <tbody>{list.map((p) => <tr><td><a href={productPath(p)}>{p.name}</a></td><td>{categoryOf(p.category).label}</td><td>{p.score.overall}</td><td class="nowrap">{priceBand(p)}</td><td><a href={amazonLink(p)} rel="sponsored nofollow noopener" target="_blank">Price</a></td></tr>)}</tbody>
       </table>
     </div>
-    {featuredIn.length > 0 && (
+    {compares.length > 0 && (
       <>
-        <h2 class="section-title">{brand} in Our Best Lists</h2>
-        <ul class="link-list">{featuredIn.map((a) => <li><a href={articleUrl(a)}>{a.h1}</a></li>)}</ul>
+        <h2 class="section-title">{b.name} Comparisons</h2>
+        <ul class="link-list">{compares.map((c) => <li><a href={comparePath(c)}>{mustProduct(c.a).short} vs {mustProduct(c.b).short}</a></li>)}</ul>
       </>
     )}
-    {brandCompares.length > 0 && (
+    {guides.length > 0 && (
       <>
-        <h2 class="section-title">{brand} Comparisons</h2>
-        <ul class="link-list">{brandCompares.map(([a, b]) => <li><a href={`/compare/${compareSlug(a, b)}/`}>{shortName(productMap.get(a)!.name)} vs {shortName(productMap.get(b)!.name)}</a></li>)}</ul>
+        <h2 class="section-title">Guides With {b.name} Picks</h2>
+        <ul class="link-list">{guides.map((g) => <li><a href={guidePath(g)}>{g.h1}</a></li>)}</ul>
       </>
     )}
   </div>

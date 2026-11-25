@@ -1,13 +1,13 @@
 ---
 // Visible breadcrumbs. The BreadcrumbList JSON-LD is built by each page from the same list.
-interface Props { items: { name: string; url: string }[] }
+interface Props { items: { name: string; href?: string }[] }
 const { items } = Astro.props;
 ---
 <nav class="crumbs" aria-label="Breadcrumb">
   {items.map((c, i) => (
     <>
       {i > 0 && <span aria-hidden="true">›</span>}
-      {i < items.length - 1 ? <a href={c.url}>{c.name}</a> : <span aria-current="page">{c.name}</span>}
+      {c.href && i < items.length - 1 ? <a href={c.href}>{c.name}</a> : <span>{c.name}</span>}
     </>
   ))}
 </nav>

@@ -1,22 +1,29 @@
 ---
-// Author profile, the enthusiastreview.com / besthometheaterreview.com structure: who he is,
-// background, how he works, every article he wrote. ProfilePage + Person schema.
+// Author profile, same structure as besthometheaterreview.com/authors/justin-lee/:
+// who he is, background, how he works, every article he wrote. ProfilePage + Person schema.
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
 import { SITE } from '../../data/site';
-import { AUTHORS, authorSchema, type Author } from '../../data/authors';
-import { articles, articleUrl, formatDate } from '../../lib/data';
-import { breadcrumbs, graph } from '../../lib/schema';
+import { AUTHORS, DEFAULT_AUTHOR, authorSchema, type Author } from '../../data/authors';
+import { GUIDES, guidePath, guideUpdated, fmtDate } from '../../lib/data';
 export function getStaticPaths() {
   return Object.values(AUTHORS).map((a) => ({ params: { slug: a.slug }, props: { a } }));
 }
 const { a } = Astro.props as { a: Author };
 const path = `/authors/${a.slug}/`;
-const list = [...articles].sort((x, y) => y.updated.localeCompare(x.updated) || x.h1.localeCompare(y.h1));
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'About', url: '/about/' }, { name: a.name, url: path }];
-const schema = graph(breadcrumbs(crumbs), { '@type': 'ProfilePage', url: `${SITE.url}${path}`, name: `${a.name}, ${SITE.name}`, mainEntity: authorSchema(a.slug) });
+const guides = GUIDES.filter((g) => !g.noindex && (g.author ?? DEFAULT_AUTHOR) === a.slug).sort(
+  (x, y) => guideUpdated(y).localeCompare(guideUpdated(x)) || x.h1.localeCompare(y.h1),
+);
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'About', href: '/about/' }, { name: a.name, href: path }];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE.url}${c.href}` })) },
+    { '@type': 'ProfilePage', url: `${SITE.url}${path}`, name: `${a.name}, ${SITE.name}`, mainEntity: authorSchema(a.slug) },
+  ],
+};
 ---
-<Base title={`${a.name}: ${a.role} at ${SITE.name}`} description={a.short.length > 158 ? a.short.slice(0, a.short.lastIndexOf(' ', 155)).replace(/[,;:]$/, '') + '.' : a.short} schema={schema}>
+<Base title={`${a.name}: ${a.role} at ${SITE.name}`} description={a.short.length > 158 ? a.short.slice(0, a.short.lastIndexOf(' ', 155)).replace(/[,;:]$/, '') + '.' : a.short} jsonLd={jsonLd}>
   <div class="col hub">
     <Crumbs items={crumbs} />
     <h1 class="hub-title">{a.name}</h1>
@@ -32,11 +39,11 @@ const schema = graph(breadcrumbs(crumbs), { '@type': 'ProfilePage', url: `${SITE
       {a.sameAs?.length && <p>Profile: <a href={a.sameAs[0]} rel="me noopener" target="_blank">LinkedIn</a></p>}
       <h2>How He Works</h2>
       {a.bio.slice(2).map((b) => <p>{b}</p>)}
-      <p>Every guide follows our published <a href="/how-we-test/">scoring method</a>.</p>
+      <p>Every guide follows our published <a href="/how-we-review/">scoring method</a>.</p>
       <h2>Covers</h2>
       <ul>{a.beat.map((b) => <li>{b}</li>)}</ul>
       <h2>Articles by {a.name}</h2>
-      <ul class="link-list">{list.map((g) => <li><a href={articleUrl(g)}>{g.h1}</a> <span class="tag">updated {formatDate(g.updated)}</span></li>)}</ul>
+      <ul class="link-list">{guides.map((g) => <li><a href={guidePath(g)}>{g.h1}</a> <span class="tag">updated {fmtDate(guideUpdated(g))}</span></li>)}</ul>
       <p class="fine">Spotted an error? Email <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
     </div>
   </div>

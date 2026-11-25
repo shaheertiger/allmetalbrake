@@ -1,0 +1,37 @@
+---
+// The body of one guide or article section: paragraphs, then a list, then a table, or, when the
+// section has `blocks`, those blocks in their written order (sub-headings and tables mid-section).
+import { inline, type Section, type LinkCtx } from '../lib/data';
+interface Props { s: Section; ctx: LinkCtx }
+const { s, ctx } = Astro.props;
+type T = NonNullable<Section['table']>;
+---
+{s.blocks ? s.blocks.map((b) => (
+  'h3' in b ? <h3>{b.h3}</h3>
+  : 'p' in b ? <p set:html={inline(b.p, ctx)} />
+  : 'ul' in b ? <ul>{b.ul.map((t) => <li set:html={inline(t, ctx)} />)}</ul>
+  : 'ol' in b ? <ol>{b.ol.map((t) => <li set:html={inline(t, ctx)} />)}</ol>
+  : (
+    <div class="table-wrap">
+      <table>
+        {(b.table as T).caption && <caption>{(b.table as T).caption}</caption>}
+        <thead><tr>{(b.table as T).head.map((h) => <th>{h}</th>)}</tr></thead>
+        <tbody>{(b.table as T).rows.map((r) => <tr>{r.map((c) => <td set:html={inline(c)} />)}</tr>)}</tbody>
+      </table>
+    </div>
+  )
+)) : (
+  <>
+    {(s.body ?? []).map((t) => <p set:html={inline(t, ctx)} />)}
+    {s.list?.length && <ul>{s.list.map((t) => <li set:html={inline(t, ctx)} />)}</ul>}
+    {s.table && (
+      <div class="table-wrap">
+        <table>
+          {s.table.caption && <caption>{s.table.caption}</caption>}
+          <thead><tr>{s.table.head.map((h) => <th>{h}</th>)}</tr></thead>
+          <tbody>{s.table.rows.map((r) => <tr>{r.map((c) => <td set:html={inline(c)} />)}</tr>)}</tbody>
+        </table>
+      </div>
+    )}
+  </>
+)}

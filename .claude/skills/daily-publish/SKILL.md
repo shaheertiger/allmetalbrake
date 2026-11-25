@@ -1,113 +1,92 @@
 ---
 name: daily-publish
-description: The daily article run. Publishes ten backup-power articles as JSON (five into each of the two thinnest clusters), links them in, runs every gate, and pushes to main. Use when the daily publishing Routine fires, or when asked to run the daily batch manually.
+description: Daily publishing run for allmetalbrake.com (same process as enthusiastreview.com). Pull Bing Webmaster API data and Vercel Analytics, pick the 10 pages Bing and DuckDuckGo are rewarding, write them, validate, build, push and open a PR. Use when asked to "run the daily publish", "write today's pages", or by the daily scheduled task.
 ---
 
-# Daily publish run
+# Daily publish: data first, then 10 pages
 
-The site runs on the besthometheatre template: every article is a JSON file in
-`src/content/articles/`, rendered by `src/pages/[slug].astro`. Read
-`docs/CONTENT_GUIDE.md` (field-by-field format) and `docs/bing-playbook.md` (why) first.
-Backup power only: generators, power stations, home batteries, solar for backup,
-transfer switches, surge protection and outage essentials.
+Bing's index serves Bing, DuckDuckGo, Yahoo and Ecosia: about 90% of this site's search visits. Every run
+starts from **today's** Bing and Vercel numbers. Never write a page before both data pulls succeed; if one
+fails, stop and report the error instead of guessing topics.
 
-Ten articles a day (owner, Nov 19, 2026): **five into the thinnest cluster and five into
-the second thinnest.**
-
-## 0. The proven format (Bing data from this site and four sister sites)
-
-Question pages ("is/does/can/should…") clicked at 16-40%, "how long does X last" 22-36%,
-how-to 19-21%, "X vs Y" 8-31%, "best … 2026" 11-17%, cost pages at the top 11.7%. Bare
-"best X" head terms at #5-9 clicked at 1-4%. So the ten are mostly **guides**
-(`kind: "guide"`): question, lifespan, cost, how-to, X vs Y, sizing, timing, problem/fix.
-Add a roundup only for a real "best X for Y" gap, with real products.
-
-Every article (the `qa` gate enforces most of it):
-- `keyword` = the exact query. It leads the `title` (50-62 chars, then the answer in brief;
-  year only on roundups, reviews and cost pages), is the `h1`, opens `intro`, and the first
-  section is a "Short Answer" section with a table (the template heads it
-  `<H1>: The Short Answer`, the enthusiastreview.com rule; roundups also get `How We Ranked`,
-  `<H1>: Our N Picks`, `Spec Sheets Side by Side` and `Notable Mentions` automatically).
-- `metaDescription` 140-158 chars, answer with a number first.
-- 7-10 `sections` headed by the follow-up questions people type, `###` subheads inside,
-  no numbers in headings (the template numbers them).
-- Exactly 5 `mistakes`, 7 `faqs` in searchers' words, `related` (3 slugs), `bottomLine`.
-- 2,500+ words of prose. Aim for 2,800-3,200 so the first draft clears the gate.
-- **Google as well as Bing:** honest method (never "we tested"), sources named for every
-  figure, no invented specs, prices, tests or studies, one page per intent, 3+ in-body links
-  in and out. That is what Google's helpful-content / E-E-A-T guidance rewards too.
-
-## 1. Get the brief
+## 1. Branch
 
 ```bash
-npm run topics -- --json            # cluster 1
-npm run topics -- --json --skip 1   # cluster 2
+git fetch origin main
+git checkout -B claude/daily-publish-$(date -u +%F) FETCH_HEAD
+npm ci
 ```
 
-Each returns the cluster, its pillar, existing articles, its products and five intents
-it is still missing. If one is a bad fit, use `--skip 2` (and so on) and say so in the report.
-
-If `content/bing/` has a newer keyword export, read it first: fix titles/descriptions for
-high-impression, low-CTR queries, and turn queries with no page into today's topics.
-
-## 2. Turn each intent into a real article
-
-- Decide the exact query, slug (the query's words) and angle. Check the slug does not exist
-  in `src/content/articles/` and is not a redirect source in `vercel.json`.
-- No two articles may share a `keyword` (the gate checks every page).
-- `hub: "guides"` and `topic: "<cluster key>"` for guides; `hub: "<cluster key>"` for roundups.
-- `published` and `updated` = today. The page's shown date comes from git
-  (`scripts/page-dates.mjs`), so it moves only when the JSON really changes.
-- Link to the pillar, to product pages `/gear/<slug>/` from the brief's product list, to the
-  tools (`/tools/generator-wattage-calculator/`, `/tools/power-station-runtime-calculator/`)
-  and glossary terms (`src/data/glossary.ts`).
-
-Write with parallel subagents, two or three articles each. Give each subagent this skill's
-section 0, `docs/CONTENT_GUIDE.md`, one existing article as a model
-(`src/content/articles/how-long-does-a-generator-last.json` for guides,
-`best-inverter-generator.json` for roundups), its intents and the cluster brief. Subagents
-only write the JSON files.
-
-## 3. Link them in
-
-1. Add each new slug to the `related` list or an in-body link of at least 3 older articles in
-   the same cluster, including the pillar.
-2. Add the strongest one or two to `src/data/nav.ts` if the cluster has a nav group.
-3. New head-to-head product pairs go in `src/data/compares.ts`; new terms in `glossary.ts`.
-
-## 4. Run every gate
+## 2. Bing Webmaster API (required)
 
 ```bash
-npm run build
+node scripts/search-report.mjs --days 30 --json /tmp/bing-$(date -u +%F).json
+```
+
+Key: `BING_WEBMASTER_API_KEY` or `apikey` (cloud environment variable). The report lists on-topic queries,
+pages Bing shows with their live status, and two opportunity lists:
+
+1. **URLs Bing still shows that are not live** (301 or 410). Rebuilding these is the cheapest win: Bing already
+   ranks the URL. If the slug is a redirect source in `vercel.json`, remove that redirect when the page is rebuilt.
+2. **"generator for <job>" clusters with NO PAGE**, and any other query cluster with impressions and no page.
+
+## 3. Vercel Analytics (required)
+
+Vercel MCP, the allmetalbrake project (`list_projects` to find its id), team `team_pAoikpyeUpvHszE2JvWQKq7c`:
+
+- `aggregate_pageviews` by `["referrerHostname"]`, last 30 days: confirms the search-engine mix.
+- `aggregate_pageviews` by `["requestPath"]`, filter
+  `referrerHostname in ('duckduckgo.com','bing.com','search.yahoo.com','ecosia.org','google.com','search.brave.com')`,
+  limit 60, for the last 30 days and again for the last 2 days.
+
+The winners tell you which **format** to copy: the page types and subjects search visitors land on.
+The older home and yard guides (driveway sealers, deck stains, garage floors) still earn Bing clicks:
+if one of those clusters is winning, its siblings count too.
+
+## 4. Pick 10 pages
+
+Order of priority, skipping any slug that already exists in `src/data/guides/` (or pair in `compares.json`):
+
+1. Opportunity list 1 (URLs Bing shows that aren't live), most impressions first.
+2. Opportunity list 2 (query clusters with no page).
+3. Siblings of the Vercel winners in the same format: the next comparison pair people search, the same
+   how-to or cost page for the next product, the next "best <product> for <job>".
+4. Next items in `docs/ranking-method.md`.
+
+Backup power first; home and yard only where Bing data shows demand. Write the 10 picks and the numbers behind each into the PR description.
+
+## 5. Write
+
+Follow `docs/content-schema.md` (house rules: no testing claims, no invented specs; products carry a 1-4 price `tier`, never an invented dollar band) and
+copy the structure of the closest existing page of the same kind:
+
+| Kind | Model page |
+|---|---|
+| Roundup | `src/data/guides/best-inverter-generator.json` |
+| Generator for a job | `src/data/guides/best-generator-for-well-pump.json` |
+| Explainer / lifespan / cost | `src/data/guides/how-long-does-a-generator-last.json` |
+| Comparison | an entry in `src/data/compares.json` |
+| Brand page | `src/data/guides/best-anker-solix-power-station.json` |
+
+Only use product ids that exist in `src/data/products/`; only link pages that exist. Parallel subagents (one
+or two pages each) are fine: give each the schema doc, the model page and the real Bing queries for its page.
+
+## 6. Check
+
+```bash
+node scripts/validate-content.mjs
+npm run build          # page dates, validate, astro build, Markdown twins
 npm run audit:seo
 ```
 
-`build` runs page dates, `qa` (format, words, links, duplicate keywords), the Astro build, the
-post-build audit (broken links, JSON-LD, titles, H1s) and the Markdown twins. `audit:seo` is the
-enthusiastreview.com on-page audit (`docs/ranking-method.md`): new pages must add nothing to
-its title, description or Short Answer counts. Fix until both pass. Never weaken a gate. If an
-article cannot honestly reach 2,500 words, replace the topic.
+Fix every error. Spot-check one built page in `dist/`.
 
-## 5. Publish
+## 7. Log, commit, PR
 
-```bash
-git add -A
-git commit -m "Add ten articles: <cluster 1> and <cluster 2>"   # + the standard trailers
-git fetch origin main && git merge --no-edit origin/main
-git push origin main
-```
-
-Straight to `main`; Vercel deploys and `postbuild` submits the sitemap to IndexNow. Never
-force-push.
-
-## 6. Report
-
-The two clusters, the ten URLs with titles, page types and target queries, gate results,
-the merge commit, and anything skipped and why. If a gate failed, push nothing and say which.
-
-## Guardrails
-
-- Ten articles, two clusters (five each). Never more.
-- Never touch an existing article's content except to add links to the new ones.
-- Never edit a gate to make a page pass.
-- Never invent a product, price, specification, test or source.
+- Add a dated row to `docs/daily-log.md`: date, Bing impressions/clicks (last day and 30 days), top Vercel
+  search landing pages, the 10 pages written.
+- Push only when all 10 pages are written and validate, build and audit pass. Then commit, push the branch,
+  open a PR into `main` titled
+  `Daily publish YYYY-MM-DD: 10 pages from Bing + Vercel data`, and merge it: the site owner asked (22 Nov
+  2026) for the daily run to merge its own PR once everything passes. If any check fails and can't be fixed,
+  push nothing and report why.

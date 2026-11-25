@@ -1,42 +1,47 @@
 ---
-// Home page in the enthusiastreview.com order: hero → quick answer → browse by category →
-// picks by need → top 10 → spec-sheet promise → how we're different → latest → identity.
+// Home page in the sister-site order (besthometheaterreview.com): hero → quick answer → browse by
+// category → picks by need → top 10 → spec-sheet promise → how we're different → latest → identity.
 import Base from '../layouts/Base.astro';
 import Score from '../components/Score.astro';
 import NavIcon from '../components/NavIcon.astro';
 import ProductImage from '../components/ProductImage.astro';
-import { SITE, SCORE_NAME } from '../data/site';
-import { CATEGORIES, categoryOf } from '../data/categories';
+import { SITE } from '../data/site';
+import { CATEGORIES } from '../data/categories';
 import { NAV_GROUPS } from '../data/nav';
-import { md } from '../lib/md';
-import { products, articles, articleMap, productMap, productUrl, articleUrl, brands, brandUrl, hubLabel, shortName, cap } from '../lib/data';
-import { itemList, graph } from '../lib/schema';
-
-const hero = articleMap.get('best-home-generator-for-power-outages');
-const featured = CATEGORIES.map((c) => articleMap.get(c.hero)).filter((a, i, all) => a && all.indexOf(a) === i).slice(0, 8);
-const top10 = products.filter((p) => ['generator', 'inverter', 'dual-fuel', 'power-station', 'home-battery', 'solar'].includes(p.category)).slice(0, 10);
-const latest = [...articles].filter((a) => !featured.includes(a)).sort((x, y) => y.updated.localeCompare(x.updated) || x.slug.localeCompare(y.slug)).slice(0, 6);
-const browse = NAV_GROUPS.filter((g) => g.home).slice(0, 4);
-const schema = graph(itemList(featured.map((a) => ({ name: a!.h1, url: articleUrl(a!) })), 'Best backup power guides'));
+import { HOME, NICHE } from '../data/niche';
+import { PRODUCTS, GUIDES, BRANDS, getGuide, getProduct, guidePath, productPath, priceBand, categoryOf, guideUpdated, inline } from '../lib/data';
+const hero = getGuide(HOME.hero);
+const heroPick = hero ? getProduct(hero.picks[0].id) : undefined;
+const top10 = [...PRODUCTS].sort((a, b) => b.score.overall - a.score.overall).slice(0, 10);
+const featured = CATEGORIES.map((c) => getGuide(c.hero)).filter((g) => g && !g.noindex && g.picks?.length);
+const latest = [...GUIDES.filter((g) => g.type !== 'article' && !g.noindex)].sort((a, b) => guideUpdated(b).localeCompare(guideUpdated(a)) || a.slug.localeCompare(b.slug)).filter((g) => !featured.includes(g)).slice(0, 6);
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+const browse = NAV_GROUPS.filter((grp) => grp.home);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'ItemList', name: `Best ${NICHE.lower} guides`, itemListElement: featured.map((g, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE.url}${guidePath(g!)}`, name: g!.h1 })) },
+  ],
+};
 ---
-<Base title="Backup Power Buying Guides: Generators and Power Stations" description={`Independent backup power reviews: ${products.length} generators, power stations, home batteries and transfer switches checked against the spec sheet. No paid placements.`} schema={schema}>
+<Base title={HOME.title(SITE.name)} description={HOME.description(PRODUCTS.length)} jsonLd={jsonLd}>
   <section class="home-hero">
     <div class="wrap">
-      <p class="kicker">Backup power, researched</p>
-      <h1>Read the Spec Sheet. Keep the Lights On.</h1>
-      <p class="hub-dek">We match generators, power stations and home batteries to the loads you need to run and the outages you actually get, and we show the maths behind every pick. {products.length} products from {brands.length} brands, scored.</p>
-      <div class="hero-cta"><a class="buy" href="/best-home-generator-for-power-outages/">Best Home Generators</a><a class="btn-ghost dark" href="/best-portable-power-station/">Best Power Stations</a></div>
+      <p class="kicker">{HOME.kicker}</p>
+      <h1>{HOME.h1}</h1>
+      <p class="hub-dek">{HOME.dek(PRODUCTS.length, new Set(PRODUCTS.map((p) => p.brand)).size)}</p>
+      <div class="hero-cta"><a class="buy" href={HOME.ctas[0].href}>{HOME.ctas[0].label}</a><a class="btn-ghost dark" href={HOME.ctas[1].href}>{HOME.ctas[1].label}</a></div>
       <p class="hero-trust">Independent · Spec-sheet first · No paid rankings</p>
     </div>
   </section>
 
   <div class="wrap">
-    {hero?.quickAnswer && (
+    {hero && heroPick && (
       <section class="home-answer">
         <p class="mini">Quick answer</p>
-        <h2>What Is the Best Home Generator for Power Outages?</h2>
-        <Fragment set:html={md(cap(hero.quickAnswer))} />
-        <p><a href={articleUrl(hero)}>See all {hero.picks?.length} picks in our best home generator guide →</a></p>
+        <h2>{HOME.answerH2}</h2>
+        <p set:html={inline(hero.quickAnswer)} />
+        <p><a href={guidePath(hero)}>{HOME.answerLink(hero.picks!.length)}</a></p>
       </section>
     )}
 
@@ -53,16 +58,16 @@ const schema = graph(itemList(featured.map((a) => ({ name: a!.h1, url: articleUr
     </section>
 
     <section>
-      <h2 class="section-title">Best Backup Power Gear: Picks by Need</h2>
+      <h2 class="section-title">{HOME.featuredH2}</h2>
       <div class="grid grid-4">
-        {featured.map((a) => {
-          const p = a!.picks?.[0] ? productMap.get(a!.picks[0].product) : undefined;
+        {featured.map((g) => {
+          const p = getProduct(g!.picks![0].id)!;
           return (
-            <a class="card" href={articleUrl(a!)}>
-              {p && <ProductImage p={p} size={96} />}
-              <span class="card-k">{hubLabel(a!.hub)}</span>
-              <h3>{a!.h1}</h3>
-              {p && <span class="card-sub">Top pick: {shortName(p.name)} · {p.score}/100</span>}
+            <a class="card" href={guidePath(g!)}>
+              <ProductImage p={p} size={96} />
+              <span class="card-k">{categoryOf(g!.category).label}</span>
+              <h3>{g!.h1}</h3>
+              <span class="card-sub">Top pick: {p.short} · {p.score.overall}/100</span>
             </a>
           );
         })}
@@ -70,51 +75,45 @@ const schema = graph(itemList(featured.map((a) => ({ name: a!.h1, url: articleUr
     </section>
 
     <section>
-      <h2 class="section-title">The {products.length} Products We Track: Top 10 by {SCORE_NAME}</h2>
+      <h2 class="section-title">The {PRODUCTS.length} {cap(NICHE.parts)} We Track: Top 10 by {SITE.score}</h2>
       <ol class="rank-list">
         {top10.map((p, i) => (
           <li>
             <span class="rk-n">{i + 1}</span>
             <ProductImage p={p} size={64} />
-            <span class="rk-main"><a href={productUrl(p)}>{p.name}</a><small>{categoryOf(p.category).label} · {p.priceBand}</small></span>
-            <Score value={p.score} />
+            <span class="rk-main"><a href={productPath(p)}>{p.name}</a><small>{categoryOf(p.category).label} · {priceBand(p)}</small></span>
+            <Score value={p.score.overall} />
           </li>
         ))}
       </ol>
-      <p class="fine"><a href="/gear/">See all {products.length} products ranked →</a></p>
+      <p class="fine"><a href="/gear/">See all {PRODUCTS.length} {NICHE.parts} ranked →</a></p>
     </section>
 
     <section class="home-prose">
-      <h2 class="section-title">Built on the Spec Sheet, Not the Marketing</h2>
-      <p>"9,500 watts" is usually the starting surge, not what it runs. "1,000Wh" is rarely all usable once the inverter takes its cut. Every product on this site has a page with its full spec sheet, a research-based {SCORE_NAME} out of 100 and a plain verdict: who it suits, who should skip it and what to buy instead. We read past the headline numbers, convert them into what they mean in your outage, and say so plainly. We do not run a test lab, and we say that on every page.</p>
+      <h2 class="section-title">{HOME.promiseH2}</h2>
+      <p>{HOME.promise(SITE.score)}</p>
     </section>
 
     <section>
       <h2 class="section-title">How We're Different From Other Review Sites</h2>
       <div class="diff-grid">
-        <div>
-          <h3>We Do the Maths</h3>
-          <p>Running and starting watts for your appliances, runtime for your power station, fuel for your outage. Our <a href="/tools/generator-wattage-calculator/">wattage</a> and <a href="/tools/power-station-runtime-calculator/">runtime</a> calculators do the sums for you.</p>
-        </div>
-        <div>
-          <h3>Loads First, Product Second</h3>
-          <p>Every pick says who it suits and who should skip it, by load, fuel, noise and budget, so the best generator for a well pump is not the best one for a campsite.</p>
-        </div>
-        <div>
-          <h3>No Paid Placements</h3>
-          <p>Brands can't buy a spot or a score, and affiliate commissions never change a ranking. <a href="/how-we-test/">How we score</a>.</p>
-        </div>
+        {HOME.different.map(([h, html]) => (
+          <div>
+            <h3>{h}</h3>
+            <p set:html={html} />
+          </div>
+        ))}
       </div>
     </section>
 
     <section>
       <h2 class="section-title">Latest Guides and Brand Reviews</h2>
       <div class="grid grid-3">
-        {latest.map((a) => (
-          <a class="card" href={articleUrl(a)}>
-            <span class="card-k">{hubLabel(a.hub)}</span>
-            <h3>{a.h1}</h3>
-            <span class="card-sub">{a.metaDescription}</span>
+        {latest.map((g) => (
+          <a class="card" href={guidePath(g)}>
+            <span class="card-k">{g.type === 'brand' ? 'Brand Reviews' : 'Guides'}</span>
+            <h3>{g.h1}</h3>
+            <span class="card-sub">{g.dek}</span>
           </a>
         ))}
       </div>
@@ -122,10 +121,10 @@ const schema = graph(itemList(featured.map((a) => ({ name: a!.h1, url: articleUr
 
     <section class="home-id">
       <h2 class="section-title">{SITE.name}</h2>
-      <p>{SITE.description}</p>
+      <p>{HOME.about(SITE.name, SITE.founded)}</p>
       <p class="mini">Brands we track</p>
-      <p class="term-cloud">{brands.map((b) => <a href={brandUrl(b)}>{b}</a>)}</p>
-      <p class="fine">As an Amazon Associate we earn from qualifying purchases. Rankings are never sold. <a href="/affiliate-disclosure/">How we make money</a></p>
+      <p class="term-cloud">{BRANDS.map((b) => <a href={`/brands/${b.key}/`}>{b.name}</a>)}</p>
+      <p class="fine">As an Amazon Associate we earn from qualifying purchases. Rankings are never sold. <a href="/disclosure/">How we make money</a></p>
     </section>
   </div>
 </Base>

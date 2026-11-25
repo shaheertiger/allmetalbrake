@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import CatIcon from '../../components/CatIcon.astro';
+import ProductImage from '../../components/ProductImage.astro';
+import { SITE } from '../../data/site';
+import { CATEGORIES } from '../../data/categories';
+import { HUBS, NICHE } from '../../data/niche';
+import { GUIDES, getProduct, guidePath, categoryOf } from '../../lib/data';
+const roundups = GUIDES.filter((g) => g.type === 'roundup');
+const brands = GUIDES.filter((g) => g.type === 'brand');
+const articles = GUIDES.filter((g) => g.type === 'article');
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Best Lists', href: '/best-of/' }];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `Best ${NICHE.lower} lists`,
+  url: `${SITE.url}/best-of/`,
+  mainEntity: { '@type': 'ItemList', itemListElement: GUIDES.map((g, i) => ({ '@type': 'ListItem', position: i + 1, url: `${SITE.url}${guidePath(g)}`, name: g.h1 })) },
+};
+---
+<Base title={HUBS.bestOf.title(GUIDES.length)} description={HUBS.bestOf.description(GUIDES.length)} jsonLd={jsonLd}>
+  <div class="wrap hub">
+    <Crumbs items={crumbs} />
+    <h1 class="hub-title">{HUBS.bestOf.h1}</h1>
+    <p class="hub-dek">{HUBS.bestOf.dek}</p>
+    {CATEGORIES.map((c) => {
+      const list = roundups.filter((g) => g.category === c.key);
+      return list.length > 0 && (
+        <section id={c.key}>
+          <h2 class="section-title"><CatIcon cat={c.key} size={34} /> {c.label}</h2>
+          <div class="grid grid-3">
+            {list.map((g) => {
+              const top = g.picks?.[0] ? getProduct(g.picks[0].id) : undefined;
+              return <a class="card" href={guidePath(g)}>{top && <ProductImage p={top} size={88} />}<span class="card-k">{c.label}</span><h3>{g.h1}</h3><span class="card-sub">{g.picks?.length} picks{top && ` · Top: ${top.short}`}</span></a>;
+            })}
+          </div>
+        </section>
+      );
+    })}
+    {brands.length > 0 && (
+      <section id="brand-reviews">
+        <h2 class="section-title">Brand Reviews</h2>
+        <div class="grid grid-3">{brands.map((g) => <a class="card" href={guidePath(g)}><span class="card-k">Brand Review</span><h3>{g.h1}</h3><span class="card-sub">{g.picks?.length} models ranked</span></a>)}</div>
+      </section>
+    )}
+    {articles.length > 0 && (
+      <section id="guides">
+        <h2 class="section-title">How-Tos, Fixes and Explainers</h2>
+        <div class="grid grid-3">{articles.map((g) => <a class="card" href={guidePath(g)}><span class="card-k">{categoryOf(g.category).label}</span><h3>{g.h1}</h3><span class="card-sub">{g.dek}</span></a>)}</div>
+      </section>
+    )}
+  </div>
+</Base>

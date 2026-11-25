@@ -1,0 +1,184 @@
+---
+// Head-to-head pages: /compare/<a>-vs-<b>/. The sister sites' best-ranking page type.
+import Base from '../../layouts/Base.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Score from '../../components/Score.astro';
+import BuyButton from '../../components/BuyButton.astro';
+import ProductImage from '../../components/ProductImage.astro';
+import FaqList from '../../components/FaqList.astro';
+import { SITE } from '../../data/site';
+import { compareEquivalents, NICHE } from '../../data/niche';
+import { amazonLink } from '../../data/affiliate';
+import { publisherRef, productItemList } from '../../lib/schema';
+import { authorSchema } from '../../data/authors';
+import {
+  COMPARES, mustProduct, getGuide, categoryOf, getBrand, comparesFor, guidesFeaturing, guidesFor, brandPath, comparePath, productPath, guidePath,
+  compareUpdated, fmtDate, priceBand, spec, newCtx, inline, plain, shortAnswerHeading, compareDiffs, cheaperOf, type Compare,
+} from '../../lib/data';
+
+export function getStaticPaths() {
+  return COMPARES.map((c) => ({ params: { pair: `${c.a}-vs-${c.b}` }, props: { c } }));
+}
+const { c } = Astro.props as { c: Compare };
+const a = mustProduct(c.a);
+const b = mustProduct(c.b);
+const path = comparePath(c);
+const ctx = newCtx(path);
+const cat = categoryOf(a.category);
+const updated = compareUpdated();
+const labels = [...new Set([...a.specs.map(([k]) => k), ...b.specs.map(([k]) => k)])];
+// Answer-first difference H2s (the best-proteinpowder.com comparison pattern).
+const diffs = compareDiffs(a, b);
+const winner = a.score.overall === b.score.overall ? undefined : a.score.overall > b.score.overall ? a : b;
+const cheaper = cheaperOf(a, b);
+const lc = (s: string) => s.replace(/\.$/, '').replace(/^./, (x) => x.toLowerCase());
+const genFaqs = [
+  {
+    q: `Which is better, the ${a.short} or the ${b.short}?`,
+    a: winner
+      ? `The ${winner.short} scores higher on our ${SITE.score} (${winner.score.overall}/100 vs ${(winner === a ? b : a).score.overall}/100), but the right pick depends on the ${NICHE.use}. ${plain(c.quick)}`
+      : `They tie on our ${SITE.score} at ${a.score.overall}/100, so the right pick depends on the ${NICHE.use}. ${plain(c.quick)}`,
+  },
+  {
+    q: `Which is cheaper, the ${a.short} or the ${b.short}?`,
+    a: cheaper
+      ? `The ${cheaper.short} usually costs less: ${priceBand(cheaper)} against ${priceBand(cheaper === a ? b : a)} for the ${(cheaper === a ? b : a).short}. Prices move often, so check the live listing before you buy.`
+      : `They sell in a similar band (${priceBand(a)} and ${priceBand(b)}), so buy whichever fits the ${NICHE.use} better and check the live price.`,
+  },
+  { q: `Who should skip the ${a.short}?`, a: `Skip the ${a.short} if ${lc(a.skipIf)}.` },
+  { q: `Who should skip the ${b.short}?`, a: `Skip the ${b.short} if ${lc(b.skipIf)}.` },
+];
+const faqs = [...(c.faqs ?? []), ...genFaqs];
+const more = [...new Map([...comparesFor(a.id), ...comparesFor(b.id)].filter((x) => x !== c).map((x) => [comparePath(x), x])).values()].slice(0, 6);
+// Cross-brand pairs link the equivalents chart first: "<card> NVIDIA equivalent" searches are this
+// site's best search traffic, and the chart answers the same question for every other card.
+const equivSlugs = compareEquivalents(a, b);
+const equivGuides = equivSlugs.map(getGuide).filter((g): g is NonNullable<typeof g> => Boolean(g));
+// Guides built around either part (best GPU for this CPU, best PSU for this card) come right after the chart.
+const builtFor = [...guidesFor(a.id), ...guidesFor(b.id)].map((g) => ({ guide: g }));
+const guides = [...new Map([...equivGuides.map((g) => ({ guide: g })), ...builtFor, ...guidesFeaturing(a.id), ...guidesFeaturing(b.id)].map((f) => [f.guide.slug, f.guide])).values()].slice(0, 8);
+const brandHubs = [...new Set([a.brand, b.brand])].map(getBrand);
+const h1 = `${a.short} vs ${b.short}`;
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Comparisons', href: '/compare/' },
+  { name: h1, href: path },
+];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      headline: c.title,
+      description: c.description,
+      datePublished: updated,
+      dateModified: updated,
+      author: authorSchema(),
+      publisher: publisherRef(),
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE.url}${path}` },
+      ...((a.image ?? b.image) ? { image: a.image ?? b.image } : {}),
+      articleSection: cat.label,
+      // Both word orders, as the sister sites do: people search "a vs b" and "b vs a".
+      keywords: [...new Set([`${a.short} vs ${b.short}`, `${b.short} vs ${a.short}`, `${a.name} vs ${b.name}`].map((k) => k.toLowerCase()))].join(', '),
+      inLanguage: 'en-US',
+    },
+    // Both sides as full Product + Review nodes (the sister sites' "Product snippets" pattern).
+    productItemList([a, b]),
+    { '@type': 'BreadcrumbList', itemListElement: crumbs.map((x, i) => ({ '@type': 'ListItem', position: i + 1, name: x.name, item: `${SITE.url}${x.href}` })) },
+    { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: plain(f.a) } })) },
+  ],
+};
+---
+<Base title={c.title} description={c.description} ogType="article" article={{ published: updated, modified: updated, section: cat.label }} jsonLd={jsonLd}>
+  <article class="article">
+    <header class="col a-head">
+      <Crumbs items={crumbs} />
+      <div class="kicker">{cat.label} · Head to head</div>
+      <h1 class="a-title">{a.name} vs {b.name}</h1>
+      <div class="byline">By <a href="/authors/justin-lee/">Justin Lee</a> · Updated <time datetime={updated}>{fmtDate(updated)}</time> · Specs from the manufacturers; we have not bench-tested either. <a href="/disclosure/">Disclosure</a></div>
+    </header>
+
+    <div class="col">
+      <div class="vs-cards">
+        {[a, b].map((p) => (
+          <div class="vs-card">
+            <ProductImage p={p} size={140} buy />
+            <a class="vs-name" href={productPath(p)}>{p.name}</a>
+            <Score value={p.score.overall} size="lg" />
+            <span class="vs-price">{priceBand(p)}</span>
+            <BuyButton p={p} label="Check Price" small />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="col body">
+      <h2 id="short-answer">{shortAnswerHeading(`${a.short} vs ${b.short}`)}</h2>
+      <div class="answer-box"><p set:html={inline(c.quick, ctx)} /></div>
+
+      {diffs.map((d, i) => (
+        <>
+          <h2 id={`diff-${i + 1}`}>{d.h}</h2>
+          <p>{d.text}</p>
+        </>
+      ))}
+
+      <h2 id="specs">Specs Side by Side</h2>
+      <div class="table-wrap">
+        <table class="spec-table vs">
+          <thead><tr><th>Spec</th><th><a href={productPath(a)}>{a.short}</a></th><th><a href={productPath(b)}>{b.short}</a></th></tr></thead>
+          <tbody>
+            {labels.map((k) => <tr><th scope="row">{k}</th><td>{spec(a, k) ?? '—'}</td><td>{spec(b, k) ?? '—'}</td></tr>)}
+            <tr><th scope="row">Street price</th><td>{priceBand(a)}</td><td>{priceBand(b)}</td></tr>
+            <tr><th scope="row">{SITE.score}</th><td>{a.score.overall}/100</td><td>{b.score.overall}/100</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="differences">Where They Differ</h2>
+      {c.differ.map(([h, t]) => (
+        <>
+          <h3>{h}</h3>
+          <p set:html={inline(t, ctx)} />
+        </>
+      ))}
+
+      <h2 id="scores">How They Score</h2>
+      <div class="table-wrap">
+        <table class="spec-table vs">
+          <thead><tr><th>{SITE.score} part</th><th>{a.short}</th><th>{b.short}</th></tr></thead>
+          <tbody>
+            {a.score.parts.map(([k, v], i) => <tr><th scope="row">{k}</th><td>{v}</td><td>{b.score.parts.find(([bk]) => bk === k)?.[1] ?? b.score.parts[i]?.[1] ?? '—'}</td></tr>)}
+            <tr><th scope="row">Overall</th><td><strong>{a.score.overall}</strong></td><td><strong>{b.score.overall}</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="buy-a">Buy the {a.short} If…</h2>
+      <ul>{c.buyA.map((t) => <li>{t}</li>)}</ul>
+      <p><BuyButton p={a} label={`Check the ${a.short} on Amazon`} /></p>
+
+      <h2 id="buy-b">Buy the {b.short} If…</h2>
+      <ul>{c.buyB.map((t) => <li>{t}</li>)}</ul>
+      <p><BuyButton p={b} label={`Check the ${b.short} on Amazon`} /></p>
+
+      <h2 id="faq">{a.short} vs {b.short} FAQ</h2>
+      <FaqList faqs={faqs} ctx={ctx} />
+
+      <h2 id="related">Related</h2>
+      <ul class="link-list">
+        <li><a href={productPath(a)}>{a.name}: full specs and score</a></li>
+        <li><a href={productPath(b)}>{b.name}: full specs and score</a></li>
+        {guides.map((g) => <li><a href={guidePath(g)}>{g.h1}</a></li>)}
+        {more.map((x) => <li><a href={comparePath(x)}>{mustProduct(x.a).short} vs {mustProduct(x.b).short}</a></li>)}
+        {brandHubs.map((br) => <li><a href={brandPath(br.key)}>Every {br.name} {NICHE.part} we track</a></li>)}
+      </ul>
+    </div>
+
+    <div class="sticky-buy sb-mobile sb-pair" aria-label="Check prices on Amazon">
+      <a class="buy buy-sm" href={amazonLink(a)} rel="sponsored nofollow noopener" target="_blank">{a.short}</a>
+      <a class="buy buy-sm" href={amazonLink(b)} rel="sponsored nofollow noopener" target="_blank">{b.short}</a>
+      <button class="sb-close" type="button" aria-label="Dismiss" onclick="this.parentElement.hidden=true">×</button>
+    </div>
+  </article>
+</Base>

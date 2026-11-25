@@ -2,8 +2,9 @@
 import Base from '../../layouts/Base.astro';
 import Crumbs from '../../components/Crumbs.astro';
 import FaqList from '../../components/FaqList.astro';
-import { breadcrumbs, faqPage, graph } from '../../lib/schema';
-const crumbs = [{ name: 'Home', url: '/' }, { name: 'Tools', url: '/tools/' }, { name: 'Generator Wattage Calculator', url: '/tools/generator-wattage-calculator/' }];
+import { SITE } from '../../data/site';
+import { plain } from '../../lib/data';
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Tools', href: '/tools/' }, { name: 'Generator Wattage Calculator', href: '/tools/generator-wattage-calculator/' }];
 // Typical running / starting watts, as published in generator makers' wattage charts.
 // Appliance labels vary: the label (or a plug-in watt meter) always wins.
 const loads: [string, number, number, boolean][] = [
@@ -35,9 +36,16 @@ const faqs = [
   { q: 'Why does the calculator add a 20% margin?', a: 'Running a generator at 100% of its rating for hours is hard on the engine and leaves no room for a surge you forgot. Keeping your planned load at about 80% of running watts is a common rule of thumb.' },
   { q: 'Can a 120V generator run a 240V well pump?', a: 'Only a generator with a 240V outlet (such as an L14-30 or 14-50) connected through a transfer switch or interlock can run a 240V pump. Most small inverter generators are 120V only.' },
 ];
-const schema = graph(breadcrumbs(crumbs), { '@type': 'WebApplication', name: 'Generator Wattage Calculator', applicationCategory: 'UtilitiesApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }, faqPage(faqs));
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebApplication', url: `${SITE.url}${crumbs[crumbs.length - 1].href}`, name: 'Generator Wattage Calculator', applicationCategory: 'UtilitiesApplication', operatingSystem: 'Any', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+    { '@type': 'BreadcrumbList', itemListElement: crumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: `${SITE.url}${c.href}` })) },
+    { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: plain(f.a) } })) },
+  ],
+};
 ---
-<Base title="Generator Wattage Calculator: What Size Generator Do I Need?" description="Add up running and starting watts for the appliances you need in an outage and get the generator size to buy, with a 20% margin and a 240V check." schema={schema}>
+<Base title="Generator Wattage Calculator: What Size Generator Do I Need?" description="Add up running and starting watts for the appliances you need in an outage and get the generator size to buy, with a 20% margin and a 240V check." jsonLd={jsonLd}>
   <article class="article">
     <header class="col a-head">
       <Crumbs items={crumbs} />

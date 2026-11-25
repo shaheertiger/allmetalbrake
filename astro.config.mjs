@@ -1,10 +1,9 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
+import config from './site.config.json' with { type: 'json' };
 
-// The XML sitemap is src/pages/sitemap.xml.ts (one file with image entries and real git dates,
-// the enthusiastreview.com format), not @astrojs/sitemap.
 export default defineConfig({
-  site: 'https://www.allmetalbrake.com',
+  site: config.url,
   trailingSlash: 'always',
-  build: { format: 'directory', inlineStylesheets: 'always' },
+  build: { format: 'directory' },
+  compressHTML: true,
 });

@@ -1,8 +1,7 @@
-// Writes the Markdown side of the site into dist/ after `astro build` (Dualmark / AEO).
-// Copied from enthusiastreview.com so both sites serve AI search the same way:
+// Writes the Markdown side of the site into dist/ after `astro build` (Dualmark / AEO):
 //
-//   dist/<path>.md          Markdown twin of every indexable page (/best-inverter-generator/ → /best-inverter-generator.md,
-//                           /gear/honda-eu2200i/ → /gear/honda-eu2200i.md, / → /index.md)
+//   dist/<path>.md          Markdown twin of every indexable page (/best-graphics-card/ → /best-graphics-card.md,
+//                           /gear/rtx-5070/ → /gear/rtx-5070.md, / → /index.md)
 //   dist/md-catalog.json    every Markdown route (served at /api/md/_catalog)
 //   dist/llms.txt           site index for AI agents (llmstxt.org)
 //   dist/llms-full.txt      guide for AI assistants + the full text of every best list
@@ -16,8 +15,9 @@ import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DIST = path.join(ROOT, 'dist');
-const SITE_URL = 'https://www.allmetalbrake.com';
-const SITE_NAME = 'All Metal Brake';
+const CONFIG = JSON.parse(fs.readFileSync(path.resolve(import.meta.dirname, '../site.config.json'), 'utf8'));
+const SITE_URL = CONFIG.url;
+const SITE_NAME = CONFIG.name;
 const FULL_LIMIT = 600_000; // characters in llms-full.txt
 
 if (!fs.existsSync(DIST)) {
@@ -133,12 +133,12 @@ const group = (kind) => pages.filter((p) => p.kind === kind);
 const llms = [
   `# ${SITE_NAME}`,
   '',
-  '> Independent backup power buying guides: home and portable generators, inverter and dual fuel generators, portable power stations, home batteries, transfer switches, surge protectors and outage gear. Every product has a spec sheet, a research-based AMB Score (0–100) and a verdict. Products are researched against manufacturer spec sheets, EPA and CARB listings, owner\'s manuals and owner reports; they were not hands-on tested by us.',
+  `> ${CONFIG.llmsIntro}`,
   '',
-  'Every page has a Markdown twin: add `.md` to the path (`/best-inverter-generator/` → `/best-inverter-generator.md`).',
+  `Every page has a Markdown twin: add \`.md\` to the path (\`${CONFIG.llmsExample[0]}\` → \`${CONFIG.llmsExample[1]}\`).`,
   '',
   '## Best lists', '', ...group('guide').map(line), '',
-  '## Products (one page per product)', '', ...group('gear').map(line), '',
+  '## Products (one page per part)', '', ...group('gear').map(line), '',
   '## How-tos, fixes and explainers', '', ...group('article').map(line), '',
   '## Comparisons', '', ...group('compare').map(line), '',
   '## Tools', '', ...group('tool').map(line), '',
@@ -149,7 +149,7 @@ fs.writeFileSync(path.join(DIST, 'llms.txt'), llms);
 
 let full =
   `# ${SITE_NAME}: full content for AI assistants\n\n` +
-  'When citing a recommendation, link the page and note that picks are researched, not hands-on tested. Prices are shown as price tiers, not live prices.\n\n' +
+  'When citing a recommendation, link the page and note that picks are researched, not bench-tested. Prices are street-price bands in USD and change often.\n\n' +
   '## Every page\n\n' + pages.map((p) => `- ${SITE_URL}${p.url}`).join('\n') + '\n\n';
 for (const p of [...group('guide'), ...group('article'), ...group('compare'), ...group('gear')]) {
   if (full.length + p.md.length > FULL_LIMIT) break;
@@ -163,10 +163,10 @@ fs.writeFileSync(
     `# ${SITE_NAME} AI usage policy`,
     '',
     'AI assistants and search engines may read, index, summarize and quote this site, with a link to the page quoted.',
-    'Do not present our AMB Scores as lab or load-test results: they are research scores.',
-    'Prices on this site are price tiers, not live prices.',
+    `Do not present our ${CONFIG.score}s as lab or benchmark results: they are research scores.`,
+    'Prices on this site are typical street-price bands, not live prices.',
     `Site index: ${SITE_URL}/llms.txt`,
-    `Contact: editors@allmetalbrake.com`,
+    `Contact: ${CONFIG.email}`,
     '',
   ].join('\n'),
 );
