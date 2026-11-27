@@ -1,5 +1,12 @@
 # Bing Playbook
 
+> **Current state (note added 27 Nov 2026).** The 19 Nov section below says 154 off-topic pages were
+> deleted and 301-redirected. That is history: on 23 Nov the owner revived 110 of them (64, then 46
+> more) because they still earn Bing clicks, and those pages are live again. Only the deleted slugs with
+> no Bing clicks stay redirected. Backup power is still the owner's chosen focus, but what to write next
+> and what to stop is decided by the STOP rules and "Double down" list in `docs/what-works.md`, which
+> override this file where they differ.
+
 The site is a Bing site: 98.5% of search visitors (Nov 13, 2026 baseline, 30 days)
 came through Bing-powered engines (Bing, DuckDuckGo, Yahoo, Ecosia, Qwant, Copilot).
 Judge every change by **Bing Webmaster Tools** data, not Google.
