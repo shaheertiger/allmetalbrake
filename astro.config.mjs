@@ -170,6 +170,11 @@ const SITEMAP_META = {
   '/best-flooring-for-dogs/': { changefreq: 'monthly', priority: 0.8 },
   '/concrete-floor-paint-vs-epoxy/': { changefreq: 'monthly', priority: 0.8 },
   '/commercial-epoxy-flooring/': { changefreq: 'monthly', priority: 0.8 },
+  '/black-jack-drive-maxx-vs-latex-ite/': { changefreq: 'monthly', priority: 0.8 },
+  '/latex-ite-ultra-shield-vs-airport-grade/': { changefreq: 'monthly', priority: 0.8 },
+  '/black-jack-drive-maxx-review/': { changefreq: 'monthly', priority: 0.8 },
+  '/how-long-does-driveway-crack-filler-take-to-dry/': { changefreq: 'monthly', priority: 0.8 },
+  '/sika-fastfix-vs-gator-maxx-vs-techniseal/': { changefreq: 'monthly', priority: 0.8 },
 };
 
 // Redirects from the legacy `*.html` URLs to the new trailing-slash URLs,
@@ -298,6 +303,11 @@ const REDIRECT_SLUGS = [
   'best-flooring-for-dogs',
   'concrete-floor-paint-vs-epoxy',
   'commercial-epoxy-flooring',
+  'black-jack-drive-maxx-vs-latex-ite',
+  'latex-ite-ultra-shield-vs-airport-grade',
+  'black-jack-drive-maxx-review',
+  'how-long-does-driveway-crack-filler-take-to-dry',
+  'sika-fastfix-vs-gator-maxx-vs-techniseal',
 ];
 
 // Note: legacy `/index.html` already maps to the generated homepage file, so
