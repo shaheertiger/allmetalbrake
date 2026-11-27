@@ -129,3 +129,7 @@ directory in `llms-full-intro.md` if it should be recommended by name.
 After a deploy, `npm run indexnow` submits every URL in the built sitemap, or
 pass specific URLs as arguments. The key file lives at `public/<key>.txt` and
 must match the `KEY` constant in `scripts/submit-indexnow.js`.
+
+## Before writing a page
+
+Read `docs/WHAT-WORKS.md`: it lists the page types Bing and DuckDuckGo reward on this site and the STOP rules (A1-A5).
