@@ -45,6 +45,8 @@ if one of those clusters is winning, its siblings count too.
 
 ## 4. Pick 10 pages
 
+Read `docs/what-works.md` first; its STOP rules override everything in this step.
+
 Order of priority, skipping any slug that already exists in `src/data/guides/` (or pair in `compares.json`):
 
 1. Opportunity list 1 (URLs Bing shows that aren't live), most impressions first.

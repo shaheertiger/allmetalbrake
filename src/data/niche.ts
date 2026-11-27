@@ -194,7 +194,7 @@ export const SERIES: Series[] = [
   { key: 'costs', heading: 'More Costs, Lifespans and Timing', re: /-cost$|^how-long-|^best-time-to-buy-/ },
   { key: 'outage', heading: 'More Outage Gear', re: /^best-(indoor-heater|emergency-lantern|hand-crank-radio|battery-powered-fan|fuel-transfer-pump|ups-battery|whole-house-surge|generator-transfer-switch|power-inverter)/ },
   // The older home and yard guides, grouped by subject.
-  { key: 'driveway', heading: 'More Driveway and Concrete Guides', re: /driveway|asphalt|concrete|paver|polymeric|brick|stone-seal|granite|marble|stamped/ },
+  { key: 'driveway', heading: 'More Driveway and Concrete Guides', re: /driveway|asphalt|concrete|paver|polymeric|latex-ite|black-jack|sika-fastfix|brick|stone-seal|granite|marble|stamped/ },
   { key: 'deck', heading: 'More Deck, Fence and Exterior Guides', re: /deck|fence|redwood|teak|cedar|chimney|wood-sealer|caulk|exterior/ },
   { key: 'garage', heading: 'More Garage Floor Guides', re: /garage-floor|epoxy|acid-etching/ },
   { key: 'basement', heading: 'More Basement and Mold Guides', re: /basement|cinder-block|mold|dehumidifier|sump/ },
